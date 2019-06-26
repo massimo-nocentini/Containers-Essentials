@@ -55,11 +55,12 @@ DLDataObjectTest >> knuthFirstExampleIndicators [
 
 { #category : #tests }
 DLDataObjectTest >> testDLXonSudoku [
-	| grid setOfSets matrices |
+	| grid sols chain matrices |
 	grid := DLDataObject
 		gridOn: DLDataObjectTest new emptySudokuIndicators.
-	setOfSets := AlgorithmX new solutionsFor: (grid at: #root).
-	matrices := setOfSets
+	chain := AlgorithmX new solutionsFor: (grid at: #root).
+	sols := (chain next: 1) contents .
+	matrices := sols
 		collect: [ :sol | 
 			| matrix |
 			matrix := Array2D rows: 9 columns: 9.
@@ -69,18 +70,30 @@ DLDataObjectTest >> testDLXonSudoku [
 						at: (model at: #x) + 1
 						at: (model at: #y) + 1
 						put: (model at: #v) + 1 ].
-					matrix ]
+			matrix ].
+	self assert:( matrices first printString ) equals: '(1 2 3 4 5 6 7 8 9
+7 8 9 1 2 3 4 5 6
+4 5 6 7 8 9 1 2 3
+3 1 2 8 4 5 9 6 7
+6 9 7 3 1 2 8 4 5
+8 4 5 6 9 7 3 1 2
+2 3 1 5 7 4 6 9 8
+9 6 8 2 3 1 5 7 4
+5 7 4 9 6 8 2 3 1 )'
 ]
 
 { #category : #tests }
 DLDataObjectTest >> testGridCreationOnFirstKnuthMatrix [
-	| grid setOfSets |
+	| grid setOfSets chain |
 	grid := DLDataObject gridOn: self knuthFirstExampleIndicators.
-	setOfSets := AlgorithmX new solutionsFor: (grid at: #root).
+	chain := AlgorithmX new solutionsFor: (grid at: #root).
+	setOfSets := chain contents asSet.
 	self assert: setOfSets equals: (Set with: {1 . 4 . 5} asSet).
-	setOfSets := AlgorithmX new
+	chain :=  AlgorithmX new
 		solutionsFor: (grid at: #root)
 		withPost: [ :aDLDataObject | aDLDataObject asColumnsSet ].
+		setOfSets := chain contents asSet.
+	
 	self
 		assert: setOfSets
 		equals:

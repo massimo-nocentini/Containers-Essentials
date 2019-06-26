@@ -9,36 +9,37 @@ Class {
 
 { #category : #searching }
 AlgorithmX >> search: k addInto: aCollection forDLColumnObject: c [
+	| chain |
+	chain := Chain bottom.
 	c cover.
 	c
 		untilFixPointForDirection: #down
 		do: [ :r | 
-			self search: k addInto: aCollection forDLDataObject: r
-		 ].
-	c uncover
+			chain := chain mplus: [  self search: k addInto: aCollection forDLDataObject: r ] sequential: Sequential new ].
+	c uncover.
+	^ chain
 ]
 
 { #category : #searching }
 AlgorithmX >> search: k addInto: aCollection forDLDataObject: r [
-	sol
+	^ sol
 		with: k -> r
 		enter: [ r untilFixPointForDirection: #right do: [ :j | j column cover ] ]
 		do: [ self
 				search: k + 1
 				addInto: aCollection
 				forDLRootObject: r column root ]
-		exit:
-			[ r untilFixPointForDirection: #left do: [ :j | j column uncover ] ]
+		exit: [ r untilFixPointForDirection: #left do: [ :j | j column uncover ] ]
 ]
 
 { #category : #searching }
 AlgorithmX >> search: k addInto: aCollection forDLRootObject: h [
-	(h isFixPointForDirection: #right)
-		ifTrue: [ aCollection add: sol copy ]
-		ifFalse: [ self
+	^ (h isFixPointForDirection: #right)
+		ifTrue: [ Chain with: sol copy ]
+		ifFalse: [  self
 				search: k
 				addInto: aCollection
-				forDLColumnObject: h chooseColumn ]
+				forDLColumnObject: h chooseColumn  ]
 ]
 
 { #category : #searching }
@@ -48,17 +49,13 @@ AlgorithmX >> solutionsFor: h [
 
 { #category : #searching }
 AlgorithmX >> solutionsFor: h withPost: aBlock [
-	| sols setOfSets |
+	| sols  chain |
 	sol := Dictionary new.
 	sols := LinkedList new.
-	self search: 0 addInto: sols forDLRootObject: h.
-	setOfSets := Set new.
-	sols
-		do: [ :aDict | 
-			| set |
-			set := Set new.
-			aDict
-				valuesDo: [ :aDLDataObject | set add: (aBlock value: aDLDataObject) ].
-			setOfSets add: set ].
-	^ setOfSets
+	chain := self search: 0 addInto: sols forDLRootObject: h.
+	^ chain
+		collect: [ :aDict | 
+			| subjects |
+			subjects := aDict values collect: aBlock.
+			Set withAll: subjects ]
 ]
