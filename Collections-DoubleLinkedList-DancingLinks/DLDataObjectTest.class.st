@@ -59,7 +59,7 @@ DLDataObjectTest >> testDLXonSudoku [
 	grid := DLDataObject
 		gridOn: DLDataObjectTest new emptySudokuIndicators.
 	chain := AlgorithmX new solutionsFor: (grid at: #root).
-	sols := (chain next: 1) contents .
+	sols := (chain next: 2) contents.
 	matrices := sols
 		collect: [ :sol | 
 			| matrix |
@@ -71,7 +71,10 @@ DLDataObjectTest >> testDLXonSudoku [
 						at: (model at: #y) + 1
 						put: (model at: #v) + 1 ].
 			matrix ].
-	self assert:( matrices first printString ) equals: '(1 2 3 4 5 6 7 8 9
+	self
+		assert: matrices first printString
+		equals:
+			'(1 2 3 4 5 6 7 8 9
 7 8 9 1 2 3 4 5 6
 4 5 6 7 8 9 1 2 3
 3 1 2 8 4 5 9 6 7
@@ -79,7 +82,16 @@ DLDataObjectTest >> testDLXonSudoku [
 8 4 5 6 9 7 3 1 2
 2 3 1 5 7 4 6 9 8
 9 6 8 2 3 1 5 7 4
-5 7 4 9 6 8 2 3 1 )'
+5 7 4 9 6 8 2 3 1 )'.
+	self assert: matrices second printString equals: '(1 2 3 4 5 6 7 8 9
+7 8 9 1 2 3 4 5 6
+4 5 6 7 8 9 1 2 3
+3 1 2 8 4 5 9 6 7
+6 9 7 3 1 2 8 4 5
+8 4 5 9 6 7 3 1 2
+2 3 1 5 7 4 6 9 8
+9 6 8 2 3 1 5 7 4
+5 7 4 6 9 8 2 3 1 )'
 ]
 
 { #category : #tests }
