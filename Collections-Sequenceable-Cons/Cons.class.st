@@ -64,7 +64,7 @@ Cons >> car [
 	^ car
 ]
 
-{ #category : #initializing }
+{ #category : #accessing }
 Cons >> car: anObj [
 	car := anObj
 ]
@@ -74,12 +74,12 @@ Cons >> cdr [
 	^ cdr
 ]
 
-{ #category : #initializing }
+{ #category : #accessing }
 Cons >> cdr: anObject [
 	cdr := anObject
 ]
 
-{ #category : #converting }
+{ #category : #mapping }
 Cons >> collect: aBlock [ 
 	| a d |
 	a := car class = Cons
@@ -96,7 +96,7 @@ Cons >> hash [
 	^  car hash bitXor:  cdr hash
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mapping }
 Cons >> inject: init into: aBlock [ 
 	| accumulated |
 	accumulated := aBlock value: init value: car.
@@ -118,29 +118,4 @@ Cons >> printOn: aStream [
 				 nextPut: Character space.cell printOn: aStream.].
 	
 	aStream nextPut: $)
-]
-
-{ #category : #dispatching }
-Cons >> reifyUsingReifier: aReifier [ 
-	^ aReifier forCons: self 
-]
-
-{ #category : #dispatching }
-Cons >> unifyWith: another usingUnifier: anUnifier [
-	^ another unifyWithCons: self usingUnifier: anUnifier
-]
-
-{ #category : #dispatched }
-Cons >> unifyWithCons: aCons usingUnifier: anUnifier [
-	^ anUnifier forCons: self forCons: aCons
-]
-
-{ #category : #dispatched }
-Cons >> unifyWithLinkedList: aCollection usingUnifier: anUnifier [ 
-	^ self unifyWith: aCollection asCons usingUnifier: anUnifier
-]
-
-{ #category : #'as yet unclassified' }
-Cons >> walkStarUsingWalker: aWalker [
-	^ aWalker forCons: self 
 ]
