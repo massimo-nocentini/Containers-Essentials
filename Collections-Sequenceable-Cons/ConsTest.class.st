@@ -1,10 +1,6 @@
 Class {
 	#name : #ConsTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'car',
-		'cdr'
-	],
 	#category : #'Collections-Sequenceable-Cons'
 }
 
