@@ -5,43 +5,38 @@ Class {
 }
 
 { #category : #searching }
-AlgorithmX >> searchDepth: k
-				partialSolution: sol
-				collector: aBlock
-				forDLColumnObject: c [
+AlgorithmX >> searchDepth: k partialSolution: sol collector: aBlock forDLColumnObject: c [
 	c cover.
 	c
-		untilFixPointForDirection: #down
+		untilFixPointOf: [:co | co down]
 		do: [ :r | 
-	 self searchDepth: k
+			self
+				searchDepth: k
 				partialSolution: sol
 				collector: aBlock
-				 forDLDataObject: r ].
-	c uncover.
-	
+				forDLDataObject: r ].
+	c uncover
 ]
 
 { #category : #searching }
-AlgorithmX >> searchDepth: k
-				partialSolution: sol
-				collector: aBlock
-				forDLDataObject: r [
-	 sol
+AlgorithmX >> searchDepth: k partialSolution: sol collector: aBlock forDLDataObject: r [
+	sol
 		with: k -> r
-		enter: [ r untilFixPointForDirection: #right do: [ :j | j column cover ] ]
+		enter: [ r
+				untilFixPointOf: [ :ro | ro right ]
+				do: [ :j | j column cover ] ]
 		do: [ self
-				searchDepth: k+1
+				searchDepth: k + 1
 				partialSolution: sol
 				collector: aBlock
 				forDLRootObject: r column root ]
-		exit: [ r untilFixPointForDirection: #left do: [ :j | j column uncover ] ]
+		exit: [ r untilFixPointOf: [ :ro | ro left ] do: [ :j | j column uncover ] ]
 ]
 
 { #category : #searching }
 AlgorithmX >> searchDepth: k partialSolution: sol collector: aBlock forDLRootObject: h [
-	^ (h isFixPointForDirection: #right)
-		ifTrue: [ 
-			aBlock value: sol copy ]
+	^ (h isFixPointOf: [:ho | ho right])
+		ifTrue: [ aBlock value: sol copy ]
 		ifFalse: [ self
 				searchDepth: k
 				partialSolution: sol

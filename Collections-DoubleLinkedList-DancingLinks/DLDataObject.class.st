@@ -96,37 +96,8 @@ DLDataObject >> down [
 	^ ns nextLink value
 ]
 
-{ #category : #tests }
-DLDataObject >> emptySudokuIndicators [
-	| ones start end matrix |
-	start := 0.
-	end := 8.
-	ones := LinkedList new.
-	start to: end do: [ :row | 
-		start to: end do: [ :column | 
-			start to: end do: [ :value | 
-				| rowIndex cellConstraint rowConstraint columnConstraint boxConstraint model |
-				model := {(#x -> row).
-				(#y -> column).
-				(#v -> value)} asDictionary.
-				rowIndex := 81 * row + (9 * column) + value.
-				cellConstraint := rowIndex @ ((end + 1) * row + column).
-				rowConstraint := rowIndex @ (9 * row + value + 81).
-				columnConstraint := rowIndex @ (9 * column + value + (81 * 2)).
-				boxConstraint := rowIndex
-					@ (27 * (row // 3) + (9 * (column // 3)) + value + (81 * 3)).
-				ones
-					add: cellConstraint + 1 -> model;
-					add: rowConstraint + 1 -> model;
-					add: columnConstraint + 1 -> model;
-					add: boxConstraint + 1  -> model] ] ].
-	ones.
-	matrix := Array2D rows: 9 ** 3 columns: 81 * 4 onesAt: (ones collect: #key).
-	^ ones
-]
-
 { #category : #querying }
-DLDataObject >> isFixPointForDirection: aSelector [
+DLDataObject >> isFixPointOf: aSelector [
 	
 	^ self == (aSelector value: self)
 ]
@@ -167,7 +138,7 @@ DLDataObject >> right [
 ]
 
 { #category : #iterating }
-DLDataObject >> untilFixPointForDirection: aSelector do: aBlockClosure [ 
+DLDataObject >> untilFixPointOf: aSelector do: aBlockClosure [ 
 	|j|
 	j := (aSelector value: self).
 	[   j == self ] whileFalse: [ aBlockClosure value: j . j := aSelector value: j ]

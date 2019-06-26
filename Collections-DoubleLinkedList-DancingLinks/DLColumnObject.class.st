@@ -12,8 +12,8 @@ Class {
 { #category : #modifying }
 DLColumnObject >> cover [
 	we remove.
-	self untilFixPointForDirection: #down do: [ :i |
-		i untilFixPointForDirection: #right do: [ :j |
+	self untilFixPointOf: #down do: [ :i |
+		i untilFixPointOf: #right do: [ :j |
 			j nsLink remove.
 			j column updateSize: [:s | s -1].
 			 ]
@@ -43,10 +43,10 @@ DLColumnObject >> size: anInteger [
 { #category : #modifying }
 DLColumnObject >> uncover [
 	self
-		untilFixPointForDirection: #up
+		untilFixPointOf: #up
 		do: [ :i | 
 			i
-				untilFixPointForDirection: #left
+				untilFixPointOf: #left
 				do: [ :j | 
 					j column updateSize: [ :s | s + 1 ].
 					j nsLink restore ] ].
