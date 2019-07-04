@@ -1,8 +1,4 @@
-Class {
-	#name : #DoubleLinkedListTests,
-	#superclass : #TestCase,
-	#category : #'Collections-DoubleLinkedList-DancingLinks-testing'
-}
+Extension { #name : #DoubleLinkedListTests }
 
 { #category : #'*Collections-DoubleLinkedList-DancingLinks' }
 DoubleLinkedListTests >> testDancingLinksCreateFirstKnuthMatrix [
