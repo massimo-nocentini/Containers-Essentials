@@ -1,6 +1,6 @@
 Extension { #name : #DoubleLinkedListTests }
 
-{ #category : #'*Collections-DoubleLinkedList-DancingLinks' }
+{ #category : #'*Collections-DoubleLinkedList-DancingLinks-Tests' }
 DoubleLinkedListTests >> testDancingLinksCreateFirstKnuthMatrix [
 	| matrix |
 	matrix := Array2D
@@ -30,7 +30,7 @@ DoubleLinkedListTests >> testDancingLinksCreateFirstKnuthMatrix [
 0 0 0 1 1 0 1 )'
 ]
 
-{ #category : #'*Collections-DoubleLinkedList-DancingLinks' }
+{ #category : #'*Collections-DoubleLinkedList-DancingLinks-Tests' }
 DoubleLinkedListTests >> testMakeCircular [
 	| list linkOne linkTwo |
 	list := DoubleLinkedList new.
@@ -63,7 +63,7 @@ DoubleLinkedListTests >> testMakeCircular [
 	self assert: list asArray equals: #(1 2)"
 ]
 
-{ #category : #'*Collections-DoubleLinkedList-DancingLinks' }
+{ #category : #'*Collections-DoubleLinkedList-DancingLinks-Tests' }
 DoubleLinkedListTests >> testRemoveUsingPreviousAndNextLinks [
 	| list link |
 	list := DoubleLinkedList new.
@@ -76,7 +76,7 @@ DoubleLinkedListTests >> testRemoveUsingPreviousAndNextLinks [
 	self assert: list asArray equals: #(1 3)
 ]
 
-{ #category : #'*Collections-DoubleLinkedList-DancingLinks' }
+{ #category : #'*Collections-DoubleLinkedList-DancingLinks-Tests' }
 DoubleLinkedListTests >> testRemoveUsingPreviousAndNextLinksBoundaryCases [
 	| list linkOne linkTwo |
 	list := DoubleLinkedList new.
@@ -106,7 +106,7 @@ DoubleLinkedListTests >> testRemoveUsingPreviousAndNextLinksBoundaryCases [
 	self assert: list asArray equals: #(1 2).
 ]
 
-{ #category : #'*Collections-DoubleLinkedList-DancingLinks' }
+{ #category : #'*Collections-DoubleLinkedList-DancingLinks-Tests' }
 DoubleLinkedListTests >> testRestoreUsingPreviousAndNextLinks [
 	| list link |
 	list := DoubleLinkedList new.
