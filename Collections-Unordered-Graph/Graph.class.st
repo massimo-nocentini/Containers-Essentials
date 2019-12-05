@@ -20,44 +20,30 @@ Graph >> asGoal [
 	g]
 ]
 
-{ #category : #'as yet unclassified' }
-Graph >> at: aKey put: aValue [ 
-	self outgoingFrom: aKey to: aValue;
-	incomingTo:aValue from:aKey.
-	edges add: aKey -> aValue
+{ #category : #accessing }
+Graph >> edges [
+	^ edges
 ]
 
-{ #category : #'as yet unclassified' }
-Graph >> incomingTo: aValue from: aKey [ 
-	| neighborooh |
-	neighborooh := vertices
-				at: aValue
-				ifAbsentPut: [Dictionary new].
-	neighborooh
-		at: #incomings
-		ifPresent: [:parents | parents add: aKey]
-		ifAbsentPut: [LinkedList with: aKey]
+{ #category : #accessing }
+Graph >> edges: anObject [
+	edges := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 Graph >> initialize [
+	
+	self class initializeSlots: self.
 	vertices := Dictionary new.
 	edges := LinkedList new " we don't care about ordering, just the chronological one for insertion time"
 ]
 
-{ #category : #'as yet unclassified' }
-Graph >> outgoingFrom: aKey to: aValue [ 
-	| neighborhood |
-	neighborhood := vertices
-				at: aKey
-				ifAbsentPut: [Dictionary new].
-	^ neighborhood
-		at: #outgoings
-		ifPresent: [:children | children add: aValue]
-		ifAbsentPut: [LinkedList with: aValue]
+{ #category : #accessing }
+Graph >> vertices [
+	^ vertices
 ]
 
 { #category : #accessing }
-Graph >> vertices [
-	^  vertices copy
+Graph >> vertices: anObject [
+	vertices := anObject
 ]
