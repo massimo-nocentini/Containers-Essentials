@@ -8,18 +8,6 @@ Class {
 	#category : #'Collections-Unordered-Graph'
 }
 
-{ #category : #converting }
-Graph >> asGoal [
-	^ [:x :y | 
-	| g |
-	g := Goal cond e.
-	edges
-		do: [:each | g
-				if: (x unifyo value: (each key))
-				then: (y unifyo value: (each value))].
-	g]
-]
-
 { #category : #accessing }
 Graph >> edges [
 	^ edges
