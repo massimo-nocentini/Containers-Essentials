@@ -18,7 +18,7 @@ SequenceableCollection >> asGraph [
 				to: to;
 				yourself ].
 	^ Graph new
-		vertices: vertices values asSet;
+		vertices: vertices;
 		edges: edges;
 		yourself
 ]

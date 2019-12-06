@@ -16,7 +16,7 @@ Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian [
 	mondrian shape text
 		text: #content;
 		color: Color black.
-	mondrian nodes: self vertices.
+	mondrian nodes: self vertices values.
 	mondrian shape arrowedBezier shortestDistanceAttachPointWithJump.
 	mondrian edges
 		labelElement: [ :rtEdge | rtEdge model weight ];

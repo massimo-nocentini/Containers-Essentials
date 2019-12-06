@@ -6,12 +6,20 @@ Class {
 
 { #category : #tests }
 GraphTest >> testGraph [
-	| G |
-	G := {(#a -> #b weight: 1).
+	| graph |
+	graph := {(#a -> #b weight: 1).
 	(#b -> #c weight: 2).
 	(#c -> #d weight: 1).
 	(#d -> #a weight: 4).
 	(#c -> #a weight: 9)} asGraph.
-	self assert: {#b} equals: G vertices @ #a @ #outgoings.
-	self assert: {#d . #c} equals: G vertices @ #a @ #incomings
+	self
+		assert:
+			((graph vertices at: #b) children
+				collect: [ :anEdge | anEdge to content ])
+		equals: (Set with: #c).
+	self
+		assert:
+			((graph vertices at: #a) parents
+				collect: [ :anEdge | anEdge from content ])
+		equals: (Set with: #d with: #c)
 ]
