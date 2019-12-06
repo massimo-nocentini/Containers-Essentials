@@ -32,7 +32,7 @@ Edge >> to: anObject [
 { #category : #accessing }
 Edge >> weight [
 	^ weight isBlock
-		ifTrue: [ weight cull: self from cull: self to ]
+		ifTrue: [ weight cull: self from content cull: self to content ]
 		ifFalse: [ weight ]
 ]
 

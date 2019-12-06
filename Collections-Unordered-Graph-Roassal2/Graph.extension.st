@@ -13,9 +13,13 @@ Graph >> gtInspectorGraphViewIn: composite [
 
 { #category : #'*Collections-Unordered-Graph-Roassal2' }
 Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian [
-	mondrian shape text text: #content.
+	mondrian shape text
+		text: #content;
+		color: Color black.
 	mondrian nodes: self vertices.
 	mondrian shape arrowedBezier shortestDistanceAttachPointWithJump.
-	mondrian edges source: self edges connectFrom: #from to: #to.
+	mondrian edges
+		labelElement: [ :rtEdge | rtEdge model weight ];
+		source: self edges connectFrom: #from withModelTo: #to.
 	mondrian layout tree
 ]
