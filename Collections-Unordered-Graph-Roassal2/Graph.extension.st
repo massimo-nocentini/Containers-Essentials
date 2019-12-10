@@ -19,7 +19,7 @@ Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian [
 	mondrian nodes: self vertices values.
 	mondrian shape arrowedBezier shortestDistanceAttachPointWithJump.
 	mondrian edges
-		labelElement: [ :rtEdge | rtEdge model weight ];
+		labelElement: [ :rtEdge | rtEdge model weight ifNil: [ String empty ] ];
 		source: self edges connectFrom: #from withModelTo: #to.
 	mondrian layout tree
 ]
