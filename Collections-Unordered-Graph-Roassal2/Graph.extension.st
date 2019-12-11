@@ -6,20 +6,25 @@ Graph >> gtInspectorGraphViewIn: composite [
 	^ composite roassal2
 		title: 'Graph';
 		initializeView: [ RTMondrian new ];
-		painting:
-				[ :mondrian | self gtInspectorGraphViewUsingMondrianBuilder: mondrian ];
+		painting: [ :mondrian | 
+			self
+				gtInspectorGraphViewUsingMondrianBuilder: mondrian
+				vertex: [ :shape | 
+					shape text
+						text: #content;
+						color: Color black ]
+				edge: [ :shape | shape arrowedBezier shortestDistanceAttachPointWithJump ]
+				layout: #tree ];
 		yourself
 ]
 
 { #category : #'*Collections-Unordered-Graph-Roassal2' }
-Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian [
-	mondrian shape text
-		text: #content;
-		color: Color black.
+Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian vertex: sBlock edge: eBlock layout: lBlock [
+	sBlock value: mondrian shape.
 	mondrian nodes: self vertices values.
-	mondrian shape arrowedBezier shortestDistanceAttachPointWithJump.
+	eBlock cull: mondrian shape cull: mondrian edges.
 	mondrian edges
 		labelElement: [ :rtEdge | rtEdge model weight ifNil: [ String empty ] ];
 		source: self edges connectFrom: #from withModelTo: #to.
-	mondrian layout tree
+	lBlock value: mondrian layout
 ]
