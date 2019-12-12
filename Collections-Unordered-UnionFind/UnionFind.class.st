@@ -24,6 +24,12 @@ UnionFind >> initialize [
 ]
 
 { #category : #accessing }
+UnionFind >> printOn: aStream key: x [
+	x printOn: aStream.
+	aStream nextPutAll: (rank at: x) printSubscriptString
+]
+
+{ #category : #accessing }
 UnionFind >> union: x with: y [
 	| rx ry |
 	rx := dict
