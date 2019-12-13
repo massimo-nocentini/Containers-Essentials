@@ -9,12 +9,13 @@ Class {
 	#category : #'Collections-Unordered-UnionFind'
 }
 
-{ #category : #'instance creation' }
-UnionFind class >> withAll: aCollection [
-	| unionFind |
-	unionFind := self new.
-	aCollection do: [ :each | unionFind insert: each ].
-	^ unionFind
+{ #category : #operations }
+UnionFind class >> create [
+	^ self basicNew
+		parent: Dictionary new;
+		rank: Dictionary new;
+		initialize;
+		yourself
 ]
 
 { #category : #accessing }
@@ -23,20 +24,8 @@ UnionFind >> at: x [
 ]
 
 { #category : #initialization }
-UnionFind >> initialize [
-	super initialize.
-	dict := Dictionary new.
-	rank := Dictionary new.
-	findStrategy := IterativeFindStrategy new
-]
-
-{ #category : #accessing }
-UnionFind >> insert: x [
-	dict
-		at: x
-		ifPresent: [ self error ]
-		ifAbsentPut: [ rank at: x put: 0.
-			x ]
+UnionFind >> parent: aDict [
+	dict := aDict
 ]
 
 { #category : #accessing }
@@ -46,10 +35,23 @@ UnionFind >> printOn: aStream key: x [
 ]
 
 { #category : #accessing }
+UnionFind >> rank: aDict [
+	rank := aDict
+]
+
+{ #category : #accessing }
 UnionFind >> union: x with: y [
 	| rx ry |
-	rx := self at: x.
-	ry := self at: y.
+	rx := dict
+		at: x
+		ifPresent: [ self at: x ]
+		ifAbsentPut: [ rank at: x put: 0.
+			x ].
+	ry := dict
+		at: y
+		ifPresent: [ self at: y ]
+		ifAbsentPut: [ rank at: y put: 0.
+			y ].
 	rx = ry
 		ifFalse: [ | v w |
 			v := rank at: rx.
