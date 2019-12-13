@@ -3,24 +3,40 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'dict',
-		'rank'
+		'rank',
+		'findStrategy'
 	],
 	#category : #'Collections-Unordered-UnionFind'
 }
 
+{ #category : #'instance creation' }
+UnionFind class >> withAll: aCollection [
+	| unionFind |
+	unionFind := self new.
+	aCollection do: [ :each | unionFind insert: each ].
+	^ unionFind
+]
+
 { #category : #accessing }
 UnionFind >> at: x [
-	| item next |
-	item := x.
-	[ (next := dict at: item) = item ] whileFalse: [ item := next ].
-	^ item
+	^ findStrategy at: x in: dict
 ]
 
 { #category : #initialization }
 UnionFind >> initialize [
 	super initialize.
 	dict := Dictionary new.
-	rank := Dictionary new
+	rank := Dictionary new.
+	findStrategy := IterativeFindStrategy new
+]
+
+{ #category : #accessing }
+UnionFind >> insert: x [
+	dict
+		at: x
+		ifPresent: [ self error ]
+		ifAbsentPut: [ rank at: x put: 0.
+			x ]
 ]
 
 { #category : #accessing }
@@ -32,22 +48,25 @@ UnionFind >> printOn: aStream key: x [
 { #category : #accessing }
 UnionFind >> union: x with: y [
 	| rx ry |
-	rx := dict
-		at: x
-		ifPresent: [ self at: x ]
-		ifAbsentPut: [ rank at: x put: 0.
-			x ].
-	ry := dict
-		at: y
-		ifPresent: [ self at: y ]
-		ifAbsentPut: [ rank at: y put: 0.
-			y ].
+	rx := self at: x.
+	ry := self at: y.
 	rx = ry
-		ifFalse: [ (rank at: rx) > (rank at: ry)
+		ifFalse: [ | v w |
+			v := rank at: rx.
+			w := rank at: ry.
+			v > w
 				ifTrue: [ dict at: ry put: rx ]
-				ifFalse: [ | r |
-					r := rank at: ry.
-					dict at: rx put: ry.
-					(rank at: rx) = r
-						ifTrue: [ rank at: ry put: r + 1 ] ] ]
+				ifFalse: [ dict at: rx put: ry.
+					v = w
+						ifTrue: [ rank at: ry put: w + 1 ] ] ]
+]
+
+{ #category : #accessing }
+UnionFind >> useCompressingFind [
+	findStrategy := CompressingFindStrategy new
+]
+
+{ #category : #accessing }
+UnionFind >> useIterativeFind [
+	findStrategy := IterativeFindStrategy new
 ]

@@ -10,7 +10,7 @@ Class {
 { #category : #tests }
 UnionFindTest >> testPapadimitriou [
 	<gtExample>
-	^ UnionFind new
+	^ (UnionFind withAll: #(a b c d e f g)) useCompressingFind
 		union: #a with: #d;
 		union: #b with: #e;
 		union: #c with: #f;
