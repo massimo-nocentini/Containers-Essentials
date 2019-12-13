@@ -8,6 +8,19 @@ Class {
 	#category : #'Collections-Unordered-Graph'
 }
 
+{ #category : #creating }
+Graph class >> fromArray2D: aCollection [
+	| associations |
+	associations := OrderedCollection new.
+	1 to: aCollection rowCount do: [ :r | 
+		1 to: r do: [ :c | 
+			| v |
+			v := aCollection at: r at: c.
+			v \\ 2 = 1
+				ifTrue: [ associations add: r -> c ] ] ].
+	^ associations asGraph
+]
+
 { #category : #accessing }
 Graph >> edges [
 	^ edges

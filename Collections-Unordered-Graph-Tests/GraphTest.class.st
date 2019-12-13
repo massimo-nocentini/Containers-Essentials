@@ -14,6 +14,17 @@ GraphTest >> testCatalanRecurrentGraph [
 ]
 
 { #category : #tests }
+GraphTest >> testFromAdjacencyMatrix [
+	<gtExample>
+	|n|
+	n := 100.
+	^ (Array2D
+		rows: n
+		columns: n
+		tabulate: [ :r :c | r - 1 choose: c - 1 ]) asGraph
+]
+
+{ #category : #tests }
 GraphTest >> testGraph [
 	| graph |
 	graph := {(#a -> #b weight: 1).
