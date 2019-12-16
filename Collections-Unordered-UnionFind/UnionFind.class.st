@@ -10,11 +10,12 @@ Class {
 }
 
 { #category : #operations }
-UnionFind class >> create [
+UnionFind class >> empty [
 	^ self basicNew
 		parent: Dictionary new;
 		rank: Dictionary new;
 		initialize;
+		useIterativeFind;
 		yourself
 ]
 
@@ -23,9 +24,26 @@ UnionFind >> at: x [
 	^ findStrategy at: x in: dict
 ]
 
+{ #category : #accessing }
+UnionFind >> insert: x [
+	^ dict
+		at: x
+		ifPresent: [ self error ]
+		ifAbsentPut: [ rank at: x put: 0.
+			x ]
+]
+
 { #category : #initialization }
 UnionFind >> parent: aDict [
 	dict := aDict
+]
+
+{ #category : #accessing }
+UnionFind >> postCopy [
+	^ self
+		parent: dict copy;
+		rank: rank copy;
+		yourself
 ]
 
 { #category : #accessing }
@@ -40,27 +58,31 @@ UnionFind >> rank: aDict [
 ]
 
 { #category : #accessing }
+UnionFind >> size [
+	^ dict size
+]
+
+{ #category : #accessing }
 UnionFind >> union: x with: y [
 	| rx ry |
 	rx := dict
 		at: x
 		ifPresent: [ self at: x ]
-		ifAbsentPut: [ rank at: x put: 0.
-			x ].
+		ifAbsent: [ self insert: x ].
 	ry := dict
 		at: y
 		ifPresent: [ self at: y ]
-		ifAbsentPut: [ rank at: y put: 0.
-			y ].
-	rx = ry
+		ifAbsent: [ self insert: y ].
+	^ rx = ry
+		ifTrue: [ rx ]
 		ifFalse: [ | v w |
 			v := rank at: rx.
 			w := rank at: ry.
 			v > w
 				ifTrue: [ dict at: ry put: rx ]
-				ifFalse: [ dict at: rx put: ry.
-					v = w
-						ifTrue: [ rank at: ry put: w + 1 ] ] ]
+				ifFalse: [ v = w
+						ifTrue: [ rank at: ry put: w + 1 ].
+					dict at: rx put: ry ] ]
 ]
 
 { #category : #accessing }
