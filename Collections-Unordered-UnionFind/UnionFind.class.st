@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'dict',
 		'rank',
-		'findStrategy'
+		'findStrategy',
+		'representativeBlock'
 	],
 	#category : #'Collections-Unordered-UnionFind'
 }
@@ -15,8 +16,13 @@ UnionFind class >> empty [
 		parent: Dictionary new;
 		rank: Dictionary new;
 		initialize;
-		useIterativeFind;
+		useCompressingFind;
 		yourself
+]
+
+{ #category : #accessing }
+UnionFind >> associations [
+	^ dict associations
 ]
 
 { #category : #accessing }
@@ -29,8 +35,17 @@ UnionFind >> insert: x [
 	^ dict
 		at: x
 		ifPresent: [ self error ]
-		ifAbsentPut: [ rank at: x put: 0.
+		ifAbsentPut: [ | r |
+			r := (representativeBlock value: x)
+				ifTrue: [ Float infinity ]
+				ifFalse: [ 0 ].
+			rank at: x put: r.
 			x ]
+]
+
+{ #category : #accessing }
+UnionFind >> keys [
+	^ dict keys
 ]
 
 { #category : #initialization }
@@ -48,8 +63,14 @@ UnionFind >> postCopy [
 
 { #category : #accessing }
 UnionFind >> printOn: aStream key: x [
+	| r |
+	r := rank at: x.
 	x printOn: aStream.
-	aStream nextPutAll: (rank at: x) printSubscriptString
+	aStream
+		nextPutAll:
+			(r isInteger
+				ifTrue: [ r printSubscriptString ]
+				ifFalse: [ r printString ])
 ]
 
 { #category : #accessing }
@@ -58,8 +79,15 @@ UnionFind >> rank: aDict [
 ]
 
 { #category : #accessing }
+UnionFind >> representativeBlock: aPredicate [
+	representativeBlock := aPredicate
+]
+
+{ #category : #accessing }
 UnionFind >> size [
-	^ dict size
+	^ dict associations
+		foldr: [ :each :acc | (each key == each value) not asBit + acc ]
+		init: 0
 ]
 
 { #category : #accessing }
