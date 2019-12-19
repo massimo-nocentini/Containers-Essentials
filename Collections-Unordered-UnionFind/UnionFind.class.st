@@ -12,10 +12,10 @@ Class {
 
 { #category : #operations }
 UnionFind class >> empty [
-	^ self basicNew
+	^ self new
 		parent: Dictionary new;
 		rank: Dictionary new;
-		initialize;
+		representativeBlock: [ :each | false ];
 		useCompressingFind;
 		yourself
 ]
