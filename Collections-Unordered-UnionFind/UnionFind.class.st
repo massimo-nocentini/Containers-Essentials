@@ -27,7 +27,7 @@ UnionFind >> associations [
 
 { #category : #accessing }
 UnionFind >> at: x [
-	^ findStrategy at: x in: dict
+	^ findStrategy at: x in: dict select: representativeBlock
 ]
 
 { #category : #accessing }
@@ -35,12 +35,7 @@ UnionFind >> insert: x [
 	^ dict
 		at: x
 		ifPresent: [ self error ]
-		ifAbsentPut: [ | r |
-			r := (representativeBlock value: x)
-				ifTrue: [ Float infinity ]
-				ifFalse: [ 0 ].
-			rank at: x put: r.
-			x ]
+		ifAbsentPut: [ rank at: x put: 0. x ]
 ]
 
 { #category : #accessing }

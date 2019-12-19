@@ -6,5 +6,10 @@ Class {
 
 { #category : #accessing }
 FindStrategy >> at: x in: dict [
+	^ self at: x in: dict select: [ :each | false ]
+]
+
+{ #category : #accessing }
+FindStrategy >> at: x in: dict select: aBlock [
 	self subclassResponsibility
 ]

@@ -5,9 +5,11 @@ Class {
 }
 
 { #category : #accessing }
-IterativeFindStrategy >> at: x in: dict [
+IterativeFindStrategy >> at: x in: dict select: aBlock [
 	| item next |
 	item := x.
-	[ (next := dict at: item) = item ] whileFalse: [ item := next ].
+	[ (aBlock value: item)
+		ifTrue: [ ^ item ].
+	(next := dict at: item) = item ] whileFalse: [ item := next ].
 	^ item
 ]
