@@ -2,10 +2,10 @@ Class {
 	#name : #UnionFind,
 	#superclass : #Object,
 	#instVars : [
-		'dict',
 		'rank',
 		'findStrategy',
-		'representativeBlock'
+		'representativeBlock',
+		'parent'
 	],
 	#category : #'Collections-Unordered-UnionFind'
 }
@@ -22,22 +22,25 @@ UnionFind class >> empty [
 
 { #category : #accessing }
 UnionFind >> associations [
-	^ dict associations
+	^ parent associations
 ]
 
 { #category : #accessing }
 UnionFind >> at: x [
-	^ findStrategy at: x in: dict select: representativeBlock
+	^ findStrategy at: x in: parent select: representativeBlock
 ]
 
 { #category : #'as yet unclassified' }
 UnionFind >> includesKey: aKey [
-	^ (dict includesKey: aKey) and: [ (dict at: aKey) ~~ aKey ]
+	^ parent
+		at: aKey
+		ifPresent: [ :aValue | aKey ~= aValue ]
+		ifAbsent: [ false ]
 ]
 
 { #category : #accessing }
 UnionFind >> insert: x [
-	^ dict
+	^ parent
 		at: x
 		ifPresent: [ self error ]
 		ifAbsentPut: [ rank at: x put: 0. x ]
@@ -45,18 +48,18 @@ UnionFind >> insert: x [
 
 { #category : #accessing }
 UnionFind >> keys [
-	^ dict keys
+	^ parent keys
 ]
 
 { #category : #initialization }
 UnionFind >> parent: aDict [
-	dict := aDict
+	parent := aDict
 ]
 
 { #category : #accessing }
 UnionFind >> postCopy [
 	^ self
-		parent: dict copy;
+		parent: parent copy;
 		rank: rank copy;
 		yourself
 ]
@@ -85,32 +88,37 @@ UnionFind >> representativeBlock: aPredicate [
 
 { #category : #accessing }
 UnionFind >> size [
-	^ dict associations
-		foldr: [ :each :acc | (each key == each value) not asBit + acc ]
+	^ parent associations
+		foldr: [ :each :acc | (each key ~= each value) asBit + acc ]
 		init: 0
 ]
 
 { #category : #accessing }
 UnionFind >> union: x with: y [
-	| rx ry |
-	rx := dict
-		at: x
-		ifPresent: [ self at: x ]
-		ifAbsent: [ self insert: x ].
-	ry := dict
-		at: y
-		ifPresent: [ self at: y ]
-		ifAbsent: [ self insert: y ].
-	^ rx = ry
-		ifTrue: [ rx ]
+	| rx ry rxkey rykey |
+	"Prepare stuff for x."
+	parent at: x ifAbsent: [ self insert: x ].
+	rx := self at: x.
+	rxkey := rx key.
+
+	"Prepare stuff for y."
+	parent at: y ifAbsent: [ self insert: y ].
+	ry := self at: y.
+	rykey := ry key.
+
+	"Go."
+	^ rxkey = rykey
+		ifTrue: [ rx value ]
 		ifFalse: [ | v w |
-			v := rank at: rx.
-			w := rank at: ry.
+			v := rank at: rxkey.
+			w := rank at: rykey.
 			v > w
-				ifTrue: [ dict at: ry put: rx ]
+				ifTrue: [ parent at: rykey put: rxkey.
+					rx value ]
 				ifFalse: [ v = w
-						ifTrue: [ rank at: ry put: w + 1 ].
-					dict at: rx put: ry ] ]
+						ifTrue: [ rank at: rykey put: w + 1 ].
+					parent at: rxkey put: rykey.
+					ry value ] ]
 ]
 
 { #category : #accessing }

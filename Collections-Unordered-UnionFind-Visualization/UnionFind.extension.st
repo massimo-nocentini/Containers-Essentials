@@ -7,7 +7,7 @@ UnionFind >> gtInspectorGraphViewIn: composite [
 		title: 'Sets';
 		initializeView: [ RTMondrian new ];
 		painting: [ :mondrian | 
-			dict associations asGraph
+			parent associations asGraph
 				gtInspectorGraphViewUsingMondrianBuilder: mondrian
 				vertex: [ :shape | 
 					shape text
