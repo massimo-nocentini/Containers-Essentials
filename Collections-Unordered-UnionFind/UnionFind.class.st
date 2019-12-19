@@ -30,6 +30,11 @@ UnionFind >> at: x [
 	^ findStrategy at: x in: dict select: representativeBlock
 ]
 
+{ #category : #'as yet unclassified' }
+UnionFind >> includesKey: aKey [
+	^ (dict includesKey: aKey) and: [ (dict at: aKey) ~~ aKey ]
+]
+
 { #category : #accessing }
 UnionFind >> insert: x [
 	^ dict
