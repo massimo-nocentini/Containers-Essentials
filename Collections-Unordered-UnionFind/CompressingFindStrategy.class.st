@@ -24,5 +24,5 @@ CompressingFindStrategy >> at: x in: dict select: aPredicate [
 	(aPredicate value: each)
 		ifTrue: [ representatives add: each ] ].
 	root := self at: x in: dict do: aBlock.
-	^ root -> (representatives ifEmpty: [ root ] ifNotEmpty: #first)
+	^ root -> representatives
 ]

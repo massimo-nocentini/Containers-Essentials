@@ -5,7 +5,8 @@ Class {
 		'rank',
 		'findStrategy',
 		'representativeBlock',
-		'parent'
+		'parent',
+		'representative'
 	],
 	#category : #'Collections-Unordered-UnionFind'
 }
@@ -15,6 +16,7 @@ UnionFind class >> empty [
 	^ self new
 		parent: Dictionary new;
 		rank: Dictionary new;
+		representative: Dictionary new;
 		representativeBlock: [ :each | false ];
 		useCompressingFind;
 		yourself
@@ -58,6 +60,7 @@ UnionFind >> postCopy [
 	^ self
 		parent: parent copy;
 		rank: rank copy;
+		representative: representative copy;
 		yourself
 ]
 
@@ -79,6 +82,16 @@ UnionFind >> rank: aDict [
 ]
 
 { #category : #accessing }
+UnionFind >> representative: aDictionary [
+	representative := aDictionary
+]
+
+{ #category : #accessing }
+UnionFind >> representativeAt: x [
+	^ representative at: (self at: x) ifAbsent: [ x ]
+]
+
+{ #category : #accessing }
 UnionFind >> representativeBlock: aPredicate [
 	representativeBlock := aPredicate
 ]
@@ -92,17 +105,26 @@ UnionFind >> size [
 
 { #category : #accessing }
 UnionFind >> union: x with: y [
-	| rx ry |
+	^ self union: x with: y consistent: [ :root :reprs | root ]
+]
+
+{ #category : #accessing }
+UnionFind >> union: x with: y consistent: aBlock [
+	| rx ry rxAssoc ryAssoc representatives r root |
+	representatives := Set new.
+
 	"Prepare stuff for x."
 	parent at: x ifAbsent: [ self insert: x ].
-	rx := (self at: x) key.
+	rxAssoc := self at: x.
+	rx := rxAssoc key.
 
 	"Prepare stuff for y."
 	parent at: y ifAbsent: [ self insert: y ].
-	ry := (self at: y) key.
+	ryAssoc := self at: y.
+	ry := ryAssoc key.
 
 	"Go."
-	^ rx = ry
+	root := rx = ry
 		ifTrue: [ rx ]
 		ifFalse: [ | v w |
 			v := rank at: rx.
@@ -111,7 +133,15 @@ UnionFind >> union: x with: y [
 				ifTrue: [ parent at: ry put: rx ]
 				ifFalse: [ v = w
 						ifTrue: [ rank at: ry put: w + 1 ].
-					parent at: rx put: ry ] ]
+					parent at: rx put: ry ] ].
+	"Collect representatives."
+	representatives := Set new
+		addAll: rxAssoc value;
+		addAll: ryAssoc value;
+		yourself.
+	r := aBlock cull: root cull: representatives.
+	representative at: root put: r.
+	^ root
 ]
 
 { #category : #accessing }

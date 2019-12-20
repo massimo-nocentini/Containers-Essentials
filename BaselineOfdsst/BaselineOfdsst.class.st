@@ -10,9 +10,9 @@ BaselineOfdsst >> baseline: spec [
 	spec
 		for: #common
 		do: [ "Externals."
-			spec
+			"spec
 				baseline: 'Roassal2'
-				with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ].
+				with: [ spec repository: 'github://ObjectProfile/Roassal2/src' ]."
 			"Packages"
 			spec
 				package: 'Kernel-Extensions';
