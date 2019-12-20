@@ -32,10 +32,7 @@ UnionFind >> at: x [
 
 { #category : #'as yet unclassified' }
 UnionFind >> includesKey: aKey [
-	^ parent
-		at: aKey
-		ifPresent: [ :aValue | aKey ~= aValue ]
-		ifAbsent: [ false ]
+	^ parent includesKey: aKey
 ]
 
 { #category : #accessing }
@@ -95,30 +92,26 @@ UnionFind >> size [
 
 { #category : #accessing }
 UnionFind >> union: x with: y [
-	| rx ry rxkey rykey |
+	| rx ry |
 	"Prepare stuff for x."
 	parent at: x ifAbsent: [ self insert: x ].
-	rx := self at: x.
-	rxkey := rx key.
+	rx := (self at: x) key.
 
 	"Prepare stuff for y."
 	parent at: y ifAbsent: [ self insert: y ].
-	ry := self at: y.
-	rykey := ry key.
+	ry := (self at: y) key.
 
 	"Go."
-	^ rxkey = rykey
-		ifTrue: [ rx value ]
+	^ rx = ry
+		ifTrue: [ rx ]
 		ifFalse: [ | v w |
-			v := rank at: rxkey.
-			w := rank at: rykey.
+			v := rank at: rx.
+			w := rank at: ry.
 			v > w
-				ifTrue: [ parent at: rykey put: rxkey.
-					rx value ]
+				ifTrue: [ parent at: ry put: rx ]
 				ifFalse: [ v = w
-						ifTrue: [ rank at: rykey put: w + 1 ].
-					parent at: rxkey put: rykey.
-					ry value ] ]
+						ifTrue: [ rank at: ry put: w + 1 ].
+					parent at: rx put: ry ] ]
 ]
 
 { #category : #accessing }

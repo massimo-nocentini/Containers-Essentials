@@ -5,29 +5,24 @@ Class {
 }
 
 { #category : #accessing }
-CompressingFindStrategy >> at: x in: dict select: aPredicate [
-	^ self
-		at: x
-		in: dict
-		select: aPredicate
-		representativeSoFar: nil
+CompressingFindStrategy >> at: x in: dict do: aBlock [
+	| w |
+	aBlock value: x.
+	w := dict at: x.
+	^ x = w
+		ifTrue: [ w ]
+		ifFalse: [ | root |
+			root := self at: w in: dict do: aBlock.
+			dict at: x put: root ]
 ]
 
 { #category : #accessing }
-CompressingFindStrategy >> at: x in: dict select: aPredicate representativeSoFar: aRepresentative [
-	| w |
-	w := dict at: x.
-	^ x = w
-		ifTrue: [ w -> (aRepresentative ifNil: [ w ]) ]
-		ifFalse: [ | anAssoc |
-			anAssoc := self
-				at: w
-				in: dict
-				select: aPredicate
-				representativeSoFar:
-					((aPredicate value: w)
-						ifTrue: [ w ]
-						ifFalse: [ aRepresentative ]).
-			dict at: x put: anAssoc key.
-			anAssoc ]
+CompressingFindStrategy >> at: x in: dict select: aPredicate [
+	| aBlock representatives root |
+	representatives := OrderedCollection new.
+	aBlock := [ :each | 
+	(aPredicate value: each)
+		ifTrue: [ representatives add: each ] ].
+	root := self at: x in: dict do: aBlock.
+	^ root -> (representatives ifEmpty: [ root ] ifNotEmpty: #first)
 ]
