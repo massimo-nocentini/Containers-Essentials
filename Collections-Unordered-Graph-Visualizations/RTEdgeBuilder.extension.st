@@ -1,6 +1,6 @@
 Extension { #name : #RTEdgeBuilder }
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 RTEdgeBuilder >> createEdgeIfNecessaryFrom: fromElement to: toElement model: model [
 	"This is a private method. Create, if necessary, an edge between two elements"
 
@@ -9,7 +9,7 @@ RTEdgeBuilder >> createEdgeIfNecessaryFrom: fromElement to: toElement model: mod
 				add: (self edgeFrom: fromElement to: toElement model: model) ]
 ]
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 RTEdgeBuilder >> edgeFrom: source to: target model: model [
 	"source and target are elements"
 
@@ -22,7 +22,7 @@ RTEdgeBuilder >> edgeFrom: source to: target model: model [
 	^ edge
 ]
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 RTEdgeBuilder >> source: objects connectFrom: fromblock withModelTo: toBlock [
 	| tuples allObjects |
 	self
@@ -45,7 +45,7 @@ RTEdgeBuilder >> source: objects connectFrom: fromblock withModelTo: toBlock [
 	^ self useAssociationModelTuples: tuples
 ]
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 RTEdgeBuilder >> useAssociationModelTuples: tuples [
 	| fromElement toElement |
 	createdEdges := RTGroup new.

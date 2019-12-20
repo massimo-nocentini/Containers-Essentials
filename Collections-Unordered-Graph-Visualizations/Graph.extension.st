@@ -1,6 +1,6 @@
 Extension { #name : #Graph }
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 Graph >> gtInspectorGraphViewIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	^ composite roassal2
@@ -18,7 +18,7 @@ Graph >> gtInspectorGraphViewIn: composite [
 		yourself
 ]
 
-{ #category : #'*Collections-Unordered-Graph-Roassal2' }
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian vertex: sBlock edge: eBlock layout: lBlock [
 	sBlock value: mondrian shape.
 	mondrian nodes: self vertices values.

@@ -14,6 +14,16 @@ SequenceableCollection >> foldr: aBlock init: init [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
+SequenceableCollection >> scan: aBlock init: aValue [
+	^ self class
+		new: self size + 1
+		streamContents: [ :aStream | 
+			| acc |
+			acc := aStream nextPut: aValue.
+			self do: [ :each | acc := aStream nextPut: acc + each ] ]
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> zip: aSequenceable [
 	^ self zip: aSequenceable with: [ :s :o | s -> o ]
 ]

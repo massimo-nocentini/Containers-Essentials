@@ -1,6 +1,6 @@
 Extension { #name : #UnionFind }
 
-{ #category : #'*Collections-Unordered-UnionFind-Visualization' }
+{ #category : #'*Collections-Unordered-UnionFind-Visualizations' }
 UnionFind >> gtInspectorGraphViewIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	^ composite roassal2
