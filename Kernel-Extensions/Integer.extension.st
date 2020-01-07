@@ -6,3 +6,8 @@ Integer >> printSubscriptString [
 	subscripts := Object subscripts.
 	^ self printString collect: [ :each | subscripts at: each ]
 ]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> skewCanonicalRepresentation [
+	^ SkewBinaryCanonicalNumber fromInteger: self
+]
