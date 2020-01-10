@@ -4,7 +4,7 @@ Class {
 	#category : #'Collections-Sequenceable-SBRAL'
 }
 
-{ #category : #accessing }
+{ #category : #API }
 SBRAL >> add: x [
 	| leafBlock |
 	leafBlock := [ :sbral | sbral tree: (SBRALBinaryTree leaf: x) ].
@@ -21,12 +21,25 @@ SBRAL >> add: x [
 		otherwise: leafBlock
 ]
 
-{ #category : #accessing }
+{ #category : #API }
+SBRAL >> allButFirst [
+	^ self
+		decrementIfOne: #yourself
+		otherwise: [ :sbral :assoc | 
+			assoc value
+				ifLeaf: [ self error: 'This block shouldn''t be evaluated, semantic error.' ]
+				ifNode: [ :aNode | 
+					sbral tree: aNode left.
+					sbral cdr tree: aNode right.
+					sbral ] ]
+]
+
+{ #category : #API }
 SBRAL >> at: i [
 	^ self at: i ifAbsent: [ SubscriptOutOfBounds signalFor: i ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 SBRAL >> at: i association: anAssoc ifPresent: pBlock ifAbsent: aBlock [
 	| aTree |
 	aTree := anAssoc value.
@@ -43,14 +56,14 @@ SBRAL >> at: i association: anAssoc ifPresent: pBlock ifAbsent: aBlock [
 						ifAbsent: aBlock ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #API }
 SBRAL >> at: i ifAbsent: aBlock [
 	^ i > 0
 		ifTrue: [ self at: i - 1 ifPresent: #content ifAbsent: aBlock ]
 		ifFalse: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 SBRAL >> at: i ifPresent: pBlock ifAbsent: aBlock [
 	^ representation
 		ifNil: aBlock
@@ -65,7 +78,7 @@ SBRAL >> at: i ifPresent: pBlock ifAbsent: aBlock [
 				ifFalse: [ self cdr at: i - w ifPresent: pBlock ifAbsent: aBlock ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 SBRAL >> at: i key: w node: aNode ifPresent: pBlock ifAbsent: aBlock [
 	| v |
 	v := w // 2.
@@ -82,8 +95,80 @@ SBRAL >> at: i key: w node: aNode ifPresent: pBlock ifAbsent: aBlock [
 				ifAbsent: aBlock ]
 ]
 
-{ #category : #accessing }
-SBRAL >> head [
+{ #category : #API }
+SBRAL >> at: i put: y [
+	| aBlock |
+	aBlock := [ SubscriptOutOfBounds signalFor: i ].
+	^ i > 0
+		ifTrue: [ self at: i - 1 put: y ifAbsent: aBlock ]
+		ifFalse: aBlock
+]
+
+{ #category : #private }
+SBRAL >> at: i put: y association: assoc ifAbsent: aBlock [
+	| aTree |
+	aTree := assoc value.
+	^ i = 0
+		ifTrue: [ aTree
+				ifLeaf: [ :aLeaf | SBRALBinaryTree leaf: y	"Discard the provided one." ]
+				ifNode:
+					[ :aNode | SBRALBinaryTree node: y left: aNode left right: aNode right ] ]
+		ifFalse: [ aTree
+				ifLeaf: aBlock
+				ifNode: [ :aNode | 
+					self
+						at: i
+						put: y
+						key: assoc key
+						node: aNode
+						ifAbsent: aBlock ] ]
+]
+
+{ #category : #private }
+SBRAL >> at: i put: y ifAbsent: aBlock [
+	^ representation
+		ifNil: aBlock
+		ifNotNil: [ | w assoc |
+			assoc := representation value.
+			w := assoc key.
+			i < w
+				ifTrue: [ | aTree |
+					aTree := self
+						at: i
+						put: y
+						association: assoc
+						ifAbsent: aBlock.
+					self cdr cons: w -> aTree ]
+				ifFalse: [ (self cdr at: i - w put: y ifAbsent: aBlock) cons: assoc ] ]
+]
+
+{ #category : #private }
+SBRAL >> at: i put: y key: w node: aNode ifAbsent: aBlock [
+	| v |
+	v := w // 2.
+	^ i <= v
+		ifTrue: [ SBRALBinaryTree
+				node: aNode content
+				left:
+					(self
+						at: i - 1
+						put: y
+						association: v -> aNode left
+						ifAbsent: aBlock)
+				right: aNode right ]
+		ifFalse: [ SBRALBinaryTree
+				node: aNode content
+				left: aNode left
+				right:
+					(self
+						at: i - 1 - v
+						put: y
+						association: v -> aNode right
+						ifAbsent: aBlock) ]
+]
+
+{ #category : #API }
+SBRAL >> first [
 	^ representation
 		ifNil: [ CollectionIsEmpty signalWith: self ]
 		ifNotNil: [ | assoc |
@@ -94,20 +179,6 @@ SBRAL >> head [
 { #category : #accessing }
 SBRAL >> key: aValueLink [
 	^ (super key: aValueLink) key
-]
-
-{ #category : #accessing }
-SBRAL >> tail [
-	^ self
-		decrementIfOne: #yourself
-		otherwise: [ :sbral :assoc | 
-			assoc value
-				ifLeaf:
-					[ self error: 'This block shouldn''t be evaluated, semantic error.' ]
-				ifNode: [ :aNode | 
-					sbral tree: aNode left.
-					sbral cdr tree: aNode right.
-					sbral ] ]
 ]
 
 { #category : #accessing }
