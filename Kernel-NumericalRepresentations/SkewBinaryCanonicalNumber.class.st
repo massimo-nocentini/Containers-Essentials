@@ -85,24 +85,20 @@ SkewBinaryCanonicalNumber >> decrementIfOne: oBlock otherwise: eBlock [
 			w := self key: representation.
 			w = 1
 				ifTrue: [ oBlock value: self cdr ]
-				ifFalse: [ | v twin |
+				ifFalse: [ | v twin cdr |
 					v := w // 2.
-					twin := self
-						cons: v
-						onto:
-							(ValueLink new
-								value: v;
-								nextLink: representation nextLink;
-								yourself).
+					cdr := ValueLink new
+						value: v;
+						nextLink: representation nextLink;
+						yourself.
+					twin := self cons: v onto: cdr.
 					eBlock value: twin value: representation value ] ]
 ]
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> increment [
 	^ self
-		incrementIfEmpty: #yourself
-		ifSingleton: #yourself
-		twoInARow: [ :aSkewNumber :b :c | aSkewNumber ]
+		incrementIfTwoInARow: [ :aSkewNumber :b :c | aSkewNumber ]
 		otherwise: #yourself
 ]
 
@@ -122,6 +118,15 @@ SkewBinaryCanonicalNumber >> incrementIfEmpty: eBlock ifSingleton: sBlock twoInA
 								value: representation value
 								value: nr value ]
 						ifFalse: [ oBlock value: (self cons: 1) ] ] ]
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> incrementIfTwoInARow: tBlock otherwise: oBlock [
+	^ self
+		incrementIfEmpty: oBlock
+		ifSingleton: oBlock
+		twoInARow: tBlock
+		otherwise: oBlock
 ]
 
 { #category : #accessing }

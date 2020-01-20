@@ -6,19 +6,15 @@ Class {
 
 { #category : #API }
 SBRAL >> add: x [
-	| leafBlock |
-	leafBlock := [ :sbral | sbral tree: (SBRALBinaryTree leaf: x) ].
 	^ self
-		incrementIfEmpty: leafBlock
-		ifSingleton: leafBlock
-		twoInARow: [ :sbral :leftValueLink :rightValueLink | 
+		incrementIfTwoInARow: [ :sbral :leftValueLink :rightValueLink | 
 			sbral
 				tree:
 					(SBRALBinaryTree
 						node: x
 						left: leftValueLink value
 						right: rightValueLink value) ]
-		otherwise: leafBlock
+		otherwise: [ :sbral | sbral tree: (SBRALBinaryTree leaf: x) ]
 ]
 
 { #category : #API }
