@@ -15,11 +15,11 @@ LeftistHeap class >> empty [
 ]
 
 { #category : #'as yet unclassified' }
-LeftistHeap class >> key: aSelector value: aValue left: leftHeap right: rightHeap [
+LeftistHeap class >> insert: aValue left: leftHeap right: rightHeap rankComparer: aBlock [
 	| v w |
 	v := leftHeap rank.
 	w := rightHeap rank.
-	^ (v perform: aSelector with: w)
+	^ (aBlock value: v value: w)
 		ifTrue: [ LeftistHeapNode new
 				rank: v + 1;
 				value: aValue;

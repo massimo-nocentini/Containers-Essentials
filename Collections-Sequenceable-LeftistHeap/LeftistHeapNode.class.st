@@ -13,17 +13,17 @@ LeftistHeapNode >> merge: aLeftistHeap [
 LeftistHeapNode >> mergeHeapNode: aNode [
 	| w |
 	w := aNode value.
-	^ value < w
+	^ value <= w
 		ifTrue: [ LeftistHeap
-				key: #<
-				value: value
+				insert: value
 				left: previousLink
-				right: (nextLink mergeHeapNode: aNode) ]
+				right: (nextLink mergeHeapNode: aNode)
+				rankComparer: #< ]
 		ifFalse: [ LeftistHeap
-				key: #<
-				value: w
+				insert: w
 				left: aNode previousLink
-				right: (aNode nextLink mergeHeapNode: self) ]
+				right: (aNode nextLink mergeHeapNode: self)
+				rankComparer: #< ]
 ]
 
 { #category : #'as yet unclassified' }

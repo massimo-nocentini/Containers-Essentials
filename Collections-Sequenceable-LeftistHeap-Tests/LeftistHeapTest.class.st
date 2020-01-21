@@ -64,12 +64,31 @@ LeftistHeapTest >> testSorted [
 { #category : #tests }
 LeftistHeapTest >> testWikipedia [
 	<gtExample>
-	^ (#(4 8 10 9 1 3 5 6 11) withIndexCollect: #->)
+	| elements finalHeap popping count |
+	elements := #(4 8 10 9 1 3 5 6 11).
+
+	"First build the complete leftist heap."
+	finalHeap := (elements withIndexCollect: #->)
 		inject: LeftistHeap empty
 		into: [ :anHeap :assoc | 
 			self
 				exportLeftistHeap: (anHeap add: assoc key)
 				filename:
 					('pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/wikipedia-add-{1}.png'
-						format: {assoc value}) ]
+						format: {assoc value}) ].
+
+	"The go backward and empty it."
+	popping := finalHeap.
+	count := elements size.
+	[ popping isEmpty ]
+		whileFalse: [ count := count - 1.
+			self
+				exportLeftistHeap: popping
+				filename:
+					('pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/wikipedia-pop-{1}.png'
+						format: {count}).
+			popping := popping pop ].
+
+	"Finally, return the full heap."
+	^ finalHeap
 ]
