@@ -20,11 +20,13 @@ Graph >> gtInspectorGraphViewIn: composite [
 
 { #category : #'*Collections-Unordered-Graph-Visualizations' }
 Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian vertex: sBlock edge: eBlock layout: lBlock [
+	| rtEdges |
 	sBlock value: mondrian shape.
 	mondrian nodes: self vertices values.
 	eBlock cull: mondrian shape cull: mondrian edges.
-	mondrian edges
+	lBlock value: mondrian layout.
+	rtEdges := mondrian edges
 		labelElement: [ :rtEdge | rtEdge model weight ifNil: [ String empty ] ];
 		source: self edges connectFrom: #from withModelTo: #to.
-	lBlock value: mondrian layout
+	mondrian layout layout userDefinedEdges: rtEdges	"necessary to maintain the insertion order of edges"
 ]
