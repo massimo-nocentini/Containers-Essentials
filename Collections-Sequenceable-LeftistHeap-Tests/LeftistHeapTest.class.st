@@ -82,12 +82,11 @@ LeftistHeapTest >> testWikipedia [
 	count := elements size.
 	[ popping isEmpty ]
 		whileFalse: [ count := count - 1.
-			self
-				exportLeftistHeap: popping
+			popping := self
+				exportLeftistHeap: popping pop
 				filename:
 					('pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/wikipedia-pop-{1}.png'
-						format: {count}).
-			popping := popping pop ].
+						format: {count}) ].
 
 	"Finally, return the full heap."
 	^ finalHeap
