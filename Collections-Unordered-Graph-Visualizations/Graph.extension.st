@@ -14,7 +14,7 @@ Graph >> gtInspectorGraphViewIn: composite [
 						text: #content;
 						color: Color black ]
 				edge: [ :shape | shape arrowedBezier shortestDistanceAttachPointWithJump ]
-				layout: #circle ];
+				layout: #tree ];
 		yourself
 ]
 
