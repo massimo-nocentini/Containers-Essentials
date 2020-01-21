@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+LeftistHeapEmpty >> isEmpty [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 LeftistHeapEmpty >> merge: aLeftistHeap [
 	^ aLeftistHeap
 ]

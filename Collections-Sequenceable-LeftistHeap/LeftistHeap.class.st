@@ -14,6 +14,16 @@ LeftistHeap class >> empty [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+LeftistHeap class >> fromSequenceableCollection: aCollection [
+	^ aCollection size = 1
+		ifTrue: [ self leaf: aCollection first ]
+		ifFalse: [ | halves |
+			halves := aCollection halves.
+			(self fromSequenceableCollection: halves first)
+				merge: (self fromSequenceableCollection: halves second) ]
+]
+
 { #category : #'as yet unclassified' }
 LeftistHeap class >> insert: aValue left: leftHeap right: rightHeap rankComparer: aBlock [
 	| v w |
@@ -47,6 +57,11 @@ LeftistHeap class >> leaf: anObject [
 { #category : #'as yet unclassified' }
 LeftistHeap >> add: anObject [
 	^ self mergeHeapNode: (LeftistHeap leaf: anObject)
+]
+
+{ #category : #'as yet unclassified' }
+LeftistHeap >> isEmpty [
+	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }

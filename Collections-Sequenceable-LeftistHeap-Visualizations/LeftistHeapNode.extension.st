@@ -15,8 +15,3 @@ LeftistHeapNode >> edges: outerEdges parentHeapNode: aNode [
 				parentHeapNode: self);
 		yourself
 ]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeapNode >> isEmpty [
-	^ false
-]

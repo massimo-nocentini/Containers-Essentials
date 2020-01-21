@@ -14,6 +14,16 @@ SequenceableCollection >> foldr: aBlock init: init [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
+SequenceableCollection >> halves [
+	| middle size |
+	size := self size.
+	middle := size // 2.
+	^ Array
+		with: (self copyFrom: 1 to: middle)
+		with: (self copyFrom: middle + 1 to: size)
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> scan: aBlock init: aValue [
 	^ self class
 		new: self size + 1

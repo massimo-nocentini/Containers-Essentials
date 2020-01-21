@@ -34,8 +34,3 @@ LeftistHeap >> gtInspectorTreesViewIn: composite [
 		painting: [ :b | self gtInspectorTreeUsingMondrianBuilder: b ];
 		yourself
 ]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> isEmpty [
-	self subclassResponsibility
-]
