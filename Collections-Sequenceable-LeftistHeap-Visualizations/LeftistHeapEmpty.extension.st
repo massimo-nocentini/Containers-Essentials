@@ -2,7 +2,7 @@ Extension { #name : #LeftistHeapEmpty }
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeapEmpty >> edges [
-	self edges: nil parentHeapNode: nil
+	^ self edges: nil parentHeapNode: self
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }

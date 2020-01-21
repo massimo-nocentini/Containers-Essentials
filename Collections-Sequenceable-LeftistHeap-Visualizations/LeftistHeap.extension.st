@@ -16,7 +16,10 @@ LeftistHeap >> gtInspectorTreeUsingMondrianBuilder: aMondrian [
 		gtInspectorGraphViewUsingMondrianBuilder: aMondrian
 		vertex: [ :shape | 
 			shape text
-				text: [ :vertex | vertex content printStringWithSubscriptRank ];
+				text: [ :vertex | 
+					vertex content
+						ifNil: [ String empty ]
+						ifNotNil: #printStringWithSubscriptRank ];
 				color: Color black ]
 		edge: [ :shape | shape orthoVerticalLine ]
 		layout: #tree
@@ -28,10 +31,6 @@ LeftistHeap >> gtInspectorTreesViewIn: composite [
 	^ composite roassal2
 		title: 'Tree';
 		initializeView: [ RTMondrian new ];
-		painting: [ :b | 
-			self gtInspectorTreeUsingMondrianBuilder: b.
-			b
-				build;
-				view ];
+		painting: [ :b | self gtInspectorTreeUsingMondrianBuilder: b ];
 		yourself
 ]
