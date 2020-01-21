@@ -28,14 +28,3 @@ LeftistHeapEmpty >> min [
 LeftistHeapEmpty >> pop [
 	CollectionIsEmpty signal
 ]
-
-{ #category : #printing }
-LeftistHeapEmpty >> printStringWithSubscriptRank [
-	^ String
-		streamContents: [ :s | 
-			s
-				nextPut: $•;
-				nextPut: $₍;
-				nextPutAll: rank printSubscriptString;
-				nextPut: $₎ ]
-]

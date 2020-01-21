@@ -5,6 +5,26 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap rankComparer: aBlock [
+	| v w |
+	v := leftHeap rank.
+	w := rightHeap rank.
+	^ (aBlock value: v value: w)
+		ifTrue: [ self class new
+				rank: v + 1;
+				value: aValue;
+				previousLink: rightHeap;
+				nextLink: leftHeap;
+				yourself ]
+		ifFalse: [ self class new
+				rank: w + 1;
+				value: aValue;
+				previousLink: leftHeap;
+				nextLink: rightHeap;
+				yourself ]
+]
+
+{ #category : #'as yet unclassified' }
 LeftistHeapNode >> isEmpty [
 	^ false
 ]
@@ -19,12 +39,12 @@ LeftistHeapNode >> mergeHeapNode: aNode [
 	| w |
 	w := aNode value.
 	^ value <= w
-		ifTrue: [ LeftistHeap
+		ifTrue: [ self
 				insert: value
 				left: previousLink
 				right: (nextLink mergeHeapNode: aNode)
 				rankComparer: #< ]
-		ifFalse: [ LeftistHeap
+		ifFalse: [ self
 				insert: w
 				left: aNode previousLink
 				right: (aNode nextLink mergeHeapNode: self)
@@ -39,16 +59,4 @@ LeftistHeapNode >> min [
 { #category : #removing }
 LeftistHeapNode >> pop [
 	^ previousLink merge: nextLink
-]
-
-{ #category : #printing }
-LeftistHeapNode >> printStringWithSubscriptRank [
-	^ String
-		streamContents: [ :s | 
-			value printOn: s.
-			s"
-				nextPut: Character space;"
-				nextPut: $₍;
-				nextPutAll: rank printSubscriptString;
-				nextPut: $₎ ]
 ]

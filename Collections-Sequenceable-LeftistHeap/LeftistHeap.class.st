@@ -25,26 +25,6 @@ LeftistHeap class >> fromSequenceableCollection: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-LeftistHeap class >> insert: aValue left: leftHeap right: rightHeap rankComparer: aBlock [
-	| v w |
-	v := leftHeap rank.
-	w := rightHeap rank.
-	^ (aBlock value: v value: w)
-		ifTrue: [ LeftistHeapNode new
-				rank: v + 1;
-				value: aValue;
-				previousLink: rightHeap;
-				nextLink: leftHeap;
-				yourself ]
-		ifFalse: [ LeftistHeapNode new
-				rank: w + 1;
-				value: aValue;
-				previousLink: leftHeap;
-				nextLink: rightHeap;
-				yourself ]
-]
-
-{ #category : #'as yet unclassified' }
 LeftistHeap class >> leaf: anObject [
 	^ LeftistHeapNode new
 		rank: 1;
@@ -81,11 +61,6 @@ LeftistHeap >> min [
 
 { #category : #removing }
 LeftistHeap >> pop [
-	self subclassResponsibility
-]
-
-{ #category : #'as yet unclassified' }
-LeftistHeap >> printStringWithSubscriptRank [
 	self subclassResponsibility
 ]
 

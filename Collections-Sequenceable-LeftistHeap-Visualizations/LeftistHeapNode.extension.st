@@ -15,3 +15,15 @@ LeftistHeapNode >> edges: outerEdges parentHeapNode: aNode [
 				parentHeapNode: self);
 		yourself
 ]
+
+{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
+LeftistHeapNode >> printStringWithSubscriptRank [
+	^ String
+		streamContents: [ :s | 
+			value printOn: s.
+			s"
+				nextPut: Character space;"
+				nextPut: $₍;
+				nextPutAll: rank printSubscriptString;
+				nextPut: $₎ ]
+]
