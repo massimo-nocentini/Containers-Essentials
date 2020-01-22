@@ -11,12 +11,5 @@ SBRALBinaryTreeNode >> edges: outerEdges [
 		edges:
 			(right
 				edges:
-					(ValueLink new
-						value: content -> left content;
-						nextLink:
-							(ValueLink new
-								value: content -> right content;
-								nextLink: outerEdges;
-								yourself);
-						yourself))
+					content -> left content ~~> (content -> right content ~~> outerEdges))
 ]

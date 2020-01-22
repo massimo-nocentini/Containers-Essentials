@@ -21,5 +21,5 @@ SBRALBinaryTreeLeaf >> decrementSBRAL: aSbral [
 
 { #category : #'as yet unclassified' }
 SBRALBinaryTreeLeaf >> put: y [
-	^ SBRALBinaryTree leaf: y
+	^ self class leaf: y
 ]

@@ -2,12 +2,7 @@ Extension { #name : #SBRALBinaryTreeLeaf }
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
 SBRALBinaryTreeLeaf >> edges [
-	^ self
-		edges:
-			(ValueLink new
-				value: content -> content;
-				nextLink: nil;
-				yourself)
+	^ self edges: content -> content ~~> nil
 ]
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }

@@ -47,7 +47,7 @@ SBRALBinaryTreeNode >> left: anObject [
 
 { #category : #'as yet unclassified' }
 SBRALBinaryTreeNode >> put: y [
-	^ SBRALBinaryTree node: y left: left right: right
+	^ self class node: y left: left right: right
 ]
 
 { #category : #accessing }
