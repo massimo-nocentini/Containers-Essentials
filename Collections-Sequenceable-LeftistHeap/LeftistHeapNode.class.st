@@ -9,7 +9,7 @@ LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap rankComparer: 
 	| v w |
 	v := leftHeap rank.
 	w := rightHeap rank.
-	^ (aBlock value: v value: w)
+	^ (self isRank: v lessThan: w)
 		ifTrue: [ self class new
 				rank: v + 1;
 				value: aValue;
@@ -27,6 +27,11 @@ LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap rankComparer: 
 { #category : #'as yet unclassified' }
 LeftistHeapNode >> isEmpty [
 	^ false
+]
+
+{ #category : #comparing }
+LeftistHeapNode >> isRank: i lessThan: j [
+	^ i < j
 ]
 
 { #category : #'as yet unclassified' }
