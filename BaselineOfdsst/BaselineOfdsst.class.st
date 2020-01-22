@@ -16,7 +16,12 @@ BaselineOfdsst >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Kernel-Extensions';
+				package: 'Collections-Support-Extensions';
+				package: 'Collections-String-Extensions';
 				package: 'Collections-Sequenceable-Extensions';
+				package: 'Roassal2-Core-Extensions';
+				package: 'Collections-Unordered-Maybe';
+				package: 'Kernel-NumericalRepresentations';
 				package: 'Collections-Sequenceable-Sorting'
 					with: [ spec requires: #('Collections-Sequenceable-Extensions') ];
 				"Graphs."
@@ -33,5 +38,15 @@ BaselineOfdsst >> baseline: spec [
 					with: [ spec
 						requires:
 							#('Collections-Unordered-UnionFind' 'Collections-Sequenceable-Extensions') ];
-				package: 'Collections-Sequenceable-Cons' ]
+				package: 'Collections-Sequenceable-Cons';
+				package: 'Collections-Sequenceable-LeftistHeap';
+				package: 'Collections-Sequenceable-LeftistHeap-Tests'
+					with: [ spec
+						requires:
+							#('Collections-Sequenceable-LeftistHeap' 'Collections-Support-Extensions' 'Roassal2-Core-Extensions') ];
+				package: 'Collections-Sequenceable-LeftistHeap-Visualizations'
+					with: [ spec requires: #('Collections-Sequenceable-LeftistHeap') ];
+				package: 'Collections-Sequenceable-SBRAL';
+				package: 'Collections-Sequenceable-SBRAL-Visualizations'
+					with: [ spec requires: #('Collections-Sequenceable-SBRAL') ] ]
 ]
