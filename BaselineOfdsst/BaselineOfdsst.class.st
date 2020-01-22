@@ -17,7 +17,7 @@ BaselineOfdsst >> baseline: spec [
 			spec
 				package: 'Kernel-Extensions';
 				package: 'Collections-Support-Extensions';
-				package: 'Collections-String-Extensions';
+				package: 'Collections-Strings-Extensions';
 				package: 'Collections-Sequenceable-Extensions';
 				package: 'Roassal2-Core-Extensions';
 				package: 'Collections-Unordered-Maybe';
