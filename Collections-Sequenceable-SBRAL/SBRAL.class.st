@@ -1,33 +1,21 @@
 Class {
 	#name : #SBRAL,
 	#superclass : #SkewBinaryCanonicalNumber,
+	#instVars : [
+		'insertingObject'
+	],
 	#category : #'Collections-Sequenceable-SBRAL'
 }
 
 { #category : #API }
 SBRAL >> add: x [
-	^ self
-		incrementIfTwoInARow: [ :sbral :leftValueLink :rightValueLink | 
-			sbral
-				tree:
-					(SBRALBinaryTree
-						node: x
-						left: leftValueLink value
-						right: rightValueLink value) ]
-		otherwise: [ :sbral | sbral tree: (SBRALBinaryTree leaf: x) ]
+	insertingObject := Maybe just: x.
+	^ self increment
 ]
 
 { #category : #API }
 SBRAL >> allButFirst [
-	^ self
-		decrementIfOne: #yourself
-		otherwise: [ :sbral :assoc | 
-			assoc value
-				ifLeaf: [ self error: 'This block shouldn''t be evaluated, semantic error.' ]
-				ifNode: [ :aNode | 
-					sbral tree: aNode left.
-					sbral cdr tree: aNode right.
-					sbral ] ]
+	^ self decrement
 ]
 
 { #category : #API }
@@ -164,12 +152,57 @@ SBRAL >> at: i put: y key: w node: aNode ifAbsent: aBlock [
 ]
 
 { #category : #API }
+SBRAL >> decremented: sbral bitZeroOrTwo: assoc [
+	^ assoc value
+		ifLeaf: [ self error: 'This block shouldn''t be evaluated, semantic error.' ]
+		ifNode: [ :aNode | 
+			sbral tree: aNode left.
+			sbral cdr tree: aNode right.
+			sbral ]
+]
+
+{ #category : #API }
 SBRAL >> first [
 	^ representation
 		ifNil: [ CollectionIsEmpty signalWith: self ]
 		ifNotNil: [ | assoc |
 			assoc := representation value.
 			assoc value content ]
+]
+
+{ #category : #API }
+SBRAL >> incremented: sbral [
+	^ sbral tree: (SBRALBinaryTree leaf: insertingObject content)
+]
+
+{ #category : #API }
+SBRAL >> incremented: sbral two: leftValueLink inARow: rightValueLink [
+	^ sbral
+		tree:
+			(SBRALBinaryTree
+				node: insertingObject content
+				left: leftValueLink value
+				right: rightValueLink value)
+]
+
+{ #category : #API }
+SBRAL >> incrementedDifferentBits: sbral [
+	^ self incremented: sbral
+]
+
+{ #category : #API }
+SBRAL >> incrementedSingleton: sbral [
+	^ self incremented: sbral
+]
+
+{ #category : #API }
+SBRAL >> incrementedZero: sbral [
+	^ self incremented: sbral
+]
+
+{ #category : #API }
+SBRAL >> initialize [
+	insertingObject := Maybe nothing
 ]
 
 { #category : #accessing }

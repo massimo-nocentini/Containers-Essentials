@@ -3,10 +3,7 @@ Extension { #name : #SBRAL }
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
 SBRAL >> associations [
 	^ representation
-		ifNotNil: [ ValueLink new
-				value: representation value;
-				nextLink: self cdr associations;
-				yourself ]
+		ifNotNil: [ representation value ~~> self cdr associations ]
 ]
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
@@ -32,10 +29,6 @@ SBRAL >> gtInspectorTreesViewIn: composite [
 	^ composite roassal2
 		title: 'Trees';
 		initializeView: [ RTMondrian new ];
-		painting: [ :b | 
-			self gtInspectorTreesUsingMondrianBuilder: b.
-			b
-				build;
-				view ];
+		painting: [ :b | self gtInspectorTreesUsingMondrianBuilder: b ];
 		yourself
 ]

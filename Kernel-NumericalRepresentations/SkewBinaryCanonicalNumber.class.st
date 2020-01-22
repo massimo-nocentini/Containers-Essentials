@@ -62,71 +62,70 @@ SkewBinaryCanonicalNumber >> cons: i [
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> cons: i onto: aValueLink [
 	^ self class new
-		representation:
-			(ValueLink new
-				value: i;
-				nextLink: aValueLink;
-				yourself);
+		representation: i ~~> aValueLink;
 		yourself
 ]
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> decrement [
-	^ self
-		decrementIfOne: #yourself
-		otherwise: [ :aSkewNumber :aValue | aSkewNumber ]
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> decrementIfOne: oBlock otherwise: eBlock [
 	^ representation
-		ifNil: [ self error ]
+		ifNil: [ ArithmeticError signal ]
 		ifNotNil: [ | w |
 			w := self key: representation.
 			w = 1
-				ifTrue: [ oBlock value: self cdr ]
-				ifFalse: [ | v twin cdr |
+				ifTrue: [ self decrementedBitOne: self cdr ]
+				ifFalse: [ | v twin |
 					v := w // 2.
-					cdr := ValueLink new
-						value: v;
-						nextLink: representation nextLink;
-						yourself.
-					twin := self cons: v onto: cdr.
-					eBlock value: twin value: representation value ] ]
+					twin := self cons: v onto: v ~~> representation nextLink.
+					self decremented: twin bitZeroOrTwo: representation value ] ]
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> decremented: aSkewNumber bitZeroOrTwo: aValue [
+	^ aSkewNumber
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> decrementedBitOne: aSkewNumber [
+	^ aSkewNumber
 ]
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> increment [
-	^ self
-		incrementIfTwoInARow: [ :aSkewNumber :b :c | aSkewNumber ]
-		otherwise: #yourself
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> incrementIfEmpty: eBlock ifSingleton: sBlock twoInARow: tBlock otherwise: oBlock [
 	^ representation
-		ifNil: [ eBlock value: (self cons: 1) ]
+		ifNil: [ self incrementedZero: (self cons: 1) ]
 		ifNotNil: [ representation nextLink
-				ifNil: [ sBlock value: (self cons: 1) ]
+				ifNil: [ self incrementedSingleton: (self cons: 1) ]
 				ifNotNil: [ :nr | 
 					| v w |
 					v := self key: representation.
 					w := self key: nr.
 					v = w
-						ifTrue: [ tBlock
-								value: (self cons: 1 + v + w onto: nr nextLink)
-								value: representation value
-								value: nr value ]
-						ifFalse: [ oBlock value: (self cons: 1) ] ] ]
+						ifTrue: [ self
+								incremented: (self cons: 1 + v + w onto: nr nextLink)
+								two: representation value
+								inARow: nr value ]
+						ifFalse: [ self incrementedDifferentBits: (self cons: 1) ] ] ]
 ]
 
 { #category : #accessing }
-SkewBinaryCanonicalNumber >> incrementIfTwoInARow: tBlock otherwise: oBlock [
-	^ self
-		incrementIfEmpty: oBlock
-		ifSingleton: oBlock
-		twoInARow: tBlock
-		otherwise: oBlock
+SkewBinaryCanonicalNumber >> incremented: aSkewNumber two: aValue inARow: anotherValue [
+	^ aSkewNumber
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> incrementedDifferentBits: aSkewNumber [
+	^ aSkewNumber
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> incrementedSingleton: aSkewNumber [
+	^ aSkewNumber
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> incrementedZero: aSkewNumber [
+	^ aSkewNumber
 ]
 
 { #category : #accessing }
