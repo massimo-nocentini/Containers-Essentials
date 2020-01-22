@@ -15,13 +15,24 @@ LeftistHeap class >> empty [
 ]
 
 { #category : #'instance creation' }
-LeftistHeap class >> fromSequenceableCollection: aCollection [
-	^ aCollection size = 1
-		ifTrue: [ self leaf: aCollection first ]
-		ifFalse: [ | halves |
-			halves := aCollection halves.
-			(self fromSequenceableCollection: halves first)
-				merge: (self fromSequenceableCollection: halves second) ]
+LeftistHeap class >> forArrayedCollection: aCollection from: low to: high [
+	| diff |
+	diff := high - low.
+	^ diff = 0
+		ifTrue: [ self leaf: (aCollection at: high)	"Because `high` equals `low`." ]
+		ifFalse: [ | middle left right |
+			middle := diff // 2 + low.
+			left := self forArrayedCollection: aCollection from: low to: middle.
+			right := self
+				forArrayedCollection: aCollection
+				from: middle + 1
+				to: high.
+			left merge: right ]
+]
+
+{ #category : #'instance creation' }
+LeftistHeap class >> forSequenceableCollection: aCollection [
+	^ aCollection inject: self empty into: #add:
 ]
 
 { #category : #'as yet unclassified' }

@@ -17,6 +17,22 @@ LeftistHeapTest >> exportLeftistHeap: anHeap filename: filename [
 ]
 
 { #category : #tests }
+LeftistHeapTest >> testAsLeftistHeap [
+	| interval random heap t1 t2 |
+	random := Random new.
+	interval := (1 to: 20000000) collect: [ :i | random nextInt: i ].
+	t1 := [ interval asOrderedCollection asLeftishHeap ] timeToRun.
+	t2 := [ heap := interval asLeftishHeap ] timeToRun.
+	self assert: t2 < t1.
+
+	"If we like we can export it too."
+	self
+		exportLeftistHeap: heap
+		filename:
+			'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/big.png'
+]
+
+{ #category : #tests }
 LeftistHeapTest >> testDescending [
 	<gtExample>
 	^ (1 to: 40) reversed
