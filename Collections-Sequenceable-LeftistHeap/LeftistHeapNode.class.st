@@ -5,23 +5,23 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap rankComparer: aBlock [
-	| v w |
+LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap [
+	| v w heap |
 	v := leftHeap rank.
 	w := rightHeap rank.
-	^ (self isRank: v lessThan: w)
-		ifTrue: [ self class new
+	heap := self class new
+		value: aValue;
+		yourself.
+	(self isRank: v lessThan: w)
+		ifTrue: [ heap
 				rank: v + 1;
-				value: aValue;
 				previousLink: rightHeap;
-				nextLink: leftHeap;
-				yourself ]
-		ifFalse: [ self class new
+				nextLink: leftHeap ]
+		ifFalse: [ heap
 				rank: w + 1;
-				value: aValue;
 				previousLink: leftHeap;
-				nextLink: rightHeap;
-				yourself ]
+				nextLink: rightHeap ].
+	^ heap
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,13 +47,11 @@ LeftistHeapNode >> mergeHeapNode: aNode [
 		ifTrue: [ self
 				insert: value
 				left: previousLink
-				right: (nextLink mergeHeapNode: aNode)
-				rankComparer: #< ]
+				right: (nextLink mergeHeapNode: aNode) ]
 		ifFalse: [ self
 				insert: w
 				left: aNode previousLink
-				right: (aNode nextLink mergeHeapNode: self)
-				rankComparer: #< ]
+				right: (aNode nextLink mergeHeapNode: self) ]
 ]
 
 { #category : #'as yet unclassified' }
