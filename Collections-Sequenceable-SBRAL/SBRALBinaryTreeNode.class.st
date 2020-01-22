@@ -8,9 +8,31 @@ Class {
 	#category : #'Collections-Sequenceable-SBRAL'
 }
 
+{ #category : #accessing }
+SBRALBinaryTreeNode >> at: i key: aKey SBRAL: aSBRAL ifPresent: pBlock ifAbsent: aBlock [
+	^ aSBRAL
+		at: i
+		key: aKey
+		node: self
+		ifPresent: pBlock
+		ifAbsent: aBlock
+]
+
 { #category : #'as yet unclassified' }
-SBRALBinaryTreeNode >> ifLeaf: lBlock ifNode: nBlock [
-	^ nBlock value: self
+SBRALBinaryTreeNode >> at: i put: y key: aKey SBRAL: aSBRAL ifAbsent: aBlock [
+	^ aSBRAL
+		at: i
+		put: y
+		key: aKey
+		node: self
+		ifAbsent: aBlock
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTreeNode >> decrementSBRAL: aSbral [
+	aSbral tree: left.
+	aSbral cdr tree: right.
+	^ aSbral
 ]
 
 { #category : #accessing }
@@ -21,6 +43,11 @@ SBRALBinaryTreeNode >> left [
 { #category : #accessing }
 SBRALBinaryTreeNode >> left: anObject [
 	left := anObject
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTreeNode >> put: y [
+	^ SBRALBinaryTree node: y left: left right: right
 ]
 
 { #category : #accessing }

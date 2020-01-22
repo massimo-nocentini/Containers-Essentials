@@ -24,6 +24,16 @@ SBRALBinaryTree class >> node: x left: l right: r [
 ]
 
 { #category : #accessing }
+SBRALBinaryTree >> at: i key: aKey SBRAL: aSBRAL ifPresent: pBlock ifAbsent: aBlock [
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTree >> at: i put: y key: aKey SBRAL: aSBRAL ifAbsent: aBlock [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 SBRALBinaryTree >> content [
 	^ content
 ]
@@ -34,6 +44,11 @@ SBRALBinaryTree >> content: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-SBRALBinaryTree >> ifLeaf: lBlock ifNode: nBlock [
-	self subclassResponsibility
+SBRALBinaryTree >> decrementSBRAL: aSbral [
+	^ self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTree >> put: y [
+	^ self subclassResponsibility
 ]

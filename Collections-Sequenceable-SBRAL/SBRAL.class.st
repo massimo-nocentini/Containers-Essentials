@@ -30,14 +30,11 @@ SBRAL >> at: i association: anAssoc ifPresent: pBlock ifAbsent: aBlock [
 	^ i = 0
 		ifTrue: [ pBlock value: aTree	"Regardless of `anAssoc key`." ]
 		ifFalse: [ aTree
-				ifLeaf: aBlock
-				ifNode: [ :aNode | 
-					self
-						at: i
-						key: anAssoc key
-						node: aNode
-						ifPresent: pBlock
-						ifAbsent: aBlock ] ]
+				at: i
+				key: anAssoc key
+				SBRAL: self
+				ifPresent: pBlock
+				ifAbsent: aBlock ]
 ]
 
 { #category : #API }
@@ -93,19 +90,13 @@ SBRAL >> at: i put: y association: assoc ifAbsent: aBlock [
 	| aTree |
 	aTree := assoc value.
 	^ i = 0
-		ifTrue: [ aTree
-				ifLeaf: [ :aLeaf | SBRALBinaryTree leaf: y	"Discard the provided one." ]
-				ifNode:
-					[ :aNode | SBRALBinaryTree node: y left: aNode left right: aNode right ] ]
+		ifTrue: [ aTree put: y ]
 		ifFalse: [ aTree
-				ifLeaf: aBlock
-				ifNode: [ :aNode | 
-					self
-						at: i
-						put: y
-						key: assoc key
-						node: aNode
-						ifAbsent: aBlock ] ]
+				at: i
+				put: y
+				key: assoc key
+				SBRAL: self
+				ifAbsent: aBlock ]
 ]
 
 { #category : #private }
@@ -152,13 +143,8 @@ SBRAL >> at: i put: y key: w node: aNode ifAbsent: aBlock [
 ]
 
 { #category : #API }
-SBRAL >> decremented: sbral bitZeroOrTwo: assoc [
-	^ assoc value
-		ifLeaf: [ self error: 'This block shouldn''t be evaluated, semantic error.' ]
-		ifNode: [ :aNode | 
-			sbral tree: aNode left.
-			sbral cdr tree: aNode right.
-			sbral ]
+SBRAL >> decremented: aSbral bitZeroOrTwo: assoc [
+	^ assoc value decrementSBRAL: aSbral
 ]
 
 { #category : #API }

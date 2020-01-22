@@ -4,7 +4,22 @@ Class {
 	#category : #'Collections-Sequenceable-SBRAL'
 }
 
+{ #category : #accessing }
+SBRALBinaryTreeLeaf >> at: i key: aKey SBRAL: aSBRAL ifPresent: pBlock ifAbsent: aBlock [
+	^ aBlock value
+]
+
 { #category : #'as yet unclassified' }
-SBRALBinaryTreeLeaf >> ifLeaf: lBlock ifNode: nBlock [
-	^ lBlock value: self
+SBRALBinaryTreeLeaf >> at: i put: y key: aKey SBRAL: aSBRAL ifAbsent: aBlock [
+	^ aBlock value
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTreeLeaf >> decrementSBRAL: aSbral [
+	self shouldNotImplement
+]
+
+{ #category : #'as yet unclassified' }
+SBRALBinaryTreeLeaf >> put: y [
+	^ SBRALBinaryTree leaf: y
 ]
