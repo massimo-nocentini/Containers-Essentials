@@ -15,19 +15,8 @@ LeftistHeap class >> empty [
 ]
 
 { #category : #'instance creation' }
-LeftistHeap class >> forArrayedCollection: aCollection from: low to: high [
-	| diff |
-	diff := high - low.
-	^ diff = 0
-		ifTrue: [ self leaf: (aCollection at: high)	"Because `high` equals `low`." ]
-		ifFalse: [ | middle left right |
-			middle := diff // 2 + low.
-			left := self forArrayedCollection: aCollection from: low to: middle.
-			right := self
-				forArrayedCollection: aCollection
-				from: middle + 1
-				to: high.
-			left merge: right ]
+LeftistHeap class >> forArrayedCollection: aCollection [
+	^ aCollection bisect: #merge: baseBlock: [ :each | self leaf: each ]
 ]
 
 { #category : #'instance creation' }
