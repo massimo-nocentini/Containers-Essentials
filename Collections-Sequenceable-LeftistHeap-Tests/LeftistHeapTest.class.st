@@ -16,6 +16,23 @@ LeftistHeapTest >> exportLeftistHeap: anHeap filename: filename [
 	^ anHeap
 ]
 
+{ #category : #utilities }
+LeftistHeapTest >> exportLeftistHeap: anHeap path: aPath [
+	^ self exportLeftistHeap: anHeap filename: aPath fullName
+]
+
+{ #category : #utilities }
+LeftistHeapTest >> iceWorkingDirectory [
+	^ (IceRepository registry
+		select: [ :repo | repo includesPackageNamed: self class category ])
+		first location
+]
+
+{ #category : #'as yet unclassified' }
+LeftistHeapTest >> leftistHeapImagesPath [
+	^ self iceWorkingDirectory / 'images' / 'leftist-heaps'
+]
+
 { #category : #tests }
 LeftistHeapTest >> testAsLeftistHeap [
 	| interval random heap t1 t2 |
@@ -28,20 +45,7 @@ LeftistHeapTest >> testAsLeftistHeap [
 	"If we like we can export it too."
 	self
 		exportLeftistHeap: heap
-		filename:
-			'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/big.png'
-]
-
-{ #category : #tests }
-LeftistHeapTest >> testDescending [
-	<gtExample>
-	^ (1 to: 40) reversed
-		inject: LeftistHeap empty
-		into: [ :anHeap :each | 
-			self
-				exportLeftistHeap: (anHeap add: each)
-				filename:
-					'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/reversed.png' ]
+		path: self leftistHeapImagesPath / 'big.png'
 ]
 
 { #category : #tests }
@@ -49,8 +53,18 @@ LeftistHeapTest >> testEmpty [
 	<gtExample>
 	^ self
 		exportLeftistHeap: LeftistHeap empty
-		filename:
-			'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/empty.png'
+		path: self leftistHeapImagesPath / 'empty.png'
+]
+
+{ #category : #tests }
+LeftistHeapTest >> testReversed [
+	<gtExample>
+	^ (1 to: 40) reversed
+		inject: LeftistHeap empty
+		into: [ :anHeap :each | 
+			self
+				exportLeftistHeap: (anHeap add: each)
+				path: self leftistHeapImagesPath / 'reversed.png' ]
 ]
 
 { #category : #tests }
@@ -61,8 +75,7 @@ LeftistHeapTest >> testShuffled [
 		into: [ :anHeap :each | 
 			self
 				exportLeftistHeap: (anHeap add: each)
-				filename:
-					'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/shuffled.png' ]
+				path: self leftistHeapImagesPath / 'shuffled.png' ]
 ]
 
 { #category : #tests }
@@ -73,8 +86,7 @@ LeftistHeapTest >> testSorted [
 		into: [ :anHeap :each | 
 			self
 				exportLeftistHeap: (anHeap add: each)
-				filename:
-					'pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/sorted.png' ]
+				path: self leftistHeapImagesPath / 'sorted.png' ]
 ]
 
 { #category : #tests }
@@ -89,9 +101,9 @@ LeftistHeapTest >> testWikipedia [
 		into: [ :anHeap :assoc | 
 			self
 				exportLeftistHeap: (anHeap add: assoc key)
-				filename:
-					('pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/wikipedia-add-{1}.png'
-						format: {assoc value}) ].
+				path:
+					self leftistHeapImagesPath
+						/ ('wikipedia-add-{1}.png' format: {assoc value}) ].
 
 	"The go backward and empty it."
 	popping := finalHeap.
@@ -100,9 +112,12 @@ LeftistHeapTest >> testWikipedia [
 		whileFalse: [ count := count - 1.
 			popping := self
 				exportLeftistHeap: popping pop
-				filename:
-					('pharo-local/iceberg/massimo-nocentini/dsst/images/leftist-heaps/wikipedia-pop-{1}.png'
-						format: {count}) ].
+				path: self leftistHeapImagesPath / ('wikipedia-pop-{1}.png' format: {count}) ].
+
+	"We draw also the heap obtained by bisect folding."
+	self
+		exportLeftistHeap: elements asLeftishHeap
+		path: self leftistHeapImagesPath / 'wikipedia-bisect.png'.
 
 	"Finally, return the full heap."
 	^ finalHeap
