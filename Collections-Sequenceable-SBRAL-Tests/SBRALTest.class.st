@@ -15,6 +15,25 @@ SBRALTest >> imagesPath [
 ]
 
 { #category : #tests }
+SBRALTest >> testIncrement [
+	| n |
+	n := 20.
+	((1 to: n) withIndexCollect: #->)
+		inject: SBRAL new
+		into: [ :aSBRAL :assoc | 
+			self
+				export: (aSBRAL add: assoc key)
+				path:
+					self imagesPath
+						/
+							('{1}-add-{2}.png'
+								format:
+									{n.
+									assoc value})
+				selector: #gtInspectorTreesUsingMondrianBuilder: ]
+]
+
+{ #category : #tests }
 SBRALTest >> testSorted [
 	<gtExample>
 	| n |
