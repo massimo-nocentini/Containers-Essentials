@@ -8,6 +8,6 @@ Integer >> printSubscriptString [
 ]
 
 { #category : #'*Kernel-Extensions' }
-Integer >> skewCanonicalRepresentation [
-	^ SkewBinaryCanonicalNumber fromInteger: self
+Integer >> skewBinaryCanonicalDenseRepresentation [
+	^ SkewBinaryCanonicalNumber denseRepresentationOfInteger: self
 ]
