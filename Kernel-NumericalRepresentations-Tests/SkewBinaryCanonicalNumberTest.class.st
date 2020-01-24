@@ -16,9 +16,16 @@ SkewBinaryCanonicalNumberTest >> imagesPath [
 
 { #category : #tests }
 SkewBinaryCanonicalNumberTest >> testIncrement [
-	0 to: 50 do: [ :i | 
+	| n |
+	n := 50.
+	0 to: n do: [ :i | 
 		self
 			export: i skewBinaryCanonicalDenseRepresentation
-			path: self imagesPath / ('dense-increment-{0}.png' format: {i})
+			path: self imagesPath / ('dense-increment-{1}.png' format: {i})
+			selector: #gtInspectorLinksUsingMondrianBuilder: ].
+	n - 1 to: 0 by: -1 do: [ :i | 
+		self
+			export: i skewBinaryCanonicalDenseRepresentation
+			path: self imagesPath / ('dense-decrement-{1}.png' format: {i})
 			selector: #gtInspectorLinksUsingMondrianBuilder: ]
 ]
