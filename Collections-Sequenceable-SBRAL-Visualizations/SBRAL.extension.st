@@ -16,10 +16,6 @@ SBRAL >> gtInspectorTreesUsingMondrianBuilder: aMondrian [
 		nodes: self associations asLinkedList
 		forEach:
 			[ :anAssociation | anAssociation value gtInspectorTreeUsingMondrianBuilder: aMondrian ].
-	"aMondrian shape arrowedLine withShorterDistanceAttachPoint.
-	aMondrian edges
-		connectTo:
-			[ :aPromise | aPromise ifEager: [ :aValue | aValue nextLink promise ] ifLazy: [  ] ]."
 	aMondrian layout verticalLine
 ]
 
