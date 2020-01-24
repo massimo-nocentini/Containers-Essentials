@@ -4,16 +4,17 @@ A LeftistHeapTest is a test class for testing the behavior of LeftistHeap
 Class {
 	#name : #LeftistHeapTest,
 	#superclass : #TestCase,
+	#traits : 'TIceImagesExporting',
+	#classTraits : 'TIceImagesExporting classTrait',
 	#category : #'Collections-Sequenceable-LeftistHeap-Tests'
 }
 
 { #category : #utilities }
 LeftistHeapTest >> exportLeftistHeap: anHeap filename: filename [
-	| mondrian |
-	mondrian := RTMondrian new.
-	anHeap gtInspectorTreeUsingMondrianBuilder: mondrian.
-	mondrian build view exportPNGtoFilename: filename.
-	^ anHeap
+	^ self
+		export: anHeap
+		filename: filename
+		selector: #gtInspectorTreeUsingMondrianBuilder:
 ]
 
 { #category : #utilities }
@@ -22,15 +23,13 @@ LeftistHeapTest >> exportLeftistHeap: anHeap path: aPath [
 ]
 
 { #category : #utilities }
-LeftistHeapTest >> iceWorkingDirectory [
-	^ (IceRepository registry
-		select: [ :repo | repo includesPackageNamed: self class category ])
-		first location
+LeftistHeapTest >> imagesPath [
+	^ self iceWorkingDirectory / 'images' / 'leftist-heaps'
 ]
 
 { #category : #'as yet unclassified' }
 LeftistHeapTest >> leftistHeapImagesPath [
-	^ self iceWorkingDirectory / 'images' / 'leftist-heaps'
+	^ self imagesPath
 ]
 
 { #category : #tests }
