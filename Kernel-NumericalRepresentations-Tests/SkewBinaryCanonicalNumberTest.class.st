@@ -16,16 +16,24 @@ SkewBinaryCanonicalNumberTest >> imagesPath [
 
 { #category : #tests }
 SkewBinaryCanonicalNumberTest >> testIncrement [
-	| n |
+	| n skew |
 	n := 50.
+	skew := SkewBinaryCanonicalNumber new.
 	0 to: n do: [ :i | 
 		self
 			export: i skewBinaryCanonicalDenseRepresentation
-			path: self imagesPath / ('dense-increment-{1}.png' format: {i})
-			selector: #gtInspectorLinksUsingMondrianBuilder: ].
-	n - 1 to: 0 by: -1 do: [ :i | 
-		self
-			export: i skewBinaryCanonicalDenseRepresentation
-			path: self imagesPath / ('dense-decrement-{1}.png' format: {i})
-			selector: #gtInspectorLinksUsingMondrianBuilder: ]
+				path: self imagesPath / ('dense-increment-{1}.png' format: {i})
+				selector: #gtInspectorLinksUsingMondrianBuilder:;
+			export: (skew ifZero: [ 0 ~~> nil ] ifNotZero: #yourself)
+				path: self imagesPath / ('sparse-increment-{1}.png' format: {i})
+				selector: #gtInspectorLinksUsingMondrianBuilder:.
+		skew := skew increment ].
+
+	"The following is a simple script to generate Markdown code to put into the companion wiki page."
+	Character cr
+		join:
+			((0 to: n)
+				collect: [ :i | 
+					'|{1}| ![](https://github.com/massimo-nocentini/dsst/blob/master/images/skew-binary-numbers/dense-increment-{1}.png)|![](https://github.com/massimo-nocentini/dsst/blob/master/images/skew-binary-numbers/sparse-increment-{1}.png)|'
+						format: {i} ])
 ]
