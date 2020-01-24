@@ -1,16 +1,14 @@
 Class {
 	#name : #SBRAL,
 	#superclass : #SkewBinaryCanonicalNumber,
-	#instVars : [
-		'insertingObject'
-	],
 	#category : #'Collections-Sequenceable-SBRAL'
 }
 
 { #category : #API }
 SBRAL >> add: x [
-	insertingObject := Maybe just: x.
-	^ self increment
+	^ (SBRALUnaryFunctionIncrement on: self)
+		element: x;
+		value
 ]
 
 { #category : #API }
@@ -142,53 +140,23 @@ SBRAL >> at: i put: y key: w node: aNode ifAbsent: aBlock [
 						ifAbsent: aBlock) ]
 ]
 
-{ #category : #API }
-SBRAL >> decremented: aSbral bitZeroOrTwo: assoc [
-	^ assoc value decrementSBRAL: aSbral
+{ #category : #accessing }
+SBRAL >> decrement [
+	^ (SBRALUnaryFunctionDecrement on: self) value
 ]
 
 { #category : #API }
 SBRAL >> first [
-	^ representation
-		ifNil: [ CollectionIsEmpty signalWith: self ]
-		ifNotNil: [ | assoc |
+	^ self
+		ifZero: [ CollectionIsEmpty signalWith: self ]
+		ifNotZero: [ | assoc |
 			assoc := representation value.
 			assoc value content ]
 ]
 
-{ #category : #API }
-SBRAL >> incremented: sbral [
-	^ sbral tree: (SBRALBinaryTree leaf: insertingObject content)
-]
-
-{ #category : #API }
-SBRAL >> incremented: sbral two: leftValueLink inARow: rightValueLink [
-	^ sbral
-		tree:
-			(SBRALBinaryTree
-				node: insertingObject content
-				left: leftValueLink value
-				right: rightValueLink value)
-]
-
-{ #category : #API }
-SBRAL >> incrementedDifferentBits: sbral [
-	^ self incremented: sbral
-]
-
-{ #category : #API }
-SBRAL >> incrementedSingleton: sbral [
-	^ self incremented: sbral
-]
-
-{ #category : #API }
-SBRAL >> incrementedZero: sbral [
-	^ self incremented: sbral
-]
-
-{ #category : #API }
-SBRAL >> initialize [
-	insertingObject := Maybe nothing
+{ #category : #accessing }
+SBRAL >> increment [
+	^ self shouldNotImplement
 ]
 
 { #category : #accessing }

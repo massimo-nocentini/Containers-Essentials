@@ -68,64 +68,17 @@ SkewBinaryCanonicalNumber >> cons: i onto: aValueLink [
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> decrement [
-	^ representation
-		ifNil: [ ArithmeticError signal ]
-		ifNotNil: [ | w |
-			w := self key: representation.
-			w = 1
-				ifTrue: [ self decrementedBitOne: self cdr ]
-				ifFalse: [ | v twin |
-					v := w // 2.
-					twin := self cons: v onto: v ~~> representation nextLink.
-					self decremented: twin bitZeroOrTwo: representation value ] ]
+	^ (SkewBinaryCanonicalNumberUnaryFunctionDecrement on: self) value
 ]
 
 { #category : #accessing }
-SkewBinaryCanonicalNumber >> decremented: aSkewNumber bitZeroOrTwo: aValue [
-	^ aSkewNumber
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> decrementedBitOne: aSkewNumber [
-	^ aSkewNumber
+SkewBinaryCanonicalNumber >> ifZero: zBlock ifNotZero: nzBlock [
+	^ representation ifNil: zBlock ifNotNil: nzBlock
 ]
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> increment [
-	^ representation
-		ifNil: [ self incrementedZero: (self cons: 1) ]
-		ifNotNil: [ representation nextLink
-				ifNil: [ self incrementedSingleton: (self cons: 1) ]
-				ifNotNil: [ :nr | 
-					| v w |
-					v := self key: representation.
-					w := self key: nr.
-					v = w
-						ifTrue: [ self
-								incremented: (self cons: 1 + v + w onto: nr nextLink)
-								two: representation value
-								inARow: nr value ]
-						ifFalse: [ self incrementedDifferentBits: (self cons: 1) ] ] ]
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> incremented: aSkewNumber two: aValue inARow: anotherValue [
-	^ aSkewNumber
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> incrementedDifferentBits: aSkewNumber [
-	^ aSkewNumber
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> incrementedSingleton: aSkewNumber [
-	^ aSkewNumber
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber >> incrementedZero: aSkewNumber [
-	^ aSkewNumber
+	^ (SkewBinaryCanonicalNumberUnaryFunctionIncrement on: self) value
 ]
 
 { #category : #accessing }
@@ -136,4 +89,9 @@ SkewBinaryCanonicalNumber >> key: aValueLink [
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> representation: aValueLink [
 	representation := aValueLink
+]
+
+{ #category : #accessing }
+SkewBinaryCanonicalNumber >> weight [
+	^ self key: representation
 ]
