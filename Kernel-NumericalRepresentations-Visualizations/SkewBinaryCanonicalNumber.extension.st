@@ -6,7 +6,8 @@ SkewBinaryCanonicalNumber >> gtInspectorRepresentationUsingMondrianBuilder: aMon
 		fillColor: Color white;
 		borderColor: Color lightGray.
 	aMondrian
-		nodes: {representation}
+		nodes:
+			{(representation ifNil: [ 0 ~~> nil ])	"to handle when I represent 0."}
 		forEach:
 			[ :aValueLink | aValueLink gtInspectorLinksUsingMondrianBuilder: aMondrian ].
 	aMondrian layout horizontalLine
