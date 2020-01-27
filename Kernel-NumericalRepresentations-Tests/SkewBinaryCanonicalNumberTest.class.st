@@ -24,9 +24,10 @@ SkewBinaryCanonicalNumberTest >> testIncrement [
 			export: i skewBinaryCanonicalDenseRepresentation
 				path: self imagesPath / ('dense-increment-{1}.png' format: {i})
 				selector: #gtInspectorLinksUsingMondrianBuilder:;
-			export: (skew ifZero: [ 0 ~~> nil ] ifNotZero: #yourself)
+			export:
+				(skew ifZero: [ 0 ~~> nil ] ifNotZero: #yourself "this message send allows us to handle the `representation` directly.")
 				path: self imagesPath / ('sparse-increment-{1}.png' format: {i})
-				selector: #gtInspectorLinksUsingMondrianBuilder:.
+				selector: #gtInspectorLinksUsingMondrianBuilder:.	
 		skew := skew increment ].
 
 	"The following is a simple script to generate Markdown code to put into the companion wiki page."

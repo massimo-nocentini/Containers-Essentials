@@ -17,6 +17,7 @@ BinomialHeap >> gtInspectorTreesUsingMondrianBuilder: aMondrian [
 		fillColor: Color white;
 		borderColor: Color lightGray;
 		withTextAbove: #key.
+	self halt.
 	aMondrian
 		nodes: self associations asLinkedList
 		forEach:

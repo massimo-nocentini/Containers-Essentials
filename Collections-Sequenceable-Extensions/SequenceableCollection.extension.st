@@ -1,6 +1,16 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Collections-Sequenceable-Extensions' }
+SequenceableCollection >> asLink [
+	^ self foldr: #~~> init: nil
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
+SequenceableCollection >> asLinkedList [
+	^ self asLink asLinkedList
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> foldr1: aBlock [ 
 	^ self allButLast foldr: aBlock init: self last
 ]

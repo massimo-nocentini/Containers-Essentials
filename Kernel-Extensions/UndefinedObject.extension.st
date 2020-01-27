@@ -4,3 +4,8 @@ Extension { #name : #UndefinedObject }
 UndefinedObject >> asLinkedList [
 	^ LinkedList empty
 ]
+
+{ #category : #'*Kernel-Extensions' }
+UndefinedObject >> reversed: prefix [
+	^ prefix
+]
