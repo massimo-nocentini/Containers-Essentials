@@ -15,6 +15,28 @@ BinomialHeap >> cons: anAssociation onto: trees [
 ]
 
 { #category : #adding }
+BinomialHeap >> min [
+	^ representation
+		ifNil: [ CollectionIsEmpty signal ]
+		ifNotNil: [ (self min: representation) first value content ]
+]
+
+{ #category : #adding }
+BinomialHeap >> min: trees [
+	| tree |
+	tree := trees value.
+	^ trees nextLink
+		ifNil: [ Array with: tree with: {} ]
+		ifNotNil: [ :nl | 
+			| tuple anotherTree |
+			tuple := self min: nl.
+			anotherTree := tuple first.
+			tree value content <= anotherTree value content
+				ifTrue: [ Array with: tree with: nl ]
+				ifFalse: [ Array with: anotherTree with: tree ~~> tuple second ] ]
+]
+
+{ #category : #adding }
 BinomialHeap >> push: x [
 	^ self pushTree: 0 -> (BinomialTree leaf: x) onTrees: representation
 ]

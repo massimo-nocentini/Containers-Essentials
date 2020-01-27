@@ -46,6 +46,6 @@ BinomialTree >> linkBinomialTree: aTree [
 	| x |
 	x := aTree content.
 	^ content < x
-		ifTrue: [ BinomialTree node: content children: aTree ~~> children ]
-		ifFalse: [ BinomialTree node: x children: self ~~> aTree children ]
+		ifTrue: [ self class node: content children: aTree ~~> children ]
+		ifFalse: [ self class node: x children: self ~~> aTree children ]
 ]
