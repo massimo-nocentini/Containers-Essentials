@@ -15,13 +15,6 @@ BinomialHeap class >> trees: trees [
 ]
 
 { #category : #adding }
-BinomialHeap >> cons: anAssociation onto: trees [
-	^ self class new
-		representation: anAssociation ~~> trees;
-		yourself
-]
-
-{ #category : #adding }
 BinomialHeap >> ifEmpty: eBlock ifNotEmpty: neBlock [
 	^ representation ifNil: eBlock ifNotNil: neBlock
 ]
@@ -52,6 +45,7 @@ BinomialHeap >> merge: trees with: otherTrees [
 						ifFalse: [ anotherRank < aRank
 								ifTrue: [ anotherTree ~~> (self merge: trees with: allButFirstOtherTrees) ]
 								ifFalse: [ | binomialTree mergedTrees |
+									"Invariant: both `aTree` and `anotherTree` have the *same* rank."
 									binomialTree := aTree value
 										linkBinomialTree: anotherTree value.
 									mergedTrees := self
@@ -92,9 +86,9 @@ BinomialHeap >> pop [
 			tree := tuple first.
 			mergedTrees := self
 				merge:
-					((tree key - 1 to: 0 by: -1) asLink
+					((tree key - 1 to: 0 by: -1) asValueLink
 						with: tree value children
-						collect: #->)
+						collect: #->) reversed
 				with: tuple second.
 			self class trees: mergedTrees ]
 ]

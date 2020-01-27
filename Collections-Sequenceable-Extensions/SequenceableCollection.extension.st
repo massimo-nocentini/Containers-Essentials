@@ -1,13 +1,13 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Collections-Sequenceable-Extensions' }
-SequenceableCollection >> asLink [
-	^ self foldr: #~~> init: nil
+SequenceableCollection >> asLinkedList [
+	^ self asValueLink asLinkedList
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
-SequenceableCollection >> asLinkedList [
-	^ self asLink asLinkedList
+SequenceableCollection >> asValueLink [
+	^ self foldr: #~~> init: nil
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
