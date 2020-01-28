@@ -7,6 +7,11 @@ Class {
 	#category : #'Collections-Sequenceable-BinomialHeap'
 }
 
+{ #category : #requirements }
+BinomialHeap class >> empty [
+	^ self trees: nil
+]
+
 { #category : #creating }
 BinomialHeap class >> trees: trees [
 	^ self new
@@ -17,6 +22,11 @@ BinomialHeap class >> trees: trees [
 { #category : #adding }
 BinomialHeap >> ifEmpty: eBlock ifNotEmpty: neBlock [
 	^ representation ifNil: eBlock ifNotNil: neBlock
+]
+
+{ #category : #'as yet unclassified' }
+BinomialHeap >> isEmpty [
+	^ self ifEmpty: [ true ] ifNotEmpty: [ false ]
 ]
 
 { #category : #adding }
