@@ -1,6 +1,16 @@
 Extension { #name : #Integer }
 
 { #category : #'*Kernel-Extensions' }
+Integer >> ifNotZero: nzBlock [
+	^ self ifZero: #yourself ifNotZero: nzBlock
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> ifZero: zBlock [
+	^ self ifZero: zBlock ifNotZero: #yourself
+]
+
+{ #category : #'*Kernel-Extensions' }
 Integer >> ifZero: zBlock ifNotZero: nzBlock [
 	^ self = 0
 		ifTrue: [ zBlock cull: self ]
