@@ -980,6 +980,22 @@ BitArray >> bit: i [
 	^ 1 << (self wmask7: i)
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray >> bitPositions [
+	^ (nbits
+		ifZero: [ nil ]
+		ifNotZero: [ | maxbit hiByte delta valueLink |
+			maxbit := nbits - 1.
+			hiByte := self class byteOf: maxbit.
+			delta := maxbit bitAnd: 7.
+			valueLink := self
+				extractBits: maxbit
+				byte: (self class bitShift: (bits byteAt: hiByte) left: 7 - delta)
+				valueLink: nil.
+			self extract: hiByte index: maxbit - delta - 1 valueLink: valueLink ])
+		asLinkedList
+]
+
 { #category : #accessing }
 BitArray >> bits [
 	^ bits
@@ -988,6 +1004,29 @@ BitArray >> bits [
 { #category : #accessing }
 BitArray >> bits: anObject [
 	bits := anObject
+]
+
+{ #category : #'as yet unclassified' }
+BitArray >> extract: i index: bitnum valueLink: l [
+	^ i = 0
+		ifTrue: [ l ]
+		ifFalse: [ | ll |
+			ll := self extractBits: bitnum byte: (bits byteAt: i) valueLink: l.
+			self extract: i - 1 index: bitnum - 8 valueLink: ll ]
+]
+
+{ #category : #'as yet unclassified' }
+BitArray >> extractBits: bit byte: data valueLink: l [
+	^ data
+		ifZero: [ l ]
+		ifNotZero: [ | ll |
+			ll := (data bitAnd: 16r80)
+				ifZero: [ l ]
+				ifNotZero: [ bit + 1 ~~> l ].
+			self
+				extractBits: bit - 1
+				byte: (self class bitShift: data left: 1)
+				valueLink: ll ]
 ]
 
 { #category : #initialization }
