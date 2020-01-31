@@ -975,9 +975,24 @@ BitArray class >> sizeOf: n [
 	^ n + 7 >> 3
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray >> = anObject [
+	^ anObject equalsBitArray: self
+]
+
 { #category : #initialization }
 BitArray >> bit: i [
-	^ 1 << (self wmask7: i)
+	^ self class bitShift: 1 left: (self wmask7: i)
+]
+
+{ #category : #'as yet unclassified' }
+BitArray >> bitOf: i [
+	^ i > nbits
+		ifTrue: [ SubscriptOutOfBounds signal ]
+		ifFalse: [ | j byte |
+			j := i - 1.
+			byte := bits byteAt: (self class byteOf: j) + 1.
+			(byte bitAnd: (self bit: j)) ifZero: [ false ] ifNotZero: [ true ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -1007,6 +1022,16 @@ BitArray >> bits: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+BitArray >> equalsBitArray: aBitArray [
+	^ nbits = aBitArray nbits
+		ifTrue: [ 1 to: bits size do: [ :i | 
+				(bits byteAt: i) = (aBitArray bits byteAt: i)
+					ifFalse: [ ^ false ] ].
+			true ]
+		ifFalse: [ false ]
+]
+
+{ #category : #'as yet unclassified' }
 BitArray >> extract: i index: bitnum valueLink: l [
 	^ i = 0
 		ifTrue: [ l ]
@@ -1029,6 +1054,12 @@ BitArray >> extractBits: bit byte: data valueLink: l [
 				valueLink: ll ]
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray >> ifZero: zBlock ifNotZero: nzBlock [
+	1 to: nbits do: [ :i | (bits byteAt: i) ifNotZero: [ ^ nzBlock cull: self ] ].
+	^ zBlock cull: self
+]
+
 { #category : #initialization }
 BitArray >> mask7: i [
 	^ self wmask7: i
@@ -1044,7 +1075,14 @@ BitArray >> nbits: anObject [
 	nbits := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray >> postCopy [
+	^ self
+		bits: (bits copybits: (ByteArray new: bits size withAll: 0));
+		yourself
+]
+
 { #category : #initialization }
 BitArray >> wmask7: i [
-	^ i & 8r7
+	^ i bitAnd: 7
 ]
