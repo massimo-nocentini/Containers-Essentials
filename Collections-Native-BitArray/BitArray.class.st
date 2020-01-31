@@ -1032,6 +1032,46 @@ BitArray >> equalsBitArray: aBitArray [
 ]
 
 { #category : #'as yet unclassified' }
+BitArray >> extend: n withAll: aBoolean [
+	^ n <= nbits
+		ifTrue: [ self copy ]
+		ifFalse: [ aBoolean
+				ifTrue: [ self extendWithAllTrueses: n ]
+				ifFalse: [ self extendWithAllFalses: n ] ]
+]
+
+{ #category : #'as yet unclassified' }
+BitArray >> extendWithAllFalses: n [
+	| ba |
+	ba := self class new: n withAll: false.
+	bits copybits: ba bits.
+	^ ba
+]
+
+{ #category : #'as yet unclassified' }
+BitArray >> extendWithAllTrueses: n [
+	| ba newbits |
+	ba := self class new: n withAll: true.
+	newbits := ba bits.
+	bits copybits: newbits.
+	(self mask7: nbits)
+		ifNotZero: [ :left | 
+			| j |
+			j := bits size.
+			newbits
+				byteAt: j
+				put: ((bits byteAt: j) bitOr: (self class hibits: left + 1)) ].
+	(self mask7: n)
+		ifNotZero: [ :lft | 
+			| len |
+			len := self class sizeOf: n.
+			newbits
+				byteAt: len
+				put: ((newbits byteAt: len) bitAnd: (self class lobits: lft + 1)) ].
+	^ ba
+]
+
+{ #category : #'as yet unclassified' }
 BitArray >> extract: i index: bitnum valueLink: l [
 	^ i = 0
 		ifTrue: [ l ]
