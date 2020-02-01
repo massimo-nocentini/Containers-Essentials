@@ -97,7 +97,7 @@ UnionFind >> printOn: aStream key: x [
 	aStream
 		nextPutAll:
 			(r isInteger
-				ifTrue: [ r printSubscriptString ]
+				ifTrue: [ r asString subscript ]
 				ifFalse: [ r printString ])
 ]
 

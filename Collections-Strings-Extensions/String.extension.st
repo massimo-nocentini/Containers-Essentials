@@ -1,7 +1,14 @@
-Extension { #name : #Object }
+Extension { #name : #String }
 
-{ #category : #'*Kernel-Extensions' }
-Object class >> subscripts [
+{ #category : #'*Collections-Strings-Extensions' }
+String >> subscript [
+	| subscripts |
+	subscripts := self class subscripts.
+	^ self collect: [ :each | subscripts at: each ifAbsent: [ each ] ]
+]
+
+{ #category : #'*Collections-Strings-Extensions' }
+String class >> subscripts [
 	^ Dictionary new
 		at: $0 put: $₀;
 		at: $1 put: $₁;

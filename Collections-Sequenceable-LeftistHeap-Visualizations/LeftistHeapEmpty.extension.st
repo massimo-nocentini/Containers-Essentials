@@ -20,6 +20,6 @@ LeftistHeapEmpty >> printStringWithSubscriptRank [
 			s
 				nextPut: $•;
 				nextPut: $₍;
-				nextPutAll: rank printSubscriptString;
+				nextPutAll: rank asString subscript;
 				nextPut: $₎ ]
 ]

@@ -21,9 +21,9 @@ LeftistHeapNode >> printStringWithSubscriptRank [
 	^ String
 		streamContents: [ :s | 
 			value printOn: s.
-			s"
-				nextPut: Character space;"
+			s
 				nextPut: $₍;
-				nextPutAll: rank printSubscriptString;
-				nextPut: $₎ ]
+				nextPutAll: rank asString subscript;
+				nextPut: $₎	"
+				nextPut: Character space;" ]
 ]
