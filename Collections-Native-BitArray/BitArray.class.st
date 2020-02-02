@@ -867,6 +867,12 @@ BitArray class >> fillByteArray: aByteArray with: aValueLink index: idx [
 			self fillByteArray: aByteArray with: assoc key index: idx + 1 ]
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray class >> fit: rbits left: lb right: rb [
+	^ (rb bitAnd: (self lobits: rbits))
+		bitOr: (lb bitAnd: (self hibits: rbits))
+]
+
 { #category : #private }
 BitArray class >> getIndex: cnt byte: bit byte: b size: len tabulate: aBlock [
 	^ bit
@@ -975,6 +981,26 @@ BitArray class >> sizeOf: n [
 	^ n + 7 >> 3
 ]
 
+{ #category : #initialization }
+BitArray class >> wmask7: i [
+	^ i bitAnd: 7
+]
+
+{ #category : #operations }
+BitArray >> << shft [
+	^ shft < 0
+		ifTrue: [ ArithmeticError signal: 'Negative shift.' ]
+		ifFalse: [ shft
+				ifZero: [ self copy ]
+				ifNotZero: [ shft >= nbits
+						ifTrue: [ self class empty ]
+						ifFalse: [ | ba len |
+							len := nbits - shft.
+							ba := self class new: len withAll: false.
+							bits copyRightChunkInto: ba bits shift: shft len: len.
+							ba ] ] ]
+]
+
 { #category : #'as yet unclassified' }
 BitArray >> = anObject [
 	^ anObject equalsBitArray: self
@@ -982,7 +1008,7 @@ BitArray >> = anObject [
 
 { #category : #initialization }
 BitArray >> bit: i [
-	^ self class bitShift: 1 left: (self wmask7: i)
+	^ self class bitShift: 1 left: (self mask7: i)
 ]
 
 { #category : #'as yet unclassified' }
@@ -1102,7 +1128,7 @@ BitArray >> ifZero: zBlock ifNotZero: nzBlock [
 
 { #category : #initialization }
 BitArray >> mask7: i [
-	^ self wmask7: i
+	^ self class wmask7: i
 ]
 
 { #category : #accessing }
@@ -1120,9 +1146,4 @@ BitArray >> postCopy [
 	^ self
 		bits: (bits copybits: (ByteArray new: bits size withAll: 0));
 		yourself
-]
-
-{ #category : #initialization }
-BitArray >> wmask7: i [
-	^ i bitAnd: 7
 ]
