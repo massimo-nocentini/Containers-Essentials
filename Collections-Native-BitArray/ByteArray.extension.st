@@ -7,18 +7,16 @@ ByteArray >> byteAt: d update: aBlock [
 
 { #category : #'*Collections-Native-BitArray' }
 ByteArray >> copyRightChunkInto: aByteArray byte: byte lastByte: lastByte shift: bitShift len: len [
-	| lshift sb s d |
+	| lshift sb d |
 	lshift := 8 - bitShift.
 	sb := self byteAt: byte.
-	s := byte + 1.
 	d := 1.
 	[ d = lastByte ]
 		whileFalse: [ | sbnext b |
-			sbnext := self byteAt: s.
+			sbnext := self byteAt: byte + d.
 			b := (BitArray bitShift: sbnext left: lshift) bitAnd: 16rff.
 			aByteArray byteAt: d put: (sb >> bitShift bitOr: b).
 			sb := sbnext.
-			s := s + 1.
 			d := d + 1 ].
 	aByteArray
 		byteAt: d
@@ -27,7 +25,8 @@ ByteArray >> copyRightChunkInto: aByteArray byte: byte lastByte: lastByte shift:
 			left := (BitArray wmask7: len - 1) + 1.
 			r := sb >> bitShift.
 			left <= lshift
-				ifFalse: [ r := r bitOr: (BitArray bitShift: (self byteAt: s) left: lshift) ].
+				ifFalse: [ r := r
+						bitOr: (BitArray bitShift: (self byteAt: byte + d) left: lshift) ].
 			BitArray fit: left + 1 left: l right: r ]
 ]
 

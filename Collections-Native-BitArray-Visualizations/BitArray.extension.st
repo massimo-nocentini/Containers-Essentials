@@ -37,3 +37,8 @@ BitArray >> gtInspectorDotsViewIn: composite [
 		painting: [ :b | self gtInspectorDotsUsingMondrianBuilder: b ];
 		yourself
 ]
+
+{ #category : #'*Collections-Native-BitArray-Visualizations' }
+BitArray >> gtInspectorItemInSequenceableCollection: aCollection at: i usingMondrianBuilder: aMondrian [
+	self gtInspectorDotsUsingMondrianBuilder: aMondrian
+]
