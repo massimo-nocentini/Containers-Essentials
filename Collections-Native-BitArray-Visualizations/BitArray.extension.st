@@ -2,7 +2,7 @@ Extension { #name : #BitArray }
 
 { #category : #'*Collections-Native-BitArray-Visualizations' }
 BitArray >> gtInspectorDotsUsingMondrianBuilder: aMondrian [
-	| nodes size lastAssoc |
+	| nodes lastAssoc |
 	aMondrian shape rectangle
 		fillColor: Color white;
 		borderColor: Color lightGray;
@@ -17,25 +17,26 @@ BitArray >> gtInspectorDotsUsingMondrianBuilder: aMondrian [
 						nextPut: $:;
 						nextPutAll: (byte printStringBase: 10);
 						nextPutAll: '(10)' subscript ] ].
-	size := bits size.
-	lastAssoc := (bits byteAt: size)
-		->
-			(nbits % 8
-				ifZero: [ Maybe nothing ]
-				ifNotZero: [ :bs | Maybe just: 8 - bs ]).
-	nodes := Array
-		with: size -> lastAssoc
-		withAll:
-			((size - 1 to: 1 by: -1)
-				collect: [ :i | i -> ((bits byteAt: i) -> Maybe nothing) ]).
-	aMondrian
-		nodes: nodes reversed
-		forEach: [ :anAssociation | 
-			| byteMaybeAssociation |
-			byteMaybeAssociation := anAssociation value.
-			byteMaybeAssociation key
-				gtInspectorDotsBlanksMaybe: byteMaybeAssociation value
-				usingMondrianBuilder: aMondrian ].
+	bits size
+		ifNotZero: [ :size | 
+			lastAssoc := (bits byteAt: size)
+				->
+					(nbits % 8
+						ifZero: [ Maybe nothing ]
+						ifNotZero: [ :bs | Maybe just: 8 - bs ]).
+			nodes := Array
+				with: size -> lastAssoc
+				withAll:
+					((size - 1 to: 1 by: -1)
+						collect: [ :i | i -> ((bits byteAt: i) -> Maybe nothing) ]).
+			aMondrian
+				nodes: nodes reversed
+				forEach: [ :anAssociation | 
+					| byteMaybeAssociation |
+					byteMaybeAssociation := anAssociation value.
+					byteMaybeAssociation key
+						gtInspectorDotsBlanksMaybe: byteMaybeAssociation value
+						usingMondrianBuilder: aMondrian ] ].
 	aMondrian layout grid
 		lineItemsCount: 16;
 		gapSize: 10
