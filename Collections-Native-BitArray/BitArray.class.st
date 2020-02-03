@@ -1147,3 +1147,18 @@ BitArray >> postCopy [
 		bits: (bits copybits: (ByteArray new: bits size withAll: 0));
 		yourself
 ]
+
+{ #category : #operations }
+BitArray >> slice: sbit len: len [
+	^ len + sbit - 1 > nbits
+		ifTrue: [ SubscriptOutOfBounds signal ]
+		ifFalse: [ len
+				ifZero: [ self class empty ]
+				ifNotZero: [ | ba |
+					ba := self class new: len withAll: false.
+					bits
+						copyRightChunkInto: ba bits
+						shift: sbit - 1
+						len: (len min: nbits).
+					ba ] ]
+]
