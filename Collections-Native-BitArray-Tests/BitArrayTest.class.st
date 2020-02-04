@@ -28,7 +28,7 @@ BitArrayTest >> testBooleans [
 ]
 
 { #category : #tests }
-BitArrayTest >> testEmptyBitArray [
+BitArrayTest >> testEmpty [
 	self
 		export: BitArray empty
 		path: self imagesPath / 'empty.png'
