@@ -10,8 +10,26 @@ Class {
 }
 
 { #category : #utilities }
+BitArrayTest >> booleansBitArray [
+	^ BitArray
+		booleans:
+			{true . false . true . true . false . true . true . true . false . false.
+			true . true . false . true}
+]
+
+{ #category : #utilities }
 BitArrayTest >> imagesPath [
 	^ self iceWorkingDirectory / 'images' / 'BitArrays'
+]
+
+{ #category : #tests }
+BitArrayTest >> testBitOf [
+	| ba |
+	ba := self booleansBitArray.
+	self
+		assert: ((1 to: ba nbits) collect: [ :i | ba bitOf: i ])
+		equals:
+			#(true false true true false true true true false false true true false true)
 ]
 
 { #category : #tests }
@@ -36,6 +54,19 @@ BitArrayTest >> testEmpty [
 ]
 
 { #category : #tests }
+BitArrayTest >> testExtendWithAll [
+	| ba |
+	ba := self booleansBitArray.
+	self
+		export: (ba extend: ba nbits + 4 withAll: false)
+			path: self imagesPath / 'extendWithFalses.png'
+			selector: #gtInspectorDotsUsingMondrianBuilder:;
+		export: (ba extend: ba nbits + 4 withAll: true)
+			path: self imagesPath / 'extendWithTrues.png'
+			selector: #gtInspectorDotsUsingMondrianBuilder:
+]
+
+{ #category : #tests }
 BitArrayTest >> testNewBits [
 	self
 		export: (BitArray new: 10 bits: {2 . 3 . 6 . 8 . 10})
@@ -52,6 +83,32 @@ BitArrayTest >> testNewWithAll [
 		export: (BitArray new: 10 withAll: true)
 			path: self imagesPath / 'withAllTrues.png'
 			selector: #gtInspectorDotsUsingMondrianBuilder:
+]
+
+{ #category : #tests }
+BitArrayTest >> testShiftToTheLeft [
+	| ba |
+	ba := self booleansBitArray.
+	(0 to: ba nbits)
+		inject: ba
+		into: [ :aBitArray :i | 
+			self
+				export: aBitArray << i
+				path: self imagesPath / ('lshift-{1}.png' format: {i})
+				selector: #gtInspectorDotsUsingMondrianBuilder: ]
+]
+
+{ #category : #tests }
+BitArrayTest >> testSlice [
+	| ba nbits |
+	ba := self booleansBitArray.
+	nbits := ba nbits.
+	(1 to: nbits)
+		do: [ :i | 
+			self
+				export: (ba slice: i len: nbits - i + 1)
+				path: self imagesPath / ('shift-{1}.png' format: {i})
+				selector: #gtInspectorDotsUsingMondrianBuilder: ]
 ]
 
 { #category : #tests }
