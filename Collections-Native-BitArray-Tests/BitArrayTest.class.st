@@ -102,7 +102,7 @@ BitArrayTest >> testSlice [
 	| ba nbits |
 	ba := self booleansBitArray.
 	nbits := ba nbits.
-	(1 to: nbits)
+	(1 to: nbits + 1)
 		do: [ :i | 
 			self
 				export: (ba slice: i len: nbits - i + 1)
