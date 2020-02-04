@@ -90,10 +90,9 @@ BitArrayTest >> testShiftToTheLeft [
 	| ba |
 	ba := self booleansBitArray.
 	(0 to: ba nbits)
-		inject: ba
-		into: [ :aBitArray :i | 
+		collect: [ :i | 
 			self
-				export: aBitArray << i
+				export: ba << i
 				path: self imagesPath / ('lshift-{1}.png' format: {i})
 				selector: #gtInspectorDotsUsingMondrianBuilder: ]
 ]
