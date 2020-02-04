@@ -16,12 +16,17 @@ BaselineOfdsst >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Kernel-Extensions';
+				package: 'Collections-Abstract-Visualizations';
 				package: 'Collections-Support-Extensions';
+				package: 'Collections-Support-Visualizations';
 				package: 'Collections-Strings-Extensions';
 				package: 'Collections-Sequenceable-Extensions';
 				package: 'Roassal2-Core-Extensions';
 				package: 'Collections-Unordered-Maybe';
 				package: 'Kernel-NumericalRepresentations';
+				package: 'Kernel-NumericalRepresentations-Tests';
+				package: 'Kernel-NumericalRepresentations-Visualizations';
+				package: 'dsst-Traits';
 				package: 'Collections-Sequenceable-Sorting'
 					with: [ spec requires: #('Collections-Sequenceable-Extensions') ];
 				"Graphs."
@@ -47,6 +52,18 @@ BaselineOfdsst >> baseline: spec [
 				package: 'Collections-Sequenceable-LeftistHeap-Visualizations'
 					with: [ spec requires: #('Collections-Sequenceable-LeftistHeap') ];
 				package: 'Collections-Sequenceable-SBRAL';
+				package: 'Collections-Sequenceable-SBRAL-Tests'
+					with: [ spec requires: #('Collections-Sequenceable-SBRAL') ];
 				package: 'Collections-Sequenceable-SBRAL-Visualizations'
-					with: [ spec requires: #('Collections-Sequenceable-SBRAL') ] ]
+					with: [ spec requires: #('Collections-Sequenceable-SBRAL') ];
+				package: 'Collections-Sequenceable-BinomialHeap';
+				package: 'Collections-Sequenceable-BinomialHeap-Tests'
+					with: [ spec requires: #('Collections-Sequenceable-BinomialHeap') ];
+				package: 'Collections-Sequenceable-BinomialHeap-Visualizations'
+					with: [ spec requires: #('Collections-Sequenceable-BinomialHeap') ];
+				package: 'Collections-Native-BitArray';
+				package: 'Collections-Native-BitArray-Tests'
+					with: [ spec requires: #('Collections-Native-BitArray') ];
+				package: 'Collections-Native-BitArray-Visualizations'
+					with: [ spec requires: #('Collections-Native-BitArray') ] ]
 ]
