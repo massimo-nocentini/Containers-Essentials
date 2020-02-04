@@ -87,9 +87,10 @@ BitArrayTest >> testNewWithAll [
 
 { #category : #tests }
 BitArrayTest >> testShiftToTheLeft [
+	<gtExample>
 	| ba |
 	ba := self booleansBitArray.
-	(0 to: ba nbits)
+	^ (0 to: ba nbits)
 		collect: [ :i | 
 			self
 				export: ba << i
@@ -99,14 +100,15 @@ BitArrayTest >> testShiftToTheLeft [
 
 { #category : #tests }
 BitArrayTest >> testSlice [
+	<gtExample>
 	| ba nbits |
 	ba := self booleansBitArray.
 	nbits := ba nbits.
-	(1 to: nbits + 1)
-		do: [ :i | 
+	^ (1 to: nbits + 1)
+		collect: [ :i | 
 			self
 				export: (ba slice: i len: nbits - i + 1)
-				path: self imagesPath / ('shift-{1}.png' format: {i})
+				path: self imagesPath / ('slice-{1}.png' format: {i})
 				selector: #gtInspectorDotsUsingMondrianBuilder: ]
 ]
 
