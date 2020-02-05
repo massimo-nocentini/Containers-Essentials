@@ -4,7 +4,7 @@ Extension { #name : #Integer }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
-	^ ((0 to: 7) collect: [ :i | (1 << i bitAnd: byte) >> i ]) reversed
+	^ (0 to: 7) collect: [ :i | (1 << i bitAnd: byte) ~= 0 ]
 ]
 
 { #category : #'*Kernel-Extensions' }
