@@ -1,6 +1,17 @@
 Extension { #name : #ByteArray }
 
 { #category : #'*Collections-Native-BitArray' }
+ByteArray >> bits [
+	| bits |
+	bits := Array new: self size * 8.
+	0 to: self size - 1 do: [ :i | 
+		| byte |
+		byte := self byteAt: i + 1.
+		bits replaceFrom: i * 8 + 1 to: (i + 1) * 8 with: byte eightBits ].
+	^ bits
+]
+
+{ #category : #'*Collections-Native-BitArray' }
 ByteArray >> byteAt: d update: aBlock [
 	^ self byteAt: d put: (aBlock value: (self byteAt: d))
 ]

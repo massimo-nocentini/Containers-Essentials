@@ -16,7 +16,9 @@ BaselineOfdsst >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Kernel-Extensions';
+				package: 'dsst-Traits';
 				package: 'Collections-Abstract-Visualizations';
+				package: 'Collections-Native-Visualizations';
 				package: 'Collections-Support-Extensions';
 				package: 'Collections-Support-Visualizations';
 				package: 'Collections-Strings-Extensions';
@@ -26,7 +28,6 @@ BaselineOfdsst >> baseline: spec [
 				package: 'Kernel-NumericalRepresentations';
 				package: 'Kernel-NumericalRepresentations-Tests';
 				package: 'Kernel-NumericalRepresentations-Visualizations';
-				package: 'dsst-Traits';
 				package: 'Collections-Sequenceable-Sorting'
 					with: [ spec requires: #('Collections-Sequenceable-Extensions') ];
 				"Graphs."
