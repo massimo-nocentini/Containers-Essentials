@@ -1012,13 +1012,11 @@ BitArray >> >> shft [
 		ifTrue: [ ArithmeticError signal: 'Negative shift.' ]
 		ifFalse: [ shft
 				ifZero: [ self copy ]
-				ifNotZero: [ shft >= nbits
-						ifTrue: [ self class empty ]
-						ifFalse: [ | ba len |
-							len := nbits + shft.
-							ba := self class new: len withAll: false.
-							bits copyLeftChunkInto: ba bits shift: shft len: nbits.
-							ba ] ] ]
+				ifNotZero: [ | ba len |
+					len := nbits + shft.
+					ba := self class new: len withAll: false.
+					bits copyLeftChunkInto: ba bits shift: shft len: nbits.
+					ba ] ]
 ]
 
 { #category : #initialization }

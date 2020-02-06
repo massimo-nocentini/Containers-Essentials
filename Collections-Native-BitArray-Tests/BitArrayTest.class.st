@@ -99,6 +99,19 @@ BitArrayTest >> testShiftToTheLeft [
 ]
 
 { #category : #tests }
+BitArrayTest >> testShiftToTheRight [
+	<gtExample>
+	| ba |
+	ba := self booleansBitArray.
+	^ (0 to: ba nbits)
+		collect: [ :i | 
+			self
+				export: ba >> i
+				path: self imagesPath / ('rshift-{1}.png' format: {i})
+				selector: #gtInspectorDotsUsingMondrianBuilder: ]
+]
+
+{ #category : #tests }
 BitArrayTest >> testSlice [
 	<gtExample>
 	| ba nbits |
