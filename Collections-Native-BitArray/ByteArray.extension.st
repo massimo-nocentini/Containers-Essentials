@@ -17,6 +17,75 @@ ByteArray >> byteAt: d update: aBlock [
 ]
 
 { #category : #'*Collections-Native-BitArray' }
+ByteArray >> copyLeftChunkInto: aByteArray byte: byte lastByte: lastByte shift: shft maskedShift: bitShift len: len [
+	| rshift sb d s |
+	rshift := 8 - bitShift.
+	sb := self byteAt: 1.
+	aByteArray
+		byteAt: byte
+		update: [ :r | 
+			BitArray
+				fit: bitShift + 1
+				left: (BitArray bitShift: sb left: bitShift)
+				right: r ].
+
+	"Loop."
+	d := byte + 1.	"+ 2 ?"
+	s := 2.
+	[ d = lastByte ]
+		whileFalse: [ | sbnext b |
+			sbnext := self byteAt: s.
+			b := (BitArray bitShift: sbnext left: bitShift) bitAnd: 16rff.
+			aByteArray byteAt: d put: (sb >> rshift bitOr: b).
+			sb := sbnext.
+			d := d + 1.
+			s := s + 1 ].
+	aByteArray
+		byteAt: d
+		update: [ :l | 
+			| left r |
+			left := (BitArray wmask7: shft + len - 1) + 1.
+			r := sb >> rshift.
+			left <= bitShift
+				ifFalse: [ r := r bitOr: (BitArray bitShift: (self byteAt: s) left: bitShift) ].
+			BitArray fit: left + 1 left: l right: r ]
+]
+
+{ #category : #'*Collections-Native-BitArray' }
+ByteArray >> copyLeftChunkInto: aByteArray shift: shft len: len [
+	len
+		ifNotZero: [ | byte bitShift lastByte |
+			byte := (BitArray byteOf: shft) + 1.
+			bitShift := BitArray wmask7: shft.
+			lastByte := (BitArray byteOf: shft + len - 1) + 1.
+			bitShift
+				ifZero: [ self
+						copybits: aByteArray
+						byte: lastByte
+						len: len
+						assoc: 1 -> byte ]
+				ifNotZero: [ lastByte = byte
+						ifTrue: [ | s d l mask sb db |
+							s := 1.
+							d := byte.
+							l := len.
+							mask := BitArray
+								bitShift: (BitArray lobits: l + 1)
+								left: bitShift.
+							sb := (BitArray bitShift: (self byteAt: s) left: bitShift)
+								bitAnd: mask.
+							db := (aByteArray byteAt: d) bitAnd: mask bitInvert8.
+							aByteArray byteAt: d put: (sb bitOr: db) ]
+						ifFalse: [ self
+								copyLeftChunkInto: aByteArray
+								byte: byte
+								lastByte: lastByte
+								shift: shft
+								maskedShift: bitShift
+								len: len ] ] ]
+]
+
+{ #category : #'*Collections-Native-BitArray' }
 ByteArray >> copyRightChunkInto: aByteArray byte: byte lastByte: lastByte shift: bitShift len: len [
 	| lshift sb d |
 	lshift := 8 - bitShift.

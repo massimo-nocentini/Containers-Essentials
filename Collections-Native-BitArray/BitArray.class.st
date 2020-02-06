@@ -1006,6 +1006,21 @@ BitArray >> = anObject [
 	^ anObject equalsBitArray: self
 ]
 
+{ #category : #operations }
+BitArray >> >> shft [
+	^ shft < 0
+		ifTrue: [ ArithmeticError signal: 'Negative shift.' ]
+		ifFalse: [ shft
+				ifZero: [ self copy ]
+				ifNotZero: [ shft >= nbits
+						ifTrue: [ self class empty ]
+						ifFalse: [ | ba len |
+							len := nbits + shft.
+							ba := self class new: len withAll: false.
+							bits copyLeftChunkInto: ba bits shift: shft len: nbits.
+							ba ] ] ]
+]
+
 { #category : #initialization }
 BitArray >> bit: i [
 	^ self class bitShift: 1 left: (self mask7: i)

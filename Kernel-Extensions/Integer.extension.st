@@ -1,6 +1,15 @@
 Extension { #name : #Integer }
 
 { #category : #'*Kernel-Extensions' }
+Integer >> bitInvert8 [
+	"Answer the 8-bit complement of the receiver."
+
+	| mask |
+	mask := 16rFF.
+	^ (self bitAnd: mask) bitXor: mask
+]
+
+{ #category : #'*Kernel-Extensions' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
