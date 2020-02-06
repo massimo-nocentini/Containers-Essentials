@@ -1029,6 +1029,16 @@ BitArray >> >> shft [
 					ba ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+BitArray >> at: i [
+	^ i > nbits
+		ifTrue: [ SubscriptOutOfBounds signal ]
+		ifFalse: [ | j byte |
+			j := i - 1.
+			byte := bits byteAt: (self class byteOf: j) + 1.
+			(byte bitAnd: (self bit: j)) ifZero: [ false ] ifNotZero: [ true ] ]
+]
+
 { #category : #operations }
 BitArray >> at: j put: aBoolean [
 	| i |
@@ -1058,16 +1068,6 @@ BitArray >> bitInvert [
 	ba := self class new: nbits withAll: false.
 	bits flip: ba bits len: nbits.
 	^ ba
-]
-
-{ #category : #'as yet unclassified' }
-BitArray >> bitOf: i [
-	^ i > nbits
-		ifTrue: [ SubscriptOutOfBounds signal ]
-		ifFalse: [ | j byte |
-			j := i - 1.
-			byte := bits byteAt: (self class byteOf: j) + 1.
-			(byte bitAnd: (self bit: j)) ifZero: [ false ] ifNotZero: [ true ] ]
 ]
 
 { #category : #operations }
@@ -1165,6 +1165,28 @@ BitArray >> clearBit: i [
 	j := self class byteOf: i.
 	b := self bit: i.
 	bits byteAt: j + 1 update: [ :byte | byte bitAnd: b bitInvert8 ]
+]
+
+{ #category : #operations }
+BitArray >> complement [
+	self bits: self bitInvert bits
+]
+
+{ #category : #enumerating }
+BitArray >> do: aBlock [
+	| last mask |
+	last := (self class byteOf: nbits - 1) + 1.
+	self assert: last equals: bits size.
+	mask := (self class wmask7: nbits - 1) + 1.
+	1 to: last - 1 do: [ :i | self do: aBlock iter: 8 byte: (bits byteAt: i) ].
+	self do: aBlock iter: mask byte: (bits byteAt: last)
+]
+
+{ #category : #enumerating }
+BitArray >> do: aBlock iter: mask byte: byte [
+	mask
+		ifNotZero: [ aBlock value: (byte bitAnd: 1) = 1.
+			self do: aBlock iter: mask - 1 byte: byte >> 1 ]
 ]
 
 { #category : #'as yet unclassified' }

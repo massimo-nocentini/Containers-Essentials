@@ -27,7 +27,7 @@ BitArrayTest >> testBitOf [
 	| ba |
 	ba := self booleansBitArray.
 	self
-		assert: ((1 to: ba nbits) collect: [ :i | ba bitOf: i ])
+		assert: ((1 to: ba nbits) collect: [ :i | ba at: i ])
 		equals:
 			#(true false true true false true true true false false true true false true)
 ]
