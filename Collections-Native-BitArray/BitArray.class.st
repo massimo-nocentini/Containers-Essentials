@@ -987,6 +987,16 @@ BitArray class >> wmask7: i [
 ]
 
 { #category : #operations }
+BitArray >> , aBitArray [
+	| otherNBitslen ba |
+	otherNBitslen := aBitArray nbits.
+	ba := self class new: nbits + otherNBitslen withAll: false.
+	aBitArray bits copybits: ba bits.
+	bits copyLeftChunkInto: ba bits shift: otherNBitslen len: nbits.
+	^ ba
+]
+
+{ #category : #operations }
 BitArray >> << shft [
 	^ shft < 0
 		ifTrue: [ ArithmeticError signal: 'Negative shift.' ]
@@ -1024,6 +1034,13 @@ BitArray >> bit: i [
 	^ self class bitShift: 1 left: (self mask7: i)
 ]
 
+{ #category : #operations }
+BitArray >> bitAnd: aBitArray [
+	^ self
+		blend: [ :tgt | self blendAnd: aBitArray target: tgt ]
+		len: (nbits min: aBitArray nbits)
+]
+
 { #category : #'as yet unclassified' }
 BitArray >> bitOf: i [
 	^ i > nbits
@@ -1032,6 +1049,13 @@ BitArray >> bitOf: i [
 			j := i - 1.
 			byte := bits byteAt: (self class byteOf: j) + 1.
 			(byte bitAnd: (self bit: j)) ifZero: [ false ] ifNotZero: [ true ] ]
+]
+
+{ #category : #operations }
+BitArray >> bitOr: aBitArray [
+	^ self
+		blend: [ :tgt | self blendOr: aBitArray selector: #bitOr: target: tgt ]
+		len: (nbits max: aBitArray nbits)
 ]
 
 { #category : #'as yet unclassified' }
@@ -1050,6 +1074,13 @@ BitArray >> bitPositions [
 		asLinkedList
 ]
 
+{ #category : #operations }
+BitArray >> bitXor: aBitArray [
+	^ self
+		blend: [ :tgt | self blendOr: aBitArray selector: #bitXor: target: tgt ]
+		len: (nbits max: aBitArray nbits)
+]
+
 { #category : #accessing }
 BitArray >> bits [
 	^ bits
@@ -1058,6 +1089,48 @@ BitArray >> bits [
 { #category : #accessing }
 BitArray >> bits: anObject [
 	bits := anObject
+]
+
+{ #category : #operations }
+BitArray >> blend: aBlock len: len [
+	| ba |
+	ba := self class new: len withAll: false.
+	aBlock value: ba.
+	^ ba
+]
+
+{ #category : #operations }
+BitArray >> blendAnd: aBitArray target: tgt [
+	| tgtBits otherBits |
+	tgtBits := tgt bits.
+	otherBits := aBitArray bits.
+	1 to: tgtBits size do: [ :i | 
+		tgtBits
+			byteAt: i
+			put: ((bits byteAt: i) bitAnd: (otherBits byteAt: i)) ].
+	tgt trim
+]
+
+{ #category : #operations }
+BitArray >> blendOr: aBitArray selector: aBlock target: tgt [
+	| smallerBitArray biggerBitArray tgtBits smallerBits biggerBits |
+	nbits >= aBitArray nbits
+		ifTrue: [ smallerBitArray := aBitArray.
+			biggerBitArray := self ]
+		ifFalse: [ smallerBitArray := self.
+			biggerBitArray := aBitArray ].
+	tgtBits := tgt bits.
+	smallerBits := smallerBitArray bits.
+	biggerBits := biggerBitArray bits.
+	1
+		to: biggerBits size
+		splitAt: smallerBits size
+		beforeDo: [ :i | 
+			tgtBits
+				byteAt: i
+				put: (aBlock value: (smallerBits byteAt: i) value: (biggerBits byteAt: i)) ]
+		afterDo: [ :i | tgtBits byteAt: i put: (biggerBits byteAt: i) ].
+	tgt trim
 ]
 
 { #category : #'as yet unclassified' }
@@ -1174,4 +1247,9 @@ BitArray >> slice: sbit len: len [
 						shift: sbit - 1
 						len: (len min: nbits).
 					ba ] ]
+]
+
+{ #category : #operations }
+BitArray >> trim [
+	bits trim: nbits
 ]

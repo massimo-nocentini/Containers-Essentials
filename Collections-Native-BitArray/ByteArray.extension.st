@@ -30,7 +30,7 @@ ByteArray >> copyLeftChunkInto: aByteArray byte: byte lastByte: lastByte shift: 
 				right: r ].
 
 	"Loop."
-	d := byte + 1.	"+ 2 ?"
+	d := byte + 1.
 	s := 2.
 	[ d = lastByte ]
 		whileFalse: [ | sbnext b |
@@ -155,4 +155,13 @@ ByteArray >> copybits: aByteArray byte: lastByte len: len assoc: anAssociation [
 				ifZero: [ byte ]
 				ifNotZero:
 					[ :lft | BitArray fit: lft + 1 left: (aByteArray byteAt: d) right: byte ])
+]
+
+{ #category : #'*Collections-Native-BitArray' }
+ByteArray >> trim: len [
+	(BitArray wmask7: len)
+		ifNotZero: [ :lft | 
+			self
+				byteAt: self size
+				update: [ :byte | byte bitAnd: (BitArray lobits: lft + 1) ] ]
 ]
