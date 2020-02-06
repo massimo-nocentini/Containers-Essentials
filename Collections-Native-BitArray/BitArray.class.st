@@ -1029,6 +1029,17 @@ BitArray >> >> shft [
 					ba ] ]
 ]
 
+{ #category : #operations }
+BitArray >> at: j put: aBoolean [
+	| i |
+	i := j - 1.
+	(i < 0 or: [ i >= nbits ])
+		ifTrue: [ SubscriptOutOfBounds signal ]
+		ifFalse: [ aBoolean
+				ifTrue: [ self setBit: i ]
+				ifFalse: [ self clearBit: i ] ]
+]
+
 { #category : #initialization }
 BitArray >> bit: i [
 	^ self class bitShift: 1 left: (self mask7: i)
@@ -1133,6 +1144,21 @@ BitArray >> blendOr: aBitArray selector: aBlock target: tgt [
 	tgt trim
 ]
 
+{ #category : #operations }
+BitArray >> clearBit: i [
+	"	val j = byteOf i and b = Word8.notb(bit i)
+            in
+              if i >= nbits
+                then raise Subscript
+                else W8A.update (bits, j, ((bits sub j) & b))
+            end"
+
+	| j b |
+	j := self class byteOf: i.
+	b := self bit: i.
+	bits byteAt: j + 1 update: [ :byte | byte bitAnd: b bitInvert8 ]
+]
+
 { #category : #'as yet unclassified' }
 BitArray >> equalsBitArray: aBitArray [
 	^ nbits = aBitArray nbits
@@ -1232,6 +1258,14 @@ BitArray >> postCopy [
 	^ self
 		bits: (bits copybits: (ByteArray new: bits size withAll: 0));
 		yourself
+]
+
+{ #category : #operations }
+BitArray >> setBit: i [
+	| j b |
+	j := self class byteOf: i.
+	b := self bit: i.
+	bits byteAt: j + 1 update: [ :byte | byte bitOr: b ]
 ]
 
 { #category : #operations }
