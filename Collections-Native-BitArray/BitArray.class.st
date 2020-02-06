@@ -1052,6 +1052,14 @@ BitArray >> bitAnd: aBitArray [
 		len: (nbits min: aBitArray nbits)
 ]
 
+{ #category : #operations }
+BitArray >> bitInvert [
+	| ba |
+	ba := self class new: nbits withAll: false.
+	bits flip: ba bits len: nbits.
+	^ ba
+]
+
 { #category : #'as yet unclassified' }
 BitArray >> bitOf: i [
 	^ i > nbits

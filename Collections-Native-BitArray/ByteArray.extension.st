@@ -158,6 +158,18 @@ ByteArray >> copybits: aByteArray byte: lastByte len: len assoc: anAssociation [
 ]
 
 { #category : #'*Collections-Native-BitArray' }
+ByteArray >> flip: aByteArray len: nbits [
+	| size |
+	size := self size.
+	1 to: size do: [ :i | aByteArray byteAt: i put: (self byteAt: i) bitInvert8 ].
+	(BitArray wmask7: nbits)
+		ifNotZero: [ :left | 
+			aByteArray
+				byteAt: size
+				put: ((self byteAt: size) bitInvert8 bitAnd: (BitArray lobits: left + 1)) ]
+]
+
+{ #category : #'*Collections-Native-BitArray' }
 ByteArray >> trim: len [
 	(BitArray wmask7: len)
 		ifNotZero: [ :lft | 
