@@ -1154,16 +1154,9 @@ BitArray >> blendOr: aBitArray selector: aBlock target: tgt [
 
 { #category : #operations }
 BitArray >> clearBit: i [
-	"	val j = byteOf i and b = Word8.notb(bit i)
-            in
-              if i >= nbits
-                then raise Subscript
-                else W8A.update (bits, j, ((bits sub j) & b))
-            end"
-
 	| j b |
-	j := self class byteOf: i.
-	b := self bit: i.
+	j := self class byteOf: i - 1.
+	b := self bit: i - 1.
 	bits byteAt: j + 1 update: [ :byte | byte bitAnd: b bitInvert8 ]
 ]
 
@@ -1293,8 +1286,8 @@ BitArray >> postCopy [
 { #category : #operations }
 BitArray >> setBit: i [
 	| j b |
-	j := self class byteOf: i.
-	b := self bit: i.
+	j := self class byteOf: i - 1.
+	b := self bit: i - 1.
 	bits byteAt: j + 1 update: [ :byte | byte bitOr: b ]
 ]
 
