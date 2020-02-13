@@ -1154,10 +1154,7 @@ BitArray >> blendOr: aBitArray selector: aBlock target: tgt [
 
 { #category : #operations }
 BitArray >> clearBit: i [
-	| j b |
-	j := self class byteOf: i - 1.
-	b := self bit: i - 1.
-	bits byteAt: j + 1 update: [ :byte | byte bitAnd: b bitInvert8 ]
+	self updateBit: i with: [ :byte :b | byte bitAnd: b bitInvert8 ]
 ]
 
 { #category : #operations }
@@ -1287,10 +1284,7 @@ BitArray >> postCopy [
 
 { #category : #operations }
 BitArray >> setBit: i [
-	| j b |
-	j := self class byteOf: i - 1.
-	b := self bit: i - 1.
-	bits byteAt: j + 1 update: [ :byte | byte bitOr: b ]
+	self updateBit: i with: [ :byte :b | byte bitOr: b ]
 ]
 
 { #category : #accessing }
@@ -1316,4 +1310,12 @@ BitArray >> slice: sbit len: len [
 { #category : #operations }
 BitArray >> trim [
 	bits trim: nbits
+]
+
+{ #category : #operations }
+BitArray >> updateBit: i with: aBlock [
+	| j b |
+	j := self class byteOf: i - 1.
+	b := self bit: i - 1.
+	bits byteAt: j + 1 update: [ :byte | aBlock value: byte value: b ]
 ]
