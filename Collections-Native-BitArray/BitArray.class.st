@@ -1291,6 +1291,11 @@ BitArray >> setBit: i [
 	bits byteAt: j + 1 update: [ :byte | byte bitOr: b ]
 ]
 
+{ #category : #accessing }
+BitArray >> size [
+	^ nbits
+]
+
 { #category : #operations }
 BitArray >> slice: sbit len: len [
 	^ len + sbit - 1 > nbits
