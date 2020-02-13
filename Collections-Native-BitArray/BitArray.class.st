@@ -1184,12 +1184,7 @@ BitArray >> do: aBlock iter: mask byte: byte [
 
 { #category : #'as yet unclassified' }
 BitArray >> equalsBitArray: aBitArray [
-	^ nbits = aBitArray nbits
-		ifTrue: [ 1 to: bits size do: [ :i | 
-				(bits byteAt: i) = (aBitArray bits byteAt: i)
-					ifFalse: [ ^ false ] ].
-			true ]
-		ifFalse: [ false ]
+	^ nbits = aBitArray nbits and: [ bits = aBitArray bits ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -1253,6 +1248,13 @@ BitArray >> extractBits: bit byte: data valueLink: l [
 				extractBits: bit - 1
 				byte: (self class bitShift: data left: 1)
 				valueLink: ll ]
+]
+
+{ #category : #comparing }
+BitArray >> hash [
+	"Answer an integer value that is related to the identity of the receiver."
+
+	^ nbits hash bitXor: bits hash
 ]
 
 { #category : #'as yet unclassified' }
