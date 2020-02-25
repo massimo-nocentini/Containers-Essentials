@@ -45,8 +45,7 @@ Cons class >> fromSequenceableCollection: aCollection lastCdr: aCdr [
 
 { #category : #comparing }
 Cons >> = anotherObject [
-	^ self species == anotherObject species
-		and: [ self car = anotherObject car and: [ self cdr = anotherObject cdr ] ]
+	^ anotherObject equalCons: self
 ]
 
 { #category : #converting }
@@ -80,27 +79,41 @@ Cons >> cdr: anObject [
 ]
 
 { #category : #mapping }
-Cons >> collect: aBlock [ 
+Cons >> collect: aBlock [
 	| a d |
-	a := car class = Cons
-				ifTrue: [car collect: aBlock]
-				ifFalse: [aBlock value: car].
-	d := cdr class = Cons
-				ifTrue: [cdr collect: aBlock]
-				ifFalse: [cdr ifNotNil:[aBlock value: cdr]].
+	a := car
+		ifCons: [ car collect: aBlock ]
+		ifNotCons: [ aBlock value: car ].
+	d := cdr
+		ifCons: [ cdr collect: aBlock ]
+		ifNotCons: [ cdr ifNotNil: [ aBlock value: cdr ] ].
 	^ a cons: d
 ]
 
 { #category : #comparing }
+Cons >> equalCons: aCons [
+	^ self car = aCons car and: [ self cdr = aCons cdr ]
+]
+
+{ #category : #comparing }
 Cons >> hash [
-	^  car hash bitXor:  cdr hash
+	^ car hash bitXor: cdr hash
 ]
 
 { #category : #mapping }
-Cons >> inject: init into: aBlock [ 
+Cons >> ifCons: cBlock ifNotCons: ncBlock [
+	^ cBlock cull: self
+]
+
+{ #category : #mapping }
+Cons >> inject: init into: aBlock [
 	| accumulated |
 	accumulated := aBlock value: init value: car.
-	^ aBlock value: accumulated value: cdr
+	^ cdr
+		ifCons: [ cdr inject: accumulated into: aBlock ]
+		ifNotCons: [ cdr
+				ifNil: [ accumulated ]
+				ifNotNil: [ aBlock value: accumulated value: cdr ] ]
 ]
 
 { #category : #printing }

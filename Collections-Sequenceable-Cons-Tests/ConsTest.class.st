@@ -1,7 +1,7 @@
 Class {
 	#name : #ConsTest,
 	#superclass : #TestCase,
-	#category : #'Collections-Sequenceable-Cons'
+	#category : #'Collections-Sequenceable-Cons-Tests'
 }
 
 { #category : #tests }
@@ -19,6 +19,7 @@ ConsTest >> testPrinting [
 			{5.
 			{6 . 8}}.
 			7} asCons asString.
+
 	"dotted pairs notation"
 	self assert: '(0 . 1)' equals: (0 cons: 1) asString.
 	self
@@ -26,6 +27,5 @@ ConsTest >> testPrinting [
 		equals: ((0 to: 9) asConsWithCdr: 10) asString.
 	self
 		assert: '(((3 . 4) . 5) 6 7)'
-		equals:
-			(((3 cons: 4) cons: 5) cons: (6 cons: (7 cons: nil))) asString
+		equals: (((3 cons: 4) cons: 5) cons: (6 cons: (7 cons: nil))) asString
 ]
