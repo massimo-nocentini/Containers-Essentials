@@ -3,30 +3,56 @@ Extension { #name : #Graph }
 { #category : #'*Collections-Unordered-Graph-Visualizations' }
 Graph >> gtInspectorGraphViewIn: composite [
 	<gtInspectorPresentationOrder: 10>
-	^ composite roassal2
+	^ composite roassal3
 		title: 'Graph';
-		initializeView: [ RTMondrian new ];
-		painting: [ :mondrian | 
-			self
-				gtInspectorGraphViewUsingMondrianBuilder: mondrian
-				vertex: [ :shape | 
-					shape text
-						text: #content;
-						color: Color black ]
-				edge: [ :shape | shape arrowedBezier shortestDistanceAttachPointWithJump ]
-				layout: #tree ];
+		initializeCanvas: [ self
+				gtInspectorGraphViewUsingMondrianBuilder: RSCanvas new
+				vertex: [ :aVertex | 
+					RSLabel new
+						text: aVertex content;
+						color: Color black;
+						yourself ]
+				edge: [ :eb | 
+					eb verticalBezier
+						color: Color lightGray translucent;
+					"	withBorderAttachPoint ;"
+						"cornerRadii: 50;"
+							"withVerticalAttachPoint;"
+							"eb line
+						color: Color lightGray translucent;
+						yourself"
+							yourself ]
+				layout: [ :shapes | RSClusterLayout on: shapes ] ];
 		yourself
 ]
 
 { #category : #'*Collections-Unordered-Graph-Visualizations' }
-Graph >> gtInspectorGraphViewUsingMondrianBuilder: mondrian vertex: sBlock edge: eBlock layout: lBlock [
-	| rtEdges |
-	sBlock value: mondrian shape.
-	mondrian nodes: self vertices values.
-	eBlock cull: mondrian shape cull: mondrian edges.
+Graph >> gtInspectorGraphViewUsingMondrianBuilder: canvas vertex: sBlock edge: eBlock layout: lBlock [
+	| eb shapes |
+	"Setting up the nodes"
+	shapes := self vertices values
+		collect: [ :aVertex | 
+			| shape |
+			shape := sBlock cull: aVertex.
+			shape
+				draggable;
+				model: aVertex;
+				yourself ].
+	canvas addAll: shapes shuffled.
+
+	"Setting up the edges"
+	eb := eBlock value: RSEdgeBuilder.
+	eb
+		canvas: canvas;
+		shapes: shapes;
+		connectToAll: [ :aVertex | aVertex children collect: [ :anEdge | anEdge to ] ].
+	lBlock value: shapes.
+	"eBlock cull: mondrian shape cull: mondrian edges.
 	lBlock value: mondrian layout.
 	rtEdges := mondrian edges
 		labelElement: [ :rtEdge | rtEdge model weight ifNil: [ String empty ] ];
 		source: self edges connectFrom: #from withModelTo: #to.
-	mondrian layout layout userDefinedEdges: rtEdges	"necessary to maintain the insertion order of edges"
+	mondrian layout layout userDefinedEdges: rtEdges"	"necessary to maintain the insertion order of edges"
+	canvas @ RSDraggableCanvas @ RSCanvasController.
+	^ canvas
 ]

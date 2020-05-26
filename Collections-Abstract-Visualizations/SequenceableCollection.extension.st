@@ -3,11 +3,11 @@ Extension { #name : #SequenceableCollection }
 { #category : #'*Collections-Abstract-Visualizations' }
 SequenceableCollection >> gtInspectorRoassalItemsIn: composite [
 	<gtInspectorPresentationOrder: 20>
-	^ composite roassal2
+	"^ composite roassal2
 		title: 'Graph';
 		initializeView: [ RTMondrian new ];
 		painting: [ :b | self gtInspectorRoassalItemsUsingMondrianBuilder: b ];
-		yourself
+		yourself"
 ]
 
 { #category : #'*Collections-Abstract-Visualizations' }

@@ -3,8 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'#content',
-		'#children => ToManyRelationSlot inverse: #from inClass: #Edge',
-		'#parents => ToManyRelationSlot inverse: #to inClass: #Edge'
+		'#children => ToManyRelationOrderedSlot inverse: #from inClass: #Edge',
+		'#parents => ToManyRelationOrderedSlot inverse: #to inClass: #Edge'
 	],
 	#category : #'Collections-Unordered-Graph'
 }
