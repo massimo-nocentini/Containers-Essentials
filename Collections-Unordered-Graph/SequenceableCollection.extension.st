@@ -4,3 +4,8 @@ Extension { #name : #SequenceableCollection }
 SequenceableCollection >> asGraph [
 	^ Graph fromSequenceableCollection: self
 ]
+
+{ #category : #'*Collections-Unordered-Graph' }
+SequenceableCollection >> asTree [
+	^ Tree fromSequenceableCollection: self
+]

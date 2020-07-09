@@ -14,13 +14,11 @@ Graph >> gtInspectorGraphViewIn: composite [
 						  color: Color black;
 						  yourself ]
 				  edge: [ :eb | 
-					  eb orthoVertical
+					  eb line 
 						  color: Color lightGray translucent;
-						  "withBorderAttachPoint;"
-						  cornerRadii: 5;
 						  yourself ]
 				  layout: [ :shapes :edgesShapes | 
-				  RSTreeLayout on: shapes edges: edgesShapes ] ];
+					  RSForceBasedLayout on: shapes edges: edgesShapes ] ];
 		  yourself
 ]
 
