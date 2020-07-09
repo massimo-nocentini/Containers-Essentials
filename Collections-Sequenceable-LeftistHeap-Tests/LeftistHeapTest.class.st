@@ -14,7 +14,7 @@ LeftistHeapTest >> exportLeftistHeap: anHeap filename: filename [
 	^ self
 		export: anHeap
 		filename: filename
-		selector: #gtInspectorTreeUsingMondrianBuilder:
+		selector: #gtInspectorTreeUsingCanvas:
 ]
 
 { #category : #utilities }
@@ -27,11 +27,6 @@ LeftistHeapTest >> imagesPath [
 	^ self iceWorkingDirectory / 'images' / 'leftist-heaps'
 ]
 
-{ #category : #'as yet unclassified' }
-LeftistHeapTest >> leftistHeapImagesPath [
-	^ self imagesPath
-]
-
 { #category : #tests }
 LeftistHeapTest >> testAsLeftistHeap [
 	| interval random heap t1 t2 |
@@ -42,81 +37,79 @@ LeftistHeapTest >> testAsLeftistHeap [
 	self assert: t2 < t1.
 
 	"If we like we can export it too."
-	self
-		exportLeftistHeap: heap
-		path: self leftistHeapImagesPath / 'big.png'
+	self exportLeftistHeap: heap path: self imagesPath / 'big.png'
 ]
 
 { #category : #tests }
 LeftistHeapTest >> testEmpty [
 	<gtExample>
 	^ self
-		exportLeftistHeap: LeftistHeap empty
-		path: self leftistHeapImagesPath / 'empty.png'
+		  exportLeftistHeap: LeftistHeap empty
+		  path: self imagesPath / 'empty.png'
 ]
 
 { #category : #tests }
 LeftistHeapTest >> testReversed [
 	<gtExample>
 	^ (1 to: 40) reversed
-		inject: LeftistHeap empty
-		into: [ :anHeap :each | 
-			self
-				exportLeftistHeap: (anHeap add: each)
-				path: self leftistHeapImagesPath / 'reversed.png' ]
+		  inject: LeftistHeap empty
+		  into: [ :anHeap :each | 
+			  self
+				  exportLeftistHeap: (anHeap add: each)
+				  path: self imagesPath / 'reversed.png' ]
 ]
 
 { #category : #tests }
 LeftistHeapTest >> testShuffled [
 	<gtExample>
 	^ (1 to: 40) shuffled
-		inject: LeftistHeap empty
-		into: [ :anHeap :each | 
-			self
-				exportLeftistHeap: (anHeap add: each)
-				path: self leftistHeapImagesPath / 'shuffled.png' ]
+		  inject: LeftistHeap empty
+		  into: [ :anHeap :each | 
+			  self
+				  exportLeftistHeap: (anHeap add: each)
+				  path: self imagesPath / 'shuffled.png' ]
 ]
 
 { #category : #tests }
 LeftistHeapTest >> testSorted [
 	<gtExample>
-	^ (1 to: 40)
-		inject: LeftistHeap empty
-		into: [ :anHeap :each | 
-			self
-				exportLeftistHeap: (anHeap add: each)
-				path: self leftistHeapImagesPath / 'sorted.png' ]
+	^ (1 to: 40) inject: LeftistHeap empty into: [ :anHeap :each | 
+		  self
+			  exportLeftistHeap: (anHeap add: each)
+			  path: self imagesPath / 'sorted.png' ]
 ]
 
 { #category : #tests }
 LeftistHeapTest >> testWikipedia [
 	<gtExample>
 	| elements finalHeap popping count |
-	elements := #(4 8 10 9 1 3 5 6 11).
+	elements := #( 4 8 10 9 1 3 5 6 11 ).
 
 	"First build the complete leftist heap."
 	finalHeap := (elements withIndexCollect: #->)
-		inject: LeftistHeap empty
-		into: [ :anHeap :assoc | 
-			self
-				exportLeftistHeap: (anHeap add: assoc key)
-				path:
-					self leftistHeapImagesPath
-						/ ('wikipedia-add-{1}.png' format: {assoc value}) ].
+		             inject: LeftistHeap empty
+		             into: [ :anHeap :assoc | 
+			             self
+				             exportLeftistHeap: (anHeap add: assoc key)
+				             path:
+				             self imagesPath
+				             / ('wikipedia-add-{1}.png' format: { assoc value }) ].
 
 	"The go backward and empty it."
 	popping := finalHeap.
 	count := elements size.
-	[ popping isEmpty ]
-		whileFalse: [ count := count - 1.
-			popping := self
-				exportLeftistHeap: popping pop
-				path: self leftistHeapImagesPath / ('wikipedia-pop-{1}.png' format: {count}) ].
+	[ popping isEmpty ] whileFalse: [ 
+		count := count - 1.
+		popping := self
+			           exportLeftistHeap: popping pop
+			           path:
+			           self imagesPath
+			           / ('wikipedia-pop-{1}.png' format: { count }) ].
 
 	"We draw also the heap obtained by bisect folding."
 	self
 		exportLeftistHeap: elements asLeftishHeap
-		path: self leftistHeapImagesPath / 'wikipedia-bisect.png'.
+		path: self imagesPath / 'wikipedia-bisect.png'.
 
 	"Finally, return the full heap."
 	^ finalHeap

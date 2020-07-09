@@ -5,10 +5,12 @@ Trait {
 
 { #category : #utilities }
 TIceImagesExporting >> export: anObject filename: filename selector: aSelector [
-	| mondrian |
-	mondrian := RTMondrian new.
-	anObject perform: aSelector with: mondrian.
-	mondrian build view exportPNGtoFilename: filename.
+	| canvas |
+	canvas := RSCanvas new.
+	anObject perform: aSelector with: canvas.
+	RSPNGExporter new
+		canvas: canvas;
+		exportToFile: filename asFileReference.
 	^ anObject
 ]
 

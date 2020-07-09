@@ -36,7 +36,7 @@ LeftistHeap class >> leaf: anObject [
 
 { #category : #'as yet unclassified' }
 LeftistHeap >> add: anObject [
-	^ self mergeHeapNode: (LeftistHeap leaf: anObject)
+	^ self mergeHeapNode: (self class leaf: anObject)
 ]
 
 { #category : #'as yet unclassified' }
