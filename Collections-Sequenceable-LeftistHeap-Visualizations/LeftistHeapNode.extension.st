@@ -18,12 +18,10 @@ LeftistHeapNode >> edges: outerEdges parentHeapNode: aNode [
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeapNode >> printStringWithSubscriptRank [
-	^ String
-		streamContents: [ :s | 
-			value printOn: s.
-			s
-				nextPut: $₍;
-				nextPutAll: rank asString subscript;
-				nextPut: $₎	"
-				nextPut: Character space;" ]
+	^ String streamContents: [ :s | 
+		  value printOn: s.
+		  s
+			  nextPut: $₍;
+			  nextPutAll: rank asString subscript;
+			  nextPut: $₎ ]
 ]

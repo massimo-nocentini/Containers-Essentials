@@ -10,6 +10,34 @@ Integer >> bitInvert8 [
 ]
 
 { #category : #'*Kernel-Extensions' }
+Integer >> catalan [
+	^ (2 * self choose: self) / (self + 1)
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> catalan: k [
+	^ (2 * self - k choose: self - k)
+		- (2 * self - k choose: self - k - 1)
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> choose: k [
+	^ (k positive and: [ self >= k ])
+		ifTrue: [ self factorial / (k factorial * (self - k) factorial) ]
+		ifFalse: [ 0 ]
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> decrease [
+	^  self - 1
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> double [
+	^ 2 * self
+]
+
+{ #category : #'*Kernel-Extensions' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
@@ -31,6 +59,11 @@ Integer >> ifZero: zBlock ifNotZero: nzBlock [
 	^ self = 0
 		ifTrue: [ zBlock cull: self ]
 		ifFalse: [ nzBlock cull: self ]
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> increase [
+	^ 1 + self
 ]
 
 { #category : #'*Kernel-Extensions' }

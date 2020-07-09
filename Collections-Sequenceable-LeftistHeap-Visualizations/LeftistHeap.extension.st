@@ -28,11 +28,21 @@ LeftistHeap >> gtInspectorTreeUsingMondrianBuilder: aMondrian [
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> gtInspectorTreesViewIn: composite [
 	<gtInspectorPresentationOrder: 20>
-	^ composite roassal2
-		title: 'Tree';
-		initializeView: [ RTMondrian new ];
-		painting: [ :b | self gtInspectorTreeUsingMondrianBuilder: b ];
-		yourself
+	^ composite roassal3
+		  title: 'Tree';
+		  initializeCanvas: [ 
+			  self edges asLinkedList asTree
+				  gtInspectorGraphViewIn: RSCanvas new
+				  vertexBlock: [ :aVertex | 
+					  | text |
+					  text := aVertex content
+						          ifNil: [ String empty ]
+						          ifNotNil: #printStringWithSubscriptRank.
+					  RSLabel new
+						  text: text;
+						  color: Color black;
+						  yourself ] ];
+		  yourself
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }

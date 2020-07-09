@@ -35,7 +35,7 @@ LeftistHeapTest >> leftistHeapImagesPath [
 { #category : #tests }
 LeftistHeapTest >> testAsLeftistHeap [
 	| interval random heap t1 t2 |
-	random := Random new.
+	random := Random seed: 11.
 	interval := (1 to: 20000000) collect: [ :i | random nextInt: i ].
 	t1 := [ interval asOrderedCollection asLeftishHeap ] timeToRun.
 	t2 := [ heap := interval asLeftishHeap ] timeToRun.

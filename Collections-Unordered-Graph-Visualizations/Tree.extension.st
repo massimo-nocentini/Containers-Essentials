@@ -7,18 +7,40 @@ Tree >> gtInspectorGraphViewIn: composite [
 		  title: 'Tree';
 		  initializeCanvas: [ 
 			  self
-				  gtInspectorGraphViewUsingMondrianBuilder: RSCanvas new
-				  vertex: [ :aVertex | 
+				  gtInspectorGraphViewIn: RSCanvas new
+				  vertexBlock: [ :aVertex | 
 					  RSLabel new
 						  text: aVertex content;
 						  color: Color black;
 						  yourself ]
-				  edge: [ :eb | 
+				  edgeBlock: [ :eb | 
 					  eb orthoVertical
 						  color: Color lightGray translucent;
 						  cornerRadii: 5;
-						  yourself ]
-				  layout: [ :shapes :edgesShapes | 
-				  RSTreeLayout on: shapes edges: edgesShapes ] ];
+						  yourself ] ];
 		  yourself
+]
+
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
+Tree >> gtInspectorGraphViewIn: canvas vertexBlock: vBlock [
+	^ self
+		  gtInspectorGraphViewUsingMondrianBuilder: canvas
+		  vertex: vBlock
+		  edge: [ :eb | 
+			  eb orthoVertical
+				  color: Color lightGray translucent;
+				  cornerRadii: 5;
+				  yourself ]
+		  layout: [ :shapes :edgesShapes | 
+		  RSTreeLayout on: shapes edges: edgesShapes ]
+]
+
+{ #category : #'*Collections-Unordered-Graph-Visualizations' }
+Tree >> gtInspectorGraphViewIn: canvas vertexBlock: vBlock edgeBlock: eBlock [
+	^ self
+		  gtInspectorGraphViewUsingMondrianBuilder: canvas
+		  vertex: vBlock
+		  edge: eBlock
+		  layout: [ :shapes :edgesShapes | 
+		  RSTreeLayout on: shapes edges: edgesShapes ]
 ]
