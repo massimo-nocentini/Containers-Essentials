@@ -45,6 +45,12 @@ Graph class >> fromSequenceableCollection: aCollection [
 ]
 
 { #category : #accessing }
+Graph >> associations [
+	^ self vertices flatCollect: [ :aParent | 
+		  aParent children collect: [ :anEdge | aParent -> anEdge to ] ]
+]
+
+{ #category : #accessing }
 Graph >> edges [
 	^ edges
 ]
