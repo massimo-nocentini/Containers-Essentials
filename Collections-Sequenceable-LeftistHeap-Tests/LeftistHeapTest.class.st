@@ -31,13 +31,13 @@ LeftistHeapTest >> imagesPath [
 LeftistHeapTest >> testAsLeftistHeap [
 	| interval random heap t1 t2 |
 	random := Random seed: 11.
-	interval := (1 to: 20000000) collect: [ :i | random nextInt: i ].
+	interval := (1 to: 200000) collect: [ :i | random nextInt: i ].
 	t1 := [ interval asOrderedCollection asLeftishHeap ] timeToRun.
 	t2 := [ heap := interval asLeftishHeap ] timeToRun.
 	self assert: t2 < t1.
 
 	"If we like we can export it too."
-	self exportLeftistHeap: heap path: self imagesPath / 'big.png'
+	self exportLeftistHeap: heap path: self imagesPath / 'big'
 ]
 
 { #category : #tests }
@@ -45,7 +45,7 @@ LeftistHeapTest >> testEmpty [
 	<gtExample>
 	^ self
 		  exportLeftistHeap: LeftistHeap empty
-		  path: self imagesPath / 'empty.png'
+		  path: self imagesPath / 'empty'
 ]
 
 { #category : #tests }
@@ -56,7 +56,7 @@ LeftistHeapTest >> testReversed [
 		  into: [ :anHeap :each | 
 			  self
 				  exportLeftistHeap: (anHeap add: each)
-				  path: self imagesPath / 'reversed.png' ]
+				  path: self imagesPath / 'reversed' ]
 ]
 
 { #category : #tests }
@@ -67,7 +67,7 @@ LeftistHeapTest >> testShuffled [
 		  into: [ :anHeap :each | 
 			  self
 				  exportLeftistHeap: (anHeap add: each)
-				  path: self imagesPath / 'shuffled.png' ]
+				  path: self imagesPath / 'shuffled' ]
 ]
 
 { #category : #tests }
@@ -76,7 +76,7 @@ LeftistHeapTest >> testSorted [
 	^ (1 to: 40) inject: LeftistHeap empty into: [ :anHeap :each | 
 		  self
 			  exportLeftistHeap: (anHeap add: each)
-			  path: self imagesPath / 'sorted.png' ]
+			  path: self imagesPath / 'sorted' ]
 ]
 
 { #category : #tests }
@@ -93,7 +93,7 @@ LeftistHeapTest >> testWikipedia [
 				             exportLeftistHeap: (anHeap add: assoc key)
 				             path:
 				             self imagesPath
-				             / ('wikipedia-add-{1}.png' format: { assoc value }) ].
+				             / ('wikipedia-add-{1}' format: { assoc value }) ].
 
 	"The go backward and empty it."
 	popping := finalHeap.
@@ -104,12 +104,12 @@ LeftistHeapTest >> testWikipedia [
 			           exportLeftistHeap: popping pop
 			           path:
 			           self imagesPath
-			           / ('wikipedia-pop-{1}.png' format: { count }) ].
+			           / ('wikipedia-pop-{1}' format: { count }) ].
 
 	"We draw also the heap obtained by bisect folding."
 	self
 		exportLeftistHeap: elements asLeftishHeap
-		path: self imagesPath / 'wikipedia-bisect.png'.
+		path: self imagesPath / 'wikipedia-bisect'.
 
 	"Finally, return the full heap."
 	^ finalHeap

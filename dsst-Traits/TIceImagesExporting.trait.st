@@ -8,9 +8,11 @@ TIceImagesExporting >> export: anObject filename: filename selector: aSelector [
 	| canvas |
 	canvas := RSCanvas new.
 	anObject perform: aSelector with: canvas.
-	RSPNGExporter new
+	RSSVGExporter new
 		canvas: canvas;
-		exportToFile: filename asFileReference.
+		zoomToCurrentCamera;
+		fileName: filename;
+		export.
 	^ anObject
 ]
 
