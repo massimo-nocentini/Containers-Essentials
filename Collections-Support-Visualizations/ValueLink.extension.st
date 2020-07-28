@@ -16,22 +16,21 @@ ValueLink >> edges: incomingEdges parent: parent [
 
 { #category : #'*Collections-Support-Visualizations' }
 ValueLink >> gtInspectorGraphViewIn: composite [
-	<gtInspectorPresentationOrder: 10>
-	^ composite roassal2
-		title: 'Links';
-		initializeView: [ RTMondrian new ];
-		painting: [ :mondrian | self gtInspectorLinksUsingMondrianBuilder: mondrian ];
-		yourself
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Links';
+		  initializeCanvas: [ 
+			  self gtInspectorLinksUsingCanvas: RSCanvas new ];
+		  yourself
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
-ValueLink >> gtInspectorLinksUsingMondrianBuilder: aMondrian [
-	self edges asLinkedList asGraph
-		gtInspectorGraphViewUsingMondrianBuilder: aMondrian
-		vertex: [ :shape | 
-			shape text
-				text: [ :vertex | vertex content value ];
-				color: Color black ]
-		edge: [ :shape | shape arrowedBezier shortestDistanceAttachPointWithJump ]
-		layout: #horizontalTree
+ValueLink >> gtInspectorLinksUsingCanvas: aCanvas [
+	^ self edges asLinkedList asTree
+		  gtInspectorGraphViewIn: aCanvas
+		  vertexBlock: [ :aVertex | 
+			  RSLabel new
+				  text: aVertex content value;
+				  color: Color black;
+				  yourself ]
 ]
