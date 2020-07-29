@@ -10,8 +10,8 @@ ValueLink >> edges: incomingEdges parent: parent [
 	| edges |
 	edges := parent -> self ~~> incomingEdges.
 	^ nextLink
-		ifNil: [ edges ]
-		ifNotNil: [ :nl | nl edges: edges parent: self ]
+		  ifNil: [ self -> nil ~~> edges ]
+		  ifNotNil: [ :nl | nl edges: edges parent: self ]
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
