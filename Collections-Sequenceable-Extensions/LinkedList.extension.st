@@ -17,6 +17,24 @@ LinkedList >> allButFirst [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
+LinkedList >> asSlotsShape [
+	| aGroup links firstShape lastShape canvas aLink anotherLink groups |
+	self halt.
+	links := IdentitySet new in: [ :aSet | 
+		         | link |
+		         link := firstLink.
+		         [ link ] whileNotNil: [ 
+			         aSet add: link.
+			         link := link nextLink ].
+		         aSet ].
+	aGroup := super asSlotsShapeKnownReferences: links.
+	groups := links collect: [ :aValueLink | 
+		          | g |
+		          g := aValueLink asSlotsShapeKnownReferences: links.
+		          g -> (g asShapeFor: aValueLink) ]
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> car [
 	"Return the very first element"
 
