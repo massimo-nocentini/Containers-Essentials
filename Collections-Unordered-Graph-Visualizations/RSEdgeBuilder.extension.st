@@ -1,26 +1,6 @@
 Extension { #name : #RSEdgeBuilder }
 
 { #category : #'*Collections-Unordered-Graph-Visualizations' }
-RSEdgeBuilder >> createEdgeIfNecessaryFrom: fromElement to: toElement model: model [
-	"This is a private method. Create, if necessary, an edge between two elements"
-
-	(self shouldCreateEdgeFrom: fromElement to: toElement)
-		ifTrue: [ createdEdges
-				add: (self edgeFrom: fromElement to: toElement model: model) ]
-]
-
-{ #category : #'*Collections-Unordered-Graph-Visualizations' }
-RSEdgeBuilder >> edgeFrom: source to: target model: model [
-	"source and target are elements"
-
-	| edge |
-	edge := super edgeFrom: source to: target.
-	edge model: model.
-	self processEdge: edge.
-	^ edge
-]
-
-{ #category : #'*Collections-Unordered-Graph-Visualizations' }
 RSEdgeBuilder >> source: objects connectFrom: fromblock withModelTo: toBlock [
 	| tuples allObjects |
 	self

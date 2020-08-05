@@ -71,7 +71,6 @@ Object >> asSlotsShapeKnownReferences: aSet [
 			         above;
 			         move: label on: box.
 		         RSComposite new
-			         model: var -> value;
 			         shapes: { 
 					         box.
 					         label };

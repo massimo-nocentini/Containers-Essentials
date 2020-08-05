@@ -2,7 +2,13 @@ Extension { #name : #ValueLink }
 
 { #category : #'*Collections-Support-Extensions' }
 ValueLink >> asLinkedList [
-	^ LinkedList with: self
+	| list link |
+	list := LinkedList empty.
+	link := self.
+	[ link ] whileNotNil: [ 
+		list addLast: link.
+		link := link nextLink ].
+	^ list
 ]
 
 { #category : #'*Collections-Support-Extensions' }
