@@ -18,7 +18,7 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsShape [
-	| aGroup links firstAndLastLinks lastShape canvas aLink anotherLink shapes edges eb chainShape composite |
+	| aGroup links firstAndLastLinks lastShape canvas aLink anotherLink shapes edges eb chainShape meShape |
 	links := Array streamContents: [ :aStream | 
 		         | link |
 		         link := firstLink.
@@ -52,16 +52,15 @@ LinkedList >> asSlotsShape [
 	chainShape := RSComposite new
 		              shapes: shapes , edges;
 		              padding: 5;
-		              withBorder;
 		              yourself.
-	composite := RSComposite new
-		             shapes: { 
-				             (aGroup asShapeFor: self).
-				             chainShape } , firstAndLastLinks;
-		             draggable;
-		             yourself.
+	meShape := aGroup asShapeFor: self.
+	RSLocation new outer left
+		offset: -5;
+		move: meShape on: chainShape.
 	^ (RSGroup new
-		   add: composite;
+		   add: chainShape;
+		   add: meShape;
+		   addAll: firstAndLastLinks;
 		   yourself) @ RSDraggable
 ]
 
