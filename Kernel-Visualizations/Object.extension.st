@@ -1,11 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*Kernel-Visualizations' }
-Object >> asSlotsShape [
-	^ self asSlotsShapeKnownReferences: IdentitySet empty
-]
-
-{ #category : #'*Kernel-Visualizations' }
 Object >> asSlotsShapeKnownReferences: aSet [
 	| group shapes rectangle instVars cornerRadious |
 	cornerRadious := 5.
@@ -86,4 +81,18 @@ Object >> asSlotsShapeKnownReferences: aSet [
 				    shapes: group;
 				    yourself);
 		   yourself) @ RSDraggable
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> gtInspectorSlotsGraphIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Slots graph';
+		  initializeCanvas: [ 
+			  | aGroup |
+			  aGroup := self asSlotsShapeKnownReferences: IdentitySet empty.
+			  (RSCanvas new
+				   addAll: aGroup;
+				   yourself) @ RSCanvasController ];
+		  yourself
 ]

@@ -17,7 +17,7 @@ LinkedList >> allButFirst [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
-LinkedList >> asSlotsShape [
+LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
 	| aGroup links firstAndLastLinks padding shapes edges eb chainShape meShape |
 	padding := 5.
 	links := Array streamContents: [ :aStream | 
@@ -26,8 +26,7 @@ LinkedList >> asSlotsShape [
 		         [ link ] whileNotNil: [ 
 			         aStream nextPut: link.
 			         link := link nextLink ] ].
-	aGroup := super asSlotsShapeKnownReferences:
-		          (IdentitySet withAll: links). "to speed up the lookup."
+	aGroup := super asSlotsShapeKnownReferences: anIdentitySet | links. "to speed up the lookup."
 	shapes := links collect: [ :aValueLink | 
 		          | g |
 		          g := aValueLink asSlotsShapeKnownReferences: links.
