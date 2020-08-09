@@ -18,7 +18,8 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsShape [
-	| aGroup links firstAndLastLinks lastShape canvas aLink anotherLink shapes edges eb chainShape meShape |
+	| aGroup links firstAndLastLinks padding shapes edges eb chainShape meShape |
+	padding := 5.
 	links := Array streamContents: [ :aStream | 
 		         | link |
 		         link := firstLink.
@@ -30,16 +31,16 @@ LinkedList >> asSlotsShape [
 	shapes := links collect: [ :aValueLink | 
 		          | g |
 		          g := aValueLink asSlotsShapeKnownReferences: links.
-		          (g asShapeFor: aValueLink) draggable ].
+		          g asShapeFor: aValueLink ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
+		      toShapes: shapes;
 		      yourself.
 	edges := eb
 		         fromShapes: (links
 				          with: shapes
 				          collect: [ :link :shape | 
 					          shape shapeFromModel: link nextLink ]);
-		         toShapes: shapes;
 		         useAssociations: (links collect: [ :r | r -> r ]).
 	firstAndLastLinks := eb
 		                     fromShapes: { 
@@ -51,11 +52,11 @@ LinkedList >> asSlotsShape [
 	RSVerticalLineLayout on: shapes.
 	chainShape := RSComposite new
 		              shapes: shapes , edges;
-		              padding: 5;
+		              padding: padding;
 		              yourself.
 	meShape := aGroup asShapeFor: self.
 	RSLocation new outer left
-		offset: -5;
+		offset: padding negated;
 		move: meShape on: chainShape.
 	^ (RSGroup new
 		   add: chainShape;
