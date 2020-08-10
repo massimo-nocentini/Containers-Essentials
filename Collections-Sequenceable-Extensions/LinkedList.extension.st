@@ -18,42 +18,34 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
-	| aGroup links firstAndLastLinks padding shapes edges eb chainShape meShape |
-	padding := 5.
-	links := firstLink valueLinks.
-	aGroup := super asSlotsShapeKnownReferences: anIdentitySet | links. "to speed up the lookup."
-	shapes := links collect: [ :aValueLink | 
-		          | g |
-		          g := aValueLink asSlotsShapeKnownReferences: links.
-		          g asShapeFor: aValueLink ].
+	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
+	aGroup := super asSlotsShapeKnownReferences:
+		          anIdentitySet | (Array streamContents: [ :aStream | 
+			           firstLink ifNotNil: aStream |<| #nextPut:.
+			           lastLink ifNotNil: aStream |<| #nextPut: ]).
+	linksGroup := firstLink
+		              ifNil: [ RSGroup new ]
+		              ifNotNil: #asValueLinksGroup.
+	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
-		      toShapes: shapes;
+		      toShapes: ({ 
+				       (linksGroup shapeFromModel: firstLink).
+				       (linksGroup shapeFromModel: lastLink) } reject: #isNil);
 		      yourself.
-	edges := eb
-		         fromShapes: (links
-				          with: shapes
-				          collect: [ :link :shape | 
-					          shape shapeFromModel: link nextLink ]);
-		         useAssociations: (links collect: [ :r | r -> r ]).
 	firstAndLastLinks := eb
 		                     fromShapes: { 
 				                     (aGroup shapeFromModel: firstLink).
 				                     (aGroup shapeFromModel: lastLink) };
 		                     useAssociations: { 
-				                     (firstLink -> firstLink).
-				                     (lastLink -> lastLink) }.
-	RSVerticalLineLayout on: shapes.
-	chainShape := RSComposite new
-		              shapes: shapes , edges;
-		              padding: padding;
-		              yourself.
+				                     firstLink asReflexiveAssociation.
+				                     lastLink asReflexiveAssociation }.
 	meShape := aGroup asShapeFor: self.
 	RSLocation new outer left
-		offset: padding negated;
-		move: meShape on: chainShape.
+		offset: 5 negated;
+		move: meShape on: linksComposite.
 	^ (RSGroup new
-		   add: chainShape;
+		   add: linksComposite;
 		   add: meShape;
 		   addAll: firstAndLastLinks;
 		   yourself) @ RSDraggable
