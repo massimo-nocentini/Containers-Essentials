@@ -24,3 +24,8 @@ Object >> S: x s: y [
 	X := x value: self.
 	^ X value: (y value: self)
 ]
+
+{ #category : #'*Kernel-Extensions' }
+Object >> asReflexiveAssociation [
+	^ self -> self
+]

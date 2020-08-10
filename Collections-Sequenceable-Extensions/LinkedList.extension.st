@@ -20,12 +20,7 @@ LinkedList >> allButFirst [
 LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
 	| aGroup links firstAndLastLinks padding shapes edges eb chainShape meShape |
 	padding := 5.
-	links := Array streamContents: [ :aStream | 
-		         | link |
-		         link := firstLink.
-		         [ link ] whileNotNil: [ 
-			         aStream nextPut: link.
-			         link := link nextLink ] ].
+	links := firstLink valueLinks.
 	aGroup := super asSlotsShapeKnownReferences: anIdentitySet | links. "to speed up the lookup."
 	shapes := links collect: [ :aValueLink | 
 		          | g |

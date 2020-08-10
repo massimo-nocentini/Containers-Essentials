@@ -22,6 +22,16 @@ ValueLink >> reversed: prefix [
 ]
 
 { #category : #'*Collections-Support-Extensions' }
+ValueLink >> valueLinks [
+	^ Array streamContents: [ :aStream | 
+		  | link |
+		  link := self.
+		  [ link ] whileNotNil: [ 
+			  aStream nextPut: link.
+			  link := link nextLink ] ]
+]
+
+{ #category : #'*Collections-Support-Extensions' }
 ValueLink >> with: aValueLink collect: aBlock [
 	^ aValueLink
 		ifNil: [ SizeMismatch signal ]

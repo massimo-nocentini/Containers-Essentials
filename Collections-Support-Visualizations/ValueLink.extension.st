@@ -1,6 +1,32 @@
 Extension { #name : #ValueLink }
 
 { #category : #'*Collections-Support-Visualizations' }
+ValueLink >> asValueLinksGroup [
+	| links shapes edges eb |
+	links := self valueLinks.
+	shapes := links collect: [ :aValueLink | 
+		          | g |
+		          g := aValueLink asSlotsShapeKnownReferences: links.
+		          g asShapeFor: aValueLink ].
+	eb := (RSEdgeBuilder new: RSArrowedLine new)
+		      color: Color gray;
+		      toShapes: shapes;
+		      yourself.
+	edges := eb
+		         fromShapes: (links
+				          with: shapes
+				          collect: [ :link :shape | 
+					          shape shapeFromModel: link nextLink ]);
+		         useAssociations:
+			         (links collect: [ :r | r asReflexiveAssociation ]).
+	RSVerticalLineLayout on: shapes.
+	^ (RSGroup new
+		   addAll: shapes;
+		   addAll: edges;
+		   yourself) @ RSDraggable
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
 ValueLink >> edges [
 	^ self edges: nil parent: self
 ]
