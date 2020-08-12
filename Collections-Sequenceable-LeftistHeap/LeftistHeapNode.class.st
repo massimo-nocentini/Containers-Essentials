@@ -25,11 +25,6 @@ LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap [
 ]
 
 { #category : #'as yet unclassified' }
-LeftistHeapNode >> instVarsNamesOrderedCollection [
-	^ #( previousLink value rank nextLink )
-]
-
-{ #category : #'as yet unclassified' }
 LeftistHeapNode >> isEmpty [
 	^ false
 ]

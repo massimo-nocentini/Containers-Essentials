@@ -81,7 +81,7 @@ LeftistHeap >> gtInspectorValueLinksChainGraphIn: composite [
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> instVarsNamesOrderedCollection [
-	^ #( previousLink value nextLink )
+	^ #( previousLink value rank nextLink )
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
