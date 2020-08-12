@@ -1,6 +1,36 @@
 Extension { #name : #LeftistHeap }
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
+LeftistHeap >> asNodesGroup [
+	| links shapes edges eb fromShapes |
+	links := (self nodes: nil) asLinkedList as: IdentitySet.
+	shapes := links
+		          collect: [ :aValueLink | 
+			          | g |
+			          g := aValueLink asSlotsShapeKnownReferences: links.
+			          g asShapeFor: aValueLink ]
+		          as: Array.
+	eb := (RSEdgeBuilder new: RSArrowedLine new)
+		      color: Color gray;
+		      toShapes: shapes;
+		      yourself.
+	fromShapes := (links asArray with: shapes collect: [ :link :shape | 
+		               { 
+			               (shape shapeFromModel: link previousLink).
+			               (shape shapeFromModel: link nextLink) } ]) 
+		              flatCollect: #yourself.
+	edges := eb
+		         fromShapes: fromShapes;
+		         useAssociations:
+			         (links collect: [ :r | r asReflexiveAssociation ]).
+	RSTreeLayout on: fromShapes.
+	^ (RSGroup new
+		   addAll: shapes;
+		   addAll: edges;
+		   yourself) @ RSDraggable
+]
+
+{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> edges [
 	self subclassResponsibility
 ]
@@ -32,6 +62,11 @@ LeftistHeap >> gtInspectorTreesViewIn: composite [
 		  title: 'Tree';
 		  initializeCanvas: [ self gtInspectorTreeUsingCanvas: RSCanvas new ];
 		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
+LeftistHeap >> instVarsNamesOrderedCollection [
+	^ #( previousLink value nextLink )
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }

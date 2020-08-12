@@ -59,6 +59,11 @@ LeftistHeap >> min [
 	self subclassResponsibility
 ]
 
+{ #category : #'building - graph' }
+LeftistHeap >> nodes: aValueLink [
+	self subclassResponsibility
+]
+
 { #category : #removing }
 LeftistHeap >> pop [
 	self subclassResponsibility

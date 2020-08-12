@@ -25,6 +25,11 @@ LeftistHeapNode >> insert: aValue left: leftHeap right: rightHeap [
 ]
 
 { #category : #'as yet unclassified' }
+LeftistHeapNode >> instVarsNamesOrderedCollection [
+	^ #( previousLink value rank nextLink )
+]
+
+{ #category : #'as yet unclassified' }
 LeftistHeapNode >> isEmpty [
 	^ false
 ]
@@ -57,6 +62,11 @@ LeftistHeapNode >> mergeHeapNode: aNode [
 { #category : #'as yet unclassified' }
 LeftistHeapNode >> min [
 	^ self value
+]
+
+{ #category : #'building - graph' }
+LeftistHeapNode >> nodes: aValueLink [
+	^ nextLink nodes: (previousLink nodes: self ~~> aValueLink)
 ]
 
 { #category : #removing }

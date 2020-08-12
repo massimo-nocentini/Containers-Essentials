@@ -31,12 +31,12 @@ LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
 		      color: Color gray;
 		      toShapes: ({ 
 				       (linksGroup shapeFromModel: firstLink).
-				       (linksGroup shapeFromModel: lastLink) } reject: #isNil);
+				       (linksGroup shapesFromModel: lastLink) } reject: #isNil);
 		      yourself.
 	firstAndLastLinks := eb
 		                     fromShapes: { 
 				                     (aGroup shapeFromModel: firstLink).
-				                     (aGroup shapeFromModel: lastLink) };
+				                     (aGroup shapesFromModel: lastLink) last };
 		                     useAssociations: { 
 				                     firstLink asReflexiveAssociation.
 				                     lastLink asReflexiveAssociation }.

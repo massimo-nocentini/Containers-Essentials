@@ -24,6 +24,11 @@ LeftistHeapEmpty >> min [
 	CollectionIsEmpty signal
 ]
 
+{ #category : #'building - graph' }
+LeftistHeapEmpty >> nodes: aValueLink [
+	^ self ~~> aValueLink
+]
+
 { #category : #'as yet unclassified' }
 LeftistHeapEmpty >> pop [
 	CollectionIsEmpty signal

@@ -7,7 +7,7 @@ ValueLink >> asValueLinksGroup [
 	shapes := links collect: [ :aValueLink | 
 		          | g |
 		          g := aValueLink asSlotsShapeKnownReferences: links.
-		          g asShapeFor: aValueLink ].
+		          (g asShapeFor: aValueLink) @ RSDraggable ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes: shapes;
@@ -23,7 +23,7 @@ ValueLink >> asValueLinksGroup [
 	^ (RSGroup new
 		   addAll: shapes;
 		   addAll: edges;
-		   yourself) @ RSDraggable
+		   yourself) "@ RSDraggable"
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
@@ -59,4 +59,21 @@ ValueLink >> gtInspectorLinksUsingCanvas: aCanvas [
 				  text: aVertex content value;
 				  color: Color black;
 				  yourself ]
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
+ValueLink >> gtInspectorValueLinksChainGraphIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Links chain';
+		  initializeCanvas: [ 
+			  (RSCanvas new
+				   addAll: self asValueLinksGroup;
+				   yourself) @ RSCanvasController ];
+		  yourself
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
+ValueLink >> instVarsNamesOrderedCollection [
+	^ #( value nextLink )
 ]
