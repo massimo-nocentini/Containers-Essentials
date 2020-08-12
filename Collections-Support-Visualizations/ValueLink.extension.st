@@ -67,9 +67,16 @@ ValueLink >> gtInspectorValueLinksChainGraphIn: composite [
 	^ composite roassal3
 		  title: 'Links chain';
 		  initializeCanvas: [ 
-			  (RSCanvas new
-				   addAll: self asValueLinksGroup;
-				   yourself) @ RSCanvasController ];
+			  | aCanvas |
+			  aCanvas := self gtInspectorValueLinksChainInCanvas: RSCanvas new.
+			  aCanvas @ RSCanvasController ];
+		  yourself
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
+ValueLink >> gtInspectorValueLinksChainInCanvas: aCanvas [
+	^ aCanvas
+		  addAll: self asValueLinksGroup;
 		  yourself
 ]
 

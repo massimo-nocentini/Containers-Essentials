@@ -73,9 +73,16 @@ LeftistHeap >> gtInspectorValueLinksChainGraphIn: composite [
 	^ composite roassal3
 		  title: 'Nodes';
 		  initializeCanvas: [ 
-			  (RSCanvas new
-				   addAll: self asNodesGroup;
-				   yourself) @ RSCanvasController ];
+			  | aCanvas |
+			  aCanvas := self gtInspectorValueLinksChainInCanvas: RSCanvas new.
+			  aCanvas @ RSCanvasController ];
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
+LeftistHeap >> gtInspectorValueLinksChainInCanvas: aCanvas [
+	^ aCanvas
+		  addAll: self asNodesGroup;
 		  yourself
 ]
 
