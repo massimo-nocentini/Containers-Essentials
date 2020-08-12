@@ -23,7 +23,10 @@ LeftistHeap >> asNodesGroup [
 		         fromShapes: fromShapes;
 		         useAssociations:
 			         (links collect: [ :r | r asReflexiveAssociation ]).
-	RSTreeLayout on: fromShapes.
+	eb shapes: shapes.
+	RSTreeLayout
+		on: shapes
+		edges: (eb connectTo: #previousLink) , (eb connectTo: #nextLink).
 	^ (RSGroup new
 		   addAll: shapes;
 		   addAll: edges;
@@ -61,6 +64,18 @@ LeftistHeap >> gtInspectorTreesViewIn: composite [
 	^ composite roassal3
 		  title: 'Tree';
 		  initializeCanvas: [ self gtInspectorTreeUsingCanvas: RSCanvas new ];
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
+LeftistHeap >> gtInspectorValueLinksChainGraphIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Nodes';
+		  initializeCanvas: [ 
+			  (RSCanvas new
+				   addAll: self asNodesGroup;
+				   yourself) @ RSCanvasController ];
 		  yourself
 ]
 

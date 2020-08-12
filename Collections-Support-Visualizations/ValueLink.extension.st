@@ -20,10 +20,10 @@ ValueLink >> asValueLinksGroup [
 		         useAssociations:
 			         (links collect: [ :r | r asReflexiveAssociation ]).
 	RSVerticalLineLayout on: shapes.
-	^ (RSGroup new
-		   addAll: shapes;
-		   addAll: edges;
-		   yourself) "@ RSDraggable"
+	^ RSGroup new
+		  addAll: shapes;
+		  addAll: edges;
+		  yourself
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
