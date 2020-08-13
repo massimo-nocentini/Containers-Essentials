@@ -1,6 +1,24 @@
 Extension { #name : #Integer }
 
 { #category : #'*Kernel-Extensions' }
+Integer >> binaryCanonicalDenseRepresentation [
+	^ self isZero
+		  ifTrue: [ 0 ~~> nil ]
+		  ifFalse: [ 
+		  self binaryCanonicalDenseRepresentationWith: [ :v | v ] ]
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
+	^ self isZero
+		  ifTrue: [ anAccumulatorBlock value: nil ]
+		  ifFalse: [ 
+			  self // 2 binaryCanonicalDenseRepresentationWith:
+				  anAccumulatorBlock
+				  <- [ :representation | self \\ 2 ~~> representation ] ]
+]
+
+{ #category : #'*Kernel-Extensions' }
 Integer >> bitInvert8 [
 	"Answer the 8-bit complement of the receiver."
 
@@ -98,7 +116,7 @@ Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
 { #category : #'*Kernel-Extensions' }
 Integer >> skewBinaryCanonicalSparseRepresentation [
 	^ self isZero
-		  ifTrue: [ 0 ~~> nil ]
+		  ifTrue: [ '•' ~~> nil ]
 		  ifFalse: [ 
 			  | skew |
 			  skew := SkewBinaryCanonicalNumber new.
