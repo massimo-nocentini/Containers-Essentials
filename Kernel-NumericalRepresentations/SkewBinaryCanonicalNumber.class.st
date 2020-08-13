@@ -7,31 +7,6 @@ Class {
 	#category : #'Kernel-NumericalRepresentations'
 }
 
-{ #category : #'instance creation' }
-SkewBinaryCanonicalNumber class >> denseRepresentationOfInteger: i [
-	^ i isZero
-		  ifTrue: [ 0 ~~> nil ]
-		  ifFalse: [ 
-		  (self denseRepresentationOfInteger: i weight: 1) second ]
-]
-
-{ #category : #accessing }
-SkewBinaryCanonicalNumber class >> denseRepresentationOfInteger: i weight: w [
-	^ i < w
-		  ifTrue: [ Array with: i with: nil ]
-		  ifFalse: [ 
-			  | rest linker tuple |
-			  tuple := self denseRepresentationOfInteger: i weight: 2 * w + 1.
-			  rest := tuple first.
-			  linker := [ :digit | digit ~~> tuple second ].
-			  2 * w = rest
-				  ifTrue: [ Array with: 0 with: (linker value: 2) ]
-				  ifFalse: [ 
-					  w <= rest
-						  ifTrue: [ Array with: rest - w with: (linker value: 1) ]
-						  ifFalse: [ Array with: rest with: (linker value: 0) ] ] ]
-]
-
 { #category : #converting }
 SkewBinaryCanonicalNumber >> asInteger [
 	| value vl |

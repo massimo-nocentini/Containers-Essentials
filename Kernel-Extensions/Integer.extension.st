@@ -68,5 +68,29 @@ Integer >> increase [
 
 { #category : #'*Kernel-Extensions' }
 Integer >> skewBinaryCanonicalDenseRepresentation [
-	^ SkewBinaryCanonicalNumber denseRepresentationOfInteger: self
+	^ self isZero
+		  ifTrue: [ 0 ~~> nil ]
+		  ifFalse: [ 
+		  (self skewBinaryCanonicalDenseRepresentationWeight: 1) second ]
+]
+
+{ #category : #'*Kernel-Extensions' }
+Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
+	^ self < w
+		  ifTrue: [ Array with: self with: nil ]
+		  ifFalse: [ 
+			  | rest tuple wDoubled recursiveRepresentation |
+			  wDoubled := w * 2.
+			  tuple := self skewBinaryCanonicalDenseRepresentationWeight:
+				           wDoubled + 1.
+			  rest := tuple first.
+			  recursiveRepresentation := tuple second.
+			  wDoubled = rest
+				  ifTrue: [ Array with: 0 with: 2 ~~> recursiveRepresentation ]
+				  ifFalse: [ 
+					  w <= rest
+						  ifTrue: [ 
+						  Array with: rest - w with: 1 ~~> recursiveRepresentation ]
+						  ifFalse: [ 
+						  Array with: rest with: 0 ~~> recursiveRepresentation ] ] ]
 ]
