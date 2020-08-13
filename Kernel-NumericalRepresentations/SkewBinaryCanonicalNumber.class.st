@@ -58,6 +58,11 @@ SkewBinaryCanonicalNumber >> key: aValueLink [
 ]
 
 { #category : #accessing }
+SkewBinaryCanonicalNumber >> representation [
+	^ representation
+]
+
+{ #category : #accessing }
 SkewBinaryCanonicalNumber >> representation: aValueLink [
 	representation := aValueLink
 ]
