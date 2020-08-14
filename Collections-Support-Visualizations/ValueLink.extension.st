@@ -82,5 +82,9 @@ ValueLink >> gtInspectorValueLinksChainInCanvas: aCanvas [
 
 { #category : #'*Collections-Support-Visualizations' }
 ValueLink >> instVarsNamesOrderedCollection [
-	^ #( value nextLink )
+	"We choose the following order in which the `value` slot is 
+	the rightmost because that allows us to compose better shapes 
+	pointed by its reference."
+
+	^ #( nextLink value )
 ]
