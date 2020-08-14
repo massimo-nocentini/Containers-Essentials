@@ -2,9 +2,9 @@ Extension { #name : #Object }
 
 { #category : #'*Kernel-Visualizations' }
 Object >> asSlotsShapeKnownReferences: aSet [
-	| shapes rectangle instVars cornerRadious descriptors |
+	| shapes rectangle instVars radious descriptors aGroup |
 	"Basic settings for rounding the boxes"
-	cornerRadious := 2.
+	radious := 2.
 
 	"Let subclasses to customize the order of the slots."
 	instVars := self instVarsNamesOrderedCollection.
@@ -41,7 +41,7 @@ Object >> asSlotsShapeKnownReferences: aSet [
 						              textExtent := aShapeOrNil textExtents.
 						              textExtent width @ textExtent height ]) ].
 	shapes := descriptors withIndexCollect: [ :slotDescriptor :index | 
-		          | var value label box aShape |
+		          | var value label box aShape cornerRadious |
 		          "Unpacking."
 		          var := slotDescriptor at: #var.
 		          value := slotDescriptor at: #value.
@@ -61,12 +61,11 @@ Object >> asSlotsShapeKnownReferences: aSet [
 			                 withBorder.
 
 		          "Handle corners correctly."
-		          box cornerRadius: (index = 1
-				           ifTrue: [ RSCornerRadius new left: cornerRadious ]
-				           ifFalse: [ 
-					           index = instVars size
-						           ifTrue: [ RSCornerRadius new right: cornerRadious ]
-						           ifFalse: [ RSCornerRadius new ] ]).
+		          cornerRadious := RSCornerRadius new.
+		          index = 1 ifTrue: [ cornerRadious left: radious ].
+		          index = instVars size ifTrue: [ 
+			          cornerRadious right: radious ].
+		          box cornerRadius: cornerRadious.
 		          box := aShape
 			                 ifNil: [ 
 				                 RSComposite new
@@ -96,11 +95,16 @@ Object >> asSlotsShapeKnownReferences: aSet [
 	RSAlignment new
 		shapes: shapes;
 		bottom.
-	^ RSGroup new
-		  add: (RSComposite new
-				   shapes: shapes;
-				   yourself);
-		  yourself
+	aGroup := RSGroup new
+		          add: (RSComposite new
+				           shapes: shapes;
+				           yourself);
+		          yourself.
+	"RSResize new
+		shapes: (descriptors collect: [ :aDict | 
+					 aGroup shapeFromModel: (aDict at: #var) ]);
+		sameHeight."
+	^ aGroup
 ]
 
 { #category : #'*Kernel-Visualizations' }
