@@ -1,12 +1,12 @@
 Extension { #name : #ValueLink }
 
 { #category : #'*Collections-Support-Visualizations' }
-ValueLink >> asValueLinksGroup [
+ValueLink >> asValueLinksGroupKnownReferences: aSet [
 	| links shapes edges eb |
 	links := self valueLinks.
 	shapes := links collect: [ :aValueLink | 
 		          | g |
-		          g := aValueLink asSlotsShapeKnownReferences: links.
+		          g := aValueLink asSlotsShapeKnownReferences: aSet | links.
 		          (g asShapeFor: aValueLink) @ RSDraggable ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
@@ -76,7 +76,7 @@ ValueLink >> gtInspectorValueLinksChainGraphIn: composite [
 { #category : #'*Collections-Support-Visualizations' }
 ValueLink >> gtInspectorValueLinksChainInCanvas: aCanvas [
 	^ aCanvas
-		  addAll: self asValueLinksGroup;
+		  addAll: (self asValueLinksGroupKnownReferences: IdentitySet empty);
 		  yourself
 ]
 

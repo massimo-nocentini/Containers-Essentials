@@ -4,10 +4,12 @@ Extension { #name : #BinomialHeap }
 BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
 	aGroup := super asSlotsShapeKnownReferences:
-		          anIdentitySet | { representation }.
+		          anIdentitySet | (Array streamContents: [ :aStream | 
+			           representation ifNotNil: aStream |<| #nextPut: ]).
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
-		              ifNotNil: #asValueLinksGroup.
+		              ifNotNil: [ :r | 
+		              r asValueLinksGroupKnownReferences: IdentitySet empty ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;

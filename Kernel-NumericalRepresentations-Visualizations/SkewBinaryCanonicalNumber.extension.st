@@ -15,7 +15,10 @@ SkewBinaryCanonicalNumber >> gtInspectorRepresentationViewIn: composite [
 
 { #category : #'*Kernel-NumericalRepresentations-Visualizations' }
 SkewBinaryCanonicalNumber >> gtInspectorSkewDenseRepresentationInCanvas: aCanvas [
+	| aGroup |
+	aGroup := (representation ifNil: [ 0 ~~> nil ]) 
+		          asValueLinksGroupKnownReferences: IdentitySet empty.
 	^ aCanvas
-		  addAll: (representation ifNil: [ 0 ~~> nil ]) asValueLinksGroup;
+		  addAll: aGroup;
 		  yourself
 ]

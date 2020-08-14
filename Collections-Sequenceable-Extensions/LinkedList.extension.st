@@ -25,7 +25,8 @@ LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
 			           lastLink ifNotNil: aStream |<| #nextPut: ]).
 	linksGroup := firstLink
 		              ifNil: [ RSGroup new ]
-		              ifNotNil: #asValueLinksGroup.
+		              ifNotNil: [ :r | 
+		              r asValueLinksGroupKnownReferences: IdentitySet empty ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;

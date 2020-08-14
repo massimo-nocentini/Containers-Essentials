@@ -2,13 +2,19 @@ Extension { #name : #ValueLink }
 
 { #category : #'*Collections-Support-Extensions' }
 ValueLink >> asLinkedList [
-	| list link |
+	| list |
 	list := LinkedList empty.
+	self do: [ :each | list addLast: each value ].
+	^ list
+]
+
+{ #category : #'*Collections-Support-Extensions' }
+ValueLink >> do: aBlock [
+	| link |
 	link := self.
 	[ link ] whileNotNil: [ 
-		list addLast: link.
-		link := link nextLink ].
-	^ list
+		aBlock value: link.
+		link := link nextLink ]
 ]
 
 { #category : #'*Collections-Support-Extensions' }
@@ -24,11 +30,7 @@ ValueLink >> reversed: prefix [
 { #category : #'*Collections-Support-Extensions' }
 ValueLink >> valueLinks [
 	^ Array streamContents: [ :aStream | 
-		  | link |
-		  link := self.
-		  [ link ] whileNotNil: [ 
-			  aStream nextPut: link.
-			  link := link nextLink ] ]
+		  self do: [ :aValueLink | aStream nextPut: aValueLink ] ]
 ]
 
 { #category : #'*Collections-Support-Extensions' }
