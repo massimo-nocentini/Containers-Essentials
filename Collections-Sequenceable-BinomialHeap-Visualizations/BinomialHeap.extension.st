@@ -6,7 +6,9 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 	aGroup := super asSlotsShapeKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           representation ifNotNil: aStream |<| #nextPut: ]).
-	valueLinks := representation valueLinks.
+	valueLinks := representation
+		              ifNil: [ Array empty ]
+		              ifNotNil: #valueLinks.
 	associations := valueLinks collect: #value.
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
