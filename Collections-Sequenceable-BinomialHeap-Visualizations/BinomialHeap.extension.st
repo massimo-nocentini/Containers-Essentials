@@ -1,6 +1,37 @@
 Extension { #name : #BinomialHeap }
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
+	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
+	aGroup := super asSlotsShapeKnownReferences:
+		          anIdentitySet | { representation }.
+	linksGroup := representation
+		              ifNil: [ RSGroup new ]
+		              ifNotNil: #asValueLinksGroup.
+	linksComposite := linksGroup asShape.
+	eb := (RSEdgeBuilder new: RSArrowedLine new)
+		      color: Color gray;
+		      toShapes:
+			      ({ (linksGroup shapeFromModel: representation) } reject:
+					       #isNil);
+		      yourself.
+	firstAndLastLinks := eb
+		                     fromShapes:
+			                     { (aGroup shapeFromModel: representation) };
+		                     useAssociations:
+			                     { representation asReflexiveAssociation }.
+	meShape := aGroup asShapeFor: self.
+	RSLocation new outer above
+		offset: 10 negated;
+		move: meShape on: linksComposite.
+	^ (RSGroup new
+		   add: linksComposite;
+		   add: meShape;
+		   addAll: firstAndLastLinks;
+		   yourself) @ RSDraggable
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialHeap >> associations [
 	^ self associations: representation
 ]
@@ -27,9 +58,5 @@ BinomialHeap >> gtInspectorTreesUsingMondrianBuilder: aMondrian [
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialHeap >> gtInspectorTreesViewIn: composite [
 	<gtInspectorPresentationOrder: 20>
-	^ composite roassal2
-		title: 'Trees';
-		initializeView: [ RTMondrian new ];
-		painting: [ :b | self gtInspectorTreesUsingMondrianBuilder: b ];
-		yourself
+
 ]
