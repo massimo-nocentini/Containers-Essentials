@@ -2,15 +2,30 @@ Extension { #name : #BinomialHeap }
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
-	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
+	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape associations associationsGroup associationsComposite associationsEdges valueLinks |
 	aGroup := super asSlotsShapeKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           representation ifNotNil: aStream |<| #nextPut: ]).
+	valueLinks := representation valueLinks.
+	associations := valueLinks collect: #value.
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
-		              r asValueLinksGroupKnownReferences: IdentitySet empty ].
+			              r asValueLinksGroupKnownReferences:
+				              anIdentitySet | associations ].
+	associationsGroup := (associations collect: [ :rankAndHeapAssoc | 
+		                      ((rankAndHeapAssoc 
+			                        asSlotsShapeKnownReferences:
+			                        IdentitySet new) asShapeFor:
+			                       rankAndHeapAssoc) @ RSDraggable ]) as:
+		                     RSGroup.
+	RSVerticalLineLayout on: associationsGroup.
 	linksComposite := linksGroup asShape.
+	associationsComposite := associationsGroup asShape.
+	meShape := aGroup asShapeFor: self.
+	RSLocation new outer left middle
+		offset: 10 negated;
+		move: linksComposite on: associationsComposite.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes:
@@ -22,14 +37,23 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 			                     { (aGroup shapeFromModel: representation) };
 		                     useAssociations:
 			                     { representation asReflexiveAssociation }.
-	meShape := aGroup asShapeFor: self.
+	associationsEdges := eb
+		                     fromShapes:
+			                     (valueLinks collect: [ :aValueLink | 
+					                      (linksGroup shapeFromModel: aValueLink) 
+						                      shapeFromModel: aValueLink value ]);
+		                     toShapes: associationsGroup;
+		                     useAssociations:
+			                     (associations collect: #asReflexiveAssociation).
 	RSLocation new outer above
 		offset: 10 negated;
 		move: meShape on: linksComposite.
 	^ (RSGroup new
 		   add: linksComposite;
+		   add: associationsComposite;
 		   add: meShape;
 		   addAll: firstAndLastLinks;
+		   addAll: associationsEdges;
 		   yourself) @ RSDraggable
 ]
 
