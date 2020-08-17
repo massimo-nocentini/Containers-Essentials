@@ -29,7 +29,7 @@ Object >> asSlotsShapeKnownReferences: aSet [
 
 	"Compute a rectangle to share the same dimensions."
 	rectangle := descriptors
-		             inject: Rectangle emptyAtOrigin
+		             inject: (Rectangle emptyAtOrigin withHeight: 15)
 		             into: [ :aRectangle :slotDescriptor | 
 			             | aShapeOrNil |
 			             aShapeOrNil := slotDescriptor at: #shape.

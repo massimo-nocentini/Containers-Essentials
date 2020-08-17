@@ -9,7 +9,7 @@ BinomialTree >> asSlotsShapeKnownReferences: anIdentitySet [
 	linksGroup := children
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
-		              r asValueLinksGroupKnownReferences: IdentitySet empty ].
+		              r asValueLinksGroupKnownReferences: anIdentitySet ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
