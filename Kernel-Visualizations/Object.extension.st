@@ -100,10 +100,7 @@ Object >> asSlotsShapeKnownReferences: aSet [
 				           shapes: shapes;
 				           yourself);
 		          yourself.
-	"RSResize new
-		shapes: (descriptors collect: [ :aDict | 
-					 aGroup shapeFromModel: (aDict at: #var) ]);
-		sameHeight."
+"	aGroup @ (RSPopup text: self class)."
 	^ aGroup
 ]
 

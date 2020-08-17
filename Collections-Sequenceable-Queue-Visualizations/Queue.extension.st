@@ -2,16 +2,19 @@ Extension { #name : #Queue }
 
 { #category : #'*Collections-Sequenceable-Queue-Visualizations' }
 Queue >> asSlotsShapeKnownReferences: anIdentitySet [
-	| aGroup frontGroup rearGroup frontAndRearLinks padding frontComposite rearComposite eb composite meShape |
-	padding := 5.
+	| aGroup frontGroup rearGroup frontAndRearLinks frontComposite rearComposite eb composite meShape |
 	aGroup := super asSlotsShapeKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           front ifNotNil: [ aStream nextPut: front ].
 			           rear ifNotNil: [ aStream nextPut: rear ] ]).
 	frontGroup := front
 		              ifNil: [ RSGroup new ]
-		              ifNotNil: #asValueLinksGroup.
-	rearGroup := rear ifNil: [ RSGroup new ] ifNotNil: #asValueLinksGroup.
+		              ifNotNil: [ 
+		              front asValueLinksGroupKnownReferences: anIdentitySet ].
+	rearGroup := rear
+		             ifNil: [ RSGroup new ]
+		             ifNotNil: [ 
+		             rear asValueLinksGroupKnownReferences: anIdentitySet ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes: ({ 
@@ -27,27 +30,23 @@ Queue >> asSlotsShapeKnownReferences: anIdentitySet [
 				                     rear asReflexiveAssociation }.
 	frontComposite := frontGroup asShapeFor: front.
 	rearComposite := rearGroup asShapeFor: rear.
-	RSLocation new left outer
-		offset: padding negated;
-		move: frontComposite on: rearComposite.
-	RSAlignment new
-		shapes: { 
-				frontComposite.
-				rearComposite };
-		top.
+	RSHorizontalLineLayout on: { 
+			frontComposite.
+			rearComposite }.
 	composite := RSComposite new
-		             padding: padding;
 		             shapes: { 
 				             frontComposite.
 				             rearComposite };
 		             yourself.
 	meShape := aGroup asShapeFor: self.
-	RSLocation new above
-		offset: padding negated;
-		move: meShape on: composite.
+	RSVerticalLineLayout new
+		alignCenter;
+		applyOn: { 
+				meShape.
+				composite }.
 	^ (RSGroup new
-		   add: composite;
 		   add: meShape;
+		   add: composite;
 		   addAll: frontAndRearLinks;
 		   yourself) @ RSDraggable
 ]
