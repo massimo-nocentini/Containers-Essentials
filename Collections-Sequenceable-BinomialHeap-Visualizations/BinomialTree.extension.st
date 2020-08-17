@@ -1,6 +1,52 @@
 Extension { #name : #BinomialTree }
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialTree >> asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet [
+	| binomialTrees shapes edges eb fromShapes |
+	binomialTrees := self nodes.
+	shapes := binomialTrees
+		          collect: [ :aBinomialTree | 
+			          | g |
+			          g := aBinomialTree asSlotsShapeKnownReferences:
+				               aSet | binomialTrees.
+			          g asShape "For: aBinomialTree" ]
+		          as: Array.
+	eb := (RSEdgeBuilder new: RSArrowedLine new)
+		      color: Color gray;
+		      toShapes: shapes;
+		      yourself.
+	fromShapes := (binomialTrees asArray
+		               with: shapes
+		               collect: [ :aBinomialTree :shape | 
+			               aBinomialTree children
+				               ifNil: [ Array empty ]
+				               ifNotNil: [ :anArray | 
+					               anArray valueLinks collect: [ :aValueLink | 
+						               (shape shapeFromModel: aValueLink) 
+							               shapeFromModel: aValueLink value ] ] ]) 
+		              flatCollect: #yourself.
+	edges := eb
+		         fromShapes: fromShapes;
+		         useAssociations:
+			         (binomialTrees collect: [ :r | r asReflexiveAssociation ]).
+	binomialTrees asArray
+		with: shapes
+		do: [ :aBinomialTree :shape | shape model: aBinomialTree ].
+	eb shapes: shapes.
+	RSHorizontalTreeLayout
+		on: shapes
+		edges: (eb connectToAll: [ :aBinomialTree | 
+				 aBinomialTree children asLinkedList ]).
+	binomialTrees asArray
+		with: shapes
+		do: [ :aBinomialTree :shape | shape model: nil ].
+	^ aGroup
+		  addAll: shapes;
+		  addAll: edges;
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialTree >> asSlotsShapeKnownReferences: anIdentitySet [
 	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
 	aGroup := super asSlotsShapeKnownReferences:
@@ -47,15 +93,48 @@ BinomialTree >> edges: incomingEdges [
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
-BinomialTree >> gtInspectorTreeUsingMondrianBuilder: aMondrian [
-	self edges asLinkedList asGraph
-		gtInspectorGraphViewUsingMondrianBuilder: aMondrian
-		vertex: [ :shape | 
-			shape text
-				text: #content;
-				color: Color black ]
-		edge: [ :shape | shape orthoVerticalLine ]
-		layout: #tree
+BinomialTree >> gtInspectorRecursiveSlotsInCanvas: aCanvas knownReferencesSet: aSet [
+	| aGroup |
+	aGroup := RSGroup new.
+	self asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet.
+	aGroup @ RSDraggable.
+	^ aCanvas
+		  addAll: aGroup;
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialTree >> gtInspectorRecursiveSlotsViewIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Recursive slots';
+		  initializeCanvas: [ 
+			  | aCanvas |
+			  aCanvas := self
+				             gtInspectorRecursiveSlotsInCanvas: RSCanvas new
+				             knownReferencesSet: IdentitySet empty.
+			  aCanvas @ RSCanvasController ];
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialTree >> gtInspectorTreeViewIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	^ composite roassal3
+		  title: 'Tree';
+		  initializeCanvas: [ self gtInspectorTreeViewUsingCanvas: RSCanvas new ];
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialTree >> gtInspectorTreeViewUsingCanvas: aCanvas [
+	^ self edges asLinkedList asTree
+		  gtInspectorGraphViewIn: aCanvas
+		  vertexBlock: [ :aVertex | 
+			  RSLabel new
+				  text: aVertex content;
+				  color: Color black;
+				  yourself ]
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
@@ -65,4 +144,12 @@ BinomialTree >> instVarsNamesOrderedCollection [
 	pointed by its reference."
 
 	^ #( children content )
+]
+
+{ #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
+BinomialTree >> nodes [
+	| subtreeChildren |
+	subtreeChildren := children asLinkedList flatCollect: [ 
+		                   :aBinomialTree | aBinomialTree nodes ].
+	^ Array with: self withAll: subtreeChildren
 ]

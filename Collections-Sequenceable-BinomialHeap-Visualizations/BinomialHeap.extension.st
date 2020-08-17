@@ -97,20 +97,34 @@ BinomialHeap >> associations: aValueLink [
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
-BinomialHeap >> gtInspectorTreesUsingMondrianBuilder: aMondrian [
-	aMondrian shape rectangle
-		fillColor: Color white;
-		borderColor: Color lightGray;
-		withTextAbove: #key.
-	aMondrian
-		nodes: self associations asLinkedList
-		forEach:
-			[ :anAssociation | anAssociation value gtInspectorTreeUsingMondrianBuilder: aMondrian ].
-	aMondrian layout verticalLine
+BinomialHeap >> gtInspectorTreesInCanvas: aCanvas [
+	| shapes |
+	shapes := representation asLinkedList collect: [ :anAssociation | 
+		          | c |
+		          c := anAssociation value gtInspectorTreeViewUsingCanvas:
+			               RSCanvas new.
+		          (RSComposite new
+			           shapes: { c asShape };
+			           padding: 5;
+			           withBorder;
+			           yourself) @ (RSLabeled new text: anAssociation key) ].
+	RSVerticalLineLayout new
+		alignCenter;
+		verticalGap: 20;
+		applyOn: shapes.
+	^ aCanvas
+		  addAll: shapes;
+		  yourself
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialHeap >> gtInspectorTreesViewIn: composite [
 	<gtInspectorPresentationOrder: 20>
-
+	^ composite roassal3
+		  title: 'Trees';
+		  initializeCanvas: [ 
+			  | c |
+			  c := self gtInspectorTreesInCanvas: RSCanvas new.
+			  c @ RSCanvasController ];
+		  yourself
 ]
