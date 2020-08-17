@@ -22,12 +22,14 @@ BinomialTree >> asSlotsShapeKnownReferences: anIdentitySet [
 		                     useAssociations:
 			                     { children asReflexiveAssociation }.
 	meShape := aGroup asShapeFor: self.
-	RSLocation new above outer
-		offset: 10 negated;
-		move: meShape on: linksComposite.
+	RSVerticalLineLayout new
+		alignCenter;
+		applyOn: { 
+				meShape.
+				linksComposite }.
 	^ (RSGroup new
-		   add: linksComposite;
 		   add: meShape;
+		   add: linksComposite;
 		   addAll: firstAndLastLinks;
 		   yourself) @ RSDraggable
 ]

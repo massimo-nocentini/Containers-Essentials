@@ -50,13 +50,17 @@ BinomialTree >> asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet [
 		         fromShapes: fromShapes;
 		         useAssociations:
 			         (binomialTrees collect: [ :r | r asReflexiveAssociation ]).
-	eb shapes: (binomialTrees asArray
-			 with: shapes
-			 collect: [ :aBinomialTree :shape | shape model: aBinomialTree ]).
+	binomialTrees asArray
+		with: shapes
+		do: [ :aBinomialTree :shape | shape model: aBinomialTree ].
+	eb shapes: shapes.
 	RSHorizontalTreeLayout
 		on: shapes
 		edges: (eb connectToAll: [ :aBinomialTree | 
 				 aBinomialTree children asLinkedList ]).
+	binomialTrees asArray
+		with: shapes
+		do: [ :aBinomialTree :shape | shape model: nil ].
 	^ aGroup
 		  addAll: shapes;
 		  addAll: edges;

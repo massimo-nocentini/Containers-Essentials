@@ -2,7 +2,7 @@ Extension { #name : #BinomialHeap }
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
 BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
-	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape associations associationsGroup associationsComposite associationsEdges valueLinks |
+	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape associations associationsGroup associationsComposite associationsEdges valueLinks binomialTrees binomialTreesGroup treesEdges treesComposite |
 	aGroup := super asSlotsShapeKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           representation ifNotNil: aStream |<| #nextPut: ]).
@@ -10,6 +10,7 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 		              ifNil: [ Array empty ]
 		              ifNotNil: #valueLinks.
 	associations := valueLinks collect: #value.
+	binomialTrees := associations collect: #value.
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
@@ -18,16 +19,35 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 	associationsGroup := (associations collect: [ :rankAndHeapAssoc | 
 		                      ((rankAndHeapAssoc 
 			                        asSlotsShapeKnownReferences:
-			                        IdentitySet new) asShapeFor:
+			                        anIdentitySet | binomialTrees) asShapeFor:
 			                       rankAndHeapAssoc) @ RSDraggable ]) as:
 		                     RSGroup.
+	binomialTreesGroup := binomialTrees
+		                      collect: [ :aBinomialTree | 
+			                      (aBinomialTree
+				                       asRecursiveSlotsInGroup: RSGroup new
+				                       knownReferencesSet: anIdentitySet) asShape
+			                      @ RSDraggable ]
+		                      as: RSGroup.
 	RSVerticalLineLayout on: associationsGroup.
+	RSVerticalLineLayout on: binomialTreesGroup.
 	linksComposite := linksGroup asShape.
 	associationsComposite := associationsGroup asShape.
+	treesComposite := binomialTreesGroup asShape.
 	meShape := aGroup asShapeFor: self.
-	RSLocation new outer left middle
-		offset: 10 negated;
-		move: linksComposite on: associationsComposite.
+	RSVerticalLineLayout new
+		alignCenter;
+		applyOn: { 
+				meShape.
+				linksComposite }.
+	RSHorizontalLineLayout on: { 
+			(RSComposite new
+				 shapes: { 
+						 meShape.
+						 linksComposite };
+				 yourself).
+			associationsComposite.
+			treesComposite }.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes:
@@ -47,15 +67,21 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 		                     toShapes: associationsGroup;
 		                     useAssociations:
 			                     (associations collect: #asReflexiveAssociation).
-	RSLocation new outer above
-		offset: 10 negated;
-		move: meShape on: linksComposite.
+	treesEdges := eb
+		              fromShapes: (associations collect: [ :anAssoc | 
+					               (associationsGroup shapeFromModel: anAssoc) 
+						               shapeFromModel: anAssoc value ]);
+		              toShapes: binomialTreesGroup;
+		              useAssociations:
+			              (binomialTrees collect: #asReflexiveAssociation).
 	^ (RSGroup new
+		   add: meShape;
 		   add: linksComposite;
 		   add: associationsComposite;
-		   add: meShape;
+		   add: treesComposite;
 		   addAll: firstAndLastLinks;
 		   addAll: associationsEdges;
+		   addAll: treesEdges;
 		   yourself) @ RSDraggable
 ]
 
