@@ -17,6 +17,26 @@ UnbalancedSet class >> empty [
 ]
 
 { #category : #adding }
+UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink includes: anObject witness: aWitness [
+
+	| aRefinedWitness leftLink rightLink |
+	aRefinedWitness := aDoubleLink value.
+	leftLink := aDoubleLink previousLink.
+	rightLink := aDoubleLink nextLink.
+	^ anObject < aRefinedWitness
+		  ifTrue: [ 
+		  leftLink
+			  includes: anObject
+			  witness: aWitness
+			  inUnbalancedSet: self ]
+		  ifFalse: [ 
+			  rightLink
+				  includes: anObject
+				  witness: aRefinedWitness
+				  inUnbalancedSet: self ]
+]
+
+{ #category : #adding }
 UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink push: anObject witness: aWitness continuation: aContinuation [
 	| aRefinedWitness leftLink rightLink newLink |
 	aRefinedWitness := aDoubleLink value.
@@ -48,6 +68,12 @@ UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink push: anObject witness:
 ]
 
 { #category : #adding }
+UnbalancedSet >> inNilRepresentation: _ includes: anObject witness: aWitness [
+
+	^ anObject = aWitness
+]
+
+{ #category : #adding }
 UnbalancedSet >> inNilRepresentation: _ push: anObject witness: aWitness continuation: aContinuation [
 	^ anObject = aWitness
 		  ifTrue: [ aContinuation value: representation ]
@@ -55,6 +81,15 @@ UnbalancedSet >> inNilRepresentation: _ push: anObject witness: aWitness continu
 			  DoubleLink new
 				  value: anObject;
 				  yourself ]
+]
+
+{ #category : #adding }
+UnbalancedSet >> includes: anObject [
+
+	^ representation
+		  includes: anObject
+		  witness: nil
+		  inUnbalancedSet: self
 ]
 
 { #category : #adding }
