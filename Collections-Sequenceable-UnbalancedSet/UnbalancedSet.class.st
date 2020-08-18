@@ -59,14 +59,12 @@ UnbalancedSet >> inNilRepresentation: _ push: anObject witness: aWitness continu
 
 { #category : #adding }
 UnbalancedSet >> push: anObject [
-	^ [ :hop | 
-	  self class new
-		  representation: (representation
-				   push: anObject
-				   witness: nil
-				   continuation: hop
-				   inUnbalancedSet: self);
-		  yourself ] callWithCurrentContinuation
+	^ self class new representation: [ :hop | 
+		  (representation
+			   push: anObject
+			   witness: nil
+			   continuation: hop
+			   inUnbalancedSet: self) yourself ] callWithCurrentContinuation
 ]
 
 { #category : #accessing }
