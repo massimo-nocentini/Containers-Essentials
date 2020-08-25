@@ -9,6 +9,23 @@ Class {
 	#category : #'Collections-Sequenceable-UnbalancedSet'
 }
 
+{ #category : #'as yet unclassified' }
+UnbalancedSet class >> complete: anObject depth: anInteger [
+	| block tree |
+	block := [ :l :r | 
+	         DoubleLink new
+		         previousLink: l;
+		         value: anObject;
+		         nextLink: r;
+		         yourself ].
+	tree := (1 to: anInteger)
+		        inject: nil
+		        into: [ :t :_ | block value: t value: t ].
+	^ self new
+		  representation: tree;
+		  yourself
+]
+
 { #category : #requirements }
 UnbalancedSet class >> empty [
 	^ self new
@@ -18,19 +35,16 @@ UnbalancedSet class >> empty [
 
 { #category : #adding }
 UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink includes: anObject witness: aWitness [
-
-	| aRefinedWitness leftLink rightLink |
+	| aRefinedWitness |
 	aRefinedWitness := aDoubleLink value.
-	leftLink := aDoubleLink previousLink.
-	rightLink := aDoubleLink nextLink.
 	^ anObject < aRefinedWitness
 		  ifTrue: [ 
-		  leftLink
-			  includes: anObject
-			  witness: aWitness
-			  inUnbalancedSet: self ]
+			  aDoubleLink previousLink
+				  includes: anObject
+				  witness: aWitness
+				  inUnbalancedSet: self ]
 		  ifFalse: [ 
-			  rightLink
+			  aDoubleLink nextLink
 				  includes: anObject
 				  witness: aRefinedWitness
 				  inUnbalancedSet: self ]
@@ -42,7 +56,7 @@ UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink push: anObject witness:
 	aRefinedWitness := aDoubleLink value.
 	leftLink := aDoubleLink previousLink.
 	rightLink := aDoubleLink nextLink.
-	^ anObject < aRefinedWitness
+	^ (self is: anObject lessThan: aRefinedWitness)
 		  ifTrue: [ 
 			  newLink := leftLink
 				             push: anObject
@@ -93,15 +107,19 @@ UnbalancedSet >> includes: anObject [
 ]
 
 { #category : #adding }
+UnbalancedSet >> is: anObject lessThan: aRefinedWitness [
+	^ anObject < aRefinedWitness
+]
+
+{ #category : #adding }
 UnbalancedSet >> push: anObject [
 	| repr |
 	repr := [ :hop | 
-	        (representation
-		         push: anObject
-		         witness: nil
-		         continuation: hop
-		         inUnbalancedSet: self) yourself ]
-		        callWithCurrentContinuation.
+	        representation
+		        push: anObject
+		        witness: nil
+		        continuation: hop
+		        inUnbalancedSet: self ] callWithCurrentContinuation.
 	^ self class new
 		  representation: repr;
 		  yourself
