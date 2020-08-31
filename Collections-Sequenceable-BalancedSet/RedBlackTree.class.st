@@ -47,6 +47,11 @@ RedBlackTree >> inNilRepresentation: _ push: anObject witness: aWitness continua
 ]
 
 { #category : #adding }
+RedBlackTree >> is: anObject equalTo: aRefinedWitness [
+	^ anObject = aRefinedWitness value
+]
+
+{ #category : #adding }
 RedBlackTree >> is: anObject lessThan: aRefinedWitness [
 	^ anObject < aRefinedWitness value
 ]
@@ -59,9 +64,11 @@ RedBlackTree >> node: x color: aColorClass [
 ]
 
 { #category : #adding }
-RedBlackTree >> representation: aDoubleLink [
+RedBlackTree >> push: anObject [
 	| repr |
-	repr := aDoubleLink ifNotNil: [ 
-		        aDoubleLink value: aDoubleLink value asBlackNode ].
-	^ super representation: repr
+	repr := (super push: anObject) representation.
+	repr := repr ifNotNil: [ repr value: repr value asBlackNode ].
+	^ self class new
+		  representation: repr;
+		  yourself
 ]

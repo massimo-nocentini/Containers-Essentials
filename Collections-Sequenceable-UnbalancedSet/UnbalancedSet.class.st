@@ -37,7 +37,7 @@ UnbalancedSet class >> empty [
 UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink includes: anObject witness: aWitness [
 	| aRefinedWitness |
 	aRefinedWitness := aDoubleLink value.
-	^ anObject < aRefinedWitness
+	^ (self is: anObject lessThan: aRefinedWitness)
 		  ifTrue: [ 
 			  aDoubleLink previousLink
 				  includes: anObject
@@ -83,13 +83,12 @@ UnbalancedSet >> inDoubleLinkRepresentation: aDoubleLink push: anObject witness:
 
 { #category : #adding }
 UnbalancedSet >> inNilRepresentation: _ includes: anObject witness: aWitness [
-
-	^ anObject = aWitness
+	^ self is: anObject equalTo: aWitness
 ]
 
 { #category : #adding }
 UnbalancedSet >> inNilRepresentation: _ push: anObject witness: aWitness continuation: aContinuation [
-	^ anObject = aWitness
+	^ (self is: anObject equalTo: aWitness)
 		  ifTrue: [ aContinuation value: representation ]
 		  ifFalse: [ 
 			  DoubleLink new
@@ -104,6 +103,11 @@ UnbalancedSet >> includes: anObject [
 		  includes: anObject
 		  witness: nil
 		  inUnbalancedSet: self
+]
+
+{ #category : #adding }
+UnbalancedSet >> is: anObject equalTo: aRefinedWitness [
+	^ anObject = aRefinedWitness
 ]
 
 { #category : #adding }
