@@ -31,6 +31,12 @@ Object >> asReflexiveAssociation [
 ]
 
 { #category : #'*Kernel-Extensions' }
+Object >> ignoreBlock: aBlock [
+	aBlock cull: self.
+	^ self
+]
+
+{ #category : #'*Kernel-Extensions' }
 Object >> |<| aBlockOrSymbol [
 	^ [ :arg | 
 	  aBlockOrSymbol isSymbol
