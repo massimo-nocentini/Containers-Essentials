@@ -2,6 +2,19 @@ Extension { #name : #Collection }
 
 { #category : #'*Collections-Abstract-Extensions' }
 Collection >> topologicalSortOnCycleDo: cBlock [
+	"Implementation of the *ALgorithm T* in TAOCP by Donald Knuth, Volume 1 page 264.
+	
+	 # Complexity
+		`O(m + n)` where 	`m` is the number of input relations and 
+								`n` is the number of (unique) objects represented by naturals.
+									
+	 # Message send
+		`c topologicalSortOnCycleDo: b` 
+			where `c` is a collection of associations `j -> k`, for `j, k in [1, n]` no holes allowed,
+						 namely every natural *has* to be used in at least one input relation. And,
+					`b` is a block consuming a collection of associations forming a cycle.
+	 "
+
 	| objs n table r qlink f sort |
 	objs := self
 		        flatCollect: [ :association | 
@@ -26,14 +39,12 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 			              nextLink: sourceAssoc value;
 			              yourself.
 		sourceAssoc value: aValueLink ].
-	r := 0.
 	qlink := Dictionary new
 		         at: 0 put: 0;
 		         yourself.
+	r := 0.
 	1 to: n do: [ :k | 
-		(table at: k) key = 0 ifTrue: [ 
-			qlink at: r put: k.
-			r := k ] ].
+	(table at: k) key = 0 ifTrue: [ r := qlink at: r put: k ] ].
 	f := qlink at: 0.
 	sort := Array streamContents: [ :array | 
 		        [ f = 0 ] whileFalse: [ 
@@ -61,20 +72,18 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 				  [ p ] whileNotNil: [ 
 					  qlink at: p value put: k.
 					  p := p nextLink ] ].
-			  kk := (qlink select: [ :assoc | assoc ~= 0 ]) anyAssociation key.
+			  kk := (qlink select: [ :value | value ~= 0 ]) anyAssociation key.
 			  [ 
 			  (table at: kk) value: 1.
 			  kk := qlink at: kk.
 			  (table at: kk) value = 0 ] whileTrue.
-			  cycle := LinkedList new.
-			  [ 
-			  cycle add: kk.
-			  (table at: kk) value: 0.
-			  kk := qlink at: kk.
-			  (table at: kk) value = 1 ] whileTrue.
-			  cycle add: kk.
-			  cBlock
-				  cull: (cycle overlappingPairsCollect: [ :a :b | b -> a ])
-				  cull: sort ]
+			  cycle := Array streamContents: [ :array | 
+				           [ 
+				           array nextPut: kk.
+				           (table at: kk) value: 0.
+				           kk := qlink at: kk.
+				           (table at: kk) value = 1 ] whileTrue.
+				           array nextPut: kk ].
+			  cBlock value: (cycle overlappingPairsCollect: [ :a :b | b -> a ]) ]
 		  ifFalse: [ sort ]
 ]
