@@ -65,10 +65,10 @@ RedBlackTree >> node: x color: aColorClass [
 
 { #category : #adding }
 RedBlackTree >> push: anObject [
-	| repr |
-	repr := (super push: anObject) representation.
-	repr := repr ifNotNil: [ repr value: repr value asBlackNode ].
-	^ self class new
-		  representation: repr;
-		  yourself
+	| tree repr |
+	tree := super push: anObject.
+	repr := tree representation.
+	"	repr := repr ifNotNil: [ repr value: repr value asBlackNode ]."
+	repr value: repr value asBlackNode.
+	^ tree
 ]
