@@ -143,7 +143,9 @@ BinomialTree >> instVarsNamesOrderedCollection [
 	the rightmost because that allows us to compose better shapes 
 	pointed by its reference."
 
-	^ #( children content )
+	^ { 
+		  #children asReflexiveAssociation.
+		  #content asReflexiveAssociation }
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }

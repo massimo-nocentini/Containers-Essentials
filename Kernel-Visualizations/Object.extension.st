@@ -2,22 +2,28 @@ Extension { #name : #Object }
 
 { #category : #'*Kernel-Visualizations' }
 Object >> asSlotsShapeKnownReferences: aSet [
-	| shapes rectangle instVars radious descriptors aGroup |
+	^ self
+		  asSlotsShapeKnownReferences: aSet
+		  accessors: self instVarsNamesOrderedCollection
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> asSlotsShapeKnownReferences: aSet accessors: selectors [
+	| shapes rectangle radious descriptors aGroup |
 	"Basic settings for rounding the boxes"
 	radious := 2.
 
-	"Let subclasses to customize the order of the slots."
-	instVars := self instVarsNamesOrderedCollection.
-
 	"Build label shapes for objects not known according to the `aSet` argument."
-	descriptors := instVars collect: [ :var | 
-		               | value shape |
-		               value := self instVarNamed: var.
+	descriptors := selectors collect: [ :anAssociation | 
+		               | value shape var accessor |
+		               var := anAssociation key.
+		               accessor := anAssociation value.
+		               value := accessor value: self.
 		               shape := (aSet includes: value)
 			                        ifTrue: [ nil ]
 			                        ifFalse: [ "Don't set the model because it will be attached to the enclosing box."
 				                        RSLabel new
-					                        text: value;
+					                        text: (value ifNil: [ 'nil' ]);
 					                        yourself ].
 
 		               "Our descriptor is a plain dictionary."
@@ -63,7 +69,7 @@ Object >> asSlotsShapeKnownReferences: aSet [
 		          "Handle corners correctly."
 		          cornerRadious := RSCornerRadius new.
 		          index = 1 ifTrue: [ cornerRadious left: radious ].
-		          index = instVars size ifTrue: [ 
+		          index = selectors size ifTrue: [ 
 			          cornerRadious right: radious ].
 		          box cornerRadius: cornerRadious.
 		          box := aShape
@@ -100,7 +106,7 @@ Object >> asSlotsShapeKnownReferences: aSet [
 				           shapes: shapes;
 				           yourself);
 		          yourself.
-"	aGroup @ (RSPopup text: self class)."
+	"	aGroup @ (RSPopup text: self class)."
 	^ aGroup
 ]
 
@@ -120,5 +126,6 @@ Object >> gtInspectorSlotsGraphIn: composite [
 
 { #category : #'*Kernel-Visualizations' }
 Object >> instVarsNamesOrderedCollection [
-	^ self class allInstVarNames
+	^ self class allInstVarNames collect: [ :varName | 
+		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
 ]

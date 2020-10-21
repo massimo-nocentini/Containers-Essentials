@@ -86,5 +86,7 @@ ValueLink >> instVarsNamesOrderedCollection [
 	the rightmost because that allows us to compose better shapes 
 	pointed by its reference."
 
-	^ #( nextLink value )
+	^ { 
+		  #nextLink asReflexiveAssociation.
+		  #value asReflexiveAssociation }
 ]

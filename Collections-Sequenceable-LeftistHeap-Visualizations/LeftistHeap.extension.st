@@ -88,7 +88,11 @@ LeftistHeap >> gtInspectorValueLinksChainInCanvas: aCanvas [
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> instVarsNamesOrderedCollection [
-	^ #( previousLink value rank nextLink )
+	^ { 
+		  #previousLink asReflexiveAssociation.
+		  #value asReflexiveAssociation.
+		  #rank asReflexiveAssociation.
+		  #nextLink asReflexiveAssociation }
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
