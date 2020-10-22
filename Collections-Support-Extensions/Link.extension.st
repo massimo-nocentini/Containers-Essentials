@@ -4,13 +4,14 @@ Extension { #name : #Link }
 Link >> do: aBlock [
 	| link |
 	link := self.
-	[ link isNotNil and: [ link nextLink ~= self ] ] whileTrue: [ 
+	[ link ] whileNotNil: [ 
 		aBlock value: link.
-		link := link nextLink ]
+		link := link nextLink.
+		link == self ifTrue: [ link := nil ] ]
 ]
 
 { #category : #'*Collections-Support-Extensions' }
-Link >> valueLinks [
+Link >> recursiveReferences [
 	^ Array streamContents: [ :aStream | 
 		  self do: [ :aValueLink | aStream nextPut: aValueLink ] ]
 ]

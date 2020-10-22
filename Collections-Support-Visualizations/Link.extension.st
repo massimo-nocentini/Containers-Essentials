@@ -1,9 +1,8 @@
 Extension { #name : #Link }
 
 { #category : #'*Collections-Support-Visualizations' }
-Link >> asValueLinksGroupKnownReferences: aSet [
-	| links shapes edges eb |
-	links := self valueLinks.
+Link >> asSlotsShapeKnownReferences: aSet recursiveReferences: links [
+	| shapes edges eb |
 	shapes := links collect: [ :aValueLink | 
 		          | g |
 		          g := aValueLink asSlotsShapeKnownReferences: aSet | links.
@@ -24,6 +23,13 @@ Link >> asValueLinksGroupKnownReferences: aSet [
 		  addAll: shapes;
 		  addAll: edges;
 		  yourself
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
+Link >> asValueLinksGroupKnownReferences: aSet [
+	^ self
+		  asSlotsShapeKnownReferences: aSet
+		  recursiveReferences: self recursiveReferences
 ]
 
 { #category : #'*Collections-Support-Visualizations' }

@@ -37,6 +37,11 @@ Object >> ignoreBlock: aBlock [
 ]
 
 { #category : #'*Kernel-Extensions' }
+Object >> recursiveReferences [
+	^ {  }
+]
+
+{ #category : #'*Kernel-Extensions' }
 Object >> |<| aBlockOrSymbol [
 	^ [ :arg | 
 	  aBlockOrSymbol isSymbol

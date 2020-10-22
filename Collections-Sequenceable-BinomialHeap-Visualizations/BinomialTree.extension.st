@@ -21,7 +21,7 @@ BinomialTree >> asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet [
 			               aBinomialTree children
 				               ifNil: [ Array empty ]
 				               ifNotNil: [ :anArray | 
-					               anArray valueLinks collect: [ :aValueLink | 
+					               anArray recursiveReferences collect: [ :aValueLink | 
 						               (shape shapeFromModel: aValueLink) 
 							               shapeFromModel: aValueLink value ] ] ]) 
 		              flatCollect: #yourself.

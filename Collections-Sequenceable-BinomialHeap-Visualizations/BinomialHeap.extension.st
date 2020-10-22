@@ -8,7 +8,7 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 			           representation ifNotNil: aStream |<| #nextPut: ]).
 	valueLinks := representation
 		              ifNil: [ Array empty ]
-		              ifNotNil: #valueLinks.
+		              ifNotNil: #recursiveReferences.
 	associations := valueLinks collect: #value.
 	binomialTrees := associations collect: #value.
 	linksGroup := representation

@@ -111,6 +111,11 @@ Object >> asSlotsShapeKnownReferences: aSet accessors: selectors [
 ]
 
 { #category : #'*Kernel-Visualizations' }
+Object >> asSlotsShapeKnownReferences: aSet recursiveReferences: refs [
+	^ RSGroup new
+]
+
+{ #category : #'*Kernel-Visualizations' }
 Object >> gtInspectorSlotsGraphIn: composite [
 	<gtInspectorPresentationOrder: 20>
 	^ composite roassal3
@@ -122,6 +127,23 @@ Object >> gtInspectorSlotsGraphIn: composite [
 				   addAll: aGroup;
 				   yourself) @ RSCanvasController ];
 		  yourself
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> gtInspectorSlotsGraphRecursiveIn: composite [
+	<gtInspectorPresentationOrder: 30>
+	^ self recursiveReferences ifNotEmpty: [ :refs | 
+		  composite roassal3
+			  title: 'Slots graph (recursive)';
+			  initializeCanvas: [ 
+				  | aGroup |
+				  aGroup := self
+					            asSlotsShapeKnownReferences: IdentitySet empty
+					            recursiveReferences: refs.
+				  (RSCanvas new
+					   addAll: aGroup;
+					   yourself) @ RSCanvasController ];
+			  yourself ]
 ]
 
 { #category : #'*Kernel-Visualizations' }
