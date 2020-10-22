@@ -1,22 +1,22 @@
 Extension { #name : #Queue }
 
 { #category : #'*Collections-Sequenceable-Queue-Visualizations' }
-Queue >> asSlotsShapeKnownReferences: anIdentitySet [
+Queue >> asSlotsGroupKnownReferences: anIdentitySet [
 	| aGroup frontGroup rearGroup frontAndRearLinks frontComposite rearComposite eb composite meShape |
-	aGroup := super asSlotsShapeKnownReferences:
+	aGroup := super asSlotsGroupKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           front ifNotNil: [ aStream nextPut: front ].
 			           rear ifNotNil: [ aStream nextPut: rear ] ]).
-	frontGroup := front
-		              ifNil: [ RSGroup new ]
-		              ifNotNil: [ 
-		              front asRecursiveSlotsShapeKnownReferences:
-			              anIdentitySet ].
-	rearGroup := rear
-		             ifNil: [ RSGroup new ]
-		             ifNotNil: [ 
-		             rear asRecursiveSlotsShapeKnownReferences:
-			             anIdentitySet ].
+	frontGroup := front ifNil: [ RSGroup new ] ifNotNil: [ 
+		              front
+			              asSlotsGroupRecursiveKnownReferences: anIdentitySet
+			              layoutBlock: [ :shapes | 
+			              RSVerticalLineLayout on: shapes ] ].
+	rearGroup := rear ifNil: [ RSGroup new ] ifNotNil: [ 
+		             rear
+			             asSlotsGroupRecursiveKnownReferences: anIdentitySet
+			             layoutBlock: [ :shapes | 
+			             RSVerticalLineLayout on: shapes ] ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes: ({ 

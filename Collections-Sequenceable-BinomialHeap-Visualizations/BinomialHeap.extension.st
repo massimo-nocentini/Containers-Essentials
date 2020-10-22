@@ -1,9 +1,9 @@
 Extension { #name : #BinomialHeap }
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
-BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
+BinomialHeap >> asSlotsGroupKnownReferences: anIdentitySet [
 	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape associations associationsGroup associationsComposite associationsEdges valueLinks binomialTrees binomialTreesGroup treesEdges treesComposite |
-	aGroup := super asSlotsShapeKnownReferences:
+	aGroup := super asSlotsGroupKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           representation ifNotNil: aStream |<| #nextPut: ]).
 	valueLinks := representation
@@ -14,11 +14,14 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
-			              r asRecursiveSlotsShapeKnownReferences:
-				              anIdentitySet | associations ].
+			              r
+				              asSlotsGroupRecursiveKnownReferences:
+				              anIdentitySet | associations
+				              layoutBlock: [ :shapes | 
+				              RSVerticalLineLayout on: shapes ] ].
 	associationsGroup := (associations collect: [ :rankAndHeapAssoc | 
 		                      ((rankAndHeapAssoc 
-			                        asSlotsShapeKnownReferences:
+			                        asSlotsGroupKnownReferences:
 			                        anIdentitySet | binomialTrees) asShapeFor:
 			                       rankAndHeapAssoc) @ RSDraggable ]) as:
 		                     RSGroup.

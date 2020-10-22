@@ -7,7 +7,7 @@ BinomialTree >> asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet [
 	shapes := binomialTrees
 		          collect: [ :aBinomialTree | 
 			          | g |
-			          g := aBinomialTree asSlotsShapeKnownReferences:
+			          g := aBinomialTree asSlotsGroupKnownReferences:
 				               aSet | binomialTrees.
 			          g asShape "For: aBinomialTree" ]
 		          as: Array.
@@ -47,15 +47,16 @@ BinomialTree >> asRecursiveSlotsInGroup: aGroup knownReferencesSet: aSet [
 ]
 
 { #category : #'*Collections-Sequenceable-BinomialHeap-Visualizations' }
-BinomialTree >> asSlotsShapeKnownReferences: anIdentitySet [
+BinomialTree >> asSlotsGroupKnownReferences: anIdentitySet [
 	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
-	aGroup := super asSlotsShapeKnownReferences:
+	aGroup := super asSlotsGroupKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           children ifNotNil: aStream |<| #nextPut: ]).
-	linksGroup := children
-		              ifNil: [ RSGroup new ]
-		              ifNotNil: [ :r | 
-		              r asRecursiveSlotsShapeKnownReferences: anIdentitySet ].
+	linksGroup := children ifNil: [ RSGroup new ] ifNotNil: [ :r | 
+		              r
+			              asSlotsGroupRecursiveKnownReferences: anIdentitySet
+			              layoutBlock: [ :shapes | 
+			              RSVerticalLineLayout on: shapes ] ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;

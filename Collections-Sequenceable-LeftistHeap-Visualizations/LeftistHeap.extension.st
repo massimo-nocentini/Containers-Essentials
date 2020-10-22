@@ -7,7 +7,7 @@ LeftistHeap >> asNodesGroup [
 	shapes := links
 		          collect: [ :aValueLink | 
 			          | g |
-			          g := aValueLink asSlotsShapeKnownReferences: links.
+			          g := aValueLink asSlotsGroupKnownReferences: links.
 			          g asShapeFor: aValueLink ]
 		          as: Array.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)

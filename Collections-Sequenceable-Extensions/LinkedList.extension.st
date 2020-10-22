@@ -17,17 +17,18 @@ LinkedList >> allButFirst [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
-LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
+LinkedList >> asSlotsGroupKnownReferences: anIdentitySet [
 	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
-	aGroup := super asSlotsShapeKnownReferences:
+	aGroup := super asSlotsGroupKnownReferences:
 		          anIdentitySet | (Array streamContents: [ :aStream | 
 			           firstLink ifNotNil: aStream |<| #nextPut:.
 			           lastLink ifNotNil: aStream |<| #nextPut: ]).
-	linksGroup := firstLink
-		              ifNil: [ RSGroup new ]
-		              ifNotNil: [ :r | 
-		              r asRecursiveSlotsShapeKnownReferences:
-			              IdentitySet empty ].
+	linksGroup := firstLink ifNil: [ RSGroup new ] ifNotNil: [ :r | 
+		              r
+			              asSlotsGroupRecursiveKnownReferences:
+			              IdentitySet empty
+			              layoutBlock: [ :shapes | 
+			              RSVerticalLineLayout on: shapes ] ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
