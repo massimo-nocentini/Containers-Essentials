@@ -9,16 +9,10 @@ Object >> asRecursiveSlotsShapeKnownReferences: aSet [
 
 { #category : #'*Kernel-Visualizations' }
 Object >> asSlotsShapeKnownReferences: aSet [
-	^ self
-		  asSlotsShapeKnownReferences: aSet
-		  accessors: self instVarsNamesOrderedCollection
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> asSlotsShapeKnownReferences: aSet accessors: selectors [
-	| shapes rectangle radious descriptors aGroup |
+	| shapes rectangle radious descriptors aGroup selectors |
 	"Basic settings for rounding the boxes"
 	radious := 2.
+	selectors := self instVarsNamesOrderedCollection.
 
 	"Build label shapes for objects not known according to the `aSet` argument."
 	descriptors := selectors collect: [ :anAssociation | 
