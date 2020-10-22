@@ -2,12 +2,13 @@ Extension { #name : #Link }
 
 { #category : #'*Collections-Support-Visualizations' }
 Link >> asSlotsShapeKnownReferences: aSet recursiveReferences: links [
-	| shapes edges eb |
+	| shapes edges eb aNewSet |
+	aNewSet := aSet | links.
 	shapes := links collect: [ :aValueLink | 
 		          | g |
-		          g := aValueLink asSlotsShapeKnownReferences: aSet | links.
+		          g := aValueLink asSlotsShapeKnownReferences: aNewSet.
 		          (g asShapeFor: aValueLink) @ RSDraggable ].
-	eb := (RSEdgeBuilder new: RSArrowedLine new)
+	eb := RSEdgeBuilder arrowedLine
 		      color: Color gray;
 		      toShapes: shapes;
 		      yourself.
