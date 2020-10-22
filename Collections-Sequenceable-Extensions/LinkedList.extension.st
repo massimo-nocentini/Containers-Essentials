@@ -18,32 +18,43 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsGroupKnownReferences: anIdentitySet [
-	| aGroup firstAndLastLinks linksComposite linksGroup eb meShape |
+	| aGroup firstAndLastLinks linksComposite linksGroup meShape eb |
 	aGroup := super asSlotsGroupKnownReferences:
-		          anIdentitySet | (Array streamContents: [ :aStream | 
-			           firstLink ifNotNil: aStream |<| #nextPut:.
-			           lastLink ifNotNil: aStream |<| #nextPut: ]).
+		          anIdentitySet | (firstLink ifNil: [ {  } ] ifNotNil: [ 
+			           { 
+				           firstLink.
+				           lastLink } ]).
 	linksGroup := firstLink ifNil: [ RSGroup new ] ifNotNil: [ :r | 
 		              r
 			              asSlotsGroupRecursiveKnownReferences:
 			              IdentitySet empty
 			              layoutBlock: [ :shapes | 
 			              RSVerticalLineLayout on: shapes ] ].
-	linksComposite := linksGroup asShape.
-	eb := (RSEdgeBuilder new: RSArrowedLine new)
-		      color: Color gray;
-		      toShapes: ({ 
-				       (linksGroup shapeFromModel: firstLink).
-				       (linksGroup shapesFromModel: lastLink) } reject: #isNil);
-		      yourself.
-	firstAndLastLinks := eb
+	firstAndLastLinks := RSEdgeBuilder arrowedLine
+		                     color: Color gray;
+		                     toShapes: ({ 
+				                      (linksGroup shapeFromModel: firstLink).
+				                      (linksGroup shapesFromModel: lastLink) } 
+				                      reject: #isNil);
 		                     fromShapes: { 
 				                     (aGroup shapeFromModel: firstLink).
-				                     (aGroup shapesFromModel: lastLink) last };
+				                     (aGroup first shapes last shapeFromModel:
+						                      lastLink) };
 		                     useAssociations: { 
 				                     firstLink asReflexiveAssociation.
 				                     lastLink asReflexiveAssociation }.
+	self size = 1 ifTrue: [ "Handle the special case when `firstLink` and `lastLink` points to 
+		 the same ValueLink (aka, the list contains just one element)."
+		| lastEdge |
+		lastEdge := RSEdgeBuilder arrowedLine
+			            color: Color gray;
+			            toShapes: { (linksGroup shapeFromModel: firstLink) };
+			            fromShapes:
+				            { (aGroup first shapes last shapeFromModel: lastLink) };
+			            useAssociation: lastLink asReflexiveAssociation.
+		firstAndLastLinks add: lastEdge ].
 	meShape := aGroup asShapeFor: self.
+	linksComposite := linksGroup asShape.
 	RSLocation new outer left
 		offset: 5 negated;
 		move: meShape on: linksComposite.
