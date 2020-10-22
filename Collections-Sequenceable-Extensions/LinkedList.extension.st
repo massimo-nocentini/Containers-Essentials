@@ -26,7 +26,8 @@ LinkedList >> asSlotsShapeKnownReferences: anIdentitySet [
 	linksGroup := firstLink
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
-		              r asValueLinksGroupKnownReferences: IdentitySet empty ].
+		              r asRecursiveSlotsShapeKnownReferences:
+			              IdentitySet empty ].
 	linksComposite := linksGroup asShape.
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;

@@ -24,29 +24,3 @@ Link >> asSlotsShapeKnownReferences: aSet recursiveReferences: links [
 		  addAll: edges;
 		  yourself
 ]
-
-{ #category : #'*Collections-Support-Visualizations' }
-Link >> asValueLinksGroupKnownReferences: aSet [
-	^ self
-		  asSlotsShapeKnownReferences: aSet
-		  recursiveReferences: self recursiveReferences
-]
-
-{ #category : #'*Collections-Support-Visualizations' }
-Link >> gtInspectorValueLinksChainGraphIn: composite [
-	<gtInspectorPresentationOrder: 20>
-	^ composite roassal3
-		  title: 'Links chain';
-		  initializeCanvas: [ 
-			  | aCanvas |
-			  aCanvas := self gtInspectorValueLinksChainInCanvas: RSCanvas new.
-			  aCanvas @ RSCanvasController ];
-		  yourself
-]
-
-{ #category : #'*Collections-Support-Visualizations' }
-Link >> gtInspectorValueLinksChainInCanvas: aCanvas [
-	^ aCanvas
-		  addAll: (self asValueLinksGroupKnownReferences: IdentitySet empty);
-		  yourself
-]

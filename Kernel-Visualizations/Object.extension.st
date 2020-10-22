@@ -1,6 +1,13 @@
 Extension { #name : #Object }
 
 { #category : #'*Kernel-Visualizations' }
+Object >> asRecursiveSlotsShapeKnownReferences: aSet [
+	^ self
+		  asSlotsShapeKnownReferences: aSet
+		  recursiveReferences: self recursiveReferences
+]
+
+{ #category : #'*Kernel-Visualizations' }
 Object >> asSlotsShapeKnownReferences: aSet [
 	^ self
 		  asSlotsShapeKnownReferences: aSet

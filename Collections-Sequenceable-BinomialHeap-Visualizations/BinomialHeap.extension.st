@@ -14,7 +14,7 @@ BinomialHeap >> asSlotsShapeKnownReferences: anIdentitySet [
 	linksGroup := representation
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ :r | 
-			              r asValueLinksGroupKnownReferences:
+			              r asRecursiveSlotsShapeKnownReferences:
 				              anIdentitySet | associations ].
 	associationsGroup := (associations collect: [ :rankAndHeapAssoc | 
 		                      ((rankAndHeapAssoc 

@@ -10,11 +10,13 @@ Queue >> asSlotsShapeKnownReferences: anIdentitySet [
 	frontGroup := front
 		              ifNil: [ RSGroup new ]
 		              ifNotNil: [ 
-		              front asValueLinksGroupKnownReferences: anIdentitySet ].
+		              front asRecursiveSlotsShapeKnownReferences:
+			              anIdentitySet ].
 	rearGroup := rear
 		             ifNil: [ RSGroup new ]
 		             ifNotNil: [ 
-		             rear asValueLinksGroupKnownReferences: anIdentitySet ].
+		             rear asRecursiveSlotsShapeKnownReferences:
+			             anIdentitySet ].
 	eb := (RSEdgeBuilder new: RSArrowedLine new)
 		      color: Color gray;
 		      toShapes: ({ 
