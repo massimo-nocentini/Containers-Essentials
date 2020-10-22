@@ -9,15 +9,6 @@ ValueLink >> asLinkedList [
 ]
 
 { #category : #'*Collections-Support-Extensions' }
-ValueLink >> do: aBlock [
-	| link |
-	link := self.
-	[ link ] whileNotNil: [ 
-		aBlock value: link.
-		link := link nextLink ]
-]
-
-{ #category : #'*Collections-Support-Extensions' }
 ValueLink >> reversed [
 	^ self reversed: nil
 ]
@@ -25,12 +16,6 @@ ValueLink >> reversed [
 { #category : #'*Collections-Support-Extensions' }
 ValueLink >> reversed: prefix [
 	^ nextLink reversed: value ~~> prefix
-]
-
-{ #category : #'*Collections-Support-Extensions' }
-ValueLink >> valueLinks [
-	^ Array streamContents: [ :aStream | 
-		  self do: [ :aValueLink | aStream nextPut: aValueLink ] ]
 ]
 
 { #category : #'*Collections-Support-Extensions' }
