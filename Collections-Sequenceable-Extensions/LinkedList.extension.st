@@ -18,7 +18,7 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsGroupKnownReferences: anIdentitySet [
-	| aGroup firstAndLastLinks linksComposite linksGroup meShape eb |
+	| aGroup firstAndLastLinks linksComposite linksGroup meShape location |
 	aGroup := super asSlotsGroupKnownReferences:
 		          anIdentitySet | (firstLink ifNil: [ {  } ] ifNotNil: [ 
 			           { 
@@ -43,19 +43,25 @@ LinkedList >> asSlotsGroupKnownReferences: anIdentitySet [
 		                     useAssociations: { 
 				                     firstLink asReflexiveAssociation.
 				                     lastLink asReflexiveAssociation }.
-	self size = 1 ifTrue: [ "Handle the special case when `firstLink` and `lastLink` points to 
-		 the same ValueLink (aka, the list contains just one element)."
-		| lastEdge |
-		lastEdge := RSEdgeBuilder arrowedLine
-			            color: Color gray;
-			            toShapes: { (linksGroup shapeFromModel: firstLink) };
-			            fromShapes:
-				            { (aGroup first shapes last shapeFromModel: lastLink) };
-			            useAssociation: lastLink asReflexiveAssociation.
-		firstAndLastLinks add: lastEdge ].
 	meShape := aGroup asShapeFor: self.
 	linksComposite := linksGroup asShape.
-	RSLocation new outer left
+	location := self size = 1
+		            ifTrue: [ "Handle the special case when `firstLink` and `lastLink` points to 
+		 the same ValueLink (aka, the list contains just one element)."
+			            | lastEdge |
+			            lastEdge := RSEdgeBuilder arrowedLine
+				                        color: Color gray;
+				                        toShapes:
+					                        { (linksGroup shapeFromModel: lastLink) };
+				                        fromShapes:
+					                        { (aGroup first shapes last 
+						                         shapeFromModel: lastLink) };
+				                        useAssociation:
+					                        lastLink asReflexiveAssociation.
+			            firstAndLastLinks add: lastEdge.
+			            RSLocation new outer top ]
+		            ifFalse: [ RSLocation new outer left ].
+	location
 		offset: 5 negated;
 		move: meShape on: linksComposite.
 	^ (RSGroup new
