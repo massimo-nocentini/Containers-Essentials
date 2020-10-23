@@ -2,7 +2,8 @@ Extension { #name : #DoubleLink }
 
 { #category : #'*Collections-Support-Extensions' }
 DoubleLink >> printOn: aStream [
-	aStream nextPutAll: 'a DoubleLink('.
+	super printOn: aStream.
+	aStream nextPut: $(.
 	value printOn: aStream.
 	aStream nextPut: $)
 ]
