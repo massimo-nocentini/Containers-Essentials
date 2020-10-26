@@ -28,10 +28,13 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock
 							            t := ap endingPointOf: edge.
 							            edge to model == shapes first model
 								            ifTrue: [ 
-									            | bottom left rect |
-									            rect := shapes last encompassingRectangle.
-									            bottom := rect bottom + 5.
-									            left := rect left - 5.
+									            | bottom left offset |
+									            offset := 5.
+									            bottom := shapes last encompassingRectangle
+										                      bottom + offset.
+									            left := (shapes collect: [ :s | 
+											                     s encompassingRectangle left ]) min
+									                    - offset.
 									            Array
 										            with: f
 										            with: f x @ bottom
