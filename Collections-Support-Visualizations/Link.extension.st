@@ -28,10 +28,12 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock
 							            t := ap endingPointOf: edge.
 							            edge to model == shapes first model
 								            ifTrue: [ 
-									            | bottom left offset |
+									            | top bottom left offset |
 									            offset := 5.
 									            bottom := shapes last encompassingRectangle
 										                      bottom + offset.
+									            top := shapes first encompassingRectangle top
+									                   - offset.
 									            left := (shapes collect: [ :s | 
 											                     s encompassingRectangle left ]) min
 									                    - offset.
@@ -39,7 +41,8 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock
 										            with: f
 										            with: f x @ bottom
 										            with: left @ bottom
-										            with: left @ t y
+										            with: left @ top
+										            with: t x @ top
 										            with: t ]
 								            ifFalse: [ Array with: f with: t ] ];
 						            yourself);
