@@ -26,44 +26,30 @@ BinaryTreeAbstract >> asSlotsGroupKnownReferences: aSet recursiveReferences: ref
 ]
 
 { #category : #converting }
-BinaryTreeAbstract >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock: lBlock shapes: shapes [
-	| aGroup edges line pointsController |
-	pointsController := RSBlockCPController new
-		                    block: [ :edge | 
-			                    | f t ap |
-			                    ap := edge attachPoint.
-			                    f := ap startingPointOf: edge.
-			                    t := ap endingPointOf: edge.
-			                    Array with: f with: t ];
-		                    yourself.
-	line := RSPolyline new
-		        border: (RSBorder new width: 1);
-		        cornerRadii: 5;
-		        markerEnd: RSArrowedLine new defaultHead asMarker;
-		        controlPointsController: pointsController;
-		        yourself.
-	edges := (RSEdgeBuilder new: line)
-		         color: Color gray;
-		         toShapes: shapes;
-		         fromShapes: (links
-				          with: shapes
-				          collect: [ :link :shape | 
-					          shape shapeFromModel: link previousLink ]);
-		         useAssociations:
-			         (links collect: [ :r | r asReflexiveAssociation ]).
-	aGroup := super
-		          asSlotsGroupKnownReferences: aSet
-		          recursiveReferences: links
-		          layoutBlock: lBlock
-		          shapes: shapes.
-	^ aGroup
-		  addAll: edges;
+BinaryTreeAbstract >> defaultControlPointsControllerOverShapes: shapes [
+	^ RSBlockCPController new
+		  block: [ :edge | 
+			  | f t ap |
+			  ap := edge attachPoint.
+			  f := ap startingPointOf: edge.
+			  t := ap endingPointOf: edge.
+			  Array with: f with: t ];
 		  yourself
 ]
 
 { #category : #comparing }
 BinaryTreeAbstract >> hash [
 	^ self identityHash
+]
+
+{ #category : #'as yet unclassified' }
+BinaryTreeAbstract >> loopingBackwardControlPointsControllerOverShapes: shapes [
+	^ self defaultControlPointsControllerOverShapes: shapes
+]
+
+{ #category : #'as yet unclassified' }
+BinaryTreeAbstract >> loopingForwardControlPointsControllerOverShapes: shapes [
+	^ self defaultControlPointsControllerOverShapes: shapes
 ]
 
 { #category : #'as yet unclassified' }
