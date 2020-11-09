@@ -30,13 +30,8 @@ ValueLink >> gtInspectorLinksUsingCanvas: aCanvas [
 	^ self edges asLinkedList asTree
 		  gtInspectorGraphViewIn: aCanvas
 		  vertexBlock: [ :aVertex | 
-			  | anObject |
-			  anObject := aVertex content
-				              ifNil: [ self halt ]
-				              ifNotNil: [ :content | content value ].
 			  RSLabel new
-				  text:
-					  (String streamContents: [ :aStream | anObject printOn: aStream ]);
+				  text: aVertex content value asString;
 				  color: Color black;
 				  yourself ]
 ]
