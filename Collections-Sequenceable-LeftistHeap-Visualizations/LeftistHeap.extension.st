@@ -1,57 +1,12 @@
 Extension { #name : #LeftistHeap }
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> asNodesGroup [
-	| links shapes edges eb fromShapes |
-	links := (self nodes: nil) asLinkedList as: IdentitySet.
-	shapes := links
-		          collect: [ :aValueLink | 
-			          | g |
-			          g := aValueLink asSlotsGroupKnownReferences: links.
-			          g asShapeFor: aValueLink ]
-		          as: Array.
-	eb := (RSEdgeBuilder new: RSArrowedLine new)
-		      color: Color gray;
-		      toShapes: shapes;
-		      yourself.
-	fromShapes := (links asArray with: shapes collect: [ :link :shape | 
-		               { 
-			               (shape shapeFromModel: link previousLink).
-			               (shape shapeFromModel: link nextLink) } ]) 
-		              flatCollect: #yourself.
-	edges := eb
-		         fromShapes: fromShapes;
-		         useAssociations:
-			         (links collect: [ :r | r asReflexiveAssociation ]).
-	eb shapes: shapes.
-	RSTreeLayout
-		on: shapes
-		edges: (eb connectTo: #previousLink) , (eb connectTo: #nextLink).
-	^ (RSGroup new
-		   addAll: shapes;
-		   addAll: edges;
-		   yourself) @ RSDraggable
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> edges [
-	self subclassResponsibility
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> edges: outerEdges parentHeapNode: aValue [
-	self subclassResponsibility
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> gtInspectorTreeUsingCanvas: aCanvas [
 	^ self edges asLinkedList asTree
 		  gtInspectorGraphViewIn: aCanvas
 		  vertexBlock: [ :aVertex | 
 			  | text |
-			  text := aVertex content
-				          ifNil: [ String empty ]
-				          ifNotNil: #printStringWithSubscriptRank.
+			  text := aVertex content printStringWithSubscriptRank.
 			  RSLabel new
 				  text: text;
 				  color: Color black;
@@ -68,25 +23,6 @@ LeftistHeap >> gtInspectorTreesViewIn: composite [
 ]
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> gtInspectorValueLinksChainGraphIn: composite [
-	<gtInspectorPresentationOrder: 20>
-	^ composite roassal3
-		  title: 'Nodes';
-		  initializeCanvas: [ 
-			  | aCanvas |
-			  aCanvas := self gtInspectorValueLinksChainInCanvas: RSCanvas new.
-			  aCanvas @ RSCanvasController ];
-		  yourself
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> gtInspectorValueLinksChainInCanvas: aCanvas [
-	^ aCanvas
-		  addAll: self asNodesGroup;
-		  yourself
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> instVarsNamesOrderedCollection [
 	^ { 
 		  #previousLink asReflexiveAssociation.
@@ -97,5 +33,10 @@ LeftistHeap >> instVarsNamesOrderedCollection [
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
 LeftistHeap >> printStringWithSubscriptRank [
-	self subclassResponsibility
+	^ String streamContents: [ :s | 
+		  value ifNil: [ s nextPut: $• ] ifNotNil: [ value printOn: s ].
+		  s
+			  nextPut: $₍;
+			  nextPutAll: rank asString subscript;
+			  nextPut: $₎ ]
 ]

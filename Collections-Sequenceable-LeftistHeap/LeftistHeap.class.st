@@ -35,11 +35,6 @@ LeftistHeap class >> leaf: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-LeftistHeap >> add: anObject [
-	^ self mergeHeapNode: (self class leaf: anObject)
-]
-
-{ #category : #'as yet unclassified' }
 LeftistHeap >> isEmpty [
 	self subclassResponsibility
 ]
@@ -59,14 +54,14 @@ LeftistHeap >> min [
 	self subclassResponsibility
 ]
 
-{ #category : #'building - graph' }
-LeftistHeap >> nodes: aValueLink [
-	self subclassResponsibility
-]
-
 { #category : #removing }
 LeftistHeap >> pop [
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+LeftistHeap >> push: anObject [
+	^ self mergeHeapNode: (self class leaf: anObject)
 ]
 
 { #category : #accessing }

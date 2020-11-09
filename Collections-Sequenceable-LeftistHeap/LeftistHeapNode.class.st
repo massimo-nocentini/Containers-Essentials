@@ -59,11 +59,6 @@ LeftistHeapNode >> min [
 	^ self value
 ]
 
-{ #category : #'building - graph' }
-LeftistHeapNode >> nodes: aValueLink [
-	^ nextLink nodes: (previousLink nodes: self ~~> aValueLink)
-]
-
 { #category : #removing }
 LeftistHeapNode >> pop [
 	^ previousLink merge: nextLink

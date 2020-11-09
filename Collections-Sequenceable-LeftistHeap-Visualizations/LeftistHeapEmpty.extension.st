@@ -1,25 +1,9 @@
 Extension { #name : #LeftistHeapEmpty }
 
 { #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeapEmpty >> edges [
-	^ self edges: nil parentHeapNode: self
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeapEmpty >> edges: outerEdges parentHeapNode: aNode [
+LeftistHeapEmpty >> edges: aLink parent: parent [
 	^ ValueLink new
-		value: aNode -> self;
-		nextLink: outerEdges;
-		yourself
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeapEmpty >> printStringWithSubscriptRank [
-	^ String
-		streamContents: [ :s | 
-			s
-				nextPut: $•;
-				nextPut: $₍;
-				nextPutAll: rank asString subscript;
-				nextPut: $₎ ]
+		  value: parent -> self;
+		  nextLink: aLink;
+		  yourself
 ]

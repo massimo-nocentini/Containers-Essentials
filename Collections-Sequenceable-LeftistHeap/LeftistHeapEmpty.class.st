@@ -4,6 +4,11 @@ Class {
 	#category : #'Collections-Sequenceable-LeftistHeap'
 }
 
+{ #category : #comparing }
+LeftistHeapEmpty >> hash [
+	^ self identityHash
+]
+
 { #category : #'as yet unclassified' }
 LeftistHeapEmpty >> isEmpty [
 	^ true
@@ -22,11 +27,6 @@ LeftistHeapEmpty >> mergeHeapNode: aNode [
 { #category : #'as yet unclassified' }
 LeftistHeapEmpty >> min [
 	CollectionIsEmpty signal
-]
-
-{ #category : #'building - graph' }
-LeftistHeapEmpty >> nodes: aValueLink [
-	^ self ~~> aValueLink
 ]
 
 { #category : #'as yet unclassified' }
