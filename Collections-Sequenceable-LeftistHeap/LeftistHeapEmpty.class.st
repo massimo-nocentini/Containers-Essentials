@@ -4,11 +4,6 @@ Class {
 	#category : #'Collections-Sequenceable-LeftistHeap'
 }
 
-{ #category : #comparing }
-LeftistHeapEmpty >> hash [
-	^ self identityHash
-]
-
 { #category : #'as yet unclassified' }
 LeftistHeapEmpty >> isEmpty [
 	^ true
