@@ -6,11 +6,12 @@ ValueLink >> edges [
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
-ValueLink >> edges: incomingEdges parent: parent [
-	| edges |
-	edges := parent -> self ~~> incomingEdges.
+ValueLink >> edges: aLink parent: parent [
+	| edges edge |
+	edge := parent -> self.
+	edges := edge ~~> aLink.
 	^ nextLink
-		  ifNil: [ self -> nil ~~> edges ]
+		  ifNil: [ edges ]
 		  ifNotNil: [ :nl | nl edges: edges parent: self ]
 ]
 
@@ -29,8 +30,13 @@ ValueLink >> gtInspectorLinksUsingCanvas: aCanvas [
 	^ self edges asLinkedList asTree
 		  gtInspectorGraphViewIn: aCanvas
 		  vertexBlock: [ :aVertex | 
+			  | anObject |
+			  anObject := aVertex content
+				              ifNil: [ nil ]
+				              ifNotNil: [ :content | content value ].
 			  RSLabel new
-				  text: aVertex content value;
+				  text:
+					  (String streamContents: [ :aStream | anObject printOn: aStream ]);
 				  color: Color black;
 				  yourself ]
 ]
