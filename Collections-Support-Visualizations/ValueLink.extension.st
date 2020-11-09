@@ -32,7 +32,7 @@ ValueLink >> gtInspectorLinksUsingCanvas: aCanvas [
 		  vertexBlock: [ :aVertex | 
 			  | anObject |
 			  anObject := aVertex content
-				              ifNil: [ nil ]
+				              ifNil: [ self halt ]
 				              ifNotNil: [ :content | content value ].
 			  RSLabel new
 				  text:

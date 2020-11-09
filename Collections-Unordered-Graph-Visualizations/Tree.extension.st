@@ -27,8 +27,14 @@ Tree >> gtInspectorGraphViewIn: canvas vertexBlock: vBlock [
 		  gtInspectorGraphViewUsingMondrianBuilder: canvas
 		  vertex: vBlock
 		  edge: [ :eb | 
-			  eb orthoVertical
-				  color: Color lightGray translucent;
+			  | line |
+			  line := RSPolyline new
+				          cornerRadii: 5;
+				          markerEnd: RSArrowedLine new defaultHead asMarker;
+				          yourself.
+			  (eb verticalLine: line)
+				  withVerticalAttachPoint;
+				  color: Color gray;
 				  cornerRadii: 5;
 				  yourself ]
 		  layout: [ :shapes :edgesShapes | 
