@@ -5,8 +5,16 @@ LeftistHeap >> gtInspectorTreeUsingCanvas: aCanvas [
 	^ self edges asLinkedList asTree
 		  gtInspectorGraphViewIn: aCanvas
 		  vertexBlock: [ :aVertex | 
-			  | text |
-			  text := aVertex content printStringWithSubscriptRank.
+			  | text content |
+			  content := aVertex content.
+			  text := String streamContents: [ :s | 
+				          content value
+					          ifNil: [ s nextPut: $• ]
+					          ifNotNil: [ :v | v printOn: s ].
+				          s
+					          nextPut: $₍;
+					          nextPutAll: content rank asString subscript;
+					          nextPut: $₎ ].
 			  RSLabel new
 				  text: text;
 				  color: Color black;
@@ -29,14 +37,4 @@ LeftistHeap >> instVarsNamesOrderedCollection [
 		  #value asReflexiveAssociation.
 		  #rank asReflexiveAssociation.
 		  #nextLink asReflexiveAssociation }
-]
-
-{ #category : #'*Collections-Sequenceable-LeftistHeap-Visualizations' }
-LeftistHeap >> printStringWithSubscriptRank [
-	^ String streamContents: [ :s | 
-		  value ifNil: [ s nextPut: $• ] ifNotNil: [ value printOn: s ].
-		  s
-			  nextPut: $₍;
-			  nextPutAll: rank asString subscript;
-			  nextPut: $₎ ]
 ]
