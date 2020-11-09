@@ -1,6 +1,6 @@
 Class {
 	#name : #LeftistHeap,
-	#superclass : #BinaryTreeAbstract,
+	#superclass : #CTBinaryTreeAbstract,
 	#instVars : [
 		'rank'
 	],
