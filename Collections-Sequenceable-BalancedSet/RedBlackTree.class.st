@@ -1,6 +1,6 @@
 Class {
 	#name : #RedBlackTree,
-	#superclass : #UnbalancedSet,
+	#superclass : #CTUnbalancedSet,
 	#category : #'Collections-Sequenceable-BalancedSet'
 }
 

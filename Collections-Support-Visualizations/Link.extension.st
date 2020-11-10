@@ -43,6 +43,16 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
+Link >> asSlotsGroupRecursiveKnownReferences: aSet [
+	"This message should be overridden by any subclass that has a recursive structure
+	 that would be visualized; in particular, the layout block has to be plugged in."
+
+	^ self
+		  asSlotsGroupRecursiveKnownReferences: aSet
+		  layoutBlock: [ :shapes | RSVerticalLineLayout on: shapes ]
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
 Link >> edgesConnectingShapes: shapes references: links lineShape: line modelBlock: mBlock [
 	| fromShapes |
 	fromShapes := links with: shapes collect: [ :link :shape | 

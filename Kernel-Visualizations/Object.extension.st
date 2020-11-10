@@ -121,6 +121,16 @@ Object >> asSlotsGroupKnownReferences: aSet recursiveReferences: refs layoutBloc
 ]
 
 { #category : #'*Kernel-Visualizations' }
+Object >> asSlotsGroupRecursiveKnownReferences: aSet [
+	"This message should be overridden by any subclass that has a recursive structure
+	 that would be visualized; in particular, the layout block has to be plugged in."
+
+	^ self
+		  asSlotsGroupRecursiveKnownReferences: aSet
+		  layoutBlock: [ :shapes | RSNoLayout on: shapes ]
+]
+
+{ #category : #'*Kernel-Visualizations' }
 Object >> asSlotsGroupRecursiveKnownReferences: aSet layoutBlock: aBlock [
 	"This message is a delegate that allows the sender to not pass 
     recursive references and use the ones known to the receiver."
