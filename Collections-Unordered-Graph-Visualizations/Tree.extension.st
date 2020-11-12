@@ -32,13 +32,13 @@ Tree >> gtInspectorGraphViewIn: canvas vertexBlock: vBlock [
 				          cornerRadii: 5;
 				          markerEnd: RSArrowedLine new defaultHead asMarker;
 				          yourself.
-			  (eb verticalLine: line)
-				  withVerticalAttachPoint;
+			  (eb horizontalLine: line)
+				  withHorizontalAttachPoint;
 				  color: Color gray;
 				  cornerRadii: 5;
 				  yourself ]
 		  layout: [ :shapes :edgesShapes | 
-		  RSTreeLayout on: shapes edges: edgesShapes ]
+			  RSHorizontalTreeLayout on: shapes edges: edgesShapes ]
 ]
 
 { #category : #'*Collections-Unordered-Graph-Visualizations' }
