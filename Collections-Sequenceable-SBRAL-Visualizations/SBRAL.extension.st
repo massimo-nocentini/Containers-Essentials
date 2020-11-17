@@ -7,24 +7,34 @@ SBRAL >> associations [
 ]
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
-SBRAL >> gtInspectorTreesUsingMondrianBuilder: aMondrian [
-	aMondrian shape rectangle
-		fillColor: Color white;
-		borderColor: Color lightGray;
-		withTextAbove: #key.
-	aMondrian
-		nodes: self associations asLinkedList
-		forEach:
-			[ :anAssociation | anAssociation value gtInspectorTreeUsingMondrianBuilder: aMondrian ].
-	aMondrian layout verticalLine
+SBRAL >> gtInspectorTreesInCanvas: aCanvas [
+	| shapes |
+	shapes := representation asLinkedList collect: [ :anAssociation | 
+		          | c |
+		          c := anAssociation value gtInspectorTreeViewUsingCanvas:
+			               RSCanvas new.
+		          (RSComposite new
+			           shapes: { c asShape };
+			           padding: 5;
+			           withBorder;
+			           yourself) @ (RSLabeled new text: anAssociation key) ].
+	RSVerticalLineLayout new
+		alignCenter;
+		verticalGap: 20;
+		applyOn: shapes.
+	^ aCanvas
+		  addAll: shapes;
+		  yourself
 ]
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
 SBRAL >> gtInspectorTreesViewIn: composite [
 	<gtInspectorPresentationOrder: 20>
-	^ composite roassal2
-		title: 'Trees';
-		initializeView: [ RTMondrian new ];
-		painting: [ :b | self gtInspectorTreesUsingMondrianBuilder: b ];
-		yourself
+	^ composite roassal3
+		  title: 'Trees';
+		  initializeCanvas: [ 
+			  | c |
+			  c := self gtInspectorTreesInCanvas: RSCanvas new.
+			  c @ RSCanvasController ];
+		  yourself
 ]

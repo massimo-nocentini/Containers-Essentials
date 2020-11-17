@@ -11,13 +11,12 @@ SBRALBinaryTree >> edges: outerEdges [
 ]
 
 { #category : #'*Collections-Sequenceable-SBRAL-Visualizations' }
-SBRALBinaryTree >> gtInspectorTreeUsingMondrianBuilder: aMondrian [
-	self edges asLinkedList asGraph
-		gtInspectorGraphViewUsingMondrianBuilder: aMondrian
-		vertex: [ :shape | 
-			shape text
-				text: #content;
-				color: Color black ]
-		edge: [ :shape | shape orthoVerticalLine ]
-		layout: #tree
+SBRALBinaryTree >> gtInspectorTreeViewUsingCanvas: aCanvas [
+	^ self edges asLinkedList asTree
+		  gtInspectorGraphViewIn: aCanvas
+		  vertexBlock: [ :aVertex | 
+			  RSLabel new
+				  text: aVertex content;
+				  color: Color black;
+				  yourself ]
 ]

@@ -30,7 +30,7 @@ SBRALBinaryTree >> at: i key: aKey SBRAL: aSBRAL ifPresent: pBlock ifAbsent: aBl
 
 { #category : #'as yet unclassified' }
 SBRALBinaryTree >> at: i put: y key: aKey SBRAL: aSBRAL ifAbsent: aBlock [
-	^ self subclassResponsibility
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
