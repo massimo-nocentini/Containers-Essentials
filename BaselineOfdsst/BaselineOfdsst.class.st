@@ -12,13 +12,12 @@ BaselineOfdsst >> baseline: spec [
 		do: [ "Externals."
 			spec
 				baseline: 'Roassal3'
-				with: [ spec repository: 'github://ObjectProfile/Roassal3/' ].
+				with: [ spec repository: 'github://massimo-nocentini/Roassal3:recursiveShapeFromModel/src' ].
 			"Packages"
 			spec
 				package: 'Kernel-Extensions';
 				package: 'dsst-Traits';
 				package: 'Slot-Examples-Extensions';
-				package: 'Collections-Abstract-Visualizations';
 				package: 'Collections-Native-Visualizations';
 				package: 'Collections-Support-Extensions';
 				package: 'Collections-Support-Visualizations';
