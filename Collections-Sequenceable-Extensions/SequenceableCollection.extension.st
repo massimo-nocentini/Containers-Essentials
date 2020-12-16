@@ -50,11 +50,13 @@ SequenceableCollection >> zip: aSequenceable [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> zip: aSequenceable with: aBlock [
-	| l |
-	l := self class new.
-	1 to: (self size min: aSequenceable size) do: [ :i | 
+
+	| l size |
+	size := self size min: aSequenceable size.
+	l := self class new: size.
+	1 to: size do: [ :i | 
 		| v |
 		v := aBlock value: (self at: i) value: (aSequenceable at: i).
-		l add: v ].
+		l at: i put: v ].
 	^ l
 ]
