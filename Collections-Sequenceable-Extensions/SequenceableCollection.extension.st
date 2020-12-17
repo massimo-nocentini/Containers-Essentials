@@ -53,7 +53,7 @@ SequenceableCollection >> zip: aSequenceable with: aBlock [
 
 	| l size |
 	size := self size min: aSequenceable size.
-	l := self class new: size.
+	l := (1 to: size) collect: [ :_ | nil ] as: self class.
 	1 to: size do: [ :i | 
 		| v |
 		v := aBlock value: (self at: i) value: (aSequenceable at: i).
