@@ -9,9 +9,14 @@ BaselineOfdsst >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ "Externals."
-		spec baseline: 'Roassal3' with: [ 
-			spec repository:
-				'github://massimo-nocentini/Roassal3:recursiveShapeFromModel/src' ].
+		spec
+			baseline: 'Roassal3' with: [ 
+				spec repository:
+						'github://massimo-nocentini/Roassal3:recursiveShapeFromModel/src' ];
+			baseline: 'Roassal3Exporters'
+			with: [ 
+				spec repository: 'github://ObjectProfile/Roassal3Exporter/src' ].
+
 		"Packages"
 		spec
 			package: 'Kernel-Extensions';

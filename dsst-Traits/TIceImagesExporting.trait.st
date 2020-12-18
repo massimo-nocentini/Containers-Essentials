@@ -10,7 +10,7 @@ TIceImagesExporting >> export: anObject filename: filename selector: aSelector [
 	anObject perform: aSelector with: canvas.
 	RSSVGExporter new
 		canvas: canvas;
-		zoomToCurrentCamera;
+		zoomToShapes;
 		fileName: filename;
 		export.
 	^ anObject
@@ -19,6 +19,15 @@ TIceImagesExporting >> export: anObject filename: filename selector: aSelector [
 { #category : #utilities }
 TIceImagesExporting >> export: anObject path: aPath selector: aSelector [
 	^ self export: anObject filename: aPath fullName selector: aSelector
+]
+
+{ #category : #utilities }
+TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: aSelector [
+
+	^ self
+		  export: anObject
+		  path: self imagesPath / aFilename
+		  selector: aSelector
 ]
 
 { #category : #utilities }
