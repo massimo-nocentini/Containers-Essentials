@@ -19,6 +19,16 @@ ValueLink >> reversed: prefix [
 ]
 
 { #category : #'*Collections-Support-Extensions' }
+ValueLink >> size [
+
+	| size nl |
+	size := 1.
+	nl := self.
+	[ nl := nl nextLink ] whileNotNil: [ size := size + 1 ].
+	^ size
+]
+
+{ #category : #'*Collections-Support-Extensions' }
 ValueLink >> with: aValueLink collect: aBlock [
 	^ aValueLink
 		ifNil: [ SizeMismatch signal ]
