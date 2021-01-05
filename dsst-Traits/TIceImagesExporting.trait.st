@@ -26,7 +26,11 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: aSelecto
 
 	^ self
 		  export: anObject
-		  path: self imagesPath / aFilename
+		  path: self imagesPath
+			  /
+				  (thisContext receiver class name , '-'
+				   , thisContext receiver selector
+				   , (aFilename ifNotEmpty: [ '-' , aFilename ]))
 		  selector: aSelector
 ]
 

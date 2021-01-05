@@ -143,33 +143,57 @@ Object >> asSlotsGroupRecursiveKnownReferences: aSet layoutBlock: aBlock [
 
 { #category : #'*Kernel-Visualizations' }
 Object >> gtInspectorSlotsGraphIn: composite [
+
 	<gtInspectorPresentationOrder: 20>
 	^ composite roassal3
 		  title: 'Slots graph';
 		  initializeCanvas: [ 
-			  | aGroup |
-			  aGroup := self asSlotsGroupKnownReferences: IdentitySet empty.
-			  (RSCanvas new
-				   addAll: aGroup;
-				   yourself) @ RSCanvasController ];
+			  (self gtInspectorSlotsGraphIn: RSCanvas new) @ RSCanvasController ];
+		  yourself
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> gtInspectorSlotsGraphInCanvas: aCanvas [
+
+	| aGroup |
+	aGroup := self asSlotsGroupKnownReferences: IdentitySet empty.
+	^ aCanvas
+		  addAll: aGroup;
 		  yourself
 ]
 
 { #category : #'*Kernel-Visualizations' }
 Object >> gtInspectorSlotsGraphRecursiveIn: composite [
+
 	<gtInspectorPresentationOrder: 30>
 	^ self recursiveReferences ifNotEmpty: [ :refs | 
 		  composite roassal3
 			  title: 'Slots graph (recursive)';
 			  initializeCanvas: [ 
-				  | aGroup |
-				  aGroup := self
-					            asSlotsGroupKnownReferences: IdentitySet empty
-					            recursiveReferences: refs.
-				  (RSCanvas new
-					   addAll: aGroup;
-					   yourself) @ RSCanvasController ];
+				  (self
+					   gtInspectorSlotsGraphRecursiveInCanvas: RSCanvas new
+					   recursiveReferences: refs) @ RSCanvasController ];
 			  yourself ]
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> gtInspectorSlotsGraphRecursiveInCanvas: aCanvas [
+
+	^ self
+		  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
+		  recursiveReferences: self recursiveReferences
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> gtInspectorSlotsGraphRecursiveInCanvas: aCanvas recursiveReferences: refs [
+
+	| aGroup |
+	aGroup := self
+		          asSlotsGroupKnownReferences: IdentitySet empty
+		          recursiveReferences: refs.
+	^ aCanvas
+		  addAll: aGroup;
+		  yourself
 ]
 
 { #category : #'*Kernel-Visualizations' }
