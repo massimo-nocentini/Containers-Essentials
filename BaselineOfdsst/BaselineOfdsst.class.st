@@ -15,7 +15,7 @@ BaselineOfdsst >> baseline: spec [
 						'github://massimo-nocentini/Roassal3:recursiveShapeFromModel/src' ];
 			baseline: 'Roassal3Exporters'
 			with: [ 
-				spec repository: 'github://ObjectProfile/Roassal3Exporter/src' ].
+				spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ].
 
 		"Packages"
 		spec
