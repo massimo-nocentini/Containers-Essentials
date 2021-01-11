@@ -36,6 +36,24 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: aSelecto
 ]
 
 { #category : #utilities }
+TIceImagesExporting >> exportSlotsGraphOf: anObject [
+
+	^ self
+		  export: anObject
+		  pathSuffix: ''
+		  selector: #gtInspectorSlotsGraphInCanvas:
+]
+
+{ #category : #utilities }
+TIceImagesExporting >> exportSlotsGraphRecursiveOf: anObject [
+
+	^ self export: anObject pathSuffix: '' selector: [ :_ :aCanvas | 
+		  anObject
+			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
+			  recursiveReferences: anObject recursiveReferences ]
+]
+
+{ #category : #utilities }
 TIceImagesExporting >> iceWorkingDirectory [
 	^ (IceRepository registry
 		select: [ :repo | repo includesPackageNamed: self class category ])

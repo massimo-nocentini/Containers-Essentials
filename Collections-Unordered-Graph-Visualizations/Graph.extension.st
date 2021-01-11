@@ -44,6 +44,6 @@ Graph >> gtInspectorGraphViewUsingMondrianBuilder: canvas vertex: sBlock edge: e
 	lBlock value: shapes value: edgesShapes.
 
 	"Some decorators"
-	canvas @ RSDraggableCanvas @ RSCanvasController.
+	"canvas @ RSDraggableCanvas @ RSCanvasController."
 	^ canvas
 ]
