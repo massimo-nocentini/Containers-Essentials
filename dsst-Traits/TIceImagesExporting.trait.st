@@ -5,9 +5,10 @@ Trait {
 
 { #category : #utilities }
 TIceImagesExporting >> export: anObject filename: filename selector: aSelector [
+
 	| canvas |
 	canvas := RSCanvas new.
-	anObject perform: aSelector with: canvas.
+	aSelector value: anObject value: canvas.
 	RSSVGExporter new
 		canvas: canvas;
 		zoomToShapes;

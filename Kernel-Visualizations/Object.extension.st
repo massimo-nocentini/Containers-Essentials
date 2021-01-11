@@ -177,14 +177,6 @@ Object >> gtInspectorSlotsGraphRecursiveIn: composite [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> gtInspectorSlotsGraphRecursiveInCanvas: aCanvas [
-
-	^ self
-		  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
-		  recursiveReferences: self recursiveReferences
-]
-
-{ #category : #'*Kernel-Visualizations' }
 Object >> gtInspectorSlotsGraphRecursiveInCanvas: aCanvas recursiveReferences: refs [
 
 	| aGroup |
