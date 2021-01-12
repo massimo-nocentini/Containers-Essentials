@@ -18,57 +18,72 @@ LinkedList >> allButFirst [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 LinkedList >> asSlotsGroupKnownReferences: anIdentitySet [
-	| aGroup firstAndLastLinks linksComposite linksGroup meShape location |
-	aGroup := super asSlotsGroupKnownReferences:
-		          anIdentitySet | (firstLink ifNil: [ {  } ] ifNotNil: [ 
-			           { 
-				           firstLink.
-				           lastLink } ]).
-	linksGroup := firstLink ifNil: [ RSGroup new ] ifNotNil: [ :r | 
-		              r
-			              asSlotsGroupRecursiveKnownReferences:
-			              IdentitySet empty
-			              layoutBlock: [ :shapes | 
-			              RSVerticalLineLayout on: shapes ] ].
-	firstAndLastLinks := RSEdgeBuilder arrowedLine
-		                     color: Color gray;
-		                     toShapes: ({ 
-				                      (linksGroup shapeFromModel: firstLink).
-				                      (linksGroup shapesFromModel: lastLink) } 
-				                      reject: #isNil);
-		                     fromShapes: { 
-				                     (aGroup shapeFromModel: firstLink).
-				                     (aGroup first shapes last shapeFromModel:
-						                      lastLink) };
-		                     useAssociations: { 
-				                     firstLink asReflexiveAssociation.
-				                     lastLink asReflexiveAssociation }.
-	meShape := aGroup asShapeFor: self.
-	linksComposite := linksGroup asShape.
-	location := self size = 1
-		            ifTrue: [ "Handle the special case when `firstLink` and `lastLink` points to 
-		 the same ValueLink (aka, the list contains just one element)."
-			            | lastEdge |
-			            lastEdge := RSEdgeBuilder arrowedLine
-				                        color: Color gray;
-				                        toShapes:
-					                        { (linksGroup shapeFromModel: lastLink) };
-				                        fromShapes:
-					                        { (aGroup first shapes last 
-						                         shapeFromModel: lastLink) };
-				                        useAssociation:
-					                        lastLink asReflexiveAssociation.
-			            firstAndLastLinks add: lastEdge.
-			            RSLocation new outer top ]
-		            ifFalse: [ RSLocation new outer left ].
-	location
-		offset: 5 negated;
-		move: meShape on: linksComposite.
-	^ (RSGroup new
-		   add: linksComposite;
-		   add: meShape;
-		   addAll: firstAndLastLinks;
-		   yourself) @ RSDraggable
+
+	| selfGroup |
+	selfGroup := firstLink
+		             ifNil: [ 
+			             | aShape |
+			             aShape := (super asSlotsGroupKnownReferences:
+				                        anIdentitySet) asShapeFor: self.
+
+			             RSGroup new
+				             add: aShape;
+				             yourself ]
+		             ifNotNil: [ 
+			             | aGroup linksComposite linksGroup meShape firstLinkLine lastLinkLine firstEdge lastEdge |
+			             aGroup := super asSlotsGroupKnownReferences:
+				                       anIdentitySet
+				                       | (Array with: firstLink with: lastLink).
+
+			             linksGroup := firstLink
+				                           asSlotsGroupRecursiveKnownReferences:
+				                           anIdentitySet
+				                           layoutBlock: [ :shapes | 
+				                           RSVerticalLineLayout on: shapes ].
+
+			             meShape := aGroup asShapeFor: self.
+			             linksComposite := linksGroup asShape.
+
+			             RSLocation new outer middle left
+				             offset: 5 negated;
+				             move: meShape on: linksComposite.
+
+			             firstLinkLine := firstLink 
+				                              lineShapeWithControlPointsController:
+				                              self
+					                              firstLinkControlPointsController.
+			             lastLinkLine := lastLink 
+				                             lineShapeWithControlPointsController:
+				                             self lastLinkControlPointsController.
+
+			             firstEdge := (RSEdgeBuilder new: firstLinkLine)
+				                          color: Color gray;
+				                          toShapes:
+					                          { (linksGroup shapeFromModel: firstLink) };
+				                          fromShapes:
+					                          { (aGroup first shapes first 
+						                           shapeFromModel: firstLink) };
+				                          useAssociation:
+					                          firstLink asReflexiveAssociation.
+
+			             lastEdge := (RSEdgeBuilder new: lastLinkLine)
+				                         color: Color gray;
+				                         toShapes:
+					                         { (linksGroup shapeFromModel: lastLink) };
+				                         fromShapes:
+					                         { (aGroup first shapes last 
+						                          shapeFromModel: lastLink) };
+				                         useAssociation:
+					                         lastLink asReflexiveAssociation.
+
+			             RSGroup new
+				             add: meShape;
+				             add: linksComposite;
+				             add: firstEdge;
+				             add: lastEdge;
+				             yourself ].
+
+	^ selfGroup @ RSDraggable
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
@@ -86,4 +101,44 @@ LinkedList >> cdr [
 		ifNotEmpty: [ firstLink nextLink
 				ifNil: [ self class new ]
 				ifNotNil: [ :nl | self class with: nl ] ]
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
+LinkedList >> firstLinkControlPointsController [
+
+	^ RSBlockCPController new
+		  block: [ :edge | 
+			  | f t ap top offset |
+			  ap := edge attachPoint.
+			  f := ap startingPointOf: edge.
+			  t := ap endingPointOf: edge.
+
+			  offset := 5.
+			  top := t y - (edge to height / 2) - offset.
+			  Array
+				  with: f
+				  with: f x @ top
+				  with: t x @ top
+				  with: t ];
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
+LinkedList >> lastLinkControlPointsController [
+
+	^ RSBlockCPController new
+		  block: [ :edge | 
+			  | f t ap bottom offset |
+			  ap := edge attachPoint.
+			  f := ap startingPointOf: edge.
+			  t := ap endingPointOf: edge.
+
+			  offset := 5.
+			  bottom := t y + (edge to height / 2) + offset.
+			  Array
+				  with: f
+				  with: f x @ bottom
+				  with: t x @ bottom
+				  with: t ];
+		  yourself
 ]
