@@ -24,3 +24,9 @@ Object >> equalCons: aCons [
 Object >> ifCons: cBlock ifNotCons: ncBlock [
 	^ ncBlock cull: self
 ]
+
+{ #category : #'*Collections-Sequenceable-Cons' }
+Object >> isAtom [
+
+	^ true
+]

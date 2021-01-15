@@ -116,6 +116,12 @@ Cons >> inject: init into: aBlock [
 				ifNotNil: [ aBlock value: accumulated value: cdr ] ]
 ]
 
+{ #category : #testing }
+Cons >> isAtom [
+
+	^ false
+]
+
 { #category : #printing }
 Cons >> printOn: aStream [ 
 	| cell |
