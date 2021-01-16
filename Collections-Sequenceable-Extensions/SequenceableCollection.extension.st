@@ -34,6 +34,21 @@ SequenceableCollection >> halves [
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
+SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
+
+	| prefix suffix |
+	prefix := self species new writeStream.
+	suffix := self species new writeStream.
+
+	self withIndexDo: [ :each :index | 
+		(index <= anIndex
+			 ifTrue: [ prefix ]
+			 ifFalse: [ suffix ]) nextPut: each ].
+
+	^ aBlock value: prefix contents value: suffix contents
+]
+
+{ #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> scan: aBlock init: aValue [
 	^ self class
 		new: self size + 1
