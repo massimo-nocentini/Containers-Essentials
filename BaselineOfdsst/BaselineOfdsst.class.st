@@ -22,7 +22,6 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Kernel-Extensions';
 			package: 'dsst-Traits';
 			package: 'Slot-Examples-Extensions';
-			package: 'Collections-Abstract-Extensions';
 			package: 'Kernel-Visualizations';
 			package: 'Collections-Native-Visualizations';
 			package: 'Collections-Support-Extensions';
