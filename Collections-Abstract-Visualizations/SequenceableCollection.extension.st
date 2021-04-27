@@ -1,7 +1,7 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Collections-Abstract-Visualizations' }
-SequenceableCollection >> inspectorCanvasBoxesTree [
+SequenceableCollection >> inspectorCanvasBoxesFlow [
 
 	<inspectorPresentationOrder: 200 title: 'Boxes'>
 	| shapes |
@@ -12,9 +12,7 @@ SequenceableCollection >> inspectorCanvasBoxesTree [
 			                      addInteraction: RSPopup new;
 			                      yourself.
 
-		          [ boxShape size: (each ifNil: [ 0 ]) ]
-			          onDNU: #asPoint
-			          do: [ :e | boxShape size: 0 ] ].
+		          self onBox: boxShape setSizeFrom: each ].
 
 	RSFlowLayout new
 		gapSize: 1;
@@ -27,7 +25,7 @@ SequenceableCollection >> inspectorCanvasBoxesTree [
 ]
 
 { #category : #'*Collections-Abstract-Visualizations' }
-SequenceableCollection >> inspectorCanvasBoxesTreeContext: aContext [
+SequenceableCollection >> inspectorCanvasBoxesFlowContext: aContext [
 
 	aContext withoutEvaluator
 ]
@@ -60,6 +58,15 @@ SequenceableCollection >> inspectorCanvasIndexParityBipartedGrid [
 SequenceableCollection >> inspectorCanvasIndexParityBipartedGridContext: aContext [
 
 	aContext withoutEvaluator
+]
+
+{ #category : #'*Collections-Abstract-Visualizations' }
+SequenceableCollection >> onBox: boxShape setSizeFrom: anObject [
+
+	[ boxShape size: anObject ]
+		onDNU: #asPoint
+		do: [ :anError | boxShape size: 0 ].
+	^ boxShape
 ]
 
 { #category : #'*Collections-Abstract-Visualizations' }
