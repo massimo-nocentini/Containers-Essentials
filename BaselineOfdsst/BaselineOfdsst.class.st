@@ -38,14 +38,6 @@ BaselineOfdsst >> baseline: spec [
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
 			package: 'Collections-Unordered-Graph-Visualizations'
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
-			"UnionFind."package: 'Collections-Unordered-UnionFind';
-			package: 'Collections-Unordered-UnionFind-Tests'
-			with: [ spec requires: #( 'Collections-Unordered-UnionFind' ) ];
-			package: 'Collections-Unordered-UnionFind-Visualizations'
-			with: [ 
-				spec requires:
-						#( 'Collections-Unordered-UnionFind'
-						   'Collections-Sequenceable-Extensions' ) ];
 			package: 'Collections-Sequenceable-Cons';
 			package: 'Collections-Sequenceable-Cons-Tests';
 			package: 'Collections-Sequenceable-Queue';
