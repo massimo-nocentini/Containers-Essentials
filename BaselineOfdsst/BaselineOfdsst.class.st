@@ -56,13 +56,6 @@ BaselineOfdsst >> baseline: spec [
 			with: [ spec requires: #( 'Collections-Sequenceable-SBRAL' ) ];
 			package: 'Collections-Sequenceable-SBRAL-Visualizations'
 			with: [ spec requires: #( 'Collections-Sequenceable-SBRAL' ) ];
-			package: 'Collections-Sequenceable-BinomialHeap';
-			package: 'Collections-Sequenceable-BinomialHeap-Tests'
-			with: [ 
-				spec requires: #( 'Collections-Sequenceable-BinomialHeap' ) ];
-			package: 'Collections-Sequenceable-BinomialHeap-Visualizations'
-			with: [ 
-				spec requires: #( 'Collections-Sequenceable-BinomialHeap' ) ];
 			package: 'Collections-Sequenceable-Queue';
 			package: 'Collections-Sequenceable-Queue-Visualizations';
 			package: 'Collections-Unordered-Extensions' ]
