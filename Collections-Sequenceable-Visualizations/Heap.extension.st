@@ -8,23 +8,23 @@ Heap >> inspectorCanvasValuesTree [
 	indexes := IdentityDictionary new.
 	heap := array copyFrom: 1 to: tally.
 	shapes := heap withIndexCollect: [ :each :i | 
-		          | value index |
+		          | valueShape indexShape |
 		          indexes at: each put: i.
-		          value := RSLabel new
-			                   model: each;
-			                   yourself.
-		          index := RSLabel new
-			                   model: i;
-			                   text: '(' , i asString , ')';
-			                   fontSize: value fontSize >> 1;
-			                   yourself.
+		          valueShape := RSLabel new
+			                        model: each;
+			                        yourself.
+		          indexShape := RSLabel new
+			                        model: i;
+			                        text: '(' , i asString , ')';
+			                        fontSize: valueShape fontSize >> 1;
+			                        yourself.
 		          RSLocation new bottom right
-			          offset: index textWidth + 1 @ 0;
-			          move: index on: value.
+			          offset: indexShape textWidth + 2 @ 0;
+			          move: indexShape on: valueShape.
 		          RSComposite new
 			          model: each;
-			          addShape: value;
-			          addShape: index;
+			          addShape: valueShape;
+			          addShape: indexShape;
 			          adjustToChildren;
 			          padding: 2;
 			          yourself ].
