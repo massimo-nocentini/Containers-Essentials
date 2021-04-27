@@ -38,8 +38,6 @@ BaselineOfdsst >> baseline: spec [
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
 			package: 'Collections-Unordered-Graph-Visualizations'
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
-			package: 'Collections-Sequenceable-Cons';
-			package: 'Collections-Sequenceable-Cons-Tests';
 			package: 'Collections-Sequenceable-Queue';
 			package: 'Collections-Sequenceable-Queue-Visualizations';
 			package: 'Collections-Unordered-Extensions' ]
