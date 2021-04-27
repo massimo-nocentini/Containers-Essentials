@@ -24,7 +24,8 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Slot-Examples-Extensions';
 			package: 'Kernel-Visualizations';
 			package: 'Collections-Abstract-Visualizations';
-			package: 'Collections-Native-Visualizations';
+			package: 'Collections-Native-Visualizations'
+			with: [ spec requires: #( 'Kernel-Visualizations' ) ];
 			package: 'Collections-Support-Extensions';
 			package: 'Collections-Support-Visualizations';
 			package: 'Collections-Strings-Extensions';
