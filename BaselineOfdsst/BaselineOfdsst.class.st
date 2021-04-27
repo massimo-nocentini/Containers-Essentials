@@ -33,9 +33,6 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Collections-Sequenceable-Extensions';
 			package: 'Collections-Sequenceable-Visualizations';
 			package: 'Collections-Unordered-Maybe';
-			package: 'Kernel-NumericalRepresentations';
-			package: 'Kernel-NumericalRepresentations-Tests';
-			package: 'Kernel-NumericalRepresentations-Visualizations';
 			"Graphs."package: 'Collections-Unordered-Graph';
 			package: 'Collections-Unordered-Graph-Tests'
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
@@ -51,11 +48,6 @@ BaselineOfdsst >> baseline: spec [
 						   'Collections-Sequenceable-Extensions' ) ];
 			package: 'Collections-Sequenceable-Cons';
 			package: 'Collections-Sequenceable-Cons-Tests';
-			package: 'Collections-Sequenceable-SBRAL';
-			package: 'Collections-Sequenceable-SBRAL-Tests'
-			with: [ spec requires: #( 'Collections-Sequenceable-SBRAL' ) ];
-			package: 'Collections-Sequenceable-SBRAL-Visualizations'
-			with: [ spec requires: #( 'Collections-Sequenceable-SBRAL' ) ];
 			package: 'Collections-Sequenceable-Queue';
 			package: 'Collections-Sequenceable-Queue-Visualizations';
 			package: 'Collections-Unordered-Extensions' ]
