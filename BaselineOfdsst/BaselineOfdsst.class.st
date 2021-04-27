@@ -32,6 +32,5 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Collections-Strings-Extensions';
 			package: 'Collections-Sequenceable-Extensions';
 			package: 'Collections-Sequenceable-Visualizations';
-			package: 'Collections-Unordered-Maybe';
 			package: 'Collections-Unordered-Extensions' ]
 ]
