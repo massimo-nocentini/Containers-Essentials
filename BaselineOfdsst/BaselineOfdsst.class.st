@@ -35,8 +35,6 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Kernel-NumericalRepresentations';
 			package: 'Kernel-NumericalRepresentations-Tests';
 			package: 'Kernel-NumericalRepresentations-Visualizations';
-			package: 'Collections-Sequenceable-Sorting'
-			with: [ spec requires: #( 'Collections-Sequenceable-Extensions' ) ];
 			"Graphs."package: 'Collections-Unordered-Graph';
 			package: 'Collections-Unordered-Graph-Tests'
 			with: [ spec requires: #( 'Collections-Unordered-Graph' ) ];
