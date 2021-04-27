@@ -29,6 +29,7 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Collections-Support-Visualizations';
 			package: 'Collections-Strings-Extensions';
 			package: 'Collections-Sequenceable-Extensions';
+			package: 'Collections-Sequenceable-Visualizations';
 			package: 'Collections-Unordered-Maybe';
 			package: 'Kernel-NumericalRepresentations';
 			package: 'Kernel-NumericalRepresentations-Tests';
