@@ -5,7 +5,8 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
 	| bits shapes |
-	bits := self asOrderedCollection flatCollect: #eightBits.
+	bits := Array streamContents: [ :aStream | 
+		        self do: [ :each | aStream nextPutAll: each eightBits ] ].
 	shapes := bits collect: [ :bit | 
 		          RSEllipse new
 			          model: bit;
