@@ -1,25 +1,29 @@
 Extension { #name : #ByteArray }
 
 { #category : #'*Collections-Native-Visualizations' }
-ByteArray >> gtInspectorBitsDumpBigEndianViewIn: composite [
-	<gtInspectorPresentationOrder: 20>
-	^ composite roassal3
-		  title: 'Bits dump (big-endian)';
-		  initializeCanvas: [ 
-			  | aCanvas bits shapes |
-			  aCanvas := RSCanvas new.
-			  bits := self asOrderedCollection flatCollect: #eightBits.
-			  shapes := bits collect: [ :bit | 
-					            RSEllipse new
-						            radius: 5;
-						            color: (bit
-								             ifTrue: [ Color black ]
-								             ifFalse: [ Color white ]);
-						            withBorder;
-						            borderColor: Color black;
-						            yourself ].
-			  RSGridLayout on: shapes withLineItemsCount: 16 * 8.
-			  aCanvas addAll: shapes.
-			  aCanvas @ RSCanvasController ];
-		  yourself
+ByteArray >> inspectorCanvasBitsDumpBigEndian [
+
+	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
+	| bits shapes |
+	bits := self asOrderedCollection flatCollect: #eightBits.
+	shapes := bits collect: [ :bit | 
+		          RSEllipse new
+			          model: bit;
+			          radius: 5;
+			          color: (bit
+					           ifTrue: [ Color gray ]
+					           ifFalse: [ Color white ]);
+			          withBorder;
+			          yourself ].
+	RSGridLayout on: shapes withLineItemsCount: 16 * 8.
+	^ RSCanvas new
+		  addAll: shapes;
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Collections-Native-Visualizations' }
+ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
+
+	aContext withoutEvaluator
 ]
