@@ -8,7 +8,7 @@ Object >> asReflexiveAssociation [
 { #category : #'*Kernel-Extensions' }
 Object >> asReflexivePoint [
 
-	^ self @ self
+	^ Point x: self y: self
 ]
 
 { #category : #'*Kernel-Extensions' }
