@@ -7,12 +7,26 @@ SequenceableCollection >> asLinkedList [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> asValueLink [
-	^ self foldr: #~~> init: nil
+
+	^ self
+		  foldr: [ :each :aValueLink | 
+			  ValueLink new
+				  value: each;
+				  nextLink: aValueLink;
+				  yourself ]
+		  init: nil
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
-SequenceableCollection >> foldr1: aBlock [ 
-	^ self allButLast foldr: aBlock init: self last
+SequenceableCollection >> foldr1: aBlock [
+
+	| folded |
+	folded := self last.
+
+	self size - 1 to: 1 by: -1 do: [ :index | 
+	folded := aBlock value: (self at: index) value: folded ].
+
+	^ folded
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
@@ -25,37 +39,35 @@ SequenceableCollection >> foldr: aBlock init: init [
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> halves [
-	| middle size |
-	size := self size.
-	middle := size // 2.
-	^ Array
-		with: (self copyFrom: 1 to: middle)
-		with: (self copyFrom: middle + 1 to: size)
+
+	^ self
+		  halvesAtIncluding: self size // 2
+		  in: [ :prefix :suffix | Array with: prefix with: suffix ]
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 
 	| prefix suffix |
-	prefix := self species new writeStream.
-	suffix := self species new writeStream.
-
-	self withIndexDo: [ :each :index | 
-		(index <= anIndex
-			 ifTrue: [ prefix ]
-			 ifFalse: [ suffix ]) nextPut: each ].
+	prefix := self class streamContents: [ :aStream | 
+		          1 to: anIndex do: [ :index | 
+		          aStream nextPut: (self at: index) ] ].
+	suffix := self class streamContents: [ :aStream | 
+		          anIndex + 1 to: self size do: [ :index | 
+		          aStream nextPut: (self at: index) ] ].
 
 	^ aBlock value: prefix contents value: suffix contents
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
 SequenceableCollection >> scan: aBlock init: aValue [
-	^ self class
-		new: self size + 1
-		streamContents: [ :aStream | 
-			| acc |
-			acc := aStream nextPut: aValue.
-			self do: [ :each | acc := aStream nextPut: acc + each ] ]
+
+	^ self class new: self size + 1 streamContents: [ :aStream | 
+		  | acc |
+		  acc := aStream nextPut: aValue.
+		  self do: [ :each | 
+			  acc := aBlock value: acc value: each.
+			  aStream nextPut: acc ] ]
 ]
 
 { #category : #'*Collections-Sequenceable-Extensions' }
