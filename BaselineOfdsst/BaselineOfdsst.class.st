@@ -63,11 +63,6 @@ BaselineOfdsst >> baseline: spec [
 			package: 'Collections-Sequenceable-BinomialHeap-Visualizations'
 			with: [ 
 				spec requires: #( 'Collections-Sequenceable-BinomialHeap' ) ];
-			package: 'Collections-Native-BitArray';
-			package: 'Collections-Native-BitArray-Tests'
-			with: [ spec requires: #( 'Collections-Native-BitArray' ) ];
-			package: 'Collections-Native-BitArray-Visualizations'
-			with: [ spec requires: #( 'Collections-Native-BitArray' ) ];
 			package: 'Collections-Sequenceable-Queue';
 			package: 'Collections-Sequenceable-Queue-Visualizations';
 			package: 'Collections-Unordered-Extensions' ]
