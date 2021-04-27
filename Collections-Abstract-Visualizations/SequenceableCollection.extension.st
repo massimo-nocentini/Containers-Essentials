@@ -63,8 +63,8 @@ SequenceableCollection >> inspectorCanvasIndexParityBipartedGridContext: aContex
 { #category : #'*Collections-Abstract-Visualizations' }
 SequenceableCollection >> onBox: boxShape setSizeFrom: anObject [
 
-	[ boxShape size: anObject ]
-		onDNU: #asPoint
+	[ boxShape size: (anObject ifNil: [ 0 ]) sqrt ]
+		onDNU: #sqrt
 		do: [ :anError | boxShape size: 0 ].
 	^ boxShape
 ]
