@@ -1,11 +1,11 @@
 Extension { #name : #SequenceableCollection }
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> asLinkedList [
 	^ self asValueLink asLinkedList
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> asValueLink [
 
 	^ self
@@ -17,7 +17,7 @@ SequenceableCollection >> asValueLink [
 		  init: nil
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> foldr1: aBlock [
 
 	| folded |
@@ -29,7 +29,7 @@ SequenceableCollection >> foldr1: aBlock [
 	^ folded
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> foldr: aBlock init: init [
 	| cell |
 	cell := init.
@@ -37,7 +37,7 @@ SequenceableCollection >> foldr: aBlock init: init [
 	^ cell
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> halves [
 
 	^ self
@@ -45,7 +45,7 @@ SequenceableCollection >> halves [
 		  in: [ :prefix :suffix | Array with: prefix with: suffix ]
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 
 	| prefix suffix |
@@ -59,7 +59,7 @@ SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 	^ aBlock value: prefix contents value: suffix contents
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> scan: aBlock init: aValue [
 
 	^ self class new: self size + 1 streamContents: [ :aStream | 
@@ -70,12 +70,12 @@ SequenceableCollection >> scan: aBlock init: aValue [
 			  aStream nextPut: acc ] ]
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> zip: aSequenceable [
 	^ self zip: aSequenceable with: [ :s :o | s -> o ]
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Collections-Abstract-Extensions' }
 SequenceableCollection >> zip: aSequenceable with: aBlock [
 
 	| l size |
