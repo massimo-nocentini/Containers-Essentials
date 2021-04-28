@@ -107,8 +107,8 @@ Link >> loopingBackwardControlPointsControllerOverShapes: shapes [
 						  with: f x @ bottom
 						  with: left @ bottom
 						  with: left @ top
-						  with: t x @ top
-						  with: t ]
+						  with: t x / 2 @ top
+						  with: t x / 2 @ top + offset]
 				  ifFalse: [ Array with: f with: t ] ];
 		  yourself
 ]

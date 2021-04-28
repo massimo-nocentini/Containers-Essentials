@@ -230,29 +230,3 @@ Object >> recursiveReferences [
 
 	^ #(  )
 ]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> tmp [
-
-	<script: 'Object new tmp'>
-	| canvas composite box label |
-	canvas := RSCanvas new.
-	label := RSLabel new model: 'hello'.
-	box := RSBox new
-		       withBorder;
-		extent: label extent; color: Color white.
-	RSLocation new
-		inner;
-		left;
-		stick: label on: box.
-	composite := RSComposite new
-		             shapes: { 
-				             box.
-				             label };
-		             padding: 5;
-		             adjustToChildren; withBorder.
-	composite extent: composite extent * 2.
-	canvas addShape: composite.
-
-	canvas inspect
-]
