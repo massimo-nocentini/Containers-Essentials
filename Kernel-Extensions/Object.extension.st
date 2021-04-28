@@ -12,7 +12,13 @@ Object >> asReflexivePoint [
 ]
 
 { #category : #'*Kernel-Extensions' }
-Object >> ignoreBlock: aBlock [
+Object >> itself: anObject [
+
+	^ anObject
+]
+
+{ #category : #'*Kernel-Extensions' }
+Object >> yourself: aBlock [
 
 	"I invoke the given block giving myself as argument if it needs to consume me.
 	 Then I return my self discarding the value returned by the given block."
@@ -20,17 +26,6 @@ Object >> ignoreBlock: aBlock [
 	^ aBlock
 		  cull: self;
 		  itself: self
-]
-
-{ #category : #'*Kernel-Extensions' }
-Object >> itself: anObject [
-
-	^ anObject
-]
-
-{ #category : #'*Kernel-Extensions' }
-Object >> recursiveReferences [
-	^ {  }
 ]
 
 { #category : #'*Kernel-Extensions' }

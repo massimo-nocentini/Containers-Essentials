@@ -26,6 +26,7 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock
 { #category : #'*Collections-Support-Visualizations' }
 Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock: lBlock shapes: shapes [
 	| edges pointsController line |
+
 	pointsController := self 
 		                    loopingBackwardControlPointsControllerOverShapes:
 		                    shapes.
@@ -54,17 +55,25 @@ Link >> asSlotsGroupRecursiveKnownReferences: aSet [
 
 { #category : #'*Collections-Support-Visualizations' }
 Link >> edgesConnectingShapes: shapes references: links lineShape: line modelBlock: mBlock [
+
 	| fromShapes |
 	fromShapes := links with: shapes collect: [ :link :shape | 
 		              | model |
 		              model := mBlock value: link.
-		              shape shapeFromModel: model ].
+		              shape deepShapeFromModel: model ].
+	fromShapes := fromShapes reject: [ :each | each model isNil ].
 	^ (RSEdgeBuilder new: line)
 		  color: Color gray;
 		  toShapes: shapes;
 		  fromShapes: fromShapes;
 		  useAssociations:
 			  (links collect: [ :r | r asReflexiveAssociation ])
+]
+
+{ #category : #'*Collections-Support-Visualizations' }
+Link >> instVarsNamesOrderedCollection [
+
+	^ Array with: #nextLink -> [ :anObj | anObj nextLink ]
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
@@ -79,12 +88,13 @@ Link >> lineShapeWithControlPointsController: aController [
 
 { #category : #'*Collections-Support-Visualizations' }
 Link >> loopingBackwardControlPointsControllerOverShapes: shapes [
+
 	^ RSBlockCPController new
 		  block: [ :edge | 
 			  | f t ap |
 			  ap := edge attachPoint.
-			  f := ap startingPointOf: edge.
-			  t := ap endingPointOf: edge.
+			  f := RSCenteredAttachPoint new startingPointOf: edge.
+			  t := RSBorderAttachPoint new endingPointOf: edge.
 			  edge to == shapes first
 				  ifTrue: [ 
 					  | top bottom left offset |
