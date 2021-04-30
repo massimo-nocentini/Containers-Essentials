@@ -12,7 +12,7 @@ BaselineOfdsst >> baseline: spec [
 		spec
 			baseline: 'Roassal3' with: [ 
 				spec repository:
-						'github://massimo-nocentini/Roassal3:recursiveShapeFromModel/src' ];
+						'github://massimo-nocentini/Roassal3:start-end-attach-point-controller/src' ];
 			baseline: 'Roassal3Exporters'
 			with: [ 
 				spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ].
@@ -21,12 +21,10 @@ BaselineOfdsst >> baseline: spec [
 		spec
 			package: 'Kernel-Extensions';
 			package: 'dsst-Traits';
-			package: 'Slot-Examples-Extensions';
 			package: 'Kernel-Visualizations';
 			package: 'Collections-Abstract-Extensions';
 			package: 'Collections-Abstract-Visualizations';
-			package: 'Collections-Native-Visualizations'
-			with: [ spec requires: #( 'Kernel-Visualizations' ) ];
+			package: 'Collections-Native-Visualizations';
 			package: 'Collections-Support-Extensions';
 			package: 'Collections-Support-Visualizations';
 			package: 'Collections-Strings-Extensions';
