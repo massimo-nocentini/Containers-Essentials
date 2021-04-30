@@ -226,6 +226,132 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: aCollection [
 ]
 
 { #category : #'*Kernel-Visualizations' }
+Object >> onGroup: aGroup fromShapes: fromShapes toShapes: toShapes slotRendererMap: aDictionary [
+
+	| aSet |
+	^ self instVarsNamesOrderedCollection
+		  ifEmpty: [ 
+			  | model |
+			  model := self isImmediateObject
+				           ifTrue: [ Object new ]
+				           ifFalse: [ self ].
+			  RSLabel new
+				  model: model;
+				  text: self asString;
+				  yourself ]
+		  ifNotEmpty: [ :selectors | 
+			  | shapes radious descriptors compositeShape extent |
+			  "Basic settings for rounding the boxes"
+			  radious := 2.
+
+			  extent := RSLabel new
+				            model: nil;
+				            extent.
+
+			  descriptors := selectors collect: [ :anAssociation | 
+				                 | value valueLabel varLabel valueBox var accessor model |
+				                 var := anAssociation key.
+				                 accessor := anAssociation value.
+				                 value := accessor value: self.
+
+				                 aDictionary at: var ifAbsent: [ 
+					                 self
+						                 onGroup: aGroup
+						                 fromShapes: fromShapes
+						                 toShapes: toShapes
+						                 slotRendererMap: aDictionary ].
+
+				                 model := (aSet includes: value) ifFalse: [ value ].
+				                 valueLabel := (aSet includes: value)
+					                               ifTrue: [ nil ]
+					                               ifFalse: [ 
+						                               RSLabel new
+							                               model: value asString;
+							                               yourself: [ :labelShape | 
+								                               extent := extent max:
+										                                         labelShape extent ] ].
+
+				                 varLabel := RSLabel new
+					                             model: var;
+					                             yourself.
+				                 varLabel color: varLabel color lighter lighter.
+
+				                 valueBox := RSBox new
+					                             model: value;
+					                             color: Color white;
+					                             cornerRadius: 2;
+					                             withBorder;
+					                             yourself.
+
+				                 "Our descriptor is a plain dictionary."
+				                 Dictionary new
+					                 at: #var put: var;
+					                 at: #value put: value;
+					                 at: #valueLabel put: valueLabel;
+					                 at: #varLabel put: varLabel;
+					                 at: #valueBox put: valueBox;
+					                 yourself ].
+
+			  extent := extent x * 3 / 2 @ extent y.
+
+			  shapes := descriptors collect: [ :slotDescriptor | 
+				            | varLabel valueBox valueLabel value valueShape slotShape |
+				            "Unpacking."
+				            value := slotDescriptor at: #value.
+				            varLabel := slotDescriptor at: #varLabel.
+				            valueLabel := slotDescriptor at: #valueLabel.
+				            valueBox := slotDescriptor at: #valueBox.
+
+				            valueBox extent: extent.
+
+				            valueShape := valueLabel
+					                          ifNil: [ valueBox ]
+					                          ifNotNil: [ 
+						                          RSLocation new
+							                          inner;
+							                          stick: valueLabel on: valueBox.
+						                          RSComposite new
+							                          model: value asString -> value;
+							                          shapes:
+								                          (Array
+									                           with: valueBox
+									                           with: valueLabel);
+							                          adjustToChildren;
+							                          yourself ].
+
+				            RSLocation new
+					            left;
+					            outer;
+					            offset: -2 @ 0;
+					            move: varLabel on: valueShape.
+
+				            slotShape := RSComposite new
+					                         model:
+						                         (slotDescriptor at: #var)
+						                         -> valueShape model;
+					                         shapes:
+						                         (Array with: varLabel with: valueShape);
+					                         yourself ].
+
+			  RSVerticalLineLayout new
+				  verticalGap: 0;
+				  on: shapes.
+
+			  RSAlignment new
+				  shapes: shapes;
+				  right.
+
+			  compositeShape := RSComposite new
+				                    shapes: shapes;
+				                    padding: 2;
+				                    yourself.
+
+			  RSGroup new
+				  add: compositeShape;
+				  yourself ]
+]
+
+{ #category : #'*Kernel-Visualizations' }
 Object >> recursiveReferences [
 
 	^ #(  )

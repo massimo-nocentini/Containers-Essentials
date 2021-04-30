@@ -10,23 +10,13 @@ Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: refs [
 
 { #category : #'*Collections-Support-Visualizations' }
 Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock: lBlock [
-	| shapes aNewSet |
+
+	| shapes aNewSet edges pointsController line |
 	aNewSet := aSet | links.
 	shapes := links collect: [ :aValueLink | 
 		          | g |
 		          g := aValueLink asSlotsGroupKnownReferences: aNewSet.
 		          (g asShapeFor: aValueLink) @ RSDraggable ].
-	^ self
-		  asSlotsGroupKnownReferences: aSet
-		  recursiveReferences: links
-		  layoutBlock: lBlock
-		  shapes: shapes
-]
-
-{ #category : #'*Collections-Support-Visualizations' }
-Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links layoutBlock: lBlock shapes: shapes [
-	| edges pointsController line |
-
 	pointsController := self 
 		                    loopingBackwardControlPointsControllerOverShapes:
 		                    shapes.
@@ -78,9 +68,16 @@ Link >> instVarsNamesOrderedCollection [
 
 { #category : #'*Collections-Support-Visualizations' }
 Link >> lineShapeWithControlPointsController: aController [
+
+	| controller |
+	controller := RSStartEndCPAPController new
+		              controller: RSDirectedBezierCPAPController new;
+		              startAttachPoint: RSCenteredAttachPoint new;
+		              endAttachPoint: RSBorderAttachPoint new;
+		              yourself.
 	^ RSPolyline new
 		  border: (RSBorder new width: 1);
-		  cornerRadii: 5;
+		  cornerRadii: 2;
 		  markerEnd: RSArrowedLine new defaultHead asMarker;
 		  controlPointsController: aController;
 		  yourself
@@ -100,7 +97,7 @@ Link >> loopingBackwardControlPointsControllerOverShapes: shapes [
 					  | top bottom left offset |
 					  offset := 5.
 					  bottom := shapes last encompassingRectangle bottom + offset.
-					  top := shapes first encompassingRectangle top - offset.
+					  top := shapes first encompassingRectangle top - offset double.
 					  left := shapes last encompassingRectangle left - offset.
 					  Array
 						  with: f
@@ -108,7 +105,7 @@ Link >> loopingBackwardControlPointsControllerOverShapes: shapes [
 						  with: left @ bottom
 						  with: left @ top
 						  with: t x / 2 @ top
-						  with: t x / 2 @ top + offset]
+						  with: t x / 2 @ (top + offset double) ]
 				  ifFalse: [ Array with: f with: t ] ];
 		  yourself
 ]
