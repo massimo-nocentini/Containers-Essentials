@@ -106,87 +106,19 @@ Object >> asSlotsGroupKnownReferences: aSet [
 
 { #category : #'*Kernel-Visualizations' }
 Object >> asSlotsGroupKnownReferences: aSet recursiveReferences: refs [
-	"This message should be overridden by any subclass that has a recursive structure
-	 that would be visualized; in particular, the layout block has to be plugged in."
 
-	^ self
-		  asSlotsGroupKnownReferences: aSet
-		  recursiveReferences: refs
-		  layoutBlock: [ :shapes | RSNoLayout on: shapes ]
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> asSlotsGroupKnownReferences: aSet recursiveReferences: refs layoutBlock: aBlock [
 	^ RSGroup new
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> asSlotsGroupRecursiveKnownReferences: aSet [
-	"This message should be overridden by any subclass that has a recursive structure
-	 that would be visualized; in particular, the layout block has to be plugged in."
-
-	^ self
-		  asSlotsGroupRecursiveKnownReferences: aSet
-		  layoutBlock: [ :shapes | RSNoLayout on: shapes ]
-]
-
-{ #category : #'*Kernel-Visualizations' }
 Object >> asSlotsGroupRecursiveKnownReferences: aSet layoutBlock: aBlock [
+
 	"This message is a delegate that allows the sender to not pass 
     recursive references and use the ones known to the receiver."
 
 	^ self
 		  asSlotsGroupKnownReferences: aSet
 		  recursiveReferences: self recursiveReferences
-		  layoutBlock: aBlock
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> gtInspectorSlotsGraphIn: composite [
-
-	<gtInspectorPresentationOrder: 20>
-	^ composite roassal3
-		  title: 'Slots graph';
-		  initializeCanvas: [ 
-			  (self gtInspectorSlotsGraphInCanvas: RSCanvas new)
-			  @ RSCanvasController ];
-		  yourself
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> gtInspectorSlotsGraphInCanvas: aCanvas [
-
-	| aGroup |
-	aGroup := self asSlotsGroupKnownReferences: IdentitySet empty.
-	^ aCanvas
-		  addAll: aGroup;
-		  yourself
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> gtInspectorSlotsGraphRecursiveIn: composite [
-
-	<gtInspectorPresentationOrder: 30>
-	^ self recursiveReferences ifNotEmpty: [ :refs | 
-		  composite roassal3
-			  title: 'Slots graph (recursive)';
-			  initializeCanvas: [ 
-				  (self
-					   gtInspectorSlotsGraphRecursiveInCanvas: RSCanvas new
-					   recursiveReferences: refs) @ RSCanvasController ];
-			  yourself ]
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> gtInspectorSlotsGraphRecursiveInCanvas: aCanvas recursiveReferences: refs [
-
-	| aGroup |
-	aGroup := self
-		          asSlotsGroupKnownReferences: IdentitySet empty
-		          recursiveReferences: refs.
-	^ aCanvas
-		  addAll: aGroup;
-		  yourself
 ]
 
 { #category : #'*Kernel-Visualizations' }

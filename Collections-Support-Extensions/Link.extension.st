@@ -2,6 +2,7 @@ Extension { #name : #Link }
 
 { #category : #'*Collections-Support-Extensions' }
 Link >> do: aBlock [
+
 	| link |
 	link := self.
 	[ link ] whileNotNil: [ 
