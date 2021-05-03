@@ -129,7 +129,7 @@ SequenceableCollection >> onCanvas: aCanvas drawGridWithLineItemsCount: anIntege
 	| shapes maxPoint |
 	maxPoint := 0 @ 0.
 	shapes := self withIndexCollect: [ :each :i | 
-		          | valueShape indexShape shape |
+		          | valueShape indexShape |
 		          valueShape := RSLabel new
 			                        model: each;
 			                        yourself.
@@ -143,21 +143,17 @@ SequenceableCollection >> onCanvas: aCanvas drawGridWithLineItemsCount: anIntege
 			          offset: indexShape textWidth + 2 @ 0;
 			          move: indexShape on: valueShape.
 
-		          shape := RSComposite new
-			                   model: i -> each;
-			                   addShape: valueShape;
-			                   addShape: indexShape;
-			                   adjustToChildren;
-			                   padding: 2;
-			                   border: (RSBorder new
-					                    color:
-						                    Color gray lighter lighter lighter lighter;
-					                    yourself);
-			                   yourself.
-
-		          maxPoint := maxPoint max: shape extent.
-
-		          shape ].
+		          RSComposite new
+			          model: i -> each;
+			          addShape: valueShape;
+			          addShape: indexShape;
+			          adjustToChildren;
+			          padding: 2;
+			          border: (RSBorder new
+					           color: Color gray lighter lighter lighter lighter;
+					           yourself);
+			          yourself: [ :shape | 
+			          maxPoint := maxPoint max: shape extent ] ].
 
 	maxPoint := maxPoint + 1 asPoint.
 	shapes do: [ :each | each extent: maxPoint ].
