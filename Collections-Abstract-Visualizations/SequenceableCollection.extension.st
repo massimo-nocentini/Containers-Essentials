@@ -31,6 +31,60 @@ SequenceableCollection >> inspectorCanvasBoxesFlowContext: aContext [
 ]
 
 { #category : #'*Collections-Abstract-Visualizations' }
+SequenceableCollection >> inspectorCanvasEnumeration [
+
+	<inspectorPresentationOrder: 300 title: 'Enumeration'>
+	| shapes location extent boxes |
+	boxes := OrderedCollection new.
+	extent := 0 asPoint.
+	location := RSLocation new left outer offset: -5 @ 0.
+	shapes := self asArray withIndexCollect: [ :each :index | 
+		          | boxShape indexShape valueShape |
+		          valueShape := RSLabel new model: each.
+		          indexShape := RSLabel new
+			                        model: index;
+			                        fontSize: valueShape fontSize double / 3;
+			                        color: Color gray lighter lighter;
+			                        yourself.
+
+		          boxShape := RSComposite new
+			                      add: valueShape;
+			                      padding: 2 @ 0;
+			                      yourself.
+
+		          extent := extent max: boxShape extent.
+		          boxes add: boxShape.
+
+		          location stick: indexShape on: boxShape.
+
+		          RSComposite new
+			          add: indexShape;
+			          add: boxShape;
+			          yourself ].
+
+	boxes do: [ :each | each extent: extent ].
+
+	RSVerticalLineLayout new
+		verticalGap: 5;
+		applyOn: shapes.
+
+	RSAlignment new
+		shapes: shapes;
+		right.
+
+	^ RSCanvas new
+		  addInteraction: RSCanvasController new;
+		  addAll: shapes;
+		  inspectorCanvas
+]
+
+{ #category : #'*Collections-Abstract-Visualizations' }
+SequenceableCollection >> inspectorCanvasEnumerationContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Collections-Abstract-Visualizations' }
 SequenceableCollection >> inspectorCanvasGrid [
 
 	<inspectorPresentationOrder: 100 title: 'Grid'>
