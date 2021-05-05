@@ -445,15 +445,24 @@ Object >> recursiveReferences [
 { #category : #'*Kernel-Visualizations' }
 Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenModels: models [
 
-	| shapes radius descriptors compositeShape extent |
+	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor |
 	models add: self.
 
 	"Basic settings for rounding the boxes"
 	radius := Float e.
 
-	extent := RSLabel new
-		          model: nil;
-		          extent.
+	nilLabel := RSLabel new
+		            model: nil;
+		            yourself.
+	metaColor := nilLabel color lighter lighter lighter.
+	extent := nilLabel extent.
+
+	classLabel := RSLabel new
+		              model: self class;
+		              fontSize: nilLabel fontSize * 0.618;
+		              color: metaColor;
+		              italic;
+		              yourself.
 
 	descriptors := selectors collect: [ :anAssociation | 
 		               | value valueLabel varLabel valueBox var accessor |
@@ -462,19 +471,22 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		               value := accessor value: self.
 
 		               valueLabel := (value isImmediateObject or: [ 
-			                              value isNil ])
+			                              value isNil or: [ value isBoolean ] ])
 			                             ifTrue: [ 
-				                             RSLabel new
-					                             model: value asString;
-					                             yourself: [ :labelShape | 
-						                             extent := extent max:
-								                                       labelShape extent ] ]
+				                             | labelShape |
+				                             labelShape := RSLabel new text:
+					                                           value asString.
+
+				                             extent := extent max:
+					                                       labelShape extent.
+				                             labelShape ]
 			                             ifFalse: [ 
 				                             (models includes: value) ifFalse: [ 
+					                             | map |
+					                             map := value
+						                                    instVarsNamesOrderedCollection.
 					                             value
-						                             slotsMap:
-						                             value
-							                             instVarsNamesOrderedCollection
+						                             slotsMap: map
 						                             fromShapes: fromShapes
 						                             toShapes: toShapes
 						                             seenModels: models ].
@@ -482,9 +494,10 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 
 		               varLabel := RSLabel new
 			                           model: var;
-			                           yourself: [ :aShape | 
-				                           aShape color:
-						                           aShape color lighter lighter ].
+			                           color: metaColor;
+			                           yourself: [ :l | 
+				                           (self respondsTo: var asSymbol) 
+					                           ifTrue: [ l italic ] ].
 
 		               valueBox := RSBox new
 			                           model: value;
@@ -505,7 +518,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 	extent := radius double + extent x @ extent y.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
-		          | varLabel valueBox valueLabel value valueShape slotShape |
+		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
 		          value := slotDescriptor at: #value.
 		          varLabel := slotDescriptor at: #varLabel.
@@ -516,17 +529,15 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
-			                        valueBox yourself: [ 
-				                        fromShapes add: valueBox ] ]
+				                        fromShapes add: valueBox.
+				                        valueBox ]
 			                        ifNotNil: [ 
 				                        RSLocation new
 					                        inner;
 					                        stick: valueLabel on: valueBox.
 				                        RSComposite new
-					                        model: value asString -> value;
 					                        shapes:
 						                        (Array with: valueBox with: valueLabel);
-					                        adjustToChildren;
 					                        yourself ].
 
 		          RSLocation new
@@ -535,13 +546,9 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 			          offset: radius negated @ 0;
 			          stick: varLabel on: valueShape.
 
-		          slotShape := RSComposite new
-			                       model:
-				                       (slotDescriptor at: #var)
-				                       -> valueShape model;
-			                       shapes:
-				                       (Array with: varLabel with: valueShape);
-			                       yourself ].
+		          RSComposite new
+			          shapes: (Array with: varLabel with: valueShape);
+			          yourself ].
 
 	RSVerticalLineLayout new
 		verticalGap: 0;
@@ -552,16 +559,54 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		right.
 
 	shapes ifEmpty: [ 
-		shapes := Array with: (RSLabel new
-				           model: self;
-				           yourself) ].
+		| label |
+		label := RSLabel new
+			         model: self;
+			         yourself: [ :l | 
+				         l extent: (l extent max: classLabel extent) ].
+		shapes := Array with: label ].
 
 	compositeShape := RSComposite new
-		                  model: self;
 		                  shapes: shapes;
 		                  padding: radius;
-		                  addInteraction: RSDraggable new;
 		                  yourself.
 
-	toShapes add: compositeShape
+	boxedCompositeShape := RSBox new
+		                       color: Color white;
+		                       extent: compositeShape extent;
+		                       cornerRadius: radius;
+		                       withBorder;
+		                       borderColor: metaColor;
+		                       yourself.
+
+	RSLocation new
+		inner;
+		stick: compositeShape on: boxedCompositeShape.
+
+	boxedCompositeShape := RSComposite new
+		                       shapes: { 
+				                       boxedCompositeShape.
+				                       compositeShape };
+		                       yourself.
+
+	RSLocation new
+		above;
+		stick: classLabel on: boxedCompositeShape.
+
+	RSAlignment new
+		shapes: { 
+				classLabel.
+				boxedCompositeShape };
+		left.
+
+	boxedCompositeShape := RSComposite new
+		                       model: self;
+		                       shapes: { 
+				                       classLabel.
+				                       boxedCompositeShape };
+		                       padding: radius;
+		                       addInteraction: RSDraggable new;
+		                       yourself.
+
+	toShapes add: boxedCompositeShape
 ]

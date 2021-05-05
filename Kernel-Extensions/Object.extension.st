@@ -12,6 +12,12 @@ Object >> asReflexivePoint [
 ]
 
 { #category : #'*Kernel-Extensions' }
+Object >> isBoolean [
+
+	^ false
+]
+
+{ #category : #'*Kernel-Extensions' }
 Object >> itself: anObject [
 
 	^ anObject
