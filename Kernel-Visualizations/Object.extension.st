@@ -584,7 +584,11 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		                       extent: compositeShape extent;
 		                       cornerRadius: radius;
 		                       withBorder;
-		                       borderColor: metaColor;
+		                       borderDo: [ :border | 
+			                       level = 0
+				                       ifTrue: [ 
+					                       border width: border width double ]
+				                       ifFalse: [ border color: metaColor ] ];
 		                       yourself.
 
 	RSLocation new
