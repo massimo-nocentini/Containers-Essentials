@@ -281,7 +281,7 @@ Object >> lineShape [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: aCollection [
+Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 
 	| fromShapes toShapes edges models |
 	fromShapes := RSGroup new.
@@ -291,14 +291,14 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: aCollection [
 		slotsMap: self instVarsNamesOrderedCollection
 		fromShapes: fromShapes
 		toShapes: toShapes
-		seenModels: models.
+		seenModels: models
+		depth: 0.
 
 	edges := (RSEdgeBuilder new: self lineShape)
 		         fromShapes: fromShapes;
 		         toShapes: toShapes;
 		         useAssociations:
-			         (fromShapes collect: [ :each | 
-					          each model asReflexiveAssociation ]).
+			         (models collect: [ :each | each asReflexiveAssociation ]).
 
 	RSForceBasedLayout new
 		charge: -400;
@@ -443,9 +443,9 @@ Object >> recursiveReferences [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenModels: models [
+Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenModels: models depth: level [
 
-	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor |
+	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor depthLabel metaFontSize |
 	models add: self.
 
 	"Basic settings for rounding the boxes"
@@ -455,11 +455,19 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		            model: nil;
 		            yourself.
 	metaColor := nilLabel color lighter lighter lighter.
+	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1).
 	extent := nilLabel extent.
 
 	classLabel := RSLabel new
 		              model: self class;
-		              fontSize: nilLabel fontSize * 0.618;
+		              fontSize: metaFontSize;
+		              color: metaColor;
+		              italic;
+		              yourself.
+
+	depthLabel := RSLabel new
+		              model: level;
+		              fontSize: metaFontSize;
 		              color: metaColor;
 		              italic;
 		              yourself.
@@ -473,13 +481,11 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		               valueLabel := (value isImmediateObject or: [ 
 			                              value isNil or: [ value isBoolean ] ])
 			                             ifTrue: [ 
-				                             | labelShape |
-				                             labelShape := RSLabel new text:
-					                                           value asString.
-
-				                             extent := extent max:
-					                                       labelShape extent.
-				                             labelShape ]
+				                             RSLabel new
+					                             text: value asString;
+					                             yourself: [ :labelShape | 
+						                             extent := extent max:
+								                                       labelShape extent ] ]
 			                             ifFalse: [ 
 				                             (models includes: value) ifFalse: [ 
 					                             | map |
@@ -489,7 +495,8 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 						                             slotsMap: map
 						                             fromShapes: fromShapes
 						                             toShapes: toShapes
-						                             seenModels: models ].
+						                             seenModels: models
+						                             depth: level + 1 ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -563,7 +570,8 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 		label := RSLabel new
 			         model: self;
 			         yourself: [ :l | 
-				         l extent: (l extent max: classLabel extent) ].
+				         l extent:
+						         (l extent max: classLabel extent + depthLabel extent) ].
 		shapes := Array with: label ].
 
 	compositeShape := RSComposite new
@@ -599,10 +607,21 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 				boxedCompositeShape };
 		left.
 
+	RSLocation new
+		above;
+		stick: depthLabel on: boxedCompositeShape.
+
+	RSAlignment new
+		shapes: { 
+				boxedCompositeShape.
+				depthLabel };
+		right.
+
 	boxedCompositeShape := RSComposite new
 		                       model: self;
 		                       shapes: { 
 				                       classLabel.
+				                       depthLabel.
 				                       boxedCompositeShape };
 		                       padding: radius;
 		                       addInteraction: RSDraggable new;
