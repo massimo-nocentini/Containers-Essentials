@@ -283,31 +283,27 @@ Object >> lineShape [
 { #category : #'*Kernel-Visualizations' }
 Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 
-	| fromShapes toShapes edges models |
+	| fromShapes toShapes shapesAssociations |
 	fromShapes := RSGroup new.
-	toShapes := RSGroup new.
-	models := IdentitySet new.
+	toShapes := IdentityDictionary new.
 	self
 		slotsMap: self instVarsNamesOrderedCollection
 		fromShapes: fromShapes
 		toShapes: toShapes
-		seenModels: models
 		depth: 0.
 
-	edges := (RSEdgeBuilder new: self lineShape)
-		         fromShapes: fromShapes;
-		         toShapes: toShapes;
-		         useAssociations:
-			         (models collect: [ :each | each asReflexiveAssociation ]).
+	aCanvas addAll: toShapes values. "asGroup @ RSHighlightable withLines"
 
-	RSForceBasedLayout new
-		charge: -400;
-		on: toShapes edges: edges.
+	shapesAssociations := fromShapes collect: [ :each | 
+		                      each -> (toShapes at: each model) ].
+
+	(RSLineBuilder new: self lineShape)
+		canvas: aCanvas;
+		useElementAssociations: shapesAssociations.
+
+	RSFlowLayout on: aCanvas nodes edges: aCanvas edges.
 
 	^ aCanvas
-		  addAll: toShapes;
-		  addAll: edges;
-		  yourself
 ]
 
 { #category : #'*Kernel-Visualizations' }
@@ -443,13 +439,20 @@ Object >> recursiveReferences [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenModels: models depth: level [
+Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes depth: level [
 
-	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor depthLabel metaFontSize |
-	models add: self.
-
+	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor depthLabel metaFontSize mineShape |
 	"Basic settings for rounding the boxes"
 	radius := Float e.
+
+	mineShape := RSComposite new
+		             model: self;
+		             padding: radius;
+		             addInteraction: RSDraggable new;
+		             "addInteraction: RSHighlightable withLines;"
+		             yourself.
+
+	toShapes at: self put: mineShape.
 
 	nilLabel := RSLabel new
 		            model: nil;
@@ -487,30 +490,30 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 						                             extent := extent max:
 								                                       labelShape extent ] ]
 			                             ifFalse: [ 
-				                             (models includes: value) ifFalse: [ 
-					                             | map |
-					                             map := value
-						                                    instVarsNamesOrderedCollection.
-					                             value
-						                             slotsMap: map
-						                             fromShapes: fromShapes
-						                             toShapes: toShapes
-						                             seenModels: models
-						                             depth: level + 1 ].
+				                             (toShapes includesKey: value) 
+					                             ifFalse: [ 
+						                             | map |
+						                             map := value
+							                                    instVarsNamesOrderedCollection.
+						                             value
+							                             slotsMap: map
+							                             fromShapes: fromShapes
+							                             toShapes: toShapes
+							                             depth: level + 1 ].
 				                             nil ].
 
 		               varLabel := RSLabel new
 			                           model: var;
 			                           color: metaColor;
-			                           yourself: [ :l | 
-				                           (self respondsTo: var asSymbol) 
-					                           ifTrue: [ l italic ] ].
+			                           yourself.
 
 		               valueBox := RSBox new
 			                           model: value;
 			                           color: Color white;
 			                           cornerRadius: radius;
 			                           withBorder;
+			                           addInteraction:
+				                           RSHighlightable withLines;
 			                           yourself.
 
 		               "Our descriptor is a plain dictionary."
@@ -621,15 +624,8 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenMode
 				depthLabel };
 		right.
 
-	boxedCompositeShape := RSComposite new
-		                       model: self;
-		                       shapes: { 
-				                       classLabel.
-				                       depthLabel.
-				                       boxedCompositeShape };
-		                       padding: radius;
-		                       addInteraction: RSDraggable new;
-		                       yourself.
-
-	toShapes add: boxedCompositeShape
+	mineShape shapes: { 
+			classLabel.
+			depthLabel.
+			boxedCompositeShape }
 ]
