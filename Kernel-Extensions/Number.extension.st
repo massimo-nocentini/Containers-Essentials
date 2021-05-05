@@ -6,6 +6,12 @@ Number >> decrement [
 ]
 
 { #category : #'*Kernel-Extensions' }
+Number >> double [
+
+	^ self * 2
+]
+
+{ #category : #'*Kernel-Extensions' }
 Number >> increment [
 	^ self + 1
 ]

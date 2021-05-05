@@ -51,11 +51,6 @@ Integer >> decrease [
 ]
 
 { #category : #'*Kernel-Extensions' }
-Integer >> double [
-	^ 2 * self
-]
-
-{ #category : #'*Kernel-Extensions' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.

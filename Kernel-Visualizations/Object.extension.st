@@ -283,13 +283,15 @@ Object >> lineShape [
 { #category : #'*Kernel-Visualizations' }
 Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: aCollection [
 
-	| fromShapes toShapes edges |
+	| fromShapes toShapes edges models |
 	fromShapes := RSGroup new.
 	toShapes := RSGroup new.
+	models := IdentitySet new.
 	self
 		slotsMap: self instVarsNamesOrderedCollection
 		fromShapes: fromShapes
-		toShapes: toShapes.
+		toShapes: toShapes
+		seenModels: models.
 
 	edges := (RSEdgeBuilder new: self lineShape)
 		         fromShapes: fromShapes;
@@ -441,11 +443,13 @@ Object >> recursiveReferences [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
+Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes seenModels: models [
 
-	| shapes radious descriptors compositeShape extent |
+	| shapes radius descriptors compositeShape extent |
+	models add: self.
+
 	"Basic settings for rounding the boxes"
-	radious := 2.
+	radius := Float e.
 
 	extent := RSLabel new
 		          model: nil;
@@ -466,12 +470,14 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
 						                             extent := extent max:
 								                                       labelShape extent ] ]
 			                             ifFalse: [ 
-				                             value
-					                             slotsMap:
-					                             value instVarsNamesOrderedCollection
-					                             fromShapes: fromShapes
-					                             toShapes: toShapes.
-
+				                             (models includes: value) ifFalse: [ 
+					                             value
+						                             slotsMap:
+						                             value
+							                             instVarsNamesOrderedCollection
+						                             fromShapes: fromShapes
+						                             toShapes: toShapes
+						                             seenModels: models ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -483,7 +489,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
 		               valueBox := RSBox new
 			                           model: value;
 			                           color: Color white;
-			                           cornerRadius: 2;
+			                           cornerRadius: radius;
 			                           withBorder;
 			                           yourself.
 
@@ -496,7 +502,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
 			               at: #valueBox put: valueBox;
 			               yourself ].
 
-	extent := extent x * 3 / 2 @ extent y.
+	extent := radius double + extent x @ extent y.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape slotShape |
@@ -526,7 +532,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
 		          RSLocation new
 			          left;
 			          outer;
-			          offset: -2 @ 0;
+			          offset: radius negated @ 0;
 			          stick: varLabel on: valueShape.
 
 		          slotShape := RSComposite new
@@ -553,7 +559,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes [
 	compositeShape := RSComposite new
 		                  model: self;
 		                  shapes: shapes;
-		                  padding: 2;
+		                  padding: radius;
 		                  addInteraction: RSDraggable new;
 		                  yourself.
 
