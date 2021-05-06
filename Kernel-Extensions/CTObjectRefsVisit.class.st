@@ -173,7 +173,9 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	boxedCompositeShape := RSBox new
 		                       color: Color white;
-		                       extent: compositeShape extent;
+		                       extent:
+			                       (compositeShape extent max:
+					                        classLabel extent);
 		                       cornerRadius: radius;
 		                       withBorder;
 		                       borderDo: [ :border | 
@@ -183,9 +185,9 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 				                       ifFalse: [ border color: metaColor ] ];
 		                       yourself.
 
-	RSLocation new
-		inner;
-		stick: compositeShape on: boxedCompositeShape.
+	RSLocation new inner right
+		stick: compositeShape
+		on: boxedCompositeShape.
 
 	boxedCompositeShape := RSComposite new
 		                       shapes: { 
