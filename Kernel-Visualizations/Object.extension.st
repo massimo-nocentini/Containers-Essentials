@@ -278,15 +278,15 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	aCanvas addAll: toShapes values.
 
 	layoutAssociations := OrderedCollection new.
+	shapesAssociations := OrderedCollection new.
 
-	shapesAssociations := fromShapes collect: [ :anAssociation | 
-		                      | boxShape boxParentShape toShape |
-		                      boxShape := anAssociation key.
-		                      boxParentShape := anAssociation value.
-		                      toShape := toShapes at: boxShape model.
-		                      layoutAssociations add:
-			                      boxParentShape -> toShape.
-		                      boxShape -> toShape ].
+	fromShapes do: [ :anAssociation | 
+		| boxShape boxParentShape toShape |
+		boxShape := anAssociation key.
+		boxParentShape := anAssociation value.
+		toShape := toShapes at: boxShape model.
+		layoutAssociations add: boxParentShape -> toShape.
+		shapesAssociations add: boxShape -> toShape ].
 
 	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
