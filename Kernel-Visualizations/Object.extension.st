@@ -282,28 +282,22 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	shapesAssociations := OrderedCollection new.
 
 	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
-		 (anAssoc value propertyAt: #bfsLevel)
-		 < (anotherAssoc value propertyAt: #bfsLevel) or: [ 
-			 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
-			 <
-			 ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x 
-				 or: [ 
-					 (anAssoc key propertyAt: #absoluteBoxIndex)
-					 < (anotherAssoc key propertyAt: #absoluteBoxIndex) ] ] ]) do: [ 
-		:anAssociation | 
-		| boxShape boxParentShape toShape |
-		boxShape := anAssociation key.
-		boxParentShape := anAssociation value.
-		toShape := toShapes at: boxShape model.
-		shapesAssociations add: boxShape -> toShape.
+		 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
+		 < ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x ]) 
+		do: [ :anAssociation | 
+			| boxShape boxParentShape toShape |
+			boxShape := anAssociation key.
+			boxParentShape := anAssociation value.
+			toShape := toShapes at: boxShape model.
+			shapesAssociations add: boxShape -> toShape.
 
-		((toShape propertyAt: #bfsLevel)
-		 - (boxParentShape propertyAt: #bfsLevel) = 1 and: [ 
-			 | fromTiming toTiming |
-			 fromTiming := boxParentShape propertyAt: #dfsTimings.
-			 toTiming := toShape propertyAt: #dfsTimings.
-			 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
-			ifTrue: [ layoutAssociations add: boxParentShape -> toShape ] ].
+			((toShape propertyAt: #bfsLevel)
+			 - (boxParentShape propertyAt: #bfsLevel) = 1 and: [ 
+				 | fromTiming toTiming |
+				 fromTiming := boxParentShape propertyAt: #dfsTimings.
+				 toTiming := toShape propertyAt: #dfsTimings.
+				 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
+				ifTrue: [ layoutAssociations add: boxParentShape -> toShape ] ].
 
 	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
