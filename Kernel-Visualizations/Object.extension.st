@@ -269,11 +269,12 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
 	fromShapes := OrderedCollection new.
 	toShapes := IdentityDictionary new.
-	self
-		slotsMap: self instVarsNamesOrderedCollection
-		fromShapes: fromShapes
-		toShapes: toShapes
-		depth: 0.
+
+	CTObjectRefsVisit new
+		fromShapes: fromShapes;
+		toShapes: toShapes;
+		maxLevel: 10;
+		forObject: self slotsMap: self instVarsNamesOrderedCollection.
 
 	aCanvas addAll: toShapes values.
 
@@ -285,15 +286,20 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 		boxShape := anAssociation key.
 		boxParentShape := anAssociation value.
 		toShape := toShapes at: boxShape model.
-		layoutAssociations add: boxParentShape -> toShape.
-		shapesAssociations add: boxShape -> toShape ].
+		shapesAssociations add: boxShape -> toShape.
+
+		((toShape propertyAt: #bfsLevel)
+		 - (boxParentShape propertyAt: #bfsLevel) = 1 and: [ 
+			 | fromTiming toTiming |
+			 fromTiming := boxParentShape propertyAt: #dfsTimings.
+			 toTiming := toShape propertyAt: #dfsTimings.
+			 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
+			ifTrue: [ layoutAssociations add: boxParentShape -> toShape ] ].
 
 	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
 		canvas: aCanvas;
 		useElementAssociations: shapesAssociations.
-
-	"aCanvas edges translucent."
 
 	eb := RSLineBuilder line.
 	edges := layoutAssociations collect: [ :anAssociation | 
