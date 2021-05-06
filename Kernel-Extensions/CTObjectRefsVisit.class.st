@@ -6,7 +6,8 @@ Class {
 		'level',
 		'fromShapes',
 		'maxLevel',
-		'dfsClock'
+		'dfsClock',
+		'absoluteBoxIndex'
 	],
 	#category : #'Kernel-Extensions'
 }
@@ -95,7 +96,11 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			                           withBorder;
 			                           addInteraction:
 				                           RSHighlightable withLines;
+			                           propertyAt: #absoluteBoxIndex
+			                           put: absoluteBoxIndex;
 			                           yourself.
+
+		               absoluteBoxIndex := absoluteBoxIndex + 1.
 
 		               "Our descriptor is a plain dictionary."
 		               Dictionary new
@@ -127,7 +132,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
-				                        fromShapes add: valueBox -> mineShape.
+				                        fromShapes at: valueBox put: mineShape.
 				                        valueBox ]
 			                        ifNotNil: [ 
 				                        RSLocation new
@@ -201,12 +206,9 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 				boxedCompositeShape };
 		left.
 
-	mineShape
-		shapes: { 
-				classLabel.
-				boxedCompositeShape };
-		adjustToChildren;
-		padding: radius
+	mineShape shapes: { 
+			classLabel.
+			boxedCompositeShape }
 ]
 
 { #category : #accessing }
@@ -220,6 +222,7 @@ CTObjectRefsVisit >> initialize [
 
 	super initialize.
 
+	absoluteBoxIndex := 0.
 	dfsClock := 0.
 	level := 0.
 	maxLevel := -1

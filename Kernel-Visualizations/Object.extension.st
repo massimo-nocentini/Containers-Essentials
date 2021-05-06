@@ -267,7 +267,7 @@ Object >> lineShape [
 Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 
 	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
-	fromShapes := OrderedCollection new.
+	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
 
 	CTObjectRefsVisit new
@@ -281,7 +281,16 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	layoutAssociations := OrderedCollection new.
 	shapesAssociations := OrderedCollection new.
 
-	fromShapes do: [ :anAssociation | 
+	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
+		 (anAssoc value propertyAt: #bfsLevel)
+		 < (anotherAssoc value propertyAt: #bfsLevel) or: [ 
+			 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
+			 <
+			 ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x 
+				 or: [ 
+					 (anAssoc key propertyAt: #absoluteBoxIndex)
+					 < (anotherAssoc key propertyAt: #absoluteBoxIndex) ] ] ]) do: [ 
+		:anAssociation | 
 		| boxShape boxParentShape toShape |
 		boxShape := anAssociation key.
 		boxParentShape := anAssociation value.
@@ -300,6 +309,15 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	(RSLineBuilder new: self lineShape)
 		canvas: aCanvas;
 		useElementAssociations: shapesAssociations.
+
+	aCanvas edges do: [ :edge | 
+		| fromTiming toTiming |
+		fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
+		toTiming := edge to propertyAt: #dfsTimings.
+		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
+			ifTrue: [ edge dashArray: #( 4 ) ]
+			ifFalse: [ 
+			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 2 ) ] ] ].
 
 	eb := RSLineBuilder line.
 	edges := layoutAssociations collect: [ :anAssociation | 
