@@ -311,7 +311,7 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
 			ifTrue: [ edge dashArray: #( 4 ) ]
 			ifFalse: [ 
-			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 2 ) ] ] ].
+			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ] ].
 
 	eb := RSLineBuilder line.
 	edges := layoutAssociations collect: [ :anAssociation | 
