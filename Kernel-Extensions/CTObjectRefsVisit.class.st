@@ -26,7 +26,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		             addInteraction: RSDraggable new;
 		             propertyAt: #bfsLevel put: level;
 		             propertyAt: #dfsTimings put: dfsClock @ -1;
-		             addInteraction: (RSPopup new text: [ :each | 
+		             "addInteraction: (RSPopup new text: [ :each | 
 					              String streamContents: [ :aStream | 
 							              aStream
 								              nextPutAll: 'BFS level: ';
@@ -34,8 +34,8 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 									              (mineShape propertyAt: #bfsLevel) asString;
 								              cr;
 								              nextPutAll: 'DFS timings: ';
-								              nextPutAll: dfsTimes asString ] ]);
-		             yourself.
+								              nextPutAll: dfsTimes asString ] ]);"
+			             yourself.
 
 	toShapes at: anObject put: mineShape.
 
@@ -65,11 +65,10 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			                              value isImmediateObject or: [ 
 				                              value isNil or: [ value isBoolean ] ] ])
 			                             ifTrue: [ 
-				                             RSLabel new
-					                             text: value asString;
-					                             yourself: [ :labelShape | 
-						                             extent := extent max:
-								                                       labelShape extent ] ]
+				                             (multilineLabelBuilder shapeFor:
+					                              value) yourself: [ :labelShape | 
+					                             extent := extent max:
+						                                       labelShape extent ] ]
 			                             ifFalse: [ 
 				                             (toShapes includesKey: value) 
 					                             ifFalse: [ 
@@ -163,10 +162,8 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	shapes ifEmpty: [ 
 		| label |
-		label := RSLabel new
-			         model: anObject;
-			         yourself: [ :l | 
-				         l extent: (l extent max: classLabel extent) ].
+		label := (multilineLabelBuilder shapeFor: anObject) yourself: [ :l | 
+			         l extent: (l extent max: classLabel extent) ].
 		shapes := Array with: label ].
 
 	compositeShape := RSComposite new
@@ -224,7 +221,7 @@ CTObjectRefsVisit >> initialize [
 
 	absoluteBoxIndex := 0.
 	dfsClock := 0.
-	level := 0.
+	level := 1.
 	maxLevel := -1
 ]
 
