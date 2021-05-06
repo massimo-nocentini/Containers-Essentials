@@ -222,23 +222,6 @@ Object >> asSlotsGroupRecursiveKnownReferences: aSet layoutBlock: aBlock [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> edgeBuilder [
-
-	| controller |
-	controller := RSStartEndCPAPController new
-		              controller: RSDirectedBezierCPAPController new;
-		              startAttachPoint: RSCenteredAttachPoint new;
-		              endAttachPoint: RSBorderAttachPoint new;
-		              yourself.
-	^ RSBezier new
-"		  border: (RSBorder new color: Color gray lighter lighter);"
-		  "		  cornerRadii: 2;"markerEnd:
-			  RSArrowedLine new defaultHead asMarker;
-		  controlPointsController: controller;
-		  yourself
-]
-
-{ #category : #'*Kernel-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 30 title: 'Slots graph'>
@@ -274,7 +257,7 @@ Object >> lineShape [
 		              yourself.
 	^ RSBezier new
 		  "cornerRadii: 2;"
-		  markerEnd: RSArrowedLine new defaultHead asMarker;
+		  "markerEnd: RSArrowedLine new defaultHead asMarker;"
 		  controlPointsController: controller;
 		  yourself
 	"		  border: (RSBorder new color: Color gray lighter lighter);"
@@ -283,8 +266,8 @@ Object >> lineShape [
 { #category : #'*Kernel-Visualizations' }
 Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 
-	| fromShapes toShapes shapesAssociations |
-	fromShapes := RSGroup new.
+	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
+	fromShapes := OrderedCollection new.
 	toShapes := IdentityDictionary new.
 	self
 		slotsMap: self instVarsNamesOrderedCollection
@@ -292,16 +275,31 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 		toShapes: toShapes
 		depth: 0.
 
-	aCanvas addAll: toShapes values. "asGroup @ RSHighlightable withLines"
+	aCanvas addAll: toShapes values.
 
-	shapesAssociations := fromShapes collect: [ :each | 
-		                      each -> (toShapes at: each model) ].
+	layoutAssociations := OrderedCollection new.
 
+	shapesAssociations := fromShapes collect: [ :anAssociation | 
+		                      | boxShape boxParentShape toShape |
+		                      boxShape := anAssociation key.
+		                      boxParentShape := anAssociation value.
+		                      toShape := toShapes at: boxShape model.
+		                      layoutAssociations add:
+			                      boxParentShape -> toShape.
+		                      boxShape -> toShape ].
+
+	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
 		canvas: aCanvas;
 		useElementAssociations: shapesAssociations.
 
-	RSFlowLayout on: aCanvas nodes edges: aCanvas edges.
+	"aCanvas edges translucent."
+
+	eb := RSLineBuilder line.
+	edges := layoutAssociations collect: [ :anAssociation | 
+		         eb edgeFrom: anAssociation key to: anAssociation value ].
+
+	RSHorizontalTreeLayout on: aCanvas nodes edges: edges.
 
 	^ aCanvas
 ]
@@ -447,10 +445,8 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes depth: l
 
 	mineShape := RSComposite new
 		             model: self;
-		             padding: radius;
 		             addInteraction: RSDraggable new;
-		             "addInteraction: RSHighlightable withLines;"
-		             yourself.
+		             "addInteraction: RSHighlightable withLines;"yourself.
 
 	toShapes at: self put: mineShape.
 
@@ -539,7 +535,7 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes depth: l
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
-				                        fromShapes add: valueBox.
+				                        fromShapes add: valueBox -> mineShape.
 				                        valueBox ]
 			                        ifNotNil: [ 
 				                        RSLocation new
@@ -624,8 +620,11 @@ Object >> slotsMap: selectors fromShapes: fromShapes toShapes: toShapes depth: l
 				depthLabel };
 		right.
 
-	mineShape shapes: { 
-			classLabel.
-			depthLabel.
-			boxedCompositeShape }
+	mineShape
+		shapes: { 
+				classLabel.
+				depthLabel.
+				boxedCompositeShape };
+		adjustToChildren;
+		padding: radius
 ]
