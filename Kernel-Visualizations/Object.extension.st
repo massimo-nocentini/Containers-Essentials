@@ -171,15 +171,16 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
 
+
 	CTObjectRefsVisit new
 		fromShapes: fromShapes;
 		toShapes: toShapes;
-		maxLevel: 10;
+		maxLevel: -1;
 		forObject: self slotsMap: self instVarsNamesOrderedCollection.
 
 	aCanvas addAll: toShapes values.
 
-	layoutAssociations := OrderedCollection new.
+	layoutAssociations := Dictionary new.
 	shapesAssociations := OrderedCollection new.
 
 	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
@@ -198,7 +199,10 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 				 fromTiming := boxParentShape propertyAt: #dfsTimings.
 				 toTiming := toShape propertyAt: #dfsTimings.
 				 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
-				ifTrue: [ layoutAssociations add: boxParentShape -> toShape ] ].
+				ifTrue: [ 
+					layoutAssociations
+						at: boxParentShape -> toShape
+						ifAbsentPut: [ layoutAssociations size + 1 ] ] ].
 
 	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
@@ -217,8 +221,14 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ] ].
 
 	eb := RSLineBuilder line.
-	edges := layoutAssociations collect: [ :anAssociation | 
-		         eb edgeFrom: anAssociation key to: anAssociation value ].
+	edges := (layoutAssociations associations sorted: [ 
+		          :anAssociation 
+		          :anotherAssociation | 
+		          anAssociation value < anotherAssociation value ]) 
+		         collect: [ :aNestedAssociation | 
+			         | anAssociation |
+			         anAssociation := aNestedAssociation key.
+			         eb edgeFrom: anAssociation key to: anAssociation value ].
 
 	RSHorizontalTreeLayout on: aCanvas nodes edges: edges.
 
