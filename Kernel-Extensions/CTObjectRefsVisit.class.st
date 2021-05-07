@@ -7,12 +7,15 @@ Class {
 		'fromShapes',
 		'maxLevel',
 		'dfsClock',
-		'absoluteBoxIndex'
+		'absoluteBoxIndex',
+		'sccShapeStack',
+		'sccShapeSet',
+		'sccs'
 	],
 	#category : #'Kernel-Extensions'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape dfsTimes multilineLabelBuilder |
@@ -26,6 +29,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		             addInteraction: RSDraggable new;
 		             propertyAt: #bfsLevel put: level;
 		             propertyAt: #dfsTimings put: dfsClock @ -1;
+		             propertyAt: #sccLowlink put: dfsClock;
 		             "addInteraction: (RSPopup new text: [ :each | 
 					              String streamContents: [ :aStream | 
 							              aStream
@@ -34,10 +38,27 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 									              (mineShape propertyAt: #bfsLevel) asString;
 								              cr;
 								              nextPutAll: 'DFS timings: ';
-								              nextPutAll: dfsTimes asString ] ]);"
-			             yourself.
+								              nextPutAll: dfsTimes asString;
+								              cr;
+								              nextPutAll: 'SCC lowlink: ';
+								              nextPutAll:
+									              (mineShape propertyAt: #sccLowlink) asString;
+								              cr;
+								              nextPutAll: 'SCC: ';
+								              nextPutAll: (mineShape
+										               propertyAt: #scc
+										               ifPresent: [ :scc | 
+											               scc collect: [ :e | e model ] ]) asString ] ]);"
+		             yourself.
 
 	toShapes at: anObject put: mineShape.
+
+	sccShapeStack := ValueLink new
+		                 value: mineShape;
+		                 nextLink: sccShapeStack;
+		                 yourself.
+
+	sccShapeSet add: mineShape.
 
 	nilLabel := RSLabel new
 		            model: nil;
@@ -70,8 +91,27 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 					                             extent := extent max:
 						                                       labelShape extent ] ]
 			                             ifFalse: [ 
-				                             (toShapes includesKey: value) 
+				                             (toShapes includesKey: value)
+					                             ifTrue: [ 
+						                             | shape shapeEntryTime |
+						                             shape := toShapes at: value.
+						                             shapeEntryTime := (shape 
+							                                                propertyAt:
+							                                                #dfsTimings) x.
+						                             (shapeEntryTime
+						                              <
+						                              (mineShape propertyAt: #dfsTimings)
+							                              x and: [ 
+							                              sccShapeSet includes: shape ]) 
+							                             ifTrue: [ 
+								                             mineShape
+									                             propertyAt: #sccLowlink
+									                             put:
+									                             ((mineShape propertyAt:
+										                               #sccLowlink) min:
+										                              shapeEntryTime) ] ]
 					                             ifFalse: [ 
+						                             | lowlink |
 						                             level := level + 1.
 						                             dfsClock := dfsClock + 1.
 						                             self
@@ -79,8 +119,17 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 							                             slotsMap:
 							                             value
 								                             instVarsNamesOrderedCollection.
+						                             level := level - 1.
 
-						                             level := level - 1 ].
+						                             lowlink := mineShape propertyAt:
+							                                        #sccLowlink.
+
+						                             mineShape
+							                             propertyAt: #sccLowlink
+							                             put:
+							                             (lowlink min:
+								                              ((toShapes at: value) 
+									                               propertyAt: #sccLowlink)) ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -116,6 +165,24 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 	dfsTimes := mineShape
 		            propertyAt: #dfsTimings
 		            put: dfsTimes x @ dfsClock.
+
+	dfsTimes x = (mineShape propertyAt: #sccLowlink) ifTrue: [ 
+		| scc |
+		scc := OrderedCollection new.
+
+		[ 
+		sccShapeStack isNotNil and: [ 
+			(sccShapeStack value propertyAt: #dfsTimings) x >= dfsTimes x ] ] 
+			whileTrue: [ 
+				| shape |
+				shape := sccShapeStack value.
+				scc add: shape.
+				shape propertyAt: #scc put: scc.
+				sccShapeStack := sccShapeStack nextLink.
+				sccShapeSet remove: shape ].
+
+		sccs at: mineShape put: scc.
+		mineShape propertyAt: #scc put: scc ].
 
 	extent := radius double + extent x @ extent y.
 
@@ -224,7 +291,10 @@ CTObjectRefsVisit >> initialize [
 	absoluteBoxIndex := 0.
 	dfsClock := 0.
 	level := 1.
-	maxLevel := 0
+	maxLevel := 0.
+	sccShapeStack := nil.
+	sccShapeSet := IdentitySet new.
+	sccs := IdentityDictionary new
 ]
 
 { #category : #accessing }
