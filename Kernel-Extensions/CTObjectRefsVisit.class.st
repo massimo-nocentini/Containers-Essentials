@@ -224,7 +224,7 @@ CTObjectRefsVisit >> initialize [
 	absoluteBoxIndex := 0.
 	dfsClock := 0.
 	level := 1.
-	maxLevel := -1
+	maxLevel := 0
 ]
 
 { #category : #accessing }
