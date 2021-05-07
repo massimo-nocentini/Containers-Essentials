@@ -306,6 +306,8 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 
 	aCanvas edges do: [ :edge | 
 		| fromTiming toTiming |
+		edge color: edge color lighter lighter lighter.
+
 		fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
 		toTiming := edge to propertyAt: #dfsTimings.
 		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
@@ -320,6 +322,8 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	RSHorizontalTreeLayout on: aCanvas nodes edges: edges.
 
 	^ aCanvas
+		  exportToSVG;
+		  yourself
 ]
 
 { #category : #'*Kernel-Visualizations' }
