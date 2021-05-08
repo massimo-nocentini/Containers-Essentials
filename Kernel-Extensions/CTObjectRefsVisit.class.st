@@ -7,7 +7,6 @@ Class {
 		'fromShapes',
 		'maxLevel',
 		'dfsClock',
-		'absoluteBoxIndex',
 		'sccShapeStack',
 		'sccShapeSet',
 		'sccs'
@@ -30,7 +29,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		             propertyAt: #bfsLevel put: level;
 		             propertyAt: #dfsTimings put: dfsClock @ -1;
 		             propertyAt: #sccLowlink put: dfsClock;
-		             "addInteraction: (RSPopup new text: [ :each | 
+		             addInteraction: (RSPopup new text: [ :each | 
 					              String streamContents: [ :aStream | 
 							              aStream
 								              nextPutAll: 'BFS level: ';
@@ -48,7 +47,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 								              nextPutAll: (mineShape
 										               propertyAt: #scc
 										               ifPresent: [ :scc | 
-											               scc collect: [ :e | e model ] ]) asString ] ]);"
+											               scc collect: [ :e | e model ] ]) asString ] ]);
 		             yourself.
 
 	toShapes at: anObject put: mineShape.
@@ -93,15 +92,16 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			                             ifFalse: [ 
 				                             (toShapes includesKey: value)
 					                             ifTrue: [ 
-						                             | shape shapeEntryTime |
+						                             | shape shapeEntryTime mineEntryTime |
 						                             shape := toShapes at: value.
+						                             mineEntryTime := (mineShape 
+							                                               propertyAt:
+							                                               #dfsTimings) x.
 						                             shapeEntryTime := (shape 
 							                                                propertyAt:
 							                                                #dfsTimings) x.
-						                             (shapeEntryTime
-						                              <
-						                              (mineShape propertyAt: #dfsTimings)
-							                              x and: [ 
+						                             (shapeEntryTime < mineEntryTime 
+							                              and: [ 
 							                              sccShapeSet includes: shape ]) 
 							                             ifTrue: [ 
 								                             mineShape
@@ -144,11 +144,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			                           withBorder;
 			                           addInteraction:
 				                           RSHighlightable withLines;
-			                           propertyAt: #absoluteBoxIndex
-			                           put: absoluteBoxIndex;
 			                           yourself.
-
-		               absoluteBoxIndex := absoluteBoxIndex + 1.
 
 		               "Our descriptor is a plain dictionary."
 		               Dictionary new
@@ -288,7 +284,6 @@ CTObjectRefsVisit >> initialize [
 
 	super initialize.
 
-	absoluteBoxIndex := 0.
 	dfsClock := 0.
 	level := 1.
 	maxLevel := 0.
