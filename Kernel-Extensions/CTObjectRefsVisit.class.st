@@ -29,7 +29,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		             propertyAt: #bfsLevel put: level;
 		             propertyAt: #dfsTimings put: dfsClock @ -1;
 		             propertyAt: #sccLowlink put: dfsClock;
-		             addInteraction: (RSPopup new text: [ :each | 
+		             "addInteraction: (RSPopup new text: [ :each | 
 					              String streamContents: [ :aStream | 
 							              aStream
 								              nextPutAll: 'BFS level: ';
@@ -47,7 +47,10 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 								              nextPutAll: (mineShape
 										               propertyAt: #scc
 										               ifPresent: [ :scc | 
-											               scc collect: [ :e | e model ] ]) asString ] ]);
+											               scc collect: [ :e | e model ] ]) asString ] ]);"
+		             addInteraction:
+			             (RSHighlightable withStronglyConnectedComponents: [ 
+				              :shape | shape propertyAt: #scc ifAbsent: [ #(  ) ] ]);
 		             yourself.
 
 	toShapes at: anObject put: mineShape.
