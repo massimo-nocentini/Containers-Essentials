@@ -50,7 +50,10 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 											               scc collect: [ :e | e model ] ]) asString ] ]);"
 		             addInteraction:
 			             (RSHighlightable withStronglyConnectedComponents: [ 
-				              :shape | shape propertyAt: #scc ifAbsent: [ #(  ) ] ]);
+					              :shape | 
+					              (shape propertyAt: #scc ifAbsent: [ #(  ) ]) 
+						              collect: [ :each | 
+							              each propertyAt: #boxedSlotsShape ] ]);
 		             yourself.
 
 	toShapes at: anObject put: mineShape.
@@ -244,12 +247,9 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 					                        classLabel extent);
 		                       cornerRadius: radius;
 		                       withBorder;
-		                       borderDo: [ :border | 
-			                       level = 0
-				                       ifTrue: [ 
-					                       border width: border width double ]
-				                       ifFalse: [ border color: metaColor ] ];
 		                       yourself.
+
+	mineShape propertyAt: #boxedSlotsShape put: boxedCompositeShape.
 
 	RSLocation new inner right
 		stick: compositeShape
@@ -271,9 +271,11 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 				boxedCompositeShape };
 		left.
 
-	mineShape shapes: { 
-			classLabel.
-			boxedCompositeShape }
+	mineShape
+		shapes: { 
+				classLabel.
+				boxedCompositeShape };
+		padding: 2
 ]
 
 { #category : #accessing }
