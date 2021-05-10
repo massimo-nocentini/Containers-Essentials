@@ -87,9 +87,9 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		               accessor := anAssociation value.
 		               value := accessor value: anObject.
 
-		               valueLabel := (level = maxLevel or: [ 
-			                              value isImmediateObject or: [ 
-				                              value isNil or: [ value isBoolean ] ] ])
+		               valueLabel := level = maxLevel
+		                             | value isImmediateObject | value isNil
+		                             | value isBoolean | value isSymbol
 			                             ifTrue: [ 
 				                             (multilineLabelBuilder shapeFor:
 					                              value) yourself: [ :labelShape | 
