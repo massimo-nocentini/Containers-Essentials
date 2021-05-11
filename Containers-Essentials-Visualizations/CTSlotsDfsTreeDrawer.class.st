@@ -48,26 +48,39 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 			               canvas: aCanvas;
 			               yourself.
 
-		treeTuples , forwardTuples do: [ :aTuple | 
+		treeTuples do: [ :aTuple | 
 			| edge |
 			edge := lineBuilder
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
 			edge color: metaColor ].
 
+		forwardTuples do: [ :aTuple | 
+			| edge |
+			edge := lineBuilder
+				        edgeFrom: aTuple propertyFromSlotShape
+				        to: aTuple propertyToShape.
+			edge
+				color: metaColor;
+				dashArray: #( 2 ) ].
+
 		backTuples do: [ :aTuple | 
 			| edge |
 			edge := lineBuilder
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
-			edge dashArray: #( 1 ) ].
+			edge
+				color: metaColor;
+				dashArray: #( 1 ) ].
 
 		crossTuples do: [ :aTuple | 
 			| edge |
 			edge := lineBuilder
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
-			edge dashArray: #( 4 ) ].
+			edge
+				color: metaColor;
+				dashArray: #( 4 ) ].
 
 		lineBuilder := RSLineBuilder line.
 		edges := self
