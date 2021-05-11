@@ -1,6 +1,6 @@
 Extension { #name : #ByteArray }
 
-{ #category : #'*Collections-Native-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
@@ -23,7 +23,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Collections-Native-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
 
 	aContext withoutEvaluator
