@@ -50,7 +50,10 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
 		treeTuples do: [ :aTuple | 
 			| edge |
-			edge := lineBuilder
+			edge := RSLineBuilder horizontalBezier
+				        canvas: aCanvas;
+				        startAttachPoint: RSCenteredAttachPoint new
+				        endAttachPoint: RSHorizontalEndBorderAttachPoint new;
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
 			edge color: metaColor ].
