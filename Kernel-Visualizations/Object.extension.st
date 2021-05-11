@@ -123,6 +123,127 @@ Object >> asSlotsGroupRecursiveKnownReferences: aSet layoutBlock: aBlock [
 ]
 
 { #category : #'*Kernel-Visualizations' }
+Object >> drawSCCsOnCanvas: aCanvas referencesBlock: aBlock [
+
+	| fromShapes toShapes sccs sccsShapes layoutAssociations shapesAssociations shapeBySCC eb edges |
+	fromShapes := IdentityDictionary new.
+	toShapes := IdentityDictionary new.
+	sccs := OrderedCollection new.
+	shapeBySCC := IdentityDictionary new.
+
+	CTObjectRefsVisit new
+		fromShapes: fromShapes;
+		toShapes: toShapes;
+		stronglyConnectedComponents: sccs;
+		forObject: self slotsMap: self instVarsNamesOrderedCollection.
+
+	sccsShapes := sccs collect: [ :scc | 
+		              | box composite shapes padding |
+		              padding := 2.
+
+		              shapes := scc sorted: [ :aShape :anotherShape | 
+			                        (aShape propertyAt: #dfsTimings) x
+			                        < (anotherShape propertyAt: #dfsTimings) x ].
+
+		              RSCircleLayout on: shapes.
+
+		              composite := RSComposite new
+			                           shapes: shapes;
+			                           padding: padding;
+			                           yourself.
+
+		              box := RSBox new
+			                     model: scc;
+			                     color: Color white;
+			                     extent: composite extent;
+			                     yourself: [ :aBox | 
+				                     scc size > 1
+					                     ifTrue: [ 
+						                     aBox
+							                     withBorder;
+							                     cornerRadius: 2 ]
+					                     ifFalse: [ padding := 0 ] ].
+
+		              RSLocation new inner stick: composite on: box.
+
+		              RSComposite new
+			              model: scc;
+			              shapes: { 
+					              box.
+					              composite };
+			              padding: padding;
+			              addInteraction: RSDraggable new;
+			              yourself: [ :aComposite | 
+				              shapeBySCC at: scc put: aComposite ] ].
+
+	aCanvas addAll: sccsShapes.
+
+	layoutAssociations := Dictionary new.
+	shapesAssociations := OrderedCollection new.
+
+	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
+		 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
+		 < ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x ]) 
+		do: [ :anAssociation | 
+			| boxShape boxParentShape toShape toSCCShape fromSCCShape |
+			boxShape := anAssociation key.
+			boxParentShape := anAssociation value.
+			toShape := toShapes at: boxShape model.
+			toSCCShape := shapeBySCC at: (toShape propertyAt: #scc).
+			fromSCCShape := shapeBySCC at: (boxParentShape propertyAt: #scc).
+
+			fromSCCShape == toSCCShape
+				ifTrue: [ shapesAssociations add: boxShape -> toShape ]
+				ifFalse: [ 
+					shapesAssociations add: boxShape -> toSCCShape.
+
+					((toShape propertyAt: #bfsLevel)
+					 - (boxParentShape propertyAt: #bfsLevel) = 1 and: [ 
+						 | fromTiming toTiming |
+						 fromTiming := boxParentShape propertyAt: #dfsTimings.
+						 toTiming := toShape propertyAt: #dfsTimings.
+						 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
+						ifTrue: [ 
+							layoutAssociations
+								at: fromSCCShape -> toSCCShape
+								ifAbsentPut: [ layoutAssociations size + 1 ] ] ] ].
+
+	"This will add edges directly to the canvas."
+	(RSLineBuilder new: self lineShape)
+		canvas: aCanvas;
+		useElementAssociations: shapesAssociations.
+
+
+
+	aCanvas edges do: [ :edge | 
+		| fromTiming toTiming |
+		edge color: edge color lighter lighter lighter
+
+		"fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
+		toTiming := edge to propertyAt: #dfsTimings.
+		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
+			ifTrue: [ edge dashArray: #( 4 ) ]
+			ifFalse: [ 
+			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ]" ].
+
+	eb := RSLineBuilder line.
+	edges := (layoutAssociations associations sorted: [ 
+		          :anAssociation 
+		          :anotherAssociation | 
+		          anAssociation value < anotherAssociation value ]) 
+		         collect: [ :aNestedAssociation | 
+			         | anAssociation |
+			         anAssociation := aNestedAssociation key.
+			         eb edgeFrom: anAssociation key to: anAssociation value ].
+
+	RSHorizontalTreeLayout on: sccsShapes edges: edges.
+
+	^ aCanvas
+		  exportToSVG;
+		  yourself
+]
+
+{ #category : #'*Kernel-Visualizations' }
 Object >> drawTopologicalSortingOnCanvas: aCanvas referencesBlock: aBlock [
 
 	| fromShapes toShapes shapesAssociations |
@@ -187,6 +308,26 @@ Object >> inspectorCanvasSlotsGraph [
 
 { #category : #'*Kernel-Visualizations' }
 Object >> inspectorCanvasSlotsGraphContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphSCCs [
+
+	<inspectorPresentationOrder: 50 title: 'SCCs of Slots graph'>
+	| canvas |
+	canvas := self
+		          drawSCCsOnCanvas: RSCanvas new
+		          referencesBlock: [ :anObj | 
+		          anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
 
 	aContext withoutEvaluator
 ]

@@ -183,7 +183,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 				sccShapeStack := sccShapeStack nextLink.
 				sccShapeSet remove: shape ].
 
-		sccs at: mineShape put: scc.
+		sccs add: scc.
 		mineShape propertyAt: #scc put: scc ].
 
 	extent := radius double + extent x @ extent y.
@@ -294,13 +294,19 @@ CTObjectRefsVisit >> initialize [
 	maxLevel := 0.
 	sccShapeStack := nil.
 	sccShapeSet := IdentitySet new.
-	sccs := IdentityDictionary new
+	sccs := OrderedCollection new
 ]
 
 { #category : #accessing }
 CTObjectRefsVisit >> maxLevel: anObject [
 
 	maxLevel := anObject
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
+
+	sccs := aCollection
 ]
 
 { #category : #accessing }
