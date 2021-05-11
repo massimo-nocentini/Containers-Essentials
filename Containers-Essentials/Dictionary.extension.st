@@ -1,6 +1,6 @@
 Extension { #name : #Dictionary }
 
-{ #category : #'*Collections-Unordered-Extensions' }
+{ #category : #'*Containers-Essentials' }
 Dictionary >> anyAssociation [
 
 	"I mimic the message `Collection>>#anyone` with respect to associations that I collect."
