@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*Kernel-Visualizations' }
-Object >> drawSCCsOnCanvas: aCanvas referencesBlock: aBlock [
+Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
 
 	| fromShapes toShapes sccs sccsShapes layoutAssociations shapesAssociations shapeBySCC eb edges |
 	fromShapes := IdentityDictionary new.
@@ -122,141 +122,7 @@ Object >> drawSCCsOnCanvas: aCanvas referencesBlock: aBlock [
 ]
 
 { #category : #'*Kernel-Visualizations' }
-Object >> drawTopologicalSortingOnCanvas: aCanvas referencesBlock: aBlock [
-
-	| fromShapes toShapes shapesAssociations |
-	fromShapes := IdentityDictionary new.
-	toShapes := IdentityDictionary new.
-
-	CTObjectRefsVisit new
-		fromShapes: fromShapes;
-		toShapes: toShapes;
-		forObject: self slotsMap: self instVarsNamesOrderedCollection.
-
-	aCanvas addAll: (toShapes values sorted: [ :aShape :anotherShape | 
-			 (aShape propertyAt: #dfsTimings) y
-			 > (anotherShape propertyAt: #dfsTimings) y ]).
-
-	shapesAssociations := OrderedCollection new.
-
-	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
-		 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
-		 < ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x ]) 
-		do: [ :anAssociation | 
-			| boxShape boxParentShape toShape |
-			boxShape := anAssociation key.
-			boxParentShape := anAssociation value.
-			toShape := toShapes at: boxShape model.
-			shapesAssociations add: boxShape -> toShape ].
-
-	"This will add edges directly to the canvas."
-	(RSLineBuilder new: self lineShape)
-		canvas: aCanvas;
-		useElementAssociations: shapesAssociations.
-
-	aCanvas edges do: [ :edge | 
-		| fromTiming toTiming |
-		edge color: edge color lighter lighter lighter.
-
-		fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
-		toTiming := edge to propertyAt: #dfsTimings.
-		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
-			ifTrue: [ edge dashArray: #( 4 ) ]
-			ifFalse: [ 
-			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ] ].
-
-	RSVerticalLineLayout new alignCenter applyOn: aCanvas nodes.
-
-	^ aCanvas
-		  exportToSVG;
-		  yourself
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraph [
-
-	<inspectorPresentationOrder: 30 title: 'Slots graph'>
-	| canvas |
-	canvas := self
-		          onCanvas: RSCanvas new
-		          drawSlotsGraphOfRecursiveReferences: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
-		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraphContext: aContext [
-
-	aContext withoutEvaluator
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraphSCCs [
-
-	<inspectorPresentationOrder: 50 title: 'SCCs of Slots graph'>
-	| canvas |
-	canvas := self
-		          drawSCCsOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
-		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
-
-	aContext withoutEvaluator
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraphTopologicallySorted [
-
-	<inspectorPresentationOrder: 40 title: 'Slots graph, topologically sorted.'>
-	| canvas |
-	canvas := self
-		          drawTopologicalSortingOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | anObj instVarsNamesOrderedCollection ].
-	^ canvas
-		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
-
-	aContext withoutEvaluator
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> instVarsNamesOrderedCollection [
-
-	^ self class allInstVarNames collect: [ :varName | 
-		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> lineShape [
-
-	| controller |
-	controller := RSStartEndCPAPController new
-		              controller: RSDirectedBezierCPAPController new;
-		              startAttachPoint: RSCenteredAttachPoint new;
-		              endAttachPoint: RSBorderAttachPoint new;
-		              yourself.
-	^ RSBezier new
-		  "cornerRadii: 2;"
-		  "markerEnd: RSArrowedLine new defaultHead asMarker;"
-		  controlPointsController: controller;
-		  yourself
-	"		  border: (RSBorder new color: Color gray lighter lighter);"
-]
-
-{ #category : #'*Kernel-Visualizations' }
-Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
+Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 
 	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
 	fromShapes := IdentityDictionary new.
@@ -326,4 +192,138 @@ Object >> onCanvas: aCanvas drawSlotsGraphOfRecursiveReferences: f [
 	^ aCanvas
 		  exportToSVG;
 		  yourself
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> drawTopologicallySortedSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
+
+	| fromShapes toShapes shapesAssociations |
+	fromShapes := IdentityDictionary new.
+	toShapes := IdentityDictionary new.
+
+	CTObjectRefsVisit new
+		fromShapes: fromShapes;
+		toShapes: toShapes;
+		forObject: self slotsMap: self instVarsNamesOrderedCollection.
+
+	aCanvas addAll: (toShapes values sorted: [ :aShape :anotherShape | 
+			 (aShape propertyAt: #dfsTimings) y
+			 > (anotherShape propertyAt: #dfsTimings) y ]).
+
+	shapesAssociations := OrderedCollection new.
+
+	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
+		 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
+		 < ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x ]) 
+		do: [ :anAssociation | 
+			| boxShape boxParentShape toShape |
+			boxShape := anAssociation key.
+			boxParentShape := anAssociation value.
+			toShape := toShapes at: boxShape model.
+			shapesAssociations add: boxShape -> toShape ].
+
+	"This will add edges directly to the canvas."
+	(RSLineBuilder new: self lineShape)
+		canvas: aCanvas;
+		useElementAssociations: shapesAssociations.
+
+	aCanvas edges do: [ :edge | 
+		| fromTiming toTiming |
+		edge color: edge color lighter lighter lighter.
+
+		fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
+		toTiming := edge to propertyAt: #dfsTimings.
+		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
+			ifTrue: [ edge dashArray: #( 4 ) ]
+			ifFalse: [ 
+			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ] ].
+
+	RSVerticalLineLayout new alignCenter applyOn: aCanvas nodes.
+
+	^ aCanvas
+		  exportToSVG;
+		  yourself
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraph [
+
+	<inspectorPresentationOrder: 30 title: 'Slots graph'>
+	| canvas |
+	canvas := self
+		          drawSlotsGraphOnCanvas: RSCanvas new
+		          referencesBlock: [ :anObj | 
+		          anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphSCCs [
+
+	<inspectorPresentationOrder: 50 title: 'SCCs of Slots graph'>
+	| canvas |
+	canvas := self
+		          drawSCCsOfSlotsGraphOnCanvas: RSCanvas new
+		          referencesBlock: [ :anObj | 
+		          anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphTopologicallySorted [
+
+	<inspectorPresentationOrder: 40 title: 'Slots graph, topologically sorted.'>
+	| canvas |
+	canvas := self
+		          drawTopologicallySortedSlotsGraphOnCanvas: RSCanvas new
+		          referencesBlock: [ :anObj | anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> instVarsNamesOrderedCollection [
+
+	^ self class allInstVarNames collect: [ :varName | 
+		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
+]
+
+{ #category : #'*Kernel-Visualizations' }
+Object >> lineShape [
+
+	| controller |
+	controller := RSStartEndCPAPController new
+		              controller: RSDirectedBezierCPAPController new;
+		              startAttachPoint: RSCenteredAttachPoint new;
+		              endAttachPoint: RSBorderAttachPoint new;
+		              yourself.
+	^ RSBezier new
+		  "cornerRadii: 2;"
+		  "markerEnd: RSArrowedLine new defaultHead asMarker;"
+		  controlPointsController: controller;
+		  yourself
+	"		  border: (RSBorder new color: Color gray lighter lighter);"
 ]
