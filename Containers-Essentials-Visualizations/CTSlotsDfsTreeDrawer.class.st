@@ -60,14 +60,14 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 			edge := lineBuilder
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
-			edge dashArray: #( 4 ) ].
+			edge dashArray: #( 1 ) ].
 
 		crossTuples do: [ :aTuple | 
 			| edge |
 			edge := lineBuilder
 				        edgeFrom: aTuple propertyFromSlotShape
 				        to: aTuple propertyToShape.
-			edge dashArray: #( 1 ) ].
+			edge dashArray: #( 4 ) ].
 
 		lineBuilder := RSLineBuilder line.
 		edges := self
@@ -87,24 +87,27 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
 
-	^ (fromShape propertyDfsEntryTime < toShape propertyDfsEntryTime 
-		   and: [ 
-		   toShape propertyDfsLeaveTime < fromShape propertyDfsLeaveTime ])
-		  ifTrue: [ 
-			  toShape propertyDfsDepth - fromShape propertyDfsDepth = 1
-				  ifTrue: tBlock
-				  ifFalse: fBlock ]
+	^ fromShape == toShape
+		  ifTrue: bBlock
 		  ifFalse: [ 
-			  (toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime 
+			  (fromShape propertyDfsEntryTime < toShape propertyDfsEntryTime 
 				   and: [ 
-				   fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
-				  ifTrue: bBlock
+				   toShape propertyDfsLeaveTime < fromShape propertyDfsLeaveTime ])
+				  ifTrue: [ 
+					  toShape propertyDfsDepth - fromShape propertyDfsDepth = 1
+						  ifTrue: tBlock
+						  ifFalse: fBlock ]
 				  ifFalse: [ 
-					  toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime
-						  ifTrue: cBlock
+					  (toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime 
+						   and: [ 
+						   fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
+						  ifTrue: bBlock
 						  ifFalse: [ 
-							  Error signal:
-								  'Logical inconsistency: a non-sense association has been recognized.' ] ] ]
+							  toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime
+								  ifTrue: cBlock
+								  ifFalse: [ 
+									  Error signal:
+										  'Logical inconsistency: a non-sense association has been recognized.' ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
