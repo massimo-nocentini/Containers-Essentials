@@ -9,9 +9,10 @@ Class {
 		'dfsClock',
 		'sccShapeStack',
 		'sccShapeSet',
-		'sccs'
+		'sccs',
+		'rootObject'
 	],
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #visiting }
@@ -304,6 +305,18 @@ CTObjectRefsVisit >> maxLevel: anObject [
 ]
 
 { #category : #accessing }
+CTObjectRefsVisit >> rootObject [
+
+	^ rootObject
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> rootObject: anObject [
+
+	rootObject := anObject
+]
+
+{ #category : #accessing }
 CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
@@ -313,4 +326,12 @@ CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
 CTObjectRefsVisit >> toShapes: anObject [
 
 	toShapes := anObject
+]
+
+{ #category : #evaluating }
+CTObjectRefsVisit >> value [
+
+	^ self
+		  forObject: rootObject
+		  slotsMap: rootObject instVarsNamesOrderedCollection
 ]
