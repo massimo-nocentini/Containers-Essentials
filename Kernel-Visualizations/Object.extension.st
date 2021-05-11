@@ -128,7 +128,6 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
 
-
 	CTObjectRefsVisit new
 		fromShapes: fromShapes;
 		toShapes: toShapes;
@@ -141,8 +140,8 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 	shapesAssociations := OrderedCollection new.
 
 	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
-		 ((toShapes at: anAssoc key model) propertyAt: #dfsTimings) x
-		 < ((toShapes at: anotherAssoc key model) propertyAt: #dfsTimings) x ]) 
+		 (toShapes at: anAssoc key model) propertyDfsEntryTime
+		 < (toShapes at: anotherAssoc key model) propertyDfsEntryTime ]) 
 		do: [ :anAssociation | 
 			| boxShape boxParentShape toShape |
 			boxShape := anAssociation key.
@@ -150,16 +149,15 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 			toShape := toShapes at: boxShape model.
 			shapesAssociations add: boxShape -> toShape.
 
-			((toShape propertyAt: #bfsLevel)
-			 - (boxParentShape propertyAt: #bfsLevel) = 1 and: [ 
-				 | fromTiming toTiming |
-				 fromTiming := boxParentShape propertyAt: #dfsTimings.
-				 toTiming := toShape propertyAt: #dfsTimings.
-				 fromTiming x < toTiming x and: [ toTiming y < fromTiming y ] ]) 
-				ifTrue: [ 
-					layoutAssociations
-						at: boxParentShape -> toShape
-						ifAbsentPut: [ layoutAssociations size + 1 ] ] ].
+			(toShape propertyDfsDepth - boxParentShape propertyDfsDepth = 1 
+				 and: [ 
+					 boxParentShape propertyDfsEntryTime
+					 < toShape propertyDfsEntryTime and: [ 
+						 toShape propertyDfsLeaveTime
+						 < boxParentShape propertyDfsLeaveTime ] ]) ifTrue: [ 
+				layoutAssociations
+					at: boxParentShape -> toShape
+					ifAbsentPut: [ layoutAssociations size + 1 ] ] ].
 
 	"This will add edges directly to the canvas."
 	(RSLineBuilder new: self lineShape)
@@ -167,15 +165,17 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 		useElementAssociations: shapesAssociations.
 
 	aCanvas edges do: [ :edge | 
-		| fromTiming toTiming |
+		| fromShape toShape |
 		edge color: edge color lighter lighter lighter.
 
-		fromTiming := (fromShapes at: edge from) propertyAt: #dfsTimings.
-		toTiming := edge to propertyAt: #dfsTimings.
-		(toTiming x < fromTiming x and: [ fromTiming y < toTiming y ])
+		fromShape := fromShapes at: edge from.
+		toShape := edge to.
+		(toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime and: [ 
+			 fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
 			ifTrue: [ edge dashArray: #( 4 ) ]
 			ifFalse: [ 
-			toTiming y < fromTiming x ifTrue: [ edge dashArray: #( 1 ) ] ] ].
+				toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime 
+					ifTrue: [ edge dashArray: #( 1 ) ] ] ].
 
 	eb := RSLineBuilder line.
 	edges := (layoutAssociations associations sorted: [ 
