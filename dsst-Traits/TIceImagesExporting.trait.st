@@ -47,10 +47,10 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 { #category : #utilities }
 TIceImagesExporting >> exportSlotsGraphRecursiveOf: anObject [
 
-	^ self export: anObject pathSuffix: '' selector: [ :_ :aCanvas | 
-		  anObject
-			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
-			  recursiveReferences: anObject recursiveReferences ]
+	^ self
+		  export: anObject
+		  pathSuffix: ''
+		  selector: [ :_ :aCanvas | nil ]
 ]
 
 { #category : #utilities }

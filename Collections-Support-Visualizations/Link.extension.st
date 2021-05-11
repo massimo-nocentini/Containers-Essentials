@@ -1,33 +1,6 @@
 Extension { #name : #Link }
 
 { #category : #'*Collections-Support-Visualizations' }
-Link >> asSlotsGroupKnownReferences: aSet recursiveReferences: links [
-
-	| shapes aNewSet edges pointsController line |
-	aNewSet := aSet | links.
-	shapes := links collect: [ :aValueLink | 
-		          | g |
-		          g := aValueLink asSlotsGroupKnownReferences: aNewSet.
-		          (g asShapeFor: aValueLink) @ RSDraggable ].
-	pointsController := self 
-		                    loopingBackwardControlPointsControllerOverShapes:
-		                    shapes.
-	line := self lineShapeWithControlPointsController: pointsController.
-	edges := self
-		         edgesConnectingShapes: shapes
-		         references: links
-		         lineShape: line
-		         modelBlock: [ :link | link nextLink ].
-
-	RSVerticalLineLayout on: shapes edges: edges.
-
-	^ RSGroup new
-		  addAll: shapes;
-		  addAll: edges;
-		  yourself
-]
-
-{ #category : #'*Collections-Support-Visualizations' }
 Link >> edgesConnectingShapes: shapes references: links lineShape: line modelBlock: mBlock [
 
 	| fromShapes |

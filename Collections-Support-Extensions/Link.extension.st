@@ -10,9 +10,3 @@ Link >> do: aBlock [
 		link := link nextLink.
 		link == self ifTrue: [ link := nil ] ]
 ]
-
-{ #category : #'*Collections-Support-Extensions' }
-Link >> recursiveReferences [
-	^ Array streamContents: [ :aStream | 
-		  self do: [ :aValueLink | aStream nextPut: aValueLink ] ]
-]
