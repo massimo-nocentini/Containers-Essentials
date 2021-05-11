@@ -1,13 +1,37 @@
 Class {
 	#name : #CTSlotsDfsTreeDrawer,
 	#superclass : #CTSlotsDrawer,
+	#instVars : [
+		'fromShapes',
+		'toShapes'
+	],
 	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> associationsForTreeLayoutingShapes: treeTuples thenCollect: aBlock [
+
+	| layoutAssociations |
+	"Should be better to use an order-preserving dictionary for the sake of efficiency."
+	layoutAssociations := Dictionary new.
+
+	treeTuples do: [ :aTuple | 
+		layoutAssociations
+			at: aTuple propertyFromShape -> aTuple propertyToShape
+			ifAbsentPut: [ layoutAssociations size + 1 ] ].
+
+	layoutAssociations := layoutAssociations associations sorted: [ :a :b | 
+		                      a value < b value ].
+
+	^ layoutAssociations collect: [ :each | aBlock value: each key ]
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
-	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
+	| metaColor |
+	metaColor := Color gray lighter lighter lighter.
+
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
 
@@ -18,60 +42,121 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
 	aCanvas addAll: toShapes values.
 
-	layoutAssociations := Dictionary new.
-	shapesAssociations := OrderedCollection new.
+	self withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
+		| edges lineBuilder |
+		lineBuilder := (RSLineBuilder new: self bezierShape)
+			               canvas: aCanvas;
+			               yourself.
 
-	(fromShapes associations sorted: [ :anAssoc :anotherAssoc | 
-		 (toShapes at: anAssoc key model) propertyDfsEntryTime
-		 < (toShapes at: anotherAssoc key model) propertyDfsEntryTime ]) 
-		do: [ :anAssociation | 
-			| boxShape boxParentShape toShape |
-			boxShape := anAssociation key.
-			boxParentShape := anAssociation value.
-			toShape := toShapes at: boxShape model.
-			shapesAssociations add: boxShape -> toShape.
+		treeTuples , forwardTuples do: [ :aTuple | 
+			| edge |
+			edge := lineBuilder
+				        edgeFrom: aTuple propertyFromSlotShape
+				        to: aTuple propertyToShape.
+			edge color: metaColor ].
 
-			(toShape propertyDfsDepth - boxParentShape propertyDfsDepth = 1 
-				 and: [ 
-					 boxParentShape propertyDfsEntryTime
-					 < toShape propertyDfsEntryTime and: [ 
-						 toShape propertyDfsLeaveTime
-						 < boxParentShape propertyDfsLeaveTime ] ]) ifTrue: [ 
-				layoutAssociations
-					at: boxParentShape -> toShape
-					ifAbsentPut: [ layoutAssociations size + 1 ] ] ].
+		backTuples do: [ :aTuple | 
+			| edge |
+			edge := lineBuilder
+				        edgeFrom: aTuple propertyFromSlotShape
+				        to: aTuple propertyToShape.
+			edge dashArray: #( 4 ) ].
 
-	"This will add edges directly to the canvas."
-	(RSLineBuilder new: self lineShape)
-		canvas: aCanvas;
-		useElementAssociations: shapesAssociations.
+		crossTuples do: [ :aTuple | 
+			| edge |
+			edge := lineBuilder
+				        edgeFrom: aTuple propertyFromSlotShape
+				        to: aTuple propertyToShape.
+			edge dashArray: #( 1 ) ].
 
-	aCanvas edges do: [ :edge | 
-		| fromShape toShape |
-		edge color: edge color lighter lighter lighter.
+		lineBuilder := RSLineBuilder line.
+		edges := self
+			         associationsForTreeLayoutingShapes: treeTuples
+			         thenCollect: [ :anAssociation | 
+				         lineBuilder
+					         edgeFrom: anAssociation key
+					         to: anAssociation value ].
 
-		fromShape := fromShapes at: edge from.
-		toShape := edge to.
-		(toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime and: [ 
-			 fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
-			ifTrue: [ edge dashArray: #( 4 ) ]
-			ifFalse: [ 
-				toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime 
-					ifTrue: [ edge dashArray: #( 1 ) ] ] ].
-
-	eb := RSLineBuilder line.
-	edges := (layoutAssociations associations sorted: [ 
-		          :anAssociation 
-		          :anotherAssociation | 
-		          anAssociation value < anotherAssociation value ]) 
-		         collect: [ :aNestedAssociation | 
-			         | anAssociation |
-			         anAssociation := aNestedAssociation key.
-			         eb edgeFrom: anAssociation key to: anAssociation value ].
-
-	RSHorizontalTreeLayout on: aCanvas nodes edges: edges.
+		RSHorizontalTreeLayout on: aCanvas nodes edges: edges ].
 
 	^ aCanvas
 		  exportToSVG;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
+
+	^ (fromShape propertyDfsEntryTime < toShape propertyDfsEntryTime 
+		   and: [ 
+		   toShape propertyDfsLeaveTime < fromShape propertyDfsLeaveTime ])
+		  ifTrue: [ 
+			  toShape propertyDfsDepth - fromShape propertyDfsDepth = 1
+				  ifTrue: tBlock
+				  ifFalse: fBlock ]
+		  ifFalse: [ 
+			  (toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime 
+				   and: [ 
+				   fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
+				  ifTrue: bBlock
+				  ifFalse: [ 
+					  toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime
+						  ifTrue: cBlock
+						  ifFalse: [ 
+							  Error signal:
+								  'Logical inconsistency: a non-sense association has been recognized.' ] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
+
+	^ [ :anAssoc :anotherAssoc | 
+	  | aSlotBox anotherSlotBox aTime anotherTime |
+	  aSlotBox := anAssoc key.
+	  anotherSlotBox := anotherAssoc key.
+	  aTime := (toShapes at: aSlotBox model) propertyDfsEntryTime.
+	  anotherTime := (toShapes at: anotherSlotBox model)
+		                 propertyDfsEntryTime.
+	  aTime < anotherTime ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> withDfsEdgesDo: recvBlock [
+
+	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations |
+	treeAssociations := OrderedCollection new.
+	forwardAssociations := OrderedCollection new.
+	backAssociations := OrderedCollection new.
+	crossAssociations := OrderedCollection new.
+
+	sortedFromShapes := fromShapes associations sorted:
+		                    self fromShapesDfsSortBlock.
+
+	sortedFromShapes withIndexDo: [ :anAssociation :index | 
+		| boxShape fromShape toShape tuple tuples |
+		boxShape := anAssociation key.
+		fromShape := anAssociation value.
+		toShape := toShapes at: boxShape model.
+
+		tuple := Array
+			         with: index
+			         with: boxShape
+			         with: fromShape
+			         with: toShape.
+
+		tuples := self
+			          fromShape: fromShape
+			          toShape: toShape
+			          ifTree: [ treeAssociations ]
+			          ifForward: [ forwardAssociations ]
+			          ifBack: [ backAssociations ]
+			          ifCross: [ crossAssociations ].
+
+		tuples add: tuple ].
+
+	^ recvBlock
+		  value: treeAssociations
+		  value: forwardAssociations
+		  value: backAssociations
+		  value: crossAssociations
 ]

@@ -247,20 +247,3 @@ Object >> instVarsNamesOrderedCollection [
 	^ self class allInstVarNames collect: [ :varName | 
 		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
 ]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> lineShape [
-
-	| controller |
-	controller := RSStartEndCPAPController new
-		              controller: RSDirectedBezierCPAPController new;
-		              startAttachPoint: RSCenteredAttachPoint new;
-		              endAttachPoint: RSBorderAttachPoint new;
-		              yourself.
-	^ RSBezier new
-		  "cornerRadii: 2;"
-		  "markerEnd: RSArrowedLine new defaultHead asMarker;"
-		  controlPointsController: controller;
-		  yourself
-	"		  border: (RSBorder new color: Color gray lighter lighter);"
-]
