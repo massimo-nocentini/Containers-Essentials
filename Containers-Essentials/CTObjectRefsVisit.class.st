@@ -11,7 +11,7 @@ Class {
 		'sccShapeSet',
 		'sccs'
 	],
-	#category : #'Kernel-Extensions'
+	#category : #'Containers-Essentials'
 }
 
 { #category : #visiting }

@@ -1,6 +1,6 @@
 Extension { #name : #Object }
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
 
 	| fromShapes toShapes sccs sccsShapes layoutAssociations shapesAssociations shapeBySCC eb edges |
@@ -121,7 +121,7 @@ Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
 		  yourself
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 
 	| fromShapes toShapes shapesAssociations layoutAssociations edges eb |
@@ -194,7 +194,7 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: f [
 		  yourself
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> drawTopologicallySortedSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
 
 	| fromShapes toShapes shapesAssociations |
@@ -245,7 +245,7 @@ Object >> drawTopologicallySortedSlotsGraphOnCanvas: aCanvas referencesBlock: aB
 		  yourself
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 30 title: 'Slots graph'>
@@ -259,13 +259,13 @@ Object >> inspectorCanvasSlotsGraph [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 50 title: 'SCCs of Slots graph'>
@@ -279,13 +279,13 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 
 	<inspectorPresentationOrder: 40 title: 'Slots graph, topologically sorted.'>
@@ -298,20 +298,20 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> instVarsNamesOrderedCollection [
 
 	^ self class allInstVarNames collect: [ :varName | 
 		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
 ]
 
-{ #category : #'*Kernel-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> lineShape [
 
 	| controller |
