@@ -1,6 +1,6 @@
 Extension { #name : #SequenceableCollection }
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasBoxesFlow [
 
 	<inspectorPresentationOrder: 200 title: 'Boxes'>
@@ -24,13 +24,13 @@ SequenceableCollection >> inspectorCanvasBoxesFlow [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasBoxesFlowContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasEnumeration [
 
 	<inspectorPresentationOrder: 300 title: 'Enumeration'>
@@ -78,13 +78,13 @@ SequenceableCollection >> inspectorCanvasEnumeration [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasEnumerationContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasGrid [
 
 	<inspectorPresentationOrder: 100 title: 'Grid'>
@@ -93,13 +93,13 @@ SequenceableCollection >> inspectorCanvasGrid [
 		   drawGridWithLineItemsCount: self size sqrtFloor) inspectorCanvas
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasGridContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasIndexParityBipartedGrid [
 
 	<inspectorPresentationOrder: 300 title: 'Index-parity biparted grid'>
@@ -108,13 +108,13 @@ SequenceableCollection >> inspectorCanvasIndexParityBipartedGrid [
 		   drawGridWithLineItemsCount: 2) inspectorCanvas
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasIndexParityBipartedGridContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> onBox: boxShape setSizeFrom: anObject [
 
 	[ boxShape size: (anObject ifNil: [ 0 ]) sqrt ]
@@ -123,7 +123,7 @@ SequenceableCollection >> onBox: boxShape setSizeFrom: anObject [
 	^ boxShape
 ]
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> onCanvas: aCanvas drawGridWithLineItemsCount: anInteger [
 
 	| shapes maxPoint |

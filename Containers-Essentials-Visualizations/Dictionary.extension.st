@@ -1,6 +1,6 @@
 Extension { #name : #Dictionary }
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Dictionary >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection" , { (#keysMap -> [ :anObj | 

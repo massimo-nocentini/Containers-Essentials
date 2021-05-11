@@ -1,24 +1,24 @@
 Extension { #name : #RSObjectWithProperty }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsDepth [
 
 	^ self propertyAt: #bfsLevel
 ]
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsEntryTime [
 
 	^ (self propertyAt: #dfsTimings) x
 ]
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsLeaveTime [
 
 	^ (self propertyAt: #dfsTimings) y
 ]
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsTimings [
 
 	^ self propertyAt: #dfsTimings

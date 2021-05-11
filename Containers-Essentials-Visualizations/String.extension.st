@@ -1,6 +1,6 @@
 Extension { #name : #String }
 
-{ #category : #'*Collections-Abstract-Visualizations' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 String >> onBox: boxShape setSizeFrom: aCharacter [
 
 	^ boxShape
