@@ -8,14 +8,17 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
+{ #category : #adding }
+CTSlotsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
+
+	aCanvas addAll: shapes
+]
+
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSBorderAttachPoint new;
-			 yourself).
+	lineBuilder controlPointsController:
+		self cpapControllerBezierDirected.
 
 	^ backTuples collect: [ :aTuple | 
 		  | edge |
@@ -28,13 +31,30 @@ CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> cpapControllerBezierDirected [
+
+	^ RSStartEndCPAPController new
+		  controller: RSDirectedBezierCPAPController new;
+		  startAttachPoint: RSCenteredAttachPoint new;
+		  endAttachPoint: RSBorderAttachPoint new;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> cpapControllerHorizontal [
+
+	^ RSStartEndCPAPController new
+		  controller: RSHorizontalCPAPController new;
+		  startAttachPoint: RSCenteredAttachPoint new;
+		  endAttachPoint: RSHorizontalEndBorderAttachPoint new;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSBorderAttachPoint new;
-			 yourself).
+	lineBuilder controlPointsController:
+		self cpapControllerBezierDirected.
 
 	^ crossTuples collect: [ :aTuple | 
 		  | edge |
@@ -64,18 +84,18 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 		toShapes: toShapes;
 		value.
 
-	aCanvas addAll: toShapes values.
+	self
+		addAll: toShapes values onCanvas: aCanvas;
+		withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
+			| edges |
+			edges := self
+				         treeTuples: treeTuples lineBuilder: lineBuilder;
+				         forwardTuples: forwardTuples lineBuilder: lineBuilder;
+				         backTuples: backTuples lineBuilder: lineBuilder;
+				         crossTuples: crossTuples lineBuilder: lineBuilder;
+				         layoutTuples: treeTuples lineBuilder: RSLineBuilder line.
 
-	self withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
-		| edges |
-		edges := self
-			         treeTuples: treeTuples lineBuilder: lineBuilder;
-			         forwardTuples: forwardTuples lineBuilder: lineBuilder;
-			         backTuples: backTuples lineBuilder: lineBuilder;
-			         crossTuples: crossTuples lineBuilder: lineBuilder;
-			         layoutTuples: treeTuples lineBuilder: RSLineBuilder line.
-
-		RSHorizontalTreeLayout on: aCanvas nodes edges: edges ].
+			self layoutOn: aCanvas nodes edges: edges ].
 
 	^ aCanvas
 		  exportToSVG;
@@ -85,11 +105,8 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSBorderAttachPoint new;
-			 yourself).
+	lineBuilder controlPointsController:
+		self cpapControllerBezierDirected.
 
 	^ forwardTuples collect: [ :aTuple | 
 		  | edge |
@@ -144,6 +161,12 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> layoutOn: shapes edges: edges [
+
+	RSHorizontalTreeLayout on: shapes edges: edges
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| layoutAssociations |
@@ -167,11 +190,7 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSHorizontalCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSHorizontalEndBorderAttachPoint new;
-			 yourself).
+	lineBuilder controlPointsController: self cpapControllerHorizontal.
 
 	^ treeTuples collect: [ :aTuple | 
 		  lineBuilder
