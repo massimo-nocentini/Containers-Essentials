@@ -5,7 +5,7 @@ Array >> instVarsNamesOrderedCollection [
 
 	| positions |
 	positions := self withIndexCollect: [ :each :index | 
-		             index asString asSymbol -> [ :anObj | each ] ].
+		             index asString -> [ :anObj | each ] ].
 
 	^ super instVarsNamesOrderedCollection , positions
 ]

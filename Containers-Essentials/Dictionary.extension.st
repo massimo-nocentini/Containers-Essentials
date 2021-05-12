@@ -9,3 +9,11 @@ Dictionary >> anyAssociation [
 		emptyCheck;
 		associationsDo: [ :assoc | ^ assoc ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Dictionary >> asKeysAndValuesView [
+
+	^ CTKeysAndValuesView new
+		  dictionary: self;
+		  yourself
+]
