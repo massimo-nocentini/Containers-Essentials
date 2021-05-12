@@ -84,8 +84,15 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	descriptors := selectors collect: [ :anAssociation | 
 		               | value valueLabel varLabel valueBox var accessor |
-		               var := anAssociation key.
-		               accessor := anAssociation value.
+		               anAssociation isSymbol
+			               ifTrue: [ 
+				               var := anAssociation.
+				               accessor := [ :anObj | 
+				                           anObj perform: anAssociation ] ]
+			               ifFalse: [ 
+				               var := anAssociation key.
+				               accessor := anAssociation value ].
+
 		               value := accessor value: anObject.
 
 		               valueLabel := level = maxLevel
