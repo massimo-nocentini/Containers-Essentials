@@ -9,28 +9,52 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> associationsForTreeLayoutingShapes: treeTuples thenCollect: aBlock [
+CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
-	| layoutAssociations |
-	"Should be better to use an order-preserving dictionary for the sake of efficiency."
-	layoutAssociations := Dictionary new.
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSBorderAttachPoint new;
+			 yourself).
 
-	treeTuples do: [ :aTuple | 
-		layoutAssociations
-			at: aTuple propertyFromShape -> aTuple propertyToShape
-			ifAbsentPut: [ layoutAssociations size + 1 ] ].
+	^ backTuples collect: [ :aTuple | 
+		  | edge |
+		  edge := lineBuilder
+			          edgeFrom: aTuple propertyFromSlotShape
+			          to: aTuple propertyToShape.
+		  edge
+			  dashArray: #( 1 );
+			  yourself ]
+]
 
-	layoutAssociations := layoutAssociations associations sorted: [ :a :b | 
-		                      a value < b value ].
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	^ layoutAssociations collect: [ :each | aBlock value: each key ]
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSBorderAttachPoint new;
+			 yourself).
+
+	^ crossTuples collect: [ :aTuple | 
+		  | edge |
+		  edge := lineBuilder
+			          edgeFrom: aTuple propertyFromSlotShape
+			          to: aTuple propertyToShape.
+		  edge
+			  dashArray: #( 4 );
+			  yourself ]
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
-	| metaColor |
+	| metaColor lineBuilder |
 	metaColor := Color gray lighter lighter lighter.
+	lineBuilder := RSLineBuilder bezier
+		               canvas: aCanvas;
+		               color: metaColor;
+		               yourself.
 
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
@@ -43,55 +67,13 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 	aCanvas addAll: toShapes values.
 
 	self withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
-		| edges lineBuilder |
-		lineBuilder := (RSLineBuilder new: self bezierShape)
-			               canvas: aCanvas;
-			               yourself.
-
-		treeTuples do: [ :aTuple | 
-			| edge |
-			edge := RSLineBuilder horizontalBezier
-				        canvas: aCanvas;
-				        startAttachPoint: RSCenteredAttachPoint new
-				        endAttachPoint: RSHorizontalEndBorderAttachPoint new;
-				        edgeFrom: aTuple propertyFromSlotShape
-				        to: aTuple propertyToShape.
-			edge color: metaColor ].
-
-		forwardTuples do: [ :aTuple | 
-			| edge |
-			edge := lineBuilder
-				        edgeFrom: aTuple propertyFromSlotShape
-				        to: aTuple propertyToShape.
-			edge
-				color: metaColor;
-				dashArray: #( 2 ) ].
-
-		backTuples do: [ :aTuple | 
-			| edge |
-			edge := lineBuilder
-				        edgeFrom: aTuple propertyFromSlotShape
-				        to: aTuple propertyToShape.
-			edge
-				color: metaColor;
-				dashArray: #( 1 ) ].
-
-		crossTuples do: [ :aTuple | 
-			| edge |
-			edge := lineBuilder
-				        edgeFrom: aTuple propertyFromSlotShape
-				        to: aTuple propertyToShape.
-			edge
-				color: metaColor;
-				dashArray: #( 4 ) ].
-
-		lineBuilder := RSLineBuilder line.
+		| edges |
 		edges := self
-			         associationsForTreeLayoutingShapes: treeTuples
-			         thenCollect: [ :anAssociation | 
-				         lineBuilder
-					         edgeFrom: anAssociation key
-					         to: anAssociation value ].
+			         treeTuples: treeTuples lineBuilder: lineBuilder;
+			         forwardTuples: forwardTuples lineBuilder: lineBuilder;
+			         backTuples: backTuples lineBuilder: lineBuilder;
+			         crossTuples: crossTuples lineBuilder: lineBuilder;
+			         layoutTuples: treeTuples lineBuilder: RSLineBuilder line.
 
 		RSHorizontalTreeLayout on: aCanvas nodes edges: edges ].
 
@@ -101,25 +83,47 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSBorderAttachPoint new;
+			 yourself).
+
+	^ forwardTuples collect: [ :aTuple | 
+		  | edge |
+		  edge := lineBuilder
+			          edgeFrom: aTuple propertyFromSlotShape
+			          to: aTuple propertyToShape.
+		  edge yourself
+		  "dashArray: #( 2 );" ]
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
 
 	^ fromShape == toShape
 		  ifTrue: bBlock
 		  ifFalse: [ 
-			  (fromShape propertyDfsEntryTime < toShape propertyDfsEntryTime 
-				   and: [ 
-				   toShape propertyDfsLeaveTime < fromShape propertyDfsLeaveTime ])
+			  | fromEntryTime toEntryTime fromLeaveTime toLeaveTime |
+			  fromEntryTime := fromShape propertyDfsEntryTime.
+			  toEntryTime := toShape propertyDfsEntryTime.
+			  fromLeaveTime := fromShape propertyDfsLeaveTime.
+			  toLeaveTime := toShape propertyDfsLeaveTime.
+
+			  (fromEntryTime < toEntryTime and: [ 
+				   toShape propertyDfsLeaveTime < fromLeaveTime ])
 				  ifTrue: [ 
 					  toShape propertyDfsDepth - fromShape propertyDfsDepth = 1
 						  ifTrue: tBlock
 						  ifFalse: fBlock ]
 				  ifFalse: [ 
-					  (toShape propertyDfsEntryTime < fromShape propertyDfsEntryTime 
-						   and: [ 
-						   fromShape propertyDfsLeaveTime < toShape propertyDfsLeaveTime ])
+					  (toEntryTime < fromEntryTime and: [ 
+						   fromLeaveTime < toLeaveTime ])
 						  ifTrue: bBlock
 						  ifFalse: [ 
-							  toShape propertyDfsLeaveTime < fromShape propertyDfsEntryTime
+							  toLeaveTime < fromEntryTime
 								  ifTrue: cBlock
 								  ifFalse: [ 
 									  Error signal:
@@ -137,6 +141,42 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 	  anotherTime := (toShapes at: anotherSlotBox model)
 		                 propertyDfsEntryTime.
 	  aTime < anotherTime ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+
+	| layoutAssociations |
+	"Should be better to use an order-preserving dictionary for the sake of efficiency."
+	layoutAssociations := Dictionary new.
+
+	treeTuples do: [ :aTuple | 
+		layoutAssociations
+			at: aTuple propertyFromShape -> aTuple propertyToShape
+			ifAbsentPut: [ layoutAssociations size + 1 ] ].
+
+	layoutAssociations := layoutAssociations associations sorted: [ :a :b | 
+		                      a value < b value ].
+
+	^ layoutAssociations collect: [ :each | 
+		  | anAssoc |
+		  anAssoc := each key.
+		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
+
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSHorizontalCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSHorizontalEndBorderAttachPoint new;
+			 yourself).
+
+	^ treeTuples collect: [ :aTuple | 
+		  lineBuilder
+			  edgeFrom: aTuple propertyFromSlotShape
+			  to: aTuple propertyToShape ]
 ]
 
 { #category : #'as yet unclassified' }
