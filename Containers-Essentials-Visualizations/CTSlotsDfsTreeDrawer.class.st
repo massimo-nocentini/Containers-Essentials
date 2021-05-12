@@ -3,7 +3,10 @@ Class {
 	#superclass : #CTSlotsDrawer,
 	#instVars : [
 		'fromShapes',
-		'toShapes'
+		'toShapes',
+		'stronglyConnectedComponents',
+		'shapeBySCC',
+		'sccsShapes'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -11,7 +14,8 @@ Class {
 { #category : #adding }
 CTSlotsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
-	aCanvas addAll: shapes
+	aCanvas addAll: shapes.
+	^ shapes
 ]
 
 { #category : #'as yet unclassified' }
@@ -69,7 +73,7 @@ CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
-	| metaColor lineBuilder |
+	| metaColor lineBuilder shapes edges |
 	metaColor := Color gray lighter lighter lighter.
 	lineBuilder := RSLineBuilder bezier
 		               canvas: aCanvas;
@@ -78,24 +82,29 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
+	stronglyConnectedComponents := OrderedCollection new.
 
 	visit
 		fromShapes: fromShapes;
 		toShapes: toShapes;
+		stronglyConnectedComponents: stronglyConnectedComponents;
 		value.
 
-	self
-		addAll: toShapes values onCanvas: aCanvas;
-		withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
-			| edges |
-			edges := self
-				         treeTuples: treeTuples lineBuilder: lineBuilder;
-				         forwardTuples: forwardTuples lineBuilder: lineBuilder;
-				         backTuples: backTuples lineBuilder: lineBuilder;
-				         crossTuples: crossTuples lineBuilder: lineBuilder;
-				         layoutTuples: treeTuples lineBuilder: RSLineBuilder line.
+	shapes := self addAll: toShapes values onCanvas: aCanvas.
 
-			self layoutOn: aCanvas nodes edges: edges ].
+	edges := self withDfsEdgesDo: [ 
+		         :treeTuples 
+		         :forwardTuples 
+		         :backTuples 
+		         :crossTuples | 
+		         self
+			         treeTuples: treeTuples lineBuilder: lineBuilder;
+			         forwardTuples: forwardTuples lineBuilder: lineBuilder;
+			         backTuples: backTuples lineBuilder: lineBuilder;
+			         crossTuples: crossTuples lineBuilder: lineBuilder;
+			         layoutTuples: treeTuples lineBuilder: RSLineBuilder line ].
+
+	self layoutOn: shapes edges: edges.
 
 	^ aCanvas
 		  exportToSVG;

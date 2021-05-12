@@ -11,8 +11,8 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 	sortedShapes := shapes sorted: [ :aShape :anotherShape | 
 		                aShape propertyDfsLeaveTime
 		                > anotherShape propertyDfsLeaveTime ].
-	
-	super addAll: sortedShapes onCanvas: aCanvas
+
+	^ super addAll: sortedShapes onCanvas: aCanvas
 ]
 
 { #category : #'as yet unclassified' }

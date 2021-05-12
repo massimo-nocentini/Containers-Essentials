@@ -19,6 +19,12 @@ RSObjectWithProperty >> propertyDfsLeaveTime [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsSCC [
+
+	^ self propertyAt: #scc
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsTimings [
 
 	^ self propertyAt: #dfsTimings
