@@ -28,3 +28,9 @@ ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
 
 	aContext withoutEvaluator
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+ByteArray >> instVarsNamesOrderedCollection [
+
+	^ #( hex asArray )
+]
