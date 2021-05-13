@@ -12,9 +12,7 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
 	shapeBySCC := IdentityDictionary new.
 
-	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | "aSCC sort: [ :aShape :anotherShape | 
-			              aShape propertyDfsEntryTime
-			              < anotherShape propertyDfsEntryTime ]."
+	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
 		              RSComposite new
 			              model: aSCC;
 			              shapes: aSCC;
@@ -25,11 +23,14 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 						              aBorder
 							              width: 1;
 							              dashArray: #( 4 );
-							              capRound ]
+							              joinRound ]
 					              ifFalse: [ aBorder width: 0 ] ];
 			              addInteraction: RSDraggable new;
 			              yourself: [ :aComposite | 
-			              shapeBySCC at: aSCC put: aComposite ] ].
+				              shapeBySCC at: aSCC put: aComposite.
+
+				              aSCC do: [ :each | 
+					              each removeInteractionIfPresent: RSDraggable ] ] ].
 
 	^ super addAll: sccsShapes onCanvas: aCanvas
 ]
