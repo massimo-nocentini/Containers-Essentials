@@ -18,12 +18,6 @@ Link >> edgesConnectingShapes: shapes references: links lineShape: line modelBlo
 ]
 
 { #category : #'*Collections-Support-Visualizations' }
-Link >> instVarsNamesOrderedCollection [
-
-	^ { #nextLink }
-]
-
-{ #category : #'*Collections-Support-Visualizations' }
 Link >> lineShapeWithControlPointsController: aController [
 
 	| controller |
