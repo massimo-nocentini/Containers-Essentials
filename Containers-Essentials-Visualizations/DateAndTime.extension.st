@@ -1,6 +1,6 @@
 Extension { #name : #DateAndTime }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 DateAndTime >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 

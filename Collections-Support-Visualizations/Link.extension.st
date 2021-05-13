@@ -20,7 +20,7 @@ Link >> edgesConnectingShapes: shapes references: links lineShape: line modelBlo
 { #category : #'*Collections-Support-Visualizations' }
 Link >> instVarsNamesOrderedCollection [
 
-	^ Array with: #nextLink -> [ :anObj | anObj nextLink ]
+	^ { #nextLink }
 ]
 
 { #category : #'*Collections-Support-Visualizations' }

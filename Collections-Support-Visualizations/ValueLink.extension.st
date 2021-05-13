@@ -43,6 +43,5 @@ ValueLink >> instVarsNamesOrderedCollection [
 	the rightmost because that allows us to compose better shapes 
 	pointed by its reference."
 
-	^ { (#value -> [ :anObj | anObj value ]) }
-	  , super instVarsNamesOrderedCollection
+	^ { #value } , super instVarsNamesOrderedCollection
 ]

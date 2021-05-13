@@ -1,6 +1,6 @@
 Extension { #name : #Duration }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 Duration >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 

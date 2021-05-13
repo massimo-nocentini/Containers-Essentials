@@ -1,6 +1,6 @@
 Extension { #name : #ExternalAddress }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 ExternalAddress >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
