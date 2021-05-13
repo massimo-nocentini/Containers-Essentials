@@ -68,12 +68,27 @@ CTSlotsSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+
+	| edge |
+	edge := super edgeForTuple: aTuple lineBuilder: lineBuilder.
+
+	aTuple propertyFromShape propertyDfsSCC
+	== aTuple propertyToShape propertyDfsSCC ifFalse: [ 
+		edge
+			color: edge color translucent;
+			width: 0.5 ].
+
+	^ edge
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsSCCsDfsTreeDrawer >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 
-	| boxShape boxParentShape toShape toSCCShape fromSCCShape |
+	| boxShape boxParentShape toSCCShape fromSCCShape |
 	boxShape := aTuple propertyFromSlotShape.
 	boxParentShape := aTuple propertyFromShape.
-	toShape := toShapes at: boxShape model.
+
 	toSCCShape := shapeBySCC at: aTuple propertyToShape propertyDfsSCC.
 	fromSCCShape := shapeBySCC at:
 		                aTuple propertyFromShape propertyDfsSCC.

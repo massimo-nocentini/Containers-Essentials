@@ -26,9 +26,7 @@ CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	^ backTuples collect: [ :aTuple | 
 		  | edge |
-		  edge := lineBuilder
-			          edgeFrom: aTuple propertyFromSlotShape
-			          to: aTuple propertyToShape.
+		  edge := self edgeForTuple: aTuple lineBuilder: lineBuilder.
 		  edge
 			  dashArray: #( 1 );
 			  yourself ]
@@ -62,9 +60,7 @@ CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	^ crossTuples collect: [ :aTuple | 
 		  | edge |
-		  edge := lineBuilder
-			          edgeFrom: aTuple propertyFromSlotShape
-			          to: aTuple propertyToShape.
+		  edge := self edgeForTuple: aTuple lineBuilder: lineBuilder.
 		  edge
 			  dashArray: #( 4 );
 			  yourself ]
@@ -112,18 +108,21 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+
+	^ lineBuilder
+		  edgeFrom: aTuple propertyFromSlotShape
+		  to: aTuple propertyToShape
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	lineBuilder controlPointsController:
 		self cpapControllerBezierDirected.
 
 	^ forwardTuples collect: [ :aTuple | 
-		  | edge |
-		  edge := lineBuilder
-			          edgeFrom: aTuple propertyFromSlotShape
-			          to: aTuple propertyToShape.
-		  edge yourself
-		  "dashArray: #( 2 );" ]
+		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -202,9 +201,7 @@ CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 	lineBuilder controlPointsController: self cpapControllerHorizontal.
 
 	^ treeTuples collect: [ :aTuple | 
-		  lineBuilder
-			  edgeFrom: aTuple propertyFromSlotShape
-			  to: aTuple propertyToShape ]
+		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
