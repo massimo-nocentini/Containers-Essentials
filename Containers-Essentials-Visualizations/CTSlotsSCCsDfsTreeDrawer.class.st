@@ -10,7 +10,16 @@ Class {
 { #category : #adding }
 CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
+	| scale max |
 	shapeBySCC := IdentityDictionary new.
+
+	max := stronglyConnectedComponents
+		       inject: 1
+		       into: [ :m :each | m max: each size ].
+	scale := NSScale ln
+		         domain: (Array with: 1 with: max);
+		         range: (Array with: Color lightRed with: Color red);
+		         yourself.
 
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
 		              RSComposite new
@@ -18,13 +27,9 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 			              shapes: aSCC;
 			              padding: 2;
 			              borderDo: [ :aBorder | 
-				              aSCC size > 1
-					              ifTrue: [ 
-						              aBorder
-							              width: 1;
-							              dashArray: #( 4 );
-							              joinRound ]
-					              ifFalse: [ aBorder width: 0 ] ];
+				              aBorder
+					              joinRound;
+					              color: (scale scale: aSCC size) translucent ];
 			              addInteraction: RSDraggable new;
 			              yourself: [ :aComposite | 
 				              shapeBySCC at: aSCC put: aComposite.
