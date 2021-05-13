@@ -43,16 +43,59 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
 { #category : #'as yet unclassified' }
 CTSlotsSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
+
+	backTuples do: [ :aTuple | 
+		self fixEndShapeOfTuple: aTuple ifNecessary: [ :toShape | 
+			Error signal:
+				'Logical inconsistency: a backward edge is trying to exiting from its SCC.' ] ].
+
+	^ super backTuples: backTuples lineBuilder: lineBuilder
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	
+	| tuples |
+	tuples := crossTuples collect: [ :aTuple | 
+		          self
+			          fixEndShapeOfTuple: aTuple
+			          ifNecessary: [ :toShape | 
+				          aTuple copy
+					          at: 4 put: toShape;
+					          yourself ] ].
+
+	^ super crossTuples: tuples lineBuilder: lineBuilder
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsSCCsDfsTreeDrawer >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
+
+	| boxShape boxParentShape toShape toSCCShape fromSCCShape |
+	boxShape := aTuple propertyFromSlotShape.
+	boxParentShape := aTuple propertyFromShape.
+	toShape := toShapes at: boxShape model.
+	toSCCShape := shapeBySCC at: aTuple propertyToShape propertyDfsSCC.
+	fromSCCShape := shapeBySCC at:
+		                aTuple propertyFromShape propertyDfsSCC.
+
+	^ fromSCCShape == toSCCShape
+		  ifTrue: [ aTuple ]
+		  ifFalse: [ aBlock value: toSCCShape ]
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+
+	| tuples |
+	tuples := forwardTuples collect: [ :aTuple | 
+		          self
+			          fixEndShapeOfTuple: aTuple
+			          ifNecessary: [ :toShape | 
+				          aTuple copy
+					          at: 4 put: toShape;
+					          yourself ] ].
+
+	^ super forwardTuples: tuples lineBuilder: lineBuilder
 ]
 
 { #category : #'as yet unclassified' }
@@ -117,21 +160,12 @@ CTSlotsSCCsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := treeTuples collect: [ :aTuple | 
-		          | boxShape boxParentShape toShape toSCCShape fromSCCShape |
-		          boxShape := aTuple propertyFromSlotShape.
-		          boxParentShape := aTuple propertyFromShape.
-		          toShape := toShapes at: boxShape model.
-		          toSCCShape := shapeBySCC at:
-			                        aTuple propertyToShape propertyDfsSCC.
-		          fromSCCShape := shapeBySCC at:
-			                          aTuple propertyFromShape propertyDfsSCC.
-
-		          fromSCCShape == toSCCShape ifFalse: [ 
-			          toShape := toSCCShape ].
-
-		          aTuple copy
-			          at: 4 put: toShape;
-			          yourself ].
+		          self
+			          fixEndShapeOfTuple: aTuple
+			          ifNecessary: [ :toShape | 
+				          aTuple copy
+					          at: 4 put: toShape;
+					          yourself ] ].
 
 	^ super treeTuples: tuples lineBuilder: lineBuilder
 ]
