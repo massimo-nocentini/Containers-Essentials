@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfContainersEssentials,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfdsst
+	#category : #BaselineOfContainersEssentials
 }
 
 { #category : #baselines }
