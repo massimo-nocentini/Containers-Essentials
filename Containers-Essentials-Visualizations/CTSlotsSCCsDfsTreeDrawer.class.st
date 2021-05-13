@@ -10,14 +10,15 @@ Class {
 { #category : #adding }
 CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
-	| scale max |
+	| scale max lowerBound |
 	shapeBySCC := IdentityDictionary new.
 
+	lowerBound := 1.
 	max := stronglyConnectedComponents
-		       inject: 1
+		       inject: lowerBound
 		       into: [ :m :each | m max: each size ].
 	scale := NSScale ln
-		         domain: (Array with: 1 with: max);
+		         domain: (Array with: lowerBound with: max);
 		         range: (Array with: Color lightRed with: Color red);
 		         yourself.
 
