@@ -143,10 +143,10 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 					                             extent := extent max:
 						                                       labelShape extent ] ]
 			                             ifFalse: [ 
-				                             (toShapes includesKey: value)
-					                             ifTrue: [ 
-						                             | shape shapeEntryTime |
-						                             shape := toShapes at: value.
+				                             toShapes
+					                             at: value
+					                             ifPresent: [ :shape | 
+						                             | shapeEntryTime |
 						                             shapeEntryTime := shape
 							                                               propertyDfsEntryTime.
 						                             (shapeEntryTime
@@ -158,22 +158,22 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 									                             propertyDfsLowlinkUpdate: [ 
 									                             :lowlink | 
 									                             lowlink min: shapeEntryTime ] ] ]
-					                             ifFalse: [ 
+					                             ifAbsent: [ 
 						                             self
 							                             dfsClockTick;
 							                             withFurtherLevelDo: [ 
-								                             self
-									                             forObject: value
-									                             slotsMap:
-										                             value
-											                             instVarsNamesOrderedCollection ].
+								                             | childShape |
+								                             childShape := self
+									                                           forObject: value
+									                                           slotsMap:
+										                                           value
+											                                           instVarsNamesOrderedCollection.
 
-						                             mineShape 
-							                             propertyDfsLowlinkUpdate: [ 
-							                             :lowlink | 
-							                             lowlink min:
-								                             (toShapes at: value)
-									                             propertyDfsLowlink ] ].
+								                             mineShape 
+									                             propertyDfsLowlinkUpdate: [ 
+										                             :lowlink | 
+										                             lowlink min:
+												                             childShape propertyDfsLowlink ] ] ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -200,11 +200,12 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			               yourself ].
 
 
+	self dfsClockTick.
+
+	mineShape propertyDfsTimings:
+		mineShape propertyDfsEntryTime @ dfsClock.
+
 	^ self
-		  dfsClockTick;
-		  yourself: [ 
-			  mineShape propertyDfsTimings:
-					  mineShape propertyDfsEntryTime @ dfsClock ];
 		  createStronglyConnectedComponentIfNecessaryOnShape: mineShape;
 		  object: anObject
 		  descriptors: descriptors
@@ -331,7 +332,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		  shapes: { 
 				  classLabel.
 				  boxedCompositeShape };
-		  padding: 2;
+		  padding: self radiusOrPadding;
 		  yourself
 ]
 
