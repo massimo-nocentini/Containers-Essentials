@@ -1,6 +1,18 @@
 Extension { #name : #RSObjectWithProperty }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBCC [
+
+	^ self propertyAt: #bcc
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBCC: aCollection [
+
+	^ self propertyAt: #bcc put: aCollection
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsBoxedSlotsShape [
 
 	^ self propertyAt: #boxedSlotsShape
@@ -76,4 +88,16 @@ RSObjectWithProperty >> propertyDfsTimings [
 RSObjectWithProperty >> propertyDfsTimings: aPoint [
 
 	^ self propertyAt: #dfsTimings put: aPoint
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyIsArticulationObject [
+
+	^ self propertyAt: #isArticulationObject ifAbsent: [ false ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyIsArticulationObject: aBoolean [
+
+	^ self propertyAt: #isArticulationObject put: aBoolean
 ]

@@ -11,7 +11,9 @@ Class {
 		'sccShapeSet',
 		'sccs',
 		'rootObject',
-		'multilineLabelBuilder'
+		'multilineLabelBuilder',
+		'sccEdgeStack',
+		'bccs'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -50,6 +52,46 @@ CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
 					 nextPutAll: mineShape propertyDfsSCC size asString ] ])
 ]
 
+{ #category : #accessing }
+CTObjectRefsVisit >> biConnectedComponents: aCollection [
+
+	bccs := aCollection
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> createBiconnectedComponentIfNecessaryOnShape: childShape childOf: mineShape [
+
+	^ mineShape propertyDfsEntryTime <= childShape propertyDfsLowlink 
+		  ifTrue: [ 
+			  | bcc assocOfModels fromShape toShape |
+			  bcc := bccs add: OrderedCollection new.
+
+			  [ 
+			  sccEdgeStack isNotNil and: [ 
+				  (toShapes at: sccEdgeStack value key) propertyDfsEntryTime
+				  >= childShape propertyDfsEntryTime ] ] whileTrue: [ 
+				  assocOfModels := sccEdgeStack value.
+				  fromShape := toShapes at: assocOfModels key.
+				  toShape := toShapes at: assocOfModels value.
+				  bcc add: fromShape -> toShape.
+				  fromShape propertyDfsBCC: bcc.
+				  toShape propertyDfsBCC: bcc.
+				  sccEdgeStack := sccEdgeStack nextLink ].
+
+			  self
+				  assert: sccEdgeStack value key == mineShape model;
+				  assert: sccEdgeStack value value == childShape model.
+
+			  mineShape propertyIsArticulationObject: true.
+			  assocOfModels := sccEdgeStack value.
+			  fromShape := toShapes at: assocOfModels key.
+			  toShape := toShapes at: assocOfModels value.
+			  bcc add: fromShape -> toShape.
+			  fromShape propertyDfsBCC: bcc.
+			  toShape propertyDfsBCC: bcc.
+			  sccEdgeStack := sccEdgeStack nextLink ]
+]
+
 { #category : #visiting }
 CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: mineShape [
 
@@ -81,7 +123,7 @@ CTObjectRefsVisit >> dfsClockTick [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
+CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selectors [
 
 	| descriptors extent classLabel nilLabel metaColor metaFontSize mineShape |
 	mineShape := RSComposite new
@@ -121,7 +163,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	extent := nilLabel extent.
 
-	descriptors := selectors collect: [ :anAssociation | 
+	descriptors := selectors withIndexCollect: [ :anAssociation :index | 
 		               | value valueLabel varLabel valueBox var accessor |
 		               anAssociation isSymbol
 			               ifTrue: [ 
@@ -149,22 +191,44 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 						                             | shapeEntryTime |
 						                             shapeEntryTime := shape
 							                                               propertyDfsEntryTime.
-						                             (shapeEntryTime
-						                              < mineShape propertyDfsEntryTime 
-							                              and: [ 
-							                              sccShapeSet includes: shape ]) 
+						                             shapeEntryTime
+						                             < mineShape propertyDfsEntryTime 
 							                             ifTrue: [ 
-								                             mineShape 
-									                             propertyDfsLowlinkUpdate: [ 
-									                             :lowlink | 
-									                             lowlink min: shapeEntryTime ] ] ]
+								                             (sccShapeSet includes: shape) 
+									                             ifTrue: [ 
+										                             mineShape 
+											                             propertyDfsLowlinkUpdate: [ 
+											                             :lowlink | 
+											                             lowlink min: shapeEntryTime ] ].
+
+								                             anObject ~~ value ifTrue: [ 
+									                             sccEdgeStack := ValueLink new
+										                                             value:
+											                                             anObject
+											                                             -> value;
+										                                             nextLink:
+											                                             sccEdgeStack;
+										                                             yourself.
+
+									                             mineShape 
+										                             propertyDfsLowlinkUpdate: [ 
+										                             :lowlink | 
+										                             lowlink min: shapeEntryTime ] ] ] ]
 					                             ifAbsent: [ 
+						                             sccEdgeStack := ValueLink new
+							                                             value:
+								                                             anObject -> value;
+							                                             nextLink:
+								                                             sccEdgeStack;
+							                                             yourself.
 						                             self
 							                             dfsClockTick;
 							                             withFurtherLevelDo: [ 
 								                             | childShape |
 								                             childShape := self
 									                                           forObject: value
+									                                           ithChild: index
+									                                           of: anObject
 									                                           slotsMap:
 										                                           value
 											                                           instVarsNamesOrderedCollection.
@@ -173,7 +237,12 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 									                             propertyDfsLowlinkUpdate: [ 
 										                             :lowlink | 
 										                             lowlink min:
-												                             childShape propertyDfsLowlink ] ] ].
+												                             childShape propertyDfsLowlink ].
+
+								                             self
+									                             createBiconnectedComponentIfNecessaryOnShape:
+										                             childShape
+									                             childOf: mineShape ] ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -229,8 +298,10 @@ CTObjectRefsVisit >> initialize [
 	level := 1.
 	maxLevel := 0.
 	sccShapeStack := nil.
+	sccEdgeStack := nil.
 	sccShapeSet := IdentitySet new.
 	sccs := OrderedCollection new.
+	bccs := OrderedCollection new.
 
 	multilineLabelBuilder := RSMultilineLabelBuilder new
 ]
@@ -303,7 +374,10 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 			                       (compositeShape extent max:
 					                        classLabel extent);
 		                       cornerRadius: self radiusOrPadding;
-		                       withBorder;
+		                       borderDo: [ :aBorder | 
+			                       mineShape propertyIsArticulationObject 
+				                       ifTrue: [ 
+					                       aBorder color: Color blue translucent ] ];
 		                       yourself.
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
@@ -369,9 +443,17 @@ CTObjectRefsVisit >> toShapes: anObject [
 { #category : #evaluating }
 CTObjectRefsVisit >> value [
 
+	| aShape |
+	aShape := self
+		          forObject: rootObject
+		          ithChild: -1
+		          of: nil
+		          slotsMap: rootObject instVarsNamesOrderedCollection.
+
 	^ self
-		  forObject: rootObject
-		  slotsMap: rootObject instVarsNamesOrderedCollection
+		  assert: sccShapeStack isNil;
+		  assert: sccEdgeStack isNil;
+		  itself: aShape
 ]
 
 { #category : #visiting }
