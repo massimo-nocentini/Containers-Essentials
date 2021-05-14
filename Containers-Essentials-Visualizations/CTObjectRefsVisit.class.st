@@ -10,7 +10,8 @@ Class {
 		'sccShapeStack',
 		'sccShapeSet',
 		'sccs',
-		'rootObject'
+		'rootObject',
+		'multilineLabelBuilder'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -50,6 +51,30 @@ CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
 ]
 
 { #category : #visiting }
+CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: mineShape [
+
+	^ mineShape propertyDfsEntryTime = mineShape propertyDfsLowlink 
+		  ifTrue: [ 
+			  | scc |
+			  scc := sccs add: OrderedCollection new.
+
+			  [ 
+			  sccShapeStack isNotNil and: [ 
+				  sccShapeStack value propertyDfsEntryTime
+				  >= mineShape propertyDfsEntryTime ] ] whileTrue: [ 
+				  | shape |
+				  shape := sccShapeStack value.
+				  scc add: shape.
+				  shape propertyDfsSCC: scc.
+				  sccShapeStack := sccShapeStack nextLink.
+				  sccShapeSet remove: shape ].
+
+			  self
+				  assert: mineShape propertyDfsSCC == scc;
+				  itself: scc ]
+]
+
+{ #category : #visiting }
 CTObjectRefsVisit >> dfsClockTick [
 
 	dfsClock := dfsClock + 1
@@ -58,12 +83,7 @@ CTObjectRefsVisit >> dfsClockTick [
 { #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
-	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape multilineLabelBuilder |
-	"Basic settings for rounding the boxes"
-	radius := Float goldenRatio double.
-
-	multilineLabelBuilder := RSMultilineLabelBuilder new.
-
+	| descriptors extent classLabel nilLabel metaColor metaFontSize mineShape |
 	mineShape := RSComposite new
 		             model: anObject;
 		             propertyDfsDepth: level;
@@ -164,7 +184,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		               valueBox := RSBox new
 			                           model: value;
 			                           color: Color white;
-			                           cornerRadius: radius;
+			                           cornerRadius: self radiusOrPadding;
 			                           withBorder;
 			                           addInteraction:
 				                           RSHighlightable withLines;
@@ -180,31 +200,50 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			               yourself ].
 
 
-	self dfsClockTick.
+	^ self
+		  dfsClockTick;
+		  yourself: [ 
+			  mineShape propertyDfsTimings:
+					  mineShape propertyDfsEntryTime @ dfsClock ];
+		  createStronglyConnectedComponentIfNecessaryOnShape: mineShape;
+		  object: anObject
+		  descriptors: descriptors
+		  extent: self radiusOrPadding + extent x @ extent y
+		  shape: mineShape
+		  classLabel: classLabel
+]
 
-	mineShape propertyDfsTimings:
-		mineShape propertyDfsEntryTime @ dfsClock.
+{ #category : #accessing }
+CTObjectRefsVisit >> fromShapes: anObject [
 
-	mineShape propertyDfsEntryTime = mineShape propertyDfsLowlink 
-		ifTrue: [ 
-			| scc |
-			scc := sccs add: OrderedCollection new.
+	fromShapes := anObject
+]
 
-			[ 
-			sccShapeStack isNotNil and: [ 
-				sccShapeStack value propertyDfsEntryTime
-				>= mineShape propertyDfsEntryTime ] ] whileTrue: [ 
-				| shape |
-				shape := sccShapeStack value.
-				scc add: shape.
-				shape propertyDfsSCC: scc.
-				sccShapeStack := sccShapeStack nextLink.
-				sccShapeSet remove: shape ].
+{ #category : #initialization }
+CTObjectRefsVisit >> initialize [
 
-			self assert: mineShape propertyDfsSCC == scc ].
+	super initialize.
 
-	extent := radius + extent x @ extent y.
+	dfsClock := 0.
+	level := 1.
+	maxLevel := 0.
+	sccShapeStack := nil.
+	sccShapeSet := IdentitySet new.
+	sccs := OrderedCollection new.
 
+	multilineLabelBuilder := RSMultilineLabelBuilder new
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> maxLevel: anObject [
+
+	maxLevel := anObject
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent shape: mineShape classLabel: classLabel [
+
+	| shapes boxedCompositeShape compositeShape |
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
@@ -231,7 +270,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		          RSLocation new
 			          left;
 			          outer;
-			          offset: radius negated @ 0;
+			          offset: self radiusOrPadding negated @ 0;
 			          stick: varLabel on: valueShape.
 
 		          RSComposite new
@@ -254,7 +293,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	compositeShape := RSComposite new
 		                  shapes: shapes;
-		                  padding: radius;
+		                  padding: self radiusOrPadding;
 		                  yourself.
 
 	boxedCompositeShape := RSBox new
@@ -262,7 +301,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		                       extent:
 			                       (compositeShape extent max:
 					                        classLabel extent);
-		                       cornerRadius: radius;
+		                       cornerRadius: self radiusOrPadding;
 		                       withBorder;
 		                       yourself.
 
@@ -288,36 +327,18 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 				boxedCompositeShape };
 		left.
 
-	mineShape
-		shapes: { 
-				classLabel.
-				boxedCompositeShape };
-		padding: 2
+	^ mineShape
+		  shapes: { 
+				  classLabel.
+				  boxedCompositeShape };
+		  padding: 2;
+		  yourself
 ]
 
-{ #category : #accessing }
-CTObjectRefsVisit >> fromShapes: anObject [
+{ #category : #visiting }
+CTObjectRefsVisit >> radiusOrPadding [
 
-	fromShapes := anObject
-]
-
-{ #category : #initialization }
-CTObjectRefsVisit >> initialize [
-
-	super initialize.
-
-	dfsClock := 0.
-	level := 1.
-	maxLevel := 0.
-	sccShapeStack := nil.
-	sccShapeSet := IdentitySet new.
-	sccs := OrderedCollection new
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> maxLevel: anObject [
-
-	maxLevel := anObject
+	^ Float goldenRatio double
 ]
 
 { #category : #accessing }
