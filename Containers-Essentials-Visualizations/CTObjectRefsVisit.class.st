@@ -16,6 +16,40 @@ Class {
 }
 
 { #category : #visiting }
+CTObjectRefsVisit >> addDraggableInteractionOnShape: mineShape [
+
+	mineShape addInteraction: RSDraggable new
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> addHighlightInteractionOnShape: mineShape [
+
+	mineShape addInteraction:
+		(RSHighlightable withStronglyConnectedComponents: [ :shape | 
+			 shape propertyDfsSCC collect: [ :each | 
+				 each propertyDfsBoxedSlotsShape ] ])
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
+
+	mineShape addInteraction: (RSPopup new text: [ :each | 
+			 String streamContents: [ :aStream | 
+				 aStream
+					 nextPutAll: 'BFS level: ';
+					 nextPutAll: mineShape propertyDfsDepth asString;
+					 cr;
+					 nextPutAll: 'DFS timings: ';
+					 nextPutAll: mineShape propertyDfsTimings asString;
+					 cr;
+					 nextPutAll: 'SCC lowlink: ';
+					 nextPutAll: mineShape propertyDfsLowlink asString;
+					 cr;
+					 nextPutAll: 'SCC size: ';
+					 nextPutAll: mineShape propertyDfsSCC size asString ] ])
+]
+
+{ #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape dfsTimes multilineLabelBuilder |
@@ -26,36 +60,15 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	mineShape := RSComposite new
 		             model: anObject;
-		             addInteraction: RSDraggable new;
-		             propertyAt: #bfsLevel put: level;
-		             propertyAt: #dfsTimings put: dfsClock @ -1;
-		             propertyAt: #sccLowlink put: dfsClock;
-		             "addInteraction: (RSPopup new text: [ :each | 
-					              String streamContents: [ :aStream | 
-							              aStream
-								              nextPutAll: 'BFS level: ';
-								              nextPutAll:
-									              (mineShape propertyAt: #bfsLevel) asString;
-								              cr;
-								              nextPutAll: 'DFS timings: ';
-								              nextPutAll: dfsTimes asString;
-								              cr;
-								              nextPutAll: 'SCC lowlink: ';
-								              nextPutAll:
-									              (mineShape propertyAt: #sccLowlink) asString;
-								              cr;
-								              nextPutAll: 'SCC: ';
-								              nextPutAll: (mineShape
-										               propertyAt: #scc
-										               ifPresent: [ :scc | 
-											               scc collect: [ :e | e model ] ]) asString ] ]);"
-		             addInteraction:
-			             (RSHighlightable withStronglyConnectedComponents: [ 
-					              :shape | 
-					              (shape propertyAt: #scc ifAbsent: [ #(  ) ]) 
-						              collect: [ :each | 
-							              each propertyAt: #boxedSlotsShape ] ]);
+		             propertyDfsDepth: level;
+		             propertyDfsTimings: dfsClock @ -1;
+		             propertyDfsLowlink: dfsClock;
 		             yourself.
+
+	self
+		addDraggableInteractionOnShape: mineShape;
+		addPopupInteractionOnShape: mineShape;
+		addHighlightInteractionOnShape: mineShape.
 
 	toShapes at: anObject put: mineShape.
 
