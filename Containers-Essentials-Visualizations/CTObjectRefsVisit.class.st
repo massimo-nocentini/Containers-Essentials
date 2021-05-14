@@ -60,7 +60,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape multilineLabelBuilder |
 	"Basic settings for rounding the boxes"
-	radius := Float e.
+	radius := Float goldenRatio double.
 
 	multilineLabelBuilder := RSMultilineLabelBuilder new.
 
@@ -203,7 +203,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
 			self assert: mineShape propertyDfsSCC == scc ].
 
-	extent := radius double + extent x @ extent y.
+	extent := radius + extent x @ extent y.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
