@@ -7,6 +7,12 @@ RSObjectWithProperty >> propertyDfsBoxedSlotsShape [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBoxedSlotsShape: aShape [
+
+	^ self propertyAt: #boxedSlotsShape put: aShape
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsDepth [
 
 	^ self propertyAt: #bfsLevel
@@ -43,9 +49,21 @@ RSObjectWithProperty >> propertyDfsLowlink: anObject [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsLowlinkUpdate: aBlock [
+
+	^ self propertyDfsLowlink: (aBlock value: self propertyDfsLowlink)
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsSCC [
 
 	^ self propertyAt: #scc
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsSCC: aCollection [
+
+	^ self propertyAt: #scc put: aCollection
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

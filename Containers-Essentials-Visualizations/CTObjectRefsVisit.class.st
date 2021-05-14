@@ -50,9 +50,15 @@ CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
 ]
 
 { #category : #visiting }
+CTObjectRefsVisit >> dfsClockTick [
+
+	dfsClock := dfsClock + 1
+]
+
+{ #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 
-	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape dfsTimes multilineLabelBuilder |
+	| shapes radius descriptors compositeShape extent classLabel boxedCompositeShape nilLabel metaColor metaFontSize mineShape multilineLabelBuilder |
 	"Basic settings for rounding the boxes"
 	radius := Float e.
 
@@ -119,44 +125,35 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			                             ifFalse: [ 
 				                             (toShapes includesKey: value)
 					                             ifTrue: [ 
-						                             | shape shapeEntryTime mineEntryTime |
+						                             | shape shapeEntryTime |
 						                             shape := toShapes at: value.
-						                             mineEntryTime := (mineShape 
-							                                               propertyAt:
-							                                               #dfsTimings) x.
-						                             shapeEntryTime := (shape 
-							                                                propertyAt:
-							                                                #dfsTimings) x.
-						                             (shapeEntryTime < mineEntryTime 
+						                             shapeEntryTime := shape
+							                                               propertyDfsEntryTime.
+						                             (shapeEntryTime
+						                              < mineShape propertyDfsEntryTime 
 							                              and: [ 
 							                              sccShapeSet includes: shape ]) 
 							                             ifTrue: [ 
-								                             mineShape
-									                             propertyAt: #sccLowlink
-									                             put:
-									                             ((mineShape propertyAt:
-										                               #sccLowlink) min:
-										                              shapeEntryTime) ] ]
+								                             mineShape 
+									                             propertyDfsLowlinkUpdate: [ 
+									                             :lowlink | 
+									                             lowlink min: shapeEntryTime ] ] ]
 					                             ifFalse: [ 
-						                             | lowlink |
-						                             level := level + 1.
-						                             dfsClock := dfsClock + 1.
 						                             self
-							                             forObject: value
-							                             slotsMap:
-							                             value
-								                             instVarsNamesOrderedCollection.
-						                             level := level - 1.
+							                             dfsClockTick;
+							                             withFurtherLevelDo: [ 
+								                             self
+									                             forObject: value
+									                             slotsMap:
+										                             value
+											                             instVarsNamesOrderedCollection ].
 
-						                             lowlink := mineShape propertyAt:
-							                                        #sccLowlink.
-
-						                             mineShape
-							                             propertyAt: #sccLowlink
-							                             put:
-							                             (lowlink min:
-								                              ((toShapes at: value) 
-									                               propertyAt: #sccLowlink)) ].
+						                             mineShape 
+							                             propertyDfsLowlinkUpdate: [ 
+							                             :lowlink | 
+							                             lowlink min:
+								                             (toShapes at: value)
+									                             propertyDfsLowlink ] ].
 				                             nil ].
 
 		               varLabel := RSLabel new
@@ -183,29 +180,28 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 			               yourself ].
 
 
-	dfsClock := dfsClock + 1.
-	dfsTimes := mineShape propertyAt: #dfsTimings.
-	dfsTimes := mineShape
-		            propertyAt: #dfsTimings
-		            put: dfsTimes x @ dfsClock.
+	self dfsClockTick.
 
-	dfsTimes x = (mineShape propertyAt: #sccLowlink) ifTrue: [ 
-		| scc |
-		scc := OrderedCollection new.
+	mineShape propertyDfsTimings:
+		mineShape propertyDfsEntryTime @ dfsClock.
 
-		[ 
-		sccShapeStack isNotNil and: [ 
-			(sccShapeStack value propertyAt: #dfsTimings) x >= dfsTimes x ] ] 
-			whileTrue: [ 
+	mineShape propertyDfsEntryTime = mineShape propertyDfsLowlink 
+		ifTrue: [ 
+			| scc |
+			scc := sccs add: OrderedCollection new.
+
+			[ 
+			sccShapeStack isNotNil and: [ 
+				sccShapeStack value propertyDfsEntryTime
+				>= mineShape propertyDfsEntryTime ] ] whileTrue: [ 
 				| shape |
 				shape := sccShapeStack value.
 				scc add: shape.
-				shape propertyAt: #scc put: scc.
+				shape propertyDfsSCC: scc.
 				sccShapeStack := sccShapeStack nextLink.
 				sccShapeSet remove: shape ].
 
-		sccs add: scc.
-		mineShape propertyAt: #scc put: scc ].
+			self assert: mineShape propertyDfsSCC == scc ].
 
 	extent := radius double + extent x @ extent y.
 
@@ -270,7 +266,7 @@ CTObjectRefsVisit >> forObject: anObject slotsMap: selectors [
 		                       withBorder;
 		                       yourself.
 
-	mineShape propertyAt: #boxedSlotsShape put: boxedCompositeShape.
+	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
 
 	RSLocation new inner right
 		stick: compositeShape
@@ -354,4 +350,11 @@ CTObjectRefsVisit >> value [
 	^ self
 		  forObject: rootObject
 		  slotsMap: rootObject instVarsNamesOrderedCollection
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> withFurtherLevelDo: aBlock [
+
+	level := level + 1.
+	^ aBlock value yourself: [ level := level - 1 ]
 ]
