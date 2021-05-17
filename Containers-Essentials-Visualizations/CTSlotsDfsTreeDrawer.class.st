@@ -86,7 +86,12 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 		stronglyConnectedComponents: stronglyConnectedComponents;
 		value.
 
-	shapes := self addAll: toShapes values onCanvas: aCanvas.
+	shapes := self
+		          addAll:
+			          (toShapes values sorted: [ :aShape :anotherShape | 
+				           aShape propertyDfsEntryTime
+				           < anotherShape propertyDfsEntryTime ])
+		          onCanvas: aCanvas.
 
 	edges := self withDfsEdgesDo: [ 
 		         :treeTuples 
@@ -171,7 +176,7 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: shapes edges: edges [
 
-	RSHorizontalTreeLayout on: shapes edges: edges
+	RSHorizontalWalkBasedVanDerPloegTreeLayout on: shapes edges: edges
 ]
 
 { #category : #'as yet unclassified' }

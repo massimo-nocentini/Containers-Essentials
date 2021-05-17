@@ -135,7 +135,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 
 	self
 		addDraggableInteractionOnShape: mineShape;
-		addPopupInteractionOnShape: mineShape;
+		"addPopupInteractionOnShape: mineShape;"
 		addHighlightInteractionOnShape: mineShape.
 
 	toShapes at: anObject put: mineShape.
@@ -155,11 +155,13 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1).
 
 	classLabel := RSLabel new
-		              model: anObject class;
+		              text: anObject class asString;
 		              fontSize: metaFontSize;
 		              color: metaColor;
 		              italic;
+		              when: RSMouseLeftClick do: [ :ev | anObject browse ];
 		              yourself.
+
 
 	extent := nilLabel extent.
 
@@ -377,7 +379,9 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		                       borderDo: [ :aBorder | 
 			                       mineShape propertyIsArticulationObject 
 				                       ifTrue: [ 
-					                       aBorder color: Color blue translucent ] ];
+					                       aBorder
+						                       width: Float goldenRatio;
+						                       color: Color red translucent ] ];
 		                       yourself.
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.

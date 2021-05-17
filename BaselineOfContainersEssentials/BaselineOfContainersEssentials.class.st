@@ -12,7 +12,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 		spec
 			baseline: 'Roassal3' with: [ 
 				spec repository:
-						'github://massimo-nocentini/Roassal3:start-end-attach-point-controller/src' ];
+						'github://massimo-nocentini/Roassal3:tree-layout-VanDerPloeg/src' ];
 			baseline: 'Roassal3Exporters'
 			with: [ 
 				spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ].
