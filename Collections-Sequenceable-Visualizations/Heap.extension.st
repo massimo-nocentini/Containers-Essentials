@@ -45,7 +45,7 @@ Heap >> inspectorCanvasValuesTree [
 
 	edges := evenEdges , oddEdges.
 
-	RSHorizontalTreeLayout on: shapes edges: edges.
+	RSHorizontalWalkBasedVanDerPloegTreeLayout on: shapes edges: edges.
 
 	^ RSCanvas new
 		  addAll: shapes;
