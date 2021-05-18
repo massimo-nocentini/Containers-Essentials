@@ -86,12 +86,7 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 		stronglyConnectedComponents: stronglyConnectedComponents;
 		value.
 
-	shapes := self
-		          addAll:
-			          (toShapes values sorted: [ :aShape :anotherShape | 
-				           aShape propertyDfsEntryTime
-				           < anotherShape propertyDfsEntryTime ])
-		          onCanvas: aCanvas.
+	shapes := self addAll: toShapes values onCanvas: aCanvas.
 
 	edges := self withDfsEdgesDo: [ 
 		         :treeTuples 

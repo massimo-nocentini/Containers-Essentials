@@ -162,7 +162,6 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 		              when: RSMouseLeftClick do: [ :ev | anObject browse ];
 		              yourself.
 
-
 	extent := nilLabel extent.
 
 	descriptors := selectors withIndexCollect: [ :anAssociation :index | 
@@ -248,8 +247,12 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 				                             nil ].
 
 		               varLabel := RSLabel new
-			                           model: var;
+			                           text: var asString;
 			                           color: metaColor;
+			                           when: RSMouseClick do: [ :ev | 
+				                           anObject class
+					                           compiledMethodAt: var
+					                           ifPresent: [ :cm | cm browse ] ];
 			                           yourself.
 
 		               valueBox := RSBox new
@@ -381,7 +384,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 				                       ifTrue: [ 
 					                       aBorder
 						                       width: Float goldenRatio;
-						                       color: Color red translucent ] ];
+						                       color: Color brown translucent ] ];
 		                       yourself.
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
