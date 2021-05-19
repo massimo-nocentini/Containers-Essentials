@@ -171,7 +171,7 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: shapes edges: edges [
 
-	RSHorizontalWalkBasedVanDerPloegTreeLayout on: shapes edges: edges
+	RSHorizontalVanDerPloegTreeLayout on: shapes edges: edges
 ]
 
 { #category : #'as yet unclassified' }
