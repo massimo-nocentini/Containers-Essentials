@@ -4,7 +4,7 @@ Load with:
 
 ```smalltalk
 Metacello new
-    baseline: 'dsst';
-    repository: 'github://massimo-nocentini/dsst';
+    baseline: 'ContainersEssentials';
+    repository: 'github://massimo-nocentini/Containers-Essentials';
     load.
 ```
