@@ -30,7 +30,7 @@ Heap >> inspectorCanvasValuesTree [
 			          yourself ].
 
 	edgeBuilder := RSEdgeBuilder horizontalBezier
-		               withBorderAttachPoint;
+		               withHorizontalAttachPoint;
 		               shapes: shapes.
 
 	evenEdges := edgeBuilder connectTo: [ :each | 
