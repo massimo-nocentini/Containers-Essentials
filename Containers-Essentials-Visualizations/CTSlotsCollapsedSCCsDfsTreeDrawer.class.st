@@ -50,7 +50,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerHorizontal [
 	^ RSStartEndCPAPController new
 		  controller: RSHorizontalCPAPController new;
 		  startAttachPoint: RSHorizontalAttachPoint new;
-		  endAttachPoint: RSHorizontalEndBorderAttachPoint new;
+		  endAttachPoint: RSHorizontalAttachPoint new;
 		  yourself
 ]
 
@@ -64,6 +64,14 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineB
 		          r propertyFromShape ~= r propertyToShape ].
 
 	^ super crossTuples: tuples lineBuilder: lineBuilder"
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsCollapsedSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+
+	^ lineBuilder
+		  edgeFrom: aTuple propertyFromShape
+		  to: aTuple propertyToShape
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,7 +123,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBui
 		          thenSelect: [ :r | 
 		          r propertyFromShape ~= r propertyToShape ].
 
-	"edges := super layoutTuples: tuples lineBuilder: lineBuilder."
+	^ super treeTuples: tuples lineBuilder: lineBuilder
 
 	"shapes := (tuples flatCollect: [ :t | { t propertyFromShape . t propertyToShape  } ]) asIdentitySet .
 		
