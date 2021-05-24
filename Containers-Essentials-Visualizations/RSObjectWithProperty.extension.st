@@ -43,6 +43,14 @@ RSObjectWithProperty >> propertyDfsEntryTime [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsIsOnObjectStack [
+
+	^ (self propertyAt: #dfsObjectStack ifAbsent: [ nil ])
+		  ifNil: [ false ]
+		  ifNotNil: [ true ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsLeaveTime [
 
 	^ (self propertyAt: #dfsTimings) y
@@ -64,6 +72,12 @@ RSObjectWithProperty >> propertyDfsLowlink: anObject [
 RSObjectWithProperty >> propertyDfsLowlinkUpdate: aBlock [
 
 	^ self propertyDfsLowlink: (aBlock value: self propertyDfsLowlink)
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsObjectStack: aStack [
+
+	^ self propertyAt: #dfsObjectStack put: aStack
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

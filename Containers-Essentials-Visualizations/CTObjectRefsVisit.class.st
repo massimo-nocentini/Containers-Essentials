@@ -8,7 +8,6 @@ Class {
 		'maxLevel',
 		'dfsClock',
 		'sccShapeStack',
-		'sccShapeSet',
 		'sccs',
 		'rootObject',
 		'multilineLabelBuilder',
@@ -95,6 +94,10 @@ CTObjectRefsVisit >> createBiconnectedComponentIfNecessaryOnShape: childShape ch
 { #category : #visiting }
 CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: mineShape [
 
+	self
+		assert: mineShape propertyDfsEntryTime isNotNil;
+		assert: mineShape propertyDfsLowlink isNotNil.
+
 	^ mineShape propertyDfsEntryTime = mineShape propertyDfsLowlink 
 		  ifTrue: [ 
 			  | scc |
@@ -107,9 +110,10 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: mineSha
 				  | shape |
 				  shape := sccShapeStack value.
 				  scc add: shape.
-				  shape propertyDfsSCC: scc.
 				  sccShapeStack := sccShapeStack nextLink.
-				  sccShapeSet remove: shape ].
+				  shape
+					  propertyDfsSCC: scc;
+					  propertyDfsObjectStack: nil ].
 
 			  self
 				  assert: mineShape propertyDfsSCC == scc;
@@ -145,7 +149,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 		                 nextLink: sccShapeStack;
 		                 yourself.
 
-	sccShapeSet add: mineShape.
+	mineShape propertyDfsObjectStack: sccShapeStack.
 
 	nilLabel := RSLabel new
 		            model: nil;
@@ -195,7 +199,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 						                             shapeEntryTime
 						                             < mineShape propertyDfsEntryTime 
 							                             ifTrue: [ 
-								                             (sccShapeSet includes: shape) 
+								                             shape propertyDfsIsOnObjectStack 
 									                             ifTrue: [ 
 										                             mineShape 
 											                             propertyDfsLowlinkUpdate: [ 
@@ -211,10 +215,10 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 											                                             sccEdgeStack;
 										                                             yourself.
 
-									                             mineShape 
+									                             "mineShape 
 										                             propertyDfsLowlinkUpdate: [ 
 										                             :lowlink | 
-										                             lowlink min: shapeEntryTime ] ] ] ]
+										                             lowlink min: shapeEntryTime ]" ] ] ]
 					                             ifAbsent: [ 
 						                             sccEdgeStack := ValueLink new
 							                                             value:
@@ -279,8 +283,9 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 	mineShape propertyDfsTimings:
 		mineShape propertyDfsEntryTime @ dfsClock.
 
+	self createStronglyConnectedComponentIfNecessaryOnShape: mineShape.
+
 	^ self
-		  createStronglyConnectedComponentIfNecessaryOnShape: mineShape;
 		  object: anObject
 		  descriptors: descriptors
 		  extent: self radiusOrPadding + extent x @ extent y
@@ -304,7 +309,6 @@ CTObjectRefsVisit >> initialize [
 	maxLevel := 0.
 	sccShapeStack := nil.
 	sccEdgeStack := nil.
-	sccShapeSet := IdentitySet new.
 	sccs := OrderedCollection new.
 	bccs := OrderedCollection new.
 

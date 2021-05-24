@@ -103,6 +103,7 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 	self layoutOn: shapes edges: edges.
 
 	^ aCanvas
+		  zoomToFit;
 		  exportToSVG;
 		  yourself
 ]
