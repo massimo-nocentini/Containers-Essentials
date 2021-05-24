@@ -10,9 +10,7 @@ Class {
 { #category : #adding }
 CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
-	| scale max lowerBound |
-	shapeBySCC := IdentityDictionary new.
-
+	| scale max lowerBound sccsShapes |
 	lowerBound := 1.
 	max := stronglyConnectedComponents
 		       inject: lowerBound
@@ -135,10 +133,9 @@ CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 	tuplesOfSCCs := IdentityDictionary new.
 
 	tuples := treeTuples flatCollect: [ :aTuple | 
-		          | boxShape boxParentShape toShape toSCCShape fromSCCShape |
+		          | boxShape boxParentShape toSCCShape fromSCCShape |
 		          boxShape := aTuple propertyFromSlotShape.
 		          boxParentShape := aTuple propertyFromShape.
-		          toShape := toShapes at: boxShape model.
 		          toSCCShape := shapeBySCC at:
 			                        aTuple propertyToShape propertyDfsSCC.
 		          fromSCCShape := shapeBySCC at:

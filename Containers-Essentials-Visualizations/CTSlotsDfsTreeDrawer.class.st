@@ -5,8 +5,7 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'stronglyConnectedComponents',
-		'shapeBySCC',
-		'sccsShapes'
+		'shapeBySCC'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -86,6 +85,7 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 		stronglyConnectedComponents: stronglyConnectedComponents;
 		value.
 
+	shapeBySCC := IdentityDictionary new.
 	shapes := self addAll: toShapes values onCanvas: aCanvas.
 
 	edges := self withDfsEdgesDo: [ 

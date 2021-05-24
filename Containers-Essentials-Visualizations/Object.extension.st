@@ -1,6 +1,16 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> drawCollapsedSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
+
+	^ CTSlotsCollapsedSCCsDfsTreeDrawer new
+		  visit: (CTObjectRefsVisit new
+				   rootObject: self;
+				   yourself);
+		  drawOnCanvas: aCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
 
 	^ CTSlotsSCCsDfsTreeDrawer new
@@ -42,6 +52,27 @@ Object >> inspectorCanvasSlotsGraph [
 	^ canvas
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
+
+	<inspectorPresentationOrder: 60 title:
+	'Collapsed SCCs of Slots graph'>
+	| canvas |
+	canvas := self
+		          drawCollapsedSCCsOfSlotsGraphOnCanvas: RSCanvas new
+		          referencesBlock: [ :anObj | 
+		          anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> inspectorCanvasSlotsGraphCollapsedSCCsContext: aContext [
+
+	aContext withoutEvaluator
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
