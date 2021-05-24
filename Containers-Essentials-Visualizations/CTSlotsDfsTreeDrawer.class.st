@@ -1,7 +1,8 @@
 Class {
 	#name : #CTSlotsDfsTreeDrawer,
-	#superclass : #CTSlotsDrawer,
+	#superclass : #Object,
 	#instVars : [
+		'visit',
 		'fromShapes',
 		'toShapes',
 		'stronglyConnectedComponents',
@@ -203,6 +204,12 @@ CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
+]
+
+{ #category : #accessing }
+CTSlotsDfsTreeDrawer >> visit: anObject [
+
+	visit := anObject
 ]
 
 { #category : #'as yet unclassified' }

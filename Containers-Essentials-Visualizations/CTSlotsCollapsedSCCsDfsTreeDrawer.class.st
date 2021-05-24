@@ -12,15 +12,17 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 		              | radius |
 		              radius := (aSCC size / Float pi) sqrt
 		                        * Float goldenRatio double.
-		              RSBox new
+		              RSCircle new
 			              model: aSCC;
-			              "radius: radius;
+			              radius: radius;
 			              "height: aSCC size;
 			              width: (aSCC
 					               inject: 1
 					               into: [ :acc :each | 
-						               acc + each propertyIsArticulationObject asInteger ]);
+						               acc + each propertyIsArticulationObject asInteger ]);"
 			              color: Color white;
+			              addInteraction:
+				              (RSPopup new text: [ :aModel | aModel size ]);
 			              withBorder;
 			              addInteraction: RSDraggable new;
 			              yourself: [ :aCircle | 
@@ -65,7 +67,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineB
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> fixEndShapeOfTuple: aTuple [
+CTSlotsCollapsedSCCsDfsTreeDrawer >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
 	
@@ -97,7 +99,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineB
 
 	| tuples |
 	tuples := treeTuples
-		          collect: [ :aTuple | self fixEndShapeOfTuple: aTuple ]
+		          collect: [ :aTuple | self fixFromToShapesOfTuple: aTuple ]
 		          thenSelect: [ :r | 
 		          r propertyFromShape ~= r propertyToShape ].
 
@@ -109,7 +111,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBui
 
 	| tuples edges shapes |
 	tuples := treeTuples
-		          collect: [ :aTuple | self fixEndShapeOfTuple: aTuple ]
+		          collect: [ :aTuple | self fixFromToShapesOfTuple: aTuple ]
 		          thenSelect: [ :r | 
 		          r propertyFromShape ~= r propertyToShape ].
 
