@@ -129,7 +129,6 @@ CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: edges [
 CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples tuplesOfSCCs |
-	edgessOfSCCs := IdentityDictionary new.
 	tuplesOfSCCs := IdentityDictionary new.
 
 	tuples := treeTuples flatCollect: [ :aTuple | 
@@ -156,13 +155,19 @@ CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 					           at: 4 put: toSCCShape;
 					           yourself) } ] ].
 
-	stronglyConnectedComponents do: [ :each | 
-		| edges |
-		edges := super
-			         layoutTuples:
-			         (tuplesOfSCCs at: each ifAbsent: [ OrderedCollection new ])
-			         lineBuilder: lineBuilder.
-		edgessOfSCCs at: each put: edges ].
+	edgessOfSCCs := stronglyConnectedComponents
+		                inject: IdentityDictionary new
+		                into: [ :aDictionary :each | 
+			                | edges sccTuples |
+			                sccTuples := tuplesOfSCCs
+				                             at: each
+				                             ifAbsent: [ OrderedCollection new ].
+			                edges := super
+				                         layoutTuples: sccTuples
+				                         lineBuilder: lineBuilder.
+			                aDictionary
+				                at: each put: edges;
+				                yourself ].
 
 	^ super layoutTuples: tuples lineBuilder: lineBuilder
 ]

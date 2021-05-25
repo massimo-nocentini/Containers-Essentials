@@ -9,15 +9,14 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 
 	| sccsShapes |
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
-		              RSCircle new
+		              RSBox new
 			              model: (aSCC collect: [ :aShape | aShape model ]);
-			              radius:
-				              (aSCC size / Float pi) sqrt
-				              * Float goldenRatio double;
+			              size: aSCC size sqrt * Float goldenRatio double;
 			              color: Color white;
 			              addInteraction:
 				              (RSPopup new text: [ :aModel | aModel size ]);
 			              withBorder;
+			              cornerRadius: Float goldenRatio double;
 			              addInteraction: RSDraggable new;
 			              yourself: [ :aCircle | 
 				              shapeBySCC at: aSCC put: aCircle ] ].
