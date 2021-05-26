@@ -6,16 +6,19 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'stronglyConnectedComponents',
-		'shapeBySCC'
+		'shapeBySCC',
+		'shapes',
+		'edges'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #adding }
-CTSlotsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
+CTSlotsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 
-	aCanvas addAll: shapes.
-	^ shapes
+	aCanvas addAll: aCollection.
+	
+	^ aCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -69,7 +72,7 @@ CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
-	| metaColor lineBuilder shapes edges |
+	| metaColor lineBuilder |
 	metaColor := Color gray lighter lighter lighter.
 	lineBuilder := RSLineBuilder bezier
 		               canvas: aCanvas;
@@ -171,9 +174,11 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> layoutOn: shapes edges: edges [
+CTSlotsDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	RSHorizontalVanDerPloegTreeLayout on: shapes edges: edges
+	RSHorizontalVanDerPloegTreeLayout
+		on: aCollectionOfShapes
+		edges: aCollectionOfLines
 ]
 
 { #category : #'as yet unclassified' }

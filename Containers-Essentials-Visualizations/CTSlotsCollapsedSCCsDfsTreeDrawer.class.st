@@ -1,25 +1,102 @@
 Class {
 	#name : #CTSlotsCollapsedSCCsDfsTreeDrawer,
 	#superclass : #CTSlotsDfsTreeDrawer,
+	#instVars : [
+		'associations',
+		'outgoingEdges',
+		'treeTuples',
+		'treeEdgeBuilder',
+		'layoutLineBuilder'
+	],
 	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #adding }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
+CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 
 	| sccsShapes |
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
 		              RSBox new
-			              model: (aSCC collect: [ :aShape | aShape model ]);
 			              size: aSCC size sqrt * Float goldenRatio double;
 			              color: Color white;
 			              addInteraction:
-				              (RSPopup new text: [ :aModel | aModel size ]);
+				              (RSPopup new text: [ :aModel | aSCC size ]);
 			              withBorder;
 			              cornerRadius: Float goldenRatio double;
 			              addInteraction: RSDraggable new;
+			              when: RSMouseDoubleLeftClick do: [ :ev | 
+				              | composite boxShape innerTreeTuples innerTreeEdges layoutEdges |
+				              boxShape := ev shape.
+
+				              composite := RSComposite new
+					                           shapes: aSCC;
+					                           yourself.
+
+				              boxShape canvas add: composite.
+
+				              innerTreeTuples := treeTuples select: [ :aTuple | 
+					                                 aTuple propertyFromShape
+						                                 propertyDfsSCC == aSCC ].
+
+				              innerTreeEdges := innerTreeTuples collect: [ :aTuple | 
+					                                | tup |
+					                                tup := aTuple propertyFromShape
+						                                       propertyDfsSCC
+					                                       ==
+					                                       aTuple propertyToShape
+						                                       propertyDfsSCC
+						                                       ifTrue: [ aTuple ]
+						                                       ifFalse: [ 
+							                                       aTuple copy
+								                                       at: 4
+								                                       put:
+									                                       (shapeBySCC at:
+											                                        aTuple
+												                                        propertyToShape
+												                                        propertyDfsSCC);
+								                                       yourself ].
+					                                (super
+						                                 edgeForTuple: tup
+						                                 lineBuilder: treeEdgeBuilder)
+						                                pushFront;
+						                                yourself ].
+
+				              layoutEdges := super
+					                             layoutTuples:
+						                             (innerTreeTuples flatCollect: [ 
+							                              :each | 
+							                              each propertyFromShape
+								                              propertyDfsSCC
+							                              ==
+							                              each propertyToShape
+								                              propertyDfsSCC
+								                              ifTrue: [ { each } ]
+								                              ifFalse: [ #(  ) ] ])
+					                             lineBuilder: layoutLineBuilder.
+
+				              self layoutOn: aSCC edges: layoutEdges.
+
+				              composite
+					              adjustToChildren;
+					              padding: Float goldenRatio double.
+
+				              boxShape extent: composite extent.
+
+				              self layoutOn: shapes edges: edges.
+
+				              composite position: boxShape position.
+				              RSLocation new center stick: composite on: boxShape.
+
+				              (outgoingEdges select: [ :each | 
+					               each from == boxShape ]) do: [ :each | 
+					              boxShape canvas removeShape: each ].
+
+				              boxShape canvas
+					              add: composite;
+					              signalUpdate;
+					              zoomToFit ];
 			              yourself: [ :aCircle | 
-				              shapeBySCC at: aSCC put: aCircle ] ].
+			              shapeBySCC at: aSCC put: aCircle ] ].
 
 	^ super addAll: sccsShapes onCanvas: aCanvas
 ]
@@ -58,9 +135,21 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerHorizontal [
 { #category : #'as yet unclassified' }
 CTSlotsCollapsedSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	^ super
-		  crossTuples: (self liftTuples: crossTuples)
-		  lineBuilder: lineBuilder
+	| tuples crossEdges |
+	tuples := (self liftTuples: crossTuples) reject: [ :aTuple | 
+		          associations includes:
+			          aTuple propertyFromShape -> aTuple propertyToShape ].
+
+	tuples do: [ :aTuple | 
+		associations add: aTuple propertyFromShape -> aTuple propertyToShape ].
+
+	crossEdges := super crossTuples: tuples lineBuilder: lineBuilder.
+
+	outgoingEdges addAll: crossEdges.
+
+	^ crossEdges
+		  do: [ :anEdge | associations add: anEdge from -> anEdge to ];
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -94,11 +183,20 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: l
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+{ #category : #initialization }
+CTSlotsCollapsedSCCsDfsTreeDrawer >> initialize [
 
+	super initialize.
+
+	associations := Set new
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: aCollection lineBuilder: lineBuilder [
+
+	layoutLineBuilder := lineBuilder.
 	^ super
-		  layoutTuples: (self liftTuples: treeTuples)
+		  layoutTuples: (self liftTuples: aCollection)
 		  lineBuilder: lineBuilder
 ]
 
@@ -111,9 +209,16 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> liftTuples: tuples [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
+CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: aCollection lineBuilder: lineBuilder [
 
-	^ super
-		  treeTuples: (self liftTuples: treeTuples)
-		  lineBuilder: lineBuilder
+	treeTuples := aCollection.
+	treeEdgeBuilder := lineBuilder.
+
+	outgoingEdges := super
+		                 treeTuples: (self liftTuples: treeTuples)
+		                 lineBuilder: lineBuilder.
+
+	^ outgoingEdges
+		  do: [ :anEdge | associations add: anEdge from -> anEdge to ];
+		  yourself
 ]

@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #adding }
-CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
+CTSlotsSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 
 	| scale max lowerBound sccsShapes |
 	lowerBound := 1.
@@ -24,7 +24,7 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
 		              RSComposite new
 			              model: aSCC;
 			              shapes: aSCC;
-			              padding: 2;
+			              padding: Float goldenRatio double;
 			              borderDo: [ :aBorder | 
 				              aBorder
 					              joinRound;

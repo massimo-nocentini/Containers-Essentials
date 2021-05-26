@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #adding }
-CTSlotsTopologicallySortedDfsTreeDrawer >> addAll: shapes onCanvas: aCanvas [
+CTSlotsTopologicallySortedDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 
 	| sortedShapes |
-	sortedShapes := shapes sorted: [ :aShape :anotherShape | 
+	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
 		                aShape propertyDfsLeaveTime
 		                > anotherShape propertyDfsLeaveTime ].
 
