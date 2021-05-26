@@ -91,6 +91,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 					               each from == boxShape ]) do: [ :each | 
 					              boxShape canvas removeShape: each ].
 
+
 				              boxShape canvas
 					              add: composite;
 					              signalUpdate;
