@@ -24,8 +24,5 @@ RandomExponential >> lambda: anObject [
 { #category : #accessing }
 RandomExponential >> next [
 
-	| prob |
-	prob := super next min: 1 - Float epsilon.
-
-	^ (1 - prob) reciprocal ln / lambda
+	^ (1 - super next) ln negated / lambda
 ]

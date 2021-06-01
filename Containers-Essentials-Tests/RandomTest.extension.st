@@ -9,7 +9,8 @@ RandomTest >> exampleExponentiallyDistribute [
 	plt := RSChart new.
 	p := RSLinePlot new
 		     x: x
-		     y: (x collect: [ :v | 3 densityExponentialOf: v ]).
+		     y: (x collect: [ :v | 1 densityExponentialOf: v ]).
+
 	plt
 		addPlot: p;
 		addDecoration: RSHorizontalTick new;
@@ -28,6 +29,7 @@ RandomTest >> exampleRandomExponential [
 	p := RSScatterPlot new
 		     x: x
 		     y: (x collect: [ :v | expRV next ]) sorted.
+
 	plt
 		addPlot: p;
 		addDecoration: RSHorizontalTick new;
