@@ -13,6 +13,24 @@ RSObjectWithProperty >> propertyDfsBCC: aCollection [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBilink [
+
+	^ self propertyAt: #sccBilink
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBilink: anObject [
+
+	^ self propertyAt: #sccBilink put: anObject
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSObjectWithProperty >> propertyDfsBilinkUpdate: aBlock [
+
+	^ self propertyDfsBilink: (aBlock value: self propertyDfsBilink)
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsBoxedSlotsShape [
 
 	^ self propertyAt: #boxedSlotsShape

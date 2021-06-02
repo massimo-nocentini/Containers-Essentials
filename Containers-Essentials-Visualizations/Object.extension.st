@@ -26,6 +26,7 @@ Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: _ [
 	^ CTSlotsDfsTreeDrawer new
 		  visit: (CTObjectRefsVisit new
 				   rootObject: self;
+				   maxLevel: 7;
 				   yourself);
 		  drawOnCanvas: aCanvas
 ]
