@@ -15,7 +15,8 @@ Class {
 		'bccs',
 		'metaColor',
 		'metaFontSize',
-		'metaExtent'
+		'metaExtent',
+		'slotsBlock'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -130,7 +131,7 @@ CTObjectRefsVisit >> dfsClockTick [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selectors [
+CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent [
 
 	| descriptors classLabel extent mineShape |
 	mineShape := RSComposite new
@@ -160,7 +161,9 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 
 	extent := metaExtent.
 
-	descriptors := selectors withIndexCollect: [ :anAssociation :index | 
+	descriptors := (slotsBlock value: anObject) withIndexCollect: [ 
+		               :anAssociation 
+		               :index | 
 		               | value valueLabel varLabel valueBox var accessor |
 		               anAssociation isSymbol
 			               ifTrue: [ 
@@ -220,10 +223,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent slotsMap: selec
 								                             childShape := self
 									                                           forObject: value
 									                                           ithChild: index
-									                                           of: anObject
-									                                           slotsMap:
-										                                           value
-											                                           instVarsNamesOrderedCollection.
+									                                           of: anObject.
 
 								                             mineShape 
 									                             propertyDfsLowlinkUpdate: [ 
@@ -462,6 +462,12 @@ CTObjectRefsVisit >> rootObject: anObject [
 ]
 
 { #category : #accessing }
+CTObjectRefsVisit >> slotsBlock: aBlock [
+
+	slotsBlock := aBlock
+]
+
+{ #category : #accessing }
 CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
@@ -477,11 +483,7 @@ CTObjectRefsVisit >> toShapes: anObject [
 CTObjectRefsVisit >> value [
 
 	| aShape |
-	aShape := self
-		          forObject: rootObject
-		          ithChild: -1
-		          of: nil
-		          slotsMap: rootObject instVarsNamesOrderedCollection.
+	aShape := self forObject: rootObject ithChild: 0 of: nil.
 
 	^ self
 		  assert: sccShapeStack isNil;

@@ -1,42 +1,45 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> drawCollapsedSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
+Object >> drawCollapsedSCCsOfSlotsGraphOnCanvas: aCanvas slotsBlock: aBlock [
 
 	^ CTSlotsCollapsedSCCsDfsTreeDrawer new
 		  visit: (CTObjectRefsVisit new
 				   rootObject: self;
+				   slotsBlock: aBlock;
 				   yourself);
 		  drawOnCanvas: aCanvas
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
+Object >> drawSCCsOfSlotsGraphOnCanvas: aCanvas slotsBlock: aBlock [
 
 	^ CTSlotsSCCsDfsTreeDrawer new
 		  visit: (CTObjectRefsVisit new
 				   rootObject: self;
+				   slotsBlock: aBlock;
 				   yourself);
 		  drawOnCanvas: aCanvas
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> drawSlotsGraphOnCanvas: aCanvas referencesBlock: _ [
+Object >> drawSlotsGraphOnCanvas: aCanvas slotsBlock: aBlock [
 
 	^ CTSlotsDfsTreeDrawer new
 		  visit: (CTObjectRefsVisit new
 				   rootObject: self;
-				   maxLevel: 7;
+				   slotsBlock: aBlock;
 				   yourself);
 		  drawOnCanvas: aCanvas
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> drawTopologicallySortedSlotsGraphOnCanvas: aCanvas referencesBlock: aBlock [
+Object >> drawTopologicallySortedSlotsGraphOnCanvas: aCanvas slotsBlock: aBlock [
 
 	^ CTSlotsTopologicallySortedDfsTreeDrawer new
 		  visit: (CTObjectRefsVisit new
 				   rootObject: self;
+				   slotsBlock: aBlock;
 				   yourself);
 		  drawOnCanvas: aCanvas
 ]
@@ -48,7 +51,7 @@ Object >> inspectorCanvasSlotsGraph [
 	| canvas |
 	canvas := self
 		          drawSlotsGraphOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | 
+		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
 		  addInteraction: RSCanvasController new;
@@ -63,7 +66,7 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 	| canvas |
 	canvas := self
 		          drawCollapsedSCCsOfSlotsGraphOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | 
+		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
 		  addInteraction: RSCanvasController new;
@@ -89,7 +92,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 	| canvas |
 	canvas := self
 		          drawSCCsOfSlotsGraphOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | 
+		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
 		  addInteraction: RSCanvasController new;
@@ -109,7 +112,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 	| canvas |
 	canvas := self
 		          drawTopologicallySortedSlotsGraphOnCanvas: RSCanvas new
-		          referencesBlock: [ :anObj | anObj instVarsNamesOrderedCollection ].
+		          slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ].
 	^ canvas
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
