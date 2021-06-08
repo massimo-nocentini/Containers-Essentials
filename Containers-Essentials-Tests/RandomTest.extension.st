@@ -23,12 +23,13 @@ RandomTest >> exampleRandomExponential [
 
 	<script: 'RandomTest new setUp; exampleRandomExponential'>
 	| x plt p expRV |
-	x := 0 to: 100 count: 1000.
 	expRV := RandomExponential seed: 11.
+	x := ((0 to: 100 count: 1000) collect: [ :v | expRV next ]) sorted.
+	
 	plt := RSChart new.
 	p := RSScatterPlot new
 		     x: x
-		     y: (x collect: [ :v | expRV next ]) sorted.
+		     y: (x collect: [ :v | 1 densityExponentialOf: v ]) .
 
 	plt
 		addPlot: p;
