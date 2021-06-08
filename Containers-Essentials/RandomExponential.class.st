@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'lambda'
 	],
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Random'
 }
 
 { #category : #initialization }
