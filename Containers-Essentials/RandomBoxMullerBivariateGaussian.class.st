@@ -4,7 +4,7 @@ Box–Muller transform, see https://en.wikipedia.org/wiki/Box%E2%80%93Muller_tra
 Class {
 	#name : #RandomBoxMullerBivariateGaussian,
 	#superclass : #Random,
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Random'
 }
 
 { #category : #accessing }

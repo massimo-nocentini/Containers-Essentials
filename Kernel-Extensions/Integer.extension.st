@@ -46,11 +46,6 @@ Integer >> choose: k [
 ]
 
 { #category : #'*Kernel-Extensions' }
-Integer >> decrease [
-	^  self - 1
-]
-
-{ #category : #'*Kernel-Extensions' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
@@ -72,49 +67,4 @@ Integer >> ifZero: zBlock ifNotZero: nzBlock [
 	^ self = 0
 		ifTrue: [ zBlock cull: self ]
 		ifFalse: [ nzBlock cull: self ]
-]
-
-{ #category : #'*Kernel-Extensions' }
-Integer >> increase [
-	^ 1 + self
-]
-
-{ #category : #'*Kernel-Extensions' }
-Integer >> skewBinaryCanonicalDenseRepresentation [
-	^ self isZero
-		  ifTrue: [ 0 ~~> nil ]
-		  ifFalse: [ 
-		  (self skewBinaryCanonicalDenseRepresentationWeight: 1) second ]
-]
-
-{ #category : #'*Kernel-Extensions' }
-Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
-	^ self < w
-		  ifTrue: [ Array with: self with: nil ]
-		  ifFalse: [ 
-			  | rest tuple wDoubled recursiveRepresentation |
-			  wDoubled := w * 2.
-			  tuple := self skewBinaryCanonicalDenseRepresentationWeight:
-				           wDoubled + 1.
-			  rest := tuple first.
-			  recursiveRepresentation := tuple second.
-			  wDoubled = rest
-				  ifTrue: [ Array with: 0 with: 2 ~~> recursiveRepresentation ]
-				  ifFalse: [ 
-					  w <= rest
-						  ifTrue: [ 
-						  Array with: rest - w with: 1 ~~> recursiveRepresentation ]
-						  ifFalse: [ 
-						  Array with: rest with: 0 ~~> recursiveRepresentation ] ] ]
-]
-
-{ #category : #'*Kernel-Extensions' }
-Integer >> skewBinaryCanonicalSparseRepresentation [
-	^ self isZero
-		  ifTrue: [ '•' ~~> nil ]
-		  ifFalse: [ 
-			  | skew |
-			  skew := SkewBinaryCanonicalNumber new.
-			  self timesRepeat: [ skew := skew increment ].
-			  skew representation ]
 ]
