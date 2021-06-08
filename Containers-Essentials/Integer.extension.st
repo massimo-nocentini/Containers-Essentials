@@ -42,3 +42,14 @@ Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
 						  ifFalse: [ 
 						  Array with: rest with: 0 ~~> recursiveRepresentation ] ] ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> skewBinaryCanonicalSparseRepresentation [
+	^ self isZero
+		  ifTrue: [ '•' ~~> nil ]
+		  ifFalse: [ 
+			  | skew |
+			  skew := SkewBinaryCanonicalNumber new.
+			  self timesRepeat: [ skew := skew increment ].
+			  skew representation ]
+]

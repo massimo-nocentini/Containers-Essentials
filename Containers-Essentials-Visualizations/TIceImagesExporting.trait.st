@@ -1,6 +1,6 @@
 Trait {
 	#name : #TIceImagesExporting,
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #utilities }
