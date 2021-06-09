@@ -3,7 +3,7 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
-	<inspectorPresentationOrder: 30 title: 'Slots graph'>
+	<inspectorPresentationOrder: 100 title: 'Slots graph'>
 	| canvas |
 	canvas := self
 		          treeDrawer: CTSlotsDfsTreeDrawer new
@@ -18,7 +18,7 @@ Object >> inspectorCanvasSlotsGraph [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 
-	<inspectorPresentationOrder: 60 title:
+	<inspectorPresentationOrder: 130 title:
 	'Collapsed SCCs of Slots graph'>
 	| canvas |
 	canvas := self
@@ -46,7 +46,7 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphSCCs [
 
-	<inspectorPresentationOrder: 50 title: 'SCCs of Slots graph'>
+	<inspectorPresentationOrder: 120 title: 'SCCs of Slots graph'>
 	| canvas |
 	canvas := self
 		          treeDrawer: CTSlotsSCCsDfsTreeDrawer new
@@ -67,7 +67,7 @@ Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 
-	<inspectorPresentationOrder: 40 title:
+	<inspectorPresentationOrder: 110 title:
 	'Slots graph, topologically sorted.'>
 	| canvas |
 	canvas := self
