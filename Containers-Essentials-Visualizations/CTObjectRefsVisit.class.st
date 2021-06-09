@@ -62,6 +62,18 @@ CTObjectRefsVisit >> biConnectedComponents: aCollection [
 ]
 
 { #category : #visiting }
+CTObjectRefsVisit >> classLabelShapeOf: anObject [
+
+	^ RSLabel new
+		  text: anObject class asString;
+		  fontSize: metaFontSize;
+		  color: metaColor;
+		  italic;
+		  when: RSMouseLeftClick do: [ :ev | anObject browse ];
+		  yourself
+]
+
+{ #category : #visiting }
 CTObjectRefsVisit >> createBiconnectedComponentIfNecessaryOnShape: childShape childOf: mineShape [
 
 	^ mineShape propertyDfsEntryTime <= childShape propertyDfsBilink 
@@ -134,141 +146,115 @@ CTObjectRefsVisit >> dfsClockTick [
 CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent [
 
 	| descriptors classLabel extent mineShape |
-	mineShape := RSComposite new
-		             model: anObject;
-		             propertyDfsDepth: level;
-		             propertyDfsTimings: dfsClock @ -1;
-		             propertyDfsLowlink: dfsClock;
-		             propertyDfsBilink: dfsClock;
-		             yourself.
+	mineShape := self shapeOf: anObject.
 
-	self
-		addDraggableInteractionOnShape: mineShape;
-		"addPopupInteractionOnShape: mineShape;"
-		addHighlightInteractionOnShape: mineShape.
+	self visitingShape: mineShape of: anObject.
 
-	toShapes at: anObject put: mineShape.
-
-	self pushShape: mineShape.
-
-	classLabel := RSLabel new
-		              text: anObject class asString;
-		              fontSize: metaFontSize;
-		              color: metaColor;
-		              italic;
-		              when: RSMouseLeftClick do: [ :ev | anObject browse ];
-		              yourself.
+	classLabel := self classLabelShapeOf: anObject.
 
 	extent := metaExtent.
 
-	descriptors := (slotsBlock value: anObject) withIndexCollect: [ 
-		               :anAssociation 
-		               :index | 
-		               | value valueLabel varLabel valueBox var accessor |
-		               anAssociation isSymbol
-			               ifTrue: [ 
-				               var := anAssociation.
-				               accessor := [ :anObj | 
-				                           anObj perform: anAssociation ] ]
-			               ifFalse: [ 
-				               var := anAssociation key.
-				               accessor := anAssociation value ].
+	descriptors := self
+		               slotsOf: anObject
+		               withIndexCollect: [ :var :accessor :index | 
+			               | value valueLabel varLabel valueBox |
+			               value := accessor value: anObject.
 
-		               value := accessor value: anObject.
+			               valueLabel := level = maxLevel
+			                             | value isImmediateObject
+			                             | value isNil | value isBoolean
+			                             | value isSymbol
+				                             ifTrue: [ 
+					                             (multilineLabelBuilder shapeFor:
+						                              value) yourself: [ :labelShape | 
+						                             extent := extent max:
+							                                       labelShape extent ] ]
+				                             ifFalse: [ 
+					                             toShapes
+						                             at: value
+						                             ifPresent: [ :shape | 
+							                             | shapeEntryTime |
+							                             shapeEntryTime := shape
+								                                               propertyDfsEntryTime.
+							                             shapeEntryTime
+							                             < mineShape propertyDfsEntryTime 
+								                             ifTrue: [ 
+									                             shape propertyDfsIsOnObjectStack 
+										                             ifTrue: [ 
+											                             mineShape 
+												                             propertyDfsLowlinkUpdate: [ 
+												                             :lowlink | 
+												                             lowlink min: shapeEntryTime ] ].
 
-		               valueLabel := level = maxLevel
-		                             | value isImmediateObject | value isNil
-		                             | value isBoolean | value isSymbol
-			                             ifTrue: [ 
-				                             (multilineLabelBuilder shapeFor:
-					                              value) yourself: [ :labelShape | 
-					                             extent := extent max:
-						                                       labelShape extent ] ]
-			                             ifFalse: [ 
-				                             toShapes
-					                             at: value
-					                             ifPresent: [ :shape | 
-						                             | shapeEntryTime |
-						                             shapeEntryTime := shape
-							                                               propertyDfsEntryTime.
-						                             shapeEntryTime
-						                             < mineShape propertyDfsEntryTime 
-							                             ifTrue: [ 
-								                             shape propertyDfsIsOnObjectStack 
-									                             ifTrue: [ 
-										                             mineShape 
-											                             propertyDfsLowlinkUpdate: [ 
-											                             :lowlink | 
-											                             lowlink min: shapeEntryTime ] ].
+									                             self assert: anObject ~~ value.
 
-								                             self assert: anObject ~~ value.
+									                             self
+										                             pushEdgeFrom: anObject
+										                             to: value.
 
-								                             self
-									                             pushEdgeFrom: anObject
-									                             to: value.
-
-								                             mineShape 
-									                             propertyDfsBilinkUpdate: [ 
-									                             :bilink | 
-									                             bilink min: shapeEntryTime ] ] ]
-					                             ifAbsent: [ 
-						                             self
-							                             pushEdgeFrom: anObject
-							                             to: value.
-
-						                             self
-							                             dfsClockTick;
-							                             withFurtherLevelDo: [ 
-								                             | childShape |
-								                             childShape := self
-									                                           forObject: value
-									                                           ithChild: index
-									                                           of: anObject.
-
-								                             mineShape 
-									                             propertyDfsLowlinkUpdate: [ 
-										                             :lowlink | 
-										                             lowlink min:
-												                             childShape propertyDfsLowlink ].
-
-								                             mineShape 
-									                             propertyDfsBilinkUpdate: [ 
+									                             mineShape 
+										                             propertyDfsBilinkUpdate: [ 
 										                             :bilink | 
-										                             bilink min:
-												                             childShape propertyDfsBilink ].
+										                             bilink min: shapeEntryTime ] ] ]
+						                             ifAbsent: [ 
+							                             self
+								                             pushEdgeFrom: anObject
+								                             to: value.
 
-								                             self
-									                             createBiconnectedComponentIfNecessaryOnShape:
-										                             childShape
-									                             childOf: mineShape ] ].
-				                             nil ].
+							                             self
+								                             dfsClockTick;
+								                             withFurtherLevelDo: [ 
+									                             | childShape |
+									                             childShape := self
+										                                           forObject: value
+										                                           ithChild: index
+										                                           of: anObject.
 
-		               varLabel := RSLabel new
-			                           text: var asString;
-			                           color: metaColor;
-			                           when: RSMouseClick do: [ :ev | 
-				                           anObject class
-					                           compiledMethodAt: var
-					                           ifPresent: [ :cm | cm browse ] ];
-			                           yourself.
+									                             mineShape 
+										                             propertyDfsLowlinkUpdate: [ 
+											                             :lowlink | 
+											                             lowlink min:
+													                             childShape
+														                             propertyDfsLowlink ].
 
-		               valueBox := RSBox new
-			                           model: value;
-			                           color: Color white;
-			                           cornerRadius: self radiusOrPadding;
-			                           withBorder;
-			                           addInteraction:
-				                           RSHighlightable withLines;
-			                           yourself.
+									                             mineShape 
+										                             propertyDfsBilinkUpdate: [ 
+											                             :bilink | 
+											                             bilink min:
+													                             childShape propertyDfsBilink ].
 
-		               "Our descriptor is a plain dictionary."
-		               Dictionary new
-			               at: #var put: var;
-			               at: #value put: value;
-			               at: #valueLabel put: valueLabel;
-			               at: #varLabel put: varLabel;
-			               at: #valueBox put: valueBox;
-			               yourself ].
+									                             self
+										                             createBiconnectedComponentIfNecessaryOnShape:
+											                             childShape
+										                             childOf: mineShape ] ].
+					                             nil ].
+
+			               varLabel := RSLabel new
+				                           text: var asString;
+				                           color: metaColor;
+				                           when: RSMouseClick do: [ :ev | 
+					                           anObject class
+						                           compiledMethodAt: var
+						                           ifPresent: [ :cm | cm browse ] ];
+				                           yourself.
+
+			               valueBox := RSBox new
+				                           model: value;
+				                           color: Color white;
+				                           cornerRadius: self radiusOrPadding;
+				                           withBorder;
+				                           addInteraction:
+					                           RSHighlightable withLines;
+				                           yourself.
+
+			               "Our descriptor is a plain dictionary."
+			               Dictionary new
+				               at: #var put: var;
+				               at: #value put: value;
+				               at: #valueLabel put: valueLabel;
+				               at: #varLabel put: varLabel;
+				               at: #valueBox put: valueBox;
+				               yourself ].
 
 
 	self dfsClockTick.
@@ -433,26 +419,9 @@ CTObjectRefsVisit >> pushEdgeFrom: anObject to: value [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> pushShape: mineShape [
-
-	sccShapeStack := ValueLink new
-		                 value: mineShape;
-		                 nextLink: sccShapeStack;
-		                 yourself.
-
-	^ mineShape propertyDfsObjectStack: sccShapeStack
-]
-
-{ #category : #visiting }
 CTObjectRefsVisit >> radiusOrPadding [
 
 	^ Float goldenRatio double
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> rootObject [
-
-	^ rootObject
 ]
 
 { #category : #accessing }
@@ -461,10 +430,43 @@ CTObjectRefsVisit >> rootObject: anObject [
 	rootObject := anObject
 ]
 
+{ #category : #visiting }
+CTObjectRefsVisit >> shapeOf: anObject [
+
+	^ RSComposite new
+		  model: anObject;
+		  propertyDfsDepth: level;
+		  propertyDfsTimings: dfsClock @ -1;
+		  propertyDfsLowlink: dfsClock;
+		  propertyDfsBilink: dfsClock;
+		  yourself: [ :mineShape | 
+			  self
+				  addDraggableInteractionOnShape: mineShape;
+				  "addPopupInteractionOnShape: mineShape;"
+				  addHighlightInteractionOnShape: mineShape ]
+]
+
 { #category : #accessing }
 CTObjectRefsVisit >> slotsBlock: aBlock [
 
 	slotsBlock := aBlock
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
+
+	^ (slotsBlock value: anObject) withIndexCollect: [ 
+		  :anAssociation 
+		  :index | 
+		  | accessor var |
+		  anAssociation isSymbol
+			  ifTrue: [ 
+				  var := anAssociation.
+				  accessor := [ :anObj | anObj perform: anAssociation ] ]
+			  ifFalse: [ 
+				  var := anAssociation key.
+				  accessor := anAssociation value ].
+		  aBlock value: var value: accessor value: index ]
 ]
 
 { #category : #accessing }
@@ -489,6 +491,19 @@ CTObjectRefsVisit >> value [
 		  assert: sccShapeStack isNil;
 		  assert: sccEdgeStack isNil;
 		  itself: aShape
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> visitingShape: mineShape of: anObject [
+
+	toShapes at: anObject put: mineShape.
+
+	sccShapeStack := ValueLink new
+		                 value: mineShape;
+		                 nextLink: sccShapeStack;
+		                 yourself.
+
+	^ mineShape propertyDfsObjectStack: sccShapeStack
 ]
 
 { #category : #visiting }
