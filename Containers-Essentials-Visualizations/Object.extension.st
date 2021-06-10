@@ -44,6 +44,27 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> inspectorCanvasSlotsGraphLayered [
+
+	<inspectorPresentationOrder: 150 title: 'Layered slots graph'>
+	| canvas |
+	canvas := self
+		          treeDrawer: CTSlotsLayeredDfsTreeDrawer new
+		          onCanvas: RSCanvas new
+		          slotsBlock: [ :anObj | 
+		          anObj instVarsNamesOrderedCollection ].
+	^ canvas
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> inspectorCanvasSlotsGraphLayeredContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 120 title: 'SCCs of Slots graph'>
