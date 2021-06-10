@@ -48,9 +48,8 @@ CTSlotsLayeredDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 			                      cornerRadius: gr;
 			                      yourself.
 
-		               location stick: composite on: box.
-
 		               location
+			               stick: composite on: box;
 			               above;
 			               stick: label on: box;
 			               inner.
