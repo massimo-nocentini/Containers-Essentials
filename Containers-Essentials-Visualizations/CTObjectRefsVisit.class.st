@@ -15,7 +15,8 @@ Class {
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
-		'slotsBlock'
+		'slotsBlock',
+		'levels'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -79,6 +80,7 @@ CTObjectRefsVisit >> classLabelShapeOf: anObject [
 		  text: anObject class asString;
 		  fontSize: metaFontSize;
 		  color: metaColor;
+		  bold;
 		  italic;
 		  when: RSMouseLeftClick do: [ :ev | anObject browse ];
 		  yourself
@@ -239,6 +241,7 @@ CTObjectRefsVisit >> initialize [
 	sccEdgeStack := nil.
 	sccs := OrderedCollection new.
 	bccs := OrderedCollection new.
+	levels := Dictionary new.
 
 	nilLabel := RSLabel new
 		            model: nil;
@@ -249,6 +252,12 @@ CTObjectRefsVisit >> initialize [
 	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1).
 
 	multilineLabelBuilder := RSMultilineLabelBuilder new
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> levels: aDictionary [
+
+	levels := aDictionary
 ]
 
 { #category : #accessing }
@@ -533,6 +542,12 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 
 { #category : #visiting }
 CTObjectRefsVisit >> visitingShape: mineShape of: anObject [
+
+	| level |
+	level := levels
+		         at: mineShape propertyDfsDepth
+		         ifAbsentPut: [ OrderedCollection new ].
+	level add: mineShape.
 
 	toShapes at: anObject put: mineShape.
 

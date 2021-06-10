@@ -45,13 +45,13 @@ RSObjectWithProperty >> propertyDfsBoxedSlotsShape: aShape [
 { #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsDepth [
 
-	^ self propertyAt: #bfsLevel
+	^ self propertyAt: #dfsLevel
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsDepth: anObject [
 
-	^ self propertyAt: #bfsLevel put: anObject
+	^ self propertyAt: #dfsLevel put: anObject
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

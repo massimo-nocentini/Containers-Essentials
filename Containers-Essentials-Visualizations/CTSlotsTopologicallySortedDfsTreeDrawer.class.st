@@ -22,9 +22,9 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> cpapControllerHorizontal [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: shapes edges: edges [
+CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	RSVerticalLineLayout new alignCenter applyOn: shapes
+	RSVerticalLineLayout new alignCenter applyOn: aCollectionOfShapes
 ]
 
 { #category : #'as yet unclassified' }

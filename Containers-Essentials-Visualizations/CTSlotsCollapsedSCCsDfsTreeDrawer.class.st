@@ -1,6 +1,6 @@
 Class {
 	#name : #CTSlotsCollapsedSCCsDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#superclass : #CTSCCsDfsTreeDrawer,
 	#instVars : [
 		'associations',
 		'outgoingEdges',
@@ -184,14 +184,6 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: l
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #initialization }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> initialize [
-
-	super initialize.
-
-	associations := Set new
-]
-
 { #category : #'as yet unclassified' }
 CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
@@ -222,4 +214,12 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: aCollection lineBuilder: lineBu
 	^ outgoingEdges
 		  do: [ :anEdge | associations add: anEdge from -> anEdge to ];
 		  yourself
+]
+
+{ #category : #initialization }
+CTSlotsCollapsedSCCsDfsTreeDrawer >> visit [
+
+	associations := Set new.
+	
+	^ super visit
 ]

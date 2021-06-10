@@ -5,10 +5,9 @@ Class {
 		'visit',
 		'fromShapes',
 		'toShapes',
-		'stronglyConnectedComponents',
-		'shapeBySCC',
 		'shapes',
-		'edges'
+		'edges',
+		'levels'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -72,24 +71,8 @@ CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 
-	| metaColor lineBuilder |
-	metaColor := Color gray lighter lighter lighter.
-	lineBuilder := RSLineBuilder bezier
-		               canvas: aCanvas;
-		               color: metaColor;
-		               yourself.
+	self visit.
 
-	fromShapes := IdentityDictionary new.
-	toShapes := IdentityDictionary new.
-	stronglyConnectedComponents := OrderedCollection new.
-
-	visit
-		fromShapes: fromShapes;
-		toShapes: toShapes;
-		stronglyConnectedComponents: stronglyConnectedComponents;
-		value.
-
-	shapeBySCC := IdentityDictionary new.
 	shapes := self addAll: toShapes values onCanvas: aCanvas.
 
 	edges := self withDfsEdgesDo: [ 
@@ -97,12 +80,17 @@ CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
 		         :forwardTuples 
 		         :backTuples 
 		         :crossTuples | 
+		         | lineBuilder |
+		         lineBuilder := self treeLinesBuilder
+			                        canvas: aCanvas;
+			                        yourself.
 		         self
 			         treeTuples: treeTuples lineBuilder: lineBuilder;
 			         forwardTuples: forwardTuples lineBuilder: lineBuilder;
 			         backTuples: backTuples lineBuilder: lineBuilder;
 			         crossTuples: crossTuples lineBuilder: lineBuilder;
-			         layoutTuples: treeTuples lineBuilder: RSLineBuilder line ].
+			         layoutTuples: treeTuples
+			         lineBuilder: self layoutLinesBuilder ].
 
 	self layoutOn: shapes edges: edges.
 
@@ -174,6 +162,12 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
+
+	^ RSLineBuilder line
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalVanDerPloegTreeLayout
@@ -203,12 +197,34 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> treeLinesBuilder [
+
+	^ RSLineBuilder bezier
+		  color: Color gray lighter lighter lighter;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	lineBuilder controlPointsController: self cpapControllerHorizontal.
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> visit [
+
+	fromShapes := IdentityDictionary new.
+	toShapes := IdentityDictionary new.
+	levels := Dictionary new.
+
+	visit
+		fromShapes: fromShapes;
+		toShapes: toShapes;
+		levels: levels;
+		value
 ]
 
 { #category : #accessing }

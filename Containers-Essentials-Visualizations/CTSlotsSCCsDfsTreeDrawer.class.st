@@ -1,6 +1,6 @@
 Class {
 	#name : #CTSlotsSCCsDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#superclass : #CTSCCsDfsTreeDrawer,
 	#instVars : [
 		'edgessOfSCCs'
 	],
@@ -112,7 +112,7 @@ CTSlotsSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilde
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: edges [
+CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: aCollectionOfLines [
 
 	stronglyConnectedComponents do: [ :each | 
 		| sccShape |
@@ -122,7 +122,7 @@ CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: edges [
 			adjustToChildren;
 			padding: 2 ].
 
-	^ super layoutOn: sccShapes edges: edges
+	^ super layoutOn: sccShapes edges: aCollectionOfLines
 ]
 
 { #category : #'as yet unclassified' }
