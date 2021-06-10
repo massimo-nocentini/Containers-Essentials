@@ -6,7 +6,7 @@ RandomTest >> exampleExponentiallyDistribute [
 	<script: 'RandomTest new setUp; exampleExponentiallyDistribute'>
 	| x plt p |
 	x := 0 to: 10 count: 100.
-	plt := RSChart new.
+	plt := RSChartBuilder new.
 	p := RSLinePlot new
 		     x: x
 		     y: (x collect: [ :v | 1 densityExponentialOf: v ]).
@@ -25,11 +25,11 @@ RandomTest >> exampleRandomExponential [
 	| x plt p expRV |
 	expRV := RandomExponential seed: 11.
 	x := ((0 to: 100 count: 1000) collect: [ :v | expRV next ]) sorted.
-	
-	plt := RSChart new.
+
+	plt := RSChartBuilder new.
 	p := RSScatterPlot new
 		     x: x
-		     y: (x collect: [ :v | 1 densityExponentialOf: v ]) .
+		     y: (x collect: [ :v | 1 densityExponentialOf: v ]).
 
 	plt
 		addPlot: p;
@@ -45,7 +45,7 @@ RandomTest >> testBivariateGaussianBoxMuller [
 	bivariateGaussian := RandomBoxMullerBivariateGaussian seed: 11.
 	points := (1 to: 1000) collect: [ :each1 | bivariateGaussian next ].
 
-	RSChart new
+	RSChartBuilder new
 		addPlot: (RSScatterPlot new
 				 x: (points collect: #x) y: (points collect: #y);
 				 yourself: [ :plot | plot color: Color blue translucent ]);

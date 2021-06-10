@@ -23,7 +23,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 				              (RSPopup new text: [ :aModel | aSCC size ]);
 			              withBorder;
 			              cornerRadius: Float goldenRatio double;
-			              addInteraction: RSDraggable new;
+			              addInteraction: RSDraggableInteraction new;
 			              when: RSMouseDoubleLeftClick do: [ :ev | 
 				              | composite boxShape innerTreeTuples innerTreeEdges layoutEdges |
 				              boxShape := ev shape.
