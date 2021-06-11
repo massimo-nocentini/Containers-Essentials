@@ -45,6 +45,21 @@ SequenceableCollection >> exponentiallyWeighted: beta init: init [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> horner: base init: init [
+	^ self inject: init into: [ :acc :each | base * acc + each ]
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> hornerBase10 [
+	^ self horner: 10 init: 0
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> hornerBase2 [
+	^ self horner: 2 init: 0
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 
 	^ ((1 to: self size) inject: 0 -> anObject into: [ :anAssoc :each | 
