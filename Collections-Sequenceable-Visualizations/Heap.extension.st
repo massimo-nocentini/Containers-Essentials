@@ -50,7 +50,7 @@ Heap >> inspectorCanvasValuesTree [
 	^ RSCanvas new
 		  addAll: shapes;
 		  addAll: edges;
-		  addInteraction: RSCanvasController new;
+		  addInteraction: RSCanvasControllerInteraction new;
 		  inspectorCanvas
 ]
 

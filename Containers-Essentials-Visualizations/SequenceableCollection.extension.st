@@ -19,7 +19,7 @@ SequenceableCollection >> inspectorCanvasBoxesFlow [
 		applyOn: shapes.
 
 	^ RSCanvas new
-		  addInteraction: RSCanvasController new;
+		  addInteraction: RSCanvasControllerInteraction new;
 		  addAll: shapes;
 		  inspectorCanvas
 ]
@@ -73,7 +73,7 @@ SequenceableCollection >> inspectorCanvasEnumeration [
 		right.
 
 	^ RSCanvas new
-		  addInteraction: RSCanvasController new;
+		  addInteraction: RSCanvasControllerInteraction new;
 		  addAll: shapes;
 		  inspectorCanvas
 ]
@@ -89,7 +89,7 @@ SequenceableCollection >> inspectorCanvasGrid [
 
 	<inspectorPresentationOrder: 100 title: 'Grid'>
 	^ (self asArray
-		   onCanvas: RSCanvas new @ RSCanvasController
+		   onCanvas: RSCanvas new @ RSCanvasControllerInteraction
 		   drawGridWithLineItemsCount: self size sqrtFloor) inspectorCanvas
 ]
 
@@ -104,7 +104,7 @@ SequenceableCollection >> inspectorCanvasIndexParityBipartedGrid [
 
 	<inspectorPresentationOrder: 300 title: 'Index-parity biparted grid'>
 	^ (self asArray
-		   onCanvas: RSCanvas new @ RSCanvasController
+		   onCanvas: RSCanvas new @ RSCanvasControllerInteraction
 		   drawGridWithLineItemsCount: 2) inspectorCanvas
 ]
 
