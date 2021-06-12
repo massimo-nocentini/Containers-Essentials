@@ -76,13 +76,36 @@ CTObjectRefsVisit >> boxShapeOf: value [
 { #category : #visiting }
 CTObjectRefsVisit >> classLabelShapeOf: anObject [
 
-	^ RSLabel new
-		  text: anObject class asString;
-		  fontSize: metaFontSize;
-		  color: metaColor;
-		  bold;
-		  italic;
-		  when: RSMouseLeftClick do: [ :ev | anObject browse ];
+	| superClassShapes anObjectClass classes |
+	anObjectClass := anObject class.
+	classes := anObjectClass allSuperclasses reversed , { anObjectClass }.
+
+	superClassShapes := classes collectWithIndex: [ :each :index | 
+		                    RSLabel new
+			                    text: each name;
+			                    fontSize: metaFontSize;
+			                    color: metaColor;
+			                    when: RSMouseLeftClick
+			                    do: [ :ev | each browse ];
+			                    yourself: [ :labelShape | 
+				                    each hasAbstractMethods ifTrue: [ 
+						                    labelShape italic ] ] ].
+
+	RSVerticalLineLayout new
+		verticalGap: Float goldenRatio negated;
+		alignLeft;
+		on: superClassShapes.
+
+	superClassShapes withIndexDo: [ :aShape :index | 
+		| times offset |
+		times := index - 1.
+		offset := Float goldenRatio double * times.
+		aShape position: aShape position x + offset @ aShape position y ].
+
+	^ RSComposite new
+		  model: anObjectClass;
+		  shapes: superClassShapes;
+		  draggable;
 		  yourself
 ]
 
@@ -314,7 +337,9 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 	shapes ifEmpty: [ 
 		| label |
 		label := (multilineLabelBuilder shapeFor: anObject) yourself: [ :l | 
-			         l extent: (l extent max: classLabel extent) ].
+			         | x |
+			         x := l extent x max: classLabel extent x.
+			         l extent: x @ l extent y ].
 		shapes := Array with: label ].
 
 	compositeShape := RSComposite new
@@ -325,8 +350,9 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 	boxedCompositeShape := RSBox new
 		                       color: Color white;
 		                       extent:
-			                       (compositeShape extent max:
-					                        classLabel extent);
+			                       (compositeShape extent x max:
+					                        classLabel extent x)
+			                       @ compositeShape extent y;
 		                       cornerRadius: self radiusOrPadding;
 		                       borderDo: [ :aBorder | 
 			                       mineShape propertyIsArticulationObject 
@@ -520,7 +546,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 CTObjectRefsVisit >> valueLabelShapeOf: anObject level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	^ level = maxLevel | anObject isImmediateObject | anObject isNil
-	  | anObject isBoolean | anObject isSymbol
+	  | anObject isClassOrTrait | anObject isBoolean | anObject isSymbol
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
