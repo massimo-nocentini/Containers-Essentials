@@ -76,9 +76,14 @@ CTObjectRefsVisit >> boxShapeOf: value [
 { #category : #visiting }
 CTObjectRefsVisit >> classLabelShapeOf: anObject [
 
-	| superClassShapes anObjectClass classes |
+	| superClassShapes anObjectClass classes scale |
 	anObjectClass := anObject class.
 	classes := anObjectClass allSuperclasses reversed , { anObjectClass }.
+
+	scale := NSScale ln
+		         domain: (1 to: classes size);
+		         range: (Array with: metaFontSize - 2 with: metaFontSize);
+		         yourself.
 
 	superClassShapes := classes collectWithIndex: [ :each :index | 
 		                    RSLabel new
