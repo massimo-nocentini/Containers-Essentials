@@ -74,3 +74,11 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 		   acc := block cull: acc cull: (self at: index) cull: index.
 		   nextCode -> acc ]) value
 ]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> lastButOne [
+
+	^ self
+		  emptyCheck;
+		  at: self size - 1
+]
