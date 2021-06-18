@@ -15,6 +15,12 @@ Integer >> bitBRGC [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> nextOfLink: aLink [
+
+	^ aLink nextInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> skewBinaryCanonicalDenseRepresentation [
 	^ self isZero
 		  ifTrue: [ 0 ~~> nil ]
