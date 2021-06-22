@@ -170,7 +170,7 @@ CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	RSHorizontalVanDerPloegTreeLayout
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout
 		on: aCollectionOfShapes
 		edges: aCollectionOfLines
 ]

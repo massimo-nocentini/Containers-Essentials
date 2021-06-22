@@ -3,5 +3,8 @@ Extension { #name : #CompiledCode }
 { #category : #'*Containers-Essentials-Visualizations' }
 CompiledCode >> instVarsNamesOrderedCollection [
 
-	^ { (#formattedCode -> [ :anObj | anObj sourceNode formattedCode ]) }
+	^ { 
+		  #methodClass.
+		  #selector.
+		  (#formattedCode -> [ :anObj | anObj sourceNode formattedCode ]) }
 ]

@@ -110,7 +110,6 @@ CTObjectRefsVisit >> classLabelShapeOf: anObject [
 	^ RSComposite new
 		  model: anObjectClass;
 		  shapes: superClassShapes;
-		  draggable;
 		  yourself
 ]
 

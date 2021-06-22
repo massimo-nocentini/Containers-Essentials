@@ -87,7 +87,10 @@ RBProgramNode >> inspectorRoassalTree [
 			yourself: [ :mineShape | 
 				shapes at: each put: mineShape.
 				each parent ifNotNil: [ :myParent | 
-						associations add: (shapes at: myParent) -> mineShape ] ] ].
+						shapes
+							at: myParent
+							ifPresent: [ :parentShape | 
+								associations add: parentShape -> mineShape ] ] ] ].
 
 	edges := RSEdgeBuilder horizontalBezier withHorizontalAttachPoint 
 		         in: [ :eb | 
