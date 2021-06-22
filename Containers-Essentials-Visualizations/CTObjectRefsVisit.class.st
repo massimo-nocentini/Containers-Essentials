@@ -9,7 +9,6 @@ Class {
 		'sccShapeStack',
 		'sccs',
 		'rootObject',
-		'multilineLabelBuilder',
 		'sccEdgeStack',
 		'bccs',
 		'metaColor',
@@ -211,7 +210,8 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                             valueLabelShapeOf: value
 				                             level: level
 				                             ifStopped: [ 
-				                             multilineLabelBuilder shapeFor: value ]
+				                             value asString 
+					                             asMultilineLabelShape: RSLabel new ]
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
@@ -276,9 +276,7 @@ CTObjectRefsVisit >> initialize [
 
 	metaExtent := nilLabel extent.
 	metaColor := nilLabel color lighter lighter lighter.
-	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1).
-
-	multilineLabelBuilder := RSMultilineLabelBuilder new
+	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1)
 ]
 
 { #category : #accessing }
@@ -296,7 +294,7 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #visiting }
 CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent shape: mineShape classLabel: classLabel [
 
-	| shapes boxedCompositeShape compositeShape |
+	| shapes boxedCompositeShape compositeShape contentLocation |
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
@@ -338,13 +336,28 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		shapes: shapes;
 		right.
 
-	shapes ifEmpty: [ 
-		| label |
-		label := (multilineLabelBuilder shapeFor: anObject) yourself: [ :l | 
-			         | x |
-			         x := l extent x max: classLabel extent x.
-			         l extent: x @ l extent y ].
-		shapes := Array with: label ].
+	contentLocation := shapes
+		                   ifEmpty: [ 
+			                   | label |
+			                   label := (anObject asString 
+				                             asMultilineLabelShape: RSLabel new) 
+				                            yourself: [ :l | 
+					                            | x |
+					                            x := l extent x max:
+						                                 classLabel extent x.
+					                            l extent: x @ l extent y ].
+
+			                   shapes := Array with: label.
+
+			                   RSLocation new
+				                   inner;
+				                   left;
+				                   yourself ]
+		                   ifNotEmpty: [ 
+			                   RSLocation new
+				                   inner;
+				                   right;
+				                   yourself ].
 
 	compositeShape := RSComposite new
 		                  shapes: shapes;
@@ -368,9 +381,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
 
-	RSLocation new inner right
-		stick: compositeShape
-		on: boxedCompositeShape.
+	contentLocation stick: compositeShape on: boxedCompositeShape.
 
 	boxedCompositeShape := RSComposite new
 		                       shapes: { 

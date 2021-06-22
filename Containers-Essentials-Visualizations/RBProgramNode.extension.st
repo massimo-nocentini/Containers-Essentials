@@ -4,51 +4,29 @@ Extension { #name : #RBProgramNode }
 RBProgramNode >> inspectorRoassalTree [
 
 	<inspectorPresentationOrder: 100 title: 'Roassal Tree'>
-	| shapes edges indexes associations doubleGR emptySpaceWidth |
+	| shapes edges indexes associations doubleGR emptySpaceWidth prototypeLabelShape |
 	doubleGR := Float goldenRatio double.
 	indexes := IdentityDictionary new.
 	associations := OrderedCollection new.
-	emptySpaceWidth := (RSLabel new
-		                    text: Character tab asString;
-		                    fontName: 'Source Code Pro';
-		                    yourself) computeTextExtents width.
+
+	prototypeLabelShape := RSLabel new
+		                       fontName: 'Source Code Pro';
+		                       yourself.
+
+	emptySpaceWidth := (prototypeLabelShape copy text:
+		                    Character tab asString) computeTextExtents width.
 
 	shapes := IdentityDictionary new.
 
 	self nodesDo: [ :each | 
-		| valueShape classLabel labels box |
+		| valueShape classLabel box |
 		classLabel := RSLabel new
 			              model: each class;
 			              italic;
 			              yourself.
 
-		labels := each formattedCode lines collect: [ :eachLine | 
-			          | s |
-			          s := 1.
-			          [ 
-			          s < eachLine size and: [ (eachLine at: s) isSeparator ] ] 
-				          whileTrue: [ s := s + 1 ].
-			          RSLabel new
-				          text: (eachLine trim ifEmpty: [ ' ' ]);
-				          fontName: 'Source Code Pro';
-				          propertyAt: #leftSpaces put: s - 1;
-				          yourself ].
-
-		each class == RBMethodNode ifTrue: [ labels first bold ].
-
-		RSVerticalLineLayout new
-			alignLeft;
-			gapSize: 0;
-			on: { classLabel } , labels.
-
-		labels do: [ :eachLabel | 
-			| x |
-			x := (eachLabel propertyAt: #leftSpaces) * emptySpaceWidth
-			     + eachLabel position x.
-			eachLabel position: x @ eachLabel position y ].
-
-		valueShape := RSComposite new
-			              shapes: labels;
+		valueShape := (each formattedCode asMultilineLabelShape:
+				               prototypeLabelShape)
 			              padding: doubleGR;
 			              yourself.
 
@@ -97,7 +75,7 @@ RBProgramNode >> inspectorRoassalTree [
 			         associations collect: [ :eachAssoc | 
 				         eb edgeFrom: eachAssoc key to: eachAssoc value ] ].
 
-	RSHorizontalVanDerPloegTreeLayout new
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
 		doNotValidateCycles;
 		on: shapes values edges: edges.
 
