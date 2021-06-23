@@ -567,7 +567,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 CTObjectRefsVisit >> valueLabelShapeOf: anObject level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	^ level = maxLevel | anObject isImmediateObject | anObject isNil
-	  | anObject isClassOrTrait | anObject isBoolean | anObject isSymbol
+	  | anObject isBoolean | anObject isSymbol
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
