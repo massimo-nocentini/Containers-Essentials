@@ -581,9 +581,7 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 		  text: var asString;
 		  color: metaColor;
 		  when: RSMouseClick do: [ :ev | 
-			  anObject class
-				  compiledMethodAt: var
-				  ifPresent: [ :cm | cm browse ] ];
+			  (anObject class lookupSelector: var) ifNotNil: [ :cm | cm browse ] ];
 		  yourself
 ]
 
