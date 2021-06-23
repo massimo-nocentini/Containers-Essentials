@@ -15,7 +15,8 @@ Class {
 		'metaFontSize',
 		'metaExtent',
 		'slotsBlock',
-		'levels'
+		'levels',
+		'prototypeLabel'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -211,7 +212,8 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                             level: level
 				                             ifStopped: [ 
 				                             value asString 
-					                             asMultilineLabelShape: RSLabel new ]
+					                             asMultilineLabelShape:
+					                             prototypeLabel ]
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
@@ -273,6 +275,10 @@ CTObjectRefsVisit >> initialize [
 	nilLabel := RSLabel new
 		            model: nil;
 		            yourself.
+
+	prototypeLabel := RSLabel new
+		                  fontName: 'Source Code Pro';
+		                  yourself.
 
 	metaExtent := nilLabel extent.
 	metaColor := nilLabel color lighter lighter lighter.
@@ -340,7 +346,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		                   ifEmpty: [ 
 			                   | label |
 			                   label := (anObject asString 
-				                             asMultilineLabelShape: RSLabel new) 
+				                             asMultilineLabelShape: prototypeLabel) 
 				                            yourself: [ :l | 
 					                            | x |
 					                            x := l extent x max:
