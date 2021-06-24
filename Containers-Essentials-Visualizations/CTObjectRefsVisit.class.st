@@ -9,7 +9,6 @@ Class {
 		'sccShapeStack',
 		'sccs',
 		'rootObject',
-		'sccEdgeStack',
 		'bccs',
 		'metaColor',
 		'metaFontSize',
@@ -111,40 +110,6 @@ CTObjectRefsVisit >> classLabelShapeOf: anObject [
 		  model: anObjectClass;
 		  shapes: superClassShapes;
 		  yourself
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> createBiconnectedComponentIfNecessaryOnShape: childShape childOf: mineShape [
-
-	^ mineShape propertyDfsEntryTime <= childShape propertyDfsBilink 
-		  ifTrue: [ 
-			  | bcc assocOfModels fromShape toShape |
-			  bcc := bccs add: OrderedCollection new.
-
-			  [ 
-			  sccEdgeStack isNotNil and: [ 
-				  (toShapes at: sccEdgeStack value key) propertyDfsEntryTime
-				  >= childShape propertyDfsEntryTime ] ] whileTrue: [ 
-				  assocOfModels := sccEdgeStack value.
-				  fromShape := toShapes at: assocOfModels key.
-				  toShape := toShapes at: assocOfModels value.
-				  bcc add: fromShape -> toShape.
-				  fromShape propertyDfsBCC: bcc.
-				  toShape propertyDfsBCC: bcc.
-				  sccEdgeStack := sccEdgeStack nextLink ].
-
-			  self
-				  assert: sccEdgeStack value key == mineShape model;
-				  assert: sccEdgeStack value value == childShape model.
-
-			  mineShape propertyIsArticulationObject: true.
-			  assocOfModels := sccEdgeStack value.
-			  fromShape := toShapes at: assocOfModels key.
-			  toShape := toShapes at: assocOfModels value.
-			  bcc add: fromShape -> toShape.
-			  fromShape propertyDfsBCC: bcc.
-			  toShape propertyDfsBCC: bcc.
-			  sccEdgeStack := sccEdgeStack nextLink ]
 ]
 
 { #category : #visiting }
@@ -267,7 +232,6 @@ CTObjectRefsVisit >> initialize [
 	dfsClock := 0.
 	maxLevel := 0.
 	sccShapeStack := nil.
-	sccEdgeStack := nil.
 	sccs := OrderedCollection new.
 	bccs := OrderedCollection new.
 	levels := Dictionary new.
@@ -377,12 +341,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 					                        classLabel extent x)
 			                       @ compositeShape extent y;
 		                       cornerRadius: self radiusOrPadding;
-		                       borderDo: [ :aBorder | 
-			                       mineShape propertyIsArticulationObject 
-				                       ifTrue: [ 
-					                       aBorder
-						                       width: Float goldenRatio;
-						                       color: Color brown translucent ] ];
+		                       withBorder;
 		                       yourself.
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
@@ -414,15 +373,6 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> pushEdgeFrom: anObject to: value [
-
-	^ sccEdgeStack := ValueLink new
-		                  value: anObject -> value;
-		                  nextLink: sccEdgeStack;
-		                  yourself
-]
-
-{ #category : #visiting }
 CTObjectRefsVisit >> radiusOrPadding [
 
 	^ Float goldenRatio double
@@ -447,12 +397,7 @@ CTObjectRefsVisit >> shapeHasBeenVisited: shape childOfShape: mineShape [
 			mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
 				lowlink min: shapeEntryTime ] ].
 
-		self assert: anObject ~~ value.
-
-		self pushEdgeFrom: anObject to: value.
-
-		mineShape propertyDfsBilinkUpdate: [ :bilink | 
-			bilink min: shapeEntryTime ] ]
+		self assert: anObject ~~ value ]
 ]
 
 { #category : #visiting }
@@ -463,7 +408,6 @@ CTObjectRefsVisit >> shapeOf: anObject level: level [
 		  propertyDfsDepth: level;
 		  propertyDfsTimings: dfsClock @ -1;
 		  propertyDfsLowlink: dfsClock;
-		  propertyDfsBilink: dfsClock;
 		  yourself: [ :mineShape | 
 			  self
 				  addDraggableInteractionOnShape: mineShape;
@@ -532,7 +476,6 @@ CTObjectRefsVisit >> value [
 
 	^ self
 		  assert: sccShapeStack isNil;
-		  assert: sccEdgeStack isNil;
 		  itself: aShape
 ]
 
@@ -541,8 +484,6 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 
 	| anObject childShape |
 	anObject := mineShape model.
-
-	self pushEdgeFrom: anObject to: value.
 
 	self dfsClockTick.
 
@@ -553,14 +494,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
-		lowlink min: childShape propertyDfsLowlink ].
-
-	mineShape propertyDfsBilinkUpdate: [ :bilink | 
-		bilink min: childShape propertyDfsBilink ].
-
-	self
-		createBiconnectedComponentIfNecessaryOnShape: childShape
-		childOf: mineShape
+		lowlink min: childShape propertyDfsLowlink ]
 ]
 
 { #category : #visiting }

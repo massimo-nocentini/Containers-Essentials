@@ -19,18 +19,6 @@ RSObjectWithProperty >> propertyDfsBilink [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-RSObjectWithProperty >> propertyDfsBilink: anObject [
-
-	^ self propertyAt: #sccBilink put: anObject
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-RSObjectWithProperty >> propertyDfsBilinkUpdate: aBlock [
-
-	^ self propertyDfsBilink: (aBlock value: self propertyDfsBilink)
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
 RSObjectWithProperty >> propertyDfsBoxedSlotsShape [
 
 	^ self propertyAt: #boxedSlotsShape
@@ -120,16 +108,4 @@ RSObjectWithProperty >> propertyDfsTimings [
 RSObjectWithProperty >> propertyDfsTimings: aPoint [
 
 	^ self propertyAt: #dfsTimings put: aPoint
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-RSObjectWithProperty >> propertyIsArticulationObject [
-
-	^ self propertyAt: #isArticulationObject ifAbsent: [ false ]
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-RSObjectWithProperty >> propertyIsArticulationObject: aBoolean [
-
-	^ self propertyAt: #isArticulationObject put: aBoolean
 ]
