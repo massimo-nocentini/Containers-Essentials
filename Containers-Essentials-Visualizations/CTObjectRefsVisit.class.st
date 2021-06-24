@@ -24,7 +24,7 @@ Class {
 { #category : #visiting }
 CTObjectRefsVisit >> addDraggableInteractionOnShape: mineShape [
 
-	mineShape addInteraction: RSDraggableInteraction new
+	mineShape addInteraction: RSDraggable new
 ]
 
 { #category : #visiting }

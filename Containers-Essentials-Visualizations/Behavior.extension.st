@@ -4,5 +4,5 @@ Extension { #name : #Behavior }
 Behavior >> instVarsNamesOrderedCollection [
 
 	^ { (#name -> [ :anObject | self name asSymbol ]) }
-	  , #( class superclass typeOfClass instanceCount spaceUsed )
+	  , #( class superclass typeOfClass instanceCount spaceUsed kindAsSymbol)
 ]

@@ -29,13 +29,12 @@ CTSlotsSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 				              aBorder
 					              joinRound;
 					              color: (scale scale: aSCC size) translucent ];
-			              addInteraction: RSDraggableInteraction new;
+			              addInteraction: RSDraggable new;
 			              yourself: [ :aComposite | 
 				              shapeBySCC at: aSCC put: aComposite.
 
 				              aSCC do: [ :each | 
-					              each removeInteractionIfPresent:
-						              RSDraggableInteraction ] ] ].
+					              each removeInteractionIfPresent: RSDraggable ] ] ].
 
 	^ super addAll: sccsShapes onCanvas: aCanvas
 ]

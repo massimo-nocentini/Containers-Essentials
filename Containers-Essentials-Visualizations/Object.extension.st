@@ -11,7 +11,7 @@ Object >> inspectorCanvasSlotsGraph [
 		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
@@ -27,7 +27,7 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
@@ -54,7 +54,7 @@ Object >> inspectorCanvasSlotsGraphLayered [
 		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
@@ -75,7 +75,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
@@ -97,7 +97,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 		          slotsBlock: [ :anObj | 
 		          anObj instVarsNamesOrderedCollection ].
 	^ canvas
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
