@@ -9,7 +9,6 @@ Class {
 		'sccShapeStack',
 		'sccs',
 		'rootObject',
-		'bccs',
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
@@ -52,12 +51,6 @@ CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
 					 cr;
 					 nextPutAll: 'SCC size: ';
 					 nextPutAll: mineShape propertyDfsSCC size asString ] ])
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> biConnectedComponents: aCollection [
-
-	bccs := aCollection
 ]
 
 { #category : #visiting }
@@ -233,7 +226,6 @@ CTObjectRefsVisit >> initialize [
 	maxLevel := 0.
 	sccShapeStack := nil.
 	sccs := OrderedCollection new.
-	bccs := OrderedCollection new.
 	levels := Dictionary new.
 
 	nilLabel := RSLabel new
