@@ -50,7 +50,10 @@ CTSlotsDfsTreeDrawer >> cpapControllerHorizontal [
 	^ RSStartEndCPAPController new
 		  controller: RSHorizontalCPAPController new;
 		  startAttachPoint: RSCenteredAttachPoint new;
-		  endAttachPoint: RSHorizontalEndBorderAttachPoint new;
+		  endAttachPoint: (RSStartEndAttachPoint new
+				   startAttachPoint: RSBorderAttachPoint new;
+				   endAttachPoint: RSHorizontalAttachPoint new;
+				   yourself);
 		  yourself
 ]
 
