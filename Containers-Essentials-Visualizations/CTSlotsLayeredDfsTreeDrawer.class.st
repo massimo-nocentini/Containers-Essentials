@@ -19,7 +19,7 @@ CTSlotsLayeredDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 		               layer := levels at: level.
 
 		               layer do: [ :each | 
-			               each removeInteractionIfPresent: RSDraggableInteraction ].
+			               each removeInteractionIfPresent: RSDraggable ].
 
 		               layout on: layer.
 

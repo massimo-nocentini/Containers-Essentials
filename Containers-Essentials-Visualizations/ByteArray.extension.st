@@ -19,7 +19,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 	RSGridLayout on: shapes withLineItemsCount: 16 * 8.
 	^ RSCanvas new
 		  addAll: shapes;
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 

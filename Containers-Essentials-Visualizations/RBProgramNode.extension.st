@@ -82,7 +82,7 @@ RBProgramNode >> inspectorRoassalTree [
 	^ RSCanvas new
 		  addAll: shapes values;
 		  addAll: edges;
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
