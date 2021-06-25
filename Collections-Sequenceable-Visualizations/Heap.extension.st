@@ -45,12 +45,14 @@ Heap >> inspectorCanvasValuesTree [
 
 	edges := evenEdges , oddEdges.
 
-	RSHorizontalVanDerPloegTreeLayout on: shapes edges: edges.
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout
+		on: shapes
+		edges: edges.
 
 	^ RSCanvas new
 		  addAll: shapes;
 		  addAll: edges;
-		  addInteraction: RSCanvasControllerInteraction new;
+		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
 
