@@ -15,7 +15,7 @@ String >> asMultilineLabelShape: aPrototypeLabelShape [
 			               aCharacter isSeparator ].
 		          string := eachLine trim ifEmpty: [ ' ' ].
 		          aPrototypeLabelShape copy
-			          model: string;
+			          text: string;
 			          propertyAt: #leftSpaces put: s;
 			          yourself ].
 
@@ -34,7 +34,6 @@ String >> asMultilineLabelShape: aPrototypeLabelShape [
 			removePropertyAt: #leftSpaces ].
 
 	^ RSComposite new
-		  model: self;
 		  shapes: labels;
 		  yourself
 ]
