@@ -4,7 +4,7 @@ Extension { #name : #CompiledCode }
 CompiledCode >> instVarsNamesOrderedCollection [
 
 	^ { 
-		  #methodClass.
+		  #methodClassName.
 		  #selector.
 		  (#formattedCode -> [ :anObj | anObj sourceNode formattedCode ]) }
 ]
