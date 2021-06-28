@@ -1,8 +1,8 @@
 Class {
 	#name : #RSGaussianJitterVanDerPloegTreeLayout,
 	#superclass : #RSVanDerPloegTreeLayout,
-	#traits : 'RSTWalkBasedRegularTreeLayoutRandomizedPositioning',
-	#classTraits : 'RSTWalkBasedRegularTreeLayoutRandomizedPositioning classTrait',
+	#traits : 'RSTWalkBasedRegularTreeLayoutRandomizedGaps',
+	#classTraits : 'RSTWalkBasedRegularTreeLayoutRandomizedGaps classTrait',
 	#category : #'Containers-Essentials-Visualizations'
 }
 
@@ -11,11 +11,5 @@ RSGaussianJitterVanDerPloegTreeLayout >> initialize [
 
 	super initialize.
 
-	self random: RandomBoxMullerBivariateGaussian new
-]
-
-{ #category : #positioning }
-RSGaussianJitterVanDerPloegTreeLayout >> rawPositionOfShape: aShape atDepth: depth atBreadth: breadth [
-
-	^ super positionOfShape: aShape atDepth: depth atBreadth: breadth
+	self initializeRSTWalkBasedRegularTreeLayoutRandomizedGaps
 ]
