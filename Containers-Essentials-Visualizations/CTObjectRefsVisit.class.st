@@ -153,24 +153,25 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 { #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
-	| descriptors classLabel extent mineShape |
+	| descriptors extent mineShape |
 	mineShape := self shapeOf: anObject level: level.
 
 	self visitingShape: mineShape of: anObject.
-
-	classLabel := self classLabelShapeOf: anObject.
 
 	extent := metaExtent.
 
 	descriptors := self
 		               slotsOf: anObject
 		               withIndexCollect: [ :descriptor :var :index :collector | 
-			               | valueLabel varLabel valueBox value |
+			               | valueLabel varLabel valueBox value isQuotation |
 			               value := descriptor
 				                        ifQuotation: [ :aValue :aShape | 
+					                        isQuotation := true.
 					                        quotedShapes at: aValue put: aShape.
 					                        aValue ]
-				                        ifNotQuotation: [ :aValue | aValue ].
+				                        ifNotQuotation: [ :aValue | 
+					                        isQuotation := false.
+					                        aValue ].
 
 			               valueLabel := self
 				                             valueLabelShapeOf: value
@@ -197,7 +198,11 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                           varLabelShapeOf: anObject
 				                           label: var.
 
-			               valueBox := self boxShapeOf: value.
+			               valueBox := (self boxShapeOf: value) yourself: [ 
+				                           :boxShape | 
+				                           isQuotation ifTrue: [ 
+					                           boxShape color: boxShape border color ] ].
+
 
 			               collector
 				               value: valueLabel
@@ -214,7 +219,6 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 		  descriptors: descriptors
 		  extent: self radiusOrPadding + extent x @ extent y
 		  shape: mineShape
-		  classLabel: classLabel
 ]
 
 { #category : #accessing }
@@ -262,9 +266,9 @@ CTObjectRefsVisit >> maxLevel: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent shape: mineShape classLabel: classLabel [
+CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation |
+	| shapes boxedCompositeShape compositeShape contentLocation classLabel |
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
@@ -308,25 +312,35 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
-			                   | label shape |
+			                   | shape x |
 			                   shape := quotedShapes
 				                            at: anObject
+				                            ifPresent: [ :aQuotedShape | 
+					                            classLabel := self 
+						                                          classLabelShapeOf:
+						                                          aQuotedShape model.
+					                            aQuotedShape ]
 				                            ifAbsent: [ 
-				                            anObject asString 
-					                            asMultilineLabelShape: prototypeLabel ].
-			                   label := shape yourself: [ :l | 
-				                            | x |
-				                            x := l extent x max:
-					                                 classLabel extent x.
-				                            l extent: x @ l extent y ].
+					                            classLabel := self 
+						                                          classLabelShapeOf:
+						                                          anObject.
 
-			                   shapes := Array with: label.
+					                            anObject asString 
+						                            asMultilineLabelShape:
+						                            prototypeLabel ].
+
+			                   x := shape extent x max: classLabel extent x.
+			                   shape extent: x @ shape extent y.
+
+			                   shapes := Array with: shape.
 
 			                   RSLocation new
 				                   inner;
 				                   left;
 				                   yourself ]
 		                   ifNotEmpty: [ 
+			                   classLabel := self classLabelShapeOf: anObject.
+
 			                   RSLocation new
 				                   inner;
 				                   right;

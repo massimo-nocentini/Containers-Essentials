@@ -23,10 +23,9 @@ QuoteSlotDescriptor >> ifQuotation: qBlock ifNotQuotation: nqBlock [
 { #category : #accessing }
 QuoteSlotDescriptor >> value: anObject [
 
-	| originalModel |
 	shape := descriptor value: anObject.
-	originalModel := shape model.
-	^ Object new yourself: [ :o | 
-		  value := o.
-		  shape model: o ]
+
+	self assert: (shape isKindOf: RSShape).
+
+	^ value := Object new
 ]
