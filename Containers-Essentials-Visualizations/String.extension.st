@@ -39,6 +39,14 @@ String >> asMultilineLabelShape: aPrototypeLabelShape [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+String >> asSlotDescriptor [
+
+	^ PropertySlotDescriptor new
+		  selector: self;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 String >> largestIndexUntil: aBlock [
 
 	self withIndexDo: [ :each :index | 

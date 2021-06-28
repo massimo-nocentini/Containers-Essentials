@@ -14,7 +14,8 @@ Class {
 		'metaExtent',
 		'slotsBlock',
 		'levels',
-		'prototypeLabel'
+		'prototypeLabel',
+		'quotedShapes'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -163,8 +164,14 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
 	descriptors := self
 		               slotsOf: anObject
-		               withIndexCollect: [ :var :value :index :collector | 
-			               | valueLabel varLabel valueBox |
+		               withIndexCollect: [ :descriptor :var :index :collector | 
+			               | valueLabel varLabel valueBox value |
+			               value := descriptor
+				                        ifQuotation: [ :aValue :aShape | 
+					                        quotedShapes at: aValue put: aShape.
+					                        aValue ]
+				                        ifNotQuotation: [ :aValue | aValue ].
+
 			               valueLabel := self
 				                             valueLabelShapeOf: value
 				                             level: level
@@ -227,6 +234,7 @@ CTObjectRefsVisit >> initialize [
 	sccShapeStack := nil.
 	sccs := OrderedCollection new.
 	levels := Dictionary new.
+	quotedShapes := IdentityDictionary new.
 
 	nilLabel := RSLabel new
 		            model: nil;
@@ -300,14 +308,17 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
-			                   | label |
-			                   label := (anObject asString 
-				                             asMultilineLabelShape: prototypeLabel) 
-				                            yourself: [ :l | 
-					                            | x |
-					                            x := l extent x max:
-						                                 classLabel extent x.
-					                            l extent: x @ l extent y ].
+			                   | label shape |
+			                   shape := quotedShapes
+				                            at: anObject
+				                            ifAbsent: [ 
+				                            anObject asString 
+					                            asMultilineLabelShape: prototypeLabel ].
+			                   label := shape yourself: [ :l | 
+				                            | x |
+				                            x := l extent x max:
+					                                 classLabel extent x.
+				                            l extent: x @ l extent y ].
 
 			                   shapes := Array with: label.
 
@@ -416,23 +427,25 @@ CTObjectRefsVisit >> slotsBlock: aBlock [
 { #category : #visiting }
 CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 
-	^ (slotsBlock value: anObject) withIndexCollect: [ 
-		  :anAssociation 
-		  :index | 
-		  | accessor var value |
-		  anAssociation isSymbol
-			  ifTrue: [ 
-				  var := anAssociation.
-				  accessor := [ :anObj | anObj perform: anAssociation ] ]
-			  ifFalse: [ 
-				  var := anAssociation key.
-				  accessor := anAssociation value ].
+	^ (slotsBlock value: anObject) withIndexCollect: [ :aDescription :index | 
+		  | var value descriptor |
+		  descriptor := aDescription isSymbol
+			                ifTrue: [ 
+				                aDescription asSlotDescriptor
+				                @ [ :anObj | anObj perform: aDescription ] ]
+			                ifFalse: [ 
+				                aDescription isAssociation
+					                ifTrue: [ 
+					                aDescription key asSlotDescriptor
+					                @ aDescription value ]
+					                ifFalse: [ aDescription ] ].
 
-		  value := accessor value: anObject.
+		  var := descriptor selector.
+		  value := descriptor value: anObject.
 
 		  aBlock
+			  value: descriptor
 			  value: var
-			  value: value
 			  value: index
 			  value: [ :valueLabel :varLabel :valueBox | 
 				  Dictionary new
@@ -474,15 +487,13 @@ CTObjectRefsVisit >> value [
 { #category : #visiting }
 CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineShape level: level [
 
-	| anObject childShape |
-	anObject := mineShape model.
-
+	| childShape |
 	self dfsClockTick.
 
 	childShape := self
 		              forObject: value
 		              ithChild: index
-		              of: anObject
+		              of: mineShape model
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 

@@ -1,9 +1,8 @@
 Extension { #name : #Heap }
 
 { #category : #'*Collections-Sequenceable-Visualizations' }
-Heap >> inspectorCanvasValuesTree [
+Heap >> asShapeValueTree [
 
-	<inspectorPresentationOrder: 90 title: 'Values tree'>
 	| shapes heap edgeBuilder evenEdges oddEdges edges indexes |
 	indexes := IdentityDictionary new.
 	heap := array copyFrom: 1 to: tally.
@@ -12,6 +11,7 @@ Heap >> inspectorCanvasValuesTree [
 		          indexes at: each put: i.
 		          valueShape := RSLabel new
 			                        model: each;
+			                        fontName: 'Source Code Pro';
 			                        yourself.
 		          indexShape := RSLabel new
 			                        model: i;
@@ -27,6 +27,7 @@ Heap >> inspectorCanvasValuesTree [
 			          addShape: indexShape;
 			          adjustToChildren;
 			          padding: 2;
+			          draggable;
 			          yourself ].
 
 	edgeBuilder := RSEdgeBuilder horizontalBezier
@@ -49,9 +50,18 @@ Heap >> inspectorCanvasValuesTree [
 		on: shapes
 		edges: edges.
 
+	^ RSComposite new
+		  model: self;
+		  shapes: shapes , edges;
+		  yourself
+]
+
+{ #category : #'*Collections-Sequenceable-Visualizations' }
+Heap >> inspectorCanvasValuesTree [
+
+	<inspectorPresentationOrder: 90 title: 'Values tree'>
 	^ RSCanvas new
-		  addAll: shapes;
-		  addAll: edges;
+		  add: self asShapeValueTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
