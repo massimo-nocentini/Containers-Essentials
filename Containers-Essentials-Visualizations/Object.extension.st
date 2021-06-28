@@ -111,7 +111,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 Object >> instVarsNamesOrderedCollection [
 
 	^ self class allInstVarNames collect: [ :varName | 
-		  varName -> [ :anObj | anObj instVarNamed: varName ] ]
+		  varName asSlotDescriptor instVarNameHasBeenGiven ]
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

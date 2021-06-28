@@ -9,7 +9,8 @@ BlockClosure >> instVarsNamesOrderedCollection [
 		          var := outerContext lookupVar: aRBVariable name.
 		          var
 			          ifNil: [ #(  ) ]
-			          ifNotNil: [ { (var name -> [ :anObj | var value ]) } ] ].
+			          ifNotNil: [ 
+			          { (var name asSlotDescriptor blockClosure: [ var value ]) } ] ].
 
 	^ super instVarsNamesOrderedCollection , copied
 ]

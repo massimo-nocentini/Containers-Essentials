@@ -173,18 +173,9 @@ CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	| random |
-	random := RandomGaussian new.
-	RSHorizontalVanDerPloegTreeLayout new
-		verticalGap: [ :previousBrother :currentBrother :default | 
-			random
-				mu: default;
-				next ];
-		horizontalGap: [ :previousBrother :currentBrother :default | 
-			random
-				mu: default;
-				next ];
-		on: aCollectionOfShapes edges: aCollectionOfLines
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout
+		on: aCollectionOfShapes
+		edges: aCollectionOfLines
 ]
 
 { #category : #'as yet unclassified' }

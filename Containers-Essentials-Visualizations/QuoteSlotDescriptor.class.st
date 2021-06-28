@@ -14,10 +14,22 @@ QuoteSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #accessing }
+QuoteSlotDescriptor >> doesDescribeAnImmediateObject [
+
+	^ false
+]
+
 { #category : #'as yet unclassified' }
 QuoteSlotDescriptor >> ifQuotation: qBlock ifNotQuotation: nqBlock [
 
 	^ qBlock value: value value: shape
+]
+
+{ #category : #accessing }
+QuoteSlotDescriptor >> selector [
+
+	^ descriptor selector
 ]
 
 { #category : #accessing }

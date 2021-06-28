@@ -175,6 +175,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
 			               valueLabel := self
 				                             valueLabelShapeOf: value
+				                             describedBy: descriptor
 				                             level: level
 				                             ifStopped: [ 
 				                             value asString 
@@ -445,13 +446,13 @@ CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 		  | var value descriptor |
 		  descriptor := aDescription isSymbol
 			                ifTrue: [ 
-				                aDescription asSlotDescriptor
-				                @ [ :anObj | anObj perform: aDescription ] ]
+			                aDescription asSlotDescriptor selectorHasBeenGiven ]
 			                ifFalse: [ 
 				                aDescription isAssociation
 					                ifTrue: [ 
-					                aDescription key asSlotDescriptor
-					                @ aDescription value ]
+						                aDescription key asSlotDescriptor
+							                blockClosure: aDescription value;
+							                yourself ]
 					                ifFalse: [ aDescription ] ].
 
 		  var := descriptor selector.
@@ -515,9 +516,10 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> valueLabelShapeOf: anObject level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
+CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
-	^ level = maxLevel | anObject isImmediateObject | anObject isNil
+	^ level = maxLevel | anObject isImmediateObject
+	  | descriptor doesDescribeAnImmediateObject | anObject isNil
 	  | anObject isBoolean | anObject isSymbol
 		  ifTrue: sBlock
 		  ifFalse: [ 

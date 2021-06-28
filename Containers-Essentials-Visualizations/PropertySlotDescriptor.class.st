@@ -2,26 +2,21 @@ Class {
 	#name : #PropertySlotDescriptor,
 	#superclass : #Object,
 	#instVars : [
-		'selector',
 		'value'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
 
 { #category : #accessing }
-PropertySlotDescriptor >> @ aBlock [
+PropertySlotDescriptor >> doesDescribeAnImmediateObject [
 
-	^ BlockSlotDescriptor new
-		  selector: selector;
-		  blockClosure: aBlock;
-		  yourself
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
 PropertySlotDescriptor >> quote [
 
 	^ QuoteSlotDescriptor new
-		  selector: selector;
 		  descriptor: self;
 		  yourself
 ]
@@ -29,13 +24,7 @@ PropertySlotDescriptor >> quote [
 { #category : #accessing }
 PropertySlotDescriptor >> selector [
 
-	^ selector
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> selector: anObject [
-
-	selector := anObject
+	self subclassResponsibility
 ]
 
 { #category : #accessing }

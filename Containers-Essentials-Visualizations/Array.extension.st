@@ -5,7 +5,7 @@ Array >> instVarsNamesOrderedCollection [
 
 	| positions |
 	positions := self withIndexCollect: [ :each :index | 
-		             index asString -> [ :anObj | each ] ].
+		             index asString asSlotDescriptor blockClosure: [ each ] ].
 
 	^ super instVarsNamesOrderedCollection , positions
 ]

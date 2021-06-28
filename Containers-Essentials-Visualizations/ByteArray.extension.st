@@ -32,5 +32,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 ByteArray >> instVarsNamesOrderedCollection [
 
-	^ #( hex asArray )
+	^ { 
+		  #hex asSlotDescriptor.
+		  #asArray asSlotDescriptor }
 ]

@@ -14,7 +14,7 @@ RSTWalkBasedRegularTreeLayoutRandomizedGaps >> initializeRSTWalkBasedRegularTree
 
 	| random |
 	random := RandomGaussian new
-		          sigma: Float goldenRatio;
+		          sigma: Float goldenRatio * 3;
 		          yourself.
 
 	self
