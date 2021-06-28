@@ -7,12 +7,18 @@ Class {
 	#category : #'Containers-Essentials-Random'
 }
 
+{ #category : #'*Containers-Essentials' }
+RandomExponential >> densityOfNumber: x [
+
+	^ lambda * (lambda * x) negated exp
+]
+
 { #category : #initialization }
 RandomExponential >> initialize [
 
 	super initialize.
 
-	lambda := 1
+	self lambda: 1
 ]
 
 { #category : #accessing }

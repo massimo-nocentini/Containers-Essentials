@@ -6,9 +6,9 @@ Number >> decrement [
 ]
 
 { #category : #'*Containers-Essentials' }
-Number >> densityExponentialOf: x [
+Number >> density: aRandom [
 
-	^ self * (self * x) negated exp
+	^ aRandom densityOfNumber: self
 ]
 
 { #category : #'*Containers-Essentials' }
