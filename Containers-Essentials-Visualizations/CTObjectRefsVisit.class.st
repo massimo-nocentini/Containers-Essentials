@@ -202,7 +202,8 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 			               valueBox := (self boxShapeOf: value) yourself: [ 
 				                           :boxShape | 
 				                           isQuotation ifTrue: [ 
-					                           boxShape color: boxShape border color ] ].
+					                           boxShape color:
+						                           boxShape border color translucent ] ].
 
 
 			               collector
