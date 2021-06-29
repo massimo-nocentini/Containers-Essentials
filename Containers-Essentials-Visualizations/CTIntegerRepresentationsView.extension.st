@@ -4,28 +4,25 @@ Extension { #name : #CTIntegerRepresentationsView }
 CTIntegerRepresentationsView >> instVarsNamesOrderedCollection [
 
 	^ { 
-		  ('decimal' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   integer printString ]).
+		  #decimal asSlotDescriptor inline.
 
-		  ('hex' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   integer printStringHex ]).
+		  #hex asSlotDescriptor inline.
 
-		  ('octal' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   integer printStringBase: 8 ]).
+		  #octal asSlotDescriptor inline.
 
-		  ('binary' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   integer printStringBase: 2 ]).
+		  #binary asSlotDescriptor inline.
 
-		  (#asShapeBinaryDots asSlotDescriptor blockClosure: [ 
-			   integer asShapeBinaryDots ]) quote.
+		  #brgc asSlotDescriptor inline.
 
-		  ('BRGC' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   integer bitBRGC printStringBase: 2 ]).
+		  #skew asSlotDescriptor inline.
 
-		  ('skew (dense)' asSlotDescriptor inline blockClosure: [ :anObject | 
-			   String streamContents: [ :aStream | 
-				   integer skewBinaryCanonicalDenseRepresentation reversed do: [ 
-					   :each | aStream nextPutAll: each value asString ] ] ])
+		  #asShapeBinaryDots asSlotDescriptor quote.
+
+		  #asShapeBRGCDots asSlotDescriptor quote.
+
+		  #asShapeSkewDots asSlotDescriptor quote.
+
+		  "#asWords asSlotDescriptor"
 
 		  " ('skew (sparse)'
 		   -> [ :anObject | integer skewBinaryCanonicalSparseRepresentation ])" }

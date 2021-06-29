@@ -15,6 +15,20 @@ Integer >> bitBRGC [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
+
+	^ self = 0
+		  ifTrue: zBlock
+		  ifFalse: [ 
+			  self = 1
+				  ifTrue: oBlock
+				  ifFalse: [ 
+					  self = 2
+						  ifTrue: tBlock
+						  ifFalse: eBlock ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> nextOfLink: aLink [
 
 	^ aLink nextInteger: self

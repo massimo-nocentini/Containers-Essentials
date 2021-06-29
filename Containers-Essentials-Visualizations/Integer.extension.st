@@ -1,11 +1,21 @@
 Extension { #name : #Integer }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Integer >> asShapeBRGCDots [
+
+	^ self asShapeBinaryDots: (self bitBRGC printStringBase: 2) asArray
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Integer >> asShapeBinaryDots [
 
-	| dots repr |
-	repr := (self printStringBase: 2) asArray.
-	
+	^ self asShapeBinaryDots: (self printStringBase: 2) asArray
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> asShapeBinaryDots: repr [
+
+	| dots |
 	dots := repr collect: [ :each | 
 		        | int |
 		        int := Integer readFrom: each asString.
@@ -14,14 +24,29 @@ Integer >> asShapeBinaryDots [
 			        color: Color white;
 			        withBorder;
 			        yourself: [ :c | 
-				        int = 1 ifTrue: [ c color: c border color ] ] ].
+				        c color: (int
+							         ifZero: [ Color white ]
+							         ifOne: [ c border color ]
+							         ifTwo: [ 
+								         c border
+									         color: Color black;
+									         color ]
+							         otherwise: [ Error signal ]) ] ].
 
 	RSHorizontalLineLayout new
-		gapSize: 0;
+		gapSize: Float goldenRatio;
 		on: dots.
 
 	^ RSComposite new
 		  model: repr;
 		  shapes: dots;
 		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> asShapeSkewDots [
+
+	^ self asShapeBinaryDots: (Array streamContents: [ :aStream | 
+			   self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
+				   aStream nextPutAll: each asString ] ])
 ]
