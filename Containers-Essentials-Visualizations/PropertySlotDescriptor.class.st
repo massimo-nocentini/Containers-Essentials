@@ -8,7 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-PropertySlotDescriptor >> doesDescribeAnImmediateObject [
+PropertySlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
+
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+PropertySlotDescriptor >> inlineIfNil: aBlock [
 
 	self subclassResponsibility
 ]
@@ -25,6 +31,18 @@ PropertySlotDescriptor >> quote [
 PropertySlotDescriptor >> selector [
 
 	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> value [
+
+	^ value
 ]
 
 { #category : #accessing }

@@ -163,23 +163,17 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 	descriptors := self
 		               slotsOf: anObject
 		               withIndexCollect: [ :descriptor :var :index :collector | 
-			               | valueLabel varLabel valueBox value isQuotation |
+			               | valueLabel varLabel valueBox value |
 			               value := descriptor
-				                        ifQuotation: [ :aValue :aShape | 
-					                        isQuotation := true.
-					                        quotedShapes at: aValue put: aShape.
-					                        aValue ]
-				                        ifNotQuotation: [ :aValue | 
-					                        isQuotation := false.
-					                        aValue ].
+				                        addQuotedShapeInDictionary: quotedShapes;
+				                        value.
 
 			               valueLabel := self
 				                             valueLabelShapeOf: value
 				                             describedBy: descriptor
 				                             level: level
 				                             ifStopped: [ 
-				                             value asString 
-					                             asMultilineLabelShape:
+				                             descriptor shapeWithPrototypeLabel:
 					                             prototypeLabel ]
 				                             ifVisited: [ :shape | 
 				                             self
@@ -199,11 +193,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                           varLabelShapeOf: anObject
 				                           label: var.
 
-			               valueBox := (self boxShapeOf: value) yourself: [ 
-				                           :boxShape | 
-				                           isQuotation ifTrue: [ 
-					                           boxShape color:
-						                           boxShape border color translucent ] ].
+			               valueBox := self boxShapeOf: value.
 
 
 			               collector
@@ -519,9 +509,11 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 { #category : #visiting }
 CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
-	^ level = maxLevel | anObject isImmediateObject
-	  | descriptor doesDescribeAnImmediateObject | anObject isNil
-	  | anObject isBoolean | anObject isSymbol
+	| inline |
+	inline := descriptor inlineIfNil: [ 
+		          level = maxLevel | anObject isImmediateObject
+		          | anObject isNil | anObject isBoolean | anObject isSymbol ].
+	^ inline
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.

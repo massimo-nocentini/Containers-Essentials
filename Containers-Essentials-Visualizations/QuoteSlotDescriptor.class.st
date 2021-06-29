@@ -9,27 +9,33 @@ Class {
 }
 
 { #category : #accessing }
+QuoteSlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
+
+	^ quotedShapes at: value put: shape
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
-{ #category : #accessing }
-QuoteSlotDescriptor >> doesDescribeAnImmediateObject [
-
-	^ false
-]
-
 { #category : #'as yet unclassified' }
-QuoteSlotDescriptor >> ifQuotation: qBlock ifNotQuotation: nqBlock [
+QuoteSlotDescriptor >> inlineIfNil: aBlock [
 
-	^ qBlock value: value value: shape
+	^ descriptor inlineIfNil: aBlock
 ]
 
 { #category : #accessing }
 QuoteSlotDescriptor >> selector [
 
 	^ descriptor selector
+]
+
+{ #category : #accessing }
+QuoteSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+
+	^ shape
 ]
 
 { #category : #accessing }

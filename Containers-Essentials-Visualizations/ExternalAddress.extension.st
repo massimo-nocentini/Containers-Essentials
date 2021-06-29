@@ -10,5 +10,5 @@ ExternalAddress >> addressString [
 ExternalAddress >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
-	  , { #addressString asSlotDescriptor inline }
+	  , { (#addressString asSlotDescriptor inline: true) }
 ]

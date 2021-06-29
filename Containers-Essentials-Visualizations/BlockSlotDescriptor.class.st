@@ -10,21 +10,17 @@ Class {
 }
 
 { #category : #accessing }
-BlockSlotDescriptor >> blockClosure: anObject [
+BlockSlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
 
-	blockClosure := anObject
+	"Nothing to do because I don't have a quoted shape."
+
+	
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> doesDescribeAnImmediateObject [
+BlockSlotDescriptor >> blockClosure: anObject [
 
-	^ inline
-]
-
-{ #category : #'as yet unclassified' }
-BlockSlotDescriptor >> ifQuotation: qBlock ifNotQuotation: nqBlock [
-
-	^ nqBlock value: value
+	blockClosure := anObject
 ]
 
 { #category : #initialization }
@@ -32,15 +28,21 @@ BlockSlotDescriptor >> initialize [
 
 	super initialize.
 
-	inline := false.
+	inline := nil.
 
 	self selectorHasBeenGiven
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> inline [
+BlockSlotDescriptor >> inline: aBoolean [
 
-	inline := true
+	inline := aBoolean
+]
+
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> inlineIfNil: aBlock [
+
+	^ inline ifNil: aBlock
 ]
 
 { #category : #'as yet unclassified' }
@@ -65,6 +67,12 @@ BlockSlotDescriptor >> selector: anObject [
 BlockSlotDescriptor >> selectorHasBeenGiven [
 
 	self blockClosure: [ :anObj :aSelector | anObj perform: aSelector ]
+]
+
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+
+	^ value asString asMultilineLabelShape: prototypeLabel
 ]
 
 { #category : #accessing }

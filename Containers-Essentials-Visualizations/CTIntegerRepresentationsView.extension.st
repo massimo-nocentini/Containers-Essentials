@@ -4,17 +4,17 @@ Extension { #name : #CTIntegerRepresentationsView }
 CTIntegerRepresentationsView >> instVarsNamesOrderedCollection [
 
 	^ { 
-		  #decimal asSlotDescriptor inline.
+		  (#decimal asSlotDescriptor inline: true).
 
-		  #hex asSlotDescriptor inline.
+		  (#hex asSlotDescriptor inline: true).
 
-		  #octal asSlotDescriptor inline.
+		  (#octal asSlotDescriptor inline: true).
 
-		  #binary asSlotDescriptor inline.
+		  (#binary asSlotDescriptor inline: true).
 
-		  #brgc asSlotDescriptor inline.
+		  (#brgc asSlotDescriptor inline: true).
 
-		  #skew asSlotDescriptor inline.
+		  (#skew asSlotDescriptor inline: true).
 
 		  #asShapeBinaryDots asSlotDescriptor quote.
 
@@ -22,12 +22,10 @@ CTIntegerRepresentationsView >> instVarsNamesOrderedCollection [
 
 		  #asShapeSkewDots asSlotDescriptor quote.
 
-		  "#asWords asSlotDescriptor"
-
-		  " ('skew (sparse)'
-		   -> [ :anObject | integer skewBinaryCanonicalSparseRepresentation ])" }
-	  , ((integer between: 0 and: 16r10FFFF)
-			   ifTrue: [ 
-			   { ('character' -> [ :anObject | integer asCharacter ]) } ]
-			   ifFalse: [ #(  ) ])
+		  (#asShapeSkewDots asSlotDescriptor
+			   inline: true;
+			   quote) } , ((integer between: 0 and: 16r10FFFF)
+		   ifTrue: [ 
+		   { ('character' -> [ :anObject | integer asCharacter ]) } ]
+		   ifFalse: [ #(  ) ])
 ]

@@ -4,7 +4,7 @@ Extension { #name : #Behavior }
 Behavior >> instVarsNamesOrderedCollection [
 
 	^ { 
-		  #name asSlotDescriptor inline.
+		  (#name asSlotDescriptor inline: true).
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
 		  #typeOfClass asSlotDescriptor.
