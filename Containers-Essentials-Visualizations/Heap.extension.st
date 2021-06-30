@@ -4,5 +4,8 @@ Extension { #name : #Heap }
 Heap >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
-	  , { #asShapeValueTree asSlotDescriptor selectorHasBeenGiven quote }
+	  , { (#asShapeValueTree asSlotDescriptor
+			   selectorHasBeenGiven;
+			   inline: false;
+			   quote) }
 ]

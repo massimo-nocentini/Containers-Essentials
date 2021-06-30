@@ -9,9 +9,9 @@ Class {
 }
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
+QuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
 
-	^ quotedShapes at: value put: shape
+	^ aReceiver addQuotedShape: shape model: value
 ]
 
 { #category : #accessing }

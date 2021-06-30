@@ -54,6 +54,14 @@ CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
 					 nextPutAll: mineShape propertyDfsSCC size asString ] ])
 ]
 
+{ #category : #adding }
+CTObjectRefsVisit >> addQuotedShape: shape model: value [
+
+	shape height: shape height + self radiusOrPaddingDouble.
+
+	^ quotedShapes at: value put: shape
+]
+
 { #category : #visiting }
 CTObjectRefsVisit >> boxShapeOf: value [
 
@@ -153,19 +161,19 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 { #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
-	| descriptors extent mineShape |
+	| descriptors maxX mineShape |
 	mineShape := self shapeOf: anObject level: level.
 
 	self visitingShape: mineShape of: anObject.
 
-	extent := metaExtent.
+	maxX := metaExtent x.
 
 	descriptors := self
 		               slotsOf: anObject
 		               withIndexCollect: [ :descriptor :var :index :collector | 
-			               | valueLabel varLabel valueBox value |
+			               | valueLabel varLabel valueBox value height |
 			               value := descriptor
-				                        addQuotedShapeInDictionary: quotedShapes;
+				                        addQuotedShapeInVisit: self;
 				                        value.
 
 			               valueLabel := self
@@ -186,14 +194,20 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 						                             ofShape: mineShape
 						                             level: level ].
 
-			               valueLabel ifNotNil: [ 
-				               extent := extent max: valueLabel extent ].
+			               height := valueLabel
+				                         ifNil: [ metaExtent y ]
+				                         ifNotNil: [ 
+					                         | extent |
+					                         extent := valueLabel extent.
+					                         maxX := maxX max: extent x.
+					                         extent y ].
 
 			               varLabel := self
 				                           varLabelShapeOf: anObject
 				                           label: var.
 
-			               valueBox := self boxShapeOf: value.
+			               valueBox := (self boxShapeOf: value) yourself: [ 
+				                           :aBox | aBox height: height ].
 
 
 			               collector
@@ -209,7 +223,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 	^ self
 		  object: anObject
 		  descriptors: descriptors
-		  extent: self radiusOrPadding double + extent x @ extent y
+		  extent: maxX + self radiusOrPaddingDouble
 		  shape: mineShape
 ]
 
@@ -237,9 +251,10 @@ CTObjectRefsVisit >> initialize [
 		                  fontName: 'Source Code Pro';
 		                  yourself.
 
-	metaExtent := prototypeLabel extent.
-	metaColor := prototypeLabel color lighter lighter lighter.
-	metaFontSize := prototypeLabel fontSize * (Float goldenRatio - 1)
+	prototypeLabel withText: '...' do: [ 
+		metaExtent := prototypeLabel extent.
+		metaColor := prototypeLabel color lighter lighter lighter.
+		metaFontSize := prototypeLabel fontSize * (Float goldenRatio - 1) ]
 ]
 
 { #category : #accessing }
@@ -255,9 +270,11 @@ CTObjectRefsVisit >> maxLevel: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent shape: mineShape [
+CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel |
+	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding |
+	padding := self radiusOrPadding.
+
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
@@ -266,7 +283,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		          valueLabel := slotDescriptor at: #valueLabel.
 		          valueBox := slotDescriptor at: #valueBox.
 
-		          valueBox extent: extent.
+		          valueBox width: width.
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
@@ -281,10 +298,11 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 						                        (Array with: valueBox with: valueLabel);
 					                        yourself ].
 
+
 		          RSLocation new
 			          left;
 			          outer;
-			          offset: self radiusOrPadding negated @ 0;
+			          offset: padding negated @ 0;
 			          stick: varLabel on: valueShape.
 
 		          RSComposite new
@@ -292,7 +310,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 			          yourself ].
 
 	RSVerticalLineLayout new
-		verticalGap: 0;
+		verticalGap: padding;
 		on: shapes.
 
 	RSAlignment new
@@ -337,7 +355,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 
 	compositeShape := RSComposite new
 		                  shapes: shapes;
-		                  padding: self radiusOrPadding;
+		                  padding: padding;
 		                  yourself.
 
 	boxedCompositeShape := RSBox new
@@ -346,7 +364,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 			                       (compositeShape extent x max:
 					                        classLabel extent x)
 			                       @ compositeShape extent y;
-		                       cornerRadius: self radiusOrPadding;
+		                       cornerRadius: padding;
 		                       withBorder;
 		                       yourself.
 
@@ -374,7 +392,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 		  shapes: { 
 				  classLabel.
 				  boxedCompositeShape };
-		  padding: self radiusOrPadding;
+		  padding: padding;
 		  yourself
 ]
 
@@ -382,6 +400,12 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 CTObjectRefsVisit >> radiusOrPadding [
 
 	^ Float goldenRatio double
+]
+
+{ #category : #visiting }
+CTObjectRefsVisit >> radiusOrPaddingDouble [
+
+	^ Float goldenRatio double double
 ]
 
 { #category : #accessing }

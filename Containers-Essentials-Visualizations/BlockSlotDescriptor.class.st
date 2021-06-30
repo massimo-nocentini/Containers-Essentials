@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #accessing }
-BlockSlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
+BlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 
 	"Nothing to do because I don't have a quoted shape."
 

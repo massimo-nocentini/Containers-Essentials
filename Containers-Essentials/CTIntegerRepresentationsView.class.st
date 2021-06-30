@@ -72,5 +72,5 @@ CTIntegerRepresentationsView >> skew [
 
 	^ String streamContents: [ :aStream | 
 		  integer skewBinaryCanonicalDenseRepresentation reversed do: [ 
-			  :each | aStream nextPutAll: each value asString ] ]
+			  :each | aStream nextPutAll: each asString ] ]
 ]

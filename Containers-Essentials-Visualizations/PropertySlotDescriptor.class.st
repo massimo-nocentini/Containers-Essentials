@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-PropertySlotDescriptor >> addQuotedShapeInDictionary: quotedShapes [
+PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 
 	self subclassResponsibility
 ]
