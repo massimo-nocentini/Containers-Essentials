@@ -174,7 +174,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                             level: level
 				                             ifStopped: [ 
 				                             descriptor shapeWithPrototypeLabel:
-					                             prototypeLabel ]
+					                             prototypeLabel copy ]
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
@@ -209,7 +209,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 	^ self
 		  object: anObject
 		  descriptors: descriptors
-		  extent: self radiusOrPadding + extent x @ extent y
+		  extent: self radiusOrPadding double + extent x @ extent y
 		  shape: mineShape
 ]
 
@@ -222,27 +222,24 @@ CTObjectRefsVisit >> fromShapes: anObject [
 { #category : #initialization }
 CTObjectRefsVisit >> initialize [
 
-	| nilLabel |
 	super initialize.
 
 	dfsClock := 0.
 	maxLevel := 0.
 	sccShapeStack := nil.
+
 	sccs := OrderedCollection new.
 	levels := Dictionary new.
 	quotedShapes := IdentityDictionary new.
 
-	nilLabel := RSLabel new
-		            model: nil;
-		            yourself.
-
 	prototypeLabel := RSLabel new
+		                  model: nil;
 		                  fontName: 'Source Code Pro';
 		                  yourself.
 
-	metaExtent := nilLabel extent.
-	metaColor := nilLabel color lighter lighter lighter.
-	metaFontSize := nilLabel fontSize * (Float goldenRatio - 1)
+	metaExtent := prototypeLabel extent.
+	metaColor := prototypeLabel color lighter lighter lighter.
+	metaFontSize := prototypeLabel fontSize * (Float goldenRatio - 1)
 ]
 
 { #category : #accessing }
@@ -319,7 +316,7 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: extent sh
 
 					                            anObject asString 
 						                            asMultilineLabelShape:
-						                            prototypeLabel ].
+						                            prototypeLabel copy ].
 
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.

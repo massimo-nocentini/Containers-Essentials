@@ -5,5 +5,7 @@ CTKeysAndValuesView >> instVarsNamesOrderedCollection [
 
 	^ Array streamContents: [ :aStream | 
 		  dict keysAndValuesDo: [ :k :v | 
-			  aStream nextPut: k asString -> [ :anObj | v ] ] ]
+			  aStream nextPut: (k asString asSlotDescriptor
+					   blockClosure: [ v ];
+					   yourself) ] ]
 ]
