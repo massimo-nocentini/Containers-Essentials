@@ -8,7 +8,7 @@ Behavior >> instVarsNamesOrderedCollection [
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
 		  #typeOfClass asSlotDescriptor.
-		  #instanceCount asSlotDescriptor.
-		  #spaceUsed asSlotDescriptor.
-		  #kindAsSymbol asSlotDescriptor }
+		  #instanceCount asSlotDescriptor
+		  "#spaceUsed asSlotDescriptor.
+		  #kindAsSymbol asSlotDescriptor" }
 ]
