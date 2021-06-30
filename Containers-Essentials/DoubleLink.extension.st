@@ -1,6 +1,6 @@
 Extension { #name : #DoubleLink }
 
-{ #category : #'*Collections-Support-Extensions' }
+{ #category : #'*Containers-Essentials' }
 DoubleLink >> printOn: aStream [
 	super printOn: aStream.
 	aStream nextPut: $(.

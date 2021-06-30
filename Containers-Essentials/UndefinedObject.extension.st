@@ -1,6 +1,6 @@
 Extension { #name : #UndefinedObject }
 
-{ #category : #'*Collections-Support-Extensions' }
+{ #category : #'*Containers-Essentials' }
 UndefinedObject >> do: aFullBlockClosure [
 
 	
