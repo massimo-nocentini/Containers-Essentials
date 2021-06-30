@@ -22,9 +22,9 @@ BaselineOfContainersEssentials >> baseline: spec [
 			package: 'Kernel-Extensions';
 			package: 'Containers-Essentials';
 			package: 'Containers-Essentials-Visualizations';
+			package: 'Containers-Essentials-Tests';
 			package: 'Collections-Abstract-Extensions';
 			package: 'Collections-Support-Extensions';
-			package: 'Collections-Support-Visualizations';
 			package: 'Collections-Strings-Extensions';
 			package: 'Collections-Sequenceable-Extensions';
 			package: 'Collections-Sequenceable-Visualizations' ]
