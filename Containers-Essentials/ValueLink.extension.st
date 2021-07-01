@@ -15,14 +15,16 @@ ValueLink >> do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
-ValueLink >> with: aValueLink collect: aBlock [
-	^ aValueLink
-		ifNil: [ SizeMismatch signal ]
-		ifNotNil: [ | links |
-			links := nextLink
-				ifNotNil: [ nextLink with: aValueLink nextLink collect: aBlock ].
-			self class new
-				value: (aBlock value: value value: aValueLink value);
-				nextLink: links;
-				yourself ]
+ValueLink >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
+
+	^ super
+		  with: aValueLink
+		  collect: [ :aLink :anotherLink | 
+			  | v |
+			  v := aBlock value: aLink value value: anotherLink value.
+
+			  self class new
+				  value: v;
+				  yourself ]
+		  onSizeMismatchDo: eBlock
 ]

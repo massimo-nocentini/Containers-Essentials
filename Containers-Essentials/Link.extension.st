@@ -60,3 +60,36 @@ Link >> size [
 	[ nl := nl nextLink ] whileNotNil: [ size := size + 1 ].
 	^ size
 ]
+
+{ #category : #'*Containers-Essentials' }
+Link >> with: aValueLink collect: aBlock [
+
+	^ self
+		  with: aValueLink
+		  collect: aBlock
+		  onSizeMismatchDo: [ SizeMismatch signal ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Link >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
+
+	^ aValueLink ifNil: [ eBlock cull: self ] ifNotNil: [ 
+		  self nextLink
+			  withValueLink: aValueLink nextLink
+			  collect: aBlock
+			  onSizeMismatchDo: eBlock ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Link >> withValueLink: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
+
+	| links |
+	links := self nextLink
+		         withValueLink: aValueLink nextLink
+		         collect: aBlock
+		         onSizeMismatchDo: eBlock.
+
+	^ (aBlock value: self value: aValueLink)
+		  nextLink: links;
+		  yourself
+]

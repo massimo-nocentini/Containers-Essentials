@@ -14,8 +14,3 @@ UndefinedObject >> reversed [
 UndefinedObject >> reversed: prefix [
 	^ prefix
 ]
-
-{ #category : #'*Kernel-Extensions' }
-UndefinedObject >> with: aValueLink collect: aString [
-	^ aValueLink ifNotNil: [ SizeMismatch signal ]
-]
