@@ -2,7 +2,10 @@ Class {
 	#name : #PropertySlotDescriptor,
 	#superclass : #Object,
 	#instVars : [
-		'value'
+		'value',
+		'valueLabel',
+		'varLabel',
+		'valueBox'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -49,4 +52,40 @@ PropertySlotDescriptor >> value [
 PropertySlotDescriptor >> value: anObject [
 
 	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> valueBox [
+
+	^ valueBox
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> valueBox: anObject [
+
+	valueBox := anObject
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> valueLabel [
+
+	^ valueLabel
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> valueLabel: anObject [
+
+	valueLabel := anObject
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> varLabel [
+
+	^ varLabel
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> varLabel: anObject [
+
+	varLabel := anObject
 ]

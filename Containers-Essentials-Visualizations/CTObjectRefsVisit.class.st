@@ -170,8 +170,8 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
 	descriptors := self
 		               slotsOf: anObject
-		               withIndexCollect: [ :descriptor :var :index :collector | 
-			               | valueLabel varLabel valueBox value height |
+		               withIndexCollect: [ :descriptor :index | 
+			               | valueLabel varLabel valueBox value |
 			               value := descriptor
 				                        addQuotedShapeInVisit: self;
 				                        value.
@@ -194,26 +194,27 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 						                             ofShape: mineShape
 						                             level: level ].
 
-			               height := valueLabel
-				                         ifNil: [ metaExtent y ]
-				                         ifNotNil: [ 
-					                         | extent |
-					                         extent := valueLabel extent.
-					                         maxX := maxX max: extent x.
-					                         extent y ].
-
 			               varLabel := self
 				                           varLabelShapeOf: anObject
-				                           label: var.
+				                           label: descriptor selector.
 
 			               valueBox := (self boxShapeOf: value) yourself: [ 
-				                           :aBox | aBox height: height ].
+				                           :aBox | 
+				                           | height |
+				                           height := valueLabel
+					                                     ifNil: [ metaExtent y ]
+					                                     ifNotNil: [ 
+						                                     | extent |
+						                                     extent := valueLabel extent.
+						                                     maxX := maxX max: extent x.
+						                                     extent y ].
+				                           aBox height: height ].
 
-
-			               collector
-				               value: valueLabel
-				               value: varLabel
-				               value: valueBox ].
+			               descriptor
+				               valueLabel: valueLabel;
+				               varLabel: varLabel;
+				               valueBox: valueBox;
+				               yourself ].
 
 	self
 		dfsClockTick;
@@ -278,10 +279,10 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel value valueShape |
 		          "Unpacking."
-		          value := slotDescriptor at: #value.
-		          varLabel := slotDescriptor at: #varLabel.
-		          valueLabel := slotDescriptor at: #valueLabel.
-		          valueBox := slotDescriptor at: #valueBox.
+		          value := slotDescriptor value.
+		          varLabel := slotDescriptor varLabel.
+		          valueLabel := slotDescriptor valueLabel.
+		          valueBox := slotDescriptor valueBox.
 
 		          valueBox width: width.
 
@@ -297,7 +298,6 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 					                        shapes:
 						                        (Array with: valueBox with: valueLabel);
 					                        yourself ].
-
 
 		          RSLocation new
 			          left;
@@ -470,18 +470,7 @@ CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 		  var := descriptor selector.
 		  value := descriptor value: anObject.
 
-		  aBlock
-			  value: descriptor
-			  value: var
-			  value: index
-			  value: [ :valueLabel :varLabel :valueBox | 
-				  Dictionary new
-					  at: #var put: var;
-					  at: #value put: value;
-					  at: #valueLabel put: valueLabel;
-					  at: #varLabel put: varLabel;
-					  at: #valueBox put: valueBox;
-					  yourself ] ]
+		  aBlock value: descriptor value: index ]
 ]
 
 { #category : #accessing }
