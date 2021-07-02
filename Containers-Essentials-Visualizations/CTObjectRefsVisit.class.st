@@ -534,7 +534,7 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 { #category : #visiting }
 CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 
-	| composite |
+	| composite aBlock |
 	composite := var asString asMultilineLabelShape: (RSLabel new
 			              color: metaColor;
 			              yourself).
@@ -543,14 +543,12 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 		shapes: composite shapes;
 		right.
 
-	(anObject class lookupSelector: var)
-		ifNil: [ composite when: RSMouseLeftClick do: [ :ev |  ] ]
-		ifNotNil: [ :cm | 
-			composite when: RSMouseLeftClick do: [ :ev | cm browse ]
-			"composite shapes do: [ :each | 
-			each when: RSMouseLeftClick do: [ :ev | cm browse ] ] " ].
-
+	aBlock := (anObject class lookupSelector: var)
+		          ifNil: [ [ :ev |  ] ]
+		          ifNotNil: [ :cm | [ :ev | cm browse ] ].
 	^ composite
+		  when: RSMouseLeftClick do: aBlock;
+		  yourself
 ]
 
 { #category : #visiting }
