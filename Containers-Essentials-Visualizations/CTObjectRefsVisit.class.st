@@ -208,6 +208,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 						                                     extent := valueLabel extent.
 						                                     maxX := maxX max: extent x.
 						                                     extent y ].
+				                           height := height max: varLabel extent y.
 				                           aBox height: height ].
 
 			               descriptor
@@ -533,12 +534,23 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 { #category : #visiting }
 CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 
-	^ RSLabel new
-		  text: var asString;
-		  color: metaColor;
-		  when: RSMouseClick do: [ :ev | 
-			  (anObject class lookupSelector: var) ifNotNil: [ :cm | cm browse ] ];
-		  yourself
+	| composite |
+	composite := var asString asMultilineLabelShape: (RSLabel new
+			              color: metaColor;
+			              yourself).
+
+	RSAlignment new
+		shapes: composite shapes;
+		right.
+
+	(anObject class lookupSelector: var)
+		ifNil: [ composite when: RSMouseLeftClick do: [ :ev |  ] ]
+		ifNotNil: [ :cm | 
+			composite when: RSMouseLeftClick do: [ :ev | cm browse ]
+			"composite shapes do: [ :each | 
+			each when: RSMouseLeftClick do: [ :ev | cm browse ] ] " ].
+
+	^ composite
 ]
 
 { #category : #visiting }
