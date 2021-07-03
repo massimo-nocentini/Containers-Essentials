@@ -47,11 +47,14 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 { #category : #utilities }
 TIceImagesExporting >> exportSlotsGraphOf: anObject slotsBlock: aBlock [
 
-	^ self export: anObject pathSuffix: '' onCanvasDo: [ :aCanvas :obj | 
-		  obj
-			  treeDrawer: CTSlotsDfsTreeDrawer new
-			  onCanvas: aCanvas
-			  slotsBlock: aBlock ]
+	^ self
+		  export: anObject
+		  pathSuffix: ''
+		  onCanvasDo: [ :aCanvas :obj | 
+			  aCanvas add:
+				  (obj
+					   asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
+					   slotsBlock: aBlock) ]
 ]
 
 { #category : #utilities }

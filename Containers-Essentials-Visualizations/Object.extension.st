@@ -1,16 +1,60 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsCollapsedSCCsDfsTree [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsCollapsedSCCsDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsDfsTree [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsLayeredDfsTree [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsLayeredDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsSCCsDfsTree [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsSCCsDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsTopologicallySortedDfsTree [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsTopologicallySortedDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock [
+
+	^ aDrawer visit: (CTObjectRefsVisit new
+			   rootObject: self;
+			   slotsBlock: aBlock;
+			   yourself)
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 100 title: 'Slots graph'>
-	| canvas |
-	canvas := self
-		          treeDrawer: CTSlotsDfsTreeDrawer new
-		          onCanvas: RSCanvas new
-		          slotsBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
+	^ RSCanvas new
+		  add: self asShapeSlotsDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -20,13 +64,8 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 
 	<inspectorPresentationOrder: 130 title:
 	'Collapsed SCCs of Slots graph'>
-	| canvas |
-	canvas := self
-		          treeDrawer: CTSlotsCollapsedSCCsDfsTreeDrawer new
-		          onCanvas: RSCanvas new
-		          slotsBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
+	^ RSCanvas new
+		  add: self asShapeSlotsCollapsedSCCsDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -47,13 +86,8 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 Object >> inspectorCanvasSlotsGraphLayered [
 
 	<inspectorPresentationOrder: 150 title: 'Layered slots graph'>
-	| canvas |
-	canvas := self
-		          treeDrawer: CTSlotsLayeredDfsTreeDrawer new
-		          onCanvas: RSCanvas new
-		          slotsBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
+	^ RSCanvas new
+		  add: self asShapeSlotsLayeredDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -68,13 +102,8 @@ Object >> inspectorCanvasSlotsGraphLayeredContext: aContext [
 Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 120 title: 'SCCs of Slots graph'>
-	| canvas |
-	canvas := self
-		          treeDrawer: CTSlotsSCCsDfsTreeDrawer new
-		          onCanvas: RSCanvas new
-		          slotsBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
+	^ RSCanvas new
+		  add: self asShapeSlotsSCCsDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -90,13 +119,8 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 
 	<inspectorPresentationOrder: 110 title:
 	'Slots graph, topologically sorted.'>
-	| canvas |
-	canvas := self
-		          treeDrawer: CTSlotsTopologicallySortedDfsTreeDrawer new
-		          onCanvas: RSCanvas new
-		          slotsBlock: [ :anObj | 
-		          anObj instVarsNamesOrderedCollection ].
-	^ canvas
+	^ RSCanvas new
+		  add: self asShapeSlotsTopologicallySortedDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -112,15 +136,4 @@ Object >> instVarsNamesOrderedCollection [
 
 	^ self class allInstVarNames collect: [ :varName | 
 		  varName asSlotDescriptor instVarNameHasBeenGiven ]
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> treeDrawer: aDrawer onCanvas: aCanvas slotsBlock: aBlock [
-
-	^ aDrawer
-		  visit: (CTObjectRefsVisit new
-				   rootObject: self;
-				   slotsBlock: aBlock;
-				   yourself);
-		  drawOnCanvas: aCanvas
 ]

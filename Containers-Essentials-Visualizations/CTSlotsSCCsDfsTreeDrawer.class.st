@@ -75,7 +75,7 @@ CTSlotsSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 	== aTuple propertyToShape propertyDfsSCC ifFalse: [ 
 		edge
 			color: edge color translucent;
-			width: 0.5 ].
+			width: Float goldenRatio - 1 ].
 
 	^ edge
 ]

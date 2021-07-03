@@ -15,8 +15,6 @@ Class {
 { #category : #adding }
 CTSlotsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 
-	aCanvas addAll: aCollection.
-	
 	^ aCollection
 ]
 
@@ -69,37 +67,6 @@ CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  edge
 			  dashArray: #( 4 );
 			  yourself ]
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> drawOnCanvas: aCanvas [
-
-	self visit.
-
-	shapes := self addAll: toShapes values onCanvas: aCanvas.
-
-	edges := self withDfsEdgesDo: [ 
-		         :treeTuples 
-		         :forwardTuples 
-		         :backTuples 
-		         :crossTuples | 
-		         | lineBuilder |
-		         lineBuilder := self treeLinesBuilder
-			                        canvas: aCanvas;
-			                        yourself.
-		         self
-			         treeTuples: treeTuples lineBuilder: lineBuilder;
-			         forwardTuples: forwardTuples lineBuilder: lineBuilder;
-			         backTuples: backTuples lineBuilder: lineBuilder;
-			         crossTuples: crossTuples lineBuilder: lineBuilder;
-			         layoutTuples: treeTuples
-			         lineBuilder: self layoutLinesBuilder ].
-
-	self layoutOn: shapes edges: edges.
-
-	^ aCanvas
-		  zoomToFit;
-		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -232,7 +199,49 @@ CTSlotsDfsTreeDrawer >> visit [
 { #category : #accessing }
 CTSlotsDfsTreeDrawer >> visit: anObject [
 
-	visit := anObject
+	| edgesForLayout |
+	visit := anObject.
+
+	self visit.
+
+	shapes := self addAll: toShapes values onCanvas: nil.
+	edges := OrderedCollection new.
+
+	edgesForLayout := self withDfsEdgesDo: [ 
+		                  :treeTuples 
+		                  :forwardTuples 
+		                  :backTuples 
+		                  :crossTuples | 
+		                  | lineBuilder |
+		                  lineBuilder := self treeLinesBuilder.
+
+		                  edges
+			                  addAll:
+				                  (self
+					                   treeTuples: treeTuples
+					                   lineBuilder: lineBuilder);
+			                  addAll:
+				                  (self
+					                   forwardTuples: forwardTuples
+					                   lineBuilder: lineBuilder);
+			                  addAll:
+				                  (self
+					                   backTuples: backTuples
+					                   lineBuilder: lineBuilder);
+			                  addAll:
+				                  (self
+					                   crossTuples: crossTuples
+					                   lineBuilder: lineBuilder).
+
+		                  self
+			                  layoutTuples: treeTuples
+			                  lineBuilder: self layoutLinesBuilder ].
+
+	self layoutOn: shapes edges: edgesForLayout.
+
+	^ RSComposite new
+		  shapes: shapes , edges;
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
