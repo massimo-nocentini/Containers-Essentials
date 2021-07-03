@@ -74,8 +74,8 @@ Link >> with: aValueLink collect: aBlock [
 Link >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	^ aValueLink ifNil: [ eBlock cull: self ] ifNotNil: [ 
-		  self nextLink
-			  withValueLink: aValueLink nextLink
+		  self
+			  withValueLink: aValueLink
 			  collect: aBlock
 			  onSizeMismatchDo: eBlock ]
 ]
