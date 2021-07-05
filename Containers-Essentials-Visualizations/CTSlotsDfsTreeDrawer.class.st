@@ -74,7 +74,8 @@ CTSlotsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
 		  edgeFrom: aTuple propertyFromSlotShape
-		  to: aTuple propertyToShape
+		  to: (aTuple propertyToShape propertyDfsBoxedSlotsShape ifNil: [ 
+				   aTuple propertyToShape ])
 ]
 
 { #category : #'as yet unclassified' }
