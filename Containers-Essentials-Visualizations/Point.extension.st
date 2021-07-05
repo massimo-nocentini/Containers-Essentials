@@ -13,6 +13,7 @@ Point >> asShapeWrtOrigin [
 		          yourself: [ :o | 
 			          o radius: Float goldenRatio - 1 / 2 * o radius ].
 	^ RSComposite new
+		  model: self;
 		  shapes: { 
 				  origin.
 				  (RSCircle new

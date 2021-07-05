@@ -4,7 +4,5 @@ Extension { #name : #RSBoundingShape }
 RSBoundingShape >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
-	  , { (#quotedYourself asSlotDescriptor
-			   blockClosure: [ self ];
-			   quote) }
+	  , { #asShapeQuoted asSlotDescriptor quote }
 ]

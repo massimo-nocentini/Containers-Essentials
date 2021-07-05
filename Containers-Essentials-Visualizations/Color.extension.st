@@ -6,7 +6,6 @@ Color >> asShapeColoredBox [
 	^ RSBox new
 		  color: self;
 		  model: self;
-		  size: Float goldenRatio * 15;
 		  cornerRadius: Float goldenRatio double;
 		  yourself
 ]
@@ -16,6 +15,6 @@ Color >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
 	  , { (#asShapeColoredBox asSlotDescriptor
-			   inline: true;
+			   inline: false;
 			   quote) }
 ]
