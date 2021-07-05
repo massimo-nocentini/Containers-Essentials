@@ -545,7 +545,38 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 
 	aBlock := (anObject class lookupSelector: var)
 		          ifNil: [ [ :ev |  ] ]
-		          ifNotNil: [ :cm | [ :ev | cm browse ] ].
+		          ifNotNil: [ :cm | 
+			          cm firstComment ifNotEmpty: [ :firstComment | 
+				          | popup |
+				          popup := RSPopup new
+					                   shapeBuilder: [ :aComment | 
+						                   | commentComposite box |
+						                   commentComposite := aComment 
+							                                       asMultilineLabelShape:
+								                                       prototypeLabel.
+
+						                   box := RSBox new
+							                          withBorder;
+							                          color: Color veryVeryLightGray;
+							                          cornerRadius: Float goldenRatio * 2;
+							                          extent:
+								                          commentComposite extent
+								                          + (Float goldenRatio * 4).
+
+						                   RSLocation new center
+							                   stick: commentComposite
+							                   on: box.
+
+						                   RSComposite new
+							                   shapes: { 
+									                   box.
+									                   commentComposite };
+							                   yourself ];
+					                   model: firstComment;
+					                   yourself.
+
+				          composite addInteraction: popup ].
+			          [ :ev | cm browse ] ].
 	^ composite
 		  when: RSMouseLeftClick do: aBlock;
 		  yourself
