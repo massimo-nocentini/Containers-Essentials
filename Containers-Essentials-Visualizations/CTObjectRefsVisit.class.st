@@ -70,7 +70,6 @@ CTObjectRefsVisit >> boxShapeOf: value [
 		  color: Color white;
 		  cornerRadius: self radiusOrPadding;
 		  withBorder;
-		  addInteraction: RSHighlightable withLines;
 		  yourself
 ]
 
@@ -209,7 +208,11 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 						                                     maxX := maxX max: extent x.
 						                                     extent y ].
 				                           height := height max: varLabel extent y.
-				                           aBox height: height ].
+				                           aBox height: height.
+
+				                           valueLabel ifNil: [ 
+					                           aBox addInteraction:
+						                           RSHighlightable withLines ] ].
 
 			               descriptor
 				               valueLabel: valueLabel;

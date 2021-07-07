@@ -3,6 +3,10 @@ Extension { #name : #Heap }
 { #category : #'*Containers-Essentials-Visualizations' }
 Heap >> asShapeValueTree [
 
+	"This visualization represents the current Heap object as a binary tree,
+	 where a solid edge denotes the child at position 2n and a dashed edge
+	 denotes a child at position 2n + 1, where n is the position of the parent."
+
 	| shapes heap edgeBuilder evenEdges oddEdges edges indexes |
 	indexes := IdentityDictionary new.
 	heap := array copyFrom: 1 to: tally.
