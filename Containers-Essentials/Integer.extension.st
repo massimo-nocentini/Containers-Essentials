@@ -35,6 +35,24 @@ Integer >> nextOfLink: aLink [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> quoRem: anInteger complementaryIn: aBlock [
+
+	| q r ratio floor ceil |
+	ratio := self / anInteger.
+
+	floor := ratio floor.
+	ceil := ratio ceiling.
+
+	q := ratio - floor < (ratio - ceil)
+		     ifTrue: [ floor ]
+		     ifFalse: [ ceil ].
+		
+	r := self - (q * anInteger).
+
+	^ aBlock value: q value: r
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> skewBinaryCanonicalDenseRepresentation [
 	^ self isZero
 		  ifTrue: [ 0 ~~> nil ]
