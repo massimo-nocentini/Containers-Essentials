@@ -1,6 +1,6 @@
 Class {
 	#name : #QuoRemMinimal,
-	#superclass : #QuoRemComplementary,
+	#superclass : #QuoRemStandard,
 	#category : #'Containers-Essentials'
 }
 
@@ -18,13 +18,4 @@ QuoRemMinimal >> initialize [
 		       ifFalse: [ ceil ].
 
 	rem := a - (quo * b)
-]
-
-{ #category : #converting }
-QuoRemMinimal >> numberOfDots [
-
-	| absRem |
-	absRem := rem ifNegative: [ 0 ] ifZero: [ 0 ] ifPositive: #yourself.
-
-	^ super numberOfDots + absRem
 ]

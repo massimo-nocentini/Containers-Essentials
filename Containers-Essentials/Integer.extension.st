@@ -1,6 +1,12 @@
 Extension { #name : #Integer }
 
 { #category : #'*Containers-Essentials' }
+Integer >> /% anObject [
+
+	^ anObject quoRemInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> /%< anObject [
 
 	^ anObject quoRemMinimalInteger: self
@@ -50,6 +56,12 @@ Integer >> nextOfLink: aLink [
 Integer >> quoRemComplementaryInteger: anInteger [
 
 	^ QuoRemComplementary a: anInteger b: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> quoRemInteger: anInteger [
+
+	^ QuoRemStandard a: anInteger b: self
 ]
 
 { #category : #'*Containers-Essentials' }
