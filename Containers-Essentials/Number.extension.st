@@ -12,6 +12,20 @@ Number >> density: aRandom [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> ifNegative: nBlock ifZero: zBlock ifPositive: pBlock [
+
+	| block |
+	block := self negative
+		         ifTrue: [ nBlock ]
+		         ifFalse: [ 
+			         self isZero
+				         ifTrue: [ zBlock ]
+				         ifFalse: [ pBlock ] ].
+
+	^ block cull: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> increment [
 	^ self + 1
 ]
