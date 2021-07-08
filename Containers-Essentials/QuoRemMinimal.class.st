@@ -7,13 +7,15 @@ Class {
 { #category : #accessing }
 QuoRemMinimal >> initialize [
 
-	| ratio floor ceil |
-	ratio := self asNumber.
+	| floor ceil r |
+	super initialize.
 
-	floor := ratio floor.
-	ceil := ratio ceiling.
+	r := self value.
 
-	quo := ratio - floor < (ceil - ratio)
+	floor := r floor.
+	ceil := r ceiling.
+
+	quo := r - floor < (ceil - r)
 		       ifTrue: [ floor ]
 		       ifFalse: [ ceil ].
 

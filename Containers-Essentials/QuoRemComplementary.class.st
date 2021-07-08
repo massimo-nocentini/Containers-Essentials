@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'a',
 		'b',
+		'ratio',
 		'quo',
 		'rem'
 	],
@@ -25,7 +26,7 @@ QuoRemComplementary >> < aMagnitude [
 
 	"Answer whether the receiver is less than the argument."
 
-	^ self asNumber < aMagnitude
+	^ self value < aMagnitude
 ]
 
 { #category : #comparing }
@@ -34,7 +35,7 @@ QuoRemComplementary >> = aMagnitude [
 	"Compare the receiver with the argument and answer with true if the 
 	receiver is equal to the argument. Otherwise answer false."
 
-	^ self asNumber < aMagnitude
+	^ self value < aMagnitude
 ]
 
 { #category : #accessing }
@@ -52,7 +53,7 @@ QuoRemComplementary >> a: anObject [
 { #category : #converting }
 QuoRemComplementary >> asNumber [
 
-	^ a / b
+	^ self value
 ]
 
 { #category : #accessing }
@@ -72,12 +73,14 @@ QuoRemComplementary >> hash [
 
 	"Hash must be redefined whenever = is redefined."
 
-	^ self asNumber hash
+	^ self value hash
 ]
 
 { #category : #accessing }
 QuoRemComplementary >> initialize [
 
+	ratio := a / b.
+	
 	quo := self asNumber ceiling.
 	rem := a - (quo * b)
 ]
@@ -92,4 +95,10 @@ QuoRemComplementary >> quo [
 QuoRemComplementary >> rem [
 
 	^ rem
+]
+
+{ #category : #converting }
+QuoRemComplementary >> value [
+
+	^ ratio
 ]

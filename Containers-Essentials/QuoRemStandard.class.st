@@ -4,11 +4,26 @@ Class {
 	#category : #'Containers-Essentials'
 }
 
+{ #category : #converting }
+QuoRemStandard >> complement [
+
+	^ QuoRemComplementary a: a b: b
+]
+
 { #category : #accessing }
 QuoRemStandard >> initialize [
 
-	quo := self asNumber floor.
+	super initialize.
+
+	quo := self value floor.
 	rem := a - (quo * b)
+]
+
+{ #category : #'as yet unclassified' }
+QuoRemStandard >> instVarsNamesOrderedCollection [
+
+	^ super instVarsNamesOrderedCollection
+	  , { #complement asSlotDescriptor }
 ]
 
 { #category : #converting }

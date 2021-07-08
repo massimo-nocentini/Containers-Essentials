@@ -28,7 +28,15 @@ QuoRemComplementary >> asShapeDots [
 { #category : #'*Containers-Essentials-Visualizations' }
 QuoRemComplementary >> instVarsNamesOrderedCollection [
 
-	^ super instVarsNamesOrderedCollection , { 
+	^ { 
+		  #a asSlotDescriptor.
+		  #b asSlotDescriptor.
+		  #quo asSlotDescriptor.
+		  #rem asSlotDescriptor.
+		  (#value asSlotDescriptor
+			   blockClosure: [ self value asShapeSlotsDfsTree ];
+			   inline: true;
+			   quote).
 		  (#asString asSlotDescriptor inline: true).
 		  (#asShapeDots asSlotDescriptor
 			   inline: true;
