@@ -7,3 +7,9 @@ RSShape >> asShapeQuoted [
 		  model: self;
 		  yourself
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+RSShape >> sameColorAsBorderColor [
+
+	self color: self border color
+]

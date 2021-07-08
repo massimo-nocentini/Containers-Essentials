@@ -35,21 +35,9 @@ Integer >> nextOfLink: aLink [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> quoRem: anInteger complementaryIn: aBlock [
+Integer >> quoRemMinimal: anInteger [
 
-	| q r ratio floor ceil |
-	ratio := self / anInteger.
-
-	floor := ratio floor.
-	ceil := ratio ceiling.
-
-	q := ratio - floor < (ratio - ceil)
-		     ifTrue: [ floor ]
-		     ifFalse: [ ceil ].
-		
-	r := self - (q * anInteger).
-
-	^ aBlock value: q value: r
+	^ QuoRemComplementary a: self b: anInteger
 ]
 
 { #category : #'*Containers-Essentials' }
