@@ -78,16 +78,7 @@ QuoRemComplementary >> hash [
 { #category : #accessing }
 QuoRemComplementary >> initialize [
 
-	| ratio floor ceil |
-	ratio := self asNumber.
-
-	floor := ratio floor.
-	ceil := ratio ceiling.
-
-	quo := ratio - floor < (ratio - ceil)
-		       ifTrue: [ floor ]
-		       ifFalse: [ ceil ].
-
+	quo := self asNumber ceiling.
 	rem := a - (quo * b)
 ]
 

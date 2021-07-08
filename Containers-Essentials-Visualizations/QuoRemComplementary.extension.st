@@ -4,7 +4,7 @@ Extension { #name : #QuoRemComplementary }
 QuoRemComplementary >> asShapeDots [
 
 	| shapes |
-	shapes := (1 to: b * quo) collect: [ :each | 
+	shapes := (1 to: self numberOfDots) collect: [ :each | 
 		          RSCircle new
 			          withBorder;
 			          color: Color white;
@@ -51,8 +51,14 @@ QuoRemComplementary >> printOn: aStream [
 		nextPutAll: '·';
 		nextPutAll: b asString.
 
-	rem negative ifTrue: [ 
-		aStream
-			nextPutAll: ' - ';
-			nextPutAll: rem negated asString ]
+	rem
+		ifNegative: [ 
+			aStream
+				nextPutAll: ' - ';
+				nextPutAll: rem negated asString ]
+		ifZero: [  ]
+		ifPositive: [ 
+			aStream
+				nextPutAll: ' + ';
+				nextPutAll: rem asString ]
 ]

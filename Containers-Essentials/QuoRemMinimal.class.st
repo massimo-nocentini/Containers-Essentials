@@ -4,33 +4,6 @@ Class {
 	#category : #'Containers-Essentials'
 }
 
-{ #category : #converting }
-QuoRemMinimal >> asShapeDots [
-
-	| shapes absRem |
-	absRem := rem ifNegative: [ 0 ] ifZero: [ 0 ] ifPositive: #yourself.
-
-	shapes := (1 to: b * quo + absRem) collect: [ :each | 
-		          RSCircle new
-			          withBorder;
-			          color: Color white;
-			          yourself ].
-
-	rem
-		ifNegative: [ 
-			(1 to: rem negated) do: [ :i | 
-				(shapes at: shapes size + (1 - i)) sameColorAsBorderColor ] ]
-		ifZero: [  ]
-		ifPositive: [  ].
-
-	RSGridLayout on: shapes withLineItemsCount: b.
-
-	^ RSComposite new
-		  model: self;
-		  shapes: shapes;
-		  yourself
-]
-
 { #category : #accessing }
 QuoRemMinimal >> initialize [
 
