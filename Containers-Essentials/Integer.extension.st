@@ -1,6 +1,18 @@
 Extension { #name : #Integer }
 
 { #category : #'*Containers-Essentials' }
+Integer >> /%< anObject [
+
+	^ anObject quoRemMinimalInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> /%~ anObject [
+
+	^ anObject quoRemComplementaryInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asDetailedRepresentationsView [
 
 	^ CTIntegerRepresentationsView new
@@ -35,9 +47,15 @@ Integer >> nextOfLink: aLink [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> quoRemMinimal: anInteger [
+Integer >> quoRemComplementaryInteger: anInteger [
 
-	^ QuoRemComplementary a: self b: anInteger
+	^ QuoRemComplementary a: anInteger b: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> quoRemMinimalInteger: anInteger [
+
+	^ QuoRemMinimal a: anInteger b: self
 ]
 
 { #category : #'*Containers-Essentials' }

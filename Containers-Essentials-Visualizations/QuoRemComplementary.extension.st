@@ -36,6 +36,12 @@ QuoRemComplementary >> instVarsNamesOrderedCollection [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+QuoRemComplementary >> numberOfDots [
+
+	^ b * quo
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 QuoRemComplementary >> printOn: aStream [
 
 	aStream
