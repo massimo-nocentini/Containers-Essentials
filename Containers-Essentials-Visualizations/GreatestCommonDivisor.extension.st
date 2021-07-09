@@ -8,12 +8,15 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 		  #b asSlotDescriptor.
 		  #value asSlotDescriptor.
 		  (#asString asSlotDescriptor inline: true).
-		  #equations asSlotDescriptor instVarNameHasBeenGiven.
+		  (#coprime asSlotDescriptor
+			   inline: true;
+			   quote).
 		  (#asShapeDividendOverGCD asSlotDescriptor
 			   inline: true;
 			   quote).
 		  (#asShapeDivisorOverGCD asSlotDescriptor
 			   inline: true;
 			   quote).
-		  #coprime asSlotDescriptor }
+		  #equations asSlotDescriptor instVarNameHasBeenGiven.
+		  #divisibility asSlotDescriptor }
 ]

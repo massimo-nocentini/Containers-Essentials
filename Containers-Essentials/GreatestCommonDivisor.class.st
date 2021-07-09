@@ -24,7 +24,16 @@ GreatestCommonDivisor >> coprime [
 
 	| gcd |
 	gcd := self value.
-	^ self a / gcd /%< (self b / gcd)
+	^ (self a / gcd /%~ (self b / gcd)) asShapeSlotsDfsTree
+]
+
+{ #category : #'as yet unclassified' }
+GreatestCommonDivisor >> divisibility [
+
+	| gcd |
+	gcd := self value.
+
+	^ equations collect: [ :each | each a /% gcd ]
 ]
 
 { #category : #accessing }
