@@ -7,26 +7,6 @@ Class {
 	#category : #'Containers-Essentials'
 }
 
-{ #category : #accessing }
-GreatestCommonDivisor >> asShapeDividendOverGCD [
-
-	^ (self a /% self value) asShapeSlotsDfsTree
-]
-
-{ #category : #accessing }
-GreatestCommonDivisor >> asShapeDivisorOverGCD [
-
-	^ (self b /% self value) asShapeSlotsDfsTree
-]
-
-{ #category : #accessing }
-GreatestCommonDivisor >> coprime [
-
-	| gcd |
-	gcd := self value.
-	^ (self a / gcd /%~ (self b / gcd)) asShapeSlotsDfsTree
-]
-
 { #category : #'as yet unclassified' }
 GreatestCommonDivisor >> divisibility [
 
