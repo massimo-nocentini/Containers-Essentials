@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #accessing }
+GreatestCommonDivisor >> asShapeDividendOverGCD [
+
+	^ (self a /% self value) asShapeSlotsDfsTree
+]
+
+{ #category : #accessing }
+GreatestCommonDivisor >> asShapeDivisorOverGCD [
+
+	^ (self b /% self value) asShapeSlotsDfsTree
+]
+
+{ #category : #accessing }
 GreatestCommonDivisor >> initialize [
 
 	| eq |
@@ -23,25 +35,6 @@ GreatestCommonDivisor >> initialize [
 	rem := eq rem.
 
 	ratio := eq b
-]
-
-{ #category : #accessing }
-GreatestCommonDivisor >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  #a asSlotDescriptor.
-		  #b asSlotDescriptor.
-		  #value asSlotDescriptor.
-		  (#asString asSlotDescriptor inline: true).
-		  #equations asSlotDescriptor instVarNameHasBeenGiven.
-		  ('a/gcd' asSlotDescriptor
-			   blockClosure: [ (QuoRemStandard a: a b: self value) asShapeDots ];
-			   inline: true;
-			   quote).
-		  ('b/gcd' asSlotDescriptor
-			   blockClosure: [ (QuoRemStandard a: b b: self value) asShapeDots ];
-			   inline: true;
-			   quote) }
 ]
 
 { #category : #printing }

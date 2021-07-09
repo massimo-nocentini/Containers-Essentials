@@ -19,13 +19,6 @@ QuoRemStandard >> initialize [
 	rem := a - (quo * b)
 ]
 
-{ #category : #'as yet unclassified' }
-QuoRemStandard >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection
-	  , { #complement asSlotDescriptor }
-]
-
 { #category : #converting }
 QuoRemStandard >> numberOfDots [
 
