@@ -20,15 +20,24 @@ GreatestCommonDivisor >> asShapeDivisorOverGCD [
 ]
 
 { #category : #accessing }
+GreatestCommonDivisor >> coprime [
+
+	| gcd |
+	gcd := self value.
+	^ self a / gcd /%< (self b / gcd)
+]
+
+{ #category : #accessing }
 GreatestCommonDivisor >> initialize [
 
-	| eq |
-	eq := QuoRemStandard a: a b: b.
+	| eq quoRemClass |
+	quoRemClass := QuoRemMinimal.
+	eq := quoRemClass a: a b: b.
 
 	equations := OrderedCollection with: eq.
 
-	[ eq rem > 0 ] whileTrue: [ 
-		eq := QuoRemStandard a: eq b b: eq rem.
+	[ eq rem abs > 0 ] whileTrue: [ 
+		eq := quoRemClass a: eq b b: eq rem abs.
 		equations add: eq ].
 
 	quo := eq quo.

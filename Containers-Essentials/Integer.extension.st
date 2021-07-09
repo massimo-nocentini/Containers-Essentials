@@ -19,6 +19,12 @@ Integer >> /%~ anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> /|\ anObject [
+
+	^ anObject greatestCommonDisivorInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asDetailedRepresentationsView [
 
 	^ CTIntegerRepresentationsView new
@@ -30,6 +36,16 @@ Integer >> asDetailedRepresentationsView [
 Integer >> bitBRGC [
 
 	^ self bitXor: self >> 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> greatestCommonDisivorInteger: anInteger [
+
+	| max min |
+	max := self max: anInteger.
+	min := self min: anInteger.
+
+	^ GreatestCommonDivisor a: max b: min
 ]
 
 { #category : #'*Containers-Essentials' }

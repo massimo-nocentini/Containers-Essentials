@@ -14,5 +14,6 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 			   quote).
 		  (#asShapeDivisorOverGCD asSlotDescriptor
 			   inline: true;
-			   quote) }
+			   quote).
+		  #coprime asSlotDescriptor }
 ]

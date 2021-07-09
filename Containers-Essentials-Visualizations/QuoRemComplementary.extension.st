@@ -33,10 +33,10 @@ QuoRemComplementary >> instVarsNamesOrderedCollection [
 		  #b asSlotDescriptor.
 		  #quo asSlotDescriptor.
 		  #rem asSlotDescriptor.
-		  (#value asSlotDescriptor
+		  "(#value asSlotDescriptor
 			   blockClosure: [ self value asShapeSlotsDfsTree ];
 			   inline: true;
-			   quote).
+			   quote)."
 		  (#asString asSlotDescriptor inline: true).
 		  (#asShapeDots asSlotDescriptor
 			   inline: true;
