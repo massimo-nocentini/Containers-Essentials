@@ -2,7 +2,8 @@ Class {
 	#name : #GreatestCommonDivisor,
 	#superclass : #QuoRemComplementary,
 	#instVars : [
-		'equations'
+		'equations',
+		'point'
 	],
 	#category : #'Containers-Essentials'
 }
@@ -14,6 +15,12 @@ GreatestCommonDivisor >> divisibility [
 	gcd := self value.
 
 	^ equations collect: [ :each | each a /% gcd ]
+]
+
+{ #category : #accessing }
+GreatestCommonDivisor >> equations [
+
+	^ equations
 ]
 
 { #category : #accessing }
@@ -32,7 +39,20 @@ GreatestCommonDivisor >> initialize [
 	quo := eq quo.
 	rem := eq rem.
 
-	ratio := eq b
+	ratio := eq b.
+
+	point := equations allButLast allButLast
+		         foldr: [ :each :aPoint | 
+			         | currentPoint |
+			         currentPoint := aPoint y * (1 @ each quo negated).
+			         currentPoint x @ (aPoint x + currentPoint y) ]
+		         init: equations lastButOne asPointWithRespectToRem
+]
+
+{ #category : #accessing }
+GreatestCommonDivisor >> point [
+
+	^ point
 ]
 
 { #category : #printing }
@@ -58,18 +78,9 @@ GreatestCommonDivisor >> solve: c ifExists: eBlock ifNotExists: neBlock [
 
 	^ (c rem: gcd)
 		  ifZero: [ 
-			  | point |
-			  point := equations lastButOne in: [ :eq | 1 @ eq quo negated ].
-			  (equations size - 2 to: 1 by: -1) do: [ :i | 
-				  | previousEq eq previousPoint |
-				  eq := equations at: i + 1.
-				  previousEq := equations at: i.
-
-				  previousPoint := 1 @ previousEq quo negated.
-
-				  point := point y * previousPoint in: [ :currentPoint | 
-					           currentPoint x @ (point x + currentPoint y) ] ].
-
-			  eBlock value: point x @ self a value: point y @ self b value: gcd ]
+			  eBlock
+				  value: point x @ self a
+				  value: point y @ self b
+				  value: gcd asPoint ]
 		  ifNotZero: neBlock
 ]

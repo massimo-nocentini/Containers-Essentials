@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #converting }
+QuoRemStandard >> asPointWithRespectToRem [
+
+	^ 1 @ self quo negated
+]
+
+{ #category : #converting }
 QuoRemStandard >> complement [
 
 	^ QuoRemComplementary a: a b: b
