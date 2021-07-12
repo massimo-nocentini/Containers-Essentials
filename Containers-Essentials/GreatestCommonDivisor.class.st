@@ -20,7 +20,7 @@ GreatestCommonDivisor >> divisibility [
 GreatestCommonDivisor >> initialize [
 
 	| eq quoRemClass |
-	quoRemClass := QuoRemMinimal.
+	quoRemClass := QuoRemStandard.
 	eq := quoRemClass a: a b: b.
 
 	equations := OrderedCollection with: eq.
@@ -48,4 +48,28 @@ GreatestCommonDivisor >> printOn: aStream [
 			         nextPutAll: self value asString) contents.
 
 	^ node formattedCode
+]
+
+{ #category : #'as yet unclassified' }
+GreatestCommonDivisor >> solve: c ifExists: eBlock ifNotExists: neBlock [
+
+	| gcd |
+	gcd := self value.
+
+	^ (c rem: gcd)
+		  ifZero: [ 
+			  | point |
+			  point := equations lastButOne in: [ :eq | 1 @ eq quo negated ].
+			  (equations size - 2 to: 1 by: -1) do: [ :i | 
+				  | previousEq eq previousPoint |
+				  eq := equations at: i + 1.
+				  previousEq := equations at: i.
+
+				  previousPoint := 1 @ previousEq quo negated.
+
+				  point := point y * previousPoint in: [ :currentPoint | 
+					           currentPoint x @ (point x + currentPoint y) ] ].
+
+			  eBlock value: point x @ self a value: point y @ self b value: gcd ]
+		  ifNotZero: neBlock
 ]

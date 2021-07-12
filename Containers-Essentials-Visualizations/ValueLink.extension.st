@@ -9,3 +9,10 @@ ValueLink >> instVarsNamesOrderedCollection [
 
 	^ { #value } , super instVarsNamesOrderedCollection
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+ValueLink >> instVarsNamesOrderedCollectionNested [
+
+	^ { #value asSlotDescriptor }
+	  , super instVarsNamesOrderedCollectionNested
+]
