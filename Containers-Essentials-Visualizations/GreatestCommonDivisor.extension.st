@@ -8,11 +8,11 @@ GreatestCommonDivisor >> asShapeDiophantineEquation [
 		ifTrue: [ 
 			r := self point y * self b.
 			s := (self point x * self a) negated.
-			lines := self a ]
+			lines := self b ]
 		ifFalse: [ 
 			r := self point x * self a.
 			s := (self point y * self b) negated.
-			lines := self b ].
+			lines := self a ].
 
 	shapes := (1 to: r) collect: [ :each | 
 		          RSCircle new
@@ -74,7 +74,13 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 		  #value asSlotDescriptor.
 		  (#asString asSlotDescriptor inline: true).
 		  #point asSlotDescriptor.
-		  (#asStringDiophantineEquation asSlotDescriptor inline: true).
+		  (#asStringDiophantineEquation asSlotDescriptor inline: true) }
+	  , (self value = 1
+			   ifTrue: [ 
+				   { 
+					   (#inverseMultiplicativeOfa asSlotDescriptor inline: true).
+					   (#inverseMultiplicativeOfb asSlotDescriptor inline: true) } ]
+			   ifFalse: [ {  } ]) , { 
 		  (#asShapeDiophantineEquation asSlotDescriptor
 			   inline: true;
 			   quote).
@@ -87,4 +93,52 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 			   quote).
 		  #equations asSlotDescriptor.
 		  #divisibility asSlotDescriptor }
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+GreatestCommonDivisor >> inverseMultiplicativeOfa [
+
+	| ax by i |
+	i := self point x.
+	[ i negative ] whileTrue: [ i := i + self b ].
+
+	ax := RBMessageNode
+		      receiver: (RBLiteralValueNode value: i)
+		      selector: #*
+		      arguments: { (RBVariableNode named: #a) }.
+
+	by := RBMessageNode
+		      receiver: ax
+		      selector: #rem:
+		      arguments: { (RBVariableNode named: #b) }.
+
+	^ (RBMessageNode
+		   receiver: by
+		   selector: #=
+		   arguments: { (RBLiteralValueNode value: self value) })
+		  formattedCode
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+GreatestCommonDivisor >> inverseMultiplicativeOfb [
+
+	| ax by i |
+	i := self point y.
+	[ i negative ] whileTrue: [ i := i + self a ].
+
+	ax := RBMessageNode
+		      receiver: (RBLiteralValueNode value: i)
+		      selector: #*
+		      arguments: { (RBVariableNode named: #b) }.
+
+	by := RBMessageNode
+		      receiver: ax
+		      selector: #rem:
+		      arguments: { (RBVariableNode named: #a) }.
+
+	^ (RBMessageNode
+		   receiver: by
+		   selector: #=
+		   arguments: { (RBLiteralValueNode value: self value) })
+		  formattedCode
 ]

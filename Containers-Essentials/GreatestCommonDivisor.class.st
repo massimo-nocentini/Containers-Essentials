@@ -44,7 +44,7 @@ GreatestCommonDivisor >> initialize [
 	point := equations allButLast allButLast
 		         foldr: [ :each :aPoint | 
 			         | currentPoint |
-			         currentPoint := aPoint y * (1 @ each quo negated).
+			         currentPoint := aPoint y * each asPointWithRespectToRem.
 			         currentPoint x @ (aPoint x + currentPoint y) ]
 		         init: equations lastButOne asPointWithRespectToRem
 ]
