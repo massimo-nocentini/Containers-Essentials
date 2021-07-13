@@ -19,7 +19,7 @@ Point >> asShapeWrtOrigin [
 				  (RSCircle new
 					   model: self;
 					   position: self;
-					   yourself) };
+					   yourself: [ :o | o radius: Float goldenRatio - 1 * o radius ]) };
 		  yourself
 ]
 

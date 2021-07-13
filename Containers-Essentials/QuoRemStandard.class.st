@@ -7,7 +7,7 @@ Class {
 { #category : #converting }
 QuoRemStandard >> asPointWithRespectToRem [
 
-	^ 1 @ self quo negated
+	^ super asPointWithRespectToRem negated
 ]
 
 { #category : #converting }
@@ -29,7 +29,7 @@ QuoRemStandard >> initialize [
 QuoRemStandard >> numberOfDots [
 
 	| absRem |
-	absRem := rem ifNegative: [ 0 ] ifZero: [ 0 ] ifPositive: #yourself.
+	absRem := rem ifPositive: #yourself ifNotPositive: [ 0 ].
 
 	^ super numberOfDots + absRem
 ]

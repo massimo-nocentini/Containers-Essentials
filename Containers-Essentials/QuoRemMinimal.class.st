@@ -4,6 +4,14 @@ Class {
 	#category : #'Containers-Essentials'
 }
 
+{ #category : #converting }
+QuoRemMinimal >> asPointWithRespectToRem [
+
+	| aPoint |
+	aPoint := super asPointWithRespectToRem.
+	^ self rem ifNegative: [ aPoint negated ] ifNotNegative: [ aPoint ]
+]
+
 { #category : #accessing }
 QuoRemMinimal >> initialize [
 

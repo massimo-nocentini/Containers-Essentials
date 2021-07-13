@@ -27,7 +27,7 @@ GreatestCommonDivisor >> equations [
 GreatestCommonDivisor >> initialize [
 
 	| eq quoRemClass |
-	quoRemClass := QuoRemStandard.
+	quoRemClass := QuoRemMinimal.
 	eq := quoRemClass a: a b: b.
 
 	equations := OrderedCollection with: eq.
@@ -41,12 +41,13 @@ GreatestCommonDivisor >> initialize [
 
 	ratio := eq b.
 
-	point := equations allButLast allButLast
-		         foldr: [ :each :aPoint | 
-			         | currentPoint |
-			         currentPoint := aPoint y * each asPointWithRespectToRem.
-			         currentPoint x @ (aPoint x + currentPoint y) ]
-		         init: equations lastButOne asPointWithRespectToRem
+	equations size > 1 ifTrue: [ 
+		point := equations allButLast allButLast
+			         foldr: [ :each :aPoint | 
+				         | currentPoint |
+				         currentPoint := aPoint y * each asPointWithRespectToRem.
+				         currentPoint x @ (aPoint x + currentPoint y) ]
+			         init: equations lastButOne asPointWithRespectToRem ]
 ]
 
 { #category : #accessing }
@@ -58,16 +59,17 @@ GreatestCommonDivisor >> point [
 { #category : #printing }
 GreatestCommonDivisor >> printOn: aStream [
 
-	| node |
-	node := RBParser parseExpression: (aStream
-			         nextPutAll: '(';
-			         nextPutAll: a asString;
-			         nextPutAll: ' gcd: ';
-			         nextPutAll: b asString;
-			         nextPutAll: ') = ';
-			         nextPutAll: self value asString) contents.
+	| by |
+	by := RBMessageNode
+		      receiver: (RBLiteralValueNode value: self a)
+		      selector: #gcd:
+		      arguments: { (RBLiteralValueNode value: self b) }.
 
-	^ node formattedCode
+	aStream nextPutAll: (RBMessageNode
+			 receiver: by
+			 selector: #=
+			 arguments: { (RBLiteralValueNode value: self value) })
+			formattedCode
 ]
 
 { #category : #'as yet unclassified' }

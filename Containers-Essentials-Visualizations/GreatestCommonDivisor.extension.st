@@ -49,12 +49,12 @@ GreatestCommonDivisor >> asStringDiophantineEquation [
 	ax := RBMessageNode
 		      receiver: (RBLiteralValueNode value: self point x)
 		      selector: #*
-		      arguments: { (RBVariableNode named: #a) }.
+		      arguments: { (RBLiteralValueNode value: self a) }.
 
 	by := RBMessageNode
 		      receiver: (RBLiteralValueNode value: self point y)
 		      selector: #*
-		      arguments: { (RBVariableNode named: #b) }.
+		      arguments: { (RBLiteralValueNode value: self b) }.
 
 	comb := RBMessageNode receiver: ax selector: #+ arguments: { by }.
 
@@ -73,6 +73,7 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 		  #b asSlotDescriptor.
 		  #value asSlotDescriptor.
 		  (#asString asSlotDescriptor inline: true).
+		  #equations asSlotDescriptor.
 		  #point asSlotDescriptor.
 		  (#asStringDiophantineEquation asSlotDescriptor inline: true) }
 	  , (self value = 1
@@ -81,64 +82,51 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 					   (#inverseMultiplicativeOfa asSlotDescriptor inline: true).
 					   (#inverseMultiplicativeOfb asSlotDescriptor inline: true) } ]
 			   ifFalse: [ {  } ]) , { 
-		  (#asShapeDiophantineEquation asSlotDescriptor
-			   inline: true;
-			   quote).
-
 		  (#asShapeDividendOverGCD asSlotDescriptor
 			   inline: true;
 			   quote).
 		  (#asShapeDivisorOverGCD asSlotDescriptor
 			   inline: true;
-			   quote).
-		  #equations asSlotDescriptor.
-		  #divisibility asSlotDescriptor }
+			   quote)".
+
+		  #divisibility asSlotDescriptor" }
+	"(#asShapeDiophantineEquation asSlotDescriptor
+			   inline: true;
+			   quote)."
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+GreatestCommonDivisor >> inverseMultiplicativeOf: a_b mul: j rem: mod [
+
+	| ax by i |
+	i := j.
+	[ i negative ] whileTrue: [ i := i + mod ].
+
+	ax := RBMessageNode
+		      receiver: (RBLiteralValueNode value: i)
+		      selector: #*
+		      arguments: { (RBLiteralValueNode value: a_b) }.
+
+	by := RBMessageNode
+		      receiver: ax
+		      selector: #rem:
+		      arguments: { (RBLiteralValueNode value: mod) }.
+
+	^ (RBMessageNode
+		   receiver: by
+		   selector: #=
+		   arguments: { (RBLiteralValueNode value: self value) })
+		  formattedCode
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 GreatestCommonDivisor >> inverseMultiplicativeOfa [
 
-	| ax by i |
-	i := self point x.
-	[ i negative ] whileTrue: [ i := i + self b ].
-
-	ax := RBMessageNode
-		      receiver: (RBLiteralValueNode value: i)
-		      selector: #*
-		      arguments: { (RBVariableNode named: #a) }.
-
-	by := RBMessageNode
-		      receiver: ax
-		      selector: #rem:
-		      arguments: { (RBVariableNode named: #b) }.
-
-	^ (RBMessageNode
-		   receiver: by
-		   selector: #=
-		   arguments: { (RBLiteralValueNode value: self value) })
-		  formattedCode
+	^ self inverseMultiplicativeOf: self a mul: self point x rem: self b
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 GreatestCommonDivisor >> inverseMultiplicativeOfb [
 
-	| ax by i |
-	i := self point y.
-	[ i negative ] whileTrue: [ i := i + self a ].
-
-	ax := RBMessageNode
-		      receiver: (RBLiteralValueNode value: i)
-		      selector: #*
-		      arguments: { (RBVariableNode named: #b) }.
-
-	by := RBMessageNode
-		      receiver: ax
-		      selector: #rem:
-		      arguments: { (RBVariableNode named: #a) }.
-
-	^ (RBMessageNode
-		   receiver: by
-		   selector: #=
-		   arguments: { (RBLiteralValueNode value: self value) })
-		  formattedCode
+	^ self inverseMultiplicativeOf: self b mul: self point y rem: self a
 ]

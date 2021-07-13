@@ -10,12 +10,9 @@ QuoRemComplementary >> asShapeDots [
 			          color: Color white;
 			          yourself ].
 
-	rem
-		ifNegative: [ 
-			(1 to: rem negated) do: [ :i | 
-				(shapes at: shapes size + (1 - i)) sameColorAsBorderColor ] ]
-		ifZero: [  ]
-		ifPositive: [  ].
+	rem ifNegative: [ 
+		(1 to: rem negated) do: [ :i | 
+			(shapes at: shapes size + (1 - i)) sameColorAsBorderColor ] ].
 
 	RSGridLayout on: shapes withLineItemsCount: b.
 

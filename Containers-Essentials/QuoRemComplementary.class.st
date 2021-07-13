@@ -56,6 +56,12 @@ QuoRemComplementary >> asNumber [
 	^ self value
 ]
 
+{ #category : #converting }
+QuoRemComplementary >> asPointWithRespectToRem [
+
+	^ (1 @ self quo negated) negated
+]
+
 { #category : #accessing }
 QuoRemComplementary >> b [
 
