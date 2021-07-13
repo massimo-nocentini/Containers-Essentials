@@ -9,11 +9,6 @@ Class {
 	#category : #'Containers-Essentials-Tests'
 }
 
-{ #category : #utilities }
-SkewBinaryCanonicalNumberTest >> imagesPath [
-	^ self iceWorkingDirectory / 'images' / 'skew-binary-numbers'
-]
-
 { #category : #tests }
 SkewBinaryCanonicalNumberTest >> testIncrement [
 	| n skew |

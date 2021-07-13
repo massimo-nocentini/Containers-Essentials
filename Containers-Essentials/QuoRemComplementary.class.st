@@ -86,8 +86,8 @@ QuoRemComplementary >> hash [
 QuoRemComplementary >> initialize [
 
 	ratio := a / b.
-	
-	quo := self asNumber ceiling.
+
+	quo := self value ceiling.
 	rem := a - (quo * b)
 ]
 

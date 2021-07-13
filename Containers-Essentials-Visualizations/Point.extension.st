@@ -27,7 +27,7 @@ Point >> asShapeWrtOrigin [
 Point >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 
-		  #distanceToOrigin asSlotDescriptor.
+		 " #distanceToOrigin asSlotDescriptor."
 		  (#asShapeWrtOrigin asSlotDescriptor
 			   inline: false;
 			   quote) }

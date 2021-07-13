@@ -66,5 +66,6 @@ TIceImagesExporting >> iceWorkingDirectory [
 
 { #category : #utilities }
 TIceImagesExporting >> imagesPath [
-	^ self explicitRequirement
+
+	^ self iceWorkingDirectory / 'images'
 ]
