@@ -41,13 +41,17 @@ GreatestCommonDivisor >> initialize [
 
 	ratio := eq b.
 
-	equations size > 1 ifTrue: [ 
-		point := equations allButLast allButLast
-			         foldr: [ :each :aPoint | 
-				         | currentPoint |
-				         currentPoint := aPoint y * each asPointWithRespectToRem.
-				         currentPoint x @ (aPoint x + currentPoint y) ]
-			         init: equations lastButOne asPointWithRespectToRem ]
+	point := equations size > 1
+		         ifTrue: [ 
+			         | eqs |
+			         eqs := equations allButLast.
+			         eqs allButLast
+				         foldr: [ :each :aPoint | 
+					         | currentPoint |
+					         currentPoint := aPoint y * each asPointWithRespectToRem.
+					         currentPoint x @ (aPoint x + currentPoint y) ]
+				         init: eqs last asPointWithRespectToRem ]
+		         ifFalse: [ 0 @ 1 ]
 ]
 
 { #category : #accessing }
