@@ -3,7 +3,8 @@ Class {
 	#superclass : #PropertySlotDescriptor,
 	#instVars : [
 		'descriptor',
-		'shape'
+		'shape',
+		'quoteBlock'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -27,6 +28,12 @@ QuoteSlotDescriptor >> inlineIfNil: aBlock [
 ]
 
 { #category : #accessing }
+QuoteSlotDescriptor >> quoteBlock: aBlock [
+
+	quoteBlock := aBlock
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> selector [
 
 	^ descriptor selector
@@ -41,7 +48,9 @@ QuoteSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
 { #category : #accessing }
 QuoteSlotDescriptor >> value: anObject [
 
-	shape := descriptor value: anObject.
+	| aShapeHolder |
+	aShapeHolder := descriptor value: anObject.
+	shape := quoteBlock value: aShapeHolder.
 
 	self assert: (shape isKindOf: RSShape).
 

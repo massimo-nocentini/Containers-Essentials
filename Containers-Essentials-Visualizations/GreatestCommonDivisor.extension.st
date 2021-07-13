@@ -33,13 +33,13 @@ GreatestCommonDivisor >> asShapeDiophantineEquation [
 { #category : #'*Containers-Essentials-Visualizations' }
 GreatestCommonDivisor >> asShapeDividendOverGCD [
 
-	^ (self a /% self value) asShapeSlotsDfsTree
+	^ self a /% self value
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 GreatestCommonDivisor >> asShapeDivisorOverGCD [
 
-	^ (self b /% self value) asShapeSlotsDfsTree
+	^ self b /% self value
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
@@ -81,18 +81,18 @@ GreatestCommonDivisor >> instVarsNamesOrderedCollection [
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
 						    inline: true;
-						    quote).
+						    quote: #asShapeSlotsDfsTree).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
 						    inline: true;
-						    quote) } ]
+						    quote: #asShapeSlotsDfsTree) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
 						    inline: true;
-						    quote).
+						    quote: #asShapeSlotsDfsTree).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
 						    inline: true;
-						    quote) } ])
+						    quote: #asShapeSlotsDfsTree) } ])
 	".
 
 		  #divisibility asSlotDescriptor"
@@ -118,11 +118,11 @@ GreatestCommonDivisor >> inverseMultiplicativeOf: a_b mul: j rem: mod [
 		      selector: #rem:
 		      arguments: { (RBLiteralValueNode value: mod) }.
 
-	^ (i -> (RBMessageNode
-		    receiver: by
-		    selector: #=
-		    arguments: { (RBLiteralValueNode value: self value) })
-		   formattedCode) asShapeSlotsDfsTree
+	^ i -> (RBMessageNode
+		   receiver: by
+		   selector: #=
+		   arguments: { (RBLiteralValueNode value: self value) })
+		  formattedCode
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

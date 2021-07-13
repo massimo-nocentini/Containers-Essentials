@@ -81,7 +81,6 @@ Heap >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection
 	  , { (#asShapeValueTree asSlotDescriptor
-			   selectorHasBeenGiven;
 			   inline: true;
 			   quote) }
 ]

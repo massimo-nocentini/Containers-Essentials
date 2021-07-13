@@ -25,7 +25,14 @@ PropertySlotDescriptor >> inlineIfNil: aBlock [
 { #category : #accessing }
 PropertySlotDescriptor >> quote [
 
+	^ self quote: [ :aShape | aShape ]
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> quote: aBlock [
+
 	^ QuoteSlotDescriptor new
+		  quoteBlock: aBlock;
 		  descriptor: self;
 		  yourself
 ]
