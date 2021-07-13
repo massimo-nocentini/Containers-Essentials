@@ -19,7 +19,7 @@ Integer >> /%~ anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> /|\ anObject [
+Integer >> >|< anObject [
 
 	^ anObject greatestCommonDisivorInteger: self
 ]
