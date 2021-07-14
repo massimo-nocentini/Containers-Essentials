@@ -83,9 +83,13 @@ SymbolicIntegerTest >> testGCDofAdjacentFibonacciNumbers [
 { #category : #tests }
 SymbolicIntegerTest >> testGCDofMultiplicativeInversesInZ17 [
 
-	| inverses |
-	inverses := self testGCDofZ17 collect: [ :each | 
-		            each b @ each inverseMultiplicativeOfb key ].
+	| gcds inverses |
+	gcds := self testGCDofZ17.
+	inverses := PointArray new: gcds size + 1.
+	gcds withIndexDo: [ :each :index | 
+		inverses at: index put: each b @ each inverseMultiplicativeOfb key ].
+
+	inverses at: inverses size put: 0 @ 0.
 
 	^ self exportSlotsGraphOf: inverses
 ]

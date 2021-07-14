@@ -37,6 +37,15 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock
 ]
 
 { #category : #utilities }
+TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock [
+
+	^ self
+		  export: anObject
+		  pathSuffix: ''
+		  onCanvasDo: [ :aCanvas :obj | aCanvas add: (aBlock value: obj) ]
+]
+
+{ #category : #utilities }
 TIceImagesExporting >> exportSlotsGraphOf: anObject [
 
 	^ self
