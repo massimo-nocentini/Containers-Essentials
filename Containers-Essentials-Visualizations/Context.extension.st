@@ -8,7 +8,7 @@ Context >> instVarsNamesOrderedCollection [
 		  #sender asSlotDescriptor.
 		  #receiver asSlotDescriptor.
 		  #selector asSlotDescriptor.
-		  #arguments asSlotDescriptor.
+		  "(#arguments asSlotDescriptor inline: true)."
 		  #pc asSlotDescriptor.
 		  #stackPtr asSlotDescriptor
 		  "#receiver asSlotDescriptor instVarNameHasBeenGiven " }

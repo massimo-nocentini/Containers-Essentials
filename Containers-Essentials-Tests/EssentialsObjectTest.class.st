@@ -39,6 +39,19 @@ EssentialsObjectTest >> testInspectAssociation [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectBRGCodes [
+
+	^ self
+		  exportSlotsGraphOf:
+		  ((0 to: 15) collect: [ :each | each asShapeBRGCDots ])
+		  slotsBlock: [ :anObject | 
+			  anObject instVarsNamesOrderedCollection collect: [ :aDescriptor | 
+				  aDescriptor
+					  inline: true;
+					  quote ] ]
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectCharacterPi [
 
 	^ self exportSlotsGraphOf: $π
@@ -59,7 +72,16 @@ EssentialsObjectTest >> testInspectGoldenRatio [
 { #category : #tests }
 EssentialsObjectTest >> testInspectHeap [
 
-	^ self exportSlotsGraphOf: (Heap withAll: (1 to: 100) shuffled)
+	| array random |
+	random := Random seed: 11.
+	array := (1 to: 30) asArray shuffleBy: random.
+	self
+		assert: array
+		equals:
+			#( 12 16 22 30 8 17 15 4 20 19 28 18 27 21 24 10 7 3 14 5 6 26 25
+			   29 11 23 2 9 13 1 ).
+
+	^ self exportSlotsGraphOf: (Heap withAll: array)
 ]
 
 { #category : #tests }
@@ -75,9 +97,11 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectObjectClass [
+EssentialsObjectTest >> testInspectObjectModel [
 
-	^ self exportSlotsGraphOf: Object
+	^ self exportSlotsGraphOf: { 
+			  Object.
+			  Trait }
 ]
 
 { #category : #tests }
@@ -93,12 +117,6 @@ EssentialsObjectTest >> testInspectString [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectTraitClass [
-
-	^ self exportSlotsGraphOf: Trait
-]
-
-{ #category : #tests }
 EssentialsObjectTest >> testMagnitudeSubclasses [
 
 	^ self exportShapeOf: Magnitude accessorBlock: #asShapeSubclasses
@@ -108,15 +126,8 @@ EssentialsObjectTest >> testMagnitudeSubclasses [
 EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 
 	^ self exportSlotsGraphOf: Magnitude slotsBlock: [ :anObject | 
-		  anObject isClass
-			  ifTrue: [ 
-				  { 
-					  #name asSlotDescriptor.
-					  "(#comment asSlotDescriptor inline: true)."
-					  (#instVarNames asSlotDescriptor inline: true).
-					  (#subclasses asSlotDescriptor yourself: [ :aDescriptor | 
-						   anObject subclasses ifEmpty: [ aDescriptor inline: true ] ]) } ]
-			  ifFalse: [ anObject instVarsNamesOrderedCollection ] ]
+		  anObject
+			  instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph ]
 ]
 
 { #category : #tests }

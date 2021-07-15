@@ -137,3 +137,9 @@ Object >> instVarsNamesOrderedCollection [
 	^ self class allInstVarNames collect: [ :varName | 
 		  varName asSlotDescriptor instVarNameHasBeenGiven ]
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph [
+
+	^ self instVarsNamesOrderedCollection
+]
