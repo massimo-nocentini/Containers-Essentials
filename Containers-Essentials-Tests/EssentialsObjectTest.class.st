@@ -58,9 +58,21 @@ EssentialsObjectTest >> testInspectCharacterPi [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectColorGreen [
+
+	^ self exportSlotsGraphOf: Color green translucent
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectDatetimeNow [
 
 	^ self exportSlotsGraphOf: DateAndTime now
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectFloatPi [
+
+	^ self exportSlotsGraphOf: Float π
 ]
 
 { #category : #tests }
@@ -97,6 +109,18 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectNil [
+
+	^ self exportSlotsGraphOf: nil
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectObject [
+
+	^ self exportSlotsGraphOf: Object new
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectObjectModel [
 
 	^ self exportSlotsGraphOf: { 
@@ -107,13 +131,46 @@ EssentialsObjectTest >> testInspectObjectModel [
 { #category : #tests }
 EssentialsObjectTest >> testInspectPoint [
 
-	^ self exportSlotsGraphOf: 42 @ 100
+	^ self exportSlotsGraphOf: 42 @ 24
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectRBNodesQuine [
+
+	"A *quine* in Scheme:
+	
+	((lambda (x) (list x (list (quote quote) x)))
+    (quote (lambda (x) (list x (list (quote quote) x)))))"
+
+	
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectRSPolygon [
+
+	^ self exportSlotsGraphOf: (RSPolygon new
+			   points: { 
+					   (0 @ 0).
+					   (100 @ 25).
+					   (200 @ 0) };
+			   cornerRadii: Float goldenRatio double;
+			   yourself)
 ]
 
 { #category : #tests }
 EssentialsObjectTest >> testInspectString [
 
 	^ self exportSlotsGraphOf: (String loremIpsum: 100)
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectTrueAndFalse [
+
+	^ self
+		  exportSlotsGraphOf: (Array with: true with: false)
+		  slotsBlock: [ :anArray | 
+			  anArray instVarsNamesOrderedCollection collect: [ :aDescriptor | 
+				  aDescriptor inline: false ] ]
 ]
 
 { #category : #tests }
