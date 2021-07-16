@@ -281,9 +281,8 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 	padding := self radiusOrPadding.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
-		          | varLabel valueBox valueLabel value valueShape |
+		          | varLabel valueBox valueLabel valueShape |
 		          "Unpacking."
-		          value := slotDescriptor value.
 		          varLabel := slotDescriptor varLabel.
 		          valueLabel := slotDescriptor valueLabel.
 		          valueBox := slotDescriptor valueBox.
@@ -396,7 +395,6 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 		  shapes: { 
 				  classLabel.
 				  boxedCompositeShape };
-		  padding: padding;
 		  yourself
 ]
 
