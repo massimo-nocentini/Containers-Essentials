@@ -142,7 +142,24 @@ EssentialsObjectTest >> testInspectRBNodesQuine [
 	((lambda (x) (list x (list (quote quote) x)))
     (quote (lambda (x) (list x (list (quote quote) x)))))"
 
-	
+	| quine aQuineBlock evalBlock |
+	aQuineBlock := [ :x | 
+	               RBMessageNode
+		               receiver: x
+		               selector: #value:
+		               arguments:
+		               { (RBMessageNode receiver: x selector: #sourceNode) } ].
+
+	quine := aQuineBlock value: aQuineBlock sourceNode.
+
+	evalBlock := OpalCompiler new
+		             source:
+			             (RBBlockNode body:
+					              (RBSequenceNode statements: { quine }))
+				             formattedCode;
+		             evaluate.
+
+	self assert: evalBlock value equals: quine
 ]
 
 { #category : #tests }
@@ -155,6 +172,21 @@ EssentialsObjectTest >> testInspectRSPolygon [
 					   (200 @ 0) };
 			   cornerRadii: Float goldenRatio double;
 			   yourself)
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectSet [
+
+	| random sample n |
+	n := 20.
+	random := Random seed: 11.
+	sample := (1 to: n) collect: [ :i | random nextInteger: n ].
+
+	self
+		assert: sample
+		equals: #( 1 9 7 1 18 9 11 10 10 6 5 15 3 8 12 17 8 2 5 15 ).
+
+	^ self exportSlotsGraphOf: sample asSet
 ]
 
 { #category : #tests }
