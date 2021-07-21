@@ -55,6 +55,60 @@ RSTreeLayoutTest >> testPdmRelations [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
+RSTreeLayoutTest >> testPdmRelationsInlineProjects [
+
+	| anne schmidt relations project1 project2 |
+	anne := 'Anne Konig'.
+	schmidt := 'Bauing Schmidt'.
+
+	project1 := 'Project 1'.
+	project2 := 'Project 2'.
+
+	relations := { 
+		             ((PdmRelationManagesProjectsFor
+			               receiver: anne
+			               selector: #managesProjectsFor:
+			               argument: schmidt)
+			              return: (PdmRelationOrderedCollection new
+					               add: project1;
+					               add: project2;
+					               yourself);
+			              yourself).
+		             ((PdmRelation
+			               receiver: anne
+			               selector: #isAdministeredBy)
+			              return: schmidt;
+			              yourself).
+		             ((PdmRelation
+			               receiver: anne
+			               selector: #isEmployedAsHumanResourceManager)
+			              return: schmidt;
+			              yourself).
+		             ((PdmRelation
+			               receiver: anne
+			               selector: #isOrganizationalPart)
+			              return: 'IBS Schmallenberg';
+			              yourself).
+		             (PdmRelation
+			              receiver: anne
+			              selector: #managesHumanResources).
+		             (PdmRelation receiver: anne selector: #isTechnicalStuff).
+		             (PdmRelation receiver: anne selector: #isAccountant).
+		             ((PdmRelation receiver: anne selector: #canBeReachedBy)
+			              return: (Dictionary new
+					               at: #address put: nil;
+					               at: #phone1 put: nil;
+					               at: #phone2 put: nil;
+					               at: #fax put: nil;
+					               at: #mobile put: nil;
+					               at: #email put: nil;
+					               yourself) asKeysAndValuesView;
+			              yourself) }.
+
+	(anne -> relations) inspect
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
 RSTreeLayoutTest >> testRoles [
 
 	| anne schmidt relations eb map project1 project2 edges |

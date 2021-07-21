@@ -76,6 +76,12 @@ EssentialsObjectTest >> testInspectFloatPi [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectFraction [
+
+	^ self exportSlotsGraphOf: -1 / 2
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectGoldenRatio [
 
 	^ self exportSlotsGraphOf: Float goldenRatio

@@ -76,14 +76,9 @@ CTObjectRefsVisit >> boxShapeOf: value [
 { #category : #visiting }
 CTObjectRefsVisit >> classLabelShapeOf: anObject [
 
-	| superClassShapes anObjectClass classes scale |
+	| superClassShapes anObjectClass classes |
 	anObjectClass := anObject class.
 	classes := anObjectClass allSuperclasses reversed , { anObjectClass }.
-
-	scale := NSScale ln
-		         domain: (1 to: classes size);
-		         range: (Array with: metaFontSize - 2 with: metaFontSize);
-		         yourself.
 
 	superClassShapes := classes collectWithIndex: [ :each :index | 
 		                    RSLabel new
@@ -101,9 +96,8 @@ CTObjectRefsVisit >> classLabelShapeOf: anObject [
 		alignLeft;
 		on: superClassShapes.
 
-	superClassShapes withIndexDo: [ :aShape :index | 
-		| times offset |
-		times := index - 1.
+	superClassShapes withIndexDo: [ :aShape :times | 
+		| offset |
 		offset := Float goldenRatio double * times.
 		aShape position: aShape position x + offset @ aShape position y ].
 

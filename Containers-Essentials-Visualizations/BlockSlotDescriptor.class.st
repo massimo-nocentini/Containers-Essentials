@@ -46,6 +46,14 @@ BlockSlotDescriptor >> inlineIfNil: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+BlockSlotDescriptor >> inlineQuoteAsShapeSlotsDfsTree [
+
+	^ self
+		  inline: true;
+		  quote: #asShapeSlotsDfsTree
+]
+
+{ #category : #'as yet unclassified' }
 BlockSlotDescriptor >> instVarNameHasBeenGiven [
 
 	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
