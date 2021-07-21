@@ -22,9 +22,9 @@ QuoteSlotDescriptor >> descriptor: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-QuoteSlotDescriptor >> inlineIfNil: aBlock [
+QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
-	^ descriptor inlineIfNil: aBlock
+	^ descriptor inline: anObject level: anInteger default: aBoolean
 ]
 
 { #category : #accessing }

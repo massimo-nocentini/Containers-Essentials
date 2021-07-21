@@ -28,21 +28,21 @@ BlockSlotDescriptor >> initialize [
 
 	super initialize.
 
-	inline := nil.
-
-	self selectorHasBeenGiven
+	self
+		inline: nil;
+		selectorHasBeenGiven
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> inline: aBoolean [
+BlockSlotDescriptor >> inline: aController [
 
-	inline := aBoolean
+	inline := aController inlineBlock
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> inlineIfNil: aBlock [
+BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
-	^ inline ifNil: aBlock
+	^ inline value: anObject value: level value: aBoolean
 ]
 
 { #category : #'as yet unclassified' }

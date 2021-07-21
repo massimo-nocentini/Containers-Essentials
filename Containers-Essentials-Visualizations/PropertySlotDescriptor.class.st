@@ -17,7 +17,7 @@ PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 ]
 
 { #category : #'as yet unclassified' }
-PropertySlotDescriptor >> inlineIfNil: aBlock [
+PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	self subclassResponsibility
 ]

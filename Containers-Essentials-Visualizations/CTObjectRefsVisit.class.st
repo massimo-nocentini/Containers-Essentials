@@ -515,11 +515,16 @@ CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineS
 { #category : #visiting }
 CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
-	| inline |
-	inline := descriptor inlineIfNil: [ 
-		          level = maxLevel | anObject isImmediateObject
-		          | anObject isNil | anObject isBoolean | anObject isSymbol ].
-	^ inline
+	| shouldInline |
+	shouldInline := descriptor
+		                inline: anObject
+		                level: level
+		                default:
+			                level = maxLevel | anObject isImmediateObject
+			                | anObject isNil | anObject isBoolean
+			                | anObject isSymbol.
+
+	^ shouldInline
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
