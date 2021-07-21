@@ -47,8 +47,9 @@ Fraction >> instVarsNamesOrderedCollection [
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline: true;
-			   quote: [ :anArray :aDescriptor | 
-				   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ]).
+			   in: [ :aDescriptor | 
+				   aDescriptor quote: [ :anArray | 
+						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline: true;
 			   quote) }

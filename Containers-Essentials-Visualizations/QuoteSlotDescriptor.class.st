@@ -56,7 +56,7 @@ QuoteSlotDescriptor >> value: anObject [
 
 	| aShapeHolder |
 	aShapeHolder := descriptor value: anObject.
-	shape := quoteBlock cull: aShapeHolder cull: self.
+	shape := quoteBlock value: aShapeHolder.
 
 	self assert: (shape isKindOf: RSShape).
 
