@@ -1,6 +1,29 @@
 Extension { #name : #Behavior }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> asShapeAllSuperclassesIndented: shapeBlock [
+
+	| superClassShapes |
+	superClassShapes := self allSuperclasses reversed , { self } 
+		                    collect: shapeBlock.
+
+	RSVerticalLineLayout new
+		verticalGap: Float goldenRatio negated;
+		alignLeft;
+		on: superClassShapes.
+
+	superClassShapes withIndexDo: [ :aShape :times | 
+		| offset |
+		offset := Float goldenRatio double * times.
+		aShape position: aShape position x + offset @ aShape position y ].
+
+	^ RSComposite new
+		  model: self;
+		  shapes: superClassShapes;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Behavior >> asShapeSubclasses [
 
 	| gr commits edges |

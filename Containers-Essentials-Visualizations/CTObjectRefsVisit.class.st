@@ -76,35 +76,14 @@ CTObjectRefsVisit >> boxShapeOf: value [
 { #category : #visiting }
 CTObjectRefsVisit >> classLabelShapeOf: anObject [
 
-	| superClassShapes anObjectClass classes |
-	anObjectClass := anObject class.
-	classes := anObjectClass allSuperclasses reversed , { anObjectClass }.
-
-	superClassShapes := classes collectWithIndex: [ :each :index | 
-		                    RSLabel new
-			                    text: each name;
-			                    fontSize: metaFontSize;
-			                    color: metaColor;
-			                    when: RSMouseLeftClick
-			                    do: [ :ev | each browse ];
-			                    yourself: [ :labelShape | 
-				                    each hasAbstractMethods ifTrue: [ 
-						                    labelShape italic ] ] ].
-
-	RSVerticalLineLayout new
-		verticalGap: Float goldenRatio negated;
-		alignLeft;
-		on: superClassShapes.
-
-	superClassShapes withIndexDo: [ :aShape :times | 
-		| offset |
-		offset := Float goldenRatio double * times.
-		aShape position: aShape position x + offset @ aShape position y ].
-
-	^ RSComposite new
-		  model: anObjectClass;
-		  shapes: superClassShapes;
-		  yourself
+	^ anObject class asShapeAllSuperclassesIndented: [ :each | 
+		  RSLabel new
+			  text: each name;
+			  fontSize: metaFontSize;
+			  color: metaColor;
+			  when: RSMouseLeftClick do: [ :ev | each browse ];
+			  yourself: [ :labelShape | 
+				  each hasAbstractMethods ifTrue: [ labelShape italic ] ] ]
 ]
 
 { #category : #visiting }
