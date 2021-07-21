@@ -21,6 +21,12 @@ QuoteSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #accessing }
+QuoteSlotDescriptor >> header [
+
+	^ descriptor header
+]
+
 { #category : #'as yet unclassified' }
 QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
@@ -50,7 +56,7 @@ QuoteSlotDescriptor >> value: anObject [
 
 	| aShapeHolder |
 	aShapeHolder := descriptor value: anObject.
-	shape := quoteBlock value: aShapeHolder.
+	shape := quoteBlock cull: aShapeHolder cull: self.
 
 	self assert: (shape isKindOf: RSShape).
 

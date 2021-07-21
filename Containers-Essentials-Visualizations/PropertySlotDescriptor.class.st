@@ -16,6 +16,12 @@ PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+PropertySlotDescriptor >> header [
+
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 

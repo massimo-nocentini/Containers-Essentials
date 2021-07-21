@@ -13,7 +13,7 @@ Fraction >> asShapeOnUnitCircle [
 				         (20 * Float goldenRatio) } yourself.
 
 	origin := RSCircle new
-		          radius: Float goldenRatio - 1;
+		          radius: Float goldenRatio / 2;
 		          withBorder;
 		          color: Color white;
 		          position: 0 asPoint;
@@ -44,8 +44,11 @@ Fraction >> asShapeOnUnitCircle [
 Fraction >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 
-		  #asPythagoreanTriple asSlotDescriptor
-			  inlineQuoteAsShapeSlotsDfsTree.
+		  (#asPythagoreanTriple asSlotDescriptor
+			   noHeader;
+			   inline: true;
+			   quote: [ :anArray :aDescriptor | 
+				   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline: true;
 			   quote) }

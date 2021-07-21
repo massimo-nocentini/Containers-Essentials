@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'blockClosure',
 		'selector',
-		'inline'
+		'inline',
+		'header'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -23,12 +24,33 @@ BlockSlotDescriptor >> blockClosure: anObject [
 	blockClosure := anObject
 ]
 
+{ #category : #accessing }
+BlockSlotDescriptor >> header [
+
+	^ header
+]
+
+{ #category : #accessing }
+BlockSlotDescriptor >> header: aBlock [
+
+	header := aBlock
+]
+
 { #category : #initialization }
 BlockSlotDescriptor >> initialize [
 
 	super initialize.
 
 	self
+		header: [ :anObject :metaFontSize :metaColor | 
+			anObject class asShapeAllSuperclassesIndented: [ :each | 
+					RSLabel new
+						text: each name;
+						fontSize: metaFontSize;
+						color: metaColor;
+						when: RSMouseLeftClick do: [ :ev | each browse ];
+						yourself: [ :labelShape | 
+							each hasAbstractMethods ifTrue: [ labelShape italic ] ] ] ];
 		inline: nil;
 		selectorHasBeenGiven
 ]
@@ -46,17 +68,18 @@ BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> inlineQuoteAsShapeSlotsDfsTree [
-
-	^ self
-		  inline: true;
-		  quote: #asShapeSlotsDfsTree
-]
-
-{ #category : #'as yet unclassified' }
 BlockSlotDescriptor >> instVarNameHasBeenGiven [
 
 	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
+]
+
+{ #category : #initialization }
+BlockSlotDescriptor >> noHeader [
+
+	self header: [ :anObject :metaFontSize :metaColor | 
+		RSComposite new
+			extent: 0 asPoint;
+			yourself ]
 ]
 
 { #category : #accessing }

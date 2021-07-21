@@ -132,7 +132,7 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
+CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of: aParent level: level [
 
 	| descriptors maxX mineShape |
 	mineShape := self shapeOf: anObject level: level.
@@ -143,18 +143,19 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
 	descriptors := self
 		               slotsOf: anObject
-		               withIndexCollect: [ :descriptor :index | 
+		               withIndexCollect: [ :childDescriptor :index | 
 			               | valueLabel varLabel valueBox value |
-			               value := descriptor
+			               value := childDescriptor
 				                        addQuotedShapeInVisit: self;
 				                        value.
 
 			               valueLabel := self
 				                             valueLabelShapeOf: value
-				                             describedBy: descriptor
+				                             describedBy: childDescriptor
 				                             level: level
 				                             ifStopped: [ 
-				                             descriptor shapeWithPrototypeLabel:
+				                             childDescriptor 
+					                             shapeWithPrototypeLabel:
 					                             prototypeLabel copy ]
 				                             ifVisited: [ :shape | 
 				                             self
@@ -163,13 +164,14 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 				                             ifNotVisited: [ 
 					                             self
 						                             valueHasntBeenVisited: value
+						                             describedBy: childDescriptor
 						                             ithChild: index
 						                             ofShape: mineShape
 						                             level: level ].
 
 			               varLabel := self
 				                           varLabelShapeOf: anObject
-				                           label: descriptor selector.
+				                           label: childDescriptor selector.
 
 			               valueBox := (self boxShapeOf: value) yourself: [ 
 				                           :aBox | 
@@ -188,7 +190,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 					                           aBox addInteraction:
 						                           RSHighlightable withLines ] ].
 
-			               descriptor
+			               childDescriptor
 				               valueLabel: valueLabel;
 				               varLabel: varLabel;
 				               valueBox: valueBox;
@@ -201,6 +203,7 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 
 	^ self
 		  object: anObject
+		  describedBy: aDescriptor
 		  descriptors: descriptors
 		  extent: maxX + self radiusOrPaddingDouble
 		  shape: mineShape
@@ -210,6 +213,12 @@ CTObjectRefsVisit >> forObject: anObject ithChild: i of: aParent level: level [
 CTObjectRefsVisit >> fromShapes: anObject [
 
 	fromShapes := anObject
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> initialDescriptor: aDescriptor [
+
+	initialDescriptor := aDescriptor
 ]
 
 { #category : #initialization }
@@ -249,9 +258,9 @@ CTObjectRefsVisit >> maxLevel: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width shape: mineShape [
+CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: width shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding |
+	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding header |
 	padding := self radiusOrPadding.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
@@ -294,20 +303,28 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 		shapes: shapes;
 		right.
 
+	header := aDescriptor
+		          ifNil: [ 
+		          [ :obj :mfs :mc | self classLabelShapeOf: anObject ] ]
+		          ifNotNil: [  aDescriptor header ].
+
 	contentLocation := shapes
 		                   ifEmpty: [ 
 			                   | shape x |
 			                   shape := quotedShapes
 				                            at: anObject
 				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := self 
-						                                          classLabelShapeOf:
-						                                          aQuotedShape model.
+					                            classLabel := header
+						                                          value:
+						                                          aQuotedShape model
+						                                          value: metaFontSize
+						                                          value: metaColor.
 					                            aQuotedShape ]
 				                            ifAbsent: [ 
-					                            classLabel := self 
-						                                          classLabelShapeOf:
-						                                          anObject.
+					                            classLabel := header
+						                                          value: anObject
+						                                          value: metaFontSize
+						                                          value: metaColor.
 
 					                            anObject asString 
 						                            asMultilineLabelShape:
@@ -323,7 +340,10 @@ CTObjectRefsVisit >> object: anObject descriptors: descriptors extent: width sha
 				                   left;
 				                   yourself ]
 		                   ifNotEmpty: [ 
-			                   classLabel := self classLabelShapeOf: anObject.
+			                   classLabel := header
+				                                 value: anObject
+				                                 value: metaFontSize
+				                                 value: metaColor.
 
 			                   RSLocation new
 				                   inner;
@@ -468,6 +488,7 @@ CTObjectRefsVisit >> value [
 	| aShape |
 	aShape := self
 		          forObject: rootObject
+		          describedBy: initialDescriptor
 		          ithChild: 0
 		          of: nil
 		          level: 1.
@@ -478,19 +499,22 @@ CTObjectRefsVisit >> value [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> valueHasntBeenVisited: value ithChild: index ofShape: mineShape level: level [
+CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index ofShape: mineShape level: level [
 
 	| childShape |
 	self dfsClockTick.
 
 	childShape := self
-		              forObject: value
+		              forObject: anObject
+		              describedBy: aDescriptor
 		              ithChild: index
 		              of: mineShape model
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
-		lowlink min: childShape propertyDfsLowlink ]
+		lowlink min: childShape propertyDfsLowlink ].
+
+	^ childShape
 ]
 
 { #category : #visiting }

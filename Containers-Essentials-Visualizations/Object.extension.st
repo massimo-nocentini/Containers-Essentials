@@ -17,6 +17,15 @@ Object >> asShapeSlotsDfsTree [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsDfsTreeInitialDescriptor: aDescriptor [
+
+	^ self
+		  asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
+		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+		  initialDescriptor: aDescriptor
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsLayeredDfsTree [
 
 	^ self
@@ -43,9 +52,19 @@ Object >> asShapeSlotsTopologicallySortedDfsTree [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock [
 
+	^ self
+		  asShapeTreeDrawer: aDrawer
+		  slotsBlock: aBlock
+		  initialDescriptor: #yourself asSlotDescriptor
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock initialDescriptor: aDescriptor [
+
 	^ aDrawer visit: (CTObjectRefsVisit new
 			   rootObject: self;
 			   slotsBlock: aBlock;
+			   initialDescriptor: aDescriptor;
 			   yourself)
 ]
 
