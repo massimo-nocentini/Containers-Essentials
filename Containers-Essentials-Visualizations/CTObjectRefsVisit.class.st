@@ -15,7 +15,8 @@ Class {
 		'slotsBlock',
 		'levels',
 		'prototypeLabel',
-		'quotedShapes'
+		'quotedShapes',
+		'initialDescriptor'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -397,10 +398,11 @@ CTObjectRefsVisit >> shapeHasBeenVisited: shape childOfShape: mineShape [
 	value := shape model.
 
 	shapeEntryTime := shape propertyDfsEntryTime.
-	shapeEntryTime < mineShape propertyDfsEntryTime ifTrue: [ 
-		shape propertyDfsIsOnObjectStack ifTrue: [ 
-			mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
-				lowlink min: shapeEntryTime ] ].
+
+	(shape propertyDfsIsOnObjectStack and: [ 
+		 shapeEntryTime < mineShape propertyDfsEntryTime ]) ifTrue: [ 
+		mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
+			lowlink min: shapeEntryTime ].
 
 		self assert: anObject ~~ value ]
 ]
