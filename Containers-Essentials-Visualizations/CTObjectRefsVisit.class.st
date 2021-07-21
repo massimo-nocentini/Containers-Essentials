@@ -260,7 +260,7 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #visiting }
 CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: width shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding header |
+	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding |
 	padding := self radiusOrPadding.
 
 	shapes := descriptors collect: [ :slotDescriptor | 
@@ -303,10 +303,10 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 		shapes: shapes;
 		right.
 
-	header := aDescriptor
-		          ifNil: [ 
-		          [ :obj :mfs :mc | self classLabelShapeOf: anObject ] ]
-		          ifNotNil: [  aDescriptor header ].
+	classLabel := aDescriptor header
+		              value: anObject
+		              value: metaFontSize
+		              value: metaColor.
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
@@ -314,21 +314,16 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 			                   shape := quotedShapes
 				                            at: anObject
 				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := header
+					                            classLabel := aDescriptor header
 						                                          value:
 						                                          aQuotedShape model
 						                                          value: metaFontSize
 						                                          value: metaColor.
 					                            aQuotedShape ]
 				                            ifAbsent: [ 
-					                            classLabel := header
-						                                          value: anObject
-						                                          value: metaFontSize
-						                                          value: metaColor.
-
-					                            anObject asString 
-						                            asMultilineLabelShape:
-						                            prototypeLabel copy ].
+				                            anObject asString 
+					                            asMultilineLabelShape:
+					                            prototypeLabel copy ].
 
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.
@@ -340,11 +335,6 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 				                   left;
 				                   yourself ]
 		                   ifNotEmpty: [ 
-			                   classLabel := header
-				                                 value: anObject
-				                                 value: metaFontSize
-				                                 value: metaColor.
-
 			                   RSLocation new
 				                   inner;
 				                   right;
