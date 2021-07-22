@@ -78,7 +78,45 @@ EssentialsObjectTest >> testInspectFloatPi [
 { #category : #tests }
 EssentialsObjectTest >> testInspectFraction [
 
+	^ self exportSlotsGraphOf: -1 / 2
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectFractionForKisses [
+
 	^ self exportSlotsGraphOf: 4 / 17
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectFractionKissing [
+
+	| aFraction |
+	aFraction := self testInspectFractionForKisses.
+
+	self assert: aFraction kissingFractions equals: { 
+			(1 / 5).
+			(2 / 9).
+			(3 / 13).
+			(4 / 17).
+			(1 / 4).
+			(1 / 3).
+			(1 / 2) }.
+
+	^ self exportShapeOf: aFraction accessorBlock: #asShapeFordCircles
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectFractionReciprocalKissing [
+
+	| aFraction |
+	aFraction := self testInspectFractionKissing reciprocal.
+
+	self assert: aFraction kissingFractions equals: { 
+			(1 / 4).
+			(1 / 3).
+			(1 / 2) }.
+
+	^ self exportShapeOf: aFraction accessorBlock: #asShapeFordCircles
 ]
 
 { #category : #tests }

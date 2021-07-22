@@ -3,7 +3,8 @@ Extension { #name : #Fraction }
 { #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
-	| r c reduced |
+	| r c reduced floor |
+	floor := self floor.
 	reduced := self asFractionWrtFloor.
 	c := Float goldenRatio double.
 	r := reduced fordRadius.
@@ -14,7 +15,7 @@ Fraction >> asShapeFordCircles [
 					   | radius |
 					   radius := each fordRadius * c / r.
 					   RSCircle new
-						   model: each;
+						   model: each + floor;
 						   withBorder;
 						   color: Color white;
 						   position: each * c / r @ radius negated;
@@ -77,6 +78,5 @@ Fraction >> instVarsNamesOrderedCollection [
 						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline: true;
-			   quote).
-		  #asShapeFordCircles asSlotDescriptor quote }
+			   quote) }
 ]

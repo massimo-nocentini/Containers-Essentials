@@ -50,29 +50,39 @@ Fraction >> fordRadius [
 ]
 
 { #category : #'*Containers-Essentials' }
+Fraction >> kissingFractionLink: aLink [
+
+	^ self ~~> aLink
+]
+
+{ #category : #'*Containers-Essentials' }
 Fraction >> kissingFractions [
 
-	| reduced kissedFractions |
-	reduced := self asFractionWrtFloor.
+	| kissedFractions vl |
+	kissedFractions := Set new.
 
-	kissedFractions := SortedCollection new.
+	vl := ValueLink new
+		      value: self asFractionWrtFloor;
+		      yourself.
 
-	[ reduced denominator = 1 ] whileFalse: [ 
-		| gcd diophantinePoint next less |
-		kissedFractions add: reduced.
-		gcd := reduced numerator >|< reduced denominator.
+	[ vl ] whileNotNil: [ 
+		| gcd diophantinePoint next less aFraction |
+		aFraction := vl value.
+		kissedFractions add: aFraction.
+
+		gcd := aFraction numerator >|< aFraction denominator.
 		diophantinePoint := gcd point.
 		next := diophantinePoint x / diophantinePoint y negated.
 
-		less := reduced numerator - next numerator
-		        / (reduced denominator - next denominator).
-		kissedFractions add: less.
+		less := aFraction numerator - next numerator
+		        / (aFraction denominator - next denominator).
 
-		reduced := next ].
+		vl := next kissingFractionLink:
+			      (less kissingFractionLink: vl nextLink) ].
 
-	^ kissedFractions"
-		  add: reduced;
-		  yourself"
+	^ kissedFractions asArray
+		  sort;
+		  yourself
 ]
 
 { #category : #'*Containers-Essentials' }

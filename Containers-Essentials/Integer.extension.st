@@ -63,6 +63,12 @@ Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> kissingFractionLink: aLink [
+
+	^ aLink
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> mediantFraction: aFraction [
 
 	^ aFraction numerator + self / (aFraction denominator + self)
