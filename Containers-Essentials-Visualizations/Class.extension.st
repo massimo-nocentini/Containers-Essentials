@@ -8,7 +8,10 @@ Class >> instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph [
 		  "(#comment asSlotDescriptor inline: true)."
 		  (#instVarNames asSlotDescriptor
 			   inline: true;
-			   quote: #asShapeSlotsDfsTree).
+			   noHeader;
+			   in: [ :aDescriptor | 
+				   aDescriptor quote: [ :anArray | 
+						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
 		  (#subclasses asSlotDescriptor yourself: [ :aDescriptor | 
 			   self subclasses ifEmpty: [ aDescriptor inline: true ] ]) }
 ]

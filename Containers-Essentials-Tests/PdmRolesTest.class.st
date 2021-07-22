@@ -1,7 +1,13 @@
-Extension { #name : #RSTreeLayoutTest }
+Class {
+	#name : #PdmRolesTest,
+	#superclass : #TestCase,
+	#traits : 'TIceImagesExporting',
+	#classTraits : 'TIceImagesExporting classTrait',
+	#category : #'Containers-Essentials-Tests'
+}
 
 { #category : #'*Containers-Essentials-Tests' }
-RSTreeLayoutTest >> testPdmRelations [
+PdmRolesTest >> testPdmRelations [
 
 	| anne schmidt relations project1 project2 |
 	anne := 'Anne Konig'.
@@ -55,7 +61,7 @@ RSTreeLayoutTest >> testPdmRelations [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RSTreeLayoutTest >> testPdmRelationsInlineProjects [
+PdmRolesTest >> testPdmRelationsInlineProjects [
 
 	| anne schmidt relations project1 project2 |
 	anne := 'Anne Konig'.
@@ -102,14 +108,18 @@ RSTreeLayoutTest >> testPdmRelationsInlineProjects [
 					               at: #fax put: nil;
 					               at: #mobile put: nil;
 					               at: #email put: nil;
-					               yourself) asKeysAndValuesView;
+					               asKeysAndValuesView);
 			              yourself) }.
 
-	(anne -> relations) inspect
+	self
+		exportSlotsGraphOf: anne -> relations
+		slotsBlock: [ :anObject | 
+			anObject instVarsNamesOrderedCollection collect: [ :each | 
+				each noHeader ] ]
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RSTreeLayoutTest >> testRoles [
+PdmRolesTest >> testRoles [
 
 	| anne schmidt relations eb map project1 project2 edges |
 	anne := 'Anne Konig'.

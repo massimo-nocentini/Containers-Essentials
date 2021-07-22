@@ -33,6 +33,12 @@ QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 	^ descriptor inline: anObject level: anInteger default: aBoolean
 ]
 
+{ #category : #initialization }
+QuoteSlotDescriptor >> noHeader [
+
+	descriptor noHeader
+]
+
 { #category : #accessing }
 QuoteSlotDescriptor >> quoteBlock: aBlock [
 

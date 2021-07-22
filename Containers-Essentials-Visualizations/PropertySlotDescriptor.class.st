@@ -29,6 +29,12 @@ PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 ]
 
 { #category : #accessing }
+PropertySlotDescriptor >> noHeader [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 PropertySlotDescriptor >> quote [
 
 	^ self quote: [ :aShape | aShape ]

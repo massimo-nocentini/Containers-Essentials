@@ -12,5 +12,8 @@ PdmRelationManagesProjectsFor >> instVarsNamesOrderedCollection [
 				   selector: #projects;
 				   blockClosure: [ :anObj | anObj return ];
 				   inline: true;
-				   quote: #asShapeSlotsDfsTree) ]
+				   noHeader;
+				   in: [ :aDescriptor | 
+					   aDescriptor quote: [ :anArray | 
+							   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]) ]
 ]
