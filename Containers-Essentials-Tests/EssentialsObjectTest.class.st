@@ -78,7 +78,7 @@ EssentialsObjectTest >> testInspectFloatPi [
 { #category : #tests }
 EssentialsObjectTest >> testInspectFraction [
 
-	^ self exportSlotsGraphOf: -1 / 2
+	^ self exportSlotsGraphOf: 4 / 17
 ]
 
 { #category : #tests }

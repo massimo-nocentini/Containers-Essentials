@@ -1,6 +1,30 @@
 Extension { #name : #Fraction }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> asShapeFordCircles [
+
+	| r c reduced |
+	reduced := self asFractionWrtFloor.
+	c := Float goldenRatio double.
+	r := reduced fordRadius.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: (self kissingFractions collect: [ :each | 
+					   | radius |
+					   radius := each fordRadius * c / r.
+					   RSCircle new
+						   model: each;
+						   withBorder;
+						   color: Color white;
+						   position: each * c / r @ radius negated;
+						   radius: radius;
+						   yourself: [ :circle | 
+							   each = reduced ifTrue: [ circle sameColorAsBorderColor ] ] ]);
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeOnUnitCircle [
 
 	| circle point puc scale origin |
@@ -44,6 +68,7 @@ Fraction >> asShapeOnUnitCircle [
 Fraction >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 
+		  #floor asSlotDescriptor.
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline: true;
@@ -52,5 +77,6 @@ Fraction >> instVarsNamesOrderedCollection [
 						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline: true;
-			   quote) }
+			   quote).
+		  #asShapeFordCircles asSlotDescriptor quote }
 ]
