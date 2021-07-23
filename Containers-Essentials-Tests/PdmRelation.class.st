@@ -1,7 +1,7 @@
 Class {
 	#name : #PdmRelation,
 	#superclass : #MessageSent,
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #'as yet unclassified' }
@@ -14,7 +14,7 @@ PdmRelation >> argument [
 PdmRelation >> instVarsNamesOrderedCollection [
 
 	^ { 
-		  (#subject asSlotDescriptor inline: true).
+		  "(#subject asSlotDescriptor inline: true)."
 		  (#relation asSlotDescriptor inline: true) } , (self arguments
 		   ifEmpty: [ {  } ]
 		   ifNotEmpty: [ { (#argument asSlotDescriptor inline: true) } ])

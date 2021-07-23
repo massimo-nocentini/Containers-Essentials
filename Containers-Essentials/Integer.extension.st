@@ -25,6 +25,12 @@ Integer >> >|< anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> \/ anObject [
+
+	^ anObject mediantInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asDetailedRepresentationsView [
 
 	^ CTIntegerRepresentationsView new
@@ -72,6 +78,12 @@ Integer >> kissingFractionLink: aLink [
 Integer >> mediantFraction: aFraction [
 
 	^ aFraction numerator + self / (aFraction denominator + self)
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> mediantInteger: anInteger [
+
+	^ self + anInteger / 2
 ]
 
 { #category : #'*Containers-Essentials' }

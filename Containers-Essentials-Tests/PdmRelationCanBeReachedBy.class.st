@@ -1,15 +1,15 @@
 Class {
-	#name : #PdmRelationManagesProjectsFor,
+	#name : #PdmRelationCanBeReachedBy,
 	#superclass : #PdmRelation,
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #'as yet unclassified' }
-PdmRelationManagesProjectsFor >> instVarsNamesOrderedCollection [
+PdmRelationCanBeReachedBy >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection yourself: [ :descriptors | 
 		  descriptors at: descriptors size put: (descriptors last
-				   selector: #projects;
+				   selector: #contacts;
 				   blockClosure: [ :anObj | anObj return ];
 				   inline: true;
 				   noHeader;

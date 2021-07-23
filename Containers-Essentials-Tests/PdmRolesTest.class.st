@@ -57,7 +57,13 @@ PdmRolesTest >> testPdmRelations [
 					               yourself) asKeysAndValuesView;
 			              yourself) }.
 
-	(anne -> relations) inspect
+
+
+	self
+		exportSlotsGraphOf: anne -> relations
+		slotsBlock: [ :anObject | 
+			anObject instVarsNamesOrderedCollection collect: [ :each | 
+				each noHeader ] ]
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
@@ -100,7 +106,9 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 			              selector: #managesHumanResources).
 		             (PdmRelation receiver: anne selector: #isTechnicalStuff).
 		             (PdmRelation receiver: anne selector: #isAccountant).
-		             ((PdmRelation receiver: anne selector: #canBeReachedBy)
+		             ((PdmRelationCanBeReachedBy
+			               receiver: anne
+			               selector: #canBeReachedBy)
 			              return: (Dictionary new
 					               at: #address put: nil;
 					               at: #phone1 put: nil;
@@ -112,7 +120,10 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 			              yourself) }.
 
 	self
-		exportSlotsGraphOf: anne -> relations
+		exportSlotsGraphOf: (PdmEntity new
+				 key: anne;
+				 value: relations;
+				 yourself)" anne -> relations"
 		slotsBlock: [ :anObject | 
 			anObject instVarsNamesOrderedCollection collect: [ :each | 
 				each noHeader ] ]

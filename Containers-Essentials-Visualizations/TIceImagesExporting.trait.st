@@ -11,7 +11,7 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 	aSelector value: canvas value: anObject.
 	RSSVGExporter new
 		canvas: canvas;
-		zoomToShapesWithPadding: Float goldenRatio;
+		zoomToShapesWithPadding: Float goldenRatio double double;
 		fileName: filename;
 		export.
 	^ anObject

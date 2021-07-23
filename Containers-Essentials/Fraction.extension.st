@@ -91,3 +91,10 @@ Fraction >> mediantFraction: aFraction [
 	^ aFraction numerator + self numerator
 	  / (aFraction denominator + self denominator)
 ]
+
+{ #category : #'*Containers-Essentials' }
+Fraction >> mediantInteger: anInteger [
+
+	^ self numerator + anInteger numerator
+	  / (self denominator + anInteger denominator)
+]

@@ -106,6 +106,84 @@ EssentialsObjectTest >> testInspectFractionKissing [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectFractionKissingEnumeration [
+
+	| fractions n |
+	n := 7.
+	fractions := [ :f :seen :frontier :level | level < n ]
+		             kissingFractions.
+
+	self assert: fractions size equals: 1 << (n - 1) - 1.
+
+	self assert: fractions equals: { 
+			(1 / 7).
+			(1 / 6).
+			(2 / 11).
+			(1 / 5).
+			(3 / 14).
+			(2 / 9).
+			(3 / 13).
+			(1 / 4).
+			(4 / 15).
+			(3 / 11).
+			(5 / 18).
+			(2 / 7).
+			(5 / 17).
+			(3 / 10).
+			(4 / 13).
+			(1 / 3).
+			(5 / 14).
+			(4 / 11).
+			(7 / 19).
+			(3 / 8).
+			(8 / 21).
+			(5 / 13).
+			(7 / 18).
+			(2 / 5).
+			(7 / 17).
+			(5 / 12).
+			(8 / 19).
+			(3 / 7).
+			(7 / 16).
+			(4 / 9).
+			(5 / 11).
+			(1 / 2).
+			(6 / 11).
+			(5 / 9).
+			(9 / 16).
+			(4 / 7).
+			(11 / 19).
+			(7 / 12).
+			(10 / 17).
+			(3 / 5).
+			(11 / 18).
+			(8 / 13).
+			(13 / 21).
+			(5 / 8).
+			(12 / 19).
+			(7 / 11).
+			(9 / 14).
+			(2 / 3).
+			(9 / 13).
+			(7 / 10).
+			(12 / 17).
+			(5 / 7).
+			(13 / 18).
+			(8 / 11).
+			(11 / 15).
+			(3 / 4).
+			(10 / 13).
+			(7 / 9).
+			(11 / 14).
+			(4 / 5).
+			(9 / 11).
+			(5 / 6).
+			(6 / 7) }.
+
+	^ self exportShapeOf: fractions accessorBlock: #asShapeFordCircles
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectFractionReciprocalKissing [
 
 	| aFraction |

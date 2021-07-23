@@ -1,6 +1,28 @@
 Extension { #name : #SequenceableCollection }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+SequenceableCollection >> asShapeFordCircles [
+
+	| r c |
+	c := Float goldenRatio double.
+	r := (self detectMin: [ :each | each fordRadius ]) fordRadius.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: (self collect: [ :each | 
+					   | radius |
+					   radius := each fordRadius * c / r.
+					   RSCircle new
+						   model: each;
+						   withBorder;
+						   color: Color white;
+						   position: each * c / r @ radius negated;
+						   radius: radius;
+						   yourself ]);
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 SequenceableCollection >> inspectorCanvasBoxesFlow [
 
 	<inspectorPresentationOrder: 200 title: 'Boxes'>
