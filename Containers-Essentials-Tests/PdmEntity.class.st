@@ -12,10 +12,10 @@ PdmEntity >> instVarsNamesOrderedCollection [
 			   inline: true;
 			   blockClosure: [ :anAssoc | anAssoc key ]).
 		  (#relations asSlotDescriptor
-			   inline: true;
+			   inline: false;
 			   noHeader;
-			   blockClosure: [ :anAssoc | anAssoc value ];
-			   in: [ :aDescriptor | 
+			   blockClosure: [ :anAssoc | anAssoc value ]
+			   "in: [ :aDescriptor | 
 				   aDescriptor quote: [ :anArray | 
-						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]) }
+						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]") }
 ]

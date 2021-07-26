@@ -117,10 +117,11 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 		exportSlotsGraphOf: (PdmEntity new
 				 key: anne;
 				 value: relations;
-				 yourself)" anne -> relations"
+				 yourself)
 		slotsBlock: [ :anObject | 
 			anObject instVarsNamesOrderedCollection collect: [ :each | 
 				each noHeader ] ]
+		initialDescriptor: #yourself asSlotDescriptor noHeader " anne -> relations"
 ]
 
 { #category : #'*Containers-Essentials-Tests' }

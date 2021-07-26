@@ -1,7 +1,7 @@
 Class {
 	#name : #PdmRelationOrderedCollection,
 	#superclass : #OrderedCollection,
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #'as yet unclassified' }
