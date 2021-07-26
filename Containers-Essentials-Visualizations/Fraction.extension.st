@@ -70,6 +70,7 @@ Fraction >> instVarsNamesOrderedCollection [
 
 	^ super instVarsNamesOrderedCollection , { 
 		  #floor asSlotDescriptor.
+		  "#asFractionWrtFloor asSlotDescriptor."
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline: true;
