@@ -12,7 +12,7 @@ SymbolicIntegerTest >> testComplementaryQuoRem21Over9 [
 	| quoRem |
 	quoRem := 21 /%~ 9.
 
-	self assert: quoRem value equals: 21 / 9.
+	self assert: quoRem equals: 21 / 9.
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -23,7 +23,7 @@ SymbolicIntegerTest >> testComplementaryQuoRem9Over21 [
 	| quoRem |
 	quoRem := 9 /%~ 21.
 
-	self assert: quoRem value equals: 9 / 21.
+	self assert: quoRem equals: 9 / 21.
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -34,7 +34,7 @@ SymbolicIntegerTest >> testGCDof12and21 [
 	| quoRem |
 	quoRem := 12 >|< 21.
 
-	self assert: quoRem value equals: (12 gcd: 21).
+	self assert: quoRem equals: (12 gcd: 21).
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -45,7 +45,7 @@ SymbolicIntegerTest >> testGCDof83and71 [
 	| quoRem |
 	quoRem := 83 >|< 71.
 
-	self assert: quoRem value equals: (83 gcd: 71).
+	self assert: quoRem equals: (83 gcd: 71).
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -56,7 +56,7 @@ SymbolicIntegerTest >> testGCDof9and21 [
 	| quoRem |
 	quoRem := 9 >|< 21.
 
-	self assert: quoRem value equals: (9 gcd: 21).
+	self assert: quoRem equals: (9 gcd: 21).
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -73,9 +73,7 @@ SymbolicIntegerTest >> testGCDofAdjacentFibonacciNumbers [
 		        with: fibs allButFirst , { (fibs lastButOne + fibs last) }
 		        collect: [ :r :s | r >|< s ].
 
-	self
-		assert: (gcds collect: #value)
-		equals: (gcds collect: [ :each | 1 ]).
+	self assert: gcds equals: (gcds collect: [ :each | 1 ]).
 
 	^ self exportSlotsGraphOf: gcds
 ]
@@ -103,7 +101,7 @@ SymbolicIntegerTest >> testGCDofZ17 [
 	field := interval collect: [ :each | each >|< prime ].
 
 	self
-		assert: (field collect: #value)
+		assert: field
 		equals: (interval collect: [ :each | prime gcd: each ]).
 
 	^ self exportSlotsGraphOf: field
@@ -115,7 +113,7 @@ SymbolicIntegerTest >> testQuoRem9Over21 [
 	| quoRem |
 	quoRem := 9 /% 21.
 
-	self assert: quoRem value equals: 9 / 21.
+	self assert: quoRem equals: 9 / 21.
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -126,7 +124,7 @@ SymbolicIntegerTest >> testQuoRemMinimal9Over21 [
 	| quoRem |
 	quoRem := 9 /%< 21.
 
-	self assert: quoRem value equals: 9 / 21.
+	self assert: quoRem equals: 9 / 21.
 
 	^ self exportSlotsGraphOf: quoRem
 ]
@@ -137,7 +135,7 @@ SymbolicIntegerTest >> testStandardQuoRem21Over9 [
 	| quoRem |
 	quoRem := 21 /% 9.
 
-	self assert: quoRem value equals: 21 / 9.
+	self assert: quoRem equals: 21 / 9.
 
 	^ self exportSlotsGraphOf: quoRem
 ]

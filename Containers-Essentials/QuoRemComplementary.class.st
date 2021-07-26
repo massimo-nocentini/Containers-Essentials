@@ -51,12 +51,6 @@ QuoRemComplementary >> a: anObject [
 ]
 
 { #category : #converting }
-QuoRemComplementary >> asNumber [
-
-	^ self value
-]
-
-{ #category : #converting }
 QuoRemComplementary >> asPointWithRespectToRem [
 
 	^ (1 @ self quo negated) negated
