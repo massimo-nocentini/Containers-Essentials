@@ -12,11 +12,10 @@ Class {
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
-		'slotsBlock',
 		'levels',
 		'prototypeLabel',
 		'quotedShapes',
-		'initialDescriptor'
+		'slotDescriptorsContext'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -213,12 +212,6 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 CTObjectRefsVisit >> fromShapes: anObject [
 
 	fromShapes := anObject
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> initialDescriptor: aDescriptor [
-
-	initialDescriptor := aDescriptor
 ]
 
 { #category : #initialization }
@@ -433,30 +426,21 @@ CTObjectRefsVisit >> shapeOf: anObject level: level [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> slotsBlock: aBlock [
+CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 
-	slotsBlock := aBlock
+	slotDescriptorsContext := aBlock
 ]
 
 { #category : #visiting }
 CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 
-	^ (slotsBlock visit: anObject) withIndexCollect: [ :aDescription :index | 
-		  | value descriptor |
-		  descriptor := aDescription isSymbol
-			                ifTrue: [ 
-			                aDescription asSlotDescriptor selectorHasBeenGiven ]
-			                ifFalse: [ 
-				                aDescription isAssociation
-					                ifTrue: [ 
-						                aDescription key asSlotDescriptor
-							                blockClosure: aDescription value;
-							                yourself ]
-					                ifFalse: [ aDescription ] ].
+	| slotDescriptors |
+	slotDescriptors := slotDescriptorsContext visit: anObject.
 
-		  value := descriptor value: anObject.
-
-		  aBlock value: descriptor value: index ]
+	^ slotDescriptors withIndexCollect: [ :aDescriptor :index | 
+		  | value |
+		  value := aDescriptor value: anObject.
+		  aBlock value: aDescriptor value: index ]
 ]
 
 { #category : #accessing }
@@ -477,7 +461,7 @@ CTObjectRefsVisit >> value [
 	| aShape |
 	aShape := self
 		          forObject: rootObject
-		          describedBy: initialDescriptor
+		          describedBy: slotDescriptorsContext rootDescriptor
 		          ithChild: 0
 		          of: nil
 		          level: 1.

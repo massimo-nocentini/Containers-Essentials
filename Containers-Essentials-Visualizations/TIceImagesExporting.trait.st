@@ -50,7 +50,23 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
+		  slotDescriptorsContext: SlotDescriptorsVisitor new
+]
+
+{ #category : #utilities }
+TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlotDescriptorsContext [
+
+	^ self
+		  export: anObject
+		  pathSuffix: ''
+		  onCanvasDo: [ :aCanvas :obj | 
+			  | aShape |
+			  aShape := aSlotDescriptorsContext
+				            draw: anObject
+				            using: CTSlotsDfsTreeDrawer new
+				            walking: CTObjectRefsVisit new.
+
+			  aCanvas add: aShape ]
 ]
 
 { #category : #utilities }

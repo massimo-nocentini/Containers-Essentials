@@ -61,11 +61,11 @@ EssentialsObjectTest >> testInspectBRGCodes [
 	^ self
 		  exportSlotsGraphOf:
 		  ((0 to: 15) collect: [ :each | each asShapeBRGCDots ])
-		  slotsBlock: [ :anObject | 
-			  anObject instVarsNamesOrderedCollection collect: [ :aDescriptor | 
-				  aDescriptor
-					  inline: true;
-					  quote ] ]
+		  slotDescriptorsContext:
+			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
+				   aDescriptor
+					   inline: true;
+					   quote ])
 ]
 
 { #category : #tests }
@@ -339,9 +339,9 @@ EssentialsObjectTest >> testInspectTrueAndFalse [
 
 	^ self
 		  exportSlotsGraphOf: (Array with: true with: false)
-		  slotsBlock: [ :anArray | 
-			  anArray instVarsNamesOrderedCollection collect: [ :aDescriptor | 
-				  aDescriptor inline: false ] ]
+		  slotDescriptorsContext:
+			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
+				   aDescriptor inline: false ])
 ]
 
 { #category : #tests }

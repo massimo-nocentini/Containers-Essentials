@@ -15,20 +15,11 @@ Object >> asShapeSlotsCollapsedSCCsDfsTree [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsDfsTree [
+Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
 
 	^ self
 		  asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
-		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsDfsTreeInitialDescriptor: aDescriptor [
-
-	^ self
-		  asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
-		  slotsBlock: [ :anObj | anObj instVarsNamesOrderedCollection ]
-		  initialDescriptor: aDescriptor
+		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
@@ -56,6 +47,15 @@ Object >> asShapeSlotsTopologicallySortedDfsTree [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsContext [
+
+	^ aSlotDescriptorsContext
+		  draw: self
+		  using: aDrawer
+		  walking: CTObjectRefsVisit new
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock [
 
 	^ self
@@ -69,8 +69,7 @@ Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock initialDescriptor: aDesc
 
 	^ aDrawer visit: (CTObjectRefsVisit new
 			   rootObject: self;
-			   slotsBlock: aBlock;
-			   initialDescriptor: aDescriptor;
+			   slotDescriptorsContext: aBlock;
 			   yourself)
 ]
 
@@ -85,7 +84,7 @@ Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 100 title: 'Slots graph'>
 	^ RSCanvas new
-		  add: self asShapeSlotsDfsTree;
+		  add: (self asShapeSlotsDfsTree: SlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]

@@ -1,8 +1,50 @@
 Class {
 	#name : #SlotDescriptorsVisitor,
 	#superclass : #Object,
+	#instVars : [
+		'rootDescriptor'
+	],
 	#category : #'Containers-Essentials-Visualizations'
 }
+
+{ #category : #copying }
+SlotDescriptorsVisitor >> collect: aBlock [
+
+	^ SlotDescriptorsVisitorCollect new
+		  slotDescriptorsContext: self;
+		  blockClosure: aBlock;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+SlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
+
+	aWalker
+		rootObject: anObject;
+		slotDescriptorsContext: self.
+
+	^ aDrawer visit: aWalker
+]
+
+{ #category : #initialization }
+SlotDescriptorsVisitor >> initialize [
+
+	super initialize.
+
+	self rootDescriptor: #yourself asSlotDescriptor
+]
+
+{ #category : #accessing }
+SlotDescriptorsVisitor >> rootDescriptor [
+
+	^ rootDescriptor
+]
+
+{ #category : #accessing }
+SlotDescriptorsVisitor >> rootDescriptor: anObject [
+
+	rootDescriptor := anObject
+]
 
 { #category : #visiting }
 SlotDescriptorsVisitor >> visit: anObject [
@@ -99,7 +141,7 @@ SlotDescriptorsVisitor >> visitDuration: aDuration [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitFileReference: aFileReference [
 
-	^ (super visitObject: aFileReference) , { 
+	^ (self visitObject: aFileReference) , { 
 		  #fullName asSlotDescriptor.
 		  #contents asSlotDescriptor.
 		  #size asSlotDescriptor }
@@ -108,15 +150,13 @@ SlotDescriptorsVisitor >> visitFileReference: aFileReference [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitFraction: aFraction [
 
-	^ (super visitObject: aFraction) , { 
+	^ (self visitObject: aFraction) , { 
 		  #floor asSlotDescriptor.
 		  "#asFractionWrtFloor asSlotDescriptor."
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline: true;
-			   in: [ :aDescriptor | 
-				   aDescriptor quote: [ :anArray | 
-						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
+			   quote: [ :anArray | anArray asShapeSlotsDfsTree: self ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline: true;
 			   quote) }
@@ -138,18 +178,18 @@ SlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
 						    inline: true;
-						    quote: #asShapeSlotsDfsTree).
+						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
 						    inline: true;
-						    quote: #asShapeSlotsDfsTree) } ]
+						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
 						    inline: true;
-						    quote: #asShapeSlotsDfsTree).
+						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
 						    inline: true;
-						    quote: #asShapeSlotsDfsTree) } ])
+						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ])
 	".
 
 		  #divisibility asSlotDescriptor"
@@ -161,7 +201,7 @@ SlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitHeap: aHeap [
 
-	^ (super visitObject: aHeap) , { (#asShapeValueTree asSlotDescriptor
+	^ (self visitObject: aHeap) , { (#asShapeValueTree asSlotDescriptor
 		   inline: true;
 		   quote) }
 ]
@@ -188,14 +228,14 @@ SlotDescriptorsVisitor >> visitObject: anObject [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitPoint: aPoint [
 
-	^ (super visitObject: aPoint)
+	^ (self visitObject: aPoint)
 	  , { #asShapeWrtOrigin asSlotDescriptor quote }
 ]
 
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitPointArray: aPointArray [
 
-	^ (super visitObject: aPointArray)
+	^ (self visitObject: aPointArray)
 	  , { #asShapeDots asSlotDescriptor quote }
 ]
 
@@ -220,7 +260,7 @@ SlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 
-	^ (super visitObject: aShape)
+	^ (self visitObject: aShape)
 	  , { #asShapeQuoted asSlotDescriptor quote }
 ]
 
