@@ -45,6 +45,34 @@ Integer >> bitBRGC [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> fibonacciNumbers [
+
+	^ self gibonacciNumbersFirst: 0 second: 1 do: [ :a :b | a + b ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
+
+	^ self
+		  ifPositive: [ 
+			  Array streamContents: [ :aStream | 
+				  | a |
+				  a := first.
+				  aStream nextPut: a.
+				  self > 1 ifTrue: [ 
+					  | b |
+					  b := second.
+					  aStream nextPut: b.
+					  3 to: self do: [ :each | 
+						  | c v |
+						  c := aBlock value: a value: b.
+						  aStream nextPut: c.
+						  a := b.
+						  b := c ] ] ] ]
+		  ifNotPositive: [ #(  ) ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> greatestCommonDisivorInteger: anInteger [
 
 	| max min |
@@ -72,6 +100,12 @@ Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 Integer >> kissingFractionLink: aLink [
 
 	^ aLink
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> lucasNumbers [
+
+	^ self gibonacciNumbersFirst: 2 second: 1 do: [ :a :b | a + b ]
 ]
 
 { #category : #'*Containers-Essentials' }

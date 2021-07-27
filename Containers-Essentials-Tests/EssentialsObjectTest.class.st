@@ -15,21 +15,38 @@ EssentialsObjectTest >> testCollectionSubclasses [
 { #category : #tests }
 EssentialsObjectTest >> testInspect20FibonacciNumbers [
 
-	| fibs a b n |
-	n := 20.
-	a := 0.
-	b := 1.
-	fibs := Array streamContents: [ :aStream | 
-		        aStream
-			        nextPut: a;
-			        nextPut: b.
-		        3 to: 20 do: [ :each | 
-			        | c |
-			        c := aStream nextPut: a + b.
-			        a := b.
-			        b := c ] ].
+	| fibs |
+	fibs := 20 fibonacciNumbers.
+
+	self
+		assert: -3 fibonacciNumbers equals: #(  );
+		assert: 0 fibonacciNumbers equals: #(  );
+		assert: 1 fibonacciNumbers equals: #( 0 );
+		assert: 2 fibonacciNumbers equals: #( 0 1 );
+		assert: fibs
+		equals:
+			#( 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 ).
 
 	^ self exportSlotsGraphOf: fibs
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspect20LucasNumbers [
+
+	| lucas |
+	lucas := 20 lucasNumbers.
+
+	self
+		assert: -3 lucasNumbers equals: #(  );
+		assert: 0 lucasNumbers equals: #(  );
+		assert: 1 lucasNumbers equals: #( 2 );
+		assert: 2 lucasNumbers equals: #( 2 1 );
+		assert: lucas
+		equals:
+			#( 2 1 3 4 7 11 18 29 47 76 123 199 322 521 843 1364 2207 3571 5778
+			   9349 ).
+
+	^ self exportSlotsGraphOf: lucas
 ]
 
 { #category : #tests }
