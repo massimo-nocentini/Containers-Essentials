@@ -1,6 +1,12 @@
 Extension { #name : #Color }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Color >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitColor: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Color >> asShapeColoredBox [
 
 	^ RSBox new
@@ -8,13 +14,4 @@ Color >> asShapeColoredBox [
 		  model: self;
 		  cornerRadius: Float goldenRatio double;
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Color >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection
-	  , { (#asShapeColoredBox asSlotDescriptor
-			   inline: false;
-			   quote) }
 ]

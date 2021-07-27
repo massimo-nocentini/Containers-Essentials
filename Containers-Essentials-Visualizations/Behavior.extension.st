@@ -1,6 +1,12 @@
 Extension { #name : #Behavior }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitBehavior: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: shapeBlock [
 
 	| superClassShapes |
@@ -71,17 +77,4 @@ Behavior >> asShapeSubclasses [
 	^ RSComposite new
 		  shapes: commits , edges;
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  (#name asSlotDescriptor inline: true).
-		  #class asSlotDescriptor.
-		  #superclass asSlotDescriptor.
-		  #typeOfClass asSlotDescriptor.
-		  #instanceCount asSlotDescriptor
-		  "#spaceUsed asSlotDescriptor.
-		  #kindAsSymbol asSlotDescriptor" }
 ]

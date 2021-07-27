@@ -1,6 +1,12 @@
 Extension { #name : #GreatestCommonDivisor }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+GreatestCommonDivisor >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitGreatestCommonDivisor: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 GreatestCommonDivisor >> asShapeDiophantineEquation [
 
 	| r s shapes lines |
@@ -63,42 +69,6 @@ GreatestCommonDivisor >> asStringDiophantineEquation [
 		   selector: #=
 		   arguments: { (RBLiteralValueNode value: self value) })
 		  formattedCode
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-GreatestCommonDivisor >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  #a asSlotDescriptor.
-		  #b asSlotDescriptor.
-		  #value asSlotDescriptor.
-		  (#asString asSlotDescriptor inline: true).
-		  #equations asSlotDescriptor.
-		  #point asSlotDescriptor.
-		  (#asStringDiophantineEquation asSlotDescriptor inline: true) }
-	  , (self value = 1
-			   ifTrue: [ 
-				   { 
-					   (#inverseMultiplicativeOfa asSlotDescriptor
-						    inline: true;
-						    quote: #asShapeSlotsDfsTree).
-					   (#inverseMultiplicativeOfb asSlotDescriptor
-						    inline: true;
-						    quote: #asShapeSlotsDfsTree) } ]
-			   ifFalse: [ 
-				   { 
-					   (#asShapeDividendOverGCD asSlotDescriptor
-						    inline: true;
-						    quote: #asShapeSlotsDfsTree).
-					   (#asShapeDivisorOverGCD asSlotDescriptor
-						    inline: true;
-						    quote: #asShapeSlotsDfsTree) } ])
-	".
-
-		  #divisibility asSlotDescriptor"
-	"(#asShapeDiophantineEquation asSlotDescriptor
-			   inline: true;
-			   quote)."
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

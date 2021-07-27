@@ -1,6 +1,12 @@
 Extension { #name : #Point }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Point >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitPoint: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Point >> asShapeWrtOrigin [
 
 	| origin zero |
@@ -21,14 +27,4 @@ Point >> asShapeWrtOrigin [
 					   position: self;
 					   yourself: [ :o | o radius: Float goldenRatio - 1 * o radius ]) };
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Point >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection , { 
-		 " #distanceToOrigin asSlotDescriptor."
-		  (#asShapeWrtOrigin asSlotDescriptor
-			   inline: false;
-			   quote) }
 ]

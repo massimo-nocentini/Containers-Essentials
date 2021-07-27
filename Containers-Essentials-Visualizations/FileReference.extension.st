@@ -1,8 +1,7 @@
 Extension { #name : #FileReference }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-FileReference >> instVarsNamesOrderedCollection [
+FileReference >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ super instVarsNamesOrderedCollection , #( fullName contents
-	     size )
+	^ aVisitor visitFileReference: self
 ]

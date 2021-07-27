@@ -1,7 +1,7 @@
 Extension { #name : #DoubleLink }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-DoubleLink >> instVarsNamesOrderedCollection [
+DoubleLink >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ { #previousLink. #value. #nextLink }
+	^ aVisitor visitDoubleLink: self
 ]

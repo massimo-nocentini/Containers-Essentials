@@ -1,6 +1,12 @@
 Extension { #name : #PointArray }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+PointArray >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitPointArray: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 PointArray >> asShapeDots [
 
 	| twoGR |
@@ -18,12 +24,4 @@ PointArray >> asShapeDots [
 								   ifTrue: [ c sameColorAsBorderColor ]
 								   ifFalse: [ c color: Color white translucent ] ] ]);
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-PointArray >> instVarsNamesOrderedCollection [
-
-	^ { (#asShapeDots asSlotDescriptor
-		   inline: false;
-		   quote) }
 ]

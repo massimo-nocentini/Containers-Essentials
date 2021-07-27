@@ -441,8 +441,8 @@ CTObjectRefsVisit >> slotsBlock: aBlock [
 { #category : #visiting }
 CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 
-	^ (slotsBlock value: anObject) withIndexCollect: [ :aDescription :index | 
-		  | var value descriptor |
+	^ (slotsBlock visit: anObject) withIndexCollect: [ :aDescription :index | 
+		  | value descriptor |
 		  descriptor := aDescription isSymbol
 			                ifTrue: [ 
 			                aDescription asSlotDescriptor selectorHasBeenGiven ]
@@ -454,7 +454,6 @@ CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
 							                yourself ]
 					                ifFalse: [ aDescription ] ].
 
-		  var := descriptor selector.
 		  value := descriptor value: anObject.
 
 		  aBlock value: descriptor value: index ]

@@ -1,13 +1,9 @@
 Extension { #name : #ValueLink }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-ValueLink >> instVarsNamesOrderedCollection [
+ValueLink >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	"We choose the following order in which the `value` slot is 
-	the rightmost because that allows us to compose better shapes 
-	pointed by its reference."
-
-	^ { #value } , super instVarsNamesOrderedCollection
+	^ aVisitor visitValueLink: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

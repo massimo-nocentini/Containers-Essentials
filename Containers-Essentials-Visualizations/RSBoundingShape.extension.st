@@ -1,8 +1,7 @@
 Extension { #name : #RSBoundingShape }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-RSBoundingShape >> instVarsNamesOrderedCollection [
+RSBoundingShape >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ super instVarsNamesOrderedCollection
-	  , { #asShapeQuoted asSlotDescriptor quote }
+	^ aVisitor visitRSBoundingShape: self
 ]

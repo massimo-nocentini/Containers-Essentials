@@ -39,6 +39,44 @@ Integer >> asDetailedRepresentationsView [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> asStringBRGC [
+
+	^ self bitBRGC printStringBase: 2
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> asStringBinary [
+
+	^ self printStringBase: 2
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> asStringDecimal [
+
+	^ self printString
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> asStringHex [
+
+	^ self printStringHex
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> asStringOctal [
+
+	^ self printStringBase: 8
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> asStringSkew [
+
+	String streamContents: [ :aStream | 
+		self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
+			aStream nextPutAll: each asString ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> bitBRGC [
 
 	^ self bitXor: self >> 1

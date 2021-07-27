@@ -1,7 +1,7 @@
 Extension { #name : #Stack }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Stack >> instVarsNamesOrderedCollection [
+Stack >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ { #firstLink }
+	^ aVisitor visitStack: self
 ]

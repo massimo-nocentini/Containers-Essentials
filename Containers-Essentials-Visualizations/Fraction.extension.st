@@ -1,6 +1,12 @@
 Extension { #name : #Fraction }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitFraction: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
 	| r c reduced floor |
@@ -63,21 +69,4 @@ Fraction >> asShapeOnUnitCircle [
 		  model: puc;
 		  shapes: (Array with: circle with: origin with: point);
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Fraction >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection , { 
-		  #floor asSlotDescriptor.
-		  "#asFractionWrtFloor asSlotDescriptor."
-		  (#asPythagoreanTriple asSlotDescriptor
-			   noHeader;
-			   inline: true;
-			   in: [ :aDescriptor | 
-				   aDescriptor quote: [ :anArray | 
-						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
-		  (#asShapeOnUnitCircle asSlotDescriptor
-			   inline: true;
-			   quote) }
 ]

@@ -1,13 +1,9 @@
 Extension { #name : #Array }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Array >> instVarsNamesOrderedCollection [
+Array >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	| positions |
-	positions := self withIndexCollect: [ :each :index | 
-		             index asString asSlotDescriptor blockClosure: [ each ] ].
-
-	^ super instVarsNamesOrderedCollection , positions
+	^ aVisitor visitArray: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

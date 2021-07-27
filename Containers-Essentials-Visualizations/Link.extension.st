@@ -1,6 +1,12 @@
 Extension { #name : #Link }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Link >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitLink: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Link >> asShapeNestedSlotsDfsTree [
 
 	^ self
@@ -16,12 +22,6 @@ Link >> inspectorCanvasNestedSlotsGraph [
 		  add: self asShapeNestedSlotsDfsTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Link >> instVarsNamesOrderedCollection [
-
-	^ { #nextLink }
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

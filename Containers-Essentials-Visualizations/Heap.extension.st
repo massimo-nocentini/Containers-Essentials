@@ -1,6 +1,12 @@
 Extension { #name : #Heap }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Heap >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitHeap: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Heap >> asShapeValueTree [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -74,13 +80,4 @@ Heap >> inspectorCanvasValuesTree [
 Heap >> inspectorCanvasValuesTreeContext: aContext [
 
 	aContext withoutEvaluator
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Heap >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection
-	  , { (#asShapeValueTree asSlotDescriptor
-			   inline: true;
-			   quote) }
 ]

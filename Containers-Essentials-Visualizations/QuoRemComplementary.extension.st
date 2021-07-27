@@ -1,6 +1,12 @@
 Extension { #name : #QuoRemComplementary }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+QuoRemComplementary >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitQuoRemComplementary: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 QuoRemComplementary >> asShapeDots [
 
 	| shapes |
@@ -14,30 +20,15 @@ QuoRemComplementary >> asShapeDots [
 		(1 to: rem negated) do: [ :i | 
 			(shapes at: shapes size + (1 - i)) sameColorAsBorderColor ] ].
 
-	RSGridLayout on: shapes withLineItemsCount: b.
+	RSGridLayout new
+		gapSize: Float goldenRatio double;
+		lineItemsCount: b;
+		on: shapes.
 
 	^ RSComposite new
 		  model: self;
 		  shapes: shapes;
 		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-QuoRemComplementary >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  #a asSlotDescriptor.
-		  #b asSlotDescriptor.
-		  #quo asSlotDescriptor.
-		  #rem asSlotDescriptor.
-		  "(#value asSlotDescriptor
-			   blockClosure: [ self value asShapeSlotsDfsTree ];
-			   inline: true;
-			   quote)."
-		  (#asString asSlotDescriptor inline: true).
-		  (#asShapeDots asSlotDescriptor
-			   inline: true;
-			   quote) }
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

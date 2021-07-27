@@ -1,6 +1,12 @@
 Extension { #name : #Integer }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Integer >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitInteger: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Integer >> asShapeBRGCDots [
 
 	^ self asShapeBinaryDots: (self bitBRGC printStringBase: 2) asArray

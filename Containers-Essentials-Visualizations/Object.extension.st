@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitObject: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsCollapsedSCCsDfsTree [
 
 	^ self
@@ -154,13 +160,6 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> instVarsNamesOrderedCollection [
-
-	^ self class allInstVarNames collect: [ :varName | 
-		  varName asSlotDescriptor instVarNameHasBeenGiven ]
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
