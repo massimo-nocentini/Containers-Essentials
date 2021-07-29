@@ -160,9 +160,3 @@ Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
 ]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph [
-
-	^ self instVarsNamesOrderedCollection
-]

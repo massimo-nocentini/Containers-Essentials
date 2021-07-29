@@ -75,9 +75,9 @@ EssentialsObjectTest >> testInspectCharacterPi [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectColorGreen [
+EssentialsObjectTest >> testInspectColorGray [
 
-	^ self exportSlotsGraphOf: Color green translucent
+	^ self exportSlotsGraphOf: Color gray translucent
 ]
 
 { #category : #tests }
@@ -355,9 +355,9 @@ EssentialsObjectTest >> testMagnitudeSubclasses [
 { #category : #tests }
 EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 
-	^ self exportSlotsGraphOf: Magnitude slotsBlock: [ :anObject | 
-		  anObject
-			  instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph ]
+	^ self
+		  exportSlotsGraphOf: Magnitude
+		  slotDescriptorsContext: SlotDescriptorsVisitorClassHierarchy new
 ]
 
 { #category : #tests }

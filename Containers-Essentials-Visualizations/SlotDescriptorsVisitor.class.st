@@ -93,6 +93,12 @@ SlotDescriptorsVisitor >> visitCTDoubleValueLink: aValueLink [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitClass: aClass [
+
+	^ self visitBehavior: aClass
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)

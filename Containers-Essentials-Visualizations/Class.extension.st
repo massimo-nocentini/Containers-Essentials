@@ -1,17 +1,7 @@
 Extension { #name : #Class }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Class >> instVarsNamesOrderedCollection_testMagnitudeSubclassesSlotsGraph [
+Class >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ { 
-		  #name asSlotDescriptor.
-		  "(#comment asSlotDescriptor inline: true)."
-		  (#instVarNames asSlotDescriptor
-			   inline: true;
-			   noHeader;
-			   in: [ :aDescriptor | 
-				   aDescriptor quote: [ :anArray | 
-						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]).
-		  (#subclasses asSlotDescriptor yourself: [ :aDescriptor | 
-			   self subclasses ifEmpty: [ aDescriptor inline: true ] ]) }
+	^ aVisitor visitClass: self
 ]

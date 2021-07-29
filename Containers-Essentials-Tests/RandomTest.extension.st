@@ -63,7 +63,7 @@ RandomTest >> testBivariateGaussianBoxMuller [
 	RSChart new
 		addPlot: (RSScatterPlot new
 				 x: (points collect: #x) y: (points collect: #y);
-				 yourself: [ :plot | plot color: Color blue translucent ]);
+				 yourself: [ :plot | plot color: Color gray translucent ]);
 		addDecoration: RSHorizontalTick new integer;
 		addDecoration: RSVerticalTick new integer;
 		show.
@@ -1081,7 +1081,7 @@ RandomTest >> testGaussian [
 	RSChart new
 		addPlot: (RSScatterPlot new
 				 y: points;
-				 yourself: [ :plot | plot color: Color blue translucent ]);
+				 yourself: [ :plot | plot color: Color gray translucent ]);
 		addDecoration: RSHorizontalTick new integer;
 		addDecoration: RSVerticalTick new integer;
 		show.
