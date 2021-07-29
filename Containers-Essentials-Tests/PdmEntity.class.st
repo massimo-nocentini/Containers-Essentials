@@ -4,18 +4,8 @@ Class {
 	#category : #'Containers-Essentials-Tests'
 }
 
-{ #category : #'as yet unclassified' }
-PdmEntity >> instVarsNamesOrderedCollection [
+{ #category : #visiting }
+PdmEntity >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ { 
-		  (#id asSlotDescriptor
-			   inline: true;
-			   blockClosure: [ :anAssoc | anAssoc key ]).
-		  (#relations asSlotDescriptor
-			   inline: false;
-			   noHeader;
-			   blockClosure: [ :anAssoc | anAssoc value ]
-			   "in: [ :aDescriptor | 
-				   aDescriptor quote: [ :anArray | 
-						   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]") }
+	^ aVisitor visitPdmEntity: self
 ]

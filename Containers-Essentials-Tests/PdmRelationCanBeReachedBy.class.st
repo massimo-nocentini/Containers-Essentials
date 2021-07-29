@@ -4,16 +4,8 @@ Class {
 	#category : #'Containers-Essentials-Tests'
 }
 
-{ #category : #'as yet unclassified' }
-PdmRelationCanBeReachedBy >> instVarsNamesOrderedCollection [
+{ #category : #visiting }
+PdmRelationCanBeReachedBy >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ super instVarsNamesOrderedCollection yourself: [ :descriptors | 
-		  descriptors at: descriptors size put: (descriptors last
-				   selector: #contacts;
-				   blockClosure: [ :anObj | anObj return ];
-				   inline: true;
-				   noHeader;
-				   in: [ :aDescriptor | 
-					   aDescriptor quote: [ :anArray | 
-							   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]) ]
+	^ aVisitor visitPdmRelationCanBeReachedBy: self
 ]

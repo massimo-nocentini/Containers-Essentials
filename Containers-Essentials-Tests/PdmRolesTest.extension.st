@@ -15,7 +15,7 @@ PdmRolesTest >> testPdmRelations [
 			               receiver: anne
 			               selector: #managesProjectsFor:
 			               argument: schmidt)
-			              return: (PdmRelationOrderedCollection new
+			              return: (OrderedCollection new
 					               add: project1;
 					               add: project2;
 					               yourself);
@@ -48,16 +48,16 @@ PdmRolesTest >> testPdmRelations [
 					               at: #fax put: nil;
 					               at: #mobile put: nil;
 					               at: #email put: nil;
-					               yourself) asKeysAndValuesView;
+					               yourself);
 			              yourself) }.
 
 
 
 	self
 		exportSlotsGraphOf: anne -> relations
-		slotsBlock: [ :anObject | 
-			anObject instVarsNamesOrderedCollection collect: [ :each | 
-				each noHeader ] ]
+		slotDescriptorsContext:
+			(SlotDescriptorsVisitorPdmRoles new collect: [ :aDescriptor | 
+				 aDescriptor noHeader ])
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
@@ -75,7 +75,7 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 			               receiver: anne
 			               selector: #managesProjectsFor:
 			               argument: schmidt)
-			              return: (PdmRelationOrderedCollection new
+			              return: (OrderedCollection new
 					               add: project1;
 					               add: project2;
 					               yourself);
@@ -110,7 +110,7 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 					               at: #fax put: nil;
 					               at: #mobile put: nil;
 					               at: #email put: nil;
-					               asKeysAndValuesView);
+					               yourself);
 			              yourself) }.
 
 	self
@@ -118,10 +118,9 @@ PdmRolesTest >> testPdmRelationsInlineProjects [
 				 key: anne;
 				 value: relations;
 				 yourself)
-		slotsBlock: [ :anObject | 
-			anObject instVarsNamesOrderedCollection collect: [ :each | 
-				each noHeader ] ]
-		initialDescriptor: #yourself asSlotDescriptor noHeader " anne -> relations"
+		slotDescriptorsContext:
+			(SlotDescriptorsVisitorPdmRoles new collect: [ :aDescriptor | 
+				 aDescriptor noHeader ])
 ]
 
 { #category : #'*Containers-Essentials-Tests' }

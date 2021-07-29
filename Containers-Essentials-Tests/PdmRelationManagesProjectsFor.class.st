@@ -4,17 +4,8 @@ Class {
 	#category : #'Containers-Essentials-Tests'
 }
 
-{ #category : #'as yet unclassified' }
-PdmRelationManagesProjectsFor >> instVarsNamesOrderedCollection [
+{ #category : #visiting }
+PdmRelationManagesProjectsFor >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ super instVarsNamesOrderedCollection yourself: [ :descriptors | 
-		  descriptors at: descriptors size put: (descriptors last
-				   selector: #projects;
-				
-				   blockClosure: [ :anObj | anObj return ]";
-				   inline: true;
-				   noHeader;
-				   in: [ :aDescriptor | 
-					   aDescriptor quote: [ :anArray | 
-							   anArray asShapeSlotsDfsTreeInitialDescriptor: aDescriptor ] ]") ]
+	^ aVisitor visitPdmRelationManagesProjectsFor: self
 ]

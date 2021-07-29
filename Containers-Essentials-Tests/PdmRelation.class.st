@@ -4,23 +4,16 @@ Class {
 	#category : #'Containers-Essentials-Tests'
 }
 
+{ #category : #visiting }
+PdmRelation >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitPdmRelation: self
+]
+
 { #category : #'as yet unclassified' }
 PdmRelation >> argument [
 
 	^ self arguments first
-]
-
-{ #category : #'as yet unclassified' }
-PdmRelation >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  "(#subject asSlotDescriptor inline: true)."
-		  (#relation asSlotDescriptor inline: true) } , (self arguments
-		   ifEmpty: [ {  } ]
-		   ifNotEmpty: [ { (#argument asSlotDescriptor inline: true) } ])
-	  , (self object
-			   ifNil: [ {  } ]
-			   ifNotNil: [ { #object asSlotDescriptor } ])
 ]
 
 { #category : #accessing }

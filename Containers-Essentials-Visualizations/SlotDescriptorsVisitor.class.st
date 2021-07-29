@@ -10,9 +10,10 @@ Class {
 { #category : #copying }
 SlotDescriptorsVisitor >> collect: aBlock [
 
-	^ SlotDescriptorsVisitorCollect new
+	^ SlotDescriptorsVisitorCollect basicNew
 		  slotDescriptorsContext: self;
 		  blockClosure: aBlock;
+		  initialize;
 		  yourself
 ]
 
@@ -119,6 +120,12 @@ SlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 		  "		  ('Day of year' -> [ :anObj | anObj dayOfYear ])."
 		  #year asSlotDescriptor.
 		  (#asTimeString asSlotDescriptor inline: true) }
+]
+
+{ #category : #visiting }
+SlotDescriptorsVisitor >> visitDictionary: aDictionary [
+
+	^ self visitObject: aDictionary
 ]
 
 { #category : #visiting }

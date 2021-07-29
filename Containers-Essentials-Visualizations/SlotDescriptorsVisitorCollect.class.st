@@ -20,6 +20,15 @@ SlotDescriptorsVisitorCollect >> blockClosure: anObject [
 	blockClosure := anObject
 ]
 
+{ #category : #initialization }
+SlotDescriptorsVisitorCollect >> initialize [
+
+	super initialize.
+
+	self rootDescriptor:
+		(self blockClosure value: self slotDescriptorsContext rootDescriptor)
+]
+
 { #category : #accessing }
 SlotDescriptorsVisitorCollect >> slotDescriptorsContext [
 
