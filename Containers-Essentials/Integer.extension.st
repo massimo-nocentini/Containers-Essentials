@@ -31,14 +31,6 @@ Integer >> \/ anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> asDetailedRepresentationsView [
-
-	^ CTIntegerRepresentationsView new
-		  integer: self;
-		  yourself
-]
-
-{ #category : #'*Containers-Essentials' }
 Integer >> asStringBRGC [
 
 	^ self bitBRGC printStringBase: 2

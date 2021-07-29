@@ -244,7 +244,9 @@ EssentialsObjectTest >> testInspectInteger13 [
 { #category : #tests }
 EssentialsObjectTest >> testInspectInteger13Detailed [
 
-	^ self exportSlotsGraphOf: 13 asDetailedRepresentationsView
+	^ self
+		  exportSlotsGraphOf: 13
+		  slotDescriptorsContext: SlotDescriptorsVisitorIntegerDetails new
 ]
 
 { #category : #tests }

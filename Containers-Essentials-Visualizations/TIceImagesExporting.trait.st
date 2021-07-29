@@ -39,9 +39,15 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock
 { #category : #utilities }
 TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock [
 
+	^ self exportShapeOf: anObject accessorBlock: aBlock pathSuffix: ''
+]
+
+{ #category : #utilities }
+TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock pathSuffix: aSuffix [
+
 	^ self
 		  export: anObject
-		  pathSuffix: ''
+		  pathSuffix: aSuffix
 		  onCanvasDo: [ :aCanvas :obj | aCanvas add: (aBlock value: obj) ]
 ]
 
@@ -57,8 +63,17 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlotDescriptorsContext [
 
 	^ self
-		  export: anObject
+		  exportSlotsGraphOf: anObject
+		  slotDescriptorsContext: aSlotDescriptorsContext
 		  pathSuffix: ''
+]
+
+{ #category : #utilities }
+TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlotDescriptorsContext pathSuffix: aSuffix [
+
+	^ self
+		  export: anObject
+		  pathSuffix: aSuffix
 		  onCanvasDo: [ :aCanvas :obj | 
 			  | aShape |
 			  aShape := aSlotDescriptorsContext
@@ -67,28 +82,6 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlo
 				            walking: CTObjectRefsVisit new.
 
 			  aCanvas add: aShape ]
-]
-
-{ #category : #utilities }
-TIceImagesExporting >> exportSlotsGraphOf: anObject slotsBlock: aBlock [
-
-	^ self
-		  exportSlotsGraphOf: anObject
-		  slotsBlock: aBlock
-		  initialDescriptor: #yourself asSlotDescriptor
-]
-
-{ #category : #utilities }
-TIceImagesExporting >> exportSlotsGraphOf: anObject slotsBlock: aBlock initialDescriptor: aDescriptor [
-
-	^ self
-		  export: anObject
-		  pathSuffix: ''
-		  onCanvasDo: [ :aCanvas :obj | 
-			  aCanvas add: (obj
-					   asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
-					   slotsBlock: aBlock
-					   initialDescriptor: aDescriptor) ]
 ]
 
 { #category : #utilities }
