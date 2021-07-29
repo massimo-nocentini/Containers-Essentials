@@ -223,7 +223,7 @@ EssentialsObjectTest >> testInspectGoldenRatio [
 { #category : #tests }
 EssentialsObjectTest >> testInspectHeap [
 
-	| array random |
+	| array random heap |
 	random := Random seed: 11.
 	array := (1 to: 30) asArray shuffleBy: random.
 	self
@@ -232,7 +232,14 @@ EssentialsObjectTest >> testInspectHeap [
 			#( 12 16 22 30 8 17 15 4 20 19 28 18 27 21 24 10 7 3 14 5 6 26 25
 			   29 11 23 2 9 13 1 ).
 
-	^ self exportSlotsGraphOf: (Heap withAll: array)
+	heap := Heap new.
+
+	self exportSlotsGraphOf: heap.
+
+	array withIndexDo: [ :each :i | 
+		heap add: each.
+
+		self exportSlotsGraphOf: heap pathSuffix: i asString ]
 ]
 
 { #category : #tests }
