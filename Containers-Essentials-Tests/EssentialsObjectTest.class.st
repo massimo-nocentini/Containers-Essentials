@@ -365,3 +365,9 @@ EssentialsObjectTest >> testRBNodeSubclasses [
 
 	^ self exportShapeOf: RBNode accessorBlock: #asShapeSubclasses
 ]
+
+{ #category : #tests }
+EssentialsObjectTest >> testRandomSubclasses [
+
+	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
+]

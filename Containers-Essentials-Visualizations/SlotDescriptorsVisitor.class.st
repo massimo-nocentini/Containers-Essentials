@@ -271,6 +271,14 @@ SlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitRandom: aRandom [
+
+	^ (self visitObject: aRandom) , { (#asShapeScatter asSlotDescriptor
+		   inline: true;
+		   quote) }
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitStack: aStack [
 
 	^ { #firstLink asSlotDescriptor }
