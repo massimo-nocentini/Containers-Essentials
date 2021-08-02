@@ -23,12 +23,12 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder:
 ]
 
 { #category : #adding }
-CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection [
 
 	| sortedShapes |
 	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
 		                aShape propertyDfsLeaveTime
 		                > anotherShape propertyDfsLeaveTime ].
 
-	^ super shapes: sortedShapes onCanvas: aCanvas
+	^ super shapes: sortedShapes
 ]

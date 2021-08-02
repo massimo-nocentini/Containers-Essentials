@@ -141,7 +141,7 @@ CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #adding }
-CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection [
 
 	| scale max lowerBound sccsShapes |
 	lowerBound := 1.
@@ -169,7 +169,7 @@ CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
 				              aSCC do: [ :each | 
 					              each removeInteractionIfPresent: RSDraggable ] ] ].
 
-	^ super shapes: sccsShapes onCanvas: aCanvas
+	^ super shapes: sccsShapes
 ]
 
 { #category : #'as yet unclassified' }

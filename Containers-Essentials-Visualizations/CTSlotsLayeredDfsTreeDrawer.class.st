@@ -17,7 +17,7 @@ CTSlotsLayeredDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder
 ]
 
 { #category : #adding }
-CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection [
 
 	| levelShapes gr location layout |
 	gr := Float goldenRatio double.
@@ -72,5 +72,5 @@ CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
 			               draggable;
 			               yourself ].
 
-	^ super shapes: levelShapes onCanvas: aCanvas
+	^ super shapes: levelShapes
 ]

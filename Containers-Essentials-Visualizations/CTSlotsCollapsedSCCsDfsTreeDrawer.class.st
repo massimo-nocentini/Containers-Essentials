@@ -111,7 +111,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> liftTuples: tuples [
 ]
 
 { #category : #adding }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+CTSlotsCollapsedSCCsDfsTreeDrawer >> shapes: aCollection [
 
 	| sccsShapes |
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
@@ -198,7 +198,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
 			              yourself: [ :aCircle | 
 			              shapeBySCC at: aSCC put: aCircle ] ].
 
-	^ super shapes: sccsShapes onCanvas: aCanvas
+	^ super shapes: sccsShapes
 ]
 
 { #category : #'as yet unclassified' }

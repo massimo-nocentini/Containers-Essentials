@@ -161,7 +161,7 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #adding }
-CTSlotsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+CTSlotsDfsTreeDrawer >> shapes: aCollection [
 
 	^ aCollection
 ]
@@ -205,7 +205,7 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 
 	self visit.
 
-	shapes := self shapes: toShapes values onCanvas: nil.
+	shapes := self shapes: toShapes values.
 	edges := OrderedCollection new.
 
 	edgesForLayout := self withDfsEdgesDo: [ 
