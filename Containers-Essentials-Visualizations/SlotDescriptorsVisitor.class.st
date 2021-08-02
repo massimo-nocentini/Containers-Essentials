@@ -2,7 +2,8 @@ Class {
 	#name : #SlotDescriptorsVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'rootDescriptor'
+		'rootDescriptor',
+		'isOneToMany'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -31,7 +32,7 @@ SlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
 SlotDescriptorsVisitor >> initialize [
 
 	super initialize.
-
+	
 	self rootDescriptor: #yourself asSlotDescriptor
 ]
 

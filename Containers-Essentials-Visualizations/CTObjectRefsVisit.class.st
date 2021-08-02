@@ -15,7 +15,8 @@ Class {
 		'levels',
 		'prototypeLabel',
 		'quotedShapes',
-		'slotDescriptorsContext'
+		'slotDescriptorsContext',
+		'oneToManyShapes'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -183,11 +184,18 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 						                                     maxX := maxX max: extent x.
 						                                     extent y ].
 				                           height := height max: varLabel extent y.
-				                           aBox height: height.
+				                           aBox height: height ].
 
-				                           valueLabel ifNil: [ 
-					                           aBox addInteraction:
-						                           RSHighlightable withLines ] ].
+			               valueLabel ifNil: [ 
+				               valueBox addInteraction: RSHighlightable withLines.
+
+				               childDescriptor ifOneToMany: [ 
+					               | manyShapes |
+					               manyShapes := value collect: [ :each | 
+						                             toShapes at: each ].
+
+					               oneToManyShapes at: value put: manyShapes ] ].
+
 
 			               childDescriptor
 				               valueLabel: valueLabel;
@@ -226,6 +234,7 @@ CTObjectRefsVisit >> initialize [
 	sccs := OrderedCollection new.
 	levels := Dictionary new.
 	quotedShapes := IdentityDictionary new.
+	oneToManyShapes := IdentityDictionary new.
 
 	prototypeLabel := RSLabel new
 		                  model: nil;
@@ -373,6 +382,12 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 				  classLabel.
 				  boxedCompositeShape };
 		  yourself
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> oneToManyShapes: aDictionary [
+
+	oneToManyShapes := aDictionary
 ]
 
 { #category : #visiting }

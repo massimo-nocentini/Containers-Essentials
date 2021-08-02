@@ -28,6 +28,12 @@ QuoteSlotDescriptor >> header [
 ]
 
 { #category : #'as yet unclassified' }
+QuoteSlotDescriptor >> ifOneToMany: aBlock [
+
+	^ descriptor ifOneToMany: aBlock
+]
+
+{ #category : #'as yet unclassified' }
 QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	^ descriptor inline: anObject level: anInteger default: aBoolean

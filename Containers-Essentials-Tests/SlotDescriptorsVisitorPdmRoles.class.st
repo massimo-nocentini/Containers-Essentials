@@ -31,7 +31,8 @@ SlotDescriptorsVisitorPdmRoles >> visitPdmEntity: anEntity [
 			   blockClosure: [ :anAssoc | anAssoc key ]).
 		  (#relations asSlotDescriptor
 			   inline: false;
-			   blockClosure: [ :anAssoc | anAssoc value ]) }
+			   blockClosure: [ :anAssoc | anAssoc value ];
+			   oneToMany) }
 ]
 
 { #category : #visiting }
@@ -67,6 +68,7 @@ SlotDescriptorsVisitorPdmRoles >> visitPdmRelationManagesProjectsFor: aRelation 
 	^ (self visitPdmRelation: aRelation) yourself: [ :descriptors | 
 		  descriptors at: descriptors size put: (descriptors last
 				   selector: #projects;
+				   oneToMany;
 				   blockClosure: [ :anObj | ";
 				   inline: false;
 				   in: [ :aDescriptor | 

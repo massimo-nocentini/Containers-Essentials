@@ -5,7 +5,8 @@ Class {
 		'blockClosure',
 		'selector',
 		'inline',
-		'header'
+		'header',
+		'isOneToMany'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -36,12 +37,19 @@ BlockSlotDescriptor >> header: aBlock [
 	header := aBlock
 ]
 
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> ifOneToMany: aBlock [
+
+	^ isOneToMany ifTrue: aBlock
+]
+
 { #category : #initialization }
 BlockSlotDescriptor >> initialize [
 
 	super initialize.
 
 	self
+		oneToOne;
 		header: [ :anObject :metaFontSize :metaColor | 
 			anObject class asShapeAllSuperclassesIndented: [ :each | 
 					RSLabel new
@@ -80,6 +88,18 @@ BlockSlotDescriptor >> noHeader [
 		RSComposite new
 			extent: 0 asPoint;
 			yourself ]
+]
+
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> oneToMany [
+
+	isOneToMany := true
+]
+
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> oneToOne [
+
+	isOneToMany := false
 ]
 
 { #category : #accessing }

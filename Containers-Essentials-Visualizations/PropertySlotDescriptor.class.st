@@ -22,6 +22,12 @@ PropertySlotDescriptor >> header [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+PropertySlotDescriptor >> ifOneToMany: aBlock [
+
+	self subclassResponsibility
+]
+
 { #category : #'as yet unclassified' }
 PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 

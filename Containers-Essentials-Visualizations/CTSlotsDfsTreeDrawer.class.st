@@ -6,7 +6,8 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'shapes',
-		'levels'
+		'levels',
+		'oneToManyShapes'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -162,7 +163,8 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 { #category : #adding }
 CTSlotsDfsTreeDrawer >> shapes: aCollection [
 
-	^ aCollection
+	^ aCollection reject: [ :each | 
+		  oneToManyShapes includesKey: each model ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -187,12 +189,14 @@ CTSlotsDfsTreeDrawer >> visit [
 
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
+	oneToManyShapes := IdentityDictionary new.
 	levels := Dictionary new.
 
 	visit
 		fromShapes: fromShapes;
 		toShapes: toShapes;
 		levels: levels;
+		oneToManyShapes: oneToManyShapes;
 		value
 ]
 
@@ -257,26 +261,40 @@ CTSlotsDfsTreeDrawer >> withDfsEdgesDo: recvBlock [
 		                    self fromShapesDfsSortBlock.
 
 	sortedFromShapes withIndexDo: [ :anAssociation :index | 
-		| boxShape fromShape toShape tuple tuples |
+		| value boxShape fromShape manyShapes tuple tuples isOneToMany |
 		boxShape := anAssociation key.
 		fromShape := anAssociation value.
-		toShape := toShapes at: boxShape model.
 
-		tuple := Array
-			         with: index
-			         with: boxShape
-			         with: fromShape
-			         with: toShape.
+		value := boxShape model.
 
-		tuples := self
-			          fromShape: fromShape
-			          toShape: toShape
-			          ifTree: [ treeAssociations ]
-			          ifForward: [ forwardAssociations ]
-			          ifBack: [ backAssociations ]
-			          ifCross: [ crossAssociations ].
+		manyShapes := oneToManyShapes
+			              at: value
+			              ifPresent: [ :someShapes | 
+				              isOneToMany := true.
+				              someShapes ]
+			              ifAbsent: [ 
+				              isOneToMany := false.
+				              { (toShapes at: value) } ].
 
-		tuples add: tuple ].
+		manyShapes do: [ :toShape | 
+			tuple := Array
+				         with: index
+				         with: boxShape
+				         with: fromShape
+				         with: toShape.
+
+			tuples := self
+				          fromShape: fromShape
+				          toShape: toShape
+				          ifTree: [ treeAssociations ]
+				          ifForward: [ 
+					          isOneToMany
+						          ifTrue: [ treeAssociations ]
+						          ifFalse: [ forwardAssociations ] ]
+				          ifBack: [ backAssociations ]
+				          ifCross: [ crossAssociations ].
+
+			(shapes includes: fromShape) ifTrue: [ tuples add: tuple ] ] ].
 
 	^ recvBlock
 		  value: treeAssociations

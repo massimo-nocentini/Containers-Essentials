@@ -70,7 +70,7 @@ PdmRolesTest >> testPdmRelations [
 PdmRolesTest >> testPdmRelationsInlineProjects [
 
 	| anne schmidt relations project1 project2 |
-	anne := 'Anne Konig'.
+	anne := '	Anne Konig'.
 	schmidt := 'Bauing Schmidt'.
 
 	project1 := 'Project 1'.
