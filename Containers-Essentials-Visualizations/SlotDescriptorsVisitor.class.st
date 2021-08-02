@@ -87,6 +87,16 @@ SlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitByteArray: aByteArray [
+
+	^ { 
+		  #hex asSlotDescriptor.
+		  #asString asSlotDescriptor.
+		  #asArray asSlotDescriptor.
+		  #asShapeBitsDumpBigEndian asSlotDescriptor quote }
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitCTDoubleValueLink: aValueLink [
 
 	^ { #previousLink asSlotDescriptor }

@@ -1,24 +1,71 @@
 Extension { #name : #ByteArray }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+ByteArray >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitByteArray: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+ByteArray >> asShapeBitsDumpBigEndian [
+
+	| shapes dGR |
+	dGR := Float goldenRatio double.
+	
+	shapes := self asArray collect: [ :byte | 
+		          | bits composite box |
+		          bits := byte eightBits reversed collect: [ :bit | 
+			                  RSCircle new
+				                  model: bit;
+				                  radius: dGR;
+				                  withBorder;
+				                  yourself: [ :circle | 
+					                  circle color: (bit
+								                   ifTrue: [ circle border color ]
+								                   ifFalse: [ Color white ]) ] ].
+
+		          RSHorizontalLineLayout new
+			          gapSize: Float goldenRatio;
+			          on: bits.
+
+		          composite := RSComposite new
+			                       shapes: bits;
+			                       padding: dGR;
+			                       yourself.
+
+		          box := RSBox new
+			                 extent: composite extent;
+			                 withBorder;
+			                 color: Color white;
+			                 cornerRadius: dGR;
+			                 yourself.
+
+		          RSLocation new center stick: composite on: box.
+
+		          RSComposite new
+			          model: byte;
+			          shapes: { 
+					          box.
+					          composite };
+			          yourself ].
+
+	RSGridLayout new
+		gapSize: dGR;
+		lineItemsCount: 16;
+		on: shapes.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: shapes;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
-	| bits shapes |
-	bits := Array streamContents: [ :aStream | 
-		        self do: [ :each | aStream nextPutAll: each eightBits ] ].
-	shapes := bits collect: [ :bit | 
-		          RSEllipse new
-			          model: bit;
-			          radius: 5;
-			          color: (bit
-					           ifTrue: [ Color gray ]
-					           ifFalse: [ Color white ]);
-			          withBorder;
-			          yourself ].
-	RSGridLayout on: shapes withLineItemsCount: 16 * 8.
 	^ RSCanvas new
-		  addAll: shapes;
+		  add: self asShapeBitsDumpBigEndian;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -27,12 +74,4 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
 
 	aContext withoutEvaluator
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-ByteArray >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  #hex asSlotDescriptor.
-		  #asArray asSlotDescriptor }
 ]

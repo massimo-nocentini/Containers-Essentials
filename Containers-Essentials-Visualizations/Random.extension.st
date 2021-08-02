@@ -19,7 +19,7 @@ Random >> asShapeScatter [
 					    color: Color gray translucent;
 					    yourself);
 			   addDecoration: RSHorizontalTick new;
-			   addDecoration: RSVerticalTick new;
+			   addDecoration: RSVerticalTick new asFloat;
 			   build;
 			   shapes)
 ]
