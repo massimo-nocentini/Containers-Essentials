@@ -11,13 +11,13 @@ ByteArray >> asShapeBitsDumpBigEndian [
 
 	| shapes dGR |
 	dGR := Float goldenRatio double.
-	
+
 	shapes := self asArray collect: [ :byte | 
 		          | bits composite box |
 		          bits := byte eightBits reversed collect: [ :bit | 
 			                  RSCircle new
 				                  model: bit;
-				                  radius: dGR;
+				                  radius: dGR double;
 				                  withBorder;
 				                  yourself: [ :circle | 
 					                  circle color: (bit
@@ -30,8 +30,9 @@ ByteArray >> asShapeBitsDumpBigEndian [
 
 		          composite := RSComposite new
 			                       shapes: bits;
-			                       padding: dGR;
-			                       yourself.
+			                       "
+			                       padding: dGR;"
+				                       yourself.
 
 		          box := RSBox new
 			                 extent: composite extent;
@@ -47,10 +48,12 @@ ByteArray >> asShapeBitsDumpBigEndian [
 			          shapes: { 
 					          box.
 					          composite };
-			          yourself ].
+			          yourself.
+
+		          composite ].
 
 	RSGridLayout new
-		gapSize: dGR;
+		gapSize: dGR triple;
 		lineItemsCount: 16;
 		on: shapes.
 

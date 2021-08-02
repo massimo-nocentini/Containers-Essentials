@@ -6,7 +6,6 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'shapes',
-		'edges',
 		'levels'
 	],
 	#category : #'Containers-Essentials-Visualizations'
@@ -200,7 +199,7 @@ CTSlotsDfsTreeDrawer >> visit [
 { #category : #accessing }
 CTSlotsDfsTreeDrawer >> visit: anObject [
 
-	| edgesForLayout |
+	| edges edgesForLayout |
 	visit := anObject.
 
 	self visit.
