@@ -4,17 +4,6 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
-{ #category : #adding }
-CTSlotsTopologicallySortedDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
-
-	| sortedShapes |
-	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
-		                aShape propertyDfsLeaveTime
-		                > anotherShape propertyDfsLeaveTime ].
-
-	^ super addAll: sortedShapes onCanvas: aCanvas
-]
-
 { #category : #'as yet unclassified' }
 CTSlotsTopologicallySortedDfsTreeDrawer >> cpapControllerHorizontal [
 
@@ -31,4 +20,15 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: 
 CTSlotsTopologicallySortedDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ #(  )
+]
+
+{ #category : #adding }
+CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+
+	| sortedShapes |
+	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
+		                aShape propertyDfsLeaveTime
+		                > anotherShape propertyDfsLeaveTime ].
+
+	^ super shapes: sortedShapes onCanvas: aCanvas
 ]

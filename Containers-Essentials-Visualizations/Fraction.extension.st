@@ -9,22 +9,23 @@ Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
-	| r c reduced floor |
+	| r c reduced floor ratio |
 	floor := self floor.
 	reduced := self asFractionWrtFloor.
 	c := Float goldenRatio double.
 	r := reduced fordRadius.
+	ratio := c / r.
 
 	^ RSComposite new
 		  model: self;
 		  shapes: (self kissingFractions collect: [ :each | 
 					   | radius |
-					   radius := each fordRadius * c / r.
+					   radius := each fordRadius * ratio.
 					   RSCircle new
 						   model: each + floor;
 						   withBorder;
 						   color: Color white;
-						   position: each * c / r @ radius negated;
+						   position: each * ratio @ radius negated;
 						   radius: radius;
 						   yourself: [ :circle | 
 							   each = reduced ifTrue: [ circle sameColorAsBorderColor ] ] ]);

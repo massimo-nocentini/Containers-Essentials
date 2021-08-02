@@ -12,12 +12,6 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
-{ #category : #adding }
-CTSlotsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
-
-	^ aCollection
-]
-
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
@@ -166,6 +160,12 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
 ]
 
+{ #category : #adding }
+CTSlotsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+
+	^ aCollection
+]
+
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 
@@ -205,7 +205,7 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 
 	self visit.
 
-	shapes := self addAll: toShapes values onCanvas: nil.
+	shapes := self shapes: toShapes values onCanvas: nil.
 	edges := OrderedCollection new.
 
 	edgesForLayout := self withDfsEdgesDo: [ 

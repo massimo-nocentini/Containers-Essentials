@@ -7,38 +7,6 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
-{ #category : #adding }
-CTSlotsSCCsDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
-
-	| scale max lowerBound sccsShapes |
-	lowerBound := 1.
-	max := stronglyConnectedComponents
-		       inject: lowerBound
-		       into: [ :m :each | m max: each size ].
-	scale := NSScale ln
-		         domain: (Array with: lowerBound with: max);
-		         range: (Array with: Color lightRed with: Color red);
-		         yourself.
-
-	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
-		              RSComposite new
-			              model: aSCC;
-			              shapes: aSCC;
-			              padding: Float goldenRatio double;
-			              borderDo: [ :aBorder | 
-				              aBorder
-					              joinRound;
-					              color: (scale scale: aSCC size) translucent ];
-			              addInteraction: RSDraggable new;
-			              yourself: [ :aComposite | 
-				              shapeBySCC at: aSCC put: aComposite.
-
-				              aSCC do: [ :each | 
-					              each removeInteractionIfPresent: RSDraggable ] ] ].
-
-	^ super addAll: sccsShapes onCanvas: aCanvas
-]
-
 { #category : #'as yet unclassified' }
 CTSlotsSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
@@ -170,6 +138,38 @@ CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 				                yourself ].
 
 	^ super layoutTuples: tuples lineBuilder: lineBuilder
+]
+
+{ #category : #adding }
+CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
+
+	| scale max lowerBound sccsShapes |
+	lowerBound := 1.
+	max := stronglyConnectedComponents
+		       inject: lowerBound
+		       into: [ :m :each | m max: each size ].
+	scale := NSScale ln
+		         domain: (Array with: lowerBound with: max);
+		         range: (Array with: Color lightRed with: Color red);
+		         yourself.
+
+	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
+		              RSComposite new
+			              model: aSCC;
+			              shapes: aSCC;
+			              padding: Float goldenRatio double;
+			              borderDo: [ :aBorder | 
+				              aBorder
+					              joinRound;
+					              color: (scale scale: aSCC size) translucent ];
+			              addInteraction: RSDraggable new;
+			              yourself: [ :aComposite | 
+				              shapeBySCC at: aSCC put: aComposite.
+
+				              aSCC do: [ :each | 
+					              each removeInteractionIfPresent: RSDraggable ] ] ].
+
+	^ super shapes: sccsShapes onCanvas: aCanvas
 ]
 
 { #category : #'as yet unclassified' }

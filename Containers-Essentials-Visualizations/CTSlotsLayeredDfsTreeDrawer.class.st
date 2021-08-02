@@ -4,8 +4,20 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
+{ #category : #'as yet unclassified' }
+CTSlotsLayeredDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+
+	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsLayeredDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+
+	^ #(  )
+]
+
 { #category : #adding }
-CTSlotsLayeredDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
+CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection onCanvas: aCanvas [
 
 	| levelShapes gr location layout |
 	gr := Float goldenRatio double.
@@ -60,17 +72,5 @@ CTSlotsLayeredDfsTreeDrawer >> addAll: aCollection onCanvas: aCanvas [
 			               draggable;
 			               yourself ].
 
-	^ super addAll: levelShapes onCanvas: aCanvas
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
-
-	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
-
-	^ #(  )
+	^ super shapes: levelShapes onCanvas: aCanvas
 ]
