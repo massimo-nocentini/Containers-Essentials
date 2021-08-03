@@ -94,7 +94,9 @@ SlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  #hex asSlotDescriptor.
 		  #asString asSlotDescriptor.
 		  #asArray asSlotDescriptor.
-		  #asShapeBitsDumpBigEndian asSlotDescriptor quote }
+		  (#asShapeBitsDump asSlotDescriptor
+			   inline: true;
+			   quote) }
 ]
 
 { #category : #visiting }

@@ -7,6 +7,18 @@ Class {
 }
 
 { #category : #tests }
+EssentialsObjectTest >> testByteArrayLiteral [
+
+	^ self exportSlotsGraphOf: #[ 18 10 253 ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testByteArrayLoremIpsum [
+
+	^ self exportSlotsGraphOf: (String loremIpsum: 50) asByteArray .
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testCollectionSubclasses [
 
 	^ self exportShapeOf: Collection accessorBlock: #asShapeSubclasses

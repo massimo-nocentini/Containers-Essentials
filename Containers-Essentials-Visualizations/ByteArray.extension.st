@@ -7,7 +7,7 @@ ByteArray >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-ByteArray >> asShapeBitsDumpBigEndian [
+ByteArray >> asShapeBitsDump [
 
 	| shapes dGR |
 	dGR := Float goldenRatio double.
@@ -52,9 +52,8 @@ ByteArray >> asShapeBitsDumpBigEndian [
 
 		          composite ].
 
-	RSGridLayout new
-		gapSize: dGR triple;
-		lineItemsCount: 16;
+	RSVerticalLineLayout new
+		gapSize: dGR half;
 		on: shapes.
 
 	^ RSComposite new
@@ -68,7 +67,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
 	^ RSCanvas new
-		  add: self asShapeBitsDumpBigEndian;
+		  add: self asShapeBitsDump;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
