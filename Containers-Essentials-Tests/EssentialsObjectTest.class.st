@@ -7,6 +7,12 @@ Class {
 }
 
 { #category : #tests }
+EssentialsObjectTest >> testByteArrayInteger [
+
+	^ self exportSlotsGraphOf: 50 fibonacciNumbers last asByteArray
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testByteArrayLiteral [
 
 	^ self exportSlotsGraphOf: #[ 18 10 253 ]
@@ -15,7 +21,7 @@ EssentialsObjectTest >> testByteArrayLiteral [
 { #category : #tests }
 EssentialsObjectTest >> testByteArrayLoremIpsum [
 
-	^ self exportSlotsGraphOf: (String loremIpsum: 50) asByteArray .
+	^ self exportSlotsGraphOf: (String loremIpsum: 50) asByteArray
 ]
 
 { #category : #tests }

@@ -27,6 +27,7 @@ Integer >> asShapeBinaryDots: repr [
 		        int := Integer readFrom: each asString.
 		        RSCircle new
 			        model: int;
+			        radius: Float goldenRatio double double;
 			        color: Color white;
 			        withBorder;
 			        yourself: [ :c | 
