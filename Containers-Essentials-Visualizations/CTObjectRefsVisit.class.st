@@ -189,12 +189,7 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 			               valueLabel ifNil: [ 
 				               valueBox addInteraction: RSHighlightable withLines.
 
-				               childDescriptor ifOneToMany: [ 
-					               | manyShapes |
-					               manyShapes := value collect: [ :each | 
-						                             toShapes at: each ].
-
-					               oneToManyShapes at: value put: manyShapes ] ].
+				               childDescriptor isOneToManyFromVisit: self ].
 
 
 			               childDescriptor
@@ -382,6 +377,15 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 				  classLabel.
 				  boxedCompositeShape };
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTObjectRefsVisit >> oneToMany: aValue [
+
+	| manyShapes |
+	manyShapes := aValue collect: [ :each | toShapes at: each ].
+
+	oneToManyShapes at: aValue put: manyShapes
 ]
 
 { #category : #accessing }

@@ -37,12 +37,6 @@ BlockSlotDescriptor >> header: aBlock [
 	header := aBlock
 ]
 
-{ #category : #'as yet unclassified' }
-BlockSlotDescriptor >> ifOneToMany: aBlock [
-
-	^ isOneToMany ifTrue: aBlock
-]
-
 { #category : #initialization }
 BlockSlotDescriptor >> initialize [
 
@@ -79,6 +73,12 @@ BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 BlockSlotDescriptor >> instVarNameHasBeenGiven [
 
 	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
+]
+
+{ #category : #testing }
+BlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
+
+	isOneToMany ifTrue: [ aVisit oneToMany: self value ]
 ]
 
 { #category : #initialization }

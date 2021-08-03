@@ -1,14 +1,7 @@
 Extension { #name : #ExternalAddress }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-ExternalAddress >> addressString [
+ExternalAddress >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ self printString
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-ExternalAddress >> instVarsNamesOrderedCollection [
-
-	^ super instVarsNamesOrderedCollection
-	  , { (#addressString asSlotDescriptor inline: true) }
+	^ aVisitor visitExternalAddress: self
 ]

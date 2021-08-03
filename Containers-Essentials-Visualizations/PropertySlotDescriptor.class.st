@@ -22,14 +22,14 @@ PropertySlotDescriptor >> header [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
-PropertySlotDescriptor >> ifOneToMany: aBlock [
+{ #category : #'as yet unclassified' }
+PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
+{ #category : #accessing }
+PropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	self subclassResponsibility
 ]

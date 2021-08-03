@@ -1,16 +1,7 @@
 Extension { #name : #CompiledCode }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-CompiledCode >> formattedCode [
+CompiledCode >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ self sourceNode formattedCode
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-CompiledCode >> instVarsNamesOrderedCollection [
-
-	^ { 
-		  #methodClassName asSlotDescriptor.
-		  #selector asSlotDescriptor.
-		  #formattedCode asSlotDescriptor }
+	^ aVisitor visitCompiledMethod: self
 ]

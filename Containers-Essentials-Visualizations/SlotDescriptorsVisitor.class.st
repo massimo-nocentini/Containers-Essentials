@@ -118,6 +118,15 @@ SlotDescriptorsVisitor >> visitColor: aColor [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
+
+	^ { 
+		  #methodClassName asSlotDescriptor.
+		  #selector asSlotDescriptor.
+		  #formattedCode asSlotDescriptor }
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
@@ -160,6 +169,12 @@ SlotDescriptorsVisitor >> visitDuration: aDuration [
 		  #asMicroseconds asSlotDescriptor.
 		  #asNanoSeconds asSlotDescriptor.
 		  (#asStringDHHMMSSµ asSlotDescriptor inline: true) }
+]
+
+{ #category : #visiting }
+SlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
+
+	^  { (#printString asSlotDescriptor inline: true) }
 ]
 
 { #category : #visiting }
