@@ -15,8 +15,11 @@ Class {
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController:
-		self cpapControllerBezierDirected.
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSRHSHorizontalAttachPoint new;
+			 yourself).
 
 	^ backTuples collect: [ :aTuple | 
 		  | edge |
@@ -37,23 +40,12 @@ CTSlotsDfsTreeDrawer >> cpapControllerBezierDirected [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> cpapControllerHorizontal [
-
-	^ RSStartEndCPAPController new
-		  controller: RSHorizontalCPAPController new;
-		  startAttachPoint: RSCenteredAttachPoint new;
-		  endAttachPoint: (RSStartEndAttachPoint new
-				   startAttachPoint: RSBorderAttachPoint new;
-				   endAttachPoint: RSHorizontalAttachPoint new;
-				   yourself);
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController:
-		self cpapControllerBezierDirected.
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSBottomEndVerticalAttachPoint new).
 
 	^ crossTuples collect: [ :aTuple | 
 		  | edge |
@@ -126,6 +118,14 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 ]
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> jumpLinesBuilder [
+
+	^ RSLineBuilder bezier
+		  color: Color gray lighter lighter lighter;
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
 
 	^ RSLineBuilder line
@@ -170,15 +170,23 @@ CTSlotsDfsTreeDrawer >> shapes: aCollection [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 
-	^ RSLineBuilder bezier
+	^ RSLineBuilder orthoVertical
 		  color: Color gray lighter lighter lighter;
+		  cornerRadii: Float goldenRatio double;
 		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: self cpapControllerHorizontal.
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSHorizontalGoldenRatioOffsetCPAPController new;
+			 startAttachPoint: RSHorizontalAttachPoint new;
+			 endAttachPoint: (RSStartEndAttachPoint new
+					  startAttachPoint: RSBorderAttachPoint new;
+					  endAttachPoint: RSHorizontalAttachPoint new;
+					  yourself);
+			 yourself).
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
@@ -217,13 +225,13 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 		                  :backTuples 
 		                  :crossTuples | 
 		                  | lineBuilder |
-		                  lineBuilder := self treeLinesBuilder.
+		                  lineBuilder := self jumpLinesBuilder.
 
 		                  edges
 			                  addAll:
 				                  (self
 					                   treeTuples: treeTuples
-					                   lineBuilder: lineBuilder);
+					                   lineBuilder: self treeLinesBuilder);
 			                  addAll:
 				                  (self
 					                   forwardTuples: forwardTuples
