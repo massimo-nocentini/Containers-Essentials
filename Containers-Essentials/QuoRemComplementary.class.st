@@ -8,7 +8,7 @@ Class {
 		'quo',
 		'rem'
 	],
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Divisibility'
 }
 
 { #category : #'as yet unclassified' }
@@ -50,10 +50,41 @@ QuoRemComplementary >> a: anObject [
 	a := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+QuoRemComplementary >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitQuoRemComplementary: self
+]
+
 { #category : #converting }
 QuoRemComplementary >> asPointWithRespectToRem [
 
 	^ (1 @ self quo negated) negated
+]
+
+{ #category : #'as yet unclassified' }
+QuoRemComplementary >> asShapeDots [
+
+	| shapes |
+	shapes := (1 to: self numberOfDots) collect: [ :each | 
+		          RSCircle new
+			          withBorder;
+			          color: Color white;
+			          yourself ].
+
+	rem ifNegative: [ 
+		(1 to: rem negated) do: [ :i | 
+			(shapes at: shapes size + (1 - i)) sameColorAsBorderColor ] ].
+
+	RSGridLayout new
+		gapSize: Float goldenRatio double;
+		lineItemsCount: b;
+		on: shapes.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: shapes;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -83,6 +114,34 @@ QuoRemComplementary >> initialize [
 
 	quo := self value ceiling.
 	rem := a - (quo * b)
+]
+
+{ #category : #'as yet unclassified' }
+QuoRemComplementary >> numberOfDots [
+
+	^ b * quo
+]
+
+{ #category : #'as yet unclassified' }
+QuoRemComplementary >> printOn: aStream [
+
+	aStream
+		nextPutAll: a asString;
+		nextPutAll: ' = ';
+		nextPutAll: quo asString;
+		nextPutAll: '·';
+		nextPutAll: b asString.
+
+	rem
+		ifNegative: [ 
+			aStream
+				nextPutAll: ' - ';
+				nextPutAll: rem negated asString ]
+		ifZero: [  ]
+		ifPositive: [ 
+			aStream
+				nextPutAll: ' + ';
+				nextPutAll: rem asString ]
 ]
 
 { #category : #accessing }

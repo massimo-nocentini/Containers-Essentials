@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'return'
 	],
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Messaging'
 }
 
 { #category : #comparing }
