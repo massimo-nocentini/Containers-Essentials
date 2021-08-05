@@ -21,6 +21,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 		spec
 			package: 'Kernel-Extensions';
 			package: 'Containers-Essentials';
+			package: 'Containers-Essentials-Roassal';
 			package: 'Containers-Essentials-Visualizations';
 			package: 'Containers-Essentials-Tests';
 			package: 'Collections-Abstract-Extensions';
