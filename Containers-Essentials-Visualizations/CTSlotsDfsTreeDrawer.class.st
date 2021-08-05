@@ -170,20 +170,18 @@ CTSlotsDfsTreeDrawer >> shapes: aCollection [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 
-	^ RSLineBuilder orthoVertical
+	^ RSLineBuilder polyline
 		  color: Color gray lighter lighter lighter;
 		  cornerRadii: Float goldenRatio double;
+		  withHorizontalAttachPoint;
 		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSHorizontalGoldenRatioOffsetCPAPController new;
-			 startAttachPoint: RSHorizontalAttachPoint new;
-			 endAttachPoint: RSHorizontalAttachPoint new;
-			 yourself).
+	lineBuilder controlPointsController:
+		RSHorizontalGoldenRatioOffsetCPAPController new.
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
