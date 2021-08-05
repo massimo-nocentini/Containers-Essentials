@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> cpapControllerHorizontal [
-
-	^ self cpapControllerBezierDirected
-]
-
-{ #category : #'as yet unclassified' }
 CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new alignCenter applyOn: aCollectionOfShapes

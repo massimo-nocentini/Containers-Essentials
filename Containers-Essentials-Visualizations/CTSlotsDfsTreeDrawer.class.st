@@ -35,16 +35,6 @@ CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> cpapControllerBezierDirected [
-
-	^ RSStartEndCPAPController new
-		  controller: RSDirectedBezierCPAPController new;
-		  startAttachPoint: RSCenteredAttachPoint new;
-		  endAttachPoint: RSBorderAttachPoint new;
-		  yourself
-]
-
-{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	lineBuilder controlPointsController: (RSStartEndCPAPController new
@@ -72,8 +62,10 @@ CTSlotsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController:
-		self cpapControllerBezierDirected.
+	lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSDirectedBezierConcavityCPAPController new;
+			 startAttachPoint: RSCenteredAttachPoint new;
+			 endAttachPoint: RSHorizontalAttachPoint new).
 
 	^ forwardTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
@@ -163,19 +155,6 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  | anAssoc |
 		  anAssoc := each key.
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> lineBuilderForBackTuples [
-
-	^ RSLineBuilder bezier
-		  color: Color gray lighter lighter lighter;
-		  controlPointsController: (RSStartEndCPAPController new
-				   controller: RSCrossEdgesCPAPController new;
-				   startAttachPoint: RSHorizontalAttachPoint new;
-				   endAttachPoint: RSVerticalAttachPoint new;
-				   yourself);
-		  yourself
 ]
 
 { #category : #adding }
