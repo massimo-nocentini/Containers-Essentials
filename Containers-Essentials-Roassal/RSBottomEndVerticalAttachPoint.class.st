@@ -1,7 +1,7 @@
 Class {
 	#name : #RSBottomEndVerticalAttachPoint,
 	#superclass : #RSVerticalAttachPoint,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #'public - hooks' }

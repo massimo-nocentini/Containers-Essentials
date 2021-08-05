@@ -1,7 +1,7 @@
 Class {
 	#name : #RSHorizontalGoldenRatioOffsetCPAPController,
 	#superclass : #RSHorizontalCPAPController,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #hooks }
