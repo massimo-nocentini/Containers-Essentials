@@ -182,10 +182,7 @@ CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
 	lineBuilder controlPointsController: (RSStartEndCPAPController new
 			 controller: RSHorizontalGoldenRatioOffsetCPAPController new;
 			 startAttachPoint: RSHorizontalAttachPoint new;
-			 endAttachPoint: (RSStartEndAttachPoint new
-					  startAttachPoint: RSBorderAttachPoint new;
-					  endAttachPoint: RSHorizontalAttachPoint new;
-					  yourself);
+			 endAttachPoint: RSHorizontalAttachPoint new;
 			 yourself).
 
 	^ treeTuples collect: [ :aTuple | 
