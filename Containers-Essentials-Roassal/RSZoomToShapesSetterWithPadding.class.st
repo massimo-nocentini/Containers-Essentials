@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'padding'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #initialization }

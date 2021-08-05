@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'inner'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #hooks }

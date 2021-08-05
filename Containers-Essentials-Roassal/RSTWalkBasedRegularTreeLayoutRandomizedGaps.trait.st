@@ -1,6 +1,6 @@
 Trait {
 	#name : #RSTWalkBasedRegularTreeLayoutRandomizedGaps,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #initialization }

@@ -1,7 +1,7 @@
 Class {
 	#name : #RSDirectedBezierConcavityCPAPController,
 	#superclass : #RSDirectedBezierCPAPController,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #hooks }

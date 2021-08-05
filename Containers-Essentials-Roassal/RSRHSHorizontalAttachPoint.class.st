@@ -1,7 +1,7 @@
 Class {
 	#name : #RSRHSHorizontalAttachPoint,
 	#superclass : #RSHorizontalAttachPoint,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #'public - hooks' }
