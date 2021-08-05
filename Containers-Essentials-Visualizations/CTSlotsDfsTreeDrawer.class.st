@@ -15,11 +15,16 @@ Class {
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
+	"lineBuilder controlPointsController: (RSStartEndCPAPController new
+			 controller: RSCrossEdgesCPAPController new;
+			 startAttachPoint: RSHorizontalAttachPoint new;
+			 endAttachPoint: RSVerticalAttachPoint new;
+			 yourself)."
+
 	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierCPAPController new;
+			 controller: RSDirectedBezierConcavityCPAPController new;
 			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSRHSHorizontalAttachPoint new;
-			 yourself).
+			 endAttachPoint: RSVerticalAttachPoint new).
 
 	^ backTuples collect: [ :aTuple | 
 		  | edge |
@@ -43,7 +48,7 @@ CTSlotsDfsTreeDrawer >> cpapControllerBezierDirected [
 CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierCPAPController new;
+			 controller: RSDirectedBezierConcavityCPAPController new;
 			 startAttachPoint: RSCenteredAttachPoint new;
 			 endAttachPoint: RSBottomEndVerticalAttachPoint new).
 
@@ -160,6 +165,19 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
 ]
 
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> lineBuilderForBackTuples [
+
+	^ RSLineBuilder bezier
+		  color: Color gray lighter lighter lighter;
+		  controlPointsController: (RSStartEndCPAPController new
+				   controller: RSCrossEdgesCPAPController new;
+				   startAttachPoint: RSHorizontalAttachPoint new;
+				   endAttachPoint: RSVerticalAttachPoint new;
+				   yourself);
+		  yourself
+]
+
 { #category : #adding }
 CTSlotsDfsTreeDrawer >> shapes: aCollection [
 
@@ -219,9 +237,6 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 		                  :forwardTuples 
 		                  :backTuples 
 		                  :crossTuples | 
-		                  | lineBuilder |
-		                  lineBuilder := self jumpLinesBuilder.
-
 		                  edges
 			                  addAll:
 				                  (self
@@ -230,15 +245,15 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 			                  addAll:
 				                  (self
 					                   forwardTuples: forwardTuples
-					                   lineBuilder: lineBuilder);
+					                   lineBuilder: self jumpLinesBuilder);
 			                  addAll:
 				                  (self
 					                   backTuples: backTuples
-					                   lineBuilder: lineBuilder);
+					                   lineBuilder: self jumpLinesBuilder);
 			                  addAll:
 				                  (self
 					                   crossTuples: crossTuples
-					                   lineBuilder: lineBuilder).
+					                   lineBuilder: self jumpLinesBuilder).
 
 		                  self
 			                  layoutTuples: treeTuples
