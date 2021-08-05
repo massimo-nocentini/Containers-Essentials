@@ -57,9 +57,12 @@ Behavior >> asShapeSubclasses [
 					            do: [ :ev | aSubClass browse ];
 					            yourself) ] ].
 
-	edges := RSLineBuilder horizontalBezier
+	edges := RSLineBuilder orthoHorizontal
 		         shapes: commits;
 		         withHorizontalAttachPoint;
+		         controlPointsController:
+			         RSHorizontalGoldenRatioOffsetCPAPController new;
+		         cornerRadii: Float goldenRatio double;
 		         connectToAll: [ :aSubClass | aSubClass subclasses ].
 
 	edges sort: [ :a :b | 
