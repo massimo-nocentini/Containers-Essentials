@@ -68,7 +68,7 @@ CTObjectRefsVisit >> boxShapeOf: value [
 
 	^ RSBox new
 		  model: value;
-		  color: Color white;
+		  color: metaColor translucent lighter lighter;
 		  cornerRadius: self radiusOrPadding;
 		  withBorder;
 		  yourself
