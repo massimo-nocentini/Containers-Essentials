@@ -129,6 +129,19 @@ SlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitContext: aContext [
+
+	^ { 
+		  #home asSlotDescriptor.
+		  #sender asSlotDescriptor.
+		  #receiver asSlotDescriptor.
+		  #selector asSlotDescriptor.
+		  "(#arguments asSlotDescriptor inline: true)."
+		  #pc asSlotDescriptor.
+		  #stackPtr asSlotDescriptor }
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
@@ -193,6 +206,7 @@ SlotDescriptorsVisitor >> visitFraction: aFraction [
 
 	^ (self visitObject: aFraction) , { 
 		  #floor asSlotDescriptor.
+		  #asFloat asSlotDescriptor.
 		  "#asFractionWrtFloor asSlotDescriptor."
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
@@ -269,8 +283,9 @@ SlotDescriptorsVisitor >> visitObject: anObject [
 { #category : #visiting }
 SlotDescriptorsVisitor >> visitPoint: aPoint [
 
-	^ (self visitObject: aPoint)
-	  , { #asShapeWrtOrigin asSlotDescriptor quote }
+	^ (self visitObject: aPoint) , { 
+		  #π asSlotDescriptor.
+		  #asShapeWrtOrigin asSlotDescriptor quote }
 ]
 
 { #category : #visiting }

@@ -7,6 +7,15 @@ Class {
 }
 
 { #category : #'*Containers-Essentials-Tests' }
+PdmRolesTest >> testPdmAnneKonig [
+
+	self
+		exportSlotsGraphOf: 'Anne Konig'
+		slotDescriptorsContext: (SlotDescriptorsVisitor new rootDescriptor:
+				 #yourself asSlotDescriptor noHeader)
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
 PdmRolesTest >> testPdmRelations [
 
 	| anne schmidt relations project1 project2 |

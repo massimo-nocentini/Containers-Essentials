@@ -99,9 +99,28 @@ EssentialsObjectTest >> testInspectColorGray [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectContext [
+
+	self
+		skip;
+		timeLimit: 5 minutes.
+	^ self exportSlotsGraphOf: thisContext
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectDatetimeNow [
 
 	^ self exportSlotsGraphOf: DateAndTime now
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectDictionary [
+
+	^ self exportSlotsGraphOf: (Dictionary new
+			   at: 1 put: 'Hello';
+			   at: 2 -> 3 put: 4;
+			   at: 'World' put: #Smalltalk;
+			   yourself)
 ]
 
 { #category : #tests }
@@ -302,11 +321,6 @@ EssentialsObjectTest >> testInspectPoint [
 
 { #category : #tests }
 EssentialsObjectTest >> testInspectRBNodesQuine [
-
-	"A *quine* in Scheme:
-	
-	((lambda (x) (list x (list (quote quote) x)))
-    (quote (lambda (x) (list x (list (quote quote) x)))))"
 
 	| quine aQuineBlock evalBlock |
 	aQuineBlock := [ :x | 

@@ -1,15 +1,7 @@
 Extension { #name : #Context }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Context >> instVarsNamesOrderedCollection [
+Context >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ { 
-		  #home asSlotDescriptor.
-		  #sender asSlotDescriptor.
-		  #receiver asSlotDescriptor.
-		  #selector asSlotDescriptor.
-		  "(#arguments asSlotDescriptor inline: true)."
-		  #pc asSlotDescriptor.
-		  #stackPtr asSlotDescriptor
-		  "#receiver asSlotDescriptor instVarNameHasBeenGiven " }
+	^ aVisitor visitContext: self
 ]
