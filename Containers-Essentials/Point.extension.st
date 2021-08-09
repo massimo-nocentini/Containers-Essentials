@@ -9,5 +9,7 @@ Point >> distanceToOrigin [
 { #category : #'*Containers-Essentials' }
 Point >> π [
 
-	^ (self angle / Float pi) asFraction
+	^ (self angle / Float π) asFraction
+		  ifNegative: [ :radians | radians + 2 ]
+		  ifNotNegative: [ :radians | radians ]
 ]
