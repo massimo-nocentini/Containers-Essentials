@@ -1,6 +1,50 @@
 Extension { #name : #Number }
 
 { #category : #'*Containers-Essentials' }
+Number >> adaptToComplex: rcvr andSend: selector [
+
+	"If I am involved in arithmetic with a Complex number, convert me to a Complex number."
+
+	^ rcvr perform: selector with: self asComplex
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> arcCosh [
+	"Answer receiver's area hyperbolic cosine.
+	That is the inverse function of cosh."
+
+	^self asFloat arcCosh
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> arcSinh [
+	"Answer receiver's area hyperbolic cosine.
+	That is the inverse function of cosh."
+
+	^self asFloat arcSinh
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> arcTanh [
+	
+	^self asFloat arcTanh 
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> asComplex [
+
+	"Answer a Complex number that represents value of the the receiver."
+
+	^ Complex real: self imaginary: 0
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> cosh [
+	
+	^self asFloat cosh
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> decrement [
 	^ self - 1
 ]
@@ -9,6 +53,12 @@ Number >> decrement [
 Number >> density: aRandom [
 
 	^ aRandom densityOfNumber: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> i [
+
+	^ Complex real: 0 imaginary: self
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -52,4 +102,16 @@ Number >> ifPositive: pBlock ifNotPositive: npBlock [
 { #category : #'*Containers-Essentials' }
 Number >> increment [
 	^ self + 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> sinh [
+	
+	^self asFloat sinh
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> tanh [
+
+	^ self asFloat tanh
 ]
