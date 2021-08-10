@@ -105,6 +105,12 @@ Number >> increment [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> isTo: x as: y isTo: aBlock [
+
+	^ aBlock value: y * x / self
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> sinh [
 	
 	^self asFloat sinh

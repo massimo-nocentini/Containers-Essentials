@@ -525,6 +525,15 @@ Complex >> negated [
 	^self class real: real negated imaginary: imaginary negated
 ]
 
+{ #category : #'as yet unclassified' }
+Complex >> polarForm: aBlock [
+
+	| aPoint |
+	aPoint := self real @ self imaginary.
+
+	^ aBlock value: aPoint distanceToOrigin value: aPoint π * Float π
+]
+
 { #category : #printing }
 Complex >> printOn: aStream [
 	real printOn: aStream.
@@ -661,13 +670,6 @@ Complex >> squaredNorm [
 	"Answer the square of receiver norm."
 
 	^real * real + (imaginary * imaginary)
-]
-
-{ #category : #printing }
-Complex >> stringForReadout [
-
-	^ String streamContents: [:stream |
-		self printOn: stream showingDecimalPlaces: 0]
 ]
 
 { #category : #'mathematical functions' }

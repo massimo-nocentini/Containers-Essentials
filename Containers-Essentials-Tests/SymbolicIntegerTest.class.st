@@ -83,11 +83,9 @@ SymbolicIntegerTest >> testGCDofMultiplicativeInversesInZ17 [
 
 	| gcds inverses |
 	gcds := self testGCDofZ17.
-	inverses := PointArray new: gcds size + 1.
+	inverses := PointArray new: gcds size.
 	gcds withIndexDo: [ :each :index | 
 		inverses at: index put: each b @ each inverseMultiplicativeOfb key ].
-
-	inverses at: inverses size put: 0 @ 0.
 
 	^ self exportSlotsGraphOf: inverses
 ]

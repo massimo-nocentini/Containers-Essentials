@@ -131,7 +131,7 @@ CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	RSHorizontalGaussianJitterVanDerPloegTreeLayout
+	RSHorizontalVanDerPloegTreeLayout
 		on: aCollectionOfShapes
 		edges: aCollectionOfLines
 ]
@@ -170,7 +170,9 @@ CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 	^ RSLineBuilder polyline
 		  color: Color gray lighter lighter lighter;
 		  cornerRadii: Float goldenRatio double;
-		  withHorizontalAttachPoint;
+		  attachPoint: (RSHorizontalAttachPoint new
+				   startOffset: Float goldenRatio double double negated;
+				   yourself);
 		  yourself
 ]
 

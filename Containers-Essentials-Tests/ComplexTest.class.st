@@ -288,6 +288,12 @@ ComplexTest >> testEquality [
 ]
 
 { #category : #tests }
+ComplexTest >> testIsquared [
+
+	self assert: 1 i squared equals: -1
+]
+
+{ #category : #tests }
 ComplexTest >> testLn [
 	self assert: (Float e + 0 i) ln = Float e ln "See Bug 1815 on Mantis"
 ]
@@ -309,6 +315,20 @@ ComplexTest >> testNegated [
 	c := (2 + 5 i) .
 	self assert: c negated  = (-2 - 5i).
 	
+]
+
+{ #category : #tests }
+ComplexTest >> testPolarForm [
+
+	1 + 1 i polarForm: [ :r :theta | 
+		self
+			assert: r equals: 2 sqrt;
+			assert: theta equals: Float π / 4 ].
+
+	1 + 2 i polarForm: [ :r :theta | 
+		self
+			assert: r equals: 5 sqrt;
+			assert: theta equals: 1.1071487177940906 ]
 ]
 
 { #category : #tests }

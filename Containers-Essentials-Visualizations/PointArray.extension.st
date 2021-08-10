@@ -9,19 +9,19 @@ PointArray >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 PointArray >> asShapeDots [
 
-	| twoGR |
-	twoGR := Float goldenRatio * 2.
-
-	^ RSComposite new
-		  shapes: (self asArray collect: [ :each | 
-					   RSCircle new
-						   model: self;
-						   radius: twoGR;
-						   withBorder;
-						   position: each * twoGR;
-						   yourself: [ :c | 
-							   each isZero
-								   ifTrue: [ c sameColorAsBorderColor ]
-								   ifFalse: [ c color: Color white translucent ] ] ]);
-		  yourself
+	^ RSComposite new shapes: (RSChart new
+			   addPlot: (RSScatterPlot new
+					    points: self;
+					    color: Color gray translucent;
+					    yourself);
+			   addDecoration: (RSHorizontalTick new
+					    integer;
+					    yourself: [ :tick | 
+						    tick configuration numberOfTicks: self size ]);
+			   addDecoration: (RSVerticalTick new
+					    integer;
+					    yourself: [ :tick | 
+						    tick configuration numberOfTicks: self size ]);
+			   build;
+			   shapes)
 ]

@@ -7,11 +7,15 @@ Class {
 { #category : #hooks }
 RSHorizontalGoldenRatioOffsetCPAPController >> controlPointsFrom: from to: to [
 
-	| x |
-	x := from x + Float goldenRatio double double.
-	^ Array
-		  with: from
-		  with: x @ from y
-		  with: x @ to y
-		  with: to
+	^ Float goldenRatio
+		  isTo: (to x - from x) abs
+		  as: 1
+		  isTo: [ :ratio | 
+			  | x |
+			  x := from x + ratio.
+			  Array
+				  with: from
+				  with: x @ from y
+				  with: x @ to y
+				  with: to ]
 ]
