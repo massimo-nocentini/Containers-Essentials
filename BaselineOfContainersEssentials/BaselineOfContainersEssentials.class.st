@@ -9,12 +9,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ "Externals."
-		spec
-			baseline: 'Roassal3'
-			with: [ spec repository: 'github://massimo-nocentini/Roassal3/src' ];
-			baseline: 'Roassal3Exporters'
-			with: [ 
-				spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ].
+		self roassal: spec.
 
 		"Packages"
 		spec
@@ -26,4 +21,15 @@ BaselineOfContainersEssentials >> baseline: spec [
 			package: 'Collections-Abstract-Extensions';
 			package: 'Collections-Strings-Extensions';
 			package: 'Collections-Sequenceable-Extensions' ]
+]
+
+{ #category : #baselines }
+BaselineOfContainersEssentials >> roassal: spec [
+
+	spec
+		baseline: 'Roassal3'
+		with: [ spec repository: 'github://massimo-nocentini/Roassal3/src' ];
+		baseline: 'Roassal3Exporters'
+		with: [ 
+			spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
 ]
