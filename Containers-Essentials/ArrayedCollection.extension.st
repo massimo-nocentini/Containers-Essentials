@@ -1,6 +1,6 @@
 Extension { #name : #ArrayedCollection }
 
-{ #category : #'*Collections-Abstract-Extensions' }
+{ #category : #'*Containers-Essentials' }
 ArrayedCollection >> bisect: mergeBlock baseBlock: baseBlock [
 	^ self
 		bisect: mergeBlock
@@ -9,7 +9,7 @@ ArrayedCollection >> bisect: mergeBlock baseBlock: baseBlock [
 		baseBlock: baseBlock
 ]
 
-{ #category : #'*Collections-Abstract-Extensions' }
+{ #category : #'*Containers-Essentials' }
 ArrayedCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock [
 	| diff |
 	diff := high - low.
@@ -30,7 +30,7 @@ ArrayedCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock 
 			mergeBlock value: left value: right ]
 ]
 
-{ #category : #'*Collections-Abstract-Extensions' }
+{ #category : #'*Containers-Essentials' }
 ArrayedCollection >> countingSort: key maximum: k [
 	| count output |
 	count := self class new: k + 1 withAll: 0.
