@@ -1,13 +1,13 @@
 Extension { #name : #String }
 
-{ #category : #'*Collections-Strings-Extensions' }
+{ #category : #'*Containers-Essentials' }
 String >> subscript [
 	| subscripts |
 	subscripts := self class subscripts.
 	^ self collect: [ :each | subscripts at: each ifAbsent: [ each ] ]
 ]
 
-{ #category : #'*Collections-Strings-Extensions' }
+{ #category : #'*Containers-Essentials' }
 String class >> subscripts [
 	^ Dictionary new
 		at: $0 put: $₀;
