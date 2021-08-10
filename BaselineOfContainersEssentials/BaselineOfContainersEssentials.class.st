@@ -17,8 +17,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 			package: 'Containers-Essentials';
 			package: 'Containers-Essentials-Roassal';
 			package: 'Containers-Essentials-Visualizations';
-			package: 'Containers-Essentials-Tests';
-			package: 'Collections-Sequenceable-Extensions' ]
+			package: 'Containers-Essentials-Tests' ]
 ]
 
 { #category : #baselines }

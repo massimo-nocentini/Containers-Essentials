@@ -1,6 +1,6 @@
 Extension { #name : #LinkedList }
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Containers-Essentials' }
 LinkedList >> , other [
 	"Optimized version of append for this specific linked container"
 
@@ -11,19 +11,19 @@ LinkedList >> , other [
 				yourself ]
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Containers-Essentials' }
 LinkedList >> allButFirst [
 	^ self cdr
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Containers-Essentials' }
 LinkedList >> car [
 	"Return the very first element"
 
 	^ self first
 ]
 
-{ #category : #'*Collections-Sequenceable-Extensions' }
+{ #category : #'*Containers-Essentials' }
 LinkedList >> cdr [
 	"Returns the tail of this list"
 
