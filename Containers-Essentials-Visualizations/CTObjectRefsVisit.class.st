@@ -64,6 +64,16 @@ CTObjectRefsVisit >> addQuotedShape: shape model: value [
 ]
 
 { #category : #visiting }
+CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
+
+	aShape propertyDfsDepth: aNumber.
+
+	^ (levels at: aNumber ifAbsentPut: [ OrderedCollection new ])
+		  add: aShape;
+		  yourself
+]
+
+{ #category : #visiting }
 CTObjectRefsVisit >> boxShapeOf: value [
 
 	^ RSBox new
@@ -135,9 +145,11 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of: aParent level: level [
 
 	| descriptors maxX mineShape |
-	mineShape := self shapeOf: anObject level: level.
+	mineShape := self shapeOf: anObject.
 
-	self visitingShape: mineShape of: anObject.
+	self
+		visitingShape: mineShape of: anObject;
+		atLevel: level putShape: mineShape.
 
 	maxX := metaExtent x.
 
@@ -430,11 +442,10 @@ CTObjectRefsVisit >> shapeHasBeenVisited: shape childOfShape: mineShape [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> shapeOf: anObject level: level [
+CTObjectRefsVisit >> shapeOf: anObject [
 
 	^ RSComposite new
 		  model: anObject;
-		  propertyDfsDepth: level;
 		  propertyDfsTimings: dfsClock @ -1;
 		  propertyDfsLowlink: dfsClock;
 		  yourself: [ :mineShape | 
@@ -581,12 +592,6 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 
 { #category : #visiting }
 CTObjectRefsVisit >> visitingShape: mineShape of: anObject [
-
-	| level |
-	level := levels
-		         at: mineShape propertyDfsDepth
-		         ifAbsentPut: [ OrderedCollection new ].
-	level add: mineShape.
 
 	toShapes at: anObject put: mineShape.
 
