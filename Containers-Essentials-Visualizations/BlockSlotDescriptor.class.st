@@ -87,20 +87,32 @@ BlockSlotDescriptor >> initialize [
 						when: RSMouseLeftClick do: [ :ev | each browse ];
 						yourself: [ :labelShape | 
 							each hasAbstractMethods ifTrue: [ labelShape italic ] ] ] ];
-		inline: nil;
+		inline: [ :anObject :level :aBoolean | aBoolean ];
 		selectorHasBeenGiven
 ]
 
 { #category : #accessing }
 BlockSlotDescriptor >> inline: aController [
 
-	inline := aController inlineBlock
+	aController inlineFromSlotDescriptor: self
 ]
 
 { #category : #'as yet unclassified' }
 BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inline value: anObject value: level value: aBoolean
+]
+
+{ #category : #accessing }
+BlockSlotDescriptor >> inlineBlockClosure: aBlock [
+
+	inline := aBlock
+]
+
+{ #category : #accessing }
+BlockSlotDescriptor >> inlineBoolean: aBoolean [
+
+	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
 ]
 
 { #category : #'as yet unclassified' }

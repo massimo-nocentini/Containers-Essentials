@@ -74,12 +74,6 @@ Object >> asShapeTreeDrawer: aDrawer slotsBlock: aBlock initialDescriptor: aDesc
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> inlineBlock [
-
-	^ [ :anObject :level :aBoolean | aBoolean ]
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 100 title: 'Slots graph'>

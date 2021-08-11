@@ -7,7 +7,7 @@ BlockClosure >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-BlockClosure >> inlineBlock [
+BlockClosure >> inlineFromSlotDescriptor: aSlotDescriptor [
 
-	^ self
+	^ aSlotDescriptor inlineBlockClosure: self
 ]

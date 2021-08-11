@@ -1,7 +1,7 @@
 Extension { #name : #Boolean }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Boolean >> inlineBlock [
+Boolean >> inlineFromSlotDescriptor: aSlotDescriptor [
 
-	^ [ :anObject :level :default | self ]
+	^ aSlotDescriptor inlineBoolean: self
 ]

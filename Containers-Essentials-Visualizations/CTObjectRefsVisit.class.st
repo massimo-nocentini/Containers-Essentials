@@ -293,7 +293,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 	maxX := metaExtent x.
 
 	descriptors := self
-		               slotsOf: anObject
+		               slotsDescriptors: anObject
 		               withIndexDo: [ :childDescriptor :index | 
 			               | valueLabel varLabel valueBox value |
 			               value := childDescriptor
@@ -427,12 +427,9 @@ CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> slotsOf: anObject withIndexDo: aBlock [
+CTObjectRefsVisit >> slotsDescriptors: anObject withIndexDo: aBlock [
 
-	| slotDescriptors |
-	slotDescriptors := slotDescriptorsContext visit: anObject.
-
-	^ slotDescriptors
+	^ (slotDescriptorsContext visit: anObject)
 		  withIndexDo: [ :aDescriptor :index | 
 			  aDescriptor on: anObject.
 			  aBlock value: aDescriptor value: index ];
