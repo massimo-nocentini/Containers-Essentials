@@ -62,6 +62,16 @@ SlotDescriptorsVisitor >> visitArray: anArray [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitBag: aBag [
+
+	^ { 
+		  #associations asSlotDescriptor.
+		  (#asShapeHistogram asSlotDescriptor
+			   inline: true;
+			   quote) }
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 	^ { 

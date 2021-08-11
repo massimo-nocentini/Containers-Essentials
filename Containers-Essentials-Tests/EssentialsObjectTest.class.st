@@ -87,6 +87,12 @@ EssentialsObjectTest >> testInspectBRGCodes [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectBag [
+
+	^ self exportSlotsGraphOf: (Bag withAll: String loremIpsum)
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectCharacterPi [
 
 	^ self exportSlotsGraphOf: $π
