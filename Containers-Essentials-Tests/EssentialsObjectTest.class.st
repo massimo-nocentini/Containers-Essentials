@@ -111,6 +111,18 @@ EssentialsObjectTest >> testInspectContext [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectContinuation [
+
+	self
+		skip;
+		timeLimit: 5 minutes.
+
+	^ self exportSlotsGraphOf:
+		  (Continuation currentDo: [ :aContinuation | 
+			   1 + (aContinuation value: aContinuation) ])
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectDatetimeNow [
 
 	^ self exportSlotsGraphOf: DateAndTime now
