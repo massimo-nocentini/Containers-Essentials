@@ -124,6 +124,12 @@ BlockSlotDescriptor >> noHeader [
 			yourself ]
 ]
 
+{ #category : #accessing }
+BlockSlotDescriptor >> on: anObject [
+
+	value := blockClosure cull: anObject cull: self selector
+]
+
 { #category : #'as yet unclassified' }
 BlockSlotDescriptor >> oneToMany [
 
@@ -158,10 +164,4 @@ BlockSlotDescriptor >> selectorHasBeenGiven [
 BlockSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
 
 	^ value asString asMultilineLabelShape: prototypeLabel
-]
-
-{ #category : #accessing }
-BlockSlotDescriptor >> value: anObject [
-
-	^ value := blockClosure cull: anObject cull: self selector
 ]

@@ -107,93 +107,6 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 	^ mineShape
 ]
 
-{ #category : #visiting }
-CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of: aParent level: level [
-
-	| descriptors maxX aShape |
-	aShape := self shapeOf: anObject.
-
-	self
-		visitingShape: aShape of: anObject;
-		atLevel: level putShape: aShape.
-
-	aDescriptor
-		addDraggableInteractionOnShape: aShape;
-		"addPopupInteractionOnShape: wholeShape;"
-		addHighlightInteractionOnShape: aShape.
-
-	maxX := metaExtent x.
-
-	descriptors := self
-		               slotsOf: anObject
-		               withIndexCollect: [ :childDescriptor :index | 
-			               | valueLabel varLabel valueBox value |
-			               value := childDescriptor
-				                        addQuotedShapeInVisit: self;
-				                        value.
-
-			               valueLabel := self
-				                             valueLabelShapeOf: value
-				                             describedBy: childDescriptor
-				                             level: level
-				                             ifStopped: [ 
-				                             childDescriptor 
-					                             shapeWithPrototypeLabel:
-					                             prototypeLabel copy ]
-				                             ifVisited: [ :shape | 
-				                             self
-					                             shapeHasBeenVisited: shape
-					                             childOfShape: aShape ]
-				                             ifNotVisited: [ 
-					                             self
-						                             valueHasntBeenVisited: value
-						                             describedBy: childDescriptor
-						                             ithChild: index
-						                             ofShape: aShape
-						                             level: level ].
-
-			               varLabel := self
-				                           varLabelShapeOf: anObject
-				                           label: childDescriptor selector.
-
-			               valueBox := (self boxShapeOf: value) yourself: [ 
-				                           :aBox | 
-				                           | height |
-				                           height := valueLabel
-					                                     ifNil: [ metaExtent y ]
-					                                     ifNotNil: [ 
-						                                     | extent |
-						                                     extent := valueLabel extent.
-						                                     maxX := maxX max: extent x.
-						                                     extent y ].
-				                           height := height max: varLabel extent y.
-				                           aBox height: height ].
-
-			               valueLabel ifNil: [ 
-				               valueBox addInteraction: RSHighlightable withLines.
-
-				               childDescriptor isOneToManyFromVisit: self ].
-
-
-			               childDescriptor
-				               valueLabel: valueLabel;
-				               varLabel: varLabel;
-				               valueBox: valueBox;
-				               yourself ].
-
-	self
-		dfsClockTick;
-		dfsRecordTimingsOfShape: aShape;
-		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
-
-	^ self
-		  object: anObject
-		  describedBy: aDescriptor
-		  descriptors: descriptors
-		  extent: maxX + self radiusOrPaddingDouble
-		  shape: aShape
-]
-
 { #category : #accessing }
 CTObjectRefsVisit >> fromShapes: anObject [
 
@@ -362,6 +275,93 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 		  yourself
 ]
 
+{ #category : #visiting }
+CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
+
+	| descriptors maxX aShape |
+	aShape := self shapeOf: anObject.
+
+	self
+		visitingShape: aShape of: anObject;
+		atLevel: level putShape: aShape.
+
+	aDescriptor
+		addDraggableInteractionOnShape: aShape;
+		"addPopupInteractionOnShape: wholeShape;"
+		addHighlightInteractionOnShape: aShape.
+
+	maxX := metaExtent x.
+
+	descriptors := self
+		               slotsOf: anObject
+		               withIndexDo: [ :childDescriptor :index | 
+			               | valueLabel varLabel valueBox value |
+			               value := childDescriptor
+				                        addQuotedShapeInVisit: self;
+				                        value.
+
+			               valueLabel := self
+				                             valueLabelShapeOf: value
+				                             describedBy: childDescriptor
+				                             level: level
+				                             ifStopped: [ 
+				                             childDescriptor 
+					                             shapeWithPrototypeLabel:
+					                             prototypeLabel copy ]
+				                             ifVisited: [ :shape | 
+				                             self
+					                             shapeHasBeenVisited: shape
+					                             childOfShape: aShape ]
+				                             ifNotVisited: [ 
+					                             self
+						                             valueHasntBeenVisited: value
+						                             describedBy: childDescriptor
+						                             ithChild: index
+						                             ofShape: aShape
+						                             level: level ].
+
+			               varLabel := self
+				                           varLabelShapeOf: anObject
+				                           label: childDescriptor selector.
+
+			               valueBox := (self boxShapeOf: value) yourself: [ 
+				                           :aBox | 
+				                           | height |
+				                           height := valueLabel
+					                                     ifNil: [ metaExtent y ]
+					                                     ifNotNil: [ 
+						                                     | extent |
+						                                     extent := valueLabel extent.
+						                                     maxX := maxX max: extent x.
+						                                     extent y ].
+				                           height := height max: varLabel extent y.
+				                           aBox height: height ].
+
+			               valueLabel ifNil: [ 
+				               valueBox addInteraction: RSHighlightable withLines.
+
+				               childDescriptor isOneToManyFromVisit: self ].
+
+
+			               childDescriptor
+				               valueLabel: valueLabel;
+				               varLabel: varLabel;
+				               valueBox: valueBox;
+				               yourself ].
+
+	self
+		dfsClockTick;
+		dfsRecordTimingsOfShape: aShape;
+		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
+
+	^ self
+		  object: anObject
+		  describedBy: aDescriptor
+		  descriptors: descriptors
+		  extent: maxX + self radiusOrPaddingDouble
+		  shape: aShape
+]
+
 { #category : #'as yet unclassified' }
 CTObjectRefsVisit >> oneToMany: aValue [
 
@@ -427,15 +427,16 @@ CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> slotsOf: anObject withIndexCollect: aBlock [
+CTObjectRefsVisit >> slotsOf: anObject withIndexDo: aBlock [
 
 	| slotDescriptors |
 	slotDescriptors := slotDescriptorsContext visit: anObject.
 
-	^ slotDescriptors withIndexCollect: [ :aDescriptor :index | 
-		  | value |
-		  value := aDescriptor value: anObject.
-		  aBlock value: aDescriptor value: index ]
+	^ slotDescriptors
+		  withIndexDo: [ :aDescriptor :index | 
+			  aDescriptor on: anObject.
+			  aBlock value: aDescriptor value: index ];
+		  yourself
 ]
 
 { #category : #accessing }
@@ -455,10 +456,10 @@ CTObjectRefsVisit >> value [
 
 	| aShape |
 	aShape := self
-		          forObject: rootObject
-		          describedBy: slotDescriptorsContext rootDescriptor
-		          ithChild: 0
-		          of: nil
+		          object: rootObject
+		          slotsDescriptor: slotDescriptorsContext rootDescriptor
+		          childNo: 0
+		          parent: nil
 		          level: 1.
 
 	^ self
@@ -473,10 +474,10 @@ CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor it
 	self dfsClockTick.
 
 	childShape := self
-		              forObject: anObject
-		              describedBy: aDescriptor
-		              ithChild: index
-		              of: mineShape model
+		              object: anObject
+		              slotsDescriptor: aDescriptor
+		              childNo: index
+		              parent: mineShape model
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 

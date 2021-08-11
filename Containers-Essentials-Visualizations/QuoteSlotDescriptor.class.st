@@ -64,6 +64,21 @@ QuoteSlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
+QuoteSlotDescriptor >> on: anObject [
+
+	| aShapeHolder |
+	aShapeHolder := descriptor
+		                on: anObject;
+		                value.
+		
+	shape := quoteBlock value: aShapeHolder.
+
+	self assert: (shape isKindOf: RSShape).
+
+	value := Object new
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> quoteBlock: aBlock [
 
 	quoteBlock := aBlock
@@ -79,16 +94,4 @@ QuoteSlotDescriptor >> selector [
 QuoteSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
 
 	^ shape
-]
-
-{ #category : #accessing }
-QuoteSlotDescriptor >> value: anObject [
-
-	| aShapeHolder |
-	aShapeHolder := descriptor value: anObject.
-	shape := quoteBlock value: aShapeHolder.
-
-	self assert: (shape isKindOf: RSShape).
-
-	^ value := Object new
 ]

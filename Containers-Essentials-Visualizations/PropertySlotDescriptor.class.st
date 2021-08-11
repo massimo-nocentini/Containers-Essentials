@@ -59,6 +59,12 @@ PropertySlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
+PropertySlotDescriptor >> on: anObject [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 PropertySlotDescriptor >> quote [
 
 	^ self quote: [ :aShape | aShape ]
@@ -89,12 +95,6 @@ PropertySlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
 PropertySlotDescriptor >> value [
 
 	^ value
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> value: anObject [
-
-	self subclassResponsibility
 ]
 
 { #category : #accessing }
