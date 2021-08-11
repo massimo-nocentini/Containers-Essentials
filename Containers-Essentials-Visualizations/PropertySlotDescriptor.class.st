@@ -11,6 +11,24 @@ Class {
 }
 
 { #category : #accessing }
+PropertySlotDescriptor >> addDraggableInteractionOnShape: aShape [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 
 	self subclassResponsibility

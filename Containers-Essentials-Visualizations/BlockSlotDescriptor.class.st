@@ -11,6 +11,40 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
+{ #category : #visiting }
+BlockSlotDescriptor >> addDraggableInteractionOnShape: aShape [
+
+	aShape addInteraction: RSDraggable new
+]
+
+{ #category : #visiting }
+BlockSlotDescriptor >> addHighlightInteractionOnShape: aShape [
+
+	aShape addInteraction:
+		(RSHighlightable withStronglyConnectedComponents: [ :shape | 
+			 shape propertyDfsSCC collect: [ :each | 
+				 each propertyDfsBoxedSlotsShape ] ])
+]
+
+{ #category : #visiting }
+BlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
+
+	aShape addInteraction: (RSPopup new text: [ :each | 
+			 String streamContents: [ :aStream | 
+				 aStream
+					 nextPutAll: 'BFS level: ';
+					 nextPutAll: aShape propertyDfsDepth asString;
+					 cr;
+					 nextPutAll: 'DFS timings: ';
+					 nextPutAll: aShape propertyDfsTimings asString;
+					 cr;
+					 nextPutAll: 'SCC lowlink: ';
+					 nextPutAll: aShape propertyDfsLowlink asString;
+					 cr;
+					 nextPutAll: 'SCC size: ';
+					 nextPutAll: aShape propertyDfsSCC size asString ] ])
+]
+
 { #category : #accessing }
 BlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 

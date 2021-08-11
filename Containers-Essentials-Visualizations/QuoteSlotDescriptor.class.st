@@ -10,6 +10,24 @@ Class {
 }
 
 { #category : #accessing }
+QuoteSlotDescriptor >> addDraggableInteractionOnShape: aShape [
+
+	^ descriptor addDraggableInteractionOnShape: aShape
+]
+
+{ #category : #accessing }
+QuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
+
+	^ descriptor addHighlightInteractionOnShape: aShape
+]
+
+{ #category : #accessing }
+QuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
+
+	^ descriptor addPopupInteractionOnShape: aShape
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
 
 	^ aReceiver addQuotedShape: shape model: value

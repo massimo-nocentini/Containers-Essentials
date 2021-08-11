@@ -21,40 +21,6 @@ Class {
 	#category : #'Containers-Essentials-Visualizations'
 }
 
-{ #category : #visiting }
-CTObjectRefsVisit >> addDraggableInteractionOnShape: mineShape [
-
-	mineShape addInteraction: RSDraggable new
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> addHighlightInteractionOnShape: mineShape [
-
-	mineShape addInteraction:
-		(RSHighlightable withStronglyConnectedComponents: [ :shape | 
-			 shape propertyDfsSCC collect: [ :each | 
-				 each propertyDfsBoxedSlotsShape ] ])
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> addPopupInteractionOnShape: mineShape [
-
-	mineShape addInteraction: (RSPopup new text: [ :each | 
-			 String streamContents: [ :aStream | 
-				 aStream
-					 nextPutAll: 'BFS level: ';
-					 nextPutAll: mineShape propertyDfsDepth asString;
-					 cr;
-					 nextPutAll: 'DFS timings: ';
-					 nextPutAll: mineShape propertyDfsTimings asString;
-					 cr;
-					 nextPutAll: 'SCC lowlink: ';
-					 nextPutAll: mineShape propertyDfsLowlink asString;
-					 cr;
-					 nextPutAll: 'SCC size: ';
-					 nextPutAll: mineShape propertyDfsSCC size asString ] ])
-]
-
 { #category : #adding }
 CTObjectRefsVisit >> addQuotedShape: shape model: value [
 
@@ -149,7 +115,9 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 
 	self
 		visitingShape: aShape of: anObject;
-		atLevel: level putShape: aShape;
+		atLevel: level putShape: aShape.
+
+	aDescriptor
 		addDraggableInteractionOnShape: aShape;
 		"addPopupInteractionOnShape: wholeShape;"
 		addHighlightInteractionOnShape: aShape.
