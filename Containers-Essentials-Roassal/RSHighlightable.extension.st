@@ -1,6 +1,6 @@
 Extension { #name : #RSHighlightable }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials-Roassal' }
 RSHighlightable class >> withStronglyConnectedComponents: aBlock [
 
 	^ self new

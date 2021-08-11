@@ -1,6 +1,6 @@
 Extension { #name : #Boolean }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials' }
 Boolean >> isBoolean [
 
 	^ true

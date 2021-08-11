@@ -1,9 +1,24 @@
 Extension { #name : #UndefinedObject }
 
 { #category : #'*Containers-Essentials' }
+UndefinedObject >> asLinkedList [
+	^ LinkedList empty
+]
+
+{ #category : #'*Containers-Essentials' }
 UndefinedObject >> do: aFullBlockClosure [
 
 	
+]
+
+{ #category : #'*Containers-Essentials' }
+UndefinedObject >> reversed [
+	^ self
+]
+
+{ #category : #'*Containers-Essentials' }
+UndefinedObject >> reversed: prefix [
+	^ prefix
 ]
 
 { #category : #'*Containers-Essentials' }

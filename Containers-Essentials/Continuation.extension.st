@@ -1,6 +1,6 @@
 Extension { #name : #Continuation }
 
-{ #category : #'*Kernel-Extensions' }
+{ #category : #'*Containers-Essentials' }
 Continuation class >> tries: aSequenceableOfBlocks otherwise: elseBlock [
 	^ self currentDo: [ :success | 
 		  | localResults |

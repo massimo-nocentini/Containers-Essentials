@@ -56,6 +56,18 @@ Number >> density: aRandom [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> double [
+
+	^ self * 2
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> half [
+
+	^ self / 2
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> i [
 
 	^ Complex real: 0 imaginary: self
@@ -120,4 +132,16 @@ Number >> sinh [
 Number >> tanh [
 
 	^ self asFloat tanh
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> to: end splitAt: split beforeDo: bBlock afterDo: aBlock [
+	1 to: split do: bBlock.
+	split + 1 to: end do: aBlock
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> triple [
+
+	^ self * 3
 ]
