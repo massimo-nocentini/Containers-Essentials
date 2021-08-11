@@ -144,12 +144,15 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 { #category : #visiting }
 CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of: aParent level: level [
 
-	| descriptors maxX mineShape |
-	mineShape := self shapeOf: anObject.
+	| descriptors maxX aShape |
+	aShape := self shapeOf: anObject.
 
 	self
-		visitingShape: mineShape of: anObject;
-		atLevel: level putShape: mineShape.
+		visitingShape: aShape of: anObject;
+		atLevel: level putShape: aShape;
+		addDraggableInteractionOnShape: aShape;
+		"addPopupInteractionOnShape: wholeShape;"
+		addHighlightInteractionOnShape: aShape.
 
 	maxX := metaExtent x.
 
@@ -172,13 +175,13 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
-					                             childOfShape: mineShape ]
+					                             childOfShape: aShape ]
 				                             ifNotVisited: [ 
 					                             self
 						                             valueHasntBeenVisited: value
 						                             describedBy: childDescriptor
 						                             ithChild: index
-						                             ofShape: mineShape
+						                             ofShape: aShape
 						                             level: level ].
 
 			               varLabel := self
@@ -212,15 +215,15 @@ CTObjectRefsVisit >> forObject: anObject describedBy: aDescriptor ithChild: i of
 
 	self
 		dfsClockTick;
-		dfsRecordTimingsOfShape: mineShape;
-		createStronglyConnectedComponentIfNecessaryOnShape: mineShape.
+		dfsRecordTimingsOfShape: aShape;
+		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
 
 	^ self
 		  object: anObject
 		  describedBy: aDescriptor
 		  descriptors: descriptors
 		  extent: maxX + self radiusOrPaddingDouble
-		  shape: mineShape
+		  shape: aShape
 ]
 
 { #category : #accessing }
@@ -446,13 +449,7 @@ CTObjectRefsVisit >> shapeOf: anObject [
 
 	^ RSComposite new
 		  model: anObject;
-		  propertyDfsTimings: dfsClock @ -1;
-		  propertyDfsLowlink: dfsClock;
-		  yourself: [ :mineShape | 
-			  self
-				  addDraggableInteractionOnShape: mineShape;
-				  "addPopupInteractionOnShape: mineShape;"
-				  addHighlightInteractionOnShape: mineShape ]
+		  yourself
 ]
 
 { #category : #accessing }
@@ -591,14 +588,18 @@ CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> visitingShape: mineShape of: anObject [
+CTObjectRefsVisit >> visitingShape: aShape of: anObject [
 
-	toShapes at: anObject put: mineShape.
+	toShapes at: anObject put: aShape.
 
 	sccShapeStack := ValueLink new
-		                 value: mineShape;
+		                 value: aShape;
 		                 nextLink: sccShapeStack;
 		                 yourself.
 
-	^ mineShape propertyDfsObjectStack: sccShapeStack
+	^ aShape
+		  propertyDfsObjectStack: sccShapeStack;
+		  propertyDfsTimings: dfsClock @ -1;
+		  propertyDfsLowlink: dfsClock;
+		  yourself
 ]
