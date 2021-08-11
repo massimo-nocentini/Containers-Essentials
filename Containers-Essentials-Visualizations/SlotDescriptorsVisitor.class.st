@@ -133,9 +133,15 @@ SlotDescriptorsVisitor >> visitContext: aContext [
 
 	^ { 
 		  #home asSlotDescriptor.
+		  #activeHome asSlotDescriptor.
+		  #outerContext asSlotDescriptor.
 		  #sender asSlotDescriptor.
-		  #receiver asSlotDescriptor.
+
+		  (#receiver asSlotDescriptor inline: true).
+
 		  #selector asSlotDescriptor.
+		  (#closure asSlotDescriptor inline: true).
+
 		  "(#arguments asSlotDescriptor inline: true)."
 		  #pc asSlotDescriptor.
 		  #stackPtr asSlotDescriptor }
