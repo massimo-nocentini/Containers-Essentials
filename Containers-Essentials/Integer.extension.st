@@ -155,6 +155,15 @@ Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> goldenRatios [
+
+	^ self
+		  gibonacciNumbersFirst: 1
+		  second: Float silverRatio
+		  do: [ :a :b | a - b ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> greatestCommonDisivorInteger: anInteger [
 
 	| max min |

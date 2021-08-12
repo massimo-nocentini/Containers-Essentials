@@ -57,3 +57,21 @@ Integer >> asShapeSkewDots [
 			   self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
 				   aStream nextPutAll: each asString ] ])
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> inspectorCanvasRepresentations [
+
+	<inspectorPresentationOrder: 200 title: 'Representations'>
+	^ RSCanvas new
+		  add:
+			  (self asShapeSlotsDfsTree:
+					   SlotDescriptorsVisitorIntegerDetails new);
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> inspectorCanvasRepresentationsContext: aContext [
+
+	aContext withoutEvaluator
+]

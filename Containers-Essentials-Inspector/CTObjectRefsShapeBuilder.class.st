@@ -36,7 +36,7 @@ CTObjectRefsShapeBuilder >> initialize [
 { #category : #accessing }
 CTObjectRefsShapeBuilder >> label: anObject var: selector [
 
-	| composite aBlock var |
+	| composite var |
 	var := selector.
 	composite := var asString asMultilineLabelShape: (RSLabel new
 			              color: metaColor;
@@ -46,43 +46,38 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 		shapes: composite shapes;
 		right.
 
-	aBlock := (anObject class lookupSelector: var)
-		          ifNil: [ [ :ev |  ] ]
-		          ifNotNil: [ :cm | 
-			          cm firstComment ifNotEmpty: [ :firstComment | 
-				          | popup |
-				          popup := RSPopup new
-					                   shapeBuilder: [ :aComment | 
-						                   | commentComposite box |
-						                   commentComposite := aComment 
-							                                       asMultilineLabelShape:
-								                                       prototypeLabel.
+	(anObject class lookupSelector: var) ifNotNil: [ :cm | 
+		cm firstComment ifNotEmpty: [ :firstComment | 
+			| popup |
+			popup := RSPopup new
+				         shapeBuilder: [ :aComment | 
+					         | commentComposite box |
+					         commentComposite := aComment asMultilineLabelShape:
+							                             prototypeLabel.
 
-						                   box := RSBox new
-							                          withBorder;
-							                          color: Color veryVeryLightGray;
-							                          cornerRadius: Float goldenRatio * 2;
-							                          extent:
-								                          commentComposite extent
-								                          + (Float goldenRatio * 4).
+					         box := RSBox new
+						                withBorder;
+						                color: Color veryVeryLightGray;
+						                cornerRadius: self radiusOrPadding;
+						                extent:
+							                commentComposite extent
+							                + self radiusOrPaddingDouble.
 
-						                   RSLocation new center
-							                   stick: commentComposite
-							                   on: box.
+					         RSLocation new center stick: commentComposite on: box.
 
-						                   RSComposite new
-							                   shapes: { 
-									                   box.
-									                   commentComposite };
-							                   yourself ];
-					                   model: firstComment;
-					                   yourself.
+					         RSComposite new
+						         shapes: { 
+								         box.
+								         commentComposite };
+						         yourself ];
+				         model: firstComment;
+				         yourself.
 
-				          composite addInteraction: popup ].
-			          [ :ev | cm browse ] ].
+			composite addInteraction: popup ].
+
+		composite when: RSMouseLeftClick do: [ :ev | cm browse ] ].
+
 	^ composite
-		  when: RSMouseLeftClick do: aBlock;
-		  yourself
 ]
 
 { #category : #initialization }

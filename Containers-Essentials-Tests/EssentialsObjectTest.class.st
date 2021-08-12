@@ -31,6 +31,44 @@ EssentialsObjectTest >> testCollectionSubclasses [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspect10GoldenRatios [
+
+	| ratios |
+	ratios := 10 goldenRatios.
+
+	self
+		assert: ratios
+		equals:
+			#( 1 0.6180339887498949 0.3819660112501051 0.2360679774997898
+			   0.1458980337503153 0.09016994374947451 0.05572809000084078
+			   0.03444185374863373 0.021286236252207047 0.013155617496426686 ).
+
+	^ self exportSlotsGraphOf: ratios
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspect10GoldenRectangles [
+
+	| ratios rectangles |
+	ratios := self testInspect10GoldenRatios.
+	rectangles := (1 to: ratios size - 1) collect: [ :i | 
+		              RSBox new
+			              cornerRadius: Float goldenRatio double;
+			              extent: (ratios at: i) @ (ratios at: i + 1) * 100;
+			              color: Color white;
+			              withBorder;
+			              yourself ].
+
+	^ self
+		  exportSlotsGraphOf: rectangles
+		  slotDescriptorsContext:
+			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
+				   aDescriptor
+					   inline: true;
+					   quote ])
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect20FibonacciNumbers [
 
 	| fibs |
