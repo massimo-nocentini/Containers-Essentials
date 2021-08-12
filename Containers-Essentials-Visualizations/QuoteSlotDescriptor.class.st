@@ -22,6 +22,12 @@ QuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+QuoteSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+
+	^ descriptor addHighlightWithLinesInteractionOnShape: aShape
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	^ descriptor addPopupInteractionOnShape: aShape
@@ -34,21 +40,15 @@ QuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> boxShapeOf: aValue [
-
-	^ descriptor boxShapeOf: aValue
-]
-
-{ #category : #accessing }
 QuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
-{ #category : #accessing }
-QuoteSlotDescriptor >> header [
+{ #category : #initialization }
+QuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
-	^ descriptor header
+	^ descriptor header: anObject shapeBuilder: aShapeBuilder
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,18 +61,6 @@ QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 QuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	^ descriptor isOneToManyFromVisit: aVisit
-]
-
-{ #category : #initialization }
-QuoteSlotDescriptor >> metaExtent [
-
-	^ descriptor metaExtent
-]
-
-{ #category : #initialization }
-QuoteSlotDescriptor >> multilineLabelShapeOf: anObject [
-
-	self shouldNotImplement
 ]
 
 { #category : #initialization }
@@ -108,14 +96,14 @@ QuoteSlotDescriptor >> selector [
 	^ descriptor selector
 ]
 
-{ #category : #accessing }
-QuoteSlotDescriptor >> shape [
+{ #category : #testing }
+QuoteSlotDescriptor >> shape: aShapeBuilder [
 
 	^ shape
 ]
 
-{ #category : #accessing }
-QuoteSlotDescriptor >> varLabelShapeOf: anObject [
+{ #category : #initialization }
+QuoteSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
-	^ descriptor varLabelShapeOf: anObject
+	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
 ]

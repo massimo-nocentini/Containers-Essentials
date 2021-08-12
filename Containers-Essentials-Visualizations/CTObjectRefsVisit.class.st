@@ -126,125 +126,6 @@ CTObjectRefsVisit >> maxLevel: anObject [
 	maxLevel := anObject
 ]
 
-{ #category : #visiting }
-CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: width shape: mineShape [
-
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding |
-	padding := self radiusOrPadding.
-
-	shapes := descriptors collect: [ :slotDescriptor | 
-		          | varLabel valueBox valueLabel valueShape |
-		          "Unpacking."
-		          varLabel := slotDescriptor varLabel.
-		          valueLabel := slotDescriptor valueLabel.
-		          valueBox := slotDescriptor valueBox.
-
-		          valueBox width: width.
-
-		          valueShape := valueLabel
-			                        ifNil: [ 
-				                        fromShapes at: valueBox put: mineShape.
-				                        valueBox ]
-			                        ifNotNil: [ 
-				                        RSLocation new
-					                        inner;
-					                        stick: valueLabel on: valueBox.
-				                        RSComposite new
-					                        shapes:
-						                        (Array with: valueBox with: valueLabel);
-					                        yourself ].
-
-		          RSLocation new
-			          left;
-			          outer;
-			          offset: padding negated @ 0;
-			          stick: varLabel on: valueShape.
-
-		          RSComposite new
-			          shapes: (Array with: varLabel with: valueShape);
-			          yourself ].
-
-	RSVerticalLineLayout new
-		verticalGap: padding;
-		on: shapes.
-
-	RSAlignment new
-		shapes: shapes;
-		right.
-
-	classLabel := aDescriptor header value: anObject.
-
-	contentLocation := shapes
-		                   ifEmpty: [ 
-			                   | shape x |
-			                   shape := quotedShapes
-				                            at: anObject
-				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := aDescriptor header 
-						                                          value:
-						                                          aQuotedShape model.
-					                            aQuotedShape ]
-				                            ifAbsent: [ 
-				                            aDescriptor multilineLabelShapeOf:
-					                            anObject ].
-
-			                   x := shape extent x max: classLabel extent x.
-			                   shape extent: x @ shape extent y.
-
-			                   shapes := Array with: shape.
-
-			                   RSLocation new
-				                   inner;
-				                   left;
-				                   yourself ]
-		                   ifNotEmpty: [ 
-			                   RSLocation new
-				                   inner;
-				                   right;
-				                   yourself ].
-
-	compositeShape := RSComposite new
-		                  shapes: shapes;
-		                  padding: padding;
-		                  yourself.
-
-	boxedCompositeShape := RSBox new
-		                       color: Color white;
-		                       extent:
-			                       (compositeShape extent x max:
-					                        classLabel extent x)
-			                       @ compositeShape extent y;
-		                       cornerRadius: padding;
-		                       withBorder;
-		                       yourself.
-
-	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
-
-	contentLocation stick: compositeShape on: boxedCompositeShape.
-
-	boxedCompositeShape := RSComposite new
-		                       shapes: { 
-				                       boxedCompositeShape.
-				                       compositeShape };
-		                       yourself.
-
-	RSLocation new
-		above;
-		stick: classLabel on: boxedCompositeShape.
-
-	RSAlignment new
-		shapes: { 
-				classLabel.
-				boxedCompositeShape };
-		left.
-
-	^ mineShape
-		  shapes: { 
-				  classLabel.
-				  boxedCompositeShape };
-		  yourself
-]
-
 { #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
@@ -260,13 +141,13 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		"addPopupInteractionOnShape: wholeShape;"
 		addHighlightInteractionOnShape: aShape.
 
-	metaExtent := aDescriptor metaExtent.
+	metaExtent := shapeBuilder metaExtent.
 	maxX := metaExtent x.
 
 	descriptors := self
 		               slotsDescriptors: anObject
 		               withIndexDo: [ :childDescriptor :index | 
-			               | valueLabel varLabel valueBox value |
+			               | valueLabel varLabel valueBox value extent |
 			               value := childDescriptor
 				                        addQuotedShapeInVisit: self;
 				                        value.
@@ -275,7 +156,8 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 				                             valueLabelShapeOf: value
 				                             describedBy: childDescriptor
 				                             level: level
-				                             ifStopped: [ childDescriptor shape ]
+				                             ifStopped: [ 
+				                             childDescriptor shape: shapeBuilder ]
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
@@ -288,29 +170,22 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 						                             ofShape: aShape
 						                             level: level ].
 
-			               varLabel := childDescriptor varLabelShapeOf:
-				                           anObject.
+			               varLabel := childDescriptor
+				                           varLabelShapeOf: anObject
+				                           shapeBuilder: shapeBuilder.
 
-			               valueBox := (childDescriptor boxShapeOf: value) 
-				                           yourself: [ :aBox | 
-					                           | height |
-					                           height := valueLabel
-						                                     ifNil: [ metaExtent y ]
-						                                     ifNotNil: [ 
-							                                     | extent |
-							                                     extent := valueLabel
-								                                               extent.
-							                                     maxX := maxX max: extent x.
-							                                     extent y ].
-					                           height := height max:
-						                                     varLabel extent y.
-					                           aBox height: height ].
+			               valueBox := shapeBuilder box: value.
 
-			               valueLabel ifNil: [ 
-				               valueBox addInteraction: RSHighlightable withLines.
+			               extent := valueLabel
+				                         ifNil: [ 
+					                         childDescriptor 
+						                         addHighlightWithLinesInteractionOnShape:
+						                         valueBox.
+					                         maxX @ metaExtent y ]
+				                         ifNotNil: [ valueLabel extent ].
 
-				               childDescriptor isOneToManyFromVisit: self ].
-
+			               maxX := maxX max: extent x.
+			               valueBox height: (extent y max: varLabel extent y).
 
 			               childDescriptor
 				               valueLabel: valueLabel;
@@ -469,6 +344,7 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
+			  descriptor isOneToManyFromVisit: self.
 			  nil ]
 ]
 

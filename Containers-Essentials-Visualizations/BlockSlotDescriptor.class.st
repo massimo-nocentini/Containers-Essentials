@@ -6,11 +6,7 @@ Class {
 		'selector',
 		'inline',
 		'header',
-		'isOneToMany',
-		'metaColor',
-		'metaFontSize',
-		'metaExtent',
-		'prototypeLabel'
+		'isOneToMany'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -28,6 +24,12 @@ BlockSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 		(RSHighlightable withStronglyConnectedComponents: [ :shape | 
 			 shape propertyDfsSCC collect: [ :each | 
 				 each propertyDfsBoxedSlotsShape ] ])
+]
+
+{ #category : #visiting }
+BlockSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+
+	aShape addInteraction: RSHighlightable withLines
 ]
 
 { #category : #visiting }
@@ -63,44 +65,32 @@ BlockSlotDescriptor >> blockClosure: anObject [
 	blockClosure := anObject
 ]
 
-{ #category : #visiting }
-BlockSlotDescriptor >> boxShapeOf: aValue [
-
-	"self assert: aValue == value."
-
-	^ RSBox new
-		  model: aValue;
-		  color: metaColor translucent lighter lighter;
-		  cornerRadius: self radiusOrPadding;
-		  withBorder;
-		  yourself
-]
-
-{ #category : #accessing }
-BlockSlotDescriptor >> header [
-
-	^ header
-]
-
 { #category : #accessing }
 BlockSlotDescriptor >> header: aBlock [
 
 	header := aBlock
 ]
 
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+
+	^ header value: anObject value: aShapeBuilder
+]
+
 { #category : #initialization }
 BlockSlotDescriptor >> headerWithAllSuperclasses [
 
-	self header: [ :anObject | 
+	self header: [ :anObject :aShapeBuilder | 
 		anObject class asShapeAllSuperclassesIndented: [ :each | 
-			self labelForClass: each ] ]
+			aShapeBuilder labelForClass: each ] ]
 ]
 
 { #category : #initialization }
 BlockSlotDescriptor >> headerWithClass [
 
-	self header: [ :anObject | 
-		anObject class asShapeClass: [ :each | self labelForClass: each ] ]
+	self header: [ :anObject :aShapeBuilder | 
+		anObject class asShapeClass: [ :each | 
+			aShapeBuilder labelForClass: each ] ]
 ]
 
 { #category : #initialization }
@@ -109,10 +99,6 @@ BlockSlotDescriptor >> initialize [
 	super initialize.
 
 	self
-		prototypeLabel: (RSLabel new
-				 model: nil;
-				 fontName: 'Source Code Pro';
-				 yourself);
 		oneToOne;
 		headerWithAllSuperclasses;
 		inline: [ :anObject :level :aBoolean | aBoolean ];
@@ -156,33 +142,9 @@ BlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
 ]
 
 { #category : #initialization }
-BlockSlotDescriptor >> labelForClass: aClass [
-
-	^ RSLabel new
-		  text: aClass name;
-		  fontSize: metaFontSize;
-		  color: metaColor;
-		  when: RSMouseLeftClick do: [ :ev | aClass browse ];
-		  yourself: [ :labelShape | 
-			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
-]
-
-{ #category : #accessing }
-BlockSlotDescriptor >> metaExtent [
-
-	^ metaExtent
-]
-
-{ #category : #initialization }
-BlockSlotDescriptor >> multilineLabelShapeOf: anObject [
-
-	^ anObject asString asMultilineLabelShape: prototypeLabel
-]
-
-{ #category : #initialization }
 BlockSlotDescriptor >> noHeader [
 
-	self header: [ :anObject | RSBoundingShape nilShape ]
+	self header: [ :anObject :aShapeBuilder | RSBoundingShape nilShape ]
 ]
 
 { #category : #accessing }
@@ -201,15 +163,6 @@ BlockSlotDescriptor >> oneToMany [
 BlockSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
-]
-
-{ #category : #initialization }
-BlockSlotDescriptor >> prototypeLabel: aLabel [
-
-	(prototypeLabel := aLabel) withText: '...' do: [ 
-		metaExtent := prototypeLabel extent.
-		metaColor := prototypeLabel color lighter lighter lighter.
-		metaFontSize := prototypeLabel fontSize * Float silverRatio ]
 ]
 
 { #category : #visiting }
@@ -237,59 +190,13 @@ BlockSlotDescriptor >> selectorHasBeenGiven [
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> shape [
+BlockSlotDescriptor >> shape: aShapeBuilder [
 
-	^ value asString asMultilineLabelShape: prototypeLabel
+	^ aShapeBuilder multilineLabel: value
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> varLabelShapeOf: anObject [
+BlockSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
-	| composite aBlock var |
-	var := self selector.
-	composite := var asString asMultilineLabelShape: (RSLabel new
-			              color: metaColor;
-			              yourself).
-
-	RSAlignment new
-		shapes: composite shapes;
-		right.
-
-	aBlock := (anObject class lookupSelector: var)
-		          ifNil: [ [ :ev |  ] ]
-		          ifNotNil: [ :cm | 
-			          cm firstComment ifNotEmpty: [ :firstComment | 
-				          | popup |
-				          popup := RSPopup new
-					                   shapeBuilder: [ :aComment | 
-						                   | commentComposite box |
-						                   commentComposite := aComment 
-							                                       asMultilineLabelShape:
-								                                       prototypeLabel.
-
-						                   box := RSBox new
-							                          withBorder;
-							                          color: Color veryVeryLightGray;
-							                          cornerRadius: Float goldenRatio * 2;
-							                          extent:
-								                          commentComposite extent
-								                          + (Float goldenRatio * 4).
-
-						                   RSLocation new center
-							                   stick: commentComposite
-							                   on: box.
-
-						                   RSComposite new
-							                   shapes: { 
-									                   box.
-									                   commentComposite };
-							                   yourself ];
-					                   model: firstComment;
-					                   yourself.
-
-				          composite addInteraction: popup ].
-			          [ :ev | cm browse ] ].
-	^ composite
-		  when: RSMouseLeftClick do: aBlock;
-		  yourself
+	^ aShapeBuilder label: anObject var: self selector
 ]

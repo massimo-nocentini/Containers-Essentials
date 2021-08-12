@@ -23,6 +23,12 @@ PropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+PropertySlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 PropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	self subclassResponsibility
@@ -35,13 +41,7 @@ PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> boxShapeOf: aValue [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> header [
+PropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility
 ]
@@ -54,18 +54,6 @@ PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 { #category : #accessing }
 PropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> metaExtent [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> multilineLabelShapeOf: anObject [
 
 	self subclassResponsibility
 ]
@@ -104,7 +92,7 @@ PropertySlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> shape [
+PropertySlotDescriptor >> shape: aShapeBuilder [
 
 	self subclassResponsibility
 ]
@@ -152,7 +140,7 @@ PropertySlotDescriptor >> varLabel: anObject [
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> varLabelShapeOf: anObject [
+PropertySlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility
 ]

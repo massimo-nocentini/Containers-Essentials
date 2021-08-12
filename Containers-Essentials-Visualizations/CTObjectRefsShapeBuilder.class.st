@@ -2,10 +2,112 @@ Class {
 	#name : #CTObjectRefsShapeBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'senderVisit'
+		'senderVisit',
+		'metaColor',
+		'metaFontSize',
+		'metaExtent',
+		'prototypeLabel'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
+
+{ #category : #accessing }
+CTObjectRefsShapeBuilder >> box: aValue [
+
+	^ RSBox new
+		  model: aValue;
+		  color: metaColor translucent lighter lighter;
+		  cornerRadius: self radiusOrPadding;
+		  withBorder;
+		  yourself
+]
+
+{ #category : #initialization }
+CTObjectRefsShapeBuilder >> initialize [
+
+	super initialize.
+
+	self prototypeLabel: (RSLabel new
+			 model: nil;
+			 fontName: 'Source Code Pro';
+			 yourself)
+]
+
+{ #category : #accessing }
+CTObjectRefsShapeBuilder >> label: anObject var: selector [
+
+	| composite aBlock var |
+	var := selector.
+	composite := var asString asMultilineLabelShape: (RSLabel new
+			              color: metaColor;
+			              yourself).
+
+	RSAlignment new
+		shapes: composite shapes;
+		right.
+
+	aBlock := (anObject class lookupSelector: var)
+		          ifNil: [ [ :ev |  ] ]
+		          ifNotNil: [ :cm | 
+			          cm firstComment ifNotEmpty: [ :firstComment | 
+				          | popup |
+				          popup := RSPopup new
+					                   shapeBuilder: [ :aComment | 
+						                   | commentComposite box |
+						                   commentComposite := aComment 
+							                                       asMultilineLabelShape:
+								                                       prototypeLabel.
+
+						                   box := RSBox new
+							                          withBorder;
+							                          color: Color veryVeryLightGray;
+							                          cornerRadius: Float goldenRatio * 2;
+							                          extent:
+								                          commentComposite extent
+								                          + (Float goldenRatio * 4).
+
+						                   RSLocation new center
+							                   stick: commentComposite
+							                   on: box.
+
+						                   RSComposite new
+							                   shapes: { 
+									                   box.
+									                   commentComposite };
+							                   yourself ];
+					                   model: firstComment;
+					                   yourself.
+
+				          composite addInteraction: popup ].
+			          [ :ev | cm browse ] ].
+	^ composite
+		  when: RSMouseLeftClick do: aBlock;
+		  yourself
+]
+
+{ #category : #initialization }
+CTObjectRefsShapeBuilder >> labelForClass: aClass [
+
+	^ RSLabel new
+		  text: aClass name;
+		  fontSize: metaFontSize;
+		  color: metaColor;
+		  when: RSMouseLeftClick do: [ :ev | aClass browse ];
+		  yourself: [ :labelShape | 
+			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
+]
+
+{ #category : #accessing }
+CTObjectRefsShapeBuilder >> metaExtent [
+
+	^ metaExtent
+]
+
+{ #category : #'as yet unclassified' }
+CTObjectRefsShapeBuilder >> multilineLabel: anObject [
+
+	^ anObject asString asMultilineLabelShape: prototypeLabel
+]
 
 { #category : #visiting }
 CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: width shape: mineShape [
@@ -55,7 +157,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 		shapes: shapes;
 		right.
 
-	classLabel := aDescriptor header value: anObject.
+	classLabel := aDescriptor header: anObject shapeBuilder: self.
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
@@ -63,13 +165,13 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 			                   shape := senderVisit
 				                            quotedShapesAt: anObject
 				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := aDescriptor header 
-						                                          value:
-						                                          aQuotedShape model.
+					                            classLabel := aDescriptor
+						                                          header:
+						                                          aQuotedShape model
+						                                          shapeBuilder: self.
 					                            aQuotedShape ]
 				                            ifAbsent: [ 
-				                            aDescriptor multilineLabelShapeOf:
-					                            anObject ].
+				                            self multilineLabel: anObject ].
 
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.
@@ -134,6 +236,15 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 	^ RSComposite new
 		  model: anObject;
 		  yourself
+]
+
+{ #category : #accessing }
+CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
+
+	(prototypeLabel := aLabel) withText: '...' do: [ 
+		metaExtent := prototypeLabel extent.
+		metaColor := prototypeLabel color lighter lighter lighter.
+		metaFontSize := prototypeLabel fontSize * Float silverRatio ]
 ]
 
 { #category : #visiting }
