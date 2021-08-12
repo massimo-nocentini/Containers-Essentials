@@ -36,32 +36,31 @@ CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: mineShape [
+CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 	self
-		assert: mineShape propertyDfsEntryTime isNotNil;
-		assert: mineShape propertyDfsLowlink isNotNil.
+		assert: aShape propertyDfsEntryTime isNotNil;
+		assert: aShape propertyDfsLowlink isNotNil.
 
-	^ mineShape propertyDfsEntryTime = mineShape propertyDfsLowlink 
-		  ifTrue: [ 
-			  | scc |
-			  scc := sccs add: OrderedCollection new.
+	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
+		  | scc |
+		  scc := sccs add: OrderedCollection new.
 
-			  [ 
-			  sccShapeStack isNotNil and: [ 
-				  sccShapeStack value propertyDfsEntryTime
-				  >= mineShape propertyDfsEntryTime ] ] whileTrue: [ 
-				  | shape |
-				  shape := sccShapeStack value.
-				  scc add: shape.
-				  sccShapeStack := sccShapeStack nextLink.
-				  shape
-					  propertyDfsSCC: scc;
-					  propertyDfsObjectStack: nil ].
+		  [ 
+		  sccShapeStack isNotNil and: [ 
+			  sccShapeStack value propertyDfsEntryTime
+			  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
+			  | shape |
+			  shape := sccShapeStack value.
+			  scc add: shape.
+			  sccShapeStack := sccShapeStack nextLink.
+			  shape
+				  propertyDfsSCC: scc;
+				  propertyDfsObjectStack: nil ].
 
-			  self
-				  assert: mineShape propertyDfsSCC == scc;
-				  itself: scc ]
+		  self
+			  assert: aShape propertyDfsSCC == scc;
+			  itself: scc ]
 ]
 
 { #category : #visiting }
@@ -351,20 +350,17 @@ CTObjectRefsVisit >> rootObject: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsVisit >> shapeHasBeenVisited: shape childOfShape: mineShape [
+CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
-	| shapeEntryTime anObject value |
-	anObject := mineShape model.
-	value := shape model.
+	| shapeEntryTime |
+	shapeEntryTime := childShape propertyDfsEntryTime.
 
-	shapeEntryTime := shape propertyDfsEntryTime.
-
-	(shape propertyDfsIsOnObjectStack and: [ 
-		 shapeEntryTime < mineShape propertyDfsEntryTime ]) ifTrue: [ 
-		mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
+	(childShape propertyDfsIsOnObjectStack and: [ 
+		 shapeEntryTime < parentShape propertyDfsEntryTime ]) ifTrue: [ 
+		parentShape propertyDfsLowlinkUpdate: [ :lowlink | 
 			lowlink min: shapeEntryTime ].
 
-		self assert: anObject ~~ value ]
+		self assert: parentShape model ~~ childShape model ]
 ]
 
 { #category : #visiting }
