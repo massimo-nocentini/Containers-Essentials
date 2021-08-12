@@ -35,6 +35,12 @@ PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 ]
 
 { #category : #accessing }
+PropertySlotDescriptor >> boxShapeOf: aValue [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 PropertySlotDescriptor >> header [
 
 	self subclassResponsibility
@@ -48,6 +54,18 @@ PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 { #category : #accessing }
 PropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> metaExtent [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> multilineLabelShapeOf: anObject [
 
 	self subclassResponsibility
 ]
@@ -86,7 +104,7 @@ PropertySlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+PropertySlotDescriptor >> shape [
 
 	self subclassResponsibility
 ]
@@ -131,4 +149,10 @@ PropertySlotDescriptor >> varLabel [
 PropertySlotDescriptor >> varLabel: anObject [
 
 	varLabel := anObject
+]
+
+{ #category : #accessing }
+PropertySlotDescriptor >> varLabelShapeOf: anObject [
+
+	self subclassResponsibility
 ]

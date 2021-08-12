@@ -9,11 +9,7 @@ Class {
 		'sccShapeStack',
 		'sccs',
 		'rootObject',
-		'metaColor',
-		'metaFontSize',
-		'metaExtent',
 		'levels',
-		'prototypeLabel',
 		'quotedShapes',
 		'slotDescriptorsContext',
 		'oneToManyShapes'
@@ -37,30 +33,6 @@ CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 	^ (levels at: aNumber ifAbsentPut: [ OrderedCollection new ])
 		  add: aShape;
 		  yourself
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> boxShapeOf: value [
-
-	^ RSBox new
-		  model: value;
-		  color: metaColor translucent lighter lighter;
-		  cornerRadius: self radiusOrPadding;
-		  withBorder;
-		  yourself
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> classLabelShapeOf: anObject [
-
-	^ anObject class asShapeAllSuperclassesIndented: [ :each | 
-		  RSLabel new
-			  text: each name;
-			  fontSize: metaFontSize;
-			  color: metaColor;
-			  when: RSMouseLeftClick do: [ :ev | each browse ];
-			  yourself: [ :labelShape | 
-				  each hasAbstractMethods ifTrue: [ labelShape italic ] ] ]
 ]
 
 { #category : #visiting }
@@ -125,17 +97,7 @@ CTObjectRefsVisit >> initialize [
 	sccs := OrderedCollection new.
 	levels := Dictionary new.
 	quotedShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new.
-
-	prototypeLabel := RSLabel new
-		                  model: nil;
-		                  fontName: 'Source Code Pro';
-		                  yourself.
-
-	prototypeLabel withText: '...' do: [ 
-		metaExtent := prototypeLabel extent.
-		metaColor := prototypeLabel color lighter lighter lighter.
-		metaFontSize := prototypeLabel fontSize * (Float goldenRatio - 1) ]
+	oneToManyShapes := IdentityDictionary new
 ]
 
 { #category : #accessing }
@@ -196,10 +158,7 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 		shapes: shapes;
 		right.
 
-	classLabel := aDescriptor header
-		              value: anObject
-		              value: metaFontSize
-		              value: metaColor.
+	classLabel := aDescriptor header value: anObject.
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
@@ -207,16 +166,13 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 			                   shape := quotedShapes
 				                            at: anObject
 				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := aDescriptor header
+					                            classLabel := aDescriptor header 
 						                                          value:
-						                                          aQuotedShape model
-						                                          value: metaFontSize
-						                                          value: metaColor.
+						                                          aQuotedShape model.
 					                            aQuotedShape ]
 				                            ifAbsent: [ 
-				                            anObject asString 
-					                            asMultilineLabelShape:
-					                            prototypeLabel copy ].
+				                            aDescriptor multilineLabelShapeOf:
+					                            anObject ].
 
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.
@@ -278,7 +234,7 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 { #category : #visiting }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors maxX aShape |
+	| descriptors maxX aShape metaExtent |
 	aShape := self shapeOf: anObject.
 
 	self
@@ -290,6 +246,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		"addPopupInteractionOnShape: wholeShape;"
 		addHighlightInteractionOnShape: aShape.
 
+	metaExtent := aDescriptor metaExtent.
 	maxX := metaExtent x.
 
 	descriptors := self
@@ -304,10 +261,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 				                             valueLabelShapeOf: value
 				                             describedBy: childDescriptor
 				                             level: level
-				                             ifStopped: [ 
-				                             childDescriptor 
-					                             shapeWithPrototypeLabel:
-					                             prototypeLabel copy ]
+				                             ifStopped: [ childDescriptor shape ]
 				                             ifVisited: [ :shape | 
 				                             self
 					                             shapeHasBeenVisited: shape
@@ -320,22 +274,23 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 						                             ofShape: aShape
 						                             level: level ].
 
-			               varLabel := self
-				                           varLabelShapeOf: anObject
-				                           label: childDescriptor selector.
+			               varLabel := childDescriptor varLabelShapeOf:
+				                           anObject.
 
-			               valueBox := (self boxShapeOf: value) yourself: [ 
-				                           :aBox | 
-				                           | height |
-				                           height := valueLabel
-					                                     ifNil: [ metaExtent y ]
-					                                     ifNotNil: [ 
-						                                     | extent |
-						                                     extent := valueLabel extent.
-						                                     maxX := maxX max: extent x.
-						                                     extent y ].
-				                           height := height max: varLabel extent y.
-				                           aBox height: height ].
+			               valueBox := (childDescriptor boxShapeOf: value) 
+				                           yourself: [ :aBox | 
+					                           | height |
+					                           height := valueLabel
+						                                     ifNil: [ metaExtent y ]
+						                                     ifNotNil: [ 
+							                                     | extent |
+							                                     extent := valueLabel
+								                                               extent.
+							                                     maxX := maxX max: extent x.
+							                                     extent y ].
+					                           height := height max:
+						                                     varLabel extent y.
+					                           aBox height: height ].
 
 			               valueLabel ifNil: [ 
 				               valueBox addInteraction: RSHighlightable withLines.
@@ -386,7 +341,7 @@ CTObjectRefsVisit >> radiusOrPadding [
 { #category : #visiting }
 CTObjectRefsVisit >> radiusOrPaddingDouble [
 
-	^ Float goldenRatio double double
+	^ self radiusOrPadding double
 ]
 
 { #category : #accessing }
@@ -500,57 +455,6 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
 			  nil ]
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> varLabelShapeOf: anObject label: var [
-
-	| composite aBlock |
-	composite := var asString asMultilineLabelShape: (RSLabel new
-			              color: metaColor;
-			              yourself).
-
-	RSAlignment new
-		shapes: composite shapes;
-		right.
-
-	aBlock := (anObject class lookupSelector: var)
-		          ifNil: [ [ :ev |  ] ]
-		          ifNotNil: [ :cm | 
-			          cm firstComment ifNotEmpty: [ :firstComment | 
-				          | popup |
-				          popup := RSPopup new
-					                   shapeBuilder: [ :aComment | 
-						                   | commentComposite box |
-						                   commentComposite := aComment 
-							                                       asMultilineLabelShape:
-								                                       prototypeLabel.
-
-						                   box := RSBox new
-							                          withBorder;
-							                          color: Color veryVeryLightGray;
-							                          cornerRadius: Float goldenRatio * 2;
-							                          extent:
-								                          commentComposite extent
-								                          + (Float goldenRatio * 4).
-
-						                   RSLocation new center
-							                   stick: commentComposite
-							                   on: box.
-
-						                   RSComposite new
-							                   shapes: { 
-									                   box.
-									                   commentComposite };
-							                   yourself ];
-					                   model: firstComment;
-					                   yourself.
-
-				          composite addInteraction: popup ].
-			          [ :ev | cm browse ] ].
-	^ composite
-		  when: RSMouseLeftClick do: aBlock;
-		  yourself
 ]
 
 { #category : #visiting }

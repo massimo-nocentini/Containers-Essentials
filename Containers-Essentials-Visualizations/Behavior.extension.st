@@ -7,11 +7,19 @@ Behavior >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> asShapeAllSuperclassesIndented: shapeBlock [
+Behavior >> asShapeAllSuperclassesIndented: aBlock [
+
+	^ self
+		  asShapeAllSuperclassesIndented:
+		  self allSuperclasses reversed , { self }
+		  collect: aBlock
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 
 	| superClassShapes |
-	superClassShapes := self allSuperclasses reversed , { self } 
-		                    collect: shapeBlock.
+	superClassShapes := aCollection collect: shapeBlock.
 
 	RSVerticalLineLayout new
 		verticalGap: Float goldenRatio negated;
@@ -27,6 +35,12 @@ Behavior >> asShapeAllSuperclassesIndented: shapeBlock [
 		  model: self;
 		  shapes: superClassShapes;
 		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> asShapeClass: aBlock [
+
+	^ self asShapeAllSuperclassesIndented: { self } collect: aBlock
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }

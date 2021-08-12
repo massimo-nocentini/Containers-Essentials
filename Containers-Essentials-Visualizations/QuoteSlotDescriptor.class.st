@@ -34,6 +34,12 @@ QuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
 ]
 
 { #category : #accessing }
+QuoteSlotDescriptor >> boxShapeOf: aValue [
+
+	^ descriptor boxShapeOf: aValue
+]
+
+{ #category : #accessing }
 QuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
@@ -55,6 +61,18 @@ QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 QuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	^ descriptor isOneToManyFromVisit: aVisit
+]
+
+{ #category : #initialization }
+QuoteSlotDescriptor >> metaExtent [
+
+	^ descriptor metaExtent
+]
+
+{ #category : #initialization }
+QuoteSlotDescriptor >> multilineLabelShapeOf: anObject [
+
+	self shouldNotImplement
 ]
 
 { #category : #initialization }
@@ -91,7 +109,13 @@ QuoteSlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+QuoteSlotDescriptor >> shape [
 
 	^ shape
+]
+
+{ #category : #accessing }
+QuoteSlotDescriptor >> varLabelShapeOf: anObject [
+
+	^ descriptor varLabelShapeOf: anObject
 ]

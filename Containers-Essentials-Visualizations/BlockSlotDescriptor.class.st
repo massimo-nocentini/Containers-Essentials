@@ -6,7 +6,11 @@ Class {
 		'selector',
 		'inline',
 		'header',
-		'isOneToMany'
+		'isOneToMany',
+		'metaColor',
+		'metaFontSize',
+		'metaExtent',
+		'prototypeLabel'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
@@ -59,6 +63,19 @@ BlockSlotDescriptor >> blockClosure: anObject [
 	blockClosure := anObject
 ]
 
+{ #category : #visiting }
+BlockSlotDescriptor >> boxShapeOf: aValue [
+
+	"self assert: aValue == value."
+
+	^ RSBox new
+		  model: aValue;
+		  color: metaColor translucent lighter lighter;
+		  cornerRadius: self radiusOrPadding;
+		  withBorder;
+		  yourself
+]
+
 { #category : #accessing }
 BlockSlotDescriptor >> header [
 
@@ -72,26 +89,37 @@ BlockSlotDescriptor >> header: aBlock [
 ]
 
 { #category : #initialization }
+BlockSlotDescriptor >> headerWithAllSuperclasses [
+
+	self header: [ :anObject | 
+		anObject class asShapeAllSuperclassesIndented: [ :each | 
+			self labelForClass: each ] ]
+]
+
+{ #category : #initialization }
+BlockSlotDescriptor >> headerWithClass [
+
+	self header: [ :anObject | 
+		anObject class asShapeClass: [ :each | self labelForClass: each ] ]
+]
+
+{ #category : #initialization }
 BlockSlotDescriptor >> initialize [
 
 	super initialize.
 
 	self
+		prototypeLabel: (RSLabel new
+				 model: nil;
+				 fontName: 'Source Code Pro';
+				 yourself);
 		oneToOne;
-		header: [ :anObject :metaFontSize :metaColor | 
-			anObject class asShapeAllSuperclassesIndented: [ :each | 
-					RSLabel new
-						text: each name;
-						fontSize: metaFontSize;
-						color: metaColor;
-						when: RSMouseLeftClick do: [ :ev | each browse ];
-						yourself: [ :labelShape | 
-							each hasAbstractMethods ifTrue: [ labelShape italic ] ] ] ];
+		headerWithAllSuperclasses;
 		inline: [ :anObject :level :aBoolean | aBoolean ];
 		selectorHasBeenGiven
 ]
 
-{ #category : #accessing }
+{ #category : #dispatching }
 BlockSlotDescriptor >> inline: aController [
 
 	aController inlineFromSlotDescriptor: self
@@ -103,13 +131,13 @@ BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 	^ inline value: anObject value: level value: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : #dispatched }
 BlockSlotDescriptor >> inlineBlockClosure: aBlock [
 
 	inline := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #dispatched }
 BlockSlotDescriptor >> inlineBoolean: aBoolean [
 
 	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
@@ -128,12 +156,33 @@ BlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
 ]
 
 { #category : #initialization }
+BlockSlotDescriptor >> labelForClass: aClass [
+
+	^ RSLabel new
+		  text: aClass name;
+		  fontSize: metaFontSize;
+		  color: metaColor;
+		  when: RSMouseLeftClick do: [ :ev | aClass browse ];
+		  yourself: [ :labelShape | 
+			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
+]
+
+{ #category : #accessing }
+BlockSlotDescriptor >> metaExtent [
+
+	^ metaExtent
+]
+
+{ #category : #initialization }
+BlockSlotDescriptor >> multilineLabelShapeOf: anObject [
+
+	^ anObject asString asMultilineLabelShape: prototypeLabel
+]
+
+{ #category : #initialization }
 BlockSlotDescriptor >> noHeader [
 
-	self header: [ :anObject :metaFontSize :metaColor | 
-		RSComposite new
-			extent: 0 asPoint;
-			yourself ]
+	self header: [ :anObject | RSBoundingShape nilShape ]
 ]
 
 { #category : #accessing }
@@ -152,6 +201,21 @@ BlockSlotDescriptor >> oneToMany [
 BlockSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
+]
+
+{ #category : #initialization }
+BlockSlotDescriptor >> prototypeLabel: aLabel [
+
+	(prototypeLabel := aLabel) withText: '...' do: [ 
+		metaExtent := prototypeLabel extent.
+		metaColor := prototypeLabel color lighter lighter lighter.
+		metaFontSize := prototypeLabel fontSize * Float silverRatio ]
+]
+
+{ #category : #visiting }
+BlockSlotDescriptor >> radiusOrPadding [
+
+	^ Float goldenRatio double
 ]
 
 { #category : #accessing }
@@ -173,7 +237,59 @@ BlockSlotDescriptor >> selectorHasBeenGiven [
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> shapeWithPrototypeLabel: prototypeLabel [
+BlockSlotDescriptor >> shape [
 
 	^ value asString asMultilineLabelShape: prototypeLabel
+]
+
+{ #category : #'as yet unclassified' }
+BlockSlotDescriptor >> varLabelShapeOf: anObject [
+
+	| composite aBlock var |
+	var := self selector.
+	composite := var asString asMultilineLabelShape: (RSLabel new
+			              color: metaColor;
+			              yourself).
+
+	RSAlignment new
+		shapes: composite shapes;
+		right.
+
+	aBlock := (anObject class lookupSelector: var)
+		          ifNil: [ [ :ev |  ] ]
+		          ifNotNil: [ :cm | 
+			          cm firstComment ifNotEmpty: [ :firstComment | 
+				          | popup |
+				          popup := RSPopup new
+					                   shapeBuilder: [ :aComment | 
+						                   | commentComposite box |
+						                   commentComposite := aComment 
+							                                       asMultilineLabelShape:
+								                                       prototypeLabel.
+
+						                   box := RSBox new
+							                          withBorder;
+							                          color: Color veryVeryLightGray;
+							                          cornerRadius: Float goldenRatio * 2;
+							                          extent:
+								                          commentComposite extent
+								                          + (Float goldenRatio * 4).
+
+						                   RSLocation new center
+							                   stick: commentComposite
+							                   on: box.
+
+						                   RSComposite new
+							                   shapes: { 
+									                   box.
+									                   commentComposite };
+							                   yourself ];
+					                   model: firstComment;
+					                   yourself.
+
+				          composite addInteraction: popup ].
+			          [ :ev | cm browse ] ].
+	^ composite
+		  when: RSMouseLeftClick do: aBlock;
+		  yourself
 ]
