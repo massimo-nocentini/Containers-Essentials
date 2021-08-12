@@ -8,7 +8,7 @@ Class {
 		'metaExtent',
 		'prototypeLabel'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #accessing }

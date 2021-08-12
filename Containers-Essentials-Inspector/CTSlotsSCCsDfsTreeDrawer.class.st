@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'edgessOfSCCs'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #'as yet unclassified' }

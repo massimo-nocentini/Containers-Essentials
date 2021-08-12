@@ -7,7 +7,7 @@ Class {
 		'varLabel',
 		'valueBox'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 		'shape',
 		'quoteBlock'
 	],
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #accessing }

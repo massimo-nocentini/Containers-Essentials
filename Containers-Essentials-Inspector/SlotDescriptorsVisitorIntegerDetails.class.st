@@ -1,7 +1,7 @@
 Class {
 	#name : #SlotDescriptorsVisitorIntegerDetails,
 	#superclass : #SlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #visiting }
