@@ -12,12 +12,13 @@ Class {
 		'levels',
 		'quotedShapes',
 		'slotDescriptorsContext',
-		'oneToManyShapes'
+		'oneToManyShapes',
+		'shapeBuilder'
 	],
 	#category : #'Containers-Essentials-Visualizations'
 }
 
-{ #category : #adding }
+{ #category : #dispatched }
 CTObjectRefsVisit >> addQuotedShape: shape model: value [
 
 	shape height: shape height + self radiusOrPaddingDouble.
@@ -25,7 +26,7 @@ CTObjectRefsVisit >> addQuotedShape: shape model: value [
 	^ quotedShapes at: value put: shape
 ]
 
-{ #category : #visiting }
+{ #category : #accessing }
 CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 
 	aShape propertyDfsDepth: aNumber.
@@ -35,7 +36,7 @@ CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 	self
@@ -63,13 +64,13 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape 
 			  itself: scc ]
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> dfsClockTick [
 
 	^ dfsClock := dfsClock + 1
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 
 	mineShape propertyDfsTimings:
@@ -84,19 +85,33 @@ CTObjectRefsVisit >> fromShapes: anObject [
 	fromShapes := anObject
 ]
 
+{ #category : #accessing }
+CTObjectRefsVisit >> fromShapesAt: aBoxShape put: aShape [
+
+	^ fromShapes at: aBoxShape put: aShape
+]
+
 { #category : #initialization }
 CTObjectRefsVisit >> initialize [
 
 	super initialize.
 
+	"Both the dfs clock and the shapes stack is managed locally, so
+	 no client of me can interact with these data."
 	dfsClock := 0.
-	maxLevel := 0.
 	sccShapeStack := nil.
 
-	sccs := OrderedCollection new.
-	levels := Dictionary new.
+	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new
+
+	self
+		maxLevel: 0;
+		stronglyConnectedComponents: OrderedCollection new;
+		levels: Dictionary new;
+		oneToManyShapes: IdentityDictionary new;
+		shapeBuilder: (CTObjectRefsShapeBuilder new
+				 senderVisit: self;
+				 yourself)
 ]
 
 { #category : #accessing }
@@ -230,11 +245,11 @@ CTObjectRefsVisit >> object: anObject describedBy: aDescriptor descriptors: desc
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
 	| descriptors maxX aShape metaExtent |
-	aShape := self shapeOf: anObject.
+	aShape := shapeBuilder outline: anObject.
 
 	self
 		visitingShape: aShape of: anObject;
@@ -308,7 +323,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		dfsRecordTimingsOfShape: aShape;
 		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
 
-	^ self
+	^ shapeBuilder
 		  object: anObject
 		  describedBy: aDescriptor
 		  descriptors: descriptors
@@ -316,7 +331,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		  shape: aShape
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #dispatched }
 CTObjectRefsVisit >> oneToMany: aValue [
 
 	| manyShapes |
@@ -329,6 +344,12 @@ CTObjectRefsVisit >> oneToMany: aValue [
 CTObjectRefsVisit >> oneToManyShapes: aDictionary [
 
 	oneToManyShapes := aDictionary
+]
+
+{ #category : #accessing }
+CTObjectRefsVisit >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
+
+	^ quotedShapes at: anObject ifPresent: pBlock ifAbsent: aBlock
 ]
 
 { #category : #visiting }
@@ -349,6 +370,12 @@ CTObjectRefsVisit >> rootObject: anObject [
 	rootObject := anObject
 ]
 
+{ #category : #initialization }
+CTObjectRefsVisit >> shapeBuilder: aShapeBuilder [
+
+	shapeBuilder := aShapeBuilder
+]
+
 { #category : #visiting }
 CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
@@ -361,14 +388,6 @@ CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 			lowlink min: shapeEntryTime ].
 
 		self assert: parentShape model ~~ childShape model ]
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> shapeOf: anObject [
-
-	^ RSComposite new
-		  model: anObject;
-		  yourself
 ]
 
 { #category : #accessing }
