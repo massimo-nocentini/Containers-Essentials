@@ -165,12 +165,6 @@ BlockSlotDescriptor >> oneToOne [
 	isOneToMany := false
 ]
 
-{ #category : #visiting }
-BlockSlotDescriptor >> radiusOrPadding [
-
-	^ Float goldenRatio double
-]
-
 { #category : #accessing }
 BlockSlotDescriptor >> selector [
 
@@ -192,7 +186,7 @@ BlockSlotDescriptor >> selectorHasBeenGiven [
 { #category : #'as yet unclassified' }
 BlockSlotDescriptor >> shape: aShapeBuilder [
 
-	^ aShapeBuilder multilineLabel: value
+	^ aShapeBuilder multilineLabel: self value
 ]
 
 { #category : #'as yet unclassified' }
