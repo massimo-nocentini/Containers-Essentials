@@ -254,6 +254,12 @@ CTObjectRefsShapeBuilder >> radiusOrPadding [
 ]
 
 { #category : #visiting }
+CTObjectRefsShapeBuilder >> radiusOrPaddingDouble [
+
+	^ self radiusOrPadding double
+]
+
+{ #category : #visiting }
 CTObjectRefsShapeBuilder >> senderVisit: anObject [
 
 	senderVisit := anObject

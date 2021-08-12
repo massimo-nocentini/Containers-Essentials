@@ -21,7 +21,7 @@ Class {
 { #category : #dispatched }
 CTObjectRefsVisit >> addQuotedShape: shape model: value [
 
-	shape height: shape height + self radiusOrPaddingDouble.
+	shape height: shape height + shapeBuilder radiusOrPaddingDouble.
 
 	^ quotedShapes at: value put: shape
 ]
@@ -202,7 +202,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		  object: anObject
 		  describedBy: aDescriptor
 		  descriptors: descriptors
-		  extent: maxX + self radiusOrPaddingDouble
+		  extent: maxX + shapeBuilder radiusOrPaddingDouble
 		  shape: aShape
 ]
 
@@ -227,31 +227,19 @@ CTObjectRefsVisit >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock
 	^ quotedShapes at: anObject ifPresent: pBlock ifAbsent: aBlock
 ]
 
-{ #category : #visiting }
-CTObjectRefsVisit >> radiusOrPadding [
-
-	^ Float goldenRatio double
-]
-
-{ #category : #visiting }
-CTObjectRefsVisit >> radiusOrPaddingDouble [
-
-	^ self radiusOrPadding double
-]
-
 { #category : #accessing }
 CTObjectRefsVisit >> rootObject: anObject [
 
 	rootObject := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 CTObjectRefsVisit >> shapeBuilder: aShapeBuilder [
 
 	shapeBuilder := aShapeBuilder
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
 	| shapeEntryTime |
@@ -271,7 +259,7 @@ CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 	slotDescriptorsContext := aBlock
 ]
 
-{ #category : #visiting }
+{ #category : #accessing }
 CTObjectRefsVisit >> slotsDescriptors: anObject withIndexDo: aBlock [
 
 	^ (slotDescriptorsContext visit: anObject)
@@ -293,7 +281,7 @@ CTObjectRefsVisit >> toShapes: anObject [
 	toShapes := anObject
 ]
 
-{ #category : #evaluating }
+{ #category : #DFS }
 CTObjectRefsVisit >> value [
 
 	| aShape |
@@ -309,7 +297,7 @@ CTObjectRefsVisit >> value [
 		  itself: aShape
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index ofShape: mineShape level: level [
 
 	| childShape |
@@ -328,7 +316,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor it
 	^ childShape
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	| shouldInline |
@@ -348,7 +336,7 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 			  nil ]
 ]
 
-{ #category : #visiting }
+{ #category : #DFS }
 CTObjectRefsVisit >> visitingShape: aShape of: anObject [
 
 	toShapes at: anObject put: aShape.
