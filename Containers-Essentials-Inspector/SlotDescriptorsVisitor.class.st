@@ -126,7 +126,9 @@ SlotDescriptorsVisitor >> visitClass: aClass [
 SlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)
-	  , { #asShapeColoredBox asSlotDescriptor quote }
+	  , { (#asShapeColoredBox asSlotDescriptor
+			   inline: true;
+			   quote) }
 ]
 
 { #category : #visiting }

@@ -13,5 +13,6 @@ Color >> asShapeColoredBox [
 		  color: self;
 		  model: self;
 		  cornerRadius: Float goldenRatio double;
+		  extent: Float goldenRatio @ 1 * 30;
 		  yourself
 ]
