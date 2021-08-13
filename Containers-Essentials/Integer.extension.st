@@ -63,9 +63,9 @@ Integer >> asStringOctal [
 { #category : #'*Containers-Essentials' }
 Integer >> asStringSkew [
 
-	String streamContents: [ :aStream | 
-		self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
-			aStream nextPutAll: each asString ] ]
+	^ String streamContents: [ :aStream | 
+		  self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
+			  aStream nextPutAll: each asString ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
