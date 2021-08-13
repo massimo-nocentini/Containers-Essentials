@@ -117,8 +117,18 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> jumpLinesBuilder [
 
+	| color |
+	color := Color gray lighter lighter lighter.
 	^ RSLineBuilder bezier
-		  color: Color gray lighter lighter lighter;
+		  markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    color: color;
+						    cornerRadii: Float goldenRatio;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);
+		  color: color;
 		  yourself
 ]
 
@@ -167,8 +177,18 @@ CTSlotsDfsTreeDrawer >> shapes: aCollection [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 
+	| color |
+	color := Color gray lighter lighter lighter.
 	^ RSLineBuilder polyline
-		  color: Color gray lighter lighter lighter;
+		  markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    cornerRadii: Float goldenRatio;
+						    color: color;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);
+		  color: color;
 		  cornerRadii: Float goldenRatio double;
 		  attachPoint: (RSHorizontalAttachPoint new
 				   startOffset: Float goldenRatio double double negated;
