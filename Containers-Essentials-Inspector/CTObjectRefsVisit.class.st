@@ -181,12 +181,11 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 						                         valueBox.
 					                         maxX @ metaExtent y ]
 				                         ifNotNil: [ 
-					                         (valueLabel := RSComposite new
-						                                        shapes: { valueLabel };
-						                                        padding:
-							                                        shapeBuilder
-								                                        radiusOrPadding;
-						                                        yourself) extent ].
+					                         valueLabel := shapeBuilder padShape:
+						                                       valueLabel.
+					                         valueLabel extent x
+					                         @
+					                         (valueLabel extent y max: metaExtent y) ].
 
 			               maxX := maxX max: extent x.
 			               valueBox height: (extent y max: varLabel extent y).

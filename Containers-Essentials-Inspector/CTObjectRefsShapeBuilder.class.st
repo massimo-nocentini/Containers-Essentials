@@ -6,7 +6,8 @@ Class {
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
-		'prototypeLabel'
+		'prototypeLabel',
+		'goldenRatios'
 	],
 	#category : #'Containers-Essentials-Inspector'
 }
@@ -26,6 +27,8 @@ CTObjectRefsShapeBuilder >> box: aValue [
 CTObjectRefsShapeBuilder >> initialize [
 
 	super initialize.
+
+	goldenRatios := 10 goldenRatios.
 
 	self prototypeLabel: (RSLabel new
 			 model: nil;
@@ -60,8 +63,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 						                color: Color veryVeryLightGray;
 						                cornerRadius: self radiusOrPadding;
 						                extent:
-							                commentComposite extent
-							                + self radiusOrPaddingDouble.
+							                commentComposite extent + self radiusOrPadding.
 
 					         RSLocation new center stick: commentComposite on: box.
 
@@ -234,14 +236,20 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 ]
 
 { #category : #accessing }
+CTObjectRefsShapeBuilder >> padShape: aShape [
+
+	^ RSComposite new
+		  shapes: { aShape };
+		  padding: self radiusOrPadding @ self radiusOrPadding;
+		  yourself
+]
+
+{ #category : #accessing }
 CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 
 	(prototypeLabel := aLabel) copy in: [ :aShape | 
 		aShape text: 'Ggg'.
-		metaExtent := RSComposite new
-			              shapes: { aShape };
-			              padding: self radiusOrPadding;
-			              extent.
+		metaExtent := (self padShape: aShape) extent.
 		metaColor := aShape color lighter lighter lighter.
 		metaFontSize := aShape fontSize * Float silverRatio ]
 ]
@@ -250,12 +258,6 @@ CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 CTObjectRefsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenRatio double
-]
-
-{ #category : #visiting }
-CTObjectRefsShapeBuilder >> radiusOrPaddingDouble [
-
-	^ self radiusOrPadding double
 ]
 
 { #category : #visiting }

@@ -158,8 +158,8 @@ Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
 Integer >> goldenRatios [
 
 	^ self
-		  gibonacciNumbersFirst: 1
-		  second: Float silverRatio
+		  gibonacciNumbersFirst: Float goldenRatio
+		  second: 1
 		  do: [ :a :b | a - b ]
 ]
 
