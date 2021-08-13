@@ -21,8 +21,6 @@ Class {
 { #category : #dispatched }
 CTObjectRefsVisit >> addQuotedShape: shape model: value [
 
-	shape height: shape height + shapeBuilder radiusOrPaddingDouble.
-
 	^ quotedShapes at: value put: shape
 ]
 
@@ -182,7 +180,13 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 						                         addHighlightWithLinesInteractionOnShape:
 						                         valueBox.
 					                         maxX @ metaExtent y ]
-				                         ifNotNil: [ valueLabel extent ].
+				                         ifNotNil: [ 
+					                         (valueLabel := RSComposite new
+						                                        shapes: { valueLabel };
+						                                        padding:
+							                                        shapeBuilder
+								                                        radiusOrPadding;
+						                                        yourself) extent ].
 
 			               maxX := maxX max: extent x.
 			               valueBox height: (extent y max: varLabel extent y).
@@ -202,7 +206,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		  object: anObject
 		  describedBy: aDescriptor
 		  descriptors: descriptors
-		  extent: maxX + shapeBuilder radiusOrPaddingDouble
+		  extent: maxX
 		  shape: aShape
 ]
 

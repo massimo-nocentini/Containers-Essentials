@@ -49,15 +49,15 @@ EssentialsObjectTest >> testInspect10GoldenRatios [
 { #category : #tests }
 EssentialsObjectTest >> testInspect10GoldenRectangles [
 
-	| ratios rectangles |
-	ratios := self testInspect10GoldenRatios.
-	rectangles := (1 to: ratios size - 1) collect: [ :i | 
-		              RSBox new
-			              cornerRadius: Float goldenRatio double;
-			              extent: (ratios at: i) @ (ratios at: i + 1) * 100;
-			              color: Color white;
-			              withBorder;
-			              yourself ].
+	| rectangles |
+	rectangles := self testInspect10GoldenRatios 
+		              overlappingPairsCollect: [ :width :height | 
+			              RSBox new
+				              cornerRadius: Float goldenRatio double;
+				              extent: width @ height * 100;
+				              color: Color white;
+				              withBorder;
+				              yourself ].
 
 	^ self
 		  exportSlotsGraphOf: rectangles

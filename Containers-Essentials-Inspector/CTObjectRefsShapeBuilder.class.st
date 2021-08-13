@@ -236,10 +236,14 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 { #category : #accessing }
 CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 
-	(prototypeLabel := aLabel) withText: '...' do: [ 
-		metaExtent := prototypeLabel extent.
-		metaColor := prototypeLabel color lighter lighter lighter.
-		metaFontSize := prototypeLabel fontSize * Float silverRatio ]
+	(prototypeLabel := aLabel) copy in: [ :aShape | 
+		aShape text: 'Ggg'.
+		metaExtent := RSComposite new
+			              shapes: { aShape };
+			              padding: self radiusOrPadding;
+			              extent.
+		metaColor := aShape color lighter lighter lighter.
+		metaFontSize := aShape fontSize * Float silverRatio ]
 ]
 
 { #category : #visiting }
