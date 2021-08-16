@@ -172,7 +172,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.
 
-			                   shapes := Array with: shape.
+			                   shapes := Array with: (self padShape: shape).
 
 			                   RSLocation new
 				                   inner;
