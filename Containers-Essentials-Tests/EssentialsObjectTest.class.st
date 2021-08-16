@@ -69,6 +69,22 @@ EssentialsObjectTest >> testInspect10GoldenRectangles [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspect10GoldenRectanglesNested [
+
+	| rectangles |
+	rectangles := self testInspect10GoldenRectangles foldr1: [ :each :aBox | 
+		              aBox rotateByRadians: Float pi half negated.
+		              RSLocation new left stick: aBox on: each.
+		              RSComposite new
+			              shapes: { 
+					              each.
+					              aBox };
+			              yourself ].
+
+	^ self exportShapeOf: rectangles
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect20FibonacciNumbers [
 
 	| fibs |
