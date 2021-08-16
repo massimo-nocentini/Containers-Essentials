@@ -19,7 +19,6 @@ CTObjectRefsShapeBuilder >> box: aValue [
 		  model: aValue;
 		  color: metaColor translucent lighter lighter;
 		  cornerRadius: self radiusOrPadding;
-		  withBorder;
 		  yourself
 ]
 
@@ -42,7 +41,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 	| composite var |
 	var := selector.
 	composite := var asString asMultilineLabelShape: (RSLabel new
-			              color: metaColor;
+			              color: Color black;
 			              yourself).
 
 	RSAlignment new
@@ -238,9 +237,13 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 { #category : #accessing }
 CTObjectRefsShapeBuilder >> padShape: aShape [
 
+	| ratio |
+	ratio := (goldenRatios at: 6) half.
+
 	^ RSComposite new
 		  shapes: { aShape };
-		  padding: self radiusOrPadding @ self radiusOrPadding;
+		  padding: (aShape width @ aShape height * ratio max:
+					   self radiusOrPadding asPoint);
 		  yourself
 ]
 
