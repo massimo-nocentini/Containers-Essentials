@@ -106,10 +106,44 @@ CTObjectRefsShapeBuilder >> multilineLabel: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: width shape: mineShape [
+CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: widthsAssociation shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding |
+	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
 	padding := self radiusOrPadding.
+
+	classLabel := self padShape:
+		              (aDescriptor header: anObject shapeBuilder: self).
+
+	varWidth := widthsAssociation key.
+	boxWidth := widthsAssociation value.
+
+	(slotWidth := varWidth + boxWidth) < classLabel width ifTrue: [ 
+		slotWidth
+			isTo: classLabel width
+			as: varWidth
+			isTo: [ :w | varWidth := w ].
+		slotWidth
+			isTo: classLabel width
+			as: boxWidth
+			isTo: [ :w | boxWidth := w ] ].
+
+	varWidth < boxWidth
+		ifTrue: [ 
+			µ := (goldenRatios at: 2)
+				     isTo: boxWidth
+				     as: (goldenRatios at: 3)
+				     isTo: [ :x | 
+					     | ratio |
+					     ratio := goldenRatios first.
+					     ((x - varWidth max: 1) log: ratio) * ratio ].
+
+			π := 0 ]
+		ifFalse: [ 
+			µ := 0.
+			π := (goldenRatios at: 2)
+				     isTo: varWidth
+				     as: (goldenRatios at: 3)
+				     isTo: [ :x | x - boxWidth max: 0 ] ].
 
 	shapes := descriptors collect: [ :slotDescriptor | 
 		          | varLabel valueBox valueLabel valueShape |
@@ -118,7 +152,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 		          valueLabel := slotDescriptor valueLabel.
 		          valueBox := slotDescriptor valueBox.
 
-		          valueBox width: width.
+		          valueBox width: boxWidth + π.
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
@@ -152,8 +186,6 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 	RSAlignment new
 		shapes: shapes;
 		right.
-
-	classLabel := aDescriptor header: anObject shapeBuilder: self.
 
 	contentLocation := shapes
 		                   ifEmpty: [ 
@@ -191,9 +223,11 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 
 	boxedCompositeShape := RSBox new
 		                       color: Color white;
-		                       extent:
-			                       (compositeShape extent x max:
-					                        classLabel extent x)
+		                       extent: { 
+				                       (varWidth + µ + boxWidth + π
+				                        + padding triple).
+				                       compositeShape extent x.
+				                       classLabel extent x } max
 			                       @ compositeShape extent y;
 		                       cornerRadius: padding;
 		                       withBorder;
@@ -211,13 +245,15 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 
 	RSLocation new
 		above;
+		left;
+		offset: classLabel width @ 0;
 		stick: classLabel on: boxedCompositeShape.
 
-	RSAlignment new
+	"RSAlignment new
 		shapes: { 
 				classLabel.
 				boxedCompositeShape };
-		left.
+		left."
 
 	^ mineShape
 		  shapes: { 

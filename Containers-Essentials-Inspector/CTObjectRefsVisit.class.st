@@ -127,7 +127,7 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors maxX aShape metaExtent |
+	| descriptors aShape metaExtent widthsExtent |
 	aShape := shapeBuilder outline: anObject.
 
 	self
@@ -140,7 +140,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		addHighlightInteractionOnShape: aShape.
 
 	metaExtent := shapeBuilder metaExtent.
-	maxX := metaExtent x.
+	widthsExtent := 0 -> metaExtent x.
 
 	descriptors := self
 		               slotsDescriptors: anObject
@@ -179,7 +179,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 					                         childDescriptor 
 						                         addHighlightWithLinesInteractionOnShape:
 						                         valueBox.
-					                         maxX @ metaExtent y ]
+					                         widthsExtent value @ metaExtent y ]
 				                         ifNotNil: [ 
 					                         valueLabel := shapeBuilder padShape:
 						                                       valueLabel.
@@ -187,7 +187,11 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 					                         @
 					                         (valueLabel extent y max: metaExtent y) ].
 
-			               maxX := maxX max: extent x.
+			               widthsExtent := (widthsExtent key max:
+				                                varLabel extent x)
+			                               ->
+			                               (widthsExtent value max: extent x).
+
 			               valueBox height: (extent y max: varLabel extent y).
 
 			               childDescriptor
@@ -205,7 +209,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		  object: anObject
 		  describedBy: aDescriptor
 		  descriptors: descriptors
-		  extent: maxX
+		  extent: widthsExtent
 		  shape: aShape
 ]
 
