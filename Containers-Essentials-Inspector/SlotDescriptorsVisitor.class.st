@@ -339,6 +339,15 @@ SlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitRSGroup: aGroup [
+
+	^ (self visitArray: aGroup) collect: [ :each | 
+		  each
+			  inline: true;
+			  quote ]
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitRandom: aRandom [
 
 	^ (self visitObject: aRandom) , { (#asShapeScatter asSlotDescriptor

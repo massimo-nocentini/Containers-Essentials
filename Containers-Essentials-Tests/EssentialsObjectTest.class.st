@@ -50,22 +50,17 @@ EssentialsObjectTest >> testInspect10GoldenRatios [
 EssentialsObjectTest >> testInspect10GoldenRectangles [
 
 	| rectangles |
-	rectangles := self testInspect10GoldenRatios 
-		              overlappingPairsCollect: [ :width :height | 
-			              RSBox new
-				              cornerRadius: Float goldenRatio double;
-				              extent: width @ height * 100;
-				              color: Color white;
-				              withBorder;
-				              yourself ].
+	rectangles := RSGroup withAll:
+		              (self testInspect10GoldenRatios 
+			               overlappingPairsCollect: [ :width :height | 
+				               RSBox new
+					               cornerRadius: Float goldenRatio double;
+					               extent: width @ height * 100;
+					               color: Color white;
+					               withBorder;
+					               yourself ]).
 
-	^ self
-		  exportSlotsGraphOf: rectangles
-		  slotDescriptorsContext:
-			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
-				   aDescriptor
-					   inline: true;
-					   quote ])
+	^ self exportSlotsGraphOf: rectangles
 ]
 
 { #category : #tests }
@@ -130,14 +125,8 @@ EssentialsObjectTest >> testInspectAssociation [
 { #category : #tests }
 EssentialsObjectTest >> testInspectBRGCodes [
 
-	^ self
-		  exportSlotsGraphOf:
-		  ((0 to: 15) collect: [ :each | each asShapeBRGCDots ])
-		  slotDescriptorsContext:
-			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
-				   aDescriptor
-					   inline: true;
-					   quote ])
+	^ self exportSlotsGraphOf:
+		  ((0 to: 15) collect: [ :each | each asShapeBRGCDots ] as: RSGroup)
 ]
 
 { #category : #tests }
