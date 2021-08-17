@@ -278,7 +278,7 @@ CTObjectRefsShapeBuilder >> padShape: aShape [
 
 	^ RSComposite new
 		  shapes: { aShape };
-		  padding: (aShape width @ aShape height * ratio max:
+		  padding: ("aShape width @ aShape height * ratio max:"
 					   self radiusOrPadding asPoint);
 		  yourself
 ]
