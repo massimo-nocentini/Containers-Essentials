@@ -3,7 +3,7 @@ Class {
 	#superclass : #RSVanDerPloegTreeLayout,
 	#traits : 'RSTWalkBasedRegularTreeLayoutRandomizedGaps',
 	#classTraits : 'RSTWalkBasedRegularTreeLayoutRandomizedGaps classTrait',
-	#category : #'Containers-Essentials-Visualizations'
+	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #initialization }
