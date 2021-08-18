@@ -13,41 +13,63 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> backLinesBuilder [
+
+	| color |
+	color := Color gray lighter lighter lighter.
+	^ RSLineBuilder bezier
+		  markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    color: color;
+						    cornerRadii: Float goldenRatio;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);
+		  color: color;
+		  dotted;
+		  controlPointsController: (RSStartEndCPAPController new
+				   controller: RSDirectedBezierConcavityCPAPController new;
+				   startAttachPoint: RSCenteredAttachPoint new;
+				   endAttachPoint: RSVerticalAttachPoint new);
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 
-	"lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSCrossEdgesCPAPController new;
-			 startAttachPoint: RSHorizontalAttachPoint new;
-			 endAttachPoint: RSVerticalAttachPoint new;
-			 yourself)."
-
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierConcavityCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSVerticalAttachPoint new).
-
 	^ backTuples collect: [ :aTuple | 
-		  | edge |
-		  edge := self edgeForTuple: aTuple lineBuilder: lineBuilder.
-		  edge
-			  dashArray: #( 1 );
-			  yourself ]
+		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> crossLinesBuilder [
+
+	| color |
+	color := Color gray lighter lighter lighter.
+	^ RSLineBuilder bezier
+		  markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    color: color;
+						    cornerRadii: Float goldenRatio;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);
+		  color: color;
+		  dashed;
+		  controlPointsController: (RSStartEndCPAPController new
+				   controller: RSDirectedBezierConcavityCPAPController new;
+				   startAttachPoint: RSCenteredAttachPoint new;
+				   endAttachPoint: RSBottomEndVerticalAttachPoint new);
+		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierConcavityCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSBottomEndVerticalAttachPoint new).
-
 	^ crossTuples collect: [ :aTuple | 
-		  | edge |
-		  edge := self edgeForTuple: aTuple lineBuilder: lineBuilder.
-		  edge
-			  dashArray: #( 4 );
-			  yourself ]
+		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -60,12 +82,29 @@ CTSlotsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTSlotsDfsTreeDrawer >> forwardLinesBuilder [
 
-	lineBuilder controlPointsController: (RSStartEndCPAPController new
-			 controller: RSDirectedBezierConcavityCPAPController new;
-			 startAttachPoint: RSCenteredAttachPoint new;
-			 endAttachPoint: RSHorizontalAttachPoint new).
+	| color |
+	color := Color gray lighter lighter lighter.
+	^ RSLineBuilder bezier
+		  markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    color: color;
+						    cornerRadii: Float goldenRatio;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);
+		  color: color;
+		  controlPointsController: (RSStartEndCPAPController new
+				   controller: RSDirectedBezierConcavityCPAPController new;
+				   startAttachPoint: RSCenteredAttachPoint new;
+				   endAttachPoint: RSHorizontalAttachPoint new);
+		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ forwardTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
@@ -112,24 +151,6 @@ CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
 	  anotherTime := (toShapes at: anotherSlotBox model)
 		                 propertyDfsEntryTime.
 	  aTime < anotherTime ]
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> jumpLinesBuilder [
-
-	| color |
-	color := Color gray lighter lighter lighter.
-	^ RSLineBuilder bezier
-		  markerEnd: (RSMarker new
-				   shape: (RSShapeFactory arrow
-						    size: Float goldenRatio * 5;
-						    color: color;
-						    cornerRadii: Float goldenRatio;
-						    yourself);
-				   offset: Float goldenRatio double;
-				   yourself);
-		  color: color;
-		  yourself
 ]
 
 { #category : #'as yet unclassified' }
@@ -180,27 +201,26 @@ CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 	| color |
 	color := Color gray lighter lighter lighter.
 	^ RSLineBuilder polyline
-		  "markerEnd: (RSMarker new
+		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;
 						    cornerRadii: Float goldenRatio;
 						    color: color;
 						    yourself);
 				   offset: Float goldenRatio double;
-				   yourself);"
+				   yourself);
 		  color: color;
 		  cornerRadii: Float goldenRatio double;
 		  attachPoint: (RSHorizontalAttachPoint new
 				   startOffset: Float goldenRatio double double negated;
 				   yourself);
+		  controlPointsController:
+		  RSHorizontalGoldenRatioOffsetCPAPController new;
 		  yourself
 ]
 
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
-
-	lineBuilder controlPointsController:
-		RSHorizontalGoldenRatioOffsetCPAPController new.
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
@@ -246,15 +266,15 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 			                  addAll:
 				                  (self
 					                   forwardTuples: forwardTuples
-					                   lineBuilder: self jumpLinesBuilder);
+					                   lineBuilder: self forwardLinesBuilder);
 			                  addAll:
 				                  (self
 					                   backTuples: backTuples
-					                   lineBuilder: self jumpLinesBuilder);
+					                   lineBuilder: self backLinesBuilder);
 			                  addAll:
 				                  (self
 					                   crossTuples: crossTuples
-					                   lineBuilder: self jumpLinesBuilder).
+					                   lineBuilder: self crossLinesBuilder).
 
 		                  self
 			                  layoutTuples: treeTuples
