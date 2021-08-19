@@ -24,9 +24,11 @@ BaselineOfContainersEssentials >> baseline: spec [
 BaselineOfContainersEssentials >> roassal: spec [
 
 	spec
-		baseline: 'Roassal3'
-		with: [ spec repository: 'github://massimo-nocentini/Roassal3/src' ];
+		baseline: 'Roassal3' with: [ 
+			spec
+				repository: 'github://massimo-nocentini/Roassal3/src';
+				loads: #( Full ) ];
 		baseline: 'Roassal3Exporters'
 		with: [ 
-			spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
+		spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
 ]
