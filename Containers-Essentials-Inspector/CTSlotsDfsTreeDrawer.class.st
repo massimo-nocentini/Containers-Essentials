@@ -141,19 +141,6 @@ CTSlotsDfsTreeDrawer >> fromShape: fromShape toShape: toShape ifTree: tBlock ifF
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> fromShapesDfsSortBlock [
-
-	^ [ :anAssoc :anotherAssoc | 
-	  | aSlotBox anotherSlotBox aTime anotherTime |
-	  aSlotBox := anAssoc key.
-	  anotherSlotBox := anotherAssoc key.
-	  aTime := (toShapes at: aSlotBox model) propertyDfsEntryTime.
-	  anotherTime := (toShapes at: anotherSlotBox model)
-		                 propertyDfsEntryTime.
-	  aTime < anotherTime ]
-]
-
-{ #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> layoutLinesBuilder [
 
 	^ RSLineBuilder line
@@ -191,8 +178,7 @@ CTSlotsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 { #category : #adding }
 CTSlotsDfsTreeDrawer >> shapes: aCollection [
 
-	^ aCollection reject: [ :each | 
-		  oneToManyShapes includesKey: each model ]
+	^ aCollection
 ]
 
 { #category : #'as yet unclassified' }
@@ -201,14 +187,14 @@ CTSlotsDfsTreeDrawer >> treeLinesBuilder [
 	| color |
 	color := Color gray lighter lighter lighter.
 	^ RSLineBuilder polyline
-		  markerEnd: (RSMarker new
+		  "markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;
 						    cornerRadii: Float goldenRatio;
 						    color: color;
 						    yourself);
-				   offset: Float goldenRatio double;
-				   yourself);
+				   offset: Float goldenRatio;
+				   yourself);"
 		  color: color;
 		  cornerRadii: Float goldenRatio double;
 		  attachPoint: (RSHorizontalAttachPoint new
@@ -290,41 +276,53 @@ CTSlotsDfsTreeDrawer >> visit: anObject [
 { #category : #'as yet unclassified' }
 CTSlotsDfsTreeDrawer >> withDfsEdgesDo: recvBlock [
 
-	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations |
+	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations forbidden |
+	forbidden := IdentitySet new.
+
 	treeAssociations := OrderedCollection new.
 	forwardAssociations := OrderedCollection new.
 	backAssociations := OrderedCollection new.
 	crossAssociations := OrderedCollection new.
 
-	sortedFromShapes := fromShapes associations sorted:
-		                    self fromShapesDfsSortBlock.
+	sortedFromShapes := fromShapes associations sorted: [ 
+		                    :anAssoc 
+		                    :anotherAssoc | 
+		                    | aTime anotherTime |
+		                    aTime := (toShapes at: anAssoc key model)
+			                             propertyDfsEntryTime.
+		                    anotherTime := (toShapes at:
+			                                    anotherAssoc key model)
+			                                   propertyDfsEntryTime.
+		                    aTime < anotherTime ].
 
 	sortedFromShapes withIndexDo: [ :anAssociation :index | 
-		| value boxShape fromShape manyShapes tuple tuples isOneToMany |
+		| value boxShape fromShape manyShapes tuple tuples isOneToMany toShape |
 		boxShape := anAssociation key.
 		fromShape := anAssociation value.
 
 		value := boxShape model.
+		toShape := toShapes at: value.
 
-		manyShapes := oneToManyShapes
-			              at: value
-			              ifPresent: [ :someShapes | 
-				              isOneToMany := true.
-				              someShapes ]
-			              ifAbsent: [ 
-				              isOneToMany := false.
-				              { (toShapes at: value) } ].
+		oneToManyShapes
+			at: value
+			ifPresent: [ :someShapes | 
+				forbidden add: (toShapes at: value).
+				isOneToMany := true.
+				manyShapes := someShapes ]
+			ifAbsent: [ 
+				isOneToMany := false.
+				manyShapes := Array with: (toShapes at: value) ].
 
-		manyShapes do: [ :toShape | 
+		manyShapes do: [ :aShape | 
 			tuple := Array
 				         with: index
 				         with: boxShape
 				         with: fromShape
-				         with: toShape.
+				         with: aShape.
 
 			tuples := self
 				          fromShape: fromShape
-				          toShape: toShape
+				          toShape: aShape
 				          ifTree: [ treeAssociations ]
 				          ifForward: [ 
 					          isOneToMany
@@ -333,7 +331,7 @@ CTSlotsDfsTreeDrawer >> withDfsEdgesDo: recvBlock [
 				          ifBack: [ backAssociations ]
 				          ifCross: [ crossAssociations ].
 
-			(shapes includes: fromShape) ifTrue: [ tuples add: tuple ] ] ].
+			(forbidden includes: fromShape) ifFalse: [ tuples add: tuple ] ] ].
 
 	^ recvBlock
 		  value: treeAssociations
