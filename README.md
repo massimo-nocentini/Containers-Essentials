@@ -3,8 +3,8 @@
 Load with:
 
 ```smalltalk
-Metacello new
+[Metacello new
     baseline: 'ContainersEssentials';
     repository: 'github://massimo-nocentini/Containers-Essentials';
-    load.
+    load ] on: MCMergeOrLoadWarning do: [:warning | warning load ]
 ```
