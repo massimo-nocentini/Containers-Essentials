@@ -338,6 +338,23 @@ EssentialsObjectTest >> testInspectHeap [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectIceRepository [
+
+	^ self exportSlotsGraphOf:
+		  (IceRepository registry detect: [ :each | 
+			   each name = 'Containers-HeapQ' ])
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectIceRepositoryCommitsGraph [
+
+	^ self
+		  exportShapeOf: (IceRepository registry detect: [ :each | 
+				   each name = 'Containers-HeapQ' ])
+		  accessorBlock: #asShapeCommitsGraph
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectInteger13 [
 
 	^ self exportSlotsGraphOf: 13
