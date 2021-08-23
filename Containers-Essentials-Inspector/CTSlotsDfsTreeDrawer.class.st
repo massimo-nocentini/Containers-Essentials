@@ -5,7 +5,6 @@ Class {
 		'visit',
 		'fromShapes',
 		'toShapes',
-		'shapes',
 		'levels',
 		'oneToManyShapes'
 	],
@@ -79,6 +78,71 @@ CTSlotsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 		  edgeFrom: aTuple propertyFromSlotShape
 		  to: (aTuple propertyToShape propertyDfsBoxedSlotsShape ifNil: [ 
 				   aTuple propertyToShape ])
+]
+
+{ #category : #'as yet unclassified' }
+CTSlotsDfsTreeDrawer >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
+
+	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations |
+	treeAssociations := OrderedCollection new.
+	forwardAssociations := OrderedCollection new.
+	backAssociations := OrderedCollection new.
+	crossAssociations := OrderedCollection new.
+
+	sortedFromShapes := fromShapes associations sorted: [ 
+		                    :anAssoc 
+		                    :anotherAssoc | 
+		                    | aTime anotherTime |
+		                    aTime := (toShapes at: anAssoc key model)
+			                             propertyDfsEntryTime.
+		                    anotherTime := (toShapes at:
+			                                    anotherAssoc key model)
+			                                   propertyDfsEntryTime.
+		                    aTime < anotherTime ].
+
+	sortedFromShapes withIndexDo: [ :anAssociation :index | 
+		| value boxShape fromShape manyShapes tuple tuples isOneToMany toShape |
+		boxShape := anAssociation key.
+		fromShape := anAssociation value.
+
+		value := boxShape model.
+		toShape := toShapes at: value.
+
+		oneToManyShapes
+			at: value
+			ifPresent: [ :someShapes | 
+				forbiddenShapes add: (toShapes at: value).
+				isOneToMany := true.
+				manyShapes := someShapes ]
+			ifAbsent: [ 
+				isOneToMany := false.
+				manyShapes := Array with: (toShapes at: value) ].
+
+		manyShapes do: [ :aShape | 
+			tuple := Array
+				         with: index
+				         with: boxShape
+				         with: fromShape
+				         with: aShape.
+
+			tuples := self
+				          fromShape: fromShape
+				          toShape: aShape
+				          ifTree: [ treeAssociations ]
+				          ifForward: [ 
+					          isOneToMany
+						          ifTrue: [ treeAssociations ]
+						          ifFalse: [ forwardAssociations ] ]
+				          ifBack: [ backAssociations ]
+				          ifCross: [ crossAssociations ].
+
+			(forbiddenShapes includes: fromShape) ifFalse: [ tuples add: tuple ] ] ].
+
+	^ recvBlock
+		  value: treeAssociations
+		  value: forwardAssociations
+		  value: backAssociations
+		  value: crossAssociations
 ]
 
 { #category : #'as yet unclassified' }
@@ -231,111 +295,40 @@ CTSlotsDfsTreeDrawer >> visit [
 { #category : #accessing }
 CTSlotsDfsTreeDrawer >> visit: anObject [
 
-	| edges edgesForLayout |
+	| shapes edges edgesForLayout forbiddenShapes |
 	visit := anObject.
 
 	self visit.
 
+	forbiddenShapes := IdentitySet new.
 	shapes := self shapes: toShapes values.
 	edges := OrderedCollection new.
 
-	edgesForLayout := self withDfsEdgesDo: [ 
-		                  :treeTuples 
-		                  :forwardTuples 
-		                  :backTuples 
-		                  :crossTuples | 
-		                  edges
-			                  addAll:
-				                  (self
-					                   treeTuples: treeTuples
-					                   lineBuilder: self treeLinesBuilder);
-			                  addAll:
-				                  (self
-					                   forwardTuples: forwardTuples
-					                   lineBuilder: self forwardLinesBuilder);
-			                  addAll:
-				                  (self
-					                   backTuples: backTuples
-					                   lineBuilder: self backLinesBuilder);
-			                  addAll:
-				                  (self
-					                   crossTuples: crossTuples
-					                   lineBuilder: self crossLinesBuilder).
+	self
+		forbiddenShapes: forbiddenShapes
+		withDfsEdgesDo: [ :treeTuples :forwardTuples :backTuples :crossTuples | 
+			edges
+				addAll:
+					(self treeTuples: treeTuples lineBuilder: self treeLinesBuilder);
+				addAll: (self
+						 forwardTuples: forwardTuples
+						 lineBuilder: self forwardLinesBuilder);
+				addAll:
+					(self backTuples: backTuples lineBuilder: self backLinesBuilder);
+				addAll:
+					(self
+						 crossTuples: crossTuples
+						 lineBuilder: self crossLinesBuilder).
 
-		                  self
-			                  layoutTuples: treeTuples
-			                  lineBuilder: self layoutLinesBuilder ].
+			edgesForLayout := self
+				                  layoutTuples: treeTuples
+				                  lineBuilder: self layoutLinesBuilder ].
+
+	shapes := shapes reject: [ :each | forbiddenShapes includes: each ].
 
 	self layoutOn: shapes edges: edgesForLayout.
 
 	^ RSComposite new
 		  shapes: shapes , edges;
 		  yourself
-]
-
-{ #category : #'as yet unclassified' }
-CTSlotsDfsTreeDrawer >> withDfsEdgesDo: recvBlock [
-
-	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations forbidden |
-	forbidden := IdentitySet new.
-
-	treeAssociations := OrderedCollection new.
-	forwardAssociations := OrderedCollection new.
-	backAssociations := OrderedCollection new.
-	crossAssociations := OrderedCollection new.
-
-	sortedFromShapes := fromShapes associations sorted: [ 
-		                    :anAssoc 
-		                    :anotherAssoc | 
-		                    | aTime anotherTime |
-		                    aTime := (toShapes at: anAssoc key model)
-			                             propertyDfsEntryTime.
-		                    anotherTime := (toShapes at:
-			                                    anotherAssoc key model)
-			                                   propertyDfsEntryTime.
-		                    aTime < anotherTime ].
-
-	sortedFromShapes withIndexDo: [ :anAssociation :index | 
-		| value boxShape fromShape manyShapes tuple tuples isOneToMany toShape |
-		boxShape := anAssociation key.
-		fromShape := anAssociation value.
-
-		value := boxShape model.
-		toShape := toShapes at: value.
-
-		oneToManyShapes
-			at: value
-			ifPresent: [ :someShapes | 
-				forbidden add: (toShapes at: value).
-				isOneToMany := true.
-				manyShapes := someShapes ]
-			ifAbsent: [ 
-				isOneToMany := false.
-				manyShapes := Array with: (toShapes at: value) ].
-
-		manyShapes do: [ :aShape | 
-			tuple := Array
-				         with: index
-				         with: boxShape
-				         with: fromShape
-				         with: aShape.
-
-			tuples := self
-				          fromShape: fromShape
-				          toShape: aShape
-				          ifTree: [ treeAssociations ]
-				          ifForward: [ 
-					          isOneToMany
-						          ifTrue: [ treeAssociations ]
-						          ifFalse: [ forwardAssociations ] ]
-				          ifBack: [ backAssociations ]
-				          ifCross: [ crossAssociations ].
-
-			(forbidden includes: fromShape) ifFalse: [ tuples add: tuple ] ] ].
-
-	^ recvBlock
-		  value: treeAssociations
-		  value: forwardAssociations
-		  value: backAssociations
-		  value: crossAssociations
 ]
