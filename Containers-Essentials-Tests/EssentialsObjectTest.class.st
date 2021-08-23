@@ -389,6 +389,17 @@ EssentialsObjectTest >> testInspectObjectModel [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectOneToMany [
+
+	^ self
+		  exportSlotsGraphOf: { 'hello'. 'world' } ~~> ({ 
+				   42 asValueHolder.
+				   Float goldenRatio asValueHolder } ~~> nil)
+		  slotDescriptorsContext:
+		  SlotDescriptorsVisitorOneToManyForValueLinkTesting new
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectPoint [
 
 	^ self exportSlotsGraphOf: 42 @ 24
