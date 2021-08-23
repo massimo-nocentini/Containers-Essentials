@@ -5,7 +5,7 @@ Load with:
 ```smalltalk
 [ 
 	Metacello new
-		baseline: 'ContainersEssentialsPdm';
+		baseline: 'ContainersEssentials';
 		repository: 'github://bauing-schmidt/Containers-Essentials';
 		load ]
 		on: MCMergeOrLoadWarning
