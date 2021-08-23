@@ -4,6 +4,13 @@ Class {
 	#category : #BaselineOfContainersEssentials
 }
 
+{ #category : #baselines }
+BaselineOfContainersEssentialsPdm >> baseline: spec [
+
+	<baseline>
+	^ super baseline: spec
+]
+
 { #category : #'baselines-helpers' }
 BaselineOfContainersEssentialsPdm >> roassal: spec [
 
