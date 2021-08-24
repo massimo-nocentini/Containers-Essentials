@@ -55,6 +55,16 @@ SlotDescriptorsVisitor >> visit: anObject [
 ]
 
 { #category : #visiting }
+SlotDescriptorsVisitor >> visitArray2D: aMatrix [
+
+	^ (self visitObject: aMatrix) allButFirst
+	  , { #asArrayOfLinks asSlotDescriptor }
+	  , ((aMatrix allSatisfy: [ :each | each isInteger ])
+			   ifTrue: [ { #asShapeMod2 asSlotDescriptor quote } ]
+			   ifFalse: [ Array empty ])
+]
+
+{ #category : #visiting }
 SlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
