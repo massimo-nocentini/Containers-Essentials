@@ -102,14 +102,19 @@ Integer >> bitInvert8 [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> catalan [
-	^ (2 * self choose: self) / (self + 1)
-]
-
-{ #category : #'*Containers-Essentials' }
 Integer >> catalan: k [
 	^ (2 * self - k choose: self - k)
 		- (2 * self - k choose: self - k - 1)
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> catalanNumbers [
+
+	^ self
+		  ifPositive: [ 
+			  (0 to: self - 1) collect: [ :each | 
+				  (each double choose: each) / (each + 1) ] ]
+		  ifNotPositive: [ Array empty ]
 ]
 
 { #category : #'*Containers-Essentials' }

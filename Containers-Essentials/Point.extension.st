@@ -15,14 +15,6 @@ Point >> distanceToOrigin [
 ]
 
 { #category : #'*Containers-Essentials' }
-Point >> pascalTriangle [
-	^ Array2D
-		rows: self x
-		columns: self y
-		tabulate: [ :n :k | n - 1 choose: k - 1 ]
-]
-
-{ #category : #'*Containers-Essentials' }
 Point >> π [
 
 	^ (self angle / Float π) asFraction
