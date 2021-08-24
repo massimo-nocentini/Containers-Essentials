@@ -15,7 +15,7 @@ Array2D >> asShapeMod2 [
 			          radius: Float goldenRatio double double;
 			          withBorder;
 			          color: Color white;
-			          yourself: [ :c | 
+			          yourself: [ :c | "radius: (each / Float π) sqrt * Float goldenRatio;" 
 				          each % 2 = 1 ifTrue: [ c sameColorAsBorderColor ] ] ].
 
 	RSGridLayout new

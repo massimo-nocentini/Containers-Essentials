@@ -17,6 +17,15 @@ Array2D >> asArrayOfLinks [
 ]
 
 { #category : #'*Containers-Essentials' }
+Array2D class >> catalan: size [
+
+	^ Array2D
+		  rows: size
+		  columns: size
+		  tabulate: [ :n :k | n - 1 catalan: k - 1 ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Array2D class >> pascal: size [
 
 	^ Array2D

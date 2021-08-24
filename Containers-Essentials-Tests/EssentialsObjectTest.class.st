@@ -80,6 +80,23 @@ EssentialsObjectTest >> testInspect10GoldenRectanglesNested [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspect20CatalanNumbers [
+
+	| catalan |
+	catalan := 20 catalanNumbers.
+
+	self
+		assert: -3 catalanNumbers equals: #(  );
+		assert: 0 catalanNumbers equals: #(  );
+		assert: catalan
+		equals:
+			#( 1 1 2 5 14 42 132 429 1430 4862 16796 58786 208012 742900 2674440
+			   9694845 35357670 129644790 477638700 1767263190 ).
+
+	^ self exportSlotsGraphOf: catalan
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect20FibonacciNumbers [
 
 	| fibs |
@@ -133,6 +150,12 @@ EssentialsObjectTest >> testInspectBRGCodes [
 EssentialsObjectTest >> testInspectBag [
 
 	^ self exportSlotsGraphOf: (Bag withAll: String loremIpsum)
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectCatalanArray [
+
+	^ self exportSlotsGraphOf: (Array2D catalan: 1 << 4)
 ]
 
 { #category : #tests }
@@ -397,6 +420,12 @@ EssentialsObjectTest >> testInspectOneToMany [
 				   Float goldenRatio asValueHolder } ~~> nil)
 		  slotDescriptorsContext:
 		  SlotDescriptorsVisitorOneToManyForValueLinkTesting new
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectPascalArray [
+
+	^ self exportSlotsGraphOf: (Array2D pascal: 1 << 4)
 ]
 
 { #category : #tests }

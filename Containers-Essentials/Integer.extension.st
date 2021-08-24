@@ -103,8 +103,9 @@ Integer >> bitInvert8 [
 
 { #category : #'*Containers-Essentials' }
 Integer >> catalan: k [
+
 	^ (2 * self - k choose: self - k)
-		- (2 * self - k choose: self - k - 1)
+	  - (2 * self - k choose: self - k - 1)
 ]
 
 { #category : #'*Containers-Essentials' }
