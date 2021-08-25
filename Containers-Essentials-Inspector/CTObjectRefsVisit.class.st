@@ -75,10 +75,9 @@ CTObjectRefsVisit >> dfsClockTick [
 { #category : #DFS }
 CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 
-	mineShape propertyDfsTimings:
-		mineShape propertyDfsEntryTime @ dfsClock.
-
 	^ mineShape
+		  propertyDfsTimings: mineShape propertyDfsEntryTime @ dfsClock;
+		  yourself
 ]
 
 { #category : #accessing }
