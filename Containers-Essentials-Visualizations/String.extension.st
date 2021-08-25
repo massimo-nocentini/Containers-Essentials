@@ -1,7 +1,7 @@
 Extension { #name : #String }
 
 { #category : #'*Containers-Essentials-Visualizations' }
-String >> asMultilineLabelShape: aPrototypeLabelShape [
+String >> asShapeMultilineLabel: aPrototypeLabelShape [
 
 	| emptySpaceWidth labels |
 	emptySpaceWidth := (aPrototypeLabelShape copy

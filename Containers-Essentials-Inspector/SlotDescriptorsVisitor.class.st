@@ -120,13 +120,6 @@ SlotDescriptorsVisitor >> visitByteArray: aByteArray [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitCTDoubleValueLink: aValueLink [
-
-	^ { #previousLink asSlotDescriptor }
-	  , (self visitValueLink: aValueLink)
-]
-
-{ #category : #visiting }
 SlotDescriptorsVisitor >> visitClass: aClass [
 
 	^ self visitBehavior: aClass

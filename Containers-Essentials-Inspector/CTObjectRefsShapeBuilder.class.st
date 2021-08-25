@@ -2,7 +2,6 @@ Class {
 	#name : #CTObjectRefsShapeBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'senderVisit',
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
@@ -19,6 +18,134 @@ CTObjectRefsShapeBuilder >> box: aValue [
 		  model: aValue;
 		  color: metaColor translucent lighter lighter;
 		  cornerRadius: self radiusOrPadding;
+		  yourself
+]
+
+{ #category : #visiting }
+CTObjectRefsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
+
+	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
+	padding := self radiusOrPadding.
+
+	classLabel := self pad: classShape.
+
+	varWidth := widthsAssociation key.
+	boxWidth := widthsAssociation value.
+
+	(slotWidth := varWidth + boxWidth) < classLabel width ifTrue: [ 
+		slotWidth
+			isTo: classLabel width
+			as: varWidth
+			isTo: [ :w | varWidth := w ].
+		slotWidth
+			isTo: classLabel width
+			as: boxWidth
+			isTo: [ :w | boxWidth := w ] ].
+
+	varWidth < boxWidth
+		ifTrue: [ 
+			µ := (goldenRatios at: 2)
+				     isTo: boxWidth
+				     as: (goldenRatios at: 3)
+				     isTo: [ :x | 
+					     | ratio |
+					     ratio := goldenRatios first.
+					     ((x - varWidth max: 1) log: ratio) * ratio ].
+
+			π := 0 ]
+		ifFalse: [ 
+			µ := 0.
+			π := (goldenRatios at: 2)
+				     isTo: varWidth
+				     as: (goldenRatios at: 3)
+				     isTo: [ :x | x - boxWidth max: 0 ] ].
+
+	shapes := slotRows collect: [ :slotRow | 
+		          | varLabel valueBox valueLabel valueShape |
+		          "Unpacking."
+		          varLabel := slotRow var.
+		          valueLabel := slotRow label.
+		          valueBox := slotRow box.
+
+		          valueBox width: boxWidth + π.
+
+		          valueShape := valueLabel ifNil: [ valueBox ] ifNotNil: [ 
+			                        RSLocation new
+				                        inner;
+				                        stick: valueLabel on: valueBox.
+			                        RSComposite new
+				                        shapes:
+					                        (Array with: valueBox with: valueLabel);
+				                        yourself ].
+
+		          RSLocation new
+			          left;
+			          outer;
+			          offset: padding negated @ 0;
+			          stick: varLabel on: valueShape.
+
+		          RSComposite new
+			          shapes: (Array with: varLabel with: valueShape);
+			          yourself ].
+
+	RSVerticalLineLayout new
+		verticalGap: padding;
+		on: shapes.
+
+	RSAlignment new
+		shapes: shapes;
+		right.
+
+	location := RSLocation new inner.
+
+	shapes
+		ifEmpty: [ 
+			| x |
+			x := noSlotsShape extent x max: classLabel extent x.
+			noSlotsShape extent: x @ noSlotsShape extent y.
+
+			shapes := Array with: noSlotsShape.
+
+			location center ]
+		ifNotEmpty: [ location right ].
+
+	compositeShape := RSComposite new
+		                  shapes: shapes;
+		                  padding: padding;
+		                  yourself.
+
+	boxedCompositeShape := RSBox new
+		                       color: Color white;
+		                       extent: { 
+				                       (varWidth + µ + boxWidth + π
+				                        + padding triple).
+				                       compositeShape extent x.
+				                       classLabel extent x } max
+			                       @ compositeShape extent y;
+		                       cornerRadius: padding;
+		                       withBorder;
+		                       yourself.
+
+	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
+
+	location stick: compositeShape on: boxedCompositeShape.
+
+	boxedCompositeShape := RSComposite new
+		                       shapes: { 
+				                       boxedCompositeShape.
+				                       compositeShape };
+		                       yourself.
+
+	RSLocation new
+		above;
+		left;
+		offset: classLabel width @ 0;
+		stick: classLabel on: boxedCompositeShape.
+
+	^ mineShape
+		  shapes: { 
+				  classLabel.
+				  boxedCompositeShape };
 		  yourself
 ]
 
@@ -40,7 +167,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 
 	| composite var |
 	var := selector.
-	composite := var asString asMultilineLabelShape: (RSLabel new
+	composite := var asString asShapeMultilineLabel: (RSLabel new
 			              color: Color black;
 			              yourself).
 
@@ -54,7 +181,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 			popup := RSPopup new
 				         shapeBuilder: [ :aComment | 
 					         | commentComposite box |
-					         commentComposite := aComment asMultilineLabelShape:
+					         commentComposite := aComment asShapeMultilineLabel:
 							                             prototypeLabel.
 
 					         box := RSBox new
@@ -99,166 +226,11 @@ CTObjectRefsShapeBuilder >> metaExtent [
 	^ metaExtent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTObjectRefsShapeBuilder >> multilineLabel: anObject [
 
-	^ anObject asString asMultilineLabelShape: prototypeLabel
-]
-
-{ #category : #visiting }
-CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: widthsAssociation shape: mineShape [
-
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
-	padding := self radiusOrPadding.
-
-	classLabel := self padShape:
-		              (aDescriptor header: anObject shapeBuilder: self).
-
-	varWidth := widthsAssociation key.
-	boxWidth := widthsAssociation value.
-
-	(slotWidth := varWidth + boxWidth) < classLabel width ifTrue: [ 
-		slotWidth
-			isTo: classLabel width
-			as: varWidth
-			isTo: [ :w | varWidth := w ].
-		slotWidth
-			isTo: classLabel width
-			as: boxWidth
-			isTo: [ :w | boxWidth := w ] ].
-
-	varWidth < boxWidth
-		ifTrue: [ 
-			µ := (goldenRatios at: 2)
-				     isTo: boxWidth
-				     as: (goldenRatios at: 3)
-				     isTo: [ :x | 
-					     | ratio |
-					     ratio := goldenRatios first.
-					     ((x - varWidth max: 1) log: ratio) * ratio ].
-
-			π := 0 ]
-		ifFalse: [ 
-			µ := 0.
-			π := (goldenRatios at: 2)
-				     isTo: varWidth
-				     as: (goldenRatios at: 3)
-				     isTo: [ :x | x - boxWidth max: 0 ] ].
-
-	shapes := descriptors collect: [ :slotDescriptor | 
-		          | varLabel valueBox valueLabel valueShape |
-		          "Unpacking."
-		          varLabel := slotDescriptor varLabel.
-		          valueLabel := slotDescriptor valueLabel.
-		          valueBox := slotDescriptor valueBox.
-
-		          valueBox width: boxWidth + π.
-
-		          valueShape := valueLabel
-			                        ifNil: [ 
-				                        senderVisit
-					                        fromShapesAt: valueBox
-					                        put: mineShape.
-				                        valueBox ]
-			                        ifNotNil: [ 
-				                        RSLocation new
-					                        inner;
-					                        stick: valueLabel on: valueBox.
-				                        RSComposite new
-					                        shapes:
-						                        (Array with: valueBox with: valueLabel);
-					                        yourself ].
-
-		          RSLocation new
-			          left;
-			          outer;
-			          offset: padding negated @ 0;
-			          stick: varLabel on: valueShape.
-
-		          RSComposite new
-			          shapes: (Array with: varLabel with: valueShape);
-			          yourself ].
-
-	RSVerticalLineLayout new
-		verticalGap: padding;
-		on: shapes.
-
-	RSAlignment new
-		shapes: shapes;
-		right.
-
-	contentLocation := shapes
-		                   ifEmpty: [ 
-			                   | shape x |
-			                   shape := senderVisit
-				                            quotedShapesAt: anObject
-				                            ifPresent: [ :aQuotedShape | 
-					                            classLabel := aDescriptor
-						                                          header:
-						                                          aQuotedShape model
-						                                          shapeBuilder: self.
-					                            aQuotedShape ]
-				                            ifAbsent: [ 
-				                            self multilineLabel: anObject ].
-
-			                   x := shape extent x max: classLabel extent x.
-			                   shape extent: x @ shape extent y.
-
-			                   shapes := Array with: (self padShape: shape).
-
-			                   RSLocation new
-				                   inner;
-				                   left;
-				                   yourself ]
-		                   ifNotEmpty: [ 
-			                   RSLocation new
-				                   inner;
-				                   right;
-				                   yourself ].
-
-	compositeShape := RSComposite new
-		                  shapes: shapes;
-		                  padding: padding;
-		                  yourself.
-
-	boxedCompositeShape := RSBox new
-		                       color: Color white;
-		                       extent: { 
-				                       (varWidth + µ + boxWidth + π
-				                        + padding triple).
-				                       compositeShape extent x.
-				                       classLabel extent x } max
-			                       @ compositeShape extent y;
-		                       cornerRadius: padding;
-		                       withBorder;
-		                       yourself.
-
-	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
-
-	contentLocation stick: compositeShape on: boxedCompositeShape.
-
-	boxedCompositeShape := RSComposite new
-		                       shapes: { 
-				                       boxedCompositeShape.
-				                       compositeShape };
-		                       yourself.
-
-	RSLocation new
-		above;
-		left;
-		offset: classLabel width @ 0;
-		stick: classLabel on: boxedCompositeShape.
-
-	"RSAlignment new
-		shapes: { 
-				classLabel.
-				boxedCompositeShape };
-		left."
-
-	^ mineShape
-		  shapes: { 
-				  classLabel.
-				  boxedCompositeShape };
+	^ (anObject asString asShapeMultilineLabel: prototypeLabel)
+		  model: anObject;
 		  yourself
 ]
 
@@ -271,15 +243,11 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 ]
 
 { #category : #accessing }
-CTObjectRefsShapeBuilder >> padShape: aShape [
-
-	| ratio |
-	ratio := (goldenRatios at: 6) half.
+CTObjectRefsShapeBuilder >> pad: aShape [
 
 	^ RSComposite new
 		  shapes: { aShape };
-		  padding: ("aShape width @ aShape height * ratio max:"
-					   self radiusOrPadding asPoint);
+		  padding: self radiusOrPadding;
 		  yourself
 ]
 
@@ -288,7 +256,7 @@ CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 
 	(prototypeLabel := aLabel) copy in: [ :aShape | 
 		aShape text: 'Ggg'.
-		metaExtent := (self padShape: aShape) extent.
+		metaExtent := (self pad: aShape) extent.
 		metaColor := aShape color lighter lighter lighter.
 		metaFontSize := aShape fontSize * Float silverRatio ]
 ]
@@ -297,10 +265,4 @@ CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 CTObjectRefsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenRatio double
-]
-
-{ #category : #visiting }
-CTObjectRefsShapeBuilder >> senderVisit: anObject [
-
-	senderVisit := anObject
 ]

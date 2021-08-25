@@ -41,25 +41,29 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape 
 		assert: aShape propertyDfsEntryTime isNotNil;
 		assert: aShape propertyDfsLowlink isNotNil.
 
-	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
-		  | scc |
-		  scc := sccs add: OrderedCollection new.
+	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink
+		  ifTrue: [ 
+			  | scc |
+			  scc := sccs add: OrderedCollection new.
 
-		  [ 
-		  sccShapeStack isNotNil and: [ 
-			  sccShapeStack value propertyDfsEntryTime
-			  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
-			  | shape |
-			  shape := sccShapeStack value.
-			  scc add: shape.
-			  sccShapeStack := sccShapeStack nextLink.
-			  shape
-				  propertyDfsSCC: scc;
-				  propertyDfsObjectStack: nil ].
+			  [ 
+			  sccShapeStack isNotNil and: [ 
+				  sccShapeStack value propertyDfsEntryTime
+				  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
+				  | shape |
+				  shape := sccShapeStack value
+					           propertyDfsSCC: scc;
+					           propertyDfsObjectStack: nil;
+					           yourself.
 
-		  self
-			  assert: aShape propertyDfsSCC == scc;
-			  itself: scc ]
+				  scc add: shape.
+
+				  sccShapeStack := sccShapeStack nextLink ].
+
+			  self
+				  assert: aShape propertyDfsSCC == scc;
+				  itself: scc ]
+		  ifFalse: [ Array new ]
 ]
 
 { #category : #DFS }
@@ -71,22 +75,15 @@ CTObjectRefsVisit >> dfsClockTick [
 { #category : #DFS }
 CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 
-	mineShape propertyDfsTimings:
-		mineShape propertyDfsEntryTime @ dfsClock.
-
 	^ mineShape
+		  propertyDfsTimings: mineShape propertyDfsEntryTime @ dfsClock;
+		  yourself
 ]
 
 { #category : #accessing }
 CTObjectRefsVisit >> fromShapes: anObject [
 
 	fromShapes := anObject
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> fromShapesAt: aBoxShape put: aShape [
-
-	^ fromShapes at: aBoxShape put: aShape
 ]
 
 { #category : #initialization }
@@ -107,9 +104,7 @@ CTObjectRefsVisit >> initialize [
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		shapeBuilder: (CTObjectRefsShapeBuilder new
-				 senderVisit: self;
-				 yourself)
+		shapeBuilder: CTObjectRefsShapeBuilder new
 ]
 
 { #category : #accessing }
@@ -127,7 +122,7 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors aShape metaExtent widthsExtent |
+	| descriptors aShape metaExtent widthsExtent slotRows classShape noSlotsShape |
 	aShape := shapeBuilder outline: anObject.
 
 	self
@@ -142,73 +137,87 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 	metaExtent := shapeBuilder metaExtent.
 	widthsExtent := 0 -> metaExtent x.
 
-	descriptors := self
-		               slotsDescriptors: anObject
-		               withIndexDo: [ :childDescriptor :index | 
-			               | valueLabel varLabel valueBox value extent |
-			               value := childDescriptor
-				                        addQuotedShapeInVisit: self;
-				                        value.
+	descriptors := slotDescriptorsContext visit: anObject.
 
-			               valueLabel := self
-				                             valueLabelShapeOf: value
-				                             describedBy: childDescriptor
-				                             level: level
-				                             ifStopped: [ 
-				                             childDescriptor shape: shapeBuilder ]
-				                             ifVisited: [ :shape | 
-				                             self
-					                             shapeHasBeenVisited: shape
-					                             childOfShape: aShape ]
-				                             ifNotVisited: [ 
-					                             self
-						                             valueHasntBeenVisited: value
-						                             describedBy: childDescriptor
-						                             ithChild: index
-						                             ofShape: aShape
-						                             level: level ].
+	slotRows := descriptors withIndexCollect: [ :childDescriptor :index | 
+		            | valueLabel varLabel valueBox value extent |
+		            value := childDescriptor
+			                     on: anObject;
+			                     addQuotedShapeInVisit: self;
+			                     value.
 
-			               varLabel := childDescriptor
-				                           varLabelShapeOf: anObject
-				                           shapeBuilder: shapeBuilder.
+		            valueLabel := self
+			                          valueLabelShapeOf: value
+			                          describedBy: childDescriptor
+			                          level: level
+			                          ifStopped: [ 
+			                          childDescriptor shape: shapeBuilder ]
+			                          ifVisited: [ :anAlreadySeenShape | 
+				                          self
+					                          shapeHasBeenVisited: anAlreadySeenShape
+					                          childOfShape: aShape ]
+			                          ifNotVisited: [ 
+				                          self dfsClockTick.
 
-			               valueBox := shapeBuilder box: value.
+				                          "The DFS clock advanced, now recur."
+				                          self
+					                          valueHasntBeenVisited: value
+					                          describedBy: childDescriptor
+					                          ithChild: index
+					                          parent: anObject
+					                          shape: aShape
+					                          level: level ].
 
-			               extent := valueLabel
-				                         ifNil: [ 
-					                         childDescriptor 
-						                         addHighlightWithLinesInteractionOnShape:
-						                         valueBox.
-					                         widthsExtent value @ metaExtent y ]
-				                         ifNotNil: [ 
-					                         valueLabel := shapeBuilder padShape:
-						                                       valueLabel.
-					                         valueLabel extent x
-					                         @
-					                         (valueLabel extent y max: metaExtent y) ].
+		            varLabel := childDescriptor
+			                        varLabelShapeOf: anObject
+			                        shapeBuilder: shapeBuilder.
 
-			               widthsExtent := (widthsExtent key max:
-				                                varLabel extent x)
-			                               ->
-			                               (widthsExtent value max: extent x).
+		            valueBox := shapeBuilder box: value.
 
-			               valueBox height: (extent y max: varLabel extent y).
+		            extent := valueLabel
+			                      ifNil: [ 
+				                      childDescriptor 
+					                      addHighlightWithLinesInteractionOnShape:
+					                      valueBox.
 
-			               childDescriptor
-				               valueLabel: valueLabel;
-				               varLabel: varLabel;
-				               valueBox: valueBox;
-				               yourself ].
+				                      fromShapes at: valueBox put: aShape.
+
+				                      widthsExtent value @ metaExtent y ]
+			                      ifNotNil: [ 
+				                      valueLabel := shapeBuilder pad: valueLabel.
+				                      valueLabel extent x
+				                      @ (valueLabel extent y max: metaExtent y) ].
+
+		            widthsExtent := (widthsExtent key max: varLabel extent x)
+		                            -> (widthsExtent value max: extent x).
+
+		            valueBox height: (extent y max: varLabel extent y).
+
+		            RSSlotRow var: varLabel box: valueBox label: valueLabel ].
 
 	self
 		dfsClockTick;
 		dfsRecordTimingsOfShape: aShape;
 		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
 
+	noSlotsShape := slotRows
+		                ifEmpty: [ 
+			                quotedShapes
+				                at: anObject
+				                ifAbsent: [ shapeBuilder multilineLabel: anObject ] ]
+		                ifNotEmpty: [ 
+			                RSComposite new
+				                model: anObject;
+				                yourself ].
+
+	classShape := aDescriptor
+		              header: noSlotsShape model
+		              shapeBuilder: shapeBuilder.
+
 	^ shapeBuilder
-		  object: anObject
-		  describedBy: aDescriptor
-		  descriptors: descriptors
+		  classShape: classShape
+		  noSlotsShape: noSlotsShape
+		  descriptors: slotRows
 		  extent: widthsExtent
 		  shape: aShape
 ]
@@ -267,16 +276,6 @@ CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> slotsDescriptors: anObject withIndexDo: aBlock [
-
-	^ (slotDescriptorsContext visit: anObject)
-		  withIndexDo: [ :aDescriptor :index | 
-			  aDescriptor on: anObject.
-			  aBlock value: aDescriptor value: index ];
-		  yourself
-]
-
-{ #category : #accessing }
 CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
@@ -305,16 +304,14 @@ CTObjectRefsVisit >> value [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index ofShape: mineShape level: level [
+CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
 
 	| childShape |
-	self dfsClockTick.
-
 	childShape := self
 		              object: anObject
 		              slotsDescriptor: aDescriptor
 		              childNo: index
-		              parent: mineShape model
+		              parent: aParent
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 

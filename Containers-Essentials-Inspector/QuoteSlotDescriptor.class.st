@@ -72,12 +72,7 @@ QuoteSlotDescriptor >> noHeader [
 { #category : #accessing }
 QuoteSlotDescriptor >> on: anObject [
 
-	| aShapeHolder |
-	aShapeHolder := descriptor
-		                on: anObject;
-		                value.
-		
-	shape := quoteBlock value: aShapeHolder.
+	shape := (descriptor on: anObject) value in: quoteBlock.
 
 	self assert: (shape isKindOf: RSShape).
 
