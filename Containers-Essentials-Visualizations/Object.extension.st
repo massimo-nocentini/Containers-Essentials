@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Object >> acceptSlotDescriptorsVisitor: aVisitor [
+
+	^ aVisitor visitObject: self
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
 
 	^ self
