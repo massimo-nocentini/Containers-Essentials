@@ -145,63 +145,56 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 	metaExtent := shapeBuilder metaExtent.
 	widthsExtent := 0 -> metaExtent x.
 
-	descriptors := self
-		               slotsDescriptors: anObject
-		               withIndexDo: [ :childDescriptor :index | 
-			               | valueLabel varLabel valueBox value extent |
-			               value := childDescriptor
-				                        addQuotedShapeInVisit: self;
-				                        value.
+	descriptors := slotDescriptorsContext visit: anObject.
 
-			               valueLabel := self
-				                             valueLabelShapeOf: value
-				                             describedBy: childDescriptor
-				                             level: level
-				                             ifStopped: [ 
-				                             childDescriptor shape: shapeBuilder ]
-				                             ifVisited: [ :shape | 
-				                             self
-					                             shapeHasBeenVisited: shape
-					                             childOfShape: aShape ]
-				                             ifNotVisited: [ 
-					                             self
-						                             valueHasntBeenVisited: value
-						                             describedBy: childDescriptor
-						                             ithChild: index
-						                             ofShape: aShape
-						                             level: level ].
+	descriptors withIndexDo: [ :childDescriptor :index | 
+		| valueLabel varLabel valueBox value extent |
+		value := childDescriptor
+			         on: anObject;
+			         addQuotedShapeInVisit: self;
+			         value.
 
-			               varLabel := childDescriptor
-				                           varLabelShapeOf: anObject
-				                           shapeBuilder: shapeBuilder.
+		valueLabel := self
+			              valueLabelShapeOf: value
+			              describedBy: childDescriptor
+			              level: level
+			              ifStopped: [ childDescriptor shape: shapeBuilder ]
+			              ifVisited: [ :shape | 
+			              self shapeHasBeenVisited: shape childOfShape: aShape ]
+			              ifNotVisited: [ 
+				              self
+					              valueHasntBeenVisited: value
+					              describedBy: childDescriptor
+					              ithChild: index
+					              ofShape: aShape
+					              level: level ].
 
-			               valueBox := shapeBuilder box: value.
+		varLabel := childDescriptor
+			            varLabelShapeOf: anObject
+			            shapeBuilder: shapeBuilder.
 
-			               extent := valueLabel
-				                         ifNil: [ 
-					                         childDescriptor 
-						                         addHighlightWithLinesInteractionOnShape:
-						                         valueBox.
-					                         widthsExtent value @ metaExtent y ]
-				                         ifNotNil: [ 
-					                         valueLabel := shapeBuilder padShape:
-						                                       valueLabel.
-					                         valueLabel extent x
-					                         @
-					                         (valueLabel extent y max: metaExtent y) ].
+		valueBox := shapeBuilder box: value.
 
-			               widthsExtent := (widthsExtent key max:
-				                                varLabel extent x)
-			                               ->
-			                               (widthsExtent value max: extent x).
+		extent := valueLabel
+			          ifNil: [ 
+				          childDescriptor 
+					          addHighlightWithLinesInteractionOnShape: valueBox.
+				          widthsExtent value @ metaExtent y ]
+			          ifNotNil: [ 
+				          valueLabel := shapeBuilder padShape: valueLabel.
+				          valueLabel extent x
+				          @ (valueLabel extent y max: metaExtent y) ].
 
-			               valueBox height: (extent y max: varLabel extent y).
+		widthsExtent := (widthsExtent key max: varLabel extent x)
+		                -> (widthsExtent value max: extent x).
 
-			               childDescriptor
-				               valueLabel: valueLabel;
-				               varLabel: varLabel;
-				               valueBox: valueBox;
-				               yourself ].
+		valueBox height: (extent y max: varLabel extent y).
+
+		childDescriptor
+			valueLabel: valueLabel;
+			varLabel: varLabel;
+			valueBox: valueBox;
+			yourself ].
 
 	self
 		dfsClockTick;
@@ -267,16 +260,6 @@ CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
 
 	slotDescriptorsContext := aBlock
-]
-
-{ #category : #accessing }
-CTObjectRefsVisit >> slotsDescriptors: anObject withIndexDo: aBlock [
-
-	^ (slotDescriptorsContext visit: anObject)
-		  withIndexDo: [ :aDescriptor :index | 
-			  aDescriptor on: anObject.
-			  aBlock value: aDescriptor value: index ];
-		  yourself
 ]
 
 { #category : #accessing }
