@@ -2,10 +2,7 @@ Class {
 	#name : #PropertySlotDescriptor,
 	#superclass : #Object,
 	#instVars : [
-		'value',
-		'valueLabel',
-		'varLabel',
-		'valueBox'
+		'value'
 	],
 	#category : #'Containers-Essentials-Inspector'
 }
@@ -46,7 +43,7 @@ PropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	self subclassResponsibility
@@ -101,42 +98,6 @@ PropertySlotDescriptor >> shape: aShapeBuilder [
 PropertySlotDescriptor >> value [
 
 	^ value
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> valueBox [
-
-	^ valueBox
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> valueBox: anObject [
-
-	valueBox := anObject
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> valueLabel [
-
-	^ valueLabel
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> valueLabel: anObject [
-
-	valueLabel := anObject
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> varLabel [
-
-	^ varLabel
-]
-
-{ #category : #accessing }
-PropertySlotDescriptor >> varLabel: anObject [
-
-	varLabel := anObject
 ]
 
 { #category : #accessing }

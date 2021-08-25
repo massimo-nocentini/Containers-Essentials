@@ -106,7 +106,7 @@ CTObjectRefsShapeBuilder >> multilineLabel: anObject [
 ]
 
 { #category : #visiting }
-CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: descriptors extent: widthsAssociation shape: mineShape [
+CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: slotRows extent: widthsAssociation shape: mineShape [
 
 	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
 	padding := self radiusOrPadding.
@@ -145,12 +145,12 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 				     as: (goldenRatios at: 3)
 				     isTo: [ :x | x - boxWidth max: 0 ] ].
 
-	shapes := descriptors collect: [ :slotDescriptor | 
+	shapes := slotRows collect: [ :slotRow | 
 		          | varLabel valueBox valueLabel valueShape |
 		          "Unpacking."
-		          varLabel := slotDescriptor varLabel.
-		          valueLabel := slotDescriptor valueLabel.
-		          valueBox := slotDescriptor valueBox.
+		          varLabel := slotRow var.
+		          valueLabel := slotRow label.
+		          valueBox := slotRow box.
 
 		          valueBox width: boxWidth + π.
 
