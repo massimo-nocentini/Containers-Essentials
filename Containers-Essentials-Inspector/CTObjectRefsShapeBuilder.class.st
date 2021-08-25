@@ -39,7 +39,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 
 	| composite var |
 	var := selector.
-	composite := var asString asMultilineLabelShape: (RSLabel new
+	composite := var asString asShapeMultilineLabel: (RSLabel new
 			              color: Color black;
 			              yourself).
 
@@ -53,7 +53,7 @@ CTObjectRefsShapeBuilder >> label: anObject var: selector [
 			popup := RSPopup new
 				         shapeBuilder: [ :aComment | 
 					         | commentComposite box |
-					         commentComposite := aComment asMultilineLabelShape:
+					         commentComposite := aComment asShapeMultilineLabel:
 							                             prototypeLabel.
 
 					         box := RSBox new
@@ -101,7 +101,7 @@ CTObjectRefsShapeBuilder >> metaExtent [
 { #category : #accessing }
 CTObjectRefsShapeBuilder >> multilineLabel: anObject [
 
-	^ anObject asString asMultilineLabelShape: prototypeLabel
+	^ anObject asString asShapeMultilineLabel: prototypeLabel
 ]
 
 { #category : #visiting }

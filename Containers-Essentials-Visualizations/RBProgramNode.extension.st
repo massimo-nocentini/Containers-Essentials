@@ -25,7 +25,7 @@ RBProgramNode >> inspectorRoassalTree [
 			              italic;
 			              yourself.
 
-		valueShape := (each formattedCode asMultilineLabelShape:
+		valueShape := (each formattedCode asShapeMultilineLabel:
 				               prototypeLabelShape)
 			              padding: doubleGR;
 			              yourself.
