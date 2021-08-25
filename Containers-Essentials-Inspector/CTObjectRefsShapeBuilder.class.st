@@ -110,7 +110,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
 	padding := self radiusOrPadding.
 
-	classLabel := self padShape:
+	classLabel := self pad:
 		              (aDescriptor header: anObject shapeBuilder: self).
 
 	varWidth := widthsAssociation key.
@@ -203,7 +203,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 			                   x := shape extent x max: classLabel extent x.
 			                   shape extent: x @ shape extent y.
 
-			                   shapes := Array with: (self padShape: shape).
+			                   shapes := Array with: (self pad: shape).
 
 			                   RSLocation new
 				                   inner;
@@ -270,15 +270,11 @@ CTObjectRefsShapeBuilder >> outline: anObject [
 ]
 
 { #category : #accessing }
-CTObjectRefsShapeBuilder >> padShape: aShape [
-
-	| ratio |
-	ratio := (goldenRatios at: 6) half.
+CTObjectRefsShapeBuilder >> pad: aShape [
 
 	^ RSComposite new
 		  shapes: { aShape };
-		  padding: ("aShape width @ aShape height * ratio max:"
-					   self radiusOrPadding asPoint);
+		  padding: self radiusOrPadding;
 		  yourself
 ]
 
@@ -287,7 +283,7 @@ CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 
 	(prototypeLabel := aLabel) copy in: [ :aShape | 
 		aShape text: 'Ggg'.
-		metaExtent := (self padShape: aShape) extent.
+		metaExtent := (self pad: aShape) extent.
 		metaColor := aShape color lighter lighter lighter.
 		metaFontSize := aShape fontSize * Float silverRatio ]
 ]

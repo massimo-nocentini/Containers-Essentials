@@ -158,16 +158,20 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 			                          level: level
 			                          ifStopped: [ 
 			                          childDescriptor shape: shapeBuilder ]
-			                          ifVisited: [ :shape | 
-			                          self
-				                          shapeHasBeenVisited: shape
-				                          childOfShape: aShape ]
+			                          ifVisited: [ :anAlreadySeenShape | 
+				                          self
+					                          shapeHasBeenVisited: anAlreadySeenShape
+					                          childOfShape: aShape ]
 			                          ifNotVisited: [ 
+				                          self dfsClockTick.
+
+				                          "The DFS clock advanced, now recur."
 				                          self
 					                          valueHasntBeenVisited: value
 					                          describedBy: childDescriptor
 					                          ithChild: index
-					                          ofShape: aShape
+					                          parent: anObject
+					                          shape: aShape
 					                          level: level ].
 
 		            varLabel := childDescriptor
@@ -183,7 +187,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 					                      valueBox.
 				                      widthsExtent value @ metaExtent y ]
 			                      ifNotNil: [ 
-				                      valueLabel := shapeBuilder padShape:
+				                      valueLabel := shapeBuilder pad:
 					                                    valueLabel.
 				                      valueLabel extent x
 				                      @ (valueLabel extent y max: metaExtent y) ].
@@ -291,16 +295,14 @@ CTObjectRefsVisit >> value [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index ofShape: mineShape level: level [
+CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
 
 	| childShape |
-	self dfsClockTick.
-
 	childShape := self
 		              object: anObject
 		              slotsDescriptor: aDescriptor
 		              childNo: index
-		              parent: mineShape model
+		              parent: aParent
 		              level: level + 1.
 
 	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
