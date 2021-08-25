@@ -41,25 +41,29 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape 
 		assert: aShape propertyDfsEntryTime isNotNil;
 		assert: aShape propertyDfsLowlink isNotNil.
 
-	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
-		  | scc |
-		  scc := sccs add: OrderedCollection new.
+	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink
+		  ifTrue: [ 
+			  | scc |
+			  scc := sccs add: OrderedCollection new.
 
-		  [ 
-		  sccShapeStack isNotNil and: [ 
-			  sccShapeStack value propertyDfsEntryTime
-			  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
-			  | shape |
-			  shape := sccShapeStack value.
-			  scc add: shape.
-			  sccShapeStack := sccShapeStack nextLink.
-			  shape
-				  propertyDfsSCC: scc;
-				  propertyDfsObjectStack: nil ].
+			  [ 
+			  sccShapeStack isNotNil and: [ 
+				  sccShapeStack value propertyDfsEntryTime
+				  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
+				  | shape |
+				  shape := sccShapeStack value
+					           propertyDfsSCC: scc;
+					           propertyDfsObjectStack: nil;
+					           yourself.
 
-		  self
-			  assert: aShape propertyDfsSCC == scc;
-			  itself: scc ]
+				  scc add: shape.
+
+				  sccShapeStack := sccShapeStack nextLink ].
+
+			  self
+				  assert: aShape propertyDfsSCC == scc;
+				  itself: scc ]
+		  ifFalse: [ Array new ]
 ]
 
 { #category : #DFS }
