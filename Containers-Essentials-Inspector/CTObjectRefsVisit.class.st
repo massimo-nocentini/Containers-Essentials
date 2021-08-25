@@ -110,9 +110,7 @@ CTObjectRefsVisit >> initialize [
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		shapeBuilder: (CTObjectRefsShapeBuilder new
-				 senderVisit: self;
-				 yourself)
+		shapeBuilder: CTObjectRefsShapeBuilder new
 ]
 
 { #category : #accessing }
@@ -208,6 +206,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		  descriptors: slotRows
 		  extent: widthsExtent
 		  shape: aShape
+		  senderVisit: self
 ]
 
 { #category : #dispatched }

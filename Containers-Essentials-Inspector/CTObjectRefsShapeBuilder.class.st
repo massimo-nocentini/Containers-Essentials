@@ -2,7 +2,6 @@ Class {
 	#name : #CTObjectRefsShapeBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'senderVisit',
 		'metaColor',
 		'metaFontSize',
 		'metaExtent',
@@ -99,14 +98,14 @@ CTObjectRefsShapeBuilder >> metaExtent [
 	^ metaExtent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTObjectRefsShapeBuilder >> multilineLabel: anObject [
 
 	^ anObject asString asMultilineLabelShape: prototypeLabel
 ]
 
 { #category : #visiting }
-CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: slotRows extent: widthsAssociation shape: mineShape [
+CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptors: slotRows extent: widthsAssociation shape: mineShape senderVisit: aSender [
 
 	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
 	padding := self radiusOrPadding.
@@ -156,7 +155,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 
 		          valueShape := valueLabel
 			                        ifNil: [ 
-				                        senderVisit
+				                        aSender
 					                        fromShapesAt: valueBox
 					                        put: mineShape.
 				                        valueBox ]
@@ -190,7 +189,7 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 	contentLocation := shapes
 		                   ifEmpty: [ 
 			                   | shape x |
-			                   shape := senderVisit
+			                   shape := aSender
 				                            quotedShapesAt: anObject
 				                            ifPresent: [ :aQuotedShape | 
 					                            classLabel := aDescriptor
@@ -297,10 +296,4 @@ CTObjectRefsShapeBuilder >> prototypeLabel: aLabel [
 CTObjectRefsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenRatio double
-]
-
-{ #category : #visiting }
-CTObjectRefsShapeBuilder >> senderVisit: anObject [
-
-	senderVisit := anObject
 ]
