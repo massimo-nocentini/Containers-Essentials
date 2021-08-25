@@ -122,7 +122,7 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors aShape metaExtent widthsExtent slotRows |
+	| descriptors aShape metaExtent widthsExtent slotRows classShape noSlotsShape |
 	aShape := shapeBuilder outline: anObject.
 
 	self
@@ -200,13 +200,26 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 		dfsRecordTimingsOfShape: aShape;
 		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
 
+	noSlotsShape := slotRows
+		                ifEmpty: [ 
+			                quotedShapes
+				                at: anObject
+				                ifAbsent: [ shapeBuilder multilineLabel: anObject ] ]
+		                ifNotEmpty: [ 
+			                RSComposite new
+				                model: anObject;
+				                yourself ].
+
+	classShape := aDescriptor
+		              header: noSlotsShape model
+		              shapeBuilder: shapeBuilder.
+
 	^ shapeBuilder
-		  object: anObject
-		  describedBy: aDescriptor
+		  classShape: classShape
+		  noSlotsShape: noSlotsShape
 		  descriptors: slotRows
 		  extent: widthsExtent
 		  shape: aShape
-		  senderVisit: self
 ]
 
 { #category : #dispatched }
