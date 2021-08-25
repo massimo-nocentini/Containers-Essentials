@@ -86,12 +86,6 @@ CTObjectRefsVisit >> fromShapes: anObject [
 	fromShapes := anObject
 ]
 
-{ #category : #accessing }
-CTObjectRefsVisit >> fromShapesAt: aBoxShape put: aShape [
-
-	^ fromShapes at: aBoxShape put: aShape
-]
-
 { #category : #initialization }
 CTObjectRefsVisit >> initialize [
 
@@ -185,10 +179,12 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 				                      childDescriptor 
 					                      addHighlightWithLinesInteractionOnShape:
 					                      valueBox.
+
+				                      fromShapes at: valueBox put: aShape.
+
 				                      widthsExtent value @ metaExtent y ]
 			                      ifNotNil: [ 
-				                      valueLabel := shapeBuilder pad:
-					                                    valueLabel.
+				                      valueLabel := shapeBuilder pad: valueLabel.
 				                      valueLabel extent x
 				                      @ (valueLabel extent y max: metaExtent y) ].
 

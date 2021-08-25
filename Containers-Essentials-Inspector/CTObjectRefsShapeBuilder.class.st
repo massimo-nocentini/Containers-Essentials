@@ -153,20 +153,14 @@ CTObjectRefsShapeBuilder >> object: anObject describedBy: aDescriptor descriptor
 
 		          valueBox width: boxWidth + π.
 
-		          valueShape := valueLabel
-			                        ifNil: [ 
-				                        aSender
-					                        fromShapesAt: valueBox
-					                        put: mineShape.
-				                        valueBox ]
-			                        ifNotNil: [ 
-				                        RSLocation new
-					                        inner;
-					                        stick: valueLabel on: valueBox.
-				                        RSComposite new
-					                        shapes:
-						                        (Array with: valueBox with: valueLabel);
-					                        yourself ].
+		          valueShape := valueLabel ifNil: [ valueBox ] ifNotNil: [ 
+			                        RSLocation new
+				                        inner;
+				                        stick: valueLabel on: valueBox.
+			                        RSComposite new
+				                        shapes:
+					                        (Array with: valueBox with: valueLabel);
+				                        yourself ].
 
 		          RSLocation new
 			          left;
