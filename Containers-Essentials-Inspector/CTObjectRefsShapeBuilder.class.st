@@ -24,7 +24,7 @@ CTObjectRefsShapeBuilder >> box: aValue [
 { #category : #visiting }
 CTObjectRefsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
 
-	| shapes boxedCompositeShape compositeShape contentLocation classLabel padding boxWidth varWidth µ π slotWidth |
+	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
 	padding := self radiusOrPadding.
 
 	classLabel := self pad: classShape.
@@ -96,24 +96,18 @@ CTObjectRefsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape de
 		shapes: shapes;
 		right.
 
-	contentLocation := shapes
-		                   ifEmpty: [ 
-			                   | x |
-			                   x := noSlotsShape extent x max:
-				                        classLabel extent x.
-			                   noSlotsShape extent: x @ noSlotsShape extent y.
+	location := RSLocation new inner.
 
-			                   shapes := Array with: (self pad: noSlotsShape).
+	shapes
+		ifEmpty: [ 
+			| x |
+			x := noSlotsShape extent x max: classLabel extent x.
+			noSlotsShape extent: x @ noSlotsShape extent y.
 
-			                   RSLocation new
-				                   inner;
-				                   left;
-				                   yourself ]
-		                   ifNotEmpty: [ 
-			                   RSLocation new
-				                   inner;
-				                   right;
-				                   yourself ].
+			shapes := Array with: noSlotsShape.
+
+			location center ]
+		ifNotEmpty: [ location right ].
 
 	compositeShape := RSComposite new
 		                  shapes: shapes;
@@ -134,7 +128,7 @@ CTObjectRefsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape de
 
 	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
 
-	contentLocation stick: compositeShape on: boxedCompositeShape.
+	location stick: compositeShape on: boxedCompositeShape.
 
 	boxedCompositeShape := RSComposite new
 		                       shapes: { 
@@ -147,12 +141,6 @@ CTObjectRefsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape de
 		left;
 		offset: classLabel width @ 0;
 		stick: classLabel on: boxedCompositeShape.
-
-	"RSAlignment new
-		shapes: { 
-				classLabel.
-				boxedCompositeShape };
-		left."
 
 	^ mineShape
 		  shapes: { 
