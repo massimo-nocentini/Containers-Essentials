@@ -1,6 +1,6 @@
 Class {
-	#name : #BlockSlotDescriptor,
-	#superclass : #PropertySlotDescriptor,
+	#name : #CTBlockSlotDescriptor,
+	#superclass : #CTPropertySlotDescriptor,
 	#instVars : [
 		'blockClosure',
 		'selector',
@@ -12,13 +12,13 @@ Class {
 }
 
 { #category : #visiting }
-BlockSlotDescriptor >> addDraggableInteractionOnShape: aShape [
+CTBlockSlotDescriptor >> addDraggableInteractionOnShape: aShape [
 
 	aShape addInteraction: RSDraggable new
 ]
 
 { #category : #visiting }
-BlockSlotDescriptor >> addHighlightInteractionOnShape: aShape [
+CTBlockSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	aShape addInteraction:
 		(RSHighlightable withStronglyConnectedComponents: [ :shape | 
@@ -27,13 +27,13 @@ BlockSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 ]
 
 { #category : #visiting }
-BlockSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+CTBlockSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
 
 	aShape addInteraction: RSHighlightable withLines
 ]
 
 { #category : #visiting }
-BlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
+CTBlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	aShape addInteraction: (RSPopup new text: [ :each | 
 			 String streamContents: [ :aStream | 
@@ -52,7 +52,7 @@ BlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
+CTBlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 
 	"Nothing to do because I don't have a quoted shape."
 
@@ -60,25 +60,25 @@ BlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> blockClosure: anObject [
+CTBlockSlotDescriptor >> blockClosure: anObject [
 
 	blockClosure := anObject
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> header: aBlock [
+CTBlockSlotDescriptor >> header: aBlock [
 
 	header := aBlock
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTBlockSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	^ header value: anObject value: aShapeBuilder
 ]
 
 { #category : #initialization }
-BlockSlotDescriptor >> headerWithAllSuperclasses [
+CTBlockSlotDescriptor >> headerWithAllSuperclasses [
 
 	self header: [ :anObject :aShapeBuilder | 
 		anObject class asShapeAllSuperclassesIndented: [ :each | 
@@ -86,7 +86,7 @@ BlockSlotDescriptor >> headerWithAllSuperclasses [
 ]
 
 { #category : #initialization }
-BlockSlotDescriptor >> headerWithClass [
+CTBlockSlotDescriptor >> headerWithClass [
 
 	self header: [ :anObject :aShapeBuilder | 
 		anObject class asShapeClass: [ :each | 
@@ -94,7 +94,7 @@ BlockSlotDescriptor >> headerWithClass [
 ]
 
 { #category : #initialization }
-BlockSlotDescriptor >> initialize [
+CTBlockSlotDescriptor >> initialize [
 
 	super initialize.
 
@@ -106,91 +106,91 @@ BlockSlotDescriptor >> initialize [
 ]
 
 { #category : #dispatching }
-BlockSlotDescriptor >> inline: aController [
+CTBlockSlotDescriptor >> inline: aController [
 
 	aController inlineFromSlotDescriptor: self
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
+CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inline value: anObject value: level value: aBoolean
 ]
 
 { #category : #dispatched }
-BlockSlotDescriptor >> inlineBlockClosure: aBlock [
+CTBlockSlotDescriptor >> inlineBlockClosure: aBlock [
 
 	inline := aBlock
 ]
 
 { #category : #dispatched }
-BlockSlotDescriptor >> inlineBoolean: aBoolean [
+CTBlockSlotDescriptor >> inlineBoolean: aBoolean [
 
 	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> instVarNameHasBeenGiven [
+CTBlockSlotDescriptor >> instVarNameHasBeenGiven [
 
 	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
 ]
 
 { #category : #testing }
-BlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTBlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	isOneToMany ifTrue: [ aVisit oneToMany: self value ]
 ]
 
 { #category : #initialization }
-BlockSlotDescriptor >> noHeader [
+CTBlockSlotDescriptor >> noHeader [
 
 	self header: [ :anObject :aShapeBuilder | RSBoundingShape nilShape ]
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> on: anObject [
+CTBlockSlotDescriptor >> on: anObject [
 
 	value := blockClosure cull: anObject cull: self selector
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> oneToMany [
+CTBlockSlotDescriptor >> oneToMany [
 
 	isOneToMany := true
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> oneToOne [
+CTBlockSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> selector [
+CTBlockSlotDescriptor >> selector [
 
 	^ selector
 ]
 
 { #category : #accessing }
-BlockSlotDescriptor >> selector: anObject [
+CTBlockSlotDescriptor >> selector: anObject [
 
 	selector := anObject
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> selectorHasBeenGiven [
+CTBlockSlotDescriptor >> selectorHasBeenGiven [
 
 	self blockClosure: [ :anObj :aSelector | anObj perform: aSelector ]
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> shape: aShapeBuilder [
+CTBlockSlotDescriptor >> shape: aShapeBuilder [
 
 	^ aShapeBuilder multilineLabel: self value
 ]
 
 { #category : #'as yet unclassified' }
-BlockSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTBlockSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
 	^ aShapeBuilder label: anObject var: self selector
 ]

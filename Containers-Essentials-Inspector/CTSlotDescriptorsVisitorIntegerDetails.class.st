@@ -1,11 +1,11 @@
 Class {
-	#name : #SlotDescriptorsVisitorIntegerDetails,
-	#superclass : #SlotDescriptorsVisitor,
+	#name : #CTSlotDescriptorsVisitorIntegerDetails,
+	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
+CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
 		  (#asStringDecimal asSlotDescriptor inline: true).

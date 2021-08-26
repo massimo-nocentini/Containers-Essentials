@@ -1,5 +1,5 @@
 Class {
-	#name : #SlotDescriptorsVisitor,
+	#name : #CTSlotDescriptorsVisitor,
 	#superclass : #Object,
 	#instVars : [
 		'rootDescriptor',
@@ -9,9 +9,9 @@ Class {
 }
 
 { #category : #copying }
-SlotDescriptorsVisitor >> collect: aBlock [
+CTSlotDescriptorsVisitor >> collect: aBlock [
 
-	^ SlotDescriptorsVisitorCollect basicNew
+	^ CTSlotDescriptorsVisitorCollect basicNew
 		  slotDescriptorsContext: self;
 		  blockClosure: aBlock;
 		  initialize;
@@ -19,7 +19,7 @@ SlotDescriptorsVisitor >> collect: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
-SlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
+CTSlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
 
 	aWalker
 		rootObject: anObject;
@@ -29,7 +29,7 @@ SlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
 ]
 
 { #category : #initialization }
-SlotDescriptorsVisitor >> initialize [
+CTSlotDescriptorsVisitor >> initialize [
 
 	super initialize.
 	
@@ -37,25 +37,25 @@ SlotDescriptorsVisitor >> initialize [
 ]
 
 { #category : #accessing }
-SlotDescriptorsVisitor >> rootDescriptor [
+CTSlotDescriptorsVisitor >> rootDescriptor [
 
 	^ rootDescriptor
 ]
 
 { #category : #accessing }
-SlotDescriptorsVisitor >> rootDescriptor: anObject [
+CTSlotDescriptorsVisitor >> rootDescriptor: anObject [
 
 	rootDescriptor := anObject
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visit: anObject [
+CTSlotDescriptorsVisitor >> visit: anObject [
 
 	^ anObject acceptSlotDescriptorsVisitor: self
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitArray2D: aMatrix [
+CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 
 	^ (self visitObject: aMatrix) allButFirst
 	  , { #asArrayOfLinks asSlotDescriptor }
@@ -65,14 +65,14 @@ SlotDescriptorsVisitor >> visitArray2D: aMatrix [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitArray: anArray [
+CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
 		  index asString asSlotDescriptor blockClosure: [ each ] ]
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitBag: aBag [
+CTSlotDescriptorsVisitor >> visitBag: aBag [
 
 	^ { 
 		  #associations asSlotDescriptor.
@@ -82,7 +82,7 @@ SlotDescriptorsVisitor >> visitBag: aBag [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitBehavior: aBehavior [
+CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 	^ { 
 		  (#name asSlotDescriptor inline: true).
@@ -93,7 +93,7 @@ SlotDescriptorsVisitor >> visitBehavior: aBehavior [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitBlockClosure: aBlock [
+CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 
 	| copied |
 	copied := aBlock sourceNode allVariables flatCollect: [ :aRBVariable | 
@@ -108,7 +108,7 @@ SlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitByteArray: aByteArray [
+CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 
 	^ { 
 		  #hex asSlotDescriptor.
@@ -120,13 +120,13 @@ SlotDescriptorsVisitor >> visitByteArray: aByteArray [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitClass: aClass [
+CTSlotDescriptorsVisitor >> visitClass: aClass [
 
 	^ self visitBehavior: aClass
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitColor: aColor [
+CTSlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)
 	  , { (#asShapeColoredBox asSlotDescriptor
@@ -135,7 +135,7 @@ SlotDescriptorsVisitor >> visitColor: aColor [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
+CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 
 	^ { 
 		  #methodClassName asSlotDescriptor.
@@ -144,7 +144,7 @@ SlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitContext: aContext [
+CTSlotDescriptorsVisitor >> visitContext: aContext [
 
 	^ { 
 		  #home asSlotDescriptor.
@@ -163,7 +163,7 @@ SlotDescriptorsVisitor >> visitContext: aContext [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
+CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
 		  (#asTimeZoneString asSlotDescriptor inline: true).
@@ -179,13 +179,13 @@ SlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitDictionary: aDictionary [
+CTSlotDescriptorsVisitor >> visitDictionary: aDictionary [
 
 	^ self visitObject: aDictionary
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
+CTSlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
 
 	^ { 
 		  #previousLink asSlotDescriptor.
@@ -194,7 +194,7 @@ SlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitDuration: aDuration [
+CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 
 	^ { 
 		  #asDays asSlotDescriptor.
@@ -208,13 +208,13 @@ SlotDescriptorsVisitor >> visitDuration: aDuration [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
+CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 
 	^  { (#printString asSlotDescriptor inline: true) }
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitFileReference: aFileReference [
+CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 
 	^ (self visitObject: aFileReference) , { 
 		  #fullName asSlotDescriptor.
@@ -223,7 +223,7 @@ SlotDescriptorsVisitor >> visitFileReference: aFileReference [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitFraction: aFraction [
+CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
 	^ (self visitObject: aFraction) , { 
 		  #floor asSlotDescriptor.
@@ -239,7 +239,7 @@ SlotDescriptorsVisitor >> visitFraction: aFraction [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
+CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 
 	^ { 
 		  #a asSlotDescriptor.
@@ -275,7 +275,7 @@ SlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitHeap: aHeap [
+CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	^ (self visitObject: aHeap) , { (#asShapeValueTree asSlotDescriptor
 		   inline: true;
@@ -283,26 +283,26 @@ SlotDescriptorsVisitor >> visitHeap: aHeap [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitInteger: anInteger [
+CTSlotDescriptorsVisitor >> visitInteger: anInteger [
 
 	^ self visitObject: anInteger
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitLink: aLink [
+CTSlotDescriptorsVisitor >> visitLink: aLink [
 
 	^ { #nextLink asSlotDescriptor }
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitObject: anObject [
+CTSlotDescriptorsVisitor >> visitObject: anObject [
 
 	^ anObject class allInstVarNames collect: [ :varName | 
 		  varName asSlotDescriptor instVarNameHasBeenGiven ]
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitPoint: aPoint [
+CTSlotDescriptorsVisitor >> visitPoint: aPoint [
 
 	^ (self visitObject: aPoint) , { 
 		  #π asSlotDescriptor.
@@ -310,14 +310,14 @@ SlotDescriptorsVisitor >> visitPoint: aPoint [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitPointArray: aPointArray [
+CTSlotDescriptorsVisitor >> visitPointArray: aPointArray [
 
 	^ (self visitObject: aPointArray)
 	  , { #asShapeDots asSlotDescriptor quote }
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
+CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 
 	^ { 
 		  #a asSlotDescriptor.
@@ -335,14 +335,14 @@ SlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
+CTSlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 
 	^ (self visitObject: aShape)
 	  , { #asShapeQuoted asSlotDescriptor quote }
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitRSGroup: aGroup [
+CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 
 	^ (self visitArray: aGroup) collect: [ :each | 
 		  each
@@ -351,7 +351,7 @@ SlotDescriptorsVisitor >> visitRSGroup: aGroup [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitRandom: aRandom [
+CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 
 	^ (self visitObject: aRandom) , { (#asShapeScatter asSlotDescriptor
 		   inline: true;
@@ -359,13 +359,13 @@ SlotDescriptorsVisitor >> visitRandom: aRandom [
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitStack: aStack [
+CTSlotDescriptorsVisitor >> visitStack: aStack [
 
 	^ { #firstLink asSlotDescriptor }
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitor >> visitValueLink: aValueLink [
+CTSlotDescriptorsVisitor >> visitValueLink: aValueLink [
 
 	^ { #value asSlotDescriptor } , (self visitLink: aValueLink)
 ]

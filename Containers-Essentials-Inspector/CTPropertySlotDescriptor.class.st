@@ -1,5 +1,5 @@
 Class {
-	#name : #PropertySlotDescriptor,
+	#name : #CTPropertySlotDescriptor,
 	#superclass : #Object,
 	#instVars : [
 		'value'
@@ -8,100 +8,100 @@ Class {
 }
 
 { #category : #accessing }
-PropertySlotDescriptor >> addDraggableInteractionOnShape: aShape [
+CTPropertySlotDescriptor >> addDraggableInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
+CTPropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+CTPropertySlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
+CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
+CTPropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
+CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTPropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> noHeader [
+CTPropertySlotDescriptor >> noHeader [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> on: anObject [
+CTPropertySlotDescriptor >> on: anObject [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> quote [
+CTPropertySlotDescriptor >> quote [
 
 	^ self quote: [ :aShape | aShape ]
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> quote: aBlock [
+CTPropertySlotDescriptor >> quote: aBlock [
 
-	^ QuoteSlotDescriptor new
+	^ CTQuoteSlotDescriptor new
 		  quoteBlock: aBlock;
 		  descriptor: self;
 		  yourself
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> selector [
+CTPropertySlotDescriptor >> selector [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> shape: aShapeBuilder [
+CTPropertySlotDescriptor >> shape: aShapeBuilder [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> value [
+CTPropertySlotDescriptor >> value [
 
 	^ value
 ]
 
 { #category : #accessing }
-PropertySlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTPropertySlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility
 ]

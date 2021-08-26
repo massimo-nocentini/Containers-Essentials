@@ -1,11 +1,11 @@
 Class {
-	#name : #SlotDescriptorsVisitorNestedLinks,
-	#superclass : #SlotDescriptorsVisitor,
+	#name : #CTSlotDescriptorsVisitorNestedLinks,
+	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorNestedLinks >> visitLink: aLink [
+CTSlotDescriptorsVisitorNestedLinks >> visitLink: aLink [
 
 	^ { (#nextLink asSlotDescriptor
 		   blockClosure: [ aLink nextLink asShapeSlotsDfsTree: self ];

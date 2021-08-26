@@ -62,7 +62,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotDescriptorsContext: SlotDescriptorsVisitor new
+		  slotDescriptorsContext: CTSlotDescriptorsVisitor new
 ]
 
 { #category : #utilities }
@@ -70,7 +70,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject pathSuffix: aSuffix [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotDescriptorsContext: SlotDescriptorsVisitor new
+		  slotDescriptorsContext: CTSlotDescriptorsVisitor new
 		  pathSuffix: aSuffix
 ]
 

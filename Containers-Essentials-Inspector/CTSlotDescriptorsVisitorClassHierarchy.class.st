@@ -1,11 +1,11 @@
 Class {
-	#name : #SlotDescriptorsVisitorClassHierarchy,
-	#superclass : #SlotDescriptorsVisitor,
+	#name : #CTSlotDescriptorsVisitorClassHierarchy,
+	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Inspector'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
+CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 
 	^ Array streamContents: [ :aStream | 
 		  aStream nextPut: #name asSlotDescriptor.

@@ -1,6 +1,6 @@
 Class {
-	#name : #SlotDescriptorsVisitorCollect,
-	#superclass : #SlotDescriptorsVisitor,
+	#name : #CTSlotDescriptorsVisitorCollect,
+	#superclass : #CTSlotDescriptorsVisitor,
 	#instVars : [
 		'blockClosure',
 		'slotDescriptorsContext'
@@ -9,19 +9,19 @@ Class {
 }
 
 { #category : #accessing }
-SlotDescriptorsVisitorCollect >> blockClosure [
+CTSlotDescriptorsVisitorCollect >> blockClosure [
 
 	^ blockClosure
 ]
 
 { #category : #accessing }
-SlotDescriptorsVisitorCollect >> blockClosure: anObject [
+CTSlotDescriptorsVisitorCollect >> blockClosure: anObject [
 
 	blockClosure := anObject
 ]
 
 { #category : #initialization }
-SlotDescriptorsVisitorCollect >> initialize [
+CTSlotDescriptorsVisitorCollect >> initialize [
 
 	super initialize.
 
@@ -30,19 +30,19 @@ SlotDescriptorsVisitorCollect >> initialize [
 ]
 
 { #category : #accessing }
-SlotDescriptorsVisitorCollect >> slotDescriptorsContext [
+CTSlotDescriptorsVisitorCollect >> slotDescriptorsContext [
 
 	^ slotDescriptorsContext
 ]
 
 { #category : #accessing }
-SlotDescriptorsVisitorCollect >> slotDescriptorsContext: anObject [
+CTSlotDescriptorsVisitorCollect >> slotDescriptorsContext: anObject [
 
 	slotDescriptorsContext := anObject
 ]
 
 { #category : #visiting }
-SlotDescriptorsVisitorCollect >> visit: anObject [
+CTSlotDescriptorsVisitorCollect >> visit: anObject [
 
 	^ (self slotDescriptorsContext visit: anObject) collect:
 		  self blockClosure

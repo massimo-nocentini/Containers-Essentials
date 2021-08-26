@@ -65,7 +65,7 @@ Integer >> inspectorCanvasRepresentations [
 	^ RSCanvas new
 		  add:
 			  (self asShapeSlotsDfsTree:
-					   SlotDescriptorsVisitorIntegerDetails new);
+					   CTSlotDescriptorsVisitorIntegerDetails new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]

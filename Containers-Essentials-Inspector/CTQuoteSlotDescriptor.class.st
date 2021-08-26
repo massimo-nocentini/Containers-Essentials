@@ -1,6 +1,6 @@
 Class {
-	#name : #QuoteSlotDescriptor,
-	#superclass : #PropertySlotDescriptor,
+	#name : #CTQuoteSlotDescriptor,
+	#superclass : #CTPropertySlotDescriptor,
 	#instVars : [
 		'descriptor',
 		'shape',
@@ -10,67 +10,67 @@ Class {
 }
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addDraggableInteractionOnShape: aShape [
+CTQuoteSlotDescriptor >> addDraggableInteractionOnShape: aShape [
 
 	^ descriptor addDraggableInteractionOnShape: aShape
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
+CTQuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	^ descriptor addHighlightInteractionOnShape: aShape
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
+CTQuoteSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
 
 	^ descriptor addHighlightWithLinesInteractionOnShape: aShape
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
+CTQuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	^ descriptor addPopupInteractionOnShape: aShape
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
+CTQuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
 
 	^ aReceiver addQuotedShape: shape model: value
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> descriptor: anObject [
+CTQuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
 { #category : #initialization }
-QuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	^ descriptor header: anObject shapeBuilder: aShapeBuilder
 ]
 
 { #category : #'as yet unclassified' }
-QuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
+CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	^ descriptor inline: anObject level: anInteger default: aBoolean
 ]
 
 { #category : #testing }
-QuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTQuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
 
 	^ descriptor isOneToManyFromVisit: aVisit
 ]
 
 { #category : #initialization }
-QuoteSlotDescriptor >> noHeader [
+CTQuoteSlotDescriptor >> noHeader [
 
 	descriptor noHeader
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> on: anObject [
+CTQuoteSlotDescriptor >> on: anObject [
 
 	shape := (descriptor on: anObject) value in: quoteBlock.
 
@@ -80,25 +80,25 @@ QuoteSlotDescriptor >> on: anObject [
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> quoteBlock: aBlock [
+CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 
 	quoteBlock := aBlock
 ]
 
 { #category : #accessing }
-QuoteSlotDescriptor >> selector [
+CTQuoteSlotDescriptor >> selector [
 
 	^ descriptor selector
 ]
 
 { #category : #testing }
-QuoteSlotDescriptor >> shape: aShapeBuilder [
+CTQuoteSlotDescriptor >> shape: aShapeBuilder [
 
 	^ shape
 ]
 
 { #category : #initialization }
-QuoteSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTQuoteSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
 	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
 ]

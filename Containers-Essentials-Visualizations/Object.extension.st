@@ -60,7 +60,7 @@ Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 100 title: 'Slots graph'>
 	^ RSCanvas new
-		  add: (self asShapeSlotsDfsTree: SlotDescriptorsVisitor new);
+		  add: (self asShapeSlotsDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -73,7 +73,7 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 	^ RSCanvas new
 		  add:
 			  (self asShapeSlotsCollapsedSCCsDfsTree:
-					   SlotDescriptorsVisitor new);
+					   CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -95,7 +95,7 @@ Object >> inspectorCanvasSlotsGraphLayered [
 
 	<inspectorPresentationOrder: 150 title: 'Layered slots graph'>
 	^ RSCanvas new
-		  add: (self asShapeSlotsLayeredDfsTree: SlotDescriptorsVisitor new);
+		  add: (self asShapeSlotsLayeredDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -111,7 +111,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 120 title: 'SCCs of Slots graph'>
 	^ RSCanvas new
-		  add: (self asShapeSlotsSCCsDfsTree: SlotDescriptorsVisitor new);
+		  add: (self asShapeSlotsSCCsDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -129,7 +129,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 	'Slots graph, topologically sorted.'>
 	^ RSCanvas new
 		  add: (self asShapeSlotsTopologicallySortedDfsTree:
-					   SlotDescriptorsVisitor new);
+					   CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
