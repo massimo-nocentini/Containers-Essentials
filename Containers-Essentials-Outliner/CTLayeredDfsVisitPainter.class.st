@@ -1,23 +1,23 @@
 Class {
-	#name : #CTSlotsLayeredDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#name : #CTLayeredDfsVisitPainter,
+	#superclass : #CTDfsVisitPainter,
 	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTLayeredDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTLayeredDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ #(  )
 ]
 
 { #category : #adding }
-CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection [
+CTLayeredDfsVisitPainter >> shapes: aCollection [
 
 	| levelShapes gr location layout |
 	gr := Float goldenRatio double.

@@ -1,6 +1,6 @@
 Class {
-	#name : #CTSlotsSCCsDfsTreeDrawer,
-	#superclass : #CTSCCsDfsTreeDrawer,
+	#name : #CTSccDfsVisitPainter,
+	#superclass : #CTBaseSccDfsVisitPainter,
 	#instVars : [
 		'edgessOfSCCs'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	backTuples do: [ :aTuple | 
 		self fixEndShapeOfTuple: aTuple ifNecessary: [ :toShape | 
@@ -19,7 +19,7 @@ CTSlotsSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := crossTuples collect: [ :aTuple | 
@@ -34,7 +34,7 @@ CTSlotsSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	| edge |
 	edge := super edgeForTuple: aTuple lineBuilder: lineBuilder.
@@ -49,7 +49,7 @@ CTSlotsSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
+CTSccDfsVisitPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 
 	| boxShape boxParentShape toSCCShape fromSCCShape |
 	boxShape := aTuple propertyFromSlotShape.
@@ -65,7 +65,7 @@ CTSlotsSCCsDfsTreeDrawer >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := forwardTuples collect: [ :aTuple | 
@@ -80,7 +80,7 @@ CTSlotsSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilde
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: aCollectionOfLines [
+CTSccDfsVisitPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 
 	stronglyConnectedComponents do: [ :each | 
 		| sccShape |
@@ -94,7 +94,7 @@ CTSlotsSCCsDfsTreeDrawer >> layoutOn: sccShapes edges: aCollectionOfLines [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples tuplesOfSCCs |
 	tuplesOfSCCs := IdentityDictionary new.
@@ -141,7 +141,7 @@ CTSlotsSCCsDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #adding }
-CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection [
+CTSccDfsVisitPainter >> shapes: aCollection [
 
 	| scale max lowerBound sccsShapes |
 	lowerBound := 1.
@@ -173,7 +173,7 @@ CTSlotsSCCsDfsTreeDrawer >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsSCCsDfsTreeDrawer >> treeTuples: treeTuples lineBuilder: lineBuilder [
+CTSccDfsVisitPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := treeTuples collect: [ :aTuple | 

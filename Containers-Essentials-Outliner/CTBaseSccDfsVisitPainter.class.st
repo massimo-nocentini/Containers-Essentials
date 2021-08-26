@@ -1,6 +1,6 @@
 Class {
-	#name : #CTSCCsDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#name : #CTBaseSccDfsVisitPainter,
+	#superclass : #CTDfsVisitPainter,
 	#instVars : [
 		'stronglyConnectedComponents',
 		'shapeBySCC'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #accessing }
-CTSCCsDfsTreeDrawer >> visit [
+CTBaseSccDfsVisitPainter >> visit [
 
 	shapeBySCC := IdentityDictionary new.
 	stronglyConnectedComponents := OrderedCollection new.

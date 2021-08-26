@@ -1,11 +1,11 @@
 Class {
-	#name : #CTSlotsTopologicallySortedDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#name : #CTTopologicalSortDfsVisitPainter,
+	#superclass : #CTDfsVisitPainter,
 	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> backLinesBuilder [
+CTTopologicalSortDfsVisitPainter >> backLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -28,7 +28,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> backLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> crossLinesBuilder [
+CTTopologicalSortDfsVisitPainter >> crossLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -51,7 +51,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> crossLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> forwardLinesBuilder [
+CTTopologicalSortDfsVisitPainter >> forwardLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -73,7 +73,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> forwardLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTTopologicalSortDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new
 		alignCenter;
@@ -81,13 +81,13 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: 
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTTopologicalSortDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ Array empty
 ]
 
 { #category : #adding }
-CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection [
+CTTopologicalSortDfsVisitPainter >> shapes: aCollection [
 
 	| sortedShapes |
 	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
@@ -98,7 +98,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> treeLinesBuilder [
+CTTopologicalSortDfsVisitPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.

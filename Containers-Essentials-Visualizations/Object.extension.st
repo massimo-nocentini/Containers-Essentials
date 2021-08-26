@@ -10,7 +10,7 @@ Object >> acceptSlotDescriptorsVisitor: aVisitor [
 Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
 
 	^ self
-		  asShapeTreeDrawer: CTSlotsCollapsedSCCsDfsTreeDrawer new
+		  asShapeTreeDrawer: CTCollapsedSccDfsVisitPainter new
 		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
@@ -18,7 +18,7 @@ Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
 Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
 
 	^ self
-		  asShapeTreeDrawer: CTSlotsDfsTreeDrawer new
+		  asShapeTreeDrawer: CTDfsVisitPainter new
 		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
@@ -26,7 +26,7 @@ Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
 Object >> asShapeSlotsLayeredDfsTree: aSlotDescriptorsContext [
 
 	^ self
-		  asShapeTreeDrawer: CTSlotsLayeredDfsTreeDrawer new
+		  asShapeTreeDrawer: CTLayeredDfsVisitPainter new
 		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
@@ -34,7 +34,7 @@ Object >> asShapeSlotsLayeredDfsTree: aSlotDescriptorsContext [
 Object >> asShapeSlotsSCCsDfsTree: aSlotDescriptorsContext [
 
 	^ self
-		  asShapeTreeDrawer: CTSlotsSCCsDfsTreeDrawer new
+		  asShapeTreeDrawer: CTSccDfsVisitPainter new
 		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
@@ -42,7 +42,7 @@ Object >> asShapeSlotsSCCsDfsTree: aSlotDescriptorsContext [
 Object >> asShapeSlotsTopologicallySortedDfsTree: aSlotDescriptorsContext [
 
 	^ self
-		  asShapeTreeDrawer: CTSlotsTopologicallySortedDfsTreeDrawer new
+		  asShapeTreeDrawer: CTTopologicalSortDfsVisitPainter new
 		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
 
