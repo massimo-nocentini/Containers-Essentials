@@ -58,7 +58,7 @@ Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsCon
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraph [
 
-	<inspectorPresentationOrder: 100 title: 'Slots graph'>
+	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
 	^ RSCanvas new
 		  add: (self asShapeSlotsDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
@@ -68,7 +68,7 @@ Object >> inspectorCanvasSlotsGraph [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 
-	<inspectorPresentationOrder: 130 title:
+	<inspectorPresentationOrder: 1002 title:
 	'Collapsed SCCs of Slots graph'>
 	^ RSCanvas new
 		  add:
@@ -93,7 +93,7 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphLayered [
 
-	<inspectorPresentationOrder: 150 title: 'Layered slots graph'>
+	<inspectorPresentationOrder: 1004 title: 'Layered slots graph'>
 	^ RSCanvas new
 		  add: (self asShapeSlotsLayeredDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
@@ -109,7 +109,7 @@ Object >> inspectorCanvasSlotsGraphLayeredContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphSCCs [
 
-	<inspectorPresentationOrder: 120 title: 'SCCs of Slots graph'>
+	<inspectorPresentationOrder: 1001 title: 'SCCs of Slots graph'>
 	^ RSCanvas new
 		  add: (self asShapeSlotsSCCsDfsTree: CTSlotDescriptorsVisitor new);
 		  addInteraction: RSCanvasController new;
@@ -125,7 +125,7 @@ Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 
-	<inspectorPresentationOrder: 110 title:
+	<inspectorPresentationOrder: 1003 title:
 	'Slots graph, topologically sorted.'>
 	^ RSCanvas new
 		  add: (self asShapeSlotsTopologicallySortedDfsTree:
