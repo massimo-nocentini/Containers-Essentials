@@ -1,3 +1,6 @@
+"
+I am a variant that enriches the slot descriptors for Integer objects.
+"
 Class {
 	#name : #CTSlotDescriptorsVisitorIntegerDetails,
 	#superclass : #CTSlotDescriptorsVisitor,

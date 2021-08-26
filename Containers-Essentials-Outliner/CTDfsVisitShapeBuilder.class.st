@@ -1,3 +1,6 @@
+"
+I provide basic shape constructors to be assembled in an outliner shape.
+"
 Class {
 	#name : #CTDfsVisitShapeBuilder,
 	#superclass : #Object,

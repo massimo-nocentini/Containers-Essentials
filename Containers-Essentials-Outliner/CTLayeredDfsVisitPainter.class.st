@@ -1,3 +1,6 @@
+"
+I am a variant that group outline shapes if they are equally far from the root outliner.
+"
 Class {
 	#name : #CTLayeredDfsVisitPainter,
 	#superclass : #CTDfsVisitPainter,

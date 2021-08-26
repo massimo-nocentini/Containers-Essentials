@@ -1,3 +1,6 @@
+"
+I am able to compose the final tree representation of outliners provided by `CTDfsVisitWalker`.
+"
 Class {
 	#name : #CTDfsVisitPainter,
 	#superclass : #Object,

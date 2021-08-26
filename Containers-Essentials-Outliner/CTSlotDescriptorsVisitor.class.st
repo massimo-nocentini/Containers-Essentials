@@ -1,3 +1,7 @@
+"
+I am a visitor of more common objects in order to return a collection of slot descriptors
+corresponding to their classes, respectively.
+"
 Class {
 	#name : #CTSlotDescriptorsVisitor,
 	#superclass : #Object,

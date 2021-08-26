@@ -1,3 +1,6 @@
+"
+I am a variant that uses a block to gather a reference to an object to be visited.
+"
 Class {
 	#name : #CTBlockSlotDescriptor,
 	#superclass : #CTPropertySlotDescriptor,

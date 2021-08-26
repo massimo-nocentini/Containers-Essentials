@@ -1,3 +1,6 @@
+"
+I am a variant that shows a tree of strongly connected components and, by double-click, I expand the clicked one.
+"
 Class {
 	#name : #CTCollapsedSccDfsVisitPainter,
 	#superclass : #CTBaseSccDfsVisitPainter,

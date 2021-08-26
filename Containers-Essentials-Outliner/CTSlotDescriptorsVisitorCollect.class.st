@@ -1,3 +1,6 @@
+"
+I am a variant that decorates a slot descriptors visitor by collecting the collection by a given block.
+"
 Class {
 	#name : #CTSlotDescriptorsVisitorCollect,
 	#superclass : #CTSlotDescriptorsVisitor,

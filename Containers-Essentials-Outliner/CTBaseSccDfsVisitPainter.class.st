@@ -1,3 +1,6 @@
+"
+I am a variant that sets up my super class to take care of Strongly Connected Components.
+"
 Class {
 	#name : #CTBaseSccDfsVisitPainter,
 	#superclass : #CTDfsVisitPainter,
