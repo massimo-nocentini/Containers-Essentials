@@ -1,6 +1,15 @@
 Extension { #name : #String }
 
 { #category : #'*Containers-Essentials' }
+String >> largestIndexUntil: aBlock [
+
+	self withIndexDo: [ :each :index | 
+		(aBlock value: each) ifFalse: [ ^ index - 1 ] ].
+
+	^ 0
+]
+
+{ #category : #'*Containers-Essentials' }
 String >> subscript [
 	| subscripts |
 	subscripts := self class subscripts.

@@ -39,23 +39,6 @@ String >> asShapeMultilineLabel: aPrototypeLabelShape [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-String >> asSlotDescriptor [
-
-	^ CTBlockSlotDescriptor new
-		  selector: self;
-		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-String >> largestIndexUntil: aBlock [
-
-	self withIndexDo: [ :each :index | 
-		(aBlock value: each) ifFalse: [ ^ index - 1 ] ].
-
-	^ 0
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
 String >> onBox: boxShape setSizeFrom: aCharacter [
 
 	^ boxShape

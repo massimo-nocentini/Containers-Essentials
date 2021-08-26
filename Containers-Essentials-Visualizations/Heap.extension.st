@@ -65,19 +65,3 @@ Heap >> asShapeValueTree [
 		  shapes: shapes , edges;
 		  yourself
 ]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Heap >> inspectorCanvasValuesTree [
-
-	<inspectorPresentationOrder: 90 title: 'Values tree'>
-	^ RSCanvas new
-		  add: self asShapeValueTree;
-		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Heap >> inspectorCanvasValuesTreeContext: aContext [
-
-	aContext withoutEvaluator
-]

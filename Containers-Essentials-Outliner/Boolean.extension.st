@@ -1,6 +1,6 @@
 Extension { #name : #Boolean }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : #'*Containers-Essentials-Outliner' }
 Boolean >> inlineFromSlotDescriptor: aSlotDescriptor [
 
 	^ aSlotDescriptor inlineBoolean: self

@@ -1,9 +1,9 @@
 Extension { #name : #RBProgramNode }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : #'*Containers-Essentials-Outliner' }
 RBProgramNode >> inspectorRoassalTree [
 
-	<inspectorPresentationOrder: 100 title: 'Roassal Tree'>
+	<inspectorPresentationOrder: 1010 title: 'Roassal Tree'>
 	| shapes edges indexes associations doubleGR emptySpaceWidth prototypeLabelShape |
 	doubleGR := Float goldenRatio double.
 	indexes := IdentityDictionary new.
@@ -86,7 +86,7 @@ RBProgramNode >> inspectorRoassalTree [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : #'*Containers-Essentials-Outliner' }
 RBProgramNode >> inspectorRoassalTreeContext: aContext [
 
 	aContext withoutEvaluator
