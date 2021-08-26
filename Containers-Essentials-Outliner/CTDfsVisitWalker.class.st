@@ -1,5 +1,5 @@
 Class {
-	#name : #CTObjectRefsVisit,
+	#name : #CTDfsVisitWalker,
 	#superclass : #Object,
 	#instVars : [
 		'toShapes',
@@ -19,13 +19,13 @@ Class {
 }
 
 { #category : #dispatched }
-CTObjectRefsVisit >> addQuotedShape: shape model: value [
+CTDfsVisitWalker >> addQuotedShape: shape model: value [
 
 	^ quotedShapes at: value put: shape
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
+CTDfsVisitWalker >> atLevel: aNumber putShape: aShape [
 
 	aShape propertyDfsDepth: aNumber.
 
@@ -35,7 +35,7 @@ CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
+CTDfsVisitWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 	self
 		assert: aShape propertyDfsEntryTime isNotNil;
@@ -67,13 +67,13 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape 
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> dfsClockTick [
+CTDfsVisitWalker >> dfsClockTick [
 
 	^ dfsClock := dfsClock + 1
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
+CTDfsVisitWalker >> dfsRecordTimingsOfShape: mineShape [
 
 	^ mineShape
 		  propertyDfsTimings: mineShape propertyDfsEntryTime @ dfsClock;
@@ -81,13 +81,13 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> fromShapes: anObject [
+CTDfsVisitWalker >> fromShapes: anObject [
 
 	fromShapes := anObject
 ]
 
 { #category : #initialization }
-CTObjectRefsVisit >> initialize [
+CTDfsVisitWalker >> initialize [
 
 	super initialize.
 
@@ -104,23 +104,23 @@ CTObjectRefsVisit >> initialize [
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		shapeBuilder: CTObjectRefsShapeBuilder new
+		shapeBuilder: CTDfsVisitShapeBuilder new
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> levels: aDictionary [
+CTDfsVisitWalker >> levels: aDictionary [
 
 	levels := aDictionary
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> maxLevel: anObject [
+CTDfsVisitWalker >> maxLevel: anObject [
 
 	maxLevel := anObject
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
+CTDfsVisitWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
 	"https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm"
 
@@ -225,7 +225,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 ]
 
 { #category : #dispatched }
-CTObjectRefsVisit >> oneToMany: aValue [
+CTDfsVisitWalker >> oneToMany: aValue [
 
 	| manyShapes |
 	manyShapes := aValue collect: [ :each | toShapes at: each ].
@@ -234,31 +234,31 @@ CTObjectRefsVisit >> oneToMany: aValue [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> oneToManyShapes: aDictionary [
+CTDfsVisitWalker >> oneToManyShapes: aDictionary [
 
 	oneToManyShapes := aDictionary
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
+CTDfsVisitWalker >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
 
 	^ quotedShapes at: anObject ifPresent: pBlock ifAbsent: aBlock
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> rootObject: anObject [
+CTDfsVisitWalker >> rootObject: anObject [
 
 	rootObject := anObject
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> shapeBuilder: aShapeBuilder [
+CTDfsVisitWalker >> shapeBuilder: aShapeBuilder [
 
 	shapeBuilder := aShapeBuilder
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
+CTDfsVisitWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
 	| shapeEntryTime |
 	shapeEntryTime := childShape propertyDfsEntryTime.
@@ -272,25 +272,25 @@ CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
+CTDfsVisitWalker >> slotDescriptorsContext: aBlock [
 
 	slotDescriptorsContext := aBlock
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
+CTDfsVisitWalker >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> toShapes: anObject [
+CTDfsVisitWalker >> toShapes: anObject [
 
 	toShapes := anObject
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> value [
+CTDfsVisitWalker >> value [
 
 	| aShape |
 	aShape := self
@@ -306,7 +306,7 @@ CTObjectRefsVisit >> value [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
+CTDfsVisitWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
 
 	| childShape |
 	childShape := self
@@ -323,7 +323,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor it
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
+CTDfsVisitWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	| shouldInline |
 	shouldInline := descriptor
@@ -343,7 +343,7 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> visitingShape: aShape of: anObject [
+CTDfsVisitWalker >> visitingShape: aShape of: anObject [
 
 	toShapes at: anObject put: aShape.
 
