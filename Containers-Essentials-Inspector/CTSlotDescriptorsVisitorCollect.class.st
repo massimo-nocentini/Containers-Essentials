@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-CTSlotDescriptorsVisitorCollect >> blockClosure [
-
-	^ blockClosure
-]
-
-{ #category : #accessing }
 CTSlotDescriptorsVisitorCollect >> blockClosure: anObject [
 
 	blockClosure := anObject
@@ -26,13 +20,7 @@ CTSlotDescriptorsVisitorCollect >> initialize [
 	super initialize.
 
 	self rootDescriptor:
-		(self blockClosure value: self slotDescriptorsContext rootDescriptor)
-]
-
-{ #category : #accessing }
-CTSlotDescriptorsVisitorCollect >> slotDescriptorsContext [
-
-	^ slotDescriptorsContext
+		(blockClosure value: slotDescriptorsContext rootDescriptor)
 ]
 
 { #category : #accessing }
@@ -44,6 +32,5 @@ CTSlotDescriptorsVisitorCollect >> slotDescriptorsContext: anObject [
 { #category : #visiting }
 CTSlotDescriptorsVisitorCollect >> visit: anObject [
 
-	^ (self slotDescriptorsContext visit: anObject) collect:
-		  self blockClosure
+	^ (slotDescriptorsContext visit: anObject) collect: blockClosure
 ]
