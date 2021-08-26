@@ -2,7 +2,7 @@
 I provide basic shape constructors to be assembled in an outliner shape.
 "
 Class {
-	#name : #CTDfsVisitShapeBuilder,
+	#name : #CTDfsShapeBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'metaColor',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> box: aValue [
+CTDfsShapeBuilder >> box: aValue [
 
 	^ RSBox new
 		  model: aValue;
@@ -25,7 +25,7 @@ CTDfsVisitShapeBuilder >> box: aValue [
 ]
 
 { #category : #visiting }
-CTDfsVisitShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
+CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
 
 	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
 	padding := self radiusOrPadding.
@@ -153,7 +153,7 @@ CTDfsVisitShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape desc
 ]
 
 { #category : #initialization }
-CTDfsVisitShapeBuilder >> initialize [
+CTDfsShapeBuilder >> initialize [
 
 	super initialize.
 
@@ -166,7 +166,7 @@ CTDfsVisitShapeBuilder >> initialize [
 ]
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> label: anObject var: selector [
+CTDfsShapeBuilder >> label: anObject var: selector [
 
 	| composite var |
 	var := selector.
@@ -212,7 +212,7 @@ CTDfsVisitShapeBuilder >> label: anObject var: selector [
 ]
 
 { #category : #initialization }
-CTDfsVisitShapeBuilder >> labelForClass: aClass [
+CTDfsShapeBuilder >> labelForClass: aClass [
 
 	^ RSLabel new
 		  text: aClass name;
@@ -224,13 +224,13 @@ CTDfsVisitShapeBuilder >> labelForClass: aClass [
 ]
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> metaExtent [
+CTDfsShapeBuilder >> metaExtent [
 
 	^ metaExtent
 ]
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> multilineLabel: anObject [
+CTDfsShapeBuilder >> multilineLabel: anObject [
 
 	^ (anObject asString asShapeMultilineLabel: prototypeLabel)
 		  model: anObject;
@@ -238,7 +238,7 @@ CTDfsVisitShapeBuilder >> multilineLabel: anObject [
 ]
 
 { #category : #visiting }
-CTDfsVisitShapeBuilder >> outline: anObject [
+CTDfsShapeBuilder >> outline: anObject [
 
 	^ RSComposite new
 		  model: anObject;
@@ -246,7 +246,7 @@ CTDfsVisitShapeBuilder >> outline: anObject [
 ]
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> pad: aShape [
+CTDfsShapeBuilder >> pad: aShape [
 
 	^ RSComposite new
 		  shapes: { aShape };
@@ -255,7 +255,7 @@ CTDfsVisitShapeBuilder >> pad: aShape [
 ]
 
 { #category : #accessing }
-CTDfsVisitShapeBuilder >> prototypeLabel: aLabel [
+CTDfsShapeBuilder >> prototypeLabel: aLabel [
 
 	(prototypeLabel := aLabel) copy in: [ :aShape | 
 		aShape text: 'Ggg'.
@@ -265,7 +265,7 @@ CTDfsVisitShapeBuilder >> prototypeLabel: aLabel [
 ]
 
 { #category : #visiting }
-CTDfsVisitShapeBuilder >> radiusOrPadding [
+CTDfsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenRatio double
 ]

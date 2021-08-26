@@ -9,7 +9,9 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'levels',
-		'oneToManyShapes'
+		'oneToManyShapes',
+		'shapes',
+		'edges'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -298,7 +300,7 @@ CTDfsPainter >> visit [
 { #category : #accessing }
 CTDfsPainter >> visit: anObject [
 
-	| shapes edges edgesForLayout forbiddenShapes |
+	| edgesForLayout forbiddenShapes |
 	visit := anObject.
 
 	self visit.

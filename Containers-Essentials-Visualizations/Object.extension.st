@@ -52,7 +52,7 @@ Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsCon
 	^ aSlotDescriptorsContext
 		  draw: self
 		  using: aDrawer
-		  walking: CTDfsVisitWalker new
+		  walking: CTDfsWalker new
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
