@@ -5,7 +5,7 @@ Class {
 		'rootDescriptor',
 		'isOneToMany'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #copying }

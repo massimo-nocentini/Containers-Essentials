@@ -1,7 +1,7 @@
 Class {
 	#name : #CTSlotDescriptorsVisitorClassHierarchy,
 	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #visiting }

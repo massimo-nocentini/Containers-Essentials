@@ -5,7 +5,7 @@ Class {
 		'stronglyConnectedComponents',
 		'shapeBySCC'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #accessing }

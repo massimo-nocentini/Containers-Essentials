@@ -8,7 +8,7 @@ Class {
 		'prototypeLabel',
 		'goldenRatios'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #accessing }

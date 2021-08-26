@@ -8,7 +8,7 @@ Class {
 		'levels',
 		'oneToManyShapes'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }

@@ -5,7 +5,7 @@ Class {
 		'blockClosure',
 		'slotDescriptorsContext'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #accessing }

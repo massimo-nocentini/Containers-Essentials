@@ -1,7 +1,7 @@
 Class {
 	#name : #CTSlotsTopologicallySortedDfsTreeDrawer,
 	#superclass : #CTSlotsDfsTreeDrawer,
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
