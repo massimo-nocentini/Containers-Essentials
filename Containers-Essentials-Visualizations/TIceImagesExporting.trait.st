@@ -93,7 +93,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlo
 			  | aShape |
 			  aShape := aSlotDescriptorsContext
 				            draw: anObject
-				            using: CTDfsVisitPainter new
+				            using: CTDfsPainter new
 				            walking: CTDfsVisitWalker new.
 
 			  aCanvas add: aShape ]

@@ -2,7 +2,7 @@
 I am able to compose the final tree representation of outliners provided by `CTDfsVisitWalker`.
 "
 Class {
-	#name : #CTDfsVisitPainter,
+	#name : #CTDfsPainter,
 	#superclass : #Object,
 	#instVars : [
 		'visit',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> backLinesBuilder [
+CTDfsPainter >> backLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -38,14 +38,14 @@ CTDfsVisitPainter >> backLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder [
+CTDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	^ backTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> crossLinesBuilder [
+CTDfsPainter >> crossLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -68,14 +68,14 @@ CTDfsVisitPainter >> crossLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
+CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	^ crossTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
 		  edgeFrom: aTuple propertyFromSlotShape
@@ -84,7 +84,7 @@ CTDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
+CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 
 	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations |
 	treeAssociations := OrderedCollection new.
@@ -149,7 +149,7 @@ CTDfsVisitPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock 
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> forwardLinesBuilder [
+CTDfsPainter >> forwardLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -171,14 +171,14 @@ CTDfsVisitPainter >> forwardLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ forwardTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
+CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
 
 	^ fromShape == toShape
 		  ifTrue: bBlock
@@ -208,13 +208,13 @@ CTDfsVisitPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForw
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> layoutLinesBuilder [
+CTDfsPainter >> layoutLinesBuilder [
 
 	^ RSLineBuilder line
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalVanDerPloegTreeLayout
 		on: aCollectionOfShapes
@@ -222,7 +222,7 @@ CTDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| layoutAssociations |
 	"Should be better to use an order-preserving dictionary for the sake of efficiency."
@@ -243,13 +243,13 @@ CTDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #adding }
-CTDfsVisitPainter >> shapes: aCollection [
+CTDfsPainter >> shapes: aCollection [
 
 	^ aCollection
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> treeLinesBuilder [
+CTDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -273,14 +273,14 @@ CTDfsVisitPainter >> treeLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
+CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
 { #category : #'as yet unclassified' }
-CTDfsVisitPainter >> visit [
+CTDfsPainter >> visit [
 
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
@@ -296,7 +296,7 @@ CTDfsVisitPainter >> visit [
 ]
 
 { #category : #accessing }
-CTDfsVisitPainter >> visit: anObject [
+CTDfsPainter >> visit: anObject [
 
 	| shapes edges edgesForLayout forbiddenShapes |
 	visit := anObject.

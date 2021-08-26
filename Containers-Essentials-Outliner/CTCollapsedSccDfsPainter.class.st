@@ -2,8 +2,8 @@
 I am a variant that shows a tree of strongly connected components and, by double-click, I expand the clicked one.
 "
 Class {
-	#name : #CTCollapsedSccDfsVisitPainter,
-	#superclass : #CTBaseSccDfsVisitPainter,
+	#name : #CTCollapsedSccDfsPainter,
+	#superclass : #CTBaseSccDfsPainter,
 	#instVars : [
 		'associations',
 		'outgoingEdges',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := self liftTuples: backTuples.
@@ -26,7 +26,7 @@ CTCollapsedSccDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> cpapControllerBezierDirected [
+CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 
 	^ RSStartEndCPAPController new
 		  controller: RSDirectedBezierCPAPController new;
@@ -36,7 +36,7 @@ CTCollapsedSccDfsVisitPainter >> cpapControllerBezierDirected [
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> cpapControllerHorizontal [
+CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 
 	^ RSStartEndCPAPController new
 		  controller: RSHorizontalCPAPController new;
@@ -46,7 +46,7 @@ CTCollapsedSccDfsVisitPainter >> cpapControllerHorizontal [
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples crossEdges |
 	tuples := (self liftTuples: crossTuples) reject: [ :aTuple | 
@@ -66,7 +66,7 @@ CTCollapsedSccDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuild
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
 		  edgeFrom: aTuple propertyFromShape
@@ -74,7 +74,7 @@ CTCollapsedSccDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> fixFromToShapesOfTuple: aTuple [
+CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
 	fromSCCShape := shapeBySCC at:
@@ -89,7 +89,7 @@ CTCollapsedSccDfsVisitPainter >> fixFromToShapesOfTuple: aTuple [
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ super
 		  forwardTuples: (self liftTuples: forwardTuples)
@@ -97,7 +97,7 @@ CTCollapsedSccDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineB
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
 	layoutLineBuilder := lineBuilder.
 	^ super
@@ -106,7 +106,7 @@ CTCollapsedSccDfsVisitPainter >> layoutTuples: aCollection lineBuilder: lineBuil
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> liftTuples: tuples [
+CTCollapsedSccDfsPainter >> liftTuples: tuples [
 
 	^ tuples
 		  collect: [ :aTuple | self fixFromToShapesOfTuple: aTuple ]
@@ -114,7 +114,7 @@ CTCollapsedSccDfsVisitPainter >> liftTuples: tuples [
 ]
 
 { #category : #adding }
-CTCollapsedSccDfsVisitPainter >> shapes: aCollection [
+CTCollapsedSccDfsPainter >> shapes: aCollection [
 
 	| sccsShapes |
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
@@ -205,7 +205,7 @@ CTCollapsedSccDfsVisitPainter >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTCollapsedSccDfsVisitPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 
 	treeTuples := aCollection.
 	treeEdgeBuilder := lineBuilder.
@@ -220,7 +220,7 @@ CTCollapsedSccDfsVisitPainter >> treeTuples: aCollection lineBuilder: lineBuilde
 ]
 
 { #category : #initialization }
-CTCollapsedSccDfsVisitPainter >> visit [
+CTCollapsedSccDfsPainter >> visit [
 
 	associations := Set new.
 	

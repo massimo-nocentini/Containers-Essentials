@@ -3,8 +3,8 @@ I am a variant that layout the outliner shapes by strongly connected components 
 each component, is layouted as well.
 "
 Class {
-	#name : #CTSccDfsVisitPainter,
-	#superclass : #CTBaseSccDfsVisitPainter,
+	#name : #CTSccDfsPainter,
+	#superclass : #CTBaseSccDfsPainter,
 	#instVars : [
 		'edgessOfSCCs'
 	],
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder [
+CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	backTuples do: [ :aTuple | 
 		self fixEndShapeOfTuple: aTuple ifNecessary: [ :toShape | 
@@ -23,7 +23,7 @@ CTSccDfsVisitPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
+CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := crossTuples collect: [ :aTuple | 
@@ -38,7 +38,7 @@ CTSccDfsVisitPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	| edge |
 	edge := super edgeForTuple: aTuple lineBuilder: lineBuilder.
@@ -53,7 +53,7 @@ CTSccDfsVisitPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
+CTSccDfsPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 
 	| boxShape boxParentShape toSCCShape fromSCCShape |
 	boxShape := aTuple propertyFromSlotShape.
@@ -69,7 +69,7 @@ CTSccDfsVisitPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := forwardTuples collect: [ :aTuple | 
@@ -84,7 +84,7 @@ CTSccDfsVisitPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
+CTSccDfsPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 
 	stronglyConnectedComponents do: [ :each | 
 		| sccShape |
@@ -98,7 +98,7 @@ CTSccDfsVisitPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples tuplesOfSCCs |
 	tuplesOfSCCs := IdentityDictionary new.
@@ -145,7 +145,7 @@ CTSccDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #adding }
-CTSccDfsVisitPainter >> shapes: aCollection [
+CTSccDfsPainter >> shapes: aCollection [
 
 	| scale max lowerBound sccsShapes |
 	lowerBound := 1.
@@ -177,7 +177,7 @@ CTSccDfsVisitPainter >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTSccDfsVisitPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
+CTSccDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := treeTuples collect: [ :aTuple | 

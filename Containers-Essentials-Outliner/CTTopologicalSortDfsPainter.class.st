@@ -2,13 +2,13 @@
 I am a variant that layout the outline shapes in a vertical line acording to the topological order among them.
 "
 Class {
-	#name : #CTTopologicalSortDfsVisitPainter,
-	#superclass : #CTDfsVisitPainter,
+	#name : #CTTopologicalSortDfsPainter,
+	#superclass : #CTDfsPainter,
 	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> backLinesBuilder [
+CTTopologicalSortDfsPainter >> backLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -31,7 +31,7 @@ CTTopologicalSortDfsVisitPainter >> backLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> crossLinesBuilder [
+CTTopologicalSortDfsPainter >> crossLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -54,7 +54,7 @@ CTTopologicalSortDfsVisitPainter >> crossLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> forwardLinesBuilder [
+CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -76,7 +76,7 @@ CTTopologicalSortDfsVisitPainter >> forwardLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new
 		alignCenter;
@@ -84,13 +84,13 @@ CTTopologicalSortDfsVisitPainter >> layoutOn: aCollectionOfShapes edges: aCollec
 ]
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ Array empty
 ]
 
 { #category : #adding }
-CTTopologicalSortDfsVisitPainter >> shapes: aCollection [
+CTTopologicalSortDfsPainter >> shapes: aCollection [
 
 	| sortedShapes |
 	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
@@ -101,7 +101,7 @@ CTTopologicalSortDfsVisitPainter >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTTopologicalSortDfsVisitPainter >> treeLinesBuilder [
+CTTopologicalSortDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
