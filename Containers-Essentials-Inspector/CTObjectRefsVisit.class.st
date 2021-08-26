@@ -122,6 +122,8 @@ CTObjectRefsVisit >> maxLevel: anObject [
 { #category : #DFS }
 CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
+	"https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm"
+
 	| descriptors aShape metaExtent widthsExtent slotRows classShape noSlotsShape |
 	aShape := shapeBuilder outline: anObject.
 
