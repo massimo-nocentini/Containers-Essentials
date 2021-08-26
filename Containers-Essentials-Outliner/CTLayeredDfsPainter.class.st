@@ -1,23 +1,26 @@
+"
+I am a variant that group outline shapes if they are equally far from the root outliner.
+"
 Class {
-	#name : #CTSlotsLayeredDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
-	#category : #'Containers-Essentials-Inspector'
+	#name : #CTLayeredDfsPainter,
+	#superclass : #CTDfsPainter,
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTLayeredDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsLayeredDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTLayeredDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ #(  )
 ]
 
 { #category : #adding }
-CTSlotsLayeredDfsTreeDrawer >> shapes: aCollection [
+CTLayeredDfsPainter >> shapes: aCollection [
 
 	| levelShapes gr location layout |
 	gr := Float goldenRatio double.

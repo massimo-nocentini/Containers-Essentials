@@ -1,6 +1,9 @@
+"
+I am a variant that shows a tree of strongly connected components and, by double-click, I expand the clicked one.
+"
 Class {
-	#name : #CTSlotsCollapsedSCCsDfsTreeDrawer,
-	#superclass : #CTSCCsDfsTreeDrawer,
+	#name : #CTCollapsedSccDfsPainter,
+	#superclass : #CTBaseSccDfsPainter,
 	#instVars : [
 		'associations',
 		'outgoingEdges',
@@ -8,11 +11,11 @@ Class {
 		'treeEdgeBuilder',
 		'layoutLineBuilder'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	| tuples |
 	tuples := self liftTuples: backTuples.
@@ -23,7 +26,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> backTuples: backTuples lineBuilder: lineBui
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerBezierDirected [
+CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 
 	^ RSStartEndCPAPController new
 		  controller: RSDirectedBezierCPAPController new;
@@ -33,7 +36,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerBezierDirected [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerHorizontal [
+CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 
 	^ RSStartEndCPAPController new
 		  controller: RSHorizontalCPAPController new;
@@ -43,7 +46,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> cpapControllerHorizontal [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples crossEdges |
 	tuples := (self liftTuples: crossTuples) reject: [ :aTuple | 
@@ -63,7 +66,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> crossTuples: crossTuples lineBuilder: lineB
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
 		  edgeFrom: aTuple propertyFromShape
@@ -71,7 +74,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> edgeForTuple: aTuple lineBuilder: lineBuild
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> fixFromToShapesOfTuple: aTuple [
+CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
 	fromSCCShape := shapeBySCC at:
@@ -86,7 +89,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> fixFromToShapesOfTuple: aTuple [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ super
 		  forwardTuples: (self liftTuples: forwardTuples)
@@ -94,7 +97,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> forwardTuples: forwardTuples lineBuilder: l
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: aCollection lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
 	layoutLineBuilder := lineBuilder.
 	^ super
@@ -103,7 +106,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> layoutTuples: aCollection lineBuilder: line
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> liftTuples: tuples [
+CTCollapsedSccDfsPainter >> liftTuples: tuples [
 
 	^ tuples
 		  collect: [ :aTuple | self fixFromToShapesOfTuple: aTuple ]
@@ -111,7 +114,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> liftTuples: tuples [
 ]
 
 { #category : #adding }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> shapes: aCollection [
+CTCollapsedSccDfsPainter >> shapes: aCollection [
 
 	| sccsShapes |
 	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
@@ -202,7 +205,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: aCollection lineBuilder: lineBuilder [
+CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 
 	treeTuples := aCollection.
 	treeEdgeBuilder := lineBuilder.
@@ -217,7 +220,7 @@ CTSlotsCollapsedSCCsDfsTreeDrawer >> treeTuples: aCollection lineBuilder: lineBu
 ]
 
 { #category : #initialization }
-CTSlotsCollapsedSCCsDfsTreeDrawer >> visit [
+CTCollapsedSccDfsPainter >> visit [
 
 	associations := Set new.
 	

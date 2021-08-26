@@ -388,7 +388,7 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 
 	^ self
 		  exportSlotsGraphOf: 13
-		  slotDescriptorsContext: SlotDescriptorsVisitorIntegerDetails new
+		  slotDescriptorsContext: CTSlotDescriptorsVisitorIntegerDetails new
 ]
 
 { #category : #tests }
@@ -496,7 +496,7 @@ EssentialsObjectTest >> testInspectTrueAndFalse [
 	^ self
 		  exportSlotsGraphOf: (Array with: true with: false)
 		  slotDescriptorsContext:
-			  (SlotDescriptorsVisitor new collect: [ :aDescriptor | 
+			  (CTSlotDescriptorsVisitor new collect: [ :aDescriptor | 
 				   aDescriptor inline: false ])
 ]
 
@@ -511,7 +511,7 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 
 	^ self
 		  exportSlotsGraphOf: Magnitude
-		  slotDescriptorsContext: SlotDescriptorsVisitorClassHierarchy new
+		  slotDescriptorsContext: CTSlotDescriptorsVisitorClassHierarchy new
 ]
 
 { #category : #tests }

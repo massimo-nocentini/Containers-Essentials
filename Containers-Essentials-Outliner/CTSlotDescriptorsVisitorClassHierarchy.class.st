@@ -1,11 +1,14 @@
+"
+I am a variant that customize the slot descriptors for Class objects.
+"
 Class {
-	#name : #SlotDescriptorsVisitorClassHierarchy,
-	#superclass : #SlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Inspector'
+	#name : #CTSlotDescriptorsVisitorClassHierarchy,
+	#superclass : #CTSlotDescriptorsVisitor,
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
+CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 
 	^ Array streamContents: [ :aStream | 
 		  aStream nextPut: #name asSlotDescriptor.

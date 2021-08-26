@@ -1,6 +1,6 @@
 Class {
 	#name : #SlotDescriptorsVisitorOneToManyForValueLinkTesting,
-	#superclass : #SlotDescriptorsVisitor,
+	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Tests'
 }
 

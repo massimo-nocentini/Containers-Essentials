@@ -1,5 +1,11 @@
+"
+I walk a graph of objects according to the Depth-First Search strategy;
+additionally, I also take care of Strongly Connected Components (also see 
+Tarjan, R. E. (1972), ""Depth-first search and linear graph algorithms"", 
+SIAM Journal on Computing, 1 (2): 146–160).
+"
 Class {
-	#name : #CTObjectRefsVisit,
+	#name : #CTDfsWalker,
 	#superclass : #Object,
 	#instVars : [
 		'toShapes',
@@ -15,17 +21,17 @@ Class {
 		'oneToManyShapes',
 		'shapeBuilder'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #dispatched }
-CTObjectRefsVisit >> addQuotedShape: shape model: value [
+CTDfsWalker >> addQuotedShape: shape model: value [
 
 	^ quotedShapes at: value put: shape
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
+CTDfsWalker >> atLevel: aNumber putShape: aShape [
 
 	aShape propertyDfsDepth: aNumber.
 
@@ -35,7 +41,7 @@ CTObjectRefsVisit >> atLevel: aNumber putShape: aShape [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
+CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 	self
 		assert: aShape propertyDfsEntryTime isNotNil;
@@ -67,13 +73,13 @@ CTObjectRefsVisit >> createStronglyConnectedComponentIfNecessaryOnShape: aShape 
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> dfsClockTick [
+CTDfsWalker >> dfsClockTick [
 
 	^ dfsClock := dfsClock + 1
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
+CTDfsWalker >> dfsRecordTimingsOfShape: mineShape [
 
 	^ mineShape
 		  propertyDfsTimings: mineShape propertyDfsEntryTime @ dfsClock;
@@ -81,13 +87,13 @@ CTObjectRefsVisit >> dfsRecordTimingsOfShape: mineShape [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> fromShapes: anObject [
+CTDfsWalker >> fromShapes: anObject [
 
 	fromShapes := anObject
 ]
 
 { #category : #initialization }
-CTObjectRefsVisit >> initialize [
+CTDfsWalker >> initialize [
 
 	super initialize.
 
@@ -104,23 +110,25 @@ CTObjectRefsVisit >> initialize [
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		shapeBuilder: CTObjectRefsShapeBuilder new
+		shapeBuilder: CTDfsShapeBuilder new
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> levels: aDictionary [
+CTDfsWalker >> levels: aDictionary [
 
 	levels := aDictionary
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> maxLevel: anObject [
+CTDfsWalker >> maxLevel: anObject [
 
 	maxLevel := anObject
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
+CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
+
+	"https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm"
 
 	| descriptors aShape metaExtent widthsExtent slotRows classShape noSlotsShape |
 	aShape := shapeBuilder outline: anObject.
@@ -223,7 +231,7 @@ CTObjectRefsVisit >> object: anObject slotsDescriptor: aDescriptor childNo: i pa
 ]
 
 { #category : #dispatched }
-CTObjectRefsVisit >> oneToMany: aValue [
+CTDfsWalker >> oneToMany: aValue [
 
 	| manyShapes |
 	manyShapes := aValue collect: [ :each | toShapes at: each ].
@@ -232,31 +240,31 @@ CTObjectRefsVisit >> oneToMany: aValue [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> oneToManyShapes: aDictionary [
+CTDfsWalker >> oneToManyShapes: aDictionary [
 
 	oneToManyShapes := aDictionary
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
+CTDfsWalker >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
 
 	^ quotedShapes at: anObject ifPresent: pBlock ifAbsent: aBlock
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> rootObject: anObject [
+CTDfsWalker >> rootObject: anObject [
 
 	rootObject := anObject
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> shapeBuilder: aShapeBuilder [
+CTDfsWalker >> shapeBuilder: aShapeBuilder [
 
 	shapeBuilder := aShapeBuilder
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
+CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
 	| shapeEntryTime |
 	shapeEntryTime := childShape propertyDfsEntryTime.
@@ -270,25 +278,25 @@ CTObjectRefsVisit >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> slotDescriptorsContext: aBlock [
+CTDfsWalker >> slotDescriptorsContext: aBlock [
 
 	slotDescriptorsContext := aBlock
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> stronglyConnectedComponents: aCollection [
+CTDfsWalker >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
 ]
 
 { #category : #accessing }
-CTObjectRefsVisit >> toShapes: anObject [
+CTDfsWalker >> toShapes: anObject [
 
 	toShapes := anObject
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> value [
+CTDfsWalker >> value [
 
 	| aShape |
 	aShape := self
@@ -304,7 +312,7 @@ CTObjectRefsVisit >> value [
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
+CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: index parent: aParent shape: mineShape level: level [
 
 	| childShape |
 	childShape := self
@@ -321,7 +329,7 @@ CTObjectRefsVisit >> valueHasntBeenVisited: anObject describedBy: aDescriptor it
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
+CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	| shouldInline |
 	shouldInline := descriptor
@@ -341,7 +349,7 @@ CTObjectRefsVisit >> valueLabelShapeOf: anObject describedBy: descriptor level: 
 ]
 
 { #category : #DFS }
-CTObjectRefsVisit >> visitingShape: aShape of: anObject [
+CTDfsWalker >> visitingShape: aShape of: anObject [
 
 	toShapes at: anObject put: aShape.
 

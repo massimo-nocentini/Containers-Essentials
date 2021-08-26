@@ -1,11 +1,14 @@
+"
+I am a variant that enriches the slot descriptors for Integer objects.
+"
 Class {
-	#name : #SlotDescriptorsVisitorIntegerDetails,
-	#superclass : #SlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Inspector'
+	#name : #CTSlotDescriptorsVisitorIntegerDetails,
+	#superclass : #CTSlotDescriptorsVisitor,
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
+CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
 		  (#asStringDecimal asSlotDescriptor inline: true).

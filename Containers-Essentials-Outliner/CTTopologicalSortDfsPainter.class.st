@@ -1,11 +1,14 @@
+"
+I am a variant that layout the outline shapes in a vertical line acording to the topological order among them.
+"
 Class {
-	#name : #CTSlotsTopologicallySortedDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
-	#category : #'Containers-Essentials-Inspector'
+	#name : #CTTopologicalSortDfsPainter,
+	#superclass : #CTDfsPainter,
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> backLinesBuilder [
+CTTopologicalSortDfsPainter >> backLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -28,7 +31,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> backLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> crossLinesBuilder [
+CTTopologicalSortDfsPainter >> crossLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -51,7 +54,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> crossLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> forwardLinesBuilder [
+CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
@@ -73,7 +76,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> forwardLinesBuilder [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
+CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new
 		alignCenter;
@@ -81,13 +84,13 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> layoutOn: aCollectionOfShapes edges: 
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> layoutTuples: treeTuples lineBuilder: lineBuilder [
+CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ Array empty
 ]
 
 { #category : #adding }
-CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection [
+CTTopologicalSortDfsPainter >> shapes: aCollection [
 
 	| sortedShapes |
 	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
@@ -98,7 +101,7 @@ CTSlotsTopologicallySortedDfsTreeDrawer >> shapes: aCollection [
 ]
 
 { #category : #'as yet unclassified' }
-CTSlotsTopologicallySortedDfsTreeDrawer >> treeLinesBuilder [
+CTTopologicalSortDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.

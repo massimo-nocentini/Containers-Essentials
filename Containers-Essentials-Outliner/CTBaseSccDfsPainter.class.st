@@ -1,15 +1,18 @@
+"
+I am a variant that sets up my super class to take care of Strongly Connected Components.
+"
 Class {
-	#name : #CTSCCsDfsTreeDrawer,
-	#superclass : #CTSlotsDfsTreeDrawer,
+	#name : #CTBaseSccDfsPainter,
+	#superclass : #CTDfsPainter,
 	#instVars : [
 		'stronglyConnectedComponents',
 		'shapeBySCC'
 	],
-	#category : #'Containers-Essentials-Inspector'
+	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #accessing }
-CTSCCsDfsTreeDrawer >> visit [
+CTBaseSccDfsPainter >> visit [
 
 	shapeBySCC := IdentityDictionary new.
 	stronglyConnectedComponents := OrderedCollection new.

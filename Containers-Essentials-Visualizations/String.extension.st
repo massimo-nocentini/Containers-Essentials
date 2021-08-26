@@ -41,7 +41,7 @@ String >> asShapeMultilineLabel: aPrototypeLabelShape [
 { #category : #'*Containers-Essentials-Visualizations' }
 String >> asSlotDescriptor [
 
-	^ BlockSlotDescriptor new
+	^ CTBlockSlotDescriptor new
 		  selector: self;
 		  yourself
 ]
