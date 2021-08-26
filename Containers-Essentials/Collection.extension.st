@@ -8,3 +8,21 @@ Collection >> adaptToComplex: rcvr andSend: selector [
 
 	^ self collect: [ :element | rcvr perform: selector with: element ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> merge: anObject [
+
+	^ anObject mergeCollection: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> mergeCollection: aCollection [
+
+	self subclassResponsibility
+]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> mergeSortedCollection: aSortedCollection [
+
+	^ aSortedCollection mergeCollection: self
+]
