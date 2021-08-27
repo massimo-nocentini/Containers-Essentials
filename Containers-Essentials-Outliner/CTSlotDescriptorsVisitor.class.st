@@ -6,8 +6,7 @@ Class {
 	#name : #CTSlotDescriptorsVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'rootDescriptor',
-		'isOneToMany'
+		'rootDescriptor'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -33,7 +32,9 @@ CTSlotDescriptorsVisitor >> initialize [
 { #category : #copying }
 CTSlotDescriptorsVisitor >> postCopy [
 
-	rootDescriptor := rootDescriptor copy
+	super postCopy.
+
+	self rootDescriptor: rootDescriptor copy
 ]
 
 { #category : #accessing }
