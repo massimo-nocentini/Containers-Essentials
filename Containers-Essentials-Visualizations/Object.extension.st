@@ -7,47 +7,7 @@ Object >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeTreeDrawer: CTCollapsedSccDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeTreeDrawer: CTDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsLayeredDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeTreeDrawer: CTLayeredDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsSCCsDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeTreeDrawer: CTSccDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsTopologicallySortedDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeTreeDrawer: CTTopologicalSortDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsContext [
+Object >> asShapeDfsPainter: aDfsPainter slotDescriptorsContext: aSlotDescriptorsContext [
 
 	| dfsWalker |
 	dfsWalker := CTDfsWalker new
@@ -55,7 +15,47 @@ Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsCon
 		             slotDescriptorsContext: aSlotDescriptorsContext;
 		             yourself.
 
-	^ aDrawer
+	^ aDfsPainter
 		  dfsWalker: dfsWalker;
 		  value
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
+
+	^ self
+		  asShapeDfsPainter: CTCollapsedSccDfsPainter new
+		  slotDescriptorsContext: aSlotDescriptorsContext
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
+
+	^ self
+		  asShapeDfsPainter: CTDfsPainter new
+		  slotDescriptorsContext: aSlotDescriptorsContext
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsLayeredDfsTree: aSlotDescriptorsContext [
+
+	^ self
+		  asShapeDfsPainter: CTLayeredDfsPainter new
+		  slotDescriptorsContext: aSlotDescriptorsContext
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsSCCsDfsTree: aSlotDescriptorsContext [
+
+	^ self
+		  asShapeDfsPainter: CTSccDfsPainter new
+		  slotDescriptorsContext: aSlotDescriptorsContext
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Object >> asShapeSlotsTopologicallySortedDfsTree: aSlotDescriptorsContext [
+
+	^ self
+		  asShapeDfsPainter: CTTopologicalSortDfsPainter new
+		  slotDescriptorsContext: aSlotDescriptorsContext
 ]
