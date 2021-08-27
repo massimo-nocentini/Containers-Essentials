@@ -11,7 +11,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #accessing }
+{ #category : #DFS }
 CTBaseSccDfsPainter >> dfsWalk [
 
 	shapeBySCC := IdentityDictionary new.

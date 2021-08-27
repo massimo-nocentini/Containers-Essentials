@@ -14,7 +14,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -25,7 +25,7 @@ CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	^ super backTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 
 	^ RSStartEndCPAPController new
@@ -35,7 +35,7 @@ CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 
 	^ RSStartEndCPAPController new
@@ -45,7 +45,7 @@ CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples crossEdges |
@@ -65,7 +65,7 @@ CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : #DFS }
 CTCollapsedSccDfsPainter >> dfsWalk [
 
 	| aCollection |
@@ -149,7 +149,7 @@ CTCollapsedSccDfsPainter >> dfsWalk [
 			  yourself: [ :aCircle | shapeBySCC at: aSCC put: aCircle ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
@@ -157,7 +157,7 @@ CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 		  to: aTuple propertyToShape
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
@@ -172,7 +172,7 @@ CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ super
@@ -180,7 +180,7 @@ CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilde
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
 	layoutLineBuilder := lineBuilder.
@@ -189,7 +189,7 @@ CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTCollapsedSccDfsPainter >> liftTuples: tuples [
 
 	^ tuples
@@ -197,7 +197,7 @@ CTCollapsedSccDfsPainter >> liftTuples: tuples [
 		  thenReject: [ :r | r propertyFromShape == r propertyToShape ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 
 	treeTuples := aCollection.

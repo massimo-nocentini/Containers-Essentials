@@ -11,7 +11,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	backTuples do: [ :aTuple | 
@@ -22,7 +22,7 @@ CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	^ super backTuples: backTuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -37,7 +37,7 @@ CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 	^ super crossTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #adding }
+{ #category : #DFS }
 CTSccDfsPainter >> dfsWalk [
 
 	| scale max lowerBound aCollection |
@@ -68,7 +68,7 @@ CTSccDfsPainter >> dfsWalk [
 				  aSCC do: [ :each | each removeInteractionIfPresent: RSDraggable ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	| edge |
@@ -83,7 +83,7 @@ CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 	^ edge
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTSccDfsPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 
 	| boxShape boxParentShape toSCCShape fromSCCShape |
@@ -99,7 +99,7 @@ CTSccDfsPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 		  ifFalse: [ aBlock value: toSCCShape ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -114,7 +114,7 @@ CTSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 	^ super forwardTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 CTSccDfsPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 
 	stronglyConnectedComponents do: [ :each | 
@@ -128,7 +128,7 @@ CTSccDfsPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 	^ super layoutOn: sccShapes edges: aCollectionOfLines
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples tuplesOfSCCs |
@@ -175,7 +175,7 @@ CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 	^ super layoutTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples |

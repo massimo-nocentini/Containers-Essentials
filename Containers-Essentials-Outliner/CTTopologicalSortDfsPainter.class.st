@@ -7,7 +7,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTTopologicalSortDfsPainter >> backLinesBuilder [
 
 	| color |
@@ -30,7 +30,7 @@ CTTopologicalSortDfsPainter >> backLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTTopologicalSortDfsPainter >> crossLinesBuilder [
 
 	| color |
@@ -53,14 +53,14 @@ CTTopologicalSortDfsPainter >> crossLinesBuilder [
 		  yourself
 ]
 
-{ #category : #adding }
+{ #category : #DFS }
 CTTopologicalSortDfsPainter >> dfsWalk [
 
 	^ super dfsWalk sorted: [ :aShape :anotherShape | 
 		  aShape propertyDfsLeaveTime > anotherShape propertyDfsLeaveTime ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 
 	| color |
@@ -82,7 +82,7 @@ CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new
@@ -90,13 +90,13 @@ CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionO
 		applyOn: aCollectionOfShapes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ Array empty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTTopologicalSortDfsPainter >> treeLinesBuilder [
 
 	| color |

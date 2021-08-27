@@ -7,7 +7,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #adding }
+{ #category : #DFS }
 CTLayeredDfsPainter >> dfsWalk [
 
 	| gr location layout aCollection |
@@ -63,13 +63,13 @@ CTLayeredDfsPainter >> dfsWalk [
 			  yourself ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 CTLayeredDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTLayeredDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ #(  )
