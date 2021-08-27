@@ -65,6 +65,14 @@ CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  yourself
 ]
 
+{ #category : #initialization }
+CTCollapsedSccDfsPainter >> dfsWalk [
+
+	associations := Set new.
+	
+	^ super dfsWalk
+]
+
 { #category : #'as yet unclassified' }
 CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
@@ -217,12 +225,4 @@ CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 	^ outgoingEdges
 		  do: [ :anEdge | associations add: anEdge from -> anEdge to ];
 		  yourself
-]
-
-{ #category : #initialization }
-CTCollapsedSccDfsPainter >> visit [
-
-	associations := Set new.
-	
-	^ super visit
 ]

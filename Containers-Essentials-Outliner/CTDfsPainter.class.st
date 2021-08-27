@@ -76,6 +76,31 @@ CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
+{ #category : #'as yet unclassified' }
+CTDfsPainter >> dfsWalk [
+
+	| aShape |
+	fromShapes := IdentityDictionary new.
+	toShapes := IdentityDictionary new.
+	oneToManyShapes := IdentityDictionary new.
+	levels := Dictionary new.
+
+	aShape := dfsWalker
+		          fromShapes: fromShapes;
+		          toShapes: toShapes;
+		          levels: levels;
+		          oneToManyShapes: oneToManyShapes;
+		          value.
+
+	^ toShapes values
+]
+
+{ #category : #accessing }
+CTDfsPainter >> dfsWalker: aWalker [
+
+	dfsWalker := aWalker
+]
+
 { #category : #'line drawing' }
 CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
@@ -281,33 +306,15 @@ CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'as yet unclassified' }
-CTDfsPainter >> visit [
+{ #category : #API }
+CTDfsPainter >> value [
 
-	fromShapes := IdentityDictionary new.
-	toShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new.
-	levels := Dictionary new.
-
-	visit
-		fromShapes: fromShapes;
-		toShapes: toShapes;
-		levels: levels;
-		oneToManyShapes: oneToManyShapes;
-		value
-]
-
-{ #category : #accessing }
-CTDfsPainter >> visit: anObject [
-
-	| edgesForLayout forbiddenShapes |
-	visit := anObject.
-
-	self visit.
+	| edgesForLayout forbiddenShapes rootShape |
+	rootShape := self.
 
 	forbiddenShapes := IdentitySet new.
-	shapes := self shapes: toShapes values.
 	edges := OrderedCollection new.
+	shapes := self dfsWalk in: [ :aCollection | self shapes: aCollection ].
 
 	self
 		forbiddenShapes: forbiddenShapes

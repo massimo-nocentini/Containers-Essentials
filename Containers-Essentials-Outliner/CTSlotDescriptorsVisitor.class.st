@@ -29,7 +29,9 @@ CTSlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
 		rootObject: anObject;
 		slotDescriptorsContext: self.
 
-	^ aDrawer visit: aWalker
+	^ aDrawer
+		  dfsWalker: aWalker;
+		  value
 ]
 
 { #category : #initialization }
