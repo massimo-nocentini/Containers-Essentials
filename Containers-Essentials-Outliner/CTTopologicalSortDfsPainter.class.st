@@ -53,6 +53,13 @@ CTTopologicalSortDfsPainter >> crossLinesBuilder [
 		  yourself
 ]
 
+{ #category : #adding }
+CTTopologicalSortDfsPainter >> dfsWalk [
+
+	^ super dfsWalk sorted: [ :aShape :anotherShape | 
+		  aShape propertyDfsLeaveTime > anotherShape propertyDfsLeaveTime ]
+]
+
 { #category : #'as yet unclassified' }
 CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 
@@ -87,17 +94,6 @@ CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionO
 CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ Array empty
-]
-
-{ #category : #adding }
-CTTopologicalSortDfsPainter >> shapes: aCollection [
-
-	| sortedShapes |
-	sortedShapes := aCollection sorted: [ :aShape :anotherShape | 
-		                aShape propertyDfsLeaveTime
-		                > anotherShape propertyDfsLeaveTime ].
-
-	^ super shapes: sortedShapes
 ]
 
 { #category : #'as yet unclassified' }

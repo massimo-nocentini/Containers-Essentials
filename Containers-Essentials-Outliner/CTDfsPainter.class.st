@@ -76,7 +76,7 @@ CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
 CTDfsPainter >> dfsWalk [
 
 	| aShape |
@@ -269,12 +269,6 @@ CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
 ]
 
-{ #category : #accessing }
-CTDfsPainter >> shapes: aCollection [
-
-	^ aCollection
-]
-
 { #category : #'line building' }
 CTDfsPainter >> treeLinesBuilder [
 
@@ -309,12 +303,10 @@ CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 { #category : #API }
 CTDfsPainter >> value [
 
-	| edgesForLayout forbiddenShapes rootShape |
-	rootShape := self.
-
+	| edgesForLayout forbiddenShapes |
 	forbiddenShapes := IdentitySet new.
 	edges := OrderedCollection new.
-	shapes := self dfsWalk in: [ :aCollection | self shapes: aCollection ].
+	shapes := self dfsWalk.
 
 	self
 		forbiddenShapes: forbiddenShapes

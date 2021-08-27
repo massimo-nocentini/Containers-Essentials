@@ -37,6 +37,37 @@ CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 	^ super crossTuples: tuples lineBuilder: lineBuilder
 ]
 
+{ #category : #adding }
+CTSccDfsPainter >> dfsWalk [
+
+	| scale max lowerBound aCollection |
+	aCollection := super dfsWalk.
+
+	lowerBound := 1.
+	max := stronglyConnectedComponents
+		       inject: lowerBound
+		       into: [ :m :each | m max: each size ].
+	scale := NSScale ln
+		         domain: (Array with: lowerBound with: max);
+		         range: (Array with: Color lightRed with: Color red);
+		         yourself.
+
+	^ stronglyConnectedComponents collect: [ :aSCC | 
+		  RSComposite new
+			  model: aSCC;
+			  shapes: aSCC;
+			  padding: Float goldenRatio double;
+			  borderDo: [ :aBorder | 
+				  aBorder
+					  joinRound;
+					  color: (scale scale: aSCC size) translucent ];
+			  addInteraction: RSDraggable new;
+			  yourself: [ :aComposite | 
+				  shapeBySCC at: aSCC put: aComposite.
+
+				  aSCC do: [ :each | each removeInteractionIfPresent: RSDraggable ] ] ]
+]
+
 { #category : #'as yet unclassified' }
 CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
@@ -142,38 +173,6 @@ CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 				                yourself ].
 
 	^ super layoutTuples: tuples lineBuilder: lineBuilder
-]
-
-{ #category : #adding }
-CTSccDfsPainter >> shapes: aCollection [
-
-	| scale max lowerBound sccsShapes |
-	lowerBound := 1.
-	max := stronglyConnectedComponents
-		       inject: lowerBound
-		       into: [ :m :each | m max: each size ].
-	scale := NSScale ln
-		         domain: (Array with: lowerBound with: max);
-		         range: (Array with: Color lightRed with: Color red);
-		         yourself.
-
-	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
-		              RSComposite new
-			              model: aSCC;
-			              shapes: aSCC;
-			              padding: Float goldenRatio double;
-			              borderDo: [ :aBorder | 
-				              aBorder
-					              joinRound;
-					              color: (scale scale: aSCC size) translucent ];
-			              addInteraction: RSDraggable new;
-			              yourself: [ :aComposite | 
-				              shapeBySCC at: aSCC put: aComposite.
-
-				              aSCC do: [ :each | 
-					              each removeInteractionIfPresent: RSDraggable ] ] ].
-
-	^ super shapes: sccsShapes
 ]
 
 { #category : #'as yet unclassified' }
