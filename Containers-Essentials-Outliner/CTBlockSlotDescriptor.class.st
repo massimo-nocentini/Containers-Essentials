@@ -74,13 +74,13 @@ CTBlockSlotDescriptor >> header: aBlock [
 	header := aBlock
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	^ header value: anObject value: aShapeBuilder
 ]
 
-{ #category : #initialization }
+{ #category : #dispatched }
 CTBlockSlotDescriptor >> headerWithAllSuperclasses [
 
 	self header: [ :anObject :aShapeBuilder | 
@@ -88,7 +88,7 @@ CTBlockSlotDescriptor >> headerWithAllSuperclasses [
 			aShapeBuilder labelForClass: each ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #dispatched }
 CTBlockSlotDescriptor >> headerWithClass [
 
 	self header: [ :anObject :aShapeBuilder | 
@@ -114,7 +114,7 @@ CTBlockSlotDescriptor >> inline: aController [
 	aController inlineFromSlotDescriptor: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inline value: anObject value: level value: aBoolean
@@ -132,7 +132,7 @@ CTBlockSlotDescriptor >> inlineBoolean: aBoolean [
 	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> instVarNameHasBeenGiven [
 
 	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
@@ -156,13 +156,13 @@ CTBlockSlotDescriptor >> on: anObject [
 	value := blockClosure cull: anObject cull: self selector
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> oneToMany [
 
 	isOneToMany := true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
@@ -180,19 +180,19 @@ CTBlockSlotDescriptor >> selector: anObject [
 	selector := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> selectorHasBeenGiven [
 
 	self blockClosure: [ :anObj :aSelector | anObj perform: aSelector ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> shape: aShapeBuilder [
 
 	^ aShapeBuilder multilineLabel: self value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTBlockSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
 
 	^ aShapeBuilder label: anObject var: self selector
