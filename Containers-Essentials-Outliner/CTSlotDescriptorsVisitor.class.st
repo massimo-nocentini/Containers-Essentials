@@ -324,6 +324,12 @@ CTSlotDescriptorsVisitor >> visitPointArray: aPointArray [
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitProcess: aProcess [
+
+	^ self visitObject: aProcess
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 
 	^ { 
