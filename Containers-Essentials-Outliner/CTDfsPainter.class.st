@@ -5,18 +5,18 @@ Class {
 	#name : #CTDfsPainter,
 	#superclass : #Object,
 	#instVars : [
-		'visit',
 		'fromShapes',
 		'toShapes',
 		'levels',
 		'oneToManyShapes',
 		'shapes',
-		'edges'
+		'edges',
+		'dfsWalker'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTDfsPainter >> backLinesBuilder [
 
 	| color |
@@ -39,14 +39,14 @@ CTDfsPainter >> backLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	^ backTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTDfsPainter >> crossLinesBuilder [
 
 	| color |
@@ -69,14 +69,14 @@ CTDfsPainter >> crossLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	^ crossTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
@@ -85,7 +85,7 @@ CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 				   aTuple propertyToShape ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #iterating }
 CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 
 	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations |
@@ -150,7 +150,7 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 		  value: crossAssociations
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTDfsPainter >> forwardLinesBuilder [
 
 	| color |
@@ -172,14 +172,14 @@ CTDfsPainter >> forwardLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ forwardTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #mapping }
 CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock [
 
 	^ fromShape == toShape
@@ -209,13 +209,13 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 										  'Logical inconsistency: a non-sense association has been recognized.' ] ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTDfsPainter >> layoutLinesBuilder [
 
 	^ RSLineBuilder line
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalVanDerPloegTreeLayout
@@ -223,7 +223,7 @@ CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 		edges: aCollectionOfLines
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| layoutAssociations |
@@ -244,13 +244,13 @@ CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
 ]
 
-{ #category : #adding }
+{ #category : #accessing }
 CTDfsPainter >> shapes: aCollection [
 
 	^ aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line building' }
 CTDfsPainter >> treeLinesBuilder [
 
 	| color |
@@ -274,7 +274,7 @@ CTDfsPainter >> treeLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ treeTuples collect: [ :aTuple | 
