@@ -30,6 +30,12 @@ CTSlotDescriptorsVisitor >> initialize [
 	self rootDescriptor: #yourself asSlotDescriptor
 ]
 
+{ #category : #copying }
+CTSlotDescriptorsVisitor >> postCopy [
+
+	rootDescriptor := rootDescriptor copy
+]
+
 { #category : #accessing }
 CTSlotDescriptorsVisitor >> rootDescriptor [
 
