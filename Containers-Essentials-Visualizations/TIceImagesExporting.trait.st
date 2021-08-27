@@ -90,11 +90,15 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlo
 		  export: anObject
 		  pathSuffix: aSuffix
 		  onCanvasDo: [ :aCanvas :obj | 
-			  | aShape |
-			  aShape := aSlotDescriptorsContext
-				            draw: anObject
-				            using: CTDfsPainter new
-				            walking: CTDfsWalker new.
+			  | aShape dfsWalker |
+			  dfsWalker := CTDfsWalker new
+				               rootObject: anObject;
+				               slotDescriptorsContext: aSlotDescriptorsContext;
+				               yourself.
+
+			  aShape := CTDfsPainter new
+				            dfsWalker: dfsWalker;
+				            value.
 
 			  aCanvas add: aShape ]
 ]

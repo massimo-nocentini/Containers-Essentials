@@ -11,13 +11,13 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #accessing }
-CTBaseSccDfsPainter >> visit [
+{ #category : #DFS }
+CTBaseSccDfsPainter >> dfsWalk [
 
 	shapeBySCC := IdentityDictionary new.
 	stronglyConnectedComponents := OrderedCollection new.
 
-	visit stronglyConnectedComponents: stronglyConnectedComponents.
+	dfsWalker stronglyConnectedComponents: stronglyConnectedComponents.
 
-	^ super visit
+	^ super dfsWalk
 ]

@@ -61,19 +61,3 @@ ByteArray >> asShapeBitsDump [
 		  shapes: shapes;
 		  yourself
 ]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-ByteArray >> inspectorCanvasBitsDumpBigEndian [
-
-	<inspectorPresentationOrder: 20 title: 'Bits dump (big-endian)'>
-	^ RSCanvas new
-		  add: self asShapeBitsDump;
-		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
-
-	aContext withoutEvaluator
-]

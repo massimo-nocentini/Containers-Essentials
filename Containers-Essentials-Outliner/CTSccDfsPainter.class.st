@@ -11,7 +11,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	backTuples do: [ :aTuple | 
@@ -22,7 +22,7 @@ CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	^ super backTuples: backTuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -37,7 +37,38 @@ CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 	^ super crossTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
+CTSccDfsPainter >> dfsWalk [
+
+	| scale max lowerBound aCollection |
+	aCollection := super dfsWalk.
+
+	lowerBound := 1.
+	max := stronglyConnectedComponents
+		       inject: lowerBound
+		       into: [ :m :each | m max: each size ].
+	scale := NSScale ln
+		         domain: (Array with: lowerBound with: max);
+		         range: (Array with: Color lightRed with: Color red);
+		         yourself.
+
+	^ stronglyConnectedComponents collect: [ :aSCC | 
+		  RSComposite new
+			  model: aSCC;
+			  shapes: aSCC;
+			  padding: Float goldenRatio double;
+			  borderDo: [ :aBorder | 
+				  aBorder
+					  joinRound;
+					  color: (scale scale: aSCC size) translucent ];
+			  addInteraction: RSDraggable new;
+			  yourself: [ :aComposite | 
+				  shapeBySCC at: aSCC put: aComposite.
+
+				  aSCC do: [ :each | each removeInteractionIfPresent: RSDraggable ] ] ]
+]
+
+{ #category : #'line drawing' }
 CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	| edge |
@@ -52,7 +83,7 @@ CTSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 	^ edge
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTSccDfsPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 
 	| boxShape boxParentShape toSCCShape fromSCCShape |
@@ -68,7 +99,7 @@ CTSccDfsPainter >> fixEndShapeOfTuple: aTuple ifNecessary: aBlock [
 		  ifFalse: [ aBlock value: toSCCShape ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -83,7 +114,7 @@ CTSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 	^ super forwardTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 CTSccDfsPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 
 	stronglyConnectedComponents do: [ :each | 
@@ -97,7 +128,7 @@ CTSccDfsPainter >> layoutOn: sccShapes edges: aCollectionOfLines [
 	^ super layoutOn: sccShapes edges: aCollectionOfLines
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples tuplesOfSCCs |
@@ -144,39 +175,7 @@ CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 	^ super layoutTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #adding }
-CTSccDfsPainter >> shapes: aCollection [
-
-	| scale max lowerBound sccsShapes |
-	lowerBound := 1.
-	max := stronglyConnectedComponents
-		       inject: lowerBound
-		       into: [ :m :each | m max: each size ].
-	scale := NSScale ln
-		         domain: (Array with: lowerBound with: max);
-		         range: (Array with: Color lightRed with: Color red);
-		         yourself.
-
-	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
-		              RSComposite new
-			              model: aSCC;
-			              shapes: aSCC;
-			              padding: Float goldenRatio double;
-			              borderDo: [ :aBorder | 
-				              aBorder
-					              joinRound;
-					              color: (scale scale: aSCC size) translucent ];
-			              addInteraction: RSDraggable new;
-			              yourself: [ :aComposite | 
-				              shapeBySCC at: aSCC put: aComposite.
-
-				              aSCC do: [ :each | 
-					              each removeInteractionIfPresent: RSDraggable ] ] ].
-
-	^ super shapes: sccsShapes
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTSccDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	| tuples |

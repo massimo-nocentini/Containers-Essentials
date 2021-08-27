@@ -5,7 +5,7 @@ Class {
 		'equations',
 		'point'
 	],
-	#category : #'Containers-Essentials-Divisibility'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #'as yet unclassified' }

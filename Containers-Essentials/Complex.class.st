@@ -80,7 +80,7 @@ Class {
 		'real',
 		'imaginary'
 	],
-	#category : #'Containers-Essentials'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #'instance creation' }

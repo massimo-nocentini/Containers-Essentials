@@ -54,7 +54,7 @@ CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 	^ descriptor header: anObject shapeBuilder: aShapeBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	^ descriptor inline: anObject level: anInteger default: aBoolean

@@ -14,7 +14,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #accessing }
+{ #category : #shapes }
 CTDfsShapeBuilder >> box: aValue [
 
 	^ RSBox new
@@ -24,7 +24,7 @@ CTDfsShapeBuilder >> box: aValue [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : #shapes }
 CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
 
 	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
@@ -165,7 +165,7 @@ CTDfsShapeBuilder >> initialize [
 			 yourself)
 ]
 
-{ #category : #accessing }
+{ #category : #shapes }
 CTDfsShapeBuilder >> label: anObject var: selector [
 
 	| composite var |
@@ -211,7 +211,7 @@ CTDfsShapeBuilder >> label: anObject var: selector [
 	^ composite
 ]
 
-{ #category : #initialization }
+{ #category : #shapes }
 CTDfsShapeBuilder >> labelForClass: aClass [
 
 	^ RSLabel new
@@ -229,7 +229,7 @@ CTDfsShapeBuilder >> metaExtent [
 	^ metaExtent
 ]
 
-{ #category : #accessing }
+{ #category : #shapes }
 CTDfsShapeBuilder >> multilineLabel: anObject [
 
 	^ (anObject asString asShapeMultilineLabel: prototypeLabel)
@@ -237,7 +237,7 @@ CTDfsShapeBuilder >> multilineLabel: anObject [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : #shapes }
 CTDfsShapeBuilder >> outline: anObject [
 
 	^ RSComposite new
@@ -245,7 +245,7 @@ CTDfsShapeBuilder >> outline: anObject [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : #shapes }
 CTDfsShapeBuilder >> pad: aShape [
 
 	^ RSComposite new
@@ -264,7 +264,7 @@ CTDfsShapeBuilder >> prototypeLabel: aLabel [
 		metaFontSize := aShape fontSize * Float silverRatio ]
 ]
 
-{ #category : #visiting }
+{ #category : #accessing }
 CTDfsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenRatio double

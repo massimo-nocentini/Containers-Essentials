@@ -295,7 +295,7 @@ CTDfsWalker >> toShapes: anObject [
 	toShapes := anObject
 ]
 
-{ #category : #DFS }
+{ #category : #API }
 CTDfsWalker >> value [
 
 	| aShape |

@@ -1,7 +1,7 @@
 Class {
 	#name : #QuoRemMinimal,
 	#superclass : #QuoRemStandard,
-	#category : #'Containers-Essentials-Divisibility'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #converting }

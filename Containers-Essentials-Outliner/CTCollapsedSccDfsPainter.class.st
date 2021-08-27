@@ -14,7 +14,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -25,7 +25,7 @@ CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	^ super backTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 
 	^ RSStartEndCPAPController new
@@ -35,7 +35,7 @@ CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 
 	^ RSStartEndCPAPController new
@@ -45,7 +45,7 @@ CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples crossEdges |
@@ -65,7 +65,91 @@ CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DFS }
+CTCollapsedSccDfsPainter >> dfsWalk [
+
+	| aCollection |
+	associations := Set new.
+
+	aCollection := super dfsWalk.
+
+	^ stronglyConnectedComponents collect: [ :aSCC | 
+		  RSBox new
+			  size: aSCC size sqrt * Float goldenRatio double;
+			  color: Color white;
+			  addInteraction: (RSPopup new text: [ :aModel | aSCC size ]);
+			  withBorder;
+			  cornerRadius: Float goldenRatio double;
+			  addInteraction: RSDraggable new;
+			  when: RSMouseDoubleLeftClick do: [ :ev | 
+				  | composite boxShape innerTreeTuples innerTreeEdges layoutEdges |
+				  boxShape := ev shape.
+
+				  composite := RSComposite new
+					               shapes: aSCC;
+					               yourself.
+
+				  boxShape canvas add: composite.
+
+				  innerTreeTuples := treeTuples select: [ :aTuple | 
+					                     aTuple propertyFromShape propertyDfsSCC
+					                     == aSCC ].
+
+				  innerTreeEdges := innerTreeTuples collect: [ :aTuple | 
+					                    | tup |
+					                    tup := aTuple propertyFromShape
+						                           propertyDfsSCC
+					                           ==
+					                           aTuple propertyToShape propertyDfsSCC
+						                           ifTrue: [ aTuple ]
+						                           ifFalse: [ 
+							                           aTuple copy
+								                           at: 4
+								                           put:
+									                           (shapeBySCC at:
+											                            aTuple propertyToShape
+												                            propertyDfsSCC);
+								                           yourself ].
+					                    (super
+						                     edgeForTuple: tup
+						                     lineBuilder: treeEdgeBuilder)
+						                    pushFront;
+						                    yourself ].
+
+				  layoutEdges := super
+					                 layoutTuples:
+						                 (innerTreeTuples flatCollect: [ :each | 
+							                  each propertyFromShape propertyDfsSCC
+							                  == each propertyToShape propertyDfsSCC
+								                  ifTrue: [ { each } ]
+								                  ifFalse: [ #(  ) ] ])
+					                 lineBuilder: layoutLineBuilder.
+
+				  self layoutOn: aSCC edges: layoutEdges.
+
+				  composite
+					  adjustToChildren;
+					  padding: Float goldenRatio double.
+
+				  boxShape extent: composite extent.
+
+				  self layoutOn: shapes edges: edges.
+
+				  composite position: boxShape position.
+				  RSLocation new center stick: composite on: boxShape.
+
+				  (outgoingEdges select: [ :each | each from == boxShape ]) do: [ 
+					  :each | boxShape canvas removeShape: each ].
+
+
+				  boxShape canvas
+					  add: composite;
+					  signalUpdate;
+					  zoomToFit ];
+			  yourself: [ :aCircle | shapeBySCC at: aSCC put: aCircle ] ]
+]
+
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
@@ -73,7 +157,7 @@ CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 		  to: aTuple propertyToShape
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
@@ -88,7 +172,7 @@ CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ super
@@ -96,7 +180,7 @@ CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilde
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
 	layoutLineBuilder := lineBuilder.
@@ -105,7 +189,7 @@ CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #decorating }
 CTCollapsedSccDfsPainter >> liftTuples: tuples [
 
 	^ tuples
@@ -113,98 +197,7 @@ CTCollapsedSccDfsPainter >> liftTuples: tuples [
 		  thenReject: [ :r | r propertyFromShape == r propertyToShape ]
 ]
 
-{ #category : #adding }
-CTCollapsedSccDfsPainter >> shapes: aCollection [
-
-	| sccsShapes |
-	sccsShapes := stronglyConnectedComponents collect: [ :aSCC | 
-		              RSBox new
-			              size: aSCC size sqrt * Float goldenRatio double;
-			              color: Color white;
-			              addInteraction:
-				              (RSPopup new text: [ :aModel | aSCC size ]);
-			              withBorder;
-			              cornerRadius: Float goldenRatio double;
-			              addInteraction: RSDraggable new;
-			              when: RSMouseDoubleLeftClick do: [ :ev | 
-				              | composite boxShape innerTreeTuples innerTreeEdges layoutEdges |
-				              boxShape := ev shape.
-
-				              composite := RSComposite new
-					                           shapes: aSCC;
-					                           yourself.
-
-				              boxShape canvas add: composite.
-
-				              innerTreeTuples := treeTuples select: [ :aTuple | 
-					                                 aTuple propertyFromShape
-						                                 propertyDfsSCC == aSCC ].
-
-				              innerTreeEdges := innerTreeTuples collect: [ :aTuple | 
-					                                | tup |
-					                                tup := aTuple propertyFromShape
-						                                       propertyDfsSCC
-					                                       ==
-					                                       aTuple propertyToShape
-						                                       propertyDfsSCC
-						                                       ifTrue: [ aTuple ]
-						                                       ifFalse: [ 
-							                                       aTuple copy
-								                                       at: 4
-								                                       put:
-									                                       (shapeBySCC at:
-											                                        aTuple
-												                                        propertyToShape
-												                                        propertyDfsSCC);
-								                                       yourself ].
-					                                (super
-						                                 edgeForTuple: tup
-						                                 lineBuilder: treeEdgeBuilder)
-						                                pushFront;
-						                                yourself ].
-
-				              layoutEdges := super
-					                             layoutTuples:
-						                             (innerTreeTuples flatCollect: [ 
-							                              :each | 
-							                              each propertyFromShape
-								                              propertyDfsSCC
-							                              ==
-							                              each propertyToShape
-								                              propertyDfsSCC
-								                              ifTrue: [ { each } ]
-								                              ifFalse: [ #(  ) ] ])
-					                             lineBuilder: layoutLineBuilder.
-
-				              self layoutOn: aSCC edges: layoutEdges.
-
-				              composite
-					              adjustToChildren;
-					              padding: Float goldenRatio double.
-
-				              boxShape extent: composite extent.
-
-				              self layoutOn: shapes edges: edges.
-
-				              composite position: boxShape position.
-				              RSLocation new center stick: composite on: boxShape.
-
-				              (outgoingEdges select: [ :each | 
-					               each from == boxShape ]) do: [ :each | 
-					              boxShape canvas removeShape: each ].
-
-
-				              boxShape canvas
-					              add: composite;
-					              signalUpdate;
-					              zoomToFit ];
-			              yourself: [ :aCircle | 
-			              shapeBySCC at: aSCC put: aCircle ] ].
-
-	^ super shapes: sccsShapes
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'line drawing' }
 CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 
 	treeTuples := aCollection.
@@ -217,12 +210,4 @@ CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 	^ outgoingEdges
 		  do: [ :anEdge | associations add: anEdge from -> anEdge to ];
 		  yourself
-]
-
-{ #category : #initialization }
-CTCollapsedSccDfsPainter >> visit [
-
-	associations := Set new.
-	
-	^ super visit
 ]

@@ -9,13 +9,14 @@ Random >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 Random >> asShapeScatter [
 
-	| gen points |
+	| gen x y |
 	gen := self copy.
-	points := ((1 to: 500) collect: [ :each1 | gen next ]) sorted.
+	x := ((1 to: 500) collect: [ :each1 | gen next ]) sorted.
+	y := x collect: [ :each | gen density: each ].
 
 	^ RSComposite new shapes: (RSChart new
 			   addPlot: (RSScatterPlot new
-					    x: points y: (points collect: [ :each | each density: gen ]);
+					    x: x y: y;
 					    color: Color gray translucent;
 					    yourself);
 			   addDecoration: RSHorizontalTick new;

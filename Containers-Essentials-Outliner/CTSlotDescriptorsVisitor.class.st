@@ -6,8 +6,7 @@ Class {
 	#name : #CTSlotDescriptorsVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'rootDescriptor',
-		'isOneToMany'
+		'rootDescriptor'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -22,22 +21,20 @@ CTSlotDescriptorsVisitor >> collect: aBlock [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
-CTSlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
-
-	aWalker
-		rootObject: anObject;
-		slotDescriptorsContext: self.
-
-	^ aDrawer visit: aWalker
-]
-
 { #category : #initialization }
 CTSlotDescriptorsVisitor >> initialize [
 
 	super initialize.
 	
 	self rootDescriptor: #yourself asSlotDescriptor
+]
+
+{ #category : #copying }
+CTSlotDescriptorsVisitor >> postCopy [
+
+	super postCopy.
+
+	self rootDescriptor: rootDescriptor copy
 ]
 
 { #category : #accessing }
@@ -281,9 +278,15 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
-	^ (self visitObject: aHeap) , { (#asShapeValueTree asSlotDescriptor
-		   inline: true;
-		   quote) }
+	^ (self visitObject: aHeap)
+	  , { (#asShapeValuesHorizontalTree asSlotDescriptor
+			   inline: true;
+			   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
+		   ifTrue: [ 
+			   { (#asShapeBubblesHorizontalTree asSlotDescriptor
+				    inline: true;
+				    quote) } ]
+		   ifFalse: [ Array empty ])
 ]
 
 { #category : #visiting }
@@ -318,6 +321,12 @@ CTSlotDescriptorsVisitor >> visitPointArray: aPointArray [
 
 	^ (self visitObject: aPointArray)
 	  , { #asShapeDots asSlotDescriptor quote }
+]
+
+{ #category : #visiting }
+CTSlotDescriptorsVisitor >> visitProcess: aProcess [
+
+	^ self visitObject: aProcess
 ]
 
 { #category : #visiting }
