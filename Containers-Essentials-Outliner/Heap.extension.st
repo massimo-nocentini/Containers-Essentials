@@ -5,7 +5,7 @@ Heap >> inspectorCanvasValuesTree [
 
 	<inspectorPresentationOrder: 1010 title: 'Values tree'>
 	^ RSCanvas new
-		  add: self asShapeValueTree;
+		  add: self asShapeValuesHorizontalTree;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]

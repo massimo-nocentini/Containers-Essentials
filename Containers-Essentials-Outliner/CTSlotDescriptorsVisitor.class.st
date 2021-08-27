@@ -278,9 +278,15 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
-	^ (self visitObject: aHeap) , { (#asShapeValueTree asSlotDescriptor
-		   inline: true;
-		   quote) }
+	^ (self visitObject: aHeap)
+	  , { (#asShapeValuesHorizontalTree asSlotDescriptor
+			   inline: true;
+			   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
+		   ifTrue: [ 
+			   { (#asShapeBubblesHorizontalTree asSlotDescriptor
+				    inline: true;
+				    quote) } ]
+		   ifFalse: [ Array empty ])
 ]
 
 { #category : #visiting }
