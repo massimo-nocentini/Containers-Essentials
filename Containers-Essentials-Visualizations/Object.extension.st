@@ -49,8 +49,13 @@ Object >> asShapeSlotsTopologicallySortedDfsTree: aSlotDescriptorsContext [
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeTreeDrawer: aDrawer slotDescriptorsContext: aSlotDescriptorsContext [
 
-	^ aSlotDescriptorsContext
-		  draw: self
-		  using: aDrawer
-		  walking: CTDfsWalker new
+	| dfsWalker |
+	dfsWalker := CTDfsWalker new
+		             rootObject: self;
+		             slotDescriptorsContext: aSlotDescriptorsContext;
+		             yourself.
+
+	^ aDrawer
+		  dfsWalker: dfsWalker;
+		  value
 ]

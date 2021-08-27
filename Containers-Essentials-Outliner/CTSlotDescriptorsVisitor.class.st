@@ -22,18 +22,6 @@ CTSlotDescriptorsVisitor >> collect: aBlock [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
-CTSlotDescriptorsVisitor >> draw: anObject using: aDrawer walking: aWalker [
-
-	aWalker
-		rootObject: anObject;
-		slotDescriptorsContext: self.
-
-	^ aDrawer
-		  dfsWalker: aWalker;
-		  value
-]
-
 { #category : #initialization }
 CTSlotDescriptorsVisitor >> initialize [
 
