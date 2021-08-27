@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #'*Containers-Essentials' }
-RandomGaussian >> densityOfNumber: x [
+RandomGaussian >> density: x [
 
 	^ densityMultiplier * ((x - mu / sigma) squared negated / 2) exp
 ]

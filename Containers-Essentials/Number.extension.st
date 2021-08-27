@@ -50,12 +50,6 @@ Number >> decrement [
 ]
 
 { #category : #'*Containers-Essentials' }
-Number >> density: aRandom [
-
-	^ aRandom densityOfNumber: self
-]
-
-{ #category : #'*Containers-Essentials' }
 Number >> double [
 
 	^ self * 2

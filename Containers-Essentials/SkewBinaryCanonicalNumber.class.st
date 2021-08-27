@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'representation'
 	],
-	#category : #'Containers-Essentials-Skew numbers'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #converting }

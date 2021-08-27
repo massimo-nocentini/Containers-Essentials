@@ -1,7 +1,7 @@
 Extension { #name : #RandomExponential }
 
 { #category : #'*Containers-Essentials' }
-RandomExponential >> densityOfNumber: x [
+RandomExponential >> density: x [
 
 	^ lambda * (lambda * x) negated exp
 ]

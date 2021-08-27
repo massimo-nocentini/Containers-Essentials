@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'skewNumber'
 	],
-	#category : #'Containers-Essentials-Skew numbers'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #'instance creation' }

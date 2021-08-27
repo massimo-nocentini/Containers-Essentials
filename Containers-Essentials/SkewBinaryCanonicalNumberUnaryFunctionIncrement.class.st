@@ -1,7 +1,7 @@
 Class {
 	#name : #SkewBinaryCanonicalNumberUnaryFunctionIncrement,
 	#superclass : #SkewBinaryCanonicalNumberUnaryFunction,
-	#category : #'Containers-Essentials-Skew numbers'
+	#category : #'Containers-Essentials-Numbers'
 }
 
 { #category : #evaluating }
