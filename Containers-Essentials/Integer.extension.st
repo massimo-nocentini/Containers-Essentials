@@ -235,7 +235,7 @@ Integer >> mediantInteger: anInteger [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> nextOfLink: aLink [
+Integer >> nextFromLink: aLink [
 
 	^ aLink nextInteger: self
 ]
