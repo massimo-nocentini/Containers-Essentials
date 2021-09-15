@@ -126,6 +126,43 @@ Integer >> choose: k [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> dcMultiplyInteger: anInteger [
+
+	| base a b bDigits |
+	base := 10.
+
+	(self numberOfDigitsInBase: base)
+	> (anInteger numberOfDigitsInBase: base)
+		ifTrue: [ 
+			a := self.
+			b := anInteger ]
+		ifFalse: [ 
+			a := anInteger.
+			b := self ].
+
+	bDigits := b numberOfDigitsInBase: base.
+
+	^ a
+		  halves: [ :xHigh :xLow :xn :xl | 
+			  b
+				  halves: [ :yHigh :yLow :yn :yl | 
+					  xHigh isZero & yHigh isZero
+						  ifTrue: [ xLow * yLow ]
+						  ifFalse: [ 
+							  | p pp xyHigh xyLow |
+							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh.
+							  xyLow := xLow dcMultiplyInteger: yLow.
+
+							  pp := p - xyHigh - xyLow * (base ** xl).
+							  xyHigh * (base ** xl double) + pp + xyLow ] ]
+				  at: xl
+				  digits: bDigits
+				  base: base ]
+		  base: base
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
@@ -177,6 +214,42 @@ Integer >> greatestCommonDisivorInteger: anInteger [
 	min := self min: anInteger.
 
 	^ GreatestCommonDivisor a: max b: min
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> halves: aBlock at: l digits: n base: aBase [
+
+	| low high lSucc |
+	lSucc := l + 1.
+
+	low := (1 to: l) inject: 0 into: [ :acc :i | 
+		       | d |
+		       d := (self digitAt: i base: aBase) * (aBase ** (i - 1)).
+		       d + acc ].
+
+	high := (lSucc to: n) inject: 0 into: [ :acc :i | 
+		        | d |
+		        d := (self digitAt: i base: aBase) * (aBase ** (i - lSucc)).
+		        d + acc ].
+
+	^ aBlock
+		  value: high
+		  value: low
+		  value: n
+		  value: l
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> halves: aBlock base: aBase [
+
+	| n |
+	n := self numberOfDigitsInBase: aBase.
+
+	^ self
+		  halves: aBlock
+		  at: (n / 2) ceiling
+		  digits: n
+		  base: aBase
 ]
 
 { #category : #'*Containers-Essentials' }
