@@ -12,6 +12,18 @@ UndefinedObject >> do: aFullBlockClosure [
 ]
 
 { #category : #'*Containers-Essentials' }
+UndefinedObject >> next: n [
+
+	^ self
+]
+
+{ #category : #'*Containers-Essentials' }
+UndefinedObject >> nextInteger: n [
+
+	^ self
+]
+
+{ #category : #'*Containers-Essentials' }
 UndefinedObject >> reversed [
 	^ self
 ]

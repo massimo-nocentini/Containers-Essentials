@@ -14,27 +14,21 @@ Link >> do: aBlock [
 { #category : #'*Containers-Essentials' }
 Link >> next: anObject [
 
-	^ anObject nextOfLink: self
+	^ anObject nextFromLink: self
 ]
 
 { #category : #'*Containers-Essentials' }
-Link >> nextInteger: anInteger [
-
-	| link |
-	link := self.
-
-	1 to: anInteger do: [ :i | 
-		link
-			ifNil: [ SubscriptOutOfBounds signalFor: i ]
-			ifNotNil: [ link := link nextLink ] ].
-
-	^ link
-]
-
-{ #category : #'*Containers-Essentials' }
-Link >> nextOfLink: aLink [
+Link >> nextFromLink: aLink [
 
 	^ aLink nextLink: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Link >> nextInteger: n [
+
+	^ n = 0
+		  ifTrue: [ nil ]
+		  ifFalse: [ self class nextLink: (nextLink nextInteger: n - 1) ]
 ]
 
 { #category : #'*Containers-Essentials' }

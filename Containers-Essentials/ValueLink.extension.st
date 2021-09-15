@@ -15,6 +15,15 @@ ValueLink >> do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+ValueLink >> nextInteger: n [
+
+	^ (super nextInteger: n) ifNotNil: [ :aValueLink | 
+		  aValueLink
+			  value: value;
+			  yourself ]
+]
+
+{ #category : #'*Containers-Essentials' }
 ValueLink >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	^ super
