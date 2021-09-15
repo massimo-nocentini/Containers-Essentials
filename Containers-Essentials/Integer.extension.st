@@ -128,38 +128,40 @@ Integer >> choose: k [
 { #category : #'*Containers-Essentials' }
 Integer >> dcMultiplyInteger: anInteger [
 
-	| base a b bDigits |
+	| base |
 	base := 10.
 
-	(self numberOfDigitsInBase: base)
-	> (anInteger numberOfDigitsInBase: base)
-		ifTrue: [ 
-			a := self.
-			b := anInteger ]
-		ifFalse: [ 
-			a := anInteger.
-			b := self ].
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self * anInteger ]
+		  ifFalse: [ 
+			  | a b bDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  a := self.
+					  b := anInteger ]
+				  ifFalse: [ 
+					  a := anInteger.
+					  b := self ].
 
-	bDigits := b numberOfDigitsInBase: base.
+			  bDigits := b numberOfDigitsInBase: base.
 
-	^ a
-		  halves: [ :xHigh :xLow :xn :xl | 
-			  b
-				  halves: [ :yHigh :yLow :yn :yl | 
-					  xHigh isZero & yHigh isZero
-						  ifTrue: [ xLow * yLow ]
-						  ifFalse: [ 
-							  | p pp xyHigh xyLow |
-							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
-							  xyHigh := xHigh dcMultiplyInteger: yHigh.
-							  xyLow := xLow dcMultiplyInteger: yLow.
+			  ^ a
+				    halves: [ :xHigh :xLow :xn :xl | 
+					    b
+						    halves: [ :yHigh :yLow :yn :yl | 
+							    | p pp xyHigh xyLow |
+							    p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
+							    xyHigh := xHigh dcMultiplyInteger: yHigh.
+							    xyLow := xLow dcMultiplyInteger: yLow.
 
-							  pp := p - xyHigh - xyLow * (base ** xl).
-							  xyHigh * (base ** xl double) + pp + xyLow ] ]
-				  at: xl
-				  digits: bDigits
-				  base: base ]
-		  base: base
+							    pp := p - xyHigh - xyLow * (base ** xl).
+							    xyHigh * (base ** xl double) + pp + xyLow ]
+						    at: xl
+						    digits: bDigits
+						    base: base ]
+				    base: base ]
 ]
 
 { #category : #'*Containers-Essentials' }
