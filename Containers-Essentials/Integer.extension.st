@@ -147,21 +147,21 @@ Integer >> dcMultiplyInteger: anInteger [
 
 			  bDigits := b numberOfDigitsInBase: base.
 
-			  ^ a
-				    halves: [ :xHigh :xLow :xn :xl | 
-					    b
-						    halves: [ :yHigh :yLow :yn :yl | 
-							    | p pp xyHigh xyLow |
-							    p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
-							    xyHigh := xHigh dcMultiplyInteger: yHigh.
-							    xyLow := xLow dcMultiplyInteger: yLow.
+			  a
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  b
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow |
+							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh.
+							  xyLow := xLow dcMultiplyInteger: yLow.
 
-							    pp := p - xyHigh - xyLow * (base ** xl).
-							    xyHigh * (base ** xl double) + pp + xyLow ]
-						    at: xl
-						    digits: bDigits
-						    base: base ]
-				    base: base ]
+							  pp := p - xyHigh - xyLow * (base ** xl).
+							  xyHigh * (base ** xl double) + pp + xyLow ]
+						  at: xl
+						  digits: bDigits
+						  base: base ]
+				  base: base ]
 ]
 
 { #category : #'*Containers-Essentials' }
