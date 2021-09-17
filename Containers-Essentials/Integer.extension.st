@@ -135,21 +135,21 @@ Integer >> dcMultiplyInteger: anInteger [
 		   anInteger between: 0 and: base - 1 ])
 		  ifTrue: [ self * anInteger ]
 		  ifFalse: [ 
-			  | a b bDigits |
+			  | x y yDigits |
 			  (self numberOfDigitsInBase: base)
 			  > (anInteger numberOfDigitsInBase: base)
 				  ifTrue: [ 
-					  a := self.
-					  b := anInteger ]
+					  x := self.
+					  y := anInteger ]
 				  ifFalse: [ 
-					  a := anInteger.
-					  b := self ].
+					  x := anInteger.
+					  y := self ].
 
-			  bDigits := b numberOfDigitsInBase: base.
+			  yDigits := y numberOfDigitsInBase: base.
 
-			  a
+			  x
 				  halves: [ :xHigh :xLow :xn :xl | 
-					  b
+					  y
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow |
 							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
@@ -159,7 +159,7 @@ Integer >> dcMultiplyInteger: anInteger [
 							  pp := p - xyHigh - xyLow * (base ** xl).
 							  xyHigh * (base ** xl double) + pp + xyLow ]
 						  at: xl
-						  digits: bDigits
+						  digits: yDigits
 						  base: base ]
 				  base: base ]
 ]
