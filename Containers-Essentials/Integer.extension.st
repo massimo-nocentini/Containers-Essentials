@@ -135,33 +135,33 @@ Integer >> dcMultiplyInteger: anInteger [
 		   anInteger between: 0 and: base - 1 ])
 		  ifTrue: [ self * anInteger ]
 		  ifFalse: [ 
-			  | a b bDigits |
+			  | x y yDigits |
 			  (self numberOfDigitsInBase: base)
 			  > (anInteger numberOfDigitsInBase: base)
 				  ifTrue: [ 
-					  a := self.
-					  b := anInteger ]
+					  x := self.
+					  y := anInteger ]
 				  ifFalse: [ 
-					  a := anInteger.
-					  b := self ].
+					  x := anInteger.
+					  y := self ].
 
-			  bDigits := b numberOfDigitsInBase: base.
+			  yDigits := y numberOfDigitsInBase: base.
 
-			  ^ a
-				    halves: [ :xHigh :xLow :xn :xl | 
-					    b
-						    halves: [ :yHigh :yLow :yn :yl | 
-							    | p pp xyHigh xyLow |
-							    p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
-							    xyHigh := xHigh dcMultiplyInteger: yHigh.
-							    xyLow := xLow dcMultiplyInteger: yLow.
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow |
+							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh.
+							  xyLow := xLow dcMultiplyInteger: yLow.
 
-							    pp := p - xyHigh - xyLow * (base ** xl).
-							    xyHigh * (base ** xl double) + pp + xyLow ]
-						    at: xl
-						    digits: bDigits
-						    base: base ]
-				    base: base ]
+							  pp := p - xyHigh - xyLow * (base ** xl).
+							  xyHigh * (base ** xl double) + pp + xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
 ]
 
 { #category : #'*Containers-Essentials' }

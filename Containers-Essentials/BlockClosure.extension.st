@@ -50,3 +50,9 @@ BlockClosure >> kissingFractions [
 		  removeLast;
 		  asArray
 ]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> valueWithArgumentedExit [
+
+	^ self value: [ :anObject | ^ anObject ]
+]

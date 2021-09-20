@@ -392,6 +392,18 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectLargeInteger [
+
+	| large n |
+	n := 42 factorial.
+	large := n dcMultiplyInteger: n.
+
+	self assert: large equals: n * n.
+
+	^ self exportSlotsGraphOf: large
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectNil [
 
 	^ self exportSlotsGraphOf: nil
