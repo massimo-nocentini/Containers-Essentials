@@ -9,7 +9,8 @@ Class {
 	#instVars : [
 		'mu',
 		'sigma',
-		'densityMultiplier'
+		'densityMultiplier',
+		'magic'
 	],
 	#category : #'Containers-Essentials-Random'
 }
@@ -25,6 +26,8 @@ RandomGaussian >> initialize [
 
 	super initialize.
 
+	magic := -0.5 exp * 4 / 2 sqrt.
+
 	self
 		mu: 0;
 		sigma: 1
@@ -39,23 +42,7 @@ RandomGaussian >> mu: anObject [
 { #category : #accessing }
 RandomGaussian >> next [
 
-	"Python implementation:
-
-	.. code:: 
-		
-        random = self.random
-        while 1:
-            u1 = random()
-            u2 = 1.0 - random()
-            z = NV_MAGICCONST*(u1-0.5)/u2
-            zz = z*z/4.0
-            if zz <= -_log(u2):
-                break
-        return mu + z*sigma"
-
-	| z magic |
-	magic := -0.5 exp * 4 / 2 sqrt.
-
+	| z |
 	[ 
 	| u1 u2 |
 	u1 := super next.
