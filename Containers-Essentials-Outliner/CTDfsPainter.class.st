@@ -275,14 +275,14 @@ CTDfsPainter >> treeLinesBuilder [
 	| color |
 	color := Color gray lighter lighter lighter.
 	^ RSLineBuilder polyline
-		  "markerEnd: (RSMarker new
+		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;
 						    cornerRadii: Float goldenRatio;
 						    color: color;
 						    yourself);
-				   offset: Float goldenRatio;
-				   yourself);"
+				   offset: Float goldenRatio + 1;
+				   yourself);
 		  color: color;
 		  cornerRadii: Float goldenRatio double;
 		  attachPoint: (RSHorizontalAttachPoint new
