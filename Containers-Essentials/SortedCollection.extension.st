@@ -1,6 +1,16 @@
 Extension { #name : #SortedCollection }
 
 { #category : #'*Containers-Essentials' }
+SortedCollection class >> array: anArray sortUsing: aBlockOrSortFunction [
+
+	^ (self sortUsing: aBlockOrSortFunction)
+		  instVarNamed: #array put: anArray;
+		  instVarNamed: #firstIndex put: 1;
+		  instVarNamed: #lastIndex put: anArray size;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials' }
 SortedCollection >> merge: anObject [
 
 	^ anObject mergeSortedCollection: self
@@ -19,10 +29,11 @@ SortedCollection >> mergeSortedCollection: aSortedCollection [
 
 	^ self sortBlock = aSortedCollection sortBlock
 		  ifTrue: [ 
-			  | anArray |
+			  | anArray inversions lessThan |
+			  inversions := 0.
+			  lessThan := self sortBlock ifNil: [ #<= ].
 			  anArray := Array streamContents: [ :aStream | 
-				             | myStream itsStream lessThan |
-				             lessThan := self sortBlock ifNil: [ #<= ].
+				             | myStream itsStream |
 				             myStream := self readStream.
 				             itsStream := aSortedCollection readStream.
 				             [ myStream atEnd or: [ itsStream atEnd ] ] 
@@ -32,16 +43,13 @@ SortedCollection >> mergeSortedCollection: aSortedCollection [
 								               value: myStream peek
 								               value: itsStream peek)
 								              ifTrue: [ myStream next ]
-								              ifFalse: [ itsStream next ]) ].
+								              ifFalse: [ 
+									              inversions := inversions + myStream sizeUpToEnd.
+									              itsStream next ]) ].
 				             aStream
 					             nextPutAll: myStream upToEnd;
 					             nextPutAll: itsStream upToEnd ].
 
-			  self class new
-				  instVarNamed: #sortBlock put: self sortBlock;
-				  instVarNamed: #array put: anArray;
-				  instVarNamed: #firstIndex put: 1;
-				  instVarNamed: #lastIndex put: anArray size;
-				  yourself ]
+			  inversions -> (self class array: anArray sortUsing: lessThan) ]
 		  ifFalse: [ DomainError signal ]
 ]

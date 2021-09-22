@@ -89,7 +89,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (#name asSlotDescriptor inline: true).
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
-		  #typeOfClass asSlotDescriptor.
+		  #mcType asSlotDescriptor.
 		  #instanceCount asSlotDescriptor }
 ]
 
