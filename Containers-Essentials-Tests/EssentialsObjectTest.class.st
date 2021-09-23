@@ -513,6 +513,12 @@ EssentialsObjectTest >> testInspectTrueAndFalse [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testLinkSubclasses [
+
+	^ self exportShapeOf: Link accessorBlock: #asShapeSubclasses
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testMagnitudeSubclasses [
 
 	^ self exportShapeOf: Magnitude accessorBlock: #asShapeSubclasses
