@@ -13,6 +13,12 @@ RandomBernoulli >> density: x [
 	^ p ** x * (1 - p ** (1 - x))
 ]
 
+{ #category : #'as yet unclassified' }
+RandomBernoulli >> ifHead: hBlock ifTail: tBlock [
+
+	^ self next ifZero: tBlock ifNotZero: hBlock
+]
+
 { #category : #initialization }
 RandomBernoulli >> initialize [
 

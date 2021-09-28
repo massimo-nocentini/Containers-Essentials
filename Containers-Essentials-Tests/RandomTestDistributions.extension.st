@@ -2155,7 +2155,7 @@ RandomTestDistributions >> expectedValue_testUniform [
 RandomTestDistributions >> testBernoulli [
 
 	| gen |
-	gen := RandomBernoulli seed: 13.
+	gen := (Random seed: 13) fairCoin.
 
 	self exportSlotsGraphOf: gen.
 

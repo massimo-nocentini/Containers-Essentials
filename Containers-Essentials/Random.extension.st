@@ -7,3 +7,11 @@ Random >> density: x [
 		   sigma: Float epsilon;
 		   next)
 ]
+
+{ #category : #'*Containers-Essentials' }
+Random >> fairCoin [
+
+	^ (RandomBernoulli seed: seed)
+		  p: 0.5;
+		  yourself
+]
