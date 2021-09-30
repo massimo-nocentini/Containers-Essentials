@@ -497,6 +497,25 @@ EssentialsObjectTest >> testInspectSet [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectSkewBinaryCanonicalSparse [
+
+	| skewNumbers backwards |
+	skewNumbers := (1 to: 20) collect: [ :each | 
+		               each asSkewBinaryCanonicalSparse yourself: [ :skew | 
+			               self assert: skew asInteger equals: each ] ].
+
+	self exportSlotsGraphOf: skewNumbers pathSuffix: 'increasing'.
+
+	backwards := skewNumbers reversed
+		             with: (19 to: 0 by: -1)
+		             collect: [ :skew :each | 
+			             skew decrement yourself: [ :previous | 
+				             self assert: previous asInteger equals: each ] ].
+
+	self exportSlotsGraphOf: backwards pathSuffix: 'decreasing'
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectString [
 
 	^ self exportSlotsGraphOf: (String loremIpsum: 100)

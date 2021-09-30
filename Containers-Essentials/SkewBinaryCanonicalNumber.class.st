@@ -9,12 +9,10 @@ Class {
 
 { #category : #converting }
 SkewBinaryCanonicalNumber >> asInteger [
-	| value vl |
+
+	| value |
 	value := 0.
-	vl := representation.
-	[ vl isNil ]
-		whileFalse: [ value := value + vl value.
-			vl := vl nextLink ].
+	representation do: [ :each | value := value + each ].
 	^ value
 ]
 
@@ -39,7 +37,25 @@ SkewBinaryCanonicalNumber >> cons: i onto: aValueLink [
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> decrement [
-	^ (SkewBinaryCanonicalNumberUnaryFunctionDecrement on: self) value
+
+	^ self
+		  ifZero: [ ArithmeticError signal ]
+		  ifNotZero: [ :aValueLink | 
+			  | w |
+			  w := self weight.
+			  w = 1
+				  ifTrue: [ self cdr ]
+				  ifFalse: [ 
+					  self
+						  decrementBitZeroOrTwo: aValueLink value
+						  by: w // 2
+						  onto: aValueLink nextLink ] ]
+]
+
+{ #category : #'as yet unclassified' }
+SkewBinaryCanonicalNumber >> decrementBitZeroOrTwo: aValue by: v onto: aRepresentation [
+
+	^ self cons: v onto: v ~~> aRepresentation
 ]
 
 { #category : #accessing }
@@ -49,7 +65,46 @@ SkewBinaryCanonicalNumber >> ifZero: zBlock ifNotZero: nzBlock [
 
 { #category : #accessing }
 SkewBinaryCanonicalNumber >> increment [
-	^ (SkewBinaryCanonicalNumberUnaryFunctionIncrement on: self) value
+
+	^ self ifZero: [ self incrementZero ] ifNotZero: [ :aValueLink | 
+		  aValueLink nextLink
+			  ifNil: [ self incrementLastDigit ]
+			  ifNotNil: [ :nextLink | 
+				  | v w |
+				  v := self key: aValueLink.
+				  w := self key: nextLink.
+				  v = w
+					  ifTrue: [ 
+						  self
+							  incrementBy: 1 + v + w
+							  onto: nextLink nextLink
+							  two: aValueLink value
+							  inARow: nextLink value ]
+					  ifFalse: [ self incrementDifferentAdjacentBits ] ] ]
+]
+
+{ #category : #evaluating }
+SkewBinaryCanonicalNumber >> incrementBy: weight onto: aRepresentation two: currentValue inARow: nextValue [
+
+	^ self cons: weight onto: aRepresentation
+]
+
+{ #category : #evaluating }
+SkewBinaryCanonicalNumber >> incrementDifferentAdjacentBits [
+
+	^ self cons: 1
+]
+
+{ #category : #evaluating }
+SkewBinaryCanonicalNumber >> incrementLastDigit [
+
+	^ self cons: 1
+]
+
+{ #category : #evaluating }
+SkewBinaryCanonicalNumber >> incrementZero [
+
+	^ self cons: 1
 ]
 
 { #category : #accessing }
