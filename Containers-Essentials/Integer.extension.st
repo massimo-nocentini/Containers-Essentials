@@ -31,6 +31,15 @@ Integer >> \/ anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> asSkewBinaryCanonicalSparse [
+
+	| skew |
+	skew := SkewBinaryCanonicalNumber new.
+	self timesRepeat: [ skew := skew increment ].
+	^ skew
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asStringBRGC [
 
 	^ self bitBRGC printStringBase: 2
@@ -364,11 +373,8 @@ Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
 
 { #category : #'*Containers-Essentials' }
 Integer >> skewBinaryCanonicalSparseRepresentation [
+
 	^ self isZero
-		  ifTrue: [ '•' ~~> nil ]
-		  ifFalse: [ 
-			  | skew |
-			  skew := SkewBinaryCanonicalNumber new.
-			  self timesRepeat: [ skew := skew increment ].
-			  skew representation ]
+		  ifTrue: [ nil ]
+		  ifFalse: [ self asSkewBinaryCanonicalSparse representation ]
 ]

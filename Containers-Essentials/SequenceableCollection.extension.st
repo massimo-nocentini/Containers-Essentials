@@ -8,13 +8,7 @@ SequenceableCollection >> asLinkedList [
 { #category : #'*Containers-Essentials' }
 SequenceableCollection >> asValueLink [
 
-	^ self
-		  foldr: [ :each :aValueLink | 
-			  ValueLink new
-				  value: each;
-				  nextLink: aValueLink;
-				  yourself ]
-		  init: nil
+	^ self foldr: [ :each :aValueLink | each ~~> aValueLink ] init: nil
 ]
 
 { #category : #'*Containers-Essentials' }

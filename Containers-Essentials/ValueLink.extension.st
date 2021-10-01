@@ -2,9 +2,10 @@ Extension { #name : #ValueLink }
 
 { #category : #'*Containers-Essentials' }
 ValueLink >> asLinkedList [
+
 	| list |
 	list := LinkedList empty.
-	self do: [ :each | list addLast: each value ].
+	self do: [ :each | list addLast: each ].
 	^ list
 ]
 
