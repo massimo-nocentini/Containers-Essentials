@@ -87,12 +87,13 @@ Integer >> binaryCanonicalDenseRepresentation [
 
 { #category : #'*Containers-Essentials' }
 Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
+
 	^ self isZero
 		  ifTrue: [ anAccumulatorBlock value: nil ]
 		  ifFalse: [ 
-			  self // 2 binaryCanonicalDenseRepresentationWith:
-				  anAccumulatorBlock
-				  <- [ :representation | self \\ 2 ~~> representation ] ]
+			  self // 2 binaryCanonicalDenseRepresentationWith: [ 
+				  :representation | 
+				  anAccumulatorBlock value: self \\ 2 ~~> representation ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
