@@ -6,22 +6,69 @@ BlockClosure >> !! args [
 ]
 
 { #category : #'*Containers-Essentials' }
-BlockClosure >> , aBlock [
-	aBlock numArgs = 1
-		ifTrue: [ ^ [ :a | self valueWithArguments: (aBlock value: a) ] ].
-	aBlock numArgs = 2
-		ifTrue: [ ^ [ :a :b | self valueWithArguments: (aBlock value: a value: b) ] ].
-	aBlock numArgs = 3
-		ifTrue: [ ^ [ :a :b :c | self valueWithArguments: (aBlock value: a value: b value: c) ] ].
-	aBlock numArgs = 4
-		ifTrue: [ ^ [ :a :b :c :d | 
-			self
-				valueWithArguments:
-					(aBlock
-						value: a
-						value: b
-						value: c
-						value: d) ] ]
+BlockClosure >> , anObject [
+
+	^ anObject prependBlock: self
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBlock [
+
+	^ self
+		  for: guardBlock
+		  collect: collectBlock
+		  do: doBlock
+		  then: updateBlock
+		  ifBroken: [ :arg | arg ]
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBlock ifBroken: breakBlock [
+
+	"General iterator message."
+
+	| value i |
+	"Init"
+	value := self value.
+
+	"Iterations."
+	i := 1.
+	[ guardBlock cull: value cull: i ] whileTrue: [ 
+		| each |
+		each := collectBlock cull: value cull: i.
+
+		value := doBlock
+			         cull: [ ^ breakBlock cull: each cull: value cull: i ]
+			         cull: each
+			         cull: value
+			         cull: i.
+
+		updateBlock cull: each cull: value cull: i.
+
+		i := i + 1 ].
+
+	^ value
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> for: guardBlock do: doBlock then: updateBlock [
+
+	^ self
+		  for: guardBlock
+		  do: doBlock
+		  then: updateBlock
+		  ifBroken: [ :arg | arg ]
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> for: guardBlock do: doBlock then: updateBlock ifBroken: breakBlock [
+
+	^ self
+		  for: guardBlock
+		  collect: [ :arg | arg ]
+		  do: doBlock
+		  then: updateBlock
+		  ifBroken: breakBlock
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -49,6 +96,12 @@ BlockClosure >> kissingFractions [
 		  removeFirst;
 		  removeLast;
 		  asArray
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> prependBlock: aFullBlockClosure [
+
+	^ [ :v | self value: (aFullBlockClosure value: v) ]
 ]
 
 { #category : #'*Containers-Essentials' }

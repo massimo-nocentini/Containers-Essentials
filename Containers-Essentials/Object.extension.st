@@ -32,6 +32,12 @@ Object >> itself: anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
+Object >> prependBlock: aFullBlockClosure [
+
+	^ aFullBlockClosure value: self
+]
+
+{ #category : #'*Containers-Essentials' }
 Object >> yourself: aBlock [
 
 	"I invoke the given block giving myself as argument if it needs to consume me.
