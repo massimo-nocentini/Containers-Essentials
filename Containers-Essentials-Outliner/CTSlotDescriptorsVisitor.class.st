@@ -205,7 +205,8 @@ CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 		  #asMilliSeconds asSlotDescriptor.
 		  #asMicroseconds asSlotDescriptor.
 		  #asNanoSeconds asSlotDescriptor.
-		  (#asStringDHHMMSSµ asSlotDescriptor inline: true) }
+		  (#asStringDHHMMSSµ asSlotDescriptor inline: true).
+		  (#asStringScaledUptoHours asSlotDescriptor inline: true) }
 ]
 
 { #category : #visiting }
