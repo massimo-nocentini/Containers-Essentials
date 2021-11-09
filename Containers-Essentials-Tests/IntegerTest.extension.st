@@ -5,14 +5,16 @@ IntegerTest >> testAsStringAZaz [
 
 	| n |
 	self
-		assert: 0 asStringAZaz equals: 'k';
-		assert: 1 asStringAZaz equals: 'l';
-		assert: 10 asStringAZaz equals: 'A';
-		assert: 15 asStringAZaz equals: 'F';
-		assert: 16 asStringAZaz equals: 'G';
-		assert: 26 asStringAZaz equals: 'Q';
-		assert: 51 asStringAZaz equals: 'j';
-		assert: 52 asStringAZaz equals: 'lk'.
+		assert: ((0 to: 104) collect: [ :each | each asStringAZaz ])
+		equals:
+			#( 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'A' 'B' 'C' 'D' 'E' 'F'
+			   'G' 'H' 'I' 'J' 'K' 'L' 'M' 'N' 'O' 'P' 'Q' 'R' 'S' 'T' 'U' 'V'
+			   'W' 'X' 'Y' 'Z' 'u' 'v' 'w' 'x' 'y' 'z' 'a' 'b' 'c' 'd' 'e' 'f'
+			   'g' 'h' 'i' 'j' 'lk' 'll' 'lm' 'ln' 'lo' 'lp' 'lq' 'lr' 'ls'
+			   'lt' 'lA' 'lB' 'lC' 'lD' 'lE' 'lF' 'lG' 'lH' 'lI' 'lJ' 'lK' 'lL'
+			   'lM' 'lN' 'lO' 'lP' 'lQ' 'lR' 'lS' 'lT' 'lU' 'lV' 'lW' 'lX' 'lY'
+			   'lZ' 'lu' 'lv' 'lw' 'lx' 'ly' 'lz' 'la' 'lb' 'lc' 'ld' 'le' 'lf'
+			   'lg' 'lh' 'li' 'lj' 'mk' ).
 
 	"Ensure #asStringAZaz is a bijection: for the sake of clarity,
 	 to each integer corresponds an unique AZaz representation."
