@@ -40,6 +40,33 @@ Integer >> asSkewBinaryCanonicalSparse [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> asStringAZaz [
+
+	^ self positive
+		  ifTrue: [ 
+			  | repr skipInterval nextSkipInterval |
+			  repr := self printStringBase: 52.
+
+			  skipInterval := $0 asInteger to: $9 asInteger.
+			  nextSkipInterval := $Z asInteger + 1 to: $a asInteger - 1.
+
+			  String streamContents: [ :aStream | 
+				  repr do: [ :each | 
+					  | i |
+					  i := each asInteger.
+
+					  i := (nextSkipInterval includes: i)
+						       ifTrue: [ i - nextSkipInterval first + $u asInteger ]
+						       ifFalse: [ 
+							       (skipInterval includes: i)
+								       ifTrue: [ i - skipInterval first + $k asInteger ]
+								       ifFalse: [ i ] ].
+
+					  aStream nextPut: i asCharacter ] ] ]
+		  ifFalse: [ Error signal ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asStringBRGC [
 
 	^ self bitBRGC printStringBase: 2
