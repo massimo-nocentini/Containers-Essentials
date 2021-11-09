@@ -40,7 +40,7 @@ Integer >> asSkewBinaryCanonicalSparse [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> asStringAlphanumeric [
+Integer >> asStringAZaz [
 
 	^ self positive
 		  ifTrue: [ 
