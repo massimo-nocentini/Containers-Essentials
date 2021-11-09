@@ -53,6 +53,12 @@ Float class >> goldenRatio [
 ]
 
 { #category : #'*Containers-Essentials' }
+Float class >> platinumRatio [
+
+	^ self goldenRatio + self silverRatio
+]
+
+{ #category : #'*Containers-Essentials' }
 Float class >> silverRatio [
 
 	^ self goldenRatio - 1
