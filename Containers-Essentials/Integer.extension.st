@@ -237,7 +237,16 @@ Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> goldenRatios [
+Integer >> goldenRatiosGreater [
+
+	^ self
+		  gibonacciNumbersFirst: 1
+		  second: Float goldenRatio
+		  do: [ :a :b | a + b ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> goldenRatiosLower [
 
 	^ self
 		  gibonacciNumbersFirst: Float goldenRatio
