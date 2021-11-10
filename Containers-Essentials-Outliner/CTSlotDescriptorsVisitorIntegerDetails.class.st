@@ -12,6 +12,7 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
 		  (#asStringAZaz asSlotDescriptor inline: true).
+		  (#asStringaz asSlotDescriptor inline: true).
 		  (#asStringDecimal asSlotDescriptor inline: true).
 		  (#asStringHex asSlotDescriptor inline: true).
 		  (#asStringOctal asSlotDescriptor inline: true).

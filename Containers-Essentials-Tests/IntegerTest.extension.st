@@ -3,7 +3,6 @@ Extension { #name : #IntegerTest }
 { #category : #'*Containers-Essentials-Tests' }
 IntegerTest >> testAsStringAZaz [
 
-	| n |
 	self
 		assert: ((0 to: 104) collect: [ :each | each asStringAZaz ])
 		equals:
@@ -18,9 +17,33 @@ IntegerTest >> testAsStringAZaz [
 
 	"Ensure #asStringAZaz is a bijection: for the sake of clarity,
 	 to each integer corresponds an unique AZaz representation."
-	n := 10000.
+	10000 in: [ :n | 
+		self
+			assert:
+			((1 to: n) collect: [ :each | each asStringAZaz ] as: Set) size
+			equals: n ]
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testAsStringaz [
+
 	self
-		assert:
-		((1 to: n) collect: [ :each | each asStringAZaz ] as: Set) size
-		equals: n
+		assert: ((0 to: 104) collect: [ :each | each asStringaz ])
+		equals:
+			#( 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' 'a' 'b' 'c' 'd' 'e' 'f'
+			   'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'rq' 'rr' 'rs' 'rt' 'ru'
+			   'rv' 'rw' 'rx' 'ry' 'rz' 'ra' 'rb' 'rc' 'rd' 're' 'rf' 'rg' 'rh'
+			   'ri' 'rj' 'rk' 'rl' 'rm' 'rn' 'ro' 'rp' 'sq' 'sr' 'ss' 'st' 'su'
+			   'sv' 'sw' 'sx' 'sy' 'sz' 'sa' 'sb' 'sc' 'sd' 'se' 'sf' 'sg' 'sh'
+			   'si' 'sj' 'sk' 'sl' 'sm' 'sn' 'so' 'sp' 'tq' 'tr' 'ts' 'tt' 'tu'
+			   'tv' 'tw' 'tx' 'ty' 'tz' 'ta' 'tb' 'tc' 'td' 'te' 'tf' 'tg' 'th'
+			   'ti' 'tj' 'tk' 'tl' 'tm' 'tn' 'to' 'tp' 'uq' ).
+
+	"Ensure #asStringAZaz is a bijection: for the sake of clarity,
+	 to each integer corresponds an unique AZaz representation."
+	10000 in: [ :n | 
+		self
+			assert:
+			((1 to: n) collect: [ :each | each asStringAZaz ] as: Set) size
+			equals: n ]
 ]
