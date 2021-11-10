@@ -34,7 +34,7 @@ EssentialsObjectTest >> testCollectionSubclasses [
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
 	| ratios |
-	ratios := 10 goldenRatios.
+	ratios := 10 goldenRatiosLower.
 
 	self
 		assert: ratios

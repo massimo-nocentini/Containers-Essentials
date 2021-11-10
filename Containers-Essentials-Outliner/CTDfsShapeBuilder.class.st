@@ -157,7 +157,7 @@ CTDfsShapeBuilder >> initialize [
 
 	super initialize.
 
-	goldenRatios := 10 goldenRatios.
+	goldenRatios := 10 goldenRatiosLower.
 
 	self prototypeLabel: (RSLabel new
 			 model: nil;
