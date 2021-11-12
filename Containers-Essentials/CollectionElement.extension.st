@@ -5,5 +5,5 @@ CollectionElement >> ifNil: nBlock ifEnclosed: jBlock [
 
 	^ self == NilElement
 		  ifTrue: nBlock
-		  ifFalse: [ jBlock cull: self enclosedElement ]
+		  ifFalse: [ jBlock value: self enclosedElement ]
 ]
