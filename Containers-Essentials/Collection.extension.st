@@ -26,3 +26,9 @@ Collection >> mergeSortedCollection: aSortedCollection [
 
 	^ aSortedCollection mergeCollection: self
 ]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> select: selectBlock thenFlatCollect: collectBlock [
+
+	^ (self select: selectBlock) flatCollect: collectBlock
+]
