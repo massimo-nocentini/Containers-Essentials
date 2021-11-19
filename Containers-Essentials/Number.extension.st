@@ -9,6 +9,12 @@ Number >> adaptToComplex: rcvr andSend: selector [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> add: aNumber [
+
+	^ self + aNumber
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> arcCosh [
 	"Answer receiver's area hyperbolic cosine.
 	That is the inverse function of cosh."
