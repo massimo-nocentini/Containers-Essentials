@@ -1,7 +1,14 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*Containers-Essentials' }
+BlockClosure >> ! anArgument [
+
+	^ self value: anArgument
+]
+
+{ #category : #'*Containers-Essentials' }
 BlockClosure >> !! args [
+
 	^ self valueWithArguments: args
 ]
 
@@ -9,6 +16,18 @@ BlockClosure >> !! args [
 BlockClosure >> , anObject [
 
 	^ anObject prependBlock: self
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> ? anArgument [
+
+	^ self cull: anArgument
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> ?? args [
+
+	^ self valueWithEnoughArguments: args
 ]
 
 { #category : #'*Containers-Essentials' }
