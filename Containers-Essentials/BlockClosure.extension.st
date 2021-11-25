@@ -129,9 +129,8 @@ BlockClosure >> value: doBlock then: afterBlock [
 	| carry result |
 	carry := self value.
 
-	result := doBlock cull: carry.
-
-	^ afterBlock cull: result cull: carry
+	^ [ result := doBlock cull: carry ] ensure: [ 
+		  afterBlock cull: result cull: carry ]
 ]
 
 { #category : #'*Containers-Essentials' }
