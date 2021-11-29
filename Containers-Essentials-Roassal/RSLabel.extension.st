@@ -5,3 +5,9 @@ RSLabel >> fontSizeSilverRatio [
 
 	self fontSize: self fontSize * Float silverRatio
 ]
+
+{ #category : #'*Containers-Essentials-Roassal' }
+RSLabel >> useSilverRatioFontSize [
+
+	^ self fontSize: self fontSize * Float silverRatio
+]
