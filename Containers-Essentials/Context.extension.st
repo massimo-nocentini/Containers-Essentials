@@ -4,21 +4,29 @@ Extension { #name : #Context }
 Context >> asStringInterpolationOfReceiverSelectorArguments [
 
 	^ String streamContents: [ :aStream | 
-		  aStream nextPutAll: receiver asString.
+		  aStream
+			  nextPutAll: receiver asString;
+			  nextPut: Character space;
+			  nextPutAll: self asStringInterpolationOfSelectorArguments ]
+]
 
-		  self arguments
-			  ifEmpty: [ 
-				  aStream
-					  nextPutAll: ' ';
-					  nextPutAll: self selector ]
-			  ifNotEmpty: [ :args | 
-				  | keywords |
-				  keywords := $: split: self selector.
+{ #category : #'*Containers-Essentials' }
+Context >> asStringInterpolationOfSelectorArguments [
 
-				  keywords allButLast with: args do: [ :key :arg | 
-					  aStream
-						  nextPutAll: ' ';
-						  nextPutAll: key asString;
-						  nextPutAll: ': ';
-						  nextPutAll: arg asString ] ] ]
+	^ (String streamContents: [ :aStream | 
+		   self arguments
+			   ifEmpty: [ 
+				   aStream
+					   nextPut: Character space;
+					   nextPutAll: self selector ]
+			   ifNotEmpty: [ :args | 
+				   | keywords |
+				   keywords := $: split: self selector.
+
+				   keywords allButLast with: args do: [ :key :arg | 
+					   aStream
+						   nextPut: Character space;
+						   nextPutAll: key asString;
+						   nextPutAll: ': ';
+						   nextPutAll: arg asString ] ] ]) allButFirst
 ]
