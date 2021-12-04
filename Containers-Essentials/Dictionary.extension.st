@@ -11,6 +11,20 @@ Dictionary >> anyAssociation [
 ]
 
 { #category : #'*Containers-Essentials' }
+Dictionary >> at: aKey inOrderedCollectionAdd: anObject [
+
+	^ (self at: aKey ifAbsentPut: [ OrderedCollection new ])
+		  add: anObject;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials' }
+Dictionary >> ifAbsentPutOrderAt: anObject [
+
+	^ self at: anObject ifAbsentPut: [ self size + 1 ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Dictionary >> inverted [
 
 	^ self invertedIfCollision: [ :v :collision | 
