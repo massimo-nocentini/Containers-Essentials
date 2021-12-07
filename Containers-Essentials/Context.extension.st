@@ -13,20 +13,33 @@ Context >> asStringInterpolationOfReceiverSelectorArguments [
 { #category : #'*Containers-Essentials' }
 Context >> asStringInterpolationOfSelectorArguments [
 
-	^ (String streamContents: [ :aStream | 
-		   self arguments
-			   ifEmpty: [ 
-				   aStream
-					   nextPut: Character space;
-					   nextPutAll: self selector ]
-			   ifNotEmpty: [ :args | 
-				   | keywords |
-				   keywords := $: split: self selector.
+	| interpolation |
+	interpolation := String streamContents: [ :aStream | 
+		                 self arguments
+			                 ifEmpty: [ 
+				                 aStream
+					                 nextPut: Character space;
+					                 nextPutAll: self selector ]
+			                 ifNotEmpty: [ :args | 
+				                 self method isBinarySelector
+					                 ifTrue: [ 
+						                 self assert: args size = 1.
+						                 aStream
+							                 nextPut: Character space;
+							                 nextPutAll: self selector;
+							                 nextPut: Character space;
+							                 nextPutAll: args anyOne asString ]
+					                 ifFalse: [ 
+						                 | keywords |
+						                 keywords := $: split: self selector.
+						                 keywords allButLast
+							                 with: args
+							                 do: [ :key :arg | 
+								                 aStream
+									                 nextPut: Character space;
+									                 nextPutAll: key asString;
+									                 nextPutAll: ': ';
+									                 nextPutAll: arg asString ] ] ] ].
 
-				   keywords allButLast with: args do: [ :key :arg | 
-					   aStream
-						   nextPut: Character space;
-						   nextPutAll: key asString;
-						   nextPutAll: ': ';
-						   nextPutAll: arg asString ] ] ]) allButFirst
+	^ interpolation allButFirst
 ]
