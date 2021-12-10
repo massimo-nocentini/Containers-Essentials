@@ -47,6 +47,12 @@ Float >> cosh [
 ]
 
 { #category : #'*Containers-Essentials' }
+Float class >> goldenPlatinumRatio [
+
+	^ self goldenRatio + self platinumRatio
+]
+
+{ #category : #'*Containers-Essentials' }
 Float class >> goldenRatio [
 
 	^ 1.61803398874989484820458683436563811772030917980576286213544862270526046281890244970720720418939113748475

@@ -1,7 +1,8 @@
 Class {
 	#name : #MessageSent,
-	#superclass : #MessageSend,
+	#superclass : #Object,
 	#instVars : [
+		'messageSend',
 		'return'
 	],
 	#category : #'Containers-Essentials-Messaging'
@@ -10,13 +11,27 @@ Class {
 { #category : #comparing }
 MessageSent >> = anObject [
 
-	^ super = anObject and: [ return == anObject return ]
+	^ anObject species == self species and: [ 
+		  self messageSend = anObject messageSend and: [ 
+			  self return == anObject return ] ]
 ]
 
 { #category : #comparing }
 MessageSent >> hash [
 
-	^ super hash bitXor: return hash
+	^ messageSend hash bitXor: return hash
+]
+
+{ #category : #accessing }
+MessageSent >> messageSend [
+
+	^ messageSend
+]
+
+{ #category : #accessing }
+MessageSent >> messageSend: anObject [
+
+	messageSend := anObject
 ]
 
 { #category : #accessing }
@@ -29,40 +44,4 @@ MessageSent >> return [
 MessageSent >> return: anObject [
 
 	^ return := anObject
-]
-
-{ #category : #accessing }
-MessageSent >> value [
-
-	^ return := super value
-]
-
-{ #category : #accessing }
-MessageSent >> value: anObject [
-
-	^ return := super value: anObject
-]
-
-{ #category : #evaluating }
-MessageSent >> value: anObject1 value: anObject2 [
-
-	^ return := super value: anObject1 value: anObject2
-]
-
-{ #category : #evaluating }
-MessageSent >> value: anObject1 value: anObject2 value: anObject3 [
-
-	^ return := super value: anObject1 value: anObject2 value: anObject3
-]
-
-{ #category : #evaluating }
-MessageSent >> valueWithArguments: anArray [
-
-	^ return := super valueWithArguments: anArray
-]
-
-{ #category : #evaluating }
-MessageSent >> valueWithEnoughArguments: anArray [
-
-	^ return := super valueWithEnoughArguments: anArray
 ]

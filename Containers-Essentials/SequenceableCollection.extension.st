@@ -76,6 +76,22 @@ SequenceableCollection >> foldr: aBlock init: init [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> greatestCommonIndex: aCollection [
+
+	| index stop |
+	stop := false.
+	index := 1.
+
+	[ stop or: [ index > self size or: [ index > aCollection size ] ] ] 
+		whileFalse: [ 
+			(self at: index) == (aCollection at: index)
+				ifTrue: [ index := index + 1 ]
+				ifFalse: [ stop := true ] ].
+
+	^ index - 1
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> halves [
 
 	^ self

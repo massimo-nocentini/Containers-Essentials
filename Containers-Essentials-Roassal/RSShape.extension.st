@@ -1,6 +1,29 @@
 Extension { #name : #RSShape }
 
 { #category : #'*Containers-Essentials-Roassal' }
+RSShape >> boxedWithPad: aPadding [
+
+	| box |
+	box := RSBox new
+		       extent: self extent + (aPadding * 2);
+		       cornerRadius: aPadding;
+		       color: Color white;
+		       borderDo: [ :aBorder | 
+			       aBorder color: aBorder color translucent ];
+		       yourself.
+
+	RSLocation new
+		center;
+		stick: box on: self.
+
+	^ RSComposite new
+		  shapes: { 
+				  box.
+				  self };
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
 RSShape >> paddedWithGoldenRatio [
 
 	| pad |

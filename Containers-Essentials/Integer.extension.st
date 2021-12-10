@@ -442,3 +442,19 @@ Integer >> skewBinaryCanonicalSparseRepresentation [
 		  ifTrue: [ nil ]
 		  ifFalse: [ self asSkewBinaryCanonicalSparse representation ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowFibonacci [
+
+	^ self < 2
+		  ifTrue: [ self ]
+		  ifFalse: [ (self - 1) slowFibonacci add: (self - 2) slowFibonacci ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowFibonacci: a tail: b [
+
+	^ self > 0
+		  ifTrue: [ self - 1 slowFibonacci: b tail: (a add: b) ]
+		  ifFalse: [ a ]
+]

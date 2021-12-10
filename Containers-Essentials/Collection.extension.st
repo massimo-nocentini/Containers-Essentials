@@ -10,6 +10,12 @@ Collection >> adaptToComplex: rcvr andSend: selector [
 ]
 
 { #category : #'*Containers-Essentials' }
+Collection >> doª: aBlock [
+
+	self do: aBlock
+]
+
+{ #category : #'*Containers-Essentials' }
 Collection >> merge: anObject [
 
 	^ anObject mergeCollection: self
@@ -25,4 +31,10 @@ Collection >> mergeCollection: aCollection [
 Collection >> mergeSortedCollection: aSortedCollection [
 
 	^ aSortedCollection mergeCollection: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> select: selectBlock thenFlatCollect: collectBlock [
+
+	^ (self select: selectBlock) flatCollect: collectBlock
 ]
