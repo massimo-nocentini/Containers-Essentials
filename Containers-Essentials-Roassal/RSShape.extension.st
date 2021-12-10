@@ -3,14 +3,22 @@ Extension { #name : #RSShape }
 { #category : #'*Containers-Essentials-Roassal' }
 RSShape >> boxedWithPad: aPadding [
 
+	^ self padded: aPadding withBoxDo: [ :box | 
+		  box
+			  color: Color white;
+			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
+RSShape >> padded: aPadding withBoxDo: aBlock [
+
 	| box |
 	box := RSBox new
 		       extent: self extent + (aPadding * 2);
 		       cornerRadius: aPadding;
-		       color: Color white;
-		       borderDo: [ :aBorder | 
-			       aBorder color: aBorder color translucent ];
 		       yourself.
+
+	aBlock value: box.
 
 	RSLocation new
 		center;
