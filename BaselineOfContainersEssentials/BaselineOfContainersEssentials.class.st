@@ -8,17 +8,21 @@ Class {
 BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ "Externals."
+	spec for: #common do: [
 		self schmidtExtensions: spec.
 		self roassalEsporters: spec.
+		self ownPackages: spec ]
+]
 
-		"Packages"
-		spec
-			package: 'Containers-Essentials';
-			package: 'Containers-Essentials-Roassal';
-			package: 'Containers-Essentials-Outliner';
-			package: 'Containers-Essentials-Visualizations';
-			package: 'Containers-Essentials-Tests' ]
+{ #category : #baselines }
+BaselineOfContainersEssentials >> ownPackages: spec [
+
+	spec
+		package: 'Containers-Essentials';
+		package: 'Containers-Essentials-Roassal';
+		package: 'Containers-Essentials-Outliner';
+		package: 'Containers-Essentials-Visualizations';
+		package: 'Containers-Essentials-Tests'
 ]
 
 { #category : #baselines }
