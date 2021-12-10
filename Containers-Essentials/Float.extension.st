@@ -53,24 +53,6 @@ Float class >> goldenPlatinumRatio [
 ]
 
 { #category : #'*Containers-Essentials' }
-Float class >> goldenRatio [
-
-	^ 1.61803398874989484820458683436563811772030917980576286213544862270526046281890244970720720418939113748475
-]
-
-{ #category : #'*Containers-Essentials' }
-Float class >> platinumRatio [
-
-	^ self goldenRatio + 1
-]
-
-{ #category : #'*Containers-Essentials' }
-Float class >> silverRatio [
-
-	^ self goldenRatio - 1
-]
-
-{ #category : #'*Containers-Essentials' }
 Float >> sinh [
 	"Answer receivers hyperbolic sine"
 	
@@ -93,10 +75,4 @@ Float >> tanh [
 	ex := self exp.
 	emx := ex reciprocal.
 	^(ex - emx) / (ex + emx)
-]
-
-{ #category : #'*Containers-Essentials' }
-Float class >> π [
-
-	^ self pi
 ]

@@ -9,7 +9,8 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ "Externals."
-		self roassal: spec.
+		self schmidtExtensions: spec.
+		self roassalEsporters: spec.
 
 		"Packages"
 		spec
@@ -21,10 +22,19 @@ BaselineOfContainersEssentials >> baseline: spec [
 ]
 
 { #category : #baselines }
-BaselineOfContainersEssentials >> roassal: spec [
+BaselineOfContainersEssentials >> roassalEsporters: spec [
 
 	spec
 		baseline: 'Roassal3Exporters'
 		with: [ 
 		spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
+]
+
+{ #category : #baselines }
+BaselineOfContainersEssentials >> schmidtExtensions: spec [
+
+	spec 
+		baseline: 'SchmidtExtensions' 
+		with: [ spec repository: 'github://bauing-schmidt/SchmidtExtensions:master/src' ]
+
 ]
