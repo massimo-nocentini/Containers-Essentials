@@ -10,6 +10,15 @@ BaselineOfContainersEssentials >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self schmidtExtensions: spec.
+		
+		spec 
+			baseline: 'OrderPreservingTree' 
+			with: [ spec repository: 'github://bauing-schmidt/Containers-OrderPreservingTree:master/src' ].
+		spec 
+			baseline: 'ContainersCategory' 
+			with: [ spec repository: 'github://bauing-schmidt/Containers-Category:master/src' ].
+		
+		self roassal: spec.
 		self roassalEsporters: spec.
 		self ownPackages: spec ]
 ]
@@ -23,6 +32,15 @@ BaselineOfContainersEssentials >> ownPackages: spec [
 		package: 'Containers-Essentials-Outliner';
 		package: 'Containers-Essentials-Visualizations';
 		package: 'Containers-Essentials-Tests'
+]
+
+{ #category : #baselines }
+BaselineOfContainersEssentials >> roassal: spec [
+
+	spec
+		baseline: 'Roassal3'
+		with: [ 
+		spec repository: 'github://bauing-schmidt/Roassal3:production10' ]
 ]
 
 { #category : #baselines }
