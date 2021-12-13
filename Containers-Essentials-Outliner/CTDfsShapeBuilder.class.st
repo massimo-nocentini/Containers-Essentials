@@ -161,7 +161,7 @@ CTDfsShapeBuilder >> initialize [
 
 	self prototypeLabel: (RSLabel new
 			 model: nil;
-			 fontName: 'Source Code Pro';
+			 useCodeFont;
 			 yourself)
 ]
 
