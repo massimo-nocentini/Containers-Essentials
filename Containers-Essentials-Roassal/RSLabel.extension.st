@@ -13,7 +13,7 @@ RSLabel >> fontSizeSilverRatio [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
-RSLabel >> useCodeFont [
+RSLabel >> useDefaultCodeFont [
 
 	self font: self class defaultCodeFont
 ]

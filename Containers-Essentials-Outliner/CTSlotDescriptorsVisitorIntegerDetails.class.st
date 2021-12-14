@@ -11,8 +11,6 @@ Class {
 CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
-		  (#asStringAZaz asSlotDescriptor inline: true).
-		  (#asStringaz asSlotDescriptor inline: true).
 		  (#asStringDecimal asSlotDescriptor inline: true).
 		  (#asStringHex asSlotDescriptor inline: true).
 		  (#asStringOctal asSlotDescriptor inline: true).
@@ -27,5 +25,7 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 			   quote).
 		  (#asShapeSkewDots asSlotDescriptor
 			   inline: true;
-			   quote) }
+			   quote).
+		  (#asStringAZaz asSlotDescriptor inline: true).
+		  (#asStringaz asSlotDescriptor inline: true) }
 ]

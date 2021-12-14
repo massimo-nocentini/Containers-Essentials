@@ -18,7 +18,7 @@ RSShape >> padded: aPadding withBoxDo: aBlock [
 		       cornerRadius: aPadding;
 		       yourself.
 
-	aBlock value: box.
+	aBlock cull: box cull: self.
 
 	RSLocation new
 		center;
