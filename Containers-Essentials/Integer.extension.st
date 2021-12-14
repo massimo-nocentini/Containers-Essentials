@@ -153,6 +153,8 @@ Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 { #category : #'*Containers-Essentials' }
 Integer >> bitAverage: anInteger [
 
+	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
+
 	"Use: x+y == (x^y) + ((x&y)<<1), that is: sum == sum_without_carries + carries."
 
 	^ (self bitXor: anInteger) >> 1 + (self bitAnd: anInteger)
@@ -171,6 +173,18 @@ Integer >> bitInvert8 [
 	| mask |
 	mask := 16rFF.
 	^ (self bitAnd: mask) bitXor: mask
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> bitToggle: anInteger do: aBlock [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.8, Toggling between values."
+
+	| t x |
+	t := self bitXor: anInteger.
+	x := anInteger.
+
+	^ aBlock value: [ x := x bitXor: t ]
 ]
 
 { #category : #'*Containers-Essentials' }

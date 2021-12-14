@@ -70,6 +70,44 @@ IntegerTest >> testBitAverage [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testBitToggleDo [
+
+	| n m |
+	n := 38299527986758693756807879086754976930654.
+	m := 57483879867596837956739087695867359769587.
+
+	n bitToggle: m do: [ :toggle | 
+		self
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m ]
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testBitToggleDo1 [
+
+	| n m |
+	n := 1.
+	m := 0.
+
+	n bitToggle: m do: [ :toggle | 
+		self
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m;
+			assert: toggle value equals: n;
+			assert: toggle value equals: m ]
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
 IntegerTest >> testShiftOfNegativeOne [
 
 	| a |
