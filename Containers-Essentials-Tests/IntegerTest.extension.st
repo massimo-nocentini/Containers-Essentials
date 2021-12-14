@@ -47,3 +47,35 @@ IntegerTest >> testAsStringaz [
 			((1 to: n) collect: [ :each | each asStringAZaz ] as: Set) size
 			equals: n ]
 ]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testBitAverage [
+
+	| s n m slowBenchResult quickBenchResult seconds |
+	s := 2.
+
+	self timeLimit: (s * 2 + 1) seconds.
+
+	n := 38299527986758693756807879086754976930654.
+	m := 57483879867596837956739087695867359769587.
+
+	seconds := s seconds.
+
+	quickBenchResult := [ n bitAverage: m ] benchFor: seconds.
+	slowBenchResult := [ (n + m / 2) asInteger ] benchFor: seconds.
+
+	self
+		assert: (n bitAverage: m) equals: (n + m / 2) asInteger;
+		assert: slowBenchResult iterations < quickBenchResult iterations
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testShiftOfNegativeOne [
+
+	| a |
+	a := -1.
+
+	self
+		assert: a >> 1 equals: -1;
+		assert: a // 2 equals: -1
+]

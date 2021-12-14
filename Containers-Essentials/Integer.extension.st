@@ -151,6 +151,14 @@ Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> bitAverage: anInteger [
+
+	"Use: x+y == (x^y) + ((x&y)<<1), that is: sum == sum_without_carries + carries."
+
+	^ (self bitXor: anInteger) >> 1 + (self bitAnd: anInteger)
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> bitBRGC [
 
 	^ self bitXor: self >> 1
