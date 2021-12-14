@@ -64,9 +64,10 @@ IntegerTest >> testBitAverage [
 	quickBenchResult := [ n bitAverage: m ] benchFor: seconds.
 	slowBenchResult := [ (n + m / 2) asInteger ] benchFor: seconds.
 
-	self
-		assert: (n bitAverage: m) equals: (n + m / 2) asInteger;
-		assert: slowBenchResult iterations < quickBenchResult iterations
+	self assert: (n bitAverage: m) equals: (n + m / 2) asInteger.
+
+	"For the sake of clarity, a run yields: 730482 < 3673262"
+	self assert: slowBenchResult iterations < quickBenchResult iterations
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
