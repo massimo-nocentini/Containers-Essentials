@@ -123,9 +123,21 @@ Number >> isTo: x as: y isTo: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> multiplyNumber: aNumber [
+
+	^ self * aNumber
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> sinh [
 	
 	^self asFloat sinh
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> subtractNumber: aNumber [
+
+	^ self - aNumber
 ]
 
 { #category : #'*Containers-Essentials' }

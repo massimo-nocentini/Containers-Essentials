@@ -396,7 +396,7 @@ EssentialsObjectTest >> testInspectLargeInteger [
 
 	| large n |
 	n := 42 factorial.
-	large := n dcMultiplyInteger: n.
+	large := n dcMultiplyInteger: n base: 10.
 
 	self assert: large equals: n * n.
 
@@ -406,7 +406,7 @@ EssentialsObjectTest >> testInspectLargeInteger [
 { #category : #tests }
 EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 
-	| large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	| m n large handlerTiming tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
 	handlerExecution := MWHandlerExecution new
@@ -421,17 +421,16 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 		                  handler: handlerTiming;
 		                  yourself.
 
+	m := 835.
+	n := 714.
+
 	large := (MWSession withAllImplementations: { 
-				          (Integer >> #dcMultiplyInteger:).
-				          "				          (Integer >> #numberOfDigitsInBase:)."
-				          (Integer >> #halves:base:).
-				          (Integer >> #halves:at:digits:base:)
-				          "(Integer >> #+).
-				          (Integer >> #-).
-				          (Integer >> #*).
-				          (Number >> #**)" })
+				          (Integer >> #dcMultiplyInteger:base:).
+				          (Number >> #add:).
+				          (Number >> #subtractNumber:).
+				          (Number >> #multiplyNumber:) })
 		         do: [ :each | each handler: handlerCopying ];
-		         value: [ large := 83 dcMultiplyInteger: 71 ].
+		         value: [ large := m dcMultiplyInteger: n base: 10 ].
 
 	metadata := IdentityDictionary new.
 	handlerExecution metadata: metadata.
@@ -445,10 +444,14 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 	"		useShapeSlotsDfsTree;"
 
 	self
-		assert: tree size equals: 13;
-		assert: large equals: 83 * 71.
+		assert: tree size equals: 41;
+		assert: large equals: m * n.
 
 	^ self
+		  exportShapeOf: tree
+		  accessorBlock: [ :aTree | 
+			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
+		  pathSuffix: 'contexts-tree';
 		  export: tree
 		  pathSuffix: 'sequence-diagram'
 		  onCanvasDo: [ :aCanvas :useless | 

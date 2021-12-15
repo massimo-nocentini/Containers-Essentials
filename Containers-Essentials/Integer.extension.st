@@ -212,10 +212,49 @@ Integer >> choose: k [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> dcMultiplyInteger: anInteger [
+Integer >> dcMultiplyInteger: anInteger base: base [
 
-	| base |
-	base := 10.
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self multiplyNumber: anInteger ]
+		  ifFalse: [ 
+			  | x y yDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  x := self.
+					  y := anInteger ]
+				  ifFalse: [ 
+					  x := anInteger.
+					  y := self ].
+
+			  yDigits := y numberOfDigitsInBase: base.
+
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow exp |
+							  p := (xHigh add: xLow)
+								       dcMultiplyInteger: (yHigh add: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
+							  xyLow := xLow dcMultiplyInteger: yLow base: base.
+
+							  exp := base ** xl.
+							  pp := p subtractNumber: (xyHigh add: xyLow).
+
+							  "According to the Horner schema."
+							  (((xyHigh multiplyNumber: exp) add: pp) multiplyNumber: exp) 
+								  add: xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
 		   anInteger between: 0 and: base - 1 ])
@@ -238,12 +277,15 @@ Integer >> dcMultiplyInteger: anInteger [
 					  y
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow |
-							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
-							  xyHigh := xHigh dcMultiplyInteger: yHigh.
-							  xyLow := xLow dcMultiplyInteger: yLow.
+							  p := (xHigh add: xLow)
+								       dcMultiplyInteger: (yHigh add: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
+							  xyLow := xLow dcMultiplyInteger: yLow base: base.
 
-							  pp := p - xyHigh - xyLow * (base ** xl).
-							  xyHigh * (base ** xl double) + pp + xyLow ]
+							  pp := ((p subtractNumber: xyHigh) subtractNumber: xyLow)
+							        * (base ** xl).
+							  (xyHigh * (base ** xl double) add: pp) add: xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]
