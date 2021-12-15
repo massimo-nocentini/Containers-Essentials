@@ -405,9 +405,81 @@ Integer >> mediantInteger: anInteger [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> nextEven [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ (self bitOr: 1) + 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextEvenOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self + 1 bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> nextFromLink: aLink [
 
 	^ aLink nextInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextOdd [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self + 1 bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextOddOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousEven [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self - 1 bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousEvenOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousOdd [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ (self bitAnd: 1 bitInvert) - 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousOddOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self - 1 bitOr: 1
 ]
 
 { #category : #'*Containers-Essentials' }

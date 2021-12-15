@@ -109,6 +109,94 @@ IntegerTest >> testBitToggleDo1 [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testNextEven [
+
+	self
+		assert: -2 nextEven equals: 0;
+		assert: -1 nextEven equals: 0;
+		assert: 0 nextEven equals: 2;
+		assert: 1 nextEven equals: 2;
+		assert: 2 nextEven equals: 4
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testNextEvenOrSelf [
+
+	self
+		assert: -2 nextEvenOrSelf equals: -2;
+		assert: -1 nextEvenOrSelf equals: 0;
+		assert: 0 nextEvenOrSelf equals: 0;
+		assert: 1 nextEvenOrSelf equals: 2;
+		assert: 2 nextEvenOrSelf equals: 2
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testNextOdd [
+
+	self
+		assert: -2 nextOdd equals: -1;
+		assert: -1 nextOdd equals: 1;
+		assert: 0 nextOdd equals: 1;
+		assert: 1 nextOdd equals: 3;
+		assert: 2 nextOdd equals: 3
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testNextOddOrSelf [
+
+	self
+		assert: -2 nextOddOrSelf equals: -1;
+		assert: -1 nextOddOrSelf equals: -1;
+		assert: 0 nextOddOrSelf equals: 1;
+		assert: 1 nextOddOrSelf equals: 1;
+		assert: 2 nextOddOrSelf equals: 3
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testPreviousEven [
+
+	self
+		assert: -2 previousEven equals: -4;
+		assert: -1 previousEven equals: -2;
+		assert: 0 previousEven equals: -2;
+		assert: 1 previousEven equals: 0;
+		assert: 2 previousEven equals: 0
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testPreviousEvenOrSelf [
+
+	self
+		assert: -2 previousEvenOrSelf equals: -2;
+		assert: -1 previousEvenOrSelf equals: -2;
+		assert: 0 previousEvenOrSelf equals: 0;
+		assert: 1 previousEvenOrSelf equals: 0;
+		assert: 2 previousEvenOrSelf equals: 2
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testPreviousOdd [
+
+	self
+		assert: -2 previousOdd equals: -3;
+		assert: -1 previousOdd equals: -3;
+		assert: 0 previousOdd equals: -1;
+		assert: 1 previousOdd equals: -1;
+		assert: 2 previousOdd equals: 1
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
+IntegerTest >> testPreviousOddOrSelf [
+
+	self
+		assert: -2 previousOddOrSelf equals: -3;
+		assert: -1 previousOddOrSelf equals: -1;
+		assert: 0 previousOddOrSelf equals: -1;
+		assert: 1 previousOddOrSelf equals: 1;
+		assert: 2 previousOddOrSelf equals: 1
+]
+
+{ #category : #'*Containers-Essentials-Tests' }
 IntegerTest >> testShiftOfNegativeOne [
 
 	| a |
