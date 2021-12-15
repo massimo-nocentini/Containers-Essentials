@@ -404,6 +404,59 @@ EssentialsObjectTest >> testInspectLargeInteger [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectLargeIntegerProfiled [
+
+	| large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	tree := CTOrderPreservingTree new.
+
+	handlerExecution := MWHandlerExecution new
+		                    tree: tree;
+		                    yourself.
+
+	handlerTiming := MWHandlerTiming new
+		                 handler: handlerExecution;
+		                 yourself.
+
+	handlerCopying := MWHandlerReceiverArgumentsCopying new
+		                  handler: handlerTiming;
+		                  yourself.
+
+	large := (MWSession withAllImplementations: { 
+				          (Integer >> #dcMultiplyInteger:).
+				          "				          (Integer >> #numberOfDigitsInBase:)."
+				          (Integer >> #halves:base:).
+				          (Integer >> #halves:at:digits:base:)
+				          "(Integer >> #+).
+				          (Integer >> #-).
+				          (Integer >> #*).
+				          (Number >> #**)" })
+		         do: [ :each | each handler: handlerCopying ];
+		         value: [ large := 83 dcMultiplyInteger: 71 ].
+
+	metadata := IdentityDictionary new.
+	handlerExecution metadata: metadata.
+	handlerCopying metadata: metadata.
+	handlerTiming metadata: metadata.
+
+	"Show here the new presenter."
+	presenter := (MWSpPresenter on: tree -> metadata)
+		             openWithSpec;
+		             yourself.
+	"		useShapeSlotsDfsTree;"
+
+	self
+		assert: tree size equals: 13;
+		assert: large equals: 83 * 71.
+
+	^ self
+		  export: tree
+		  pathSuffix: 'sequence-diagram'
+		  onCanvasDo: [ :aCanvas :useless | 
+			  presenter currentCanvas: aCanvas ];
+		  exportSlotsGraphOf: large
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectNil [
 
 	^ self exportSlotsGraphOf: nil
