@@ -151,6 +151,16 @@ Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> bitAdd: anInteger [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
+
+	"Use: x+y == ((x&y)<<1) + (x^y)."
+
+	^ (self bitAnd: anInteger) << 1 + (self bitXor: anInteger)
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> bitAverage: anInteger [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
@@ -247,6 +257,48 @@ Integer >> dcMultiplyInteger: anInteger base: base [
 							  "According to the Horner schema."
 							  (((xyHigh multiplyNumber: exp) add: pp) multiplyNumber: exp) 
 								  add: xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> dcMultiplyIntegerQuick: anInteger base: base [
+
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self multiplyNumber: anInteger ]
+		  ifFalse: [ 
+			  | x y yDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  x := self.
+					  y := anInteger ]
+				  ifFalse: [ 
+					  x := anInteger.
+					  y := self ].
+
+			  yDigits := y numberOfDigitsInBase: base.
+
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow exp |
+							  p := (xHigh bitAdd: xLow)
+								       dcMultiplyIntegerQuick: (yHigh bitAdd: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyIntegerQuick: yHigh base: base.
+							  xyLow := xLow dcMultiplyIntegerQuick: yLow base: base.
+
+							  exp := base ** xl.
+							  pp := p subtractNumber: (xyHigh bitAdd: xyLow).
+
+							  "According to the Horner schema."
+							  (((xyHigh multiplyNumber: exp) bitAdd: pp) multiplyNumber:
+								   exp) bitAdd: xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]
