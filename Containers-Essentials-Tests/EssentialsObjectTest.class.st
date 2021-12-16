@@ -434,19 +434,15 @@ EssentialsObjectTest >> testInspectLargeIntegerBench [
 { #category : #tests }
 EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 
-	| m n large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
 	handlerExecution := MWHandlerExecution new
 		                    tree: tree;
 		                    yourself.
 
-	handlerTiming := MWHandlerTiming new
-		                 handler: handlerExecution;
-		                 yourself.
-
 	handlerCopying := MWHandlerReceiverArgumentsCopying new
-		                  handler: handlerTiming;
+		                  handler: handlerExecution;
 		                  yourself.
 
 	m := 835.
@@ -463,7 +459,6 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 	metadata := IdentityDictionary new.
 	handlerExecution metadata: metadata.
 	handlerCopying metadata: metadata.
-	handlerTiming metadata: metadata.
 
 	"Show here the new presenter."
 	presenter := (MWSpPresenter on: tree -> metadata)
@@ -476,33 +471,29 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 		assert: large equals: m * n.
 
 	^ self
-		  "exportShapeOf: tree
-		  accessorBlock: [ :aTree | 
-			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
-		  pathSuffix: 'contexts-tree';"
 		  export: tree
 		  pathSuffix: 'sequence-diagram'
 		  onCanvasDo: [ :aCanvas :useless | 
 			  presenter currentCanvas: aCanvas ];
 		  exportSlotsGraphOf: large
+	"exportShapeOf: tree
+		  accessorBlock: [ :aTree | 
+			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
+		  pathSuffix: 'contexts-tree';"
 ]
 
 { #category : #tests }
 EssentialsObjectTest >> testInspectLargeIntegerQuickProfiled [
 
-	| m n large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
 	handlerExecution := MWHandlerExecution new
 		                    tree: tree;
 		                    yourself.
 
-	handlerTiming := MWHandlerTiming new
-		                 handler: handlerExecution;
-		                 yourself.
-
 	handlerCopying := MWHandlerReceiverArgumentsCopying new
-		                  handler: handlerTiming;
+		                  handler: handlerExecution;
 		                  yourself.
 
 	m := 835.
@@ -519,7 +510,6 @@ EssentialsObjectTest >> testInspectLargeIntegerQuickProfiled [
 	metadata := IdentityDictionary new.
 	handlerExecution metadata: metadata.
 	handlerCopying metadata: metadata.
-	handlerTiming metadata: metadata.
 
 	"Show here the new presenter."
 	presenter := (MWSpPresenter on: tree -> metadata)
@@ -546,19 +536,15 @@ EssentialsObjectTest >> testInspectLargeIntegerQuickProfiled [
 { #category : #tests }
 EssentialsObjectTest >> testInspectLargeIntegerSlowProfiled [
 
-	| m n large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
 	handlerExecution := MWHandlerExecution new
 		                    tree: tree;
 		                    yourself.
 
-	handlerTiming := MWHandlerTiming new
-		                 handler: handlerExecution;
-		                 yourself.
-
 	handlerCopying := MWHandlerReceiverArgumentsCopying new
-		                  handler: handlerTiming;
+		                  handler: handlerExecution;
 		                  yourself.
 
 	m := 835.
@@ -575,7 +561,6 @@ EssentialsObjectTest >> testInspectLargeIntegerSlowProfiled [
 	metadata := IdentityDictionary new.
 	handlerExecution metadata: metadata.
 	handlerCopying metadata: metadata.
-	handlerTiming metadata: metadata.
 
 	"Show here the new presenter."
 	presenter := (MWSpPresenter on: tree -> metadata)
@@ -588,15 +573,15 @@ EssentialsObjectTest >> testInspectLargeIntegerSlowProfiled [
 		assert: large equals: m * n.
 
 	^ self
-		  "exportShapeOf: tree
-		  accessorBlock: [ :aTree | 
-			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
-		  pathSuffix: 'contexts-tree';"
 		  export: tree
 		  pathSuffix: 'sequence-diagram'
 		  onCanvasDo: [ :aCanvas :useless | 
 			  presenter currentCanvas: aCanvas ];
 		  exportSlotsGraphOf: large
+	"exportShapeOf: tree
+		  accessorBlock: [ :aTree | 
+			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
+		  pathSuffix: 'contexts-tree';"
 ]
 
 { #category : #tests }
