@@ -398,7 +398,9 @@ EssentialsObjectTest >> testInspectLargeInteger [
 	n := 42 factorial.
 	large := n dcMultiplyInteger: n base: 10.
 
-	self assert: large equals: n * n.
+	self
+		assert: large equals: n * n;
+		assert: (n dcMultiplyIntegerSlow: n base: 10) equals: large.
 
 	^ self exportSlotsGraphOf: large
 ]
@@ -431,6 +433,62 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 				          (Number >> #multiplyNumber:) })
 		         do: [ :each | each handler: handlerCopying ];
 		         value: [ large := m dcMultiplyInteger: n base: 10 ].
+
+	metadata := IdentityDictionary new.
+	handlerExecution metadata: metadata.
+	handlerCopying metadata: metadata.
+	handlerTiming metadata: metadata.
+
+	"Show here the new presenter."
+	presenter := (MWSpPresenter on: tree -> metadata)
+		             openWithSpec;
+		             yourself.
+	"		useShapeSlotsDfsTree;"
+
+	self
+		assert: tree size equals: 41;
+		assert: large equals: m * n.
+
+	^ self
+		  exportShapeOf: tree
+		  accessorBlock: [ :aTree | 
+			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
+		  pathSuffix: 'contexts-tree';
+		  export: tree
+		  pathSuffix: 'sequence-diagram'
+		  onCanvasDo: [ :aCanvas :useless | 
+			  presenter currentCanvas: aCanvas ];
+		  exportSlotsGraphOf: large
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectLargeIntegerSlowProfiled [
+
+	| m n large handlerTiming tree handlerExecution handlerCopying metadata presenter |
+	tree := CTOrderPreservingTree new.
+
+	handlerExecution := MWHandlerExecution new
+		                    tree: tree;
+		                    yourself.
+
+	handlerTiming := MWHandlerTiming new
+		                 handler: handlerExecution;
+		                 yourself.
+
+	handlerCopying := MWHandlerReceiverArgumentsCopying new
+		                  handler: handlerTiming;
+		                  yourself.
+
+	m := 835.
+	n := 714.
+
+	large := (MWSession withAllImplementations: { 
+				          (Integer >> #dcMultiplyIntegerSlow:base:).
+				          (Number >> #add:).
+				          (Number >> #subtractNumber:).
+				          (Number >> #multiplyNumber:) })
+		         do: [ :each | each handler: handlerCopying ];
+		         value: [ large := m dcMultiplyIntegerSlow: n base: 10 ].
 
 	metadata := IdentityDictionary new.
 	handlerExecution metadata: metadata.

@@ -258,7 +258,7 @@ Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
 		   anInteger between: 0 and: base - 1 ])
-		  ifTrue: [ self * anInteger ]
+		  ifTrue: [ self multiplyNumber: anInteger ]
 		  ifFalse: [ 
 			  | x y yDigits |
 			  (self numberOfDigitsInBase: base)
@@ -278,14 +278,15 @@ Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow |
 							  p := (xHigh add: xLow)
-								       dcMultiplyInteger: (yHigh add: yLow)
+								       dcMultiplyIntegerSlow: (yHigh add: yLow)
 								       base: base.
-							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
-							  xyLow := xLow dcMultiplyInteger: yLow base: base.
+							  xyHigh := xHigh dcMultiplyIntegerSlow: yHigh base: base.
+							  xyLow := xLow dcMultiplyIntegerSlow: yLow base: base.
 
-							  pp := ((p subtractNumber: xyHigh) subtractNumber: xyLow)
-							        * (base ** xl).
-							  (xyHigh * (base ** xl double) add: pp) add: xyLow ]
+							  pp := ((p subtractNumber: xyHigh) subtractNumber: xyLow) 
+								        multiplyNumber: base ** xl.
+							  ((xyHigh multiplyNumber: base ** xl double) add: pp) add:
+								  xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]

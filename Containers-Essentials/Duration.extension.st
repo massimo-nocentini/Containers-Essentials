@@ -57,3 +57,9 @@ Duration >> printScaledUptoHoursOn: aStream [
 				(1 -> 'nanosec') }
 		withRespectTo: [ :aDuration | aDuration asNanoSeconds ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Duration >> squared [
+
+	^ self class seconds: seconds squared nanoSeconds: nanos squared
+]
