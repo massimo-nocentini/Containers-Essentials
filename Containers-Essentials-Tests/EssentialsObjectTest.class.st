@@ -437,7 +437,7 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
-	handlerExecution := MWHandlerExecution new
+	handlerExecution := MWHandlerProfiling new
 		                    tree: tree;
 		                    yourself.
 
@@ -488,7 +488,7 @@ EssentialsObjectTest >> testInspectLargeIntegerQuickProfiled [
 	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
-	handlerExecution := MWHandlerExecution new
+	handlerExecution := MWHandlerProfiling new
 		                    tree: tree;
 		                    yourself.
 
@@ -539,7 +539,7 @@ EssentialsObjectTest >> testInspectLargeIntegerSlowProfiled [
 	| m n large tree handlerExecution handlerCopying metadata presenter |
 	tree := CTOrderPreservingTree new.
 
-	handlerExecution := MWHandlerExecution new
+	handlerExecution := MWHandlerProfiling new
 		                    tree: tree;
 		                    yourself.
 
