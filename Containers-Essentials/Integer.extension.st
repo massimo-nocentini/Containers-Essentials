@@ -353,6 +353,18 @@ Integer >> eightBits [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> factorialRecursive [
+
+	^ self > 0
+		  ifTrue: [ 
+		  self multiplyNumber: (self subtractNumber: 1) factorialRecursive ]
+		  ifFalse: [ 
+			  self = 0
+				  ifTrue: [ 1 ]
+				  ifFalse: [ self error: 'Not valid for negative integers' ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> fibonacciNumbers [
 
 	^ self gibonacciNumbersFirst: 0 second: 1 do: [ :a :b | a + b ]
@@ -575,6 +587,30 @@ Integer >> previousOddOrSelf [
 	 Next or previous even or odd value, optimized versions."
 
 	^ self - 1 bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> productTo: upper [
+
+	"Return the product of all integers between 
+   the receiver (exclusive) and upper (inclusive)."
+
+	| delta product middle |
+	delta := upper subtractNumber: self.
+	^ delta <= 0
+		  ifTrue: [ Error signal ]
+		  ifFalse: [ 
+			  delta < 5
+				  ifTrue: [ 
+					  product := upper.
+					  1 to: delta - 1 do: [ :each | 
+						  product := (upper subtractNumber: each) multiplyNumber:
+							             product ].
+					  product ]
+				  ifFalse: [ 
+					  middle := self + upper >> 1.
+					  (self productTo: middle) multiplyNumber:
+						  (middle productTo: upper) ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
