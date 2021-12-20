@@ -38,6 +38,12 @@ Float >> arcTanh [
 ]
 
 { #category : #'*Containers-Essentials' }
+Float class >> bronzeRatio [
+
+	^ 1.0 - self silverRatio
+]
+
+{ #category : #'*Containers-Essentials' }
 Float >> cosh [
 	"Answer receivers hyperbolic cosine."
 	
