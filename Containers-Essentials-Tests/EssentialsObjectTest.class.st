@@ -513,9 +513,9 @@ EssentialsObjectTest >> testInspectLargeIntegerProfiled [
 
 	"Show here the new presenter."
 	presenter := (MWSpPresenter on: tree -> metadata)
+		             useShapeSlotsDfsTree;
 		             openWithSpec;
 		             yourself.
-	"		useShapeSlotsDfsTree;"
 
 	self
 		assert: tree size equals: 41;

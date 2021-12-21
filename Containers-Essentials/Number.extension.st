@@ -11,6 +11,12 @@ Number >> adaptToComplex: rcvr andSend: selector [
 { #category : #'*Containers-Essentials' }
 Number >> add: aNumber [
 
+	^ self addNumber: aNumber
+]
+
+{ #category : #'*Containers-Essentials' }
+Number >> addNumber: aNumber [
+
 	^ self + aNumber
 ]
 

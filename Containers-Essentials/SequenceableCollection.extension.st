@@ -115,7 +115,10 @@ SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 
 { #category : #'*Containers-Essentials' }
 SequenceableCollection >> horner: base init: init [
-	^ self inject: init into: [ :acc :each | base * acc + each ]
+
+	^ self
+		  inject: init
+		  into: [ :acc :each | (base multiplyNumber: acc) addNumber: each ]
 ]
 
 { #category : #'*Containers-Essentials' }
