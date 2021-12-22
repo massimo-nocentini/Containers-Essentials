@@ -118,7 +118,7 @@ SequenceableCollection >> horner: base init: init [
 
 	^ self
 		  inject: init
-		  into: [ :acc :each | (base multiplyNumber: acc) addNumber: each ]
+		  into: [ :acc :each | (acc multiplyNumber: base) addNumber: each ]
 ]
 
 { #category : #'*Containers-Essentials' }
