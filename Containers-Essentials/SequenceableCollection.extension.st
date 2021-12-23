@@ -31,6 +31,33 @@ SequenceableCollection >> doubleExponentiallyWeighted: beta init: init [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> estrin: x [
+
+	^ self reversed estrin: x init: 0
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> estrin: base init: init [
+
+	^ self ifEmpty: [ init ] ifNotEmpty: [ 
+		  self size = 1
+			  ifTrue: [ self first ]
+			  ifFalse: [ 
+				  | odd even squared |
+				  even := self class streamContents: [ :evenStream | 
+					          odd := self class streamContents: [ :oddStream | 
+						                 self withIndexDo: [ :each :i | 
+							                 (i - 1) even
+								                 ifTrue: [ evenStream nextPut: each ]
+								                 ifFalse: [ oddStream nextPut: each ] ] ] ].
+
+				  squared := base squared.
+
+				  (even estrin: squared init: init) addNumber:
+					  ((odd estrin: squared init: init) multiplyNumber: base) ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> exponentiallyWeighted: beta [
 
 	^ self exponentiallyWeighted: beta init: 0
