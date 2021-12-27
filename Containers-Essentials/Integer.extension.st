@@ -151,6 +151,26 @@ Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> bitAdd: anInteger [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
+
+	"Use: x+y == ((x&y)<<1) + (x^y)."
+
+	^ (self bitAnd: anInteger) << 1 + (self bitXor: anInteger)
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> bitAverage: anInteger [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
+
+	"Use: x+y == (x^y) + ((x&y)<<1), that is: sum == sum_without_carries + carries."
+
+	^ (self bitXor: anInteger) >> 1 + (self bitAnd: anInteger)
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> bitBRGC [
 
 	^ self bitXor: self >> 1
@@ -163,6 +183,18 @@ Integer >> bitInvert8 [
 	| mask |
 	mask := 16rFF.
 	^ (self bitAnd: mask) bitXor: mask
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> bitToggle: anInteger do: aBlock [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.8, Toggling between values."
+
+	| t x |
+	t := self bitXor: anInteger.
+	x := anInteger.
+
+	^ aBlock value: [ x := x bitXor: t ]
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -190,14 +222,95 @@ Integer >> choose: k [
 ]
 
 { #category : #'*Containers-Essentials' }
-Integer >> dcMultiplyInteger: anInteger [
-
-	| base |
-	base := 10.
+Integer >> dcMultiplyInteger: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
 		   anInteger between: 0 and: base - 1 ])
-		  ifTrue: [ self * anInteger ]
+		  ifTrue: [ self multiplyNumber: anInteger ]
+		  ifFalse: [ 
+			  | x y yDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  x := self.
+					  y := anInteger ]
+				  ifFalse: [ 
+					  x := anInteger.
+					  y := self ].
+
+			  yDigits := y numberOfDigitsInBase: base.
+
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow exp |
+							  p := (xHigh add: xLow)
+								       dcMultiplyInteger: (yHigh add: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
+							  xyLow := xLow dcMultiplyInteger: yLow base: base.
+
+							  exp := base ** xl.
+							  pp := p subtractNumber: (xyHigh add: xyLow).
+
+							  "According to the Horner schema."
+							  (((xyHigh multiplyNumber: exp) add: pp) multiplyNumber: exp) 
+								  add: xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> dcMultiplyIntegerQuick: anInteger base: base [
+
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self multiplyNumber: anInteger ]
+		  ifFalse: [ 
+			  | x y yDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  x := self.
+					  y := anInteger ]
+				  ifFalse: [ 
+					  x := anInteger.
+					  y := self ].
+
+			  yDigits := y numberOfDigitsInBase: base.
+
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow exp |
+							  p := (xHigh bitAdd: xLow)
+								       dcMultiplyIntegerQuick: (yHigh bitAdd: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyIntegerQuick: yHigh base: base.
+							  xyLow := xLow dcMultiplyIntegerQuick: yLow base: base.
+
+							  exp := base ** xl.
+							  pp := p subtractNumber: (xyHigh bitAdd: xyLow).
+
+							  "According to the Horner schema."
+							  (((xyHigh multiplyNumber: exp) bitAdd: pp) multiplyNumber:
+								   exp) bitAdd: xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> dcMultiplyIntegerSlow: anInteger base: base [
+
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self multiplyNumber: anInteger ]
 		  ifFalse: [ 
 			  | x y yDigits |
 			  (self numberOfDigitsInBase: base)
@@ -216,12 +329,16 @@ Integer >> dcMultiplyInteger: anInteger [
 					  y
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow |
-							  p := xHigh + xLow dcMultiplyInteger: yHigh + yLow.
-							  xyHigh := xHigh dcMultiplyInteger: yHigh.
-							  xyLow := xLow dcMultiplyInteger: yLow.
+							  p := (xHigh add: xLow)
+								       dcMultiplyIntegerSlow: (yHigh add: yLow)
+								       base: base.
+							  xyHigh := xHigh dcMultiplyIntegerSlow: yHigh base: base.
+							  xyLow := xLow dcMultiplyIntegerSlow: yLow base: base.
 
-							  pp := p - xyHigh - xyLow * (base ** xl).
-							  xyHigh * (base ** xl double) + pp + xyLow ]
+							  pp := ((p subtractNumber: xyHigh) subtractNumber: xyLow) 
+								        multiplyNumber: base ** xl.
+							  ((xyHigh multiplyNumber: base ** xl double) add: pp) add:
+								  xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]
@@ -233,6 +350,18 @@ Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
 	^ (0 to: 7) collect: [ :i | (1 << i bitAnd: byte) ~= 0 ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> factorialRecursive [
+
+	^ self > 0
+		  ifTrue: [ 
+		  self multiplyNumber: (self subtractNumber: 1) factorialRecursive ]
+		  ifFalse: [ 
+			  self = 0
+				  ifTrue: [ 1 ]
+				  ifFalse: [ self error: 'Not valid for negative integers' ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -383,9 +512,105 @@ Integer >> mediantInteger: anInteger [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> nextEven [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ (self bitOr: 1) + 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextEvenOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self + 1 bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> nextFromLink: aLink [
 
 	^ aLink nextInteger: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextOdd [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self + 1 bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> nextOddOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousEven [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self - 1 bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousEvenOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self bitAnd: 1 bitInvert
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousOdd [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ (self bitAnd: 1 bitInvert) - 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> previousOddOrSelf [
+
+	"See 'Matters Computational' (ftxbook) section 1.1.9, 
+	 Next or previous even or odd value, optimized versions."
+
+	^ self - 1 bitOr: 1
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> productTo: upper [
+
+	"Return the product of all integers between 
+   the receiver (exclusive) and upper (inclusive)."
+
+	| delta product middle |
+	delta := upper subtractNumber: self.
+	^ delta <= 0
+		  ifTrue: [ Error signal ]
+		  ifFalse: [ 
+			  delta < 5
+				  ifTrue: [ 
+					  product := upper.
+					  1 to: delta - 1 do: [ :each | 
+						  product := (upper subtractNumber: each) multiplyNumber:
+							             product ].
+					  product ]
+				  ifFalse: [ 
+					  middle := self + upper >> 1.
+					  (self productTo: middle) multiplyNumber:
+						  (middle productTo: upper) ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
