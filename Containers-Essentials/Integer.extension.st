@@ -245,18 +245,18 @@ Integer >> dcMultiplyInteger: anInteger base: base [
 					  y
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow exp |
-							  p := (xHigh add: xLow)
-								       dcMultiplyInteger: (yHigh add: yLow)
+							  p := (xHigh addNumber: xLow)
+								       dcMultiplyInteger: (yHigh addNumber: yLow)
 								       base: base.
 							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
 							  xyLow := xLow dcMultiplyInteger: yLow base: base.
 
 							  exp := base ** xl.
-							  pp := p subtractNumber: (xyHigh add: xyLow).
+							  pp := p subtractNumber: (xyHigh addNumber: xyLow).
 
 							  "According to the Horner schema."
-							  (((xyHigh multiplyNumber: exp) add: pp) multiplyNumber: exp) 
-								  add: xyLow ]
+							  (((xyHigh multiplyNumber: exp) addNumber: pp) 
+								   multiplyNumber: exp) addNumber: xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]
@@ -329,16 +329,16 @@ Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 					  y
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow |
-							  p := (xHigh add: xLow)
-								       dcMultiplyIntegerSlow: (yHigh add: yLow)
+							  p := (xHigh addNumber: xLow)
+								       dcMultiplyIntegerSlow: (yHigh addNumber: yLow)
 								       base: base.
 							  xyHigh := xHigh dcMultiplyIntegerSlow: yHigh base: base.
 							  xyLow := xLow dcMultiplyIntegerSlow: yLow base: base.
 
 							  pp := ((p subtractNumber: xyHigh) subtractNumber: xyLow) 
 								        multiplyNumber: base ** xl.
-							  ((xyHigh multiplyNumber: base ** xl double) add: pp) add:
-								  xyLow ]
+							  ((xyHigh multiplyNumber: base ** xl double) addNumber: pp) 
+								  addNumber: xyLow ]
 						  at: xl
 						  digits: yDigits
 						  base: base ]
@@ -673,13 +673,25 @@ Integer >> slowFibonacci [
 
 	^ self < 2
 		  ifTrue: [ self ]
-		  ifFalse: [ (self - 1) slowFibonacci add: (self - 2) slowFibonacci ]
+		  ifFalse: [ 
+		  (self - 1) slowFibonacci addNumber: (self - 2) slowFibonacci ]
 ]
 
 { #category : #'*Containers-Essentials' }
 Integer >> slowFibonacci: a tail: b [
 
 	^ self > 0
-		  ifTrue: [ self - 1 slowFibonacci: b tail: (a add: b) ]
+		  ifTrue: [ self - 1 slowFibonacci: b tail: (a addNumber: b) ]
 		  ifFalse: [ a ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowFibonacciMemo: aDictionary [
+
+	^ self < 2
+		  ifTrue: [ self ]
+		  ifFalse: [ 
+			  aDictionary at: self ifAbsentPut: [ 
+				  (self - 1 slowFibonacciMemo: aDictionary) addNumber:
+					  (self - 2 slowFibonacciMemo: aDictionary) ] ]
 ]
