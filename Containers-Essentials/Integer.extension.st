@@ -683,3 +683,14 @@ Integer >> slowFibonacci: a tail: b [
 		  ifTrue: [ self - 1 slowFibonacci: b tail: (a add: b) ]
 		  ifFalse: [ a ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowFibonacciMemo: aDictionary [
+
+	^ self < 2
+		  ifTrue: [ self ]
+		  ifFalse: [ 
+			  aDictionary at: self ifAbsentPut: [ 
+				  (self - 1 slowFibonacciMemo: aDictionary) addNumber:
+					  (self - 2 slowFibonacciMemo: aDictionary) ] ]
+]
