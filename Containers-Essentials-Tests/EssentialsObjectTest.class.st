@@ -396,7 +396,7 @@ EssentialsObjectTest >> testInspectLargeInteger [
 
 	| large n |
 	n := 42 factorial.
-	large := n dcMultiplyInteger: n base: 10.
+	large := n karatsuba: n base: 10.
 
 	self
 		assert: large equals: n * n;
@@ -416,16 +416,13 @@ EssentialsObjectTest >> testInspectLargeIntegerBench [
 	m := 8353243857638976935086973908547693709653846039568038760978045789065879065856478267589356845765897395867394867947369.
 	n := 71443585763986790386779308765994675736783265452687685768365873564832756482763598273658736462354785628976982756982765239.
 
-	([ r1 := m dcMultiplyInteger: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 964"
+	([ r1 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 964"
 
 	([ r2 := m * n ] benchFor: 5 seconds) iterations. " 18259186"
 
-	([ r3 := m dcMultiplyIntegerSlow: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 928"
+	([ r3 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 928"
 
-	([ r4 := m dcMultiplyIntegerQuick: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 903"
+	([ r4 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 903"
 
 	self
 		assert: r1 equals: r2;
