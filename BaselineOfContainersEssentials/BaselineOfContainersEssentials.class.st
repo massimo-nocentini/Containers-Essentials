@@ -26,7 +26,7 @@ BaselineOfContainersEssentials >> roassal: spec [
 	spec
 		baseline: 'Roassal3' with: [ 
 			spec
-				repository: 'github://massimo-nocentini/Roassal3/src';
+				repository: 'github://massimo-nocentini/Roassal3:UML-sequence-diagram/src';
 				loads: #( Full ) ];
 		baseline: 'Roassal3Exporters'
 		with: [ 
