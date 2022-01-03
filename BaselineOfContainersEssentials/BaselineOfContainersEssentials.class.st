@@ -38,6 +38,7 @@ BaselineOfContainersEssentials >> ownPackages: spec [
 BaselineOfContainersEssentials >> roassal: spec [
 
 	spec
+
 		baseline: 'Roassal3'
 		with: [ 
 		spec repository: 'github://bauing-schmidt/Roassal3:production10' ]
@@ -47,6 +48,7 @@ BaselineOfContainersEssentials >> roassal: spec [
 BaselineOfContainersEssentials >> roassalEsporters: spec [
 
 	spec
+  
 		baseline: 'Roassal3Exporters'
 		with: [ 
 		spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]

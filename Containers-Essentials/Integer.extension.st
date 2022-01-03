@@ -246,10 +246,10 @@ Integer >> dcMultiplyInteger: anInteger base: base [
 						  halves: [ :yHigh :yLow :yn :yl | 
 							  | p pp xyHigh xyLow exp |
 							  p := (xHigh addNumber: xLow)
-								       dcMultiplyInteger: (yHigh addNumber: yLow)
+								       karatsuba: (yHigh addNumber: yLow)
 								       base: base.
-							  xyHigh := xHigh dcMultiplyInteger: yHigh base: base.
-							  xyLow := xLow dcMultiplyInteger: yLow base: base.
+							  xyHigh := xHigh karatsuba: yHigh base: base.
+							  xyLow := xLow karatsuba: yLow base: base.
 
 							  exp := base ** xl.
 							  pp := p subtractNumber: (xyHigh addNumber: xyLow).
@@ -485,6 +485,48 @@ Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 					  self = 2
 						  ifTrue: tBlock
 						  ifFalse: eBlock ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> karatsuba: anInteger base: base [
+
+	^ ((self between: 0 and: base - 1) and: [ 
+		   anInteger between: 0 and: base - 1 ])
+		  ifTrue: [ self multiplyNumber: anInteger ]
+		  ifFalse: [ 
+			  | x y yDigits |
+			  (self numberOfDigitsInBase: base)
+			  > (anInteger numberOfDigitsInBase: base)
+				  ifTrue: [ 
+					  x := self.
+					  y := anInteger ]
+				  ifFalse: [ 
+					  x := anInteger.
+					  y := self ].
+
+			  yDigits := y numberOfDigitsInBase: base.
+
+			  x
+				  halves: [ :xHigh :xLow :xn :xl | 
+					  y
+						  halves: [ :yHigh :yLow :yn :yl | 
+							  | p pp xyHigh xyLow exp |
+							  p := (xHigh addNumber: xLow)
+								       karatsuba: (yHigh addNumber: yLow)
+								       base: base.
+							  xyHigh := xHigh karatsuba: yHigh base: base.
+							  xyLow := xLow karatsuba: yLow base: base.
+
+							  exp := base ** xl.
+							  pp := p subtractNumber: (xyHigh addNumber: xyLow).
+
+							  "According to the Horner schema."
+							  (((xyHigh multiplyNumber: exp) addNumber: pp) 
+								   multiplyNumber: exp) addNumber: xyLow ]
+						  at: xl
+						  digits: yDigits
+						  base: base ]
+				  base: base ]
 ]
 
 { #category : #'*Containers-Essentials' }

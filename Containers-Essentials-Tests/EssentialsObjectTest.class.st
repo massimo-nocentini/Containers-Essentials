@@ -205,55 +205,6 @@ EssentialsObjectTest >> testInspectDictionary [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectFactorialRecursive [
-
-	| n factorial tree handlerExecution handlerCopying metadata presenter |
-	tree := CTOrderPreservingTree new.
-
-	handlerExecution := MWHandlerProfiling new
-		                    tree: tree;
-		                    yourself.
-
-	handlerCopying := MWHandlerReceiverArgumentsCopying new
-		                  handler: handlerExecution;
-		                  yourself.
-
-	n := 1 << 5.
-
-	factorial := (MWSession withAllImplementations: { 
-				              (Integer >> #factorialRecursive).
-				              "(Number >> #subtractNumber:)."
-				              (Number >> #multiplyNumber:) })
-		             do: [ :each | each handler: handlerCopying ];
-		             value: [ n factorialRecursive ].
-
-	metadata := IdentityDictionary new.
-	handlerExecution metadata: metadata.
-	handlerCopying metadata: metadata.
-
-	"Show here the new presenter."
-	presenter := (MWSpPresenter on: tree -> metadata)
-		             openWithSpec;
-		             yourself.
-	"		useShapeSlotsDfsTree;"
-
-	self
-		assert: tree size equals: 65;
-		assert: factorial equals: n factorial
-
-	"^ self
-		  export: tree
-		  pathSuffix: 'sequence-diagram'
-		  onCanvasDo: [ :aCanvas :useless | 
-			  presenter currentCanvas: aCanvas ];
-		  exportSlotsGraphOf: factorial"
-	"exportShapeOf: tree
-		  accessorBlock: [ :aTree | 
-			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
-		  pathSuffix: 'contexts-tree';"
-]
-
-{ #category : #tests }
 EssentialsObjectTest >> testInspectFloatPi [
 
 	^ self exportSlotsGraphOf: Float π
@@ -445,7 +396,7 @@ EssentialsObjectTest >> testInspectLargeInteger [
 
 	| large n |
 	n := 42 factorial.
-	large := n dcMultiplyInteger: n base: 10.
+	large := n karatsuba: n base: 10.
 
 	self
 		assert: large equals: n * n;
@@ -465,16 +416,13 @@ EssentialsObjectTest >> testInspectLargeIntegerBench [
 	m := 8353243857638976935086973908547693709653846039568038760978045789065879065856478267589356845765897395867394867947369.
 	n := 71443585763986790386779308765994675736783265452687685768365873564832756482763598273658736462354785628976982756982765239.
 
-	([ r1 := m dcMultiplyInteger: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 964"
+	([ r1 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 964"
 
 	([ r2 := m * n ] benchFor: 5 seconds) iterations. " 18259186"
 
-	([ r3 := m dcMultiplyIntegerSlow: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 928"
+	([ r3 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 928"
 
-	([ r4 := m dcMultiplyIntegerQuick: n base: 10 ] benchFor: 5 seconds)
-		iterations. " 903"
+	([ r4 := m karatsuba: n base: 10 ] benchFor: 5 seconds) iterations. " 903"
 
 	self
 		assert: r1 equals: r2;
@@ -523,56 +471,6 @@ EssentialsObjectTest >> testInspectPascalArray [
 EssentialsObjectTest >> testInspectPoint [
 
 	^ self exportSlotsGraphOf: 42 @ 24
-]
-
-{ #category : #tests }
-EssentialsObjectTest >> testInspectProductTo [
-
-	| n factorial tree handlerExecution handlerCopying metadata presenter |
-	tree := CTOrderPreservingTree new.
-
-	handlerExecution := MWHandlerProfiling new
-		                    tree: tree;
-		                    yourself.
-
-	handlerCopying := MWHandlerReceiverArgumentsCopying new
-		                  handler: handlerExecution;
-		                  yourself.
-
-	n := 1 << 5.
-
-	factorial := (MWSession withAllImplementations: { 
-				              (Integer >> #productTo:).
-				              (Number >> #add:).
-				              "(Number >> #subtractNumber:)."
-				              (Number >> #multiplyNumber:) })
-		             do: [ :each | each handler: handlerCopying ];
-		             value: [ 1 productTo: n ].
-
-	metadata := IdentityDictionary new.
-	handlerExecution metadata: metadata.
-	handlerCopying metadata: metadata.
-
-	"Show here the new presenter."
-	presenter := (MWSpPresenter on: tree -> metadata)
-		             openWithSpec;
-		             yourself.
-	"		useShapeSlotsDfsTree;"
-
-	self
-		assert: tree size equals: 45;
-		assert: factorial equals: n factorial
-
-	"^ self
-		  export: tree
-		  pathSuffix: 'sequence-diagram'
-		  onCanvasDo: [ :aCanvas :useless | 
-			  presenter currentCanvas: aCanvas ];
-		  exportSlotsGraphOf: factorial"
-	"exportShapeOf: tree
-		  accessorBlock: [ :aTree | 
-			  aTree asShapeValuesHorizontalTreeWithLabelShapes ]
-		  pathSuffix: 'contexts-tree';"
 ]
 
 { #category : #tests }
