@@ -12,6 +12,36 @@ SequenceableCollection >> asValueLink [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> bisect: mergeBlock baseBlock: baseBlock [
+	^ self
+		bisect: mergeBlock
+		from: 1
+		to: self size
+		baseBlock: baseBlock
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock [
+	| diff |
+	diff := high - low.
+	^ diff = 0
+		ifTrue: [ baseBlock value: (self at: high)	"Because `high` equals `low`." ]
+		ifFalse: [ | middle left right |
+			middle := diff // 2 + low.
+			left := self
+				bisect: mergeBlock
+				from: low
+				to: middle
+				baseBlock: baseBlock.
+			right := self
+				bisect: mergeBlock
+				from: middle + 1
+				to: high
+				baseBlock: baseBlock.
+			mergeBlock value: left value: right ]
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> doubleExponentiallyWeighted: beta [
 
 	^ self doubleExponentiallyWeighted: beta init: 0
@@ -172,6 +202,21 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 			            ifFalse: [ iBlock ].
 		   acc := block cull: acc cull: (self at: index) cull: index.
 		   nextCode -> acc ]) value
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> inversions: lessThan [
+
+	^ Array streamContents: [ :invStream | 
+		  self
+			  bisect: [ :lAssoc :rAssoc | 
+				  self class streamContents: [ :aStream | 
+					  lAssoc readStream
+						  merge: rAssoc readStream
+						  sortBlock: lessThan
+						  on: aStream
+						  inversionsOrNil: invStream ] ]
+			  baseBlock: [ :each | { each } ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
