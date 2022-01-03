@@ -26,7 +26,7 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversion
 			            ifFalse: [ 
 				            invStream ifNotNil: [ 
 					            self copy upToEnd do: [ :each | 
-						            invStream nextPut: itsNext -> each ] ].
+						            invStream nextPut: itsNext inversion: each ] ].
 
 				            inversions := inversions + self sizeUpToEnd.
 				            aStream next ].
