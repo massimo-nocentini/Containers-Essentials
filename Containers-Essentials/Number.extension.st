@@ -62,6 +62,12 @@ Number >> double [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> half [
+
+	^ self / 2
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> i [
 
 	^ Complex real: 0 imaginary: self
