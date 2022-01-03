@@ -12,7 +12,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 		self schmidtExtensions: spec.
 		
 		spec 
-			baseline: 'OrderPreservingTree' 
+			baseline: 'ContainersOrderPreservingTree' 
 			with: [ spec repository: 'github://bauing-schmidt/Containers-OrderPreservingTree:master/src' ].
 		spec 
 			baseline: 'ContainersCategory' 
