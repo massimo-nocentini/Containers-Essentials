@@ -25,7 +25,7 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversion
 			            ifTrue: [ self next ]
 			            ifFalse: [ 
 				            invStream ifNotNil: [ 
-					            self copy upToEnd do: [ :each | 
+					            self preservingPositionDo: [ :each | 
 						            invStream nextPut: itsNext inversion: each ] ].
 
 				            inversions := inversions + self sizeUpToEnd.
@@ -38,6 +38,15 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversion
 		nextPutAll: aStream upToEnd.
 
 	^ inversions
+]
+
+{ #category : #'*Containers-Essentials' }
+PositionableStream >> preservingPositionDo: aBlock [
+
+	| currentPosition |
+	currentPosition := self position.
+
+	[ self do: aBlock ] ensure: [ self position: currentPosition ]
 ]
 
 { #category : #'*Containers-Essentials' }

@@ -559,6 +559,45 @@ EssentialsObjectTest >> testInspectTrueAndFalse [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInversions [
+
+	self
+		assert: ((1 to: 100) asArray sizeInversions: [ :i :j | i < j ])
+		equals: 0.
+
+	self
+		assert: ((1 to: 100) reversed sizeInversions: [ :i :j | i < j ])
+		equals: (1 to: 100 - 1) sum.
+
+	"https://towardsdatascience.com/basic-algorithms-counting-inversions-71aaa579a2c0"
+	self
+		assert: ({ 2. 3. 8. 6. 1 } inversions: [ :i :j | i < j ])
+		equals: { 
+				(1 -> 6).
+				(1 -> 2).
+				(1 -> 3).
+				(1 -> 8).
+				(6 -> 8) }.
+
+	"https://www.interviewbit.com/blog/count-inversions-of-an-array/"
+	self
+		assert: ({ 6. 3. 5. 2. 7 } inversions: [ :i :j | i < j ])
+		equals: { 
+				(3 -> 6).
+				(5 -> 6).
+				(2 -> 3).
+				(2 -> 5).
+				(2 -> 6) }.
+
+	"https://people.cs.umass.edu/~sheldon/teaching/mhc/cs312/2013sp/Slides/Slides13%20-%20Counting%20Inversions.pdf"
+	self
+		assert:
+			({ 1. 5. 4. 8. 10. 2. 6. 9. 12. 11. 3. 7 } sizeInversions: [ :i :j | 
+				 i < j ])
+		equals: 22
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testLinkSubclasses [
 
 	^ self exportShapeOf: Link accessorBlock: #asShapeSubclasses

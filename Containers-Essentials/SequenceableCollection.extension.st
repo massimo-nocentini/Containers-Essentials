@@ -239,6 +239,28 @@ SequenceableCollection >> scan: aBlock init: aValue [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> sizeInversions: lessThan [
+
+	| inversions |
+	inversions := 0.
+	
+	self
+		bisect: [ :lAssoc :rAssoc | 
+			self class streamContents: [ :aStream | 
+				| localInversions |
+				localInversions := lAssoc readStream
+					                   merge: rAssoc readStream
+					                   sortBlock: lessThan
+					                   on: aStream
+					                   inversionsOrNil: nil.
+
+				inversions := inversions + localInversions ] ]
+		baseBlock: [ :each | { each } ].
+
+	^ inversions
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> zip: aSequenceable [
 	^ self zip: aSequenceable with: [ :s :o | s -> o ]
 ]
