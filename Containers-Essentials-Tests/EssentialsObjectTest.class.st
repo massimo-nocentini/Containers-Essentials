@@ -628,3 +628,45 @@ EssentialsObjectTest >> testRandomSubclasses [
 
 	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
 ]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDo [
+
+	{ 
+		Object new.
+		Object new.
+		Object new } withIntegersCollectionDo: [ :iCollection :map | 
+		self assert: iCollection equals: #( 0 1 2 ) ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDoSharingObjects [
+
+	| t o |
+	o := Object new.
+	t := Object new.
+
+	{ 
+		1.
+		o.
+		t.
+		o.
+		1 } withIntegersCollectionDo: [ :iCollection :map | 
+		self
+			assert: iCollection equals: #( 0 1 2 1 0 );
+			assert: (map value: iCollection first) equals: 1;
+			assert: (map value: iCollection second) equals: o;
+			assert: (map value: iCollection third) equals: t;
+			assert: (map value: iCollection fourth) equals: o;
+			assert: (map value: iCollection fifth) equals: 1 ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDoThreeDifferentObjects [
+
+	{ 
+		Object new.
+		Object new.
+		Object new } withIntegersCollectionDo: [ :iCollection :map | 
+		self assert: iCollection equals: #( 0 1 2 ) ]
+]

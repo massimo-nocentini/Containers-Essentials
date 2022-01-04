@@ -44,3 +44,29 @@ Collection >> select: selectBlock thenFlatCollect: collectBlock [
 
 	^ (self select: selectBlock) flatCollect: collectBlock
 ]
+
+{ #category : #'*Containers-Essentials' }
+Collection >> withIntegersCollectionDo: aBlock [
+
+	| map collection identities |
+	map := Dictionary new.
+
+	identities := IdentityDictionary new.
+
+	collection := Array streamContents: [ :aStream | 
+		              self do: [ :each | 
+			              | i |
+			              i := identities
+				                   at: each
+				                   ifAbsentPut: [ identities size ].
+
+			              map
+				              at: i
+				              ifPresent: [ :anObject | 
+				              self assert: anObject == each ]
+				              ifAbsentPut: [ each ].
+
+			              aStream nextPut: i ] ].
+
+	^ aBlock value: collection value: [ :anInteger | map at: anInteger ]
+]
