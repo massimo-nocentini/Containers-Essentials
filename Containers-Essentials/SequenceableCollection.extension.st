@@ -207,16 +207,20 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 { #category : #'*Containers-Essentials' }
 SequenceableCollection >> inversions: lessThan [
 
-	^ Array streamContents: [ :invStream | 
-		  self
-			  bisect: [ :lAssoc :rAssoc | 
-				  self class streamContents: [ :aStream | 
-					  lAssoc readStream
-						  merge: rAssoc readStream
-						  sortBlock: lessThan
-						  on: aStream
-						  inversionsOrNil: invStream ] ]
-			  baseBlock: [ :each | { each } ] ]
+	^ Array
+		  new: (1 to: self size - 1) sum "The very worst case, reversed wrt to `lessThan`."
+		  streamContents: [ :invStream | 
+			  self
+				  bisect: [ :left :right | 
+					  self class
+						  new: left size + right size
+						  streamContents: [ :aStream | 
+							  left readStream
+								  merge: right readStream
+								  sortBlock: lessThan
+								  on: aStream
+								  inversionsOrNil: invStream ] ]
+				  baseBlock: [ :each | { each } ] ] 
 ]
 
 { #category : #'*Containers-Essentials' }
