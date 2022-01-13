@@ -205,6 +205,12 @@ EssentialsObjectTest >> testInspectDictionary [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectFalse [
+
+	^ self exportSlotsGraphOf: false
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectFloatPi [
 
 	^ self exportSlotsGraphOf: Float π
@@ -447,9 +453,7 @@ EssentialsObjectTest >> testInspectObject [
 { #category : #tests }
 EssentialsObjectTest >> testInspectObjectModel [
 
-	^ self exportSlotsGraphOf: { 
-			  Object.
-			  Trait }
+	^ self exportSlotsGraphOf: Object
 ]
 
 { #category : #tests }
@@ -551,13 +555,9 @@ EssentialsObjectTest >> testInspectString [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectTrueAndFalse [
+EssentialsObjectTest >> testInspectTrue [
 
-	^ self
-		  exportSlotsGraphOf: (Array with: true with: false)
-		  slotDescriptorsContext:
-			  (CTSlotDescriptorsVisitor new collect: [ :aDescriptor | 
-				   aDescriptor inline: false ])
+	^ self exportSlotsGraphOf: true
 ]
 
 { #category : #tests }
