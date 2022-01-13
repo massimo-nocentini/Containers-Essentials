@@ -711,6 +711,24 @@ Integer >> skewBinaryCanonicalSparseRepresentation [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> slowExplicitFibonacci: a tail: b [
+
+	^ self > 0 slowExplicitFibonacci: a tail: b greaterThanZero: self
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowExplicitFibonacci: a tail: b greaterThanZeroIsFalse: aBoolean [
+
+	^ b
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> slowExplicitFibonacci: a tail: b greaterThanZeroIsTrue: aBoolean [
+
+	^ self - 1 slowExplicitFibonacci: (a addNumber: b) tail: a
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> slowFibonacci [
 
 	^ self < 2
@@ -723,8 +741,8 @@ Integer >> slowFibonacci [
 Integer >> slowFibonacci: a tail: b [
 
 	^ self > 0
-		  ifTrue: [ self - 1 slowFibonacci: b tail: (a addNumber: b) ]
-		  ifFalse: [ a ]
+		  ifTrue: [ self - 1 slowFibonacci: (a addNumber: b) tail: a ]
+		  ifFalse: [ b ]
 ]
 
 { #category : #'*Containers-Essentials' }

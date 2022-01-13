@@ -363,6 +363,8 @@ EssentialsObjectTest >> testInspectHeap [
 { #category : #tests }
 EssentialsObjectTest >> testInspectIceRepository [
 
+	self skip.
+
 	^ self exportSlotsGraphOf:
 		  (IceRepository registry detect: [ :each | 
 			   each name = 'Containers-HeapQ' ])
