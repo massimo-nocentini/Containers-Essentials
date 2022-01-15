@@ -224,6 +224,38 @@ SequenceableCollection >> inversions: lessThan [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> kth: k ranking: aBlock atRandom: aRandom [
+
+	| lessThan equals greaterThan pivot |
+	lessThan := OrderedCollection new.
+	equals := 0.
+	greaterThan := OrderedCollection new.
+
+	pivot := self atRandom: aRandom.
+
+	self do: [ :each | 
+		each == pivot
+			ifTrue: [ equals := equals + 1 ]
+			ifFalse: [ 
+				(aBlock value: each value: pivot)
+					ifTrue: [ lessThan add: each ]
+					ifFalse: [ greaterThan add: each ] ] ].
+
+	^ k <= lessThan size
+		  ifTrue: [ lessThan kth: k ranking: aBlock atRandom: aRandom ]
+		  ifFalse: [ 
+			  | size |
+			  size := lessThan size.
+			  (k between: size + 1 and: size + equals)
+				  ifTrue: [ pivot ]
+				  ifFalse: [ 
+					  greaterThan
+						  kth: k - size - equals
+						  ranking: aBlock
+						  atRandom: aRandom ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> lastButOne [
 
 	^ self
