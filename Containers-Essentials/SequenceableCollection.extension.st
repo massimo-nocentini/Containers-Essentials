@@ -224,9 +224,11 @@ SequenceableCollection >> inversions: lessThan [
 ]
 
 { #category : #'*Containers-Essentials' }
-SequenceableCollection >> kth: k ranking: aBlock atRandom: aRandom [
+SequenceableCollection >> kth: anInteger ranking: aBlock atRandom: aRandom [
 
-	| lessThan equals greaterThan pivot |
+	| lessThan equals greaterThan pivot k lessThanSize |
+	k := anInteger min: self size max: 1.
+
 	lessThan := OrderedCollection new.
 	equals := 0.
 	greaterThan := OrderedCollection new.
@@ -241,16 +243,16 @@ SequenceableCollection >> kth: k ranking: aBlock atRandom: aRandom [
 					ifTrue: [ lessThan add: each ]
 					ifFalse: [ greaterThan add: each ] ] ].
 
-	^ k <= lessThan size
+	lessThanSize := lessThan size.
+
+	^ k <= lessThanSize
 		  ifTrue: [ lessThan kth: k ranking: aBlock atRandom: aRandom ]
 		  ifFalse: [ 
-			  | size |
-			  size := lessThan size.
-			  (k between: size + 1 and: size + equals)
+			  (k between: lessThanSize + 1 and: lessThanSize + equals)
 				  ifTrue: [ pivot ]
 				  ifFalse: [ 
 					  greaterThan
-						  kth: k - size - equals
+						  kth: k - lessThanSize - equals
 						  ranking: aBlock
 						  atRandom: aRandom ] ]
 ]

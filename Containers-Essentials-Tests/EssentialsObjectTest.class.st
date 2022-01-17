@@ -480,6 +480,34 @@ EssentialsObjectTest >> testInspectPoint [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectProbabilisticMedianRatioWithSorting [
+
+	| n random collection randomized sorting middle v w |
+	self timeLimit: 6 seconds.
+
+	n := 1e5.
+	random := Random seed: 541.
+	collection := OrderedCollection new.
+	1 to: n do: [ :i | collection add: (random nextInteger: n) ].
+
+	middle := (collection size / 2) floor.
+
+	randomized := [ 
+	              v := collection
+		                   kth: middle
+		                   ranking: [ :each :pivot | each < pivot ]
+		                   atRandom: random ] benchFor: 2 seconds.
+
+	sorting := [ w := collection sorted at: middle ] benchFor: 2 seconds.
+
+	self assert: v equals: w.
+
+	self assert: ((randomized iterations / sorting iterations) asFloat
+			 between: 2
+			 and: 3)
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectRBNodesQuine [
 
 	| quine aQuineBlock evalBlock |
