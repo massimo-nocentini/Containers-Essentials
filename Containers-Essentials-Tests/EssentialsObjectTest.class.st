@@ -165,6 +165,12 @@ EssentialsObjectTest >> testInspectCharacterPi [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectCollectionRootTest [
+
+	^ self exportSlotsGraphOf: CollectionRootTest
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectColorGray [
 
 	^ self exportSlotsGraphOf: Color gray translucent
