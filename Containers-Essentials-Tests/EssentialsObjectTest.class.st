@@ -583,6 +583,15 @@ EssentialsObjectTest >> testInspectString [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectTraitModel [
+
+	^ self exportSlotsGraphOf: { 
+			  Trait.
+			  TraitedClass.
+			  MetaclassForTraits }
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectTrue [
 
 	^ self exportSlotsGraphOf: true
