@@ -31,6 +31,12 @@ Integer >> \/ anObject [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> asBRGCCollection [
+
+	^ (1 to: self) withBRGCIndexCollect: [ :each :index | index ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> asSkewBinaryCanonicalSparse [
 
 	| skew |

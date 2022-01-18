@@ -193,14 +193,19 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 
 	^ ((1 to: self size) inject: 0 -> anObject into: [ :anAssoc :each | 
 		   | nextCode index code block acc |
+		   "Unpacking."
 		   code := anAssoc key.
 		   acc := anAssoc value.
+
 		   nextCode := each bitBRGC.
 		   index := (code bitXor: nextCode) highBit.
+
 		   block := (nextCode bitAt: index) = 0
 			            ifTrue: [ oBlock ]
 			            ifFalse: [ iBlock ].
+
 		   acc := block cull: acc cull: (self at: index) cull: index.
+
 		   nextCode -> acc ]) value
 ]
 
@@ -296,6 +301,27 @@ SequenceableCollection >> sizeInversions: lessThan [
 		baseBlock: [ :each | { each } ].
 
 	^ inversions
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> withBRGCIndexCollect: aBlock [
+
+	^ Array streamContents: [ :aStream | 
+		  self withBRGCIndexDo: [ :element :index | 
+			  aStream nextPut: (aBlock value: element value: index) ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> withBRGCIndexDo: aBlock [
+
+	| block |
+	block := [ :acc :element :index | aBlock value: element value: index ].
+
+	self
+		injectBRGC: nil
+		intoIn: block
+		intoOut: [ :acc :element :index | 
+		aBlock value: element value: index ]
 ]
 
 { #category : #'*Containers-Essentials' }
