@@ -34,6 +34,12 @@ UndefinedObject >> reversed: prefix [
 ]
 
 { #category : #'*Containers-Essentials' }
+UndefinedObject >> sizeBlock: aBlock [
+
+	^ 0
+]
+
+{ #category : #'*Containers-Essentials' }
 UndefinedObject >> with: aValueLink collect: aString [
 
 	^ self
