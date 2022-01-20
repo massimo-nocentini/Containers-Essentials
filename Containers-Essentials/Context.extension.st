@@ -1,6 +1,20 @@
 Extension { #name : #Context }
 
 { #category : #'*Containers-Essentials' }
+Context >> asArgumentsReifiedContext [
+
+	| recv arguments |
+	arguments := self arguments.
+	recv := arguments third.
+
+	^ self class
+		  sender: sender
+		  receiver: recv
+		  method: (recv class lookupSelector: arguments first)
+		  arguments: arguments second
+]
+
+{ #category : #'*Containers-Essentials' }
 Context >> asStringInterpolationOfReceiverSelectorArguments [
 
 	^ String streamContents: [ :aStream | 
