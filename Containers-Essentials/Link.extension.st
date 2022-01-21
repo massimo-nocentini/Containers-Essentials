@@ -12,6 +12,17 @@ Link >> do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+Link >> last [
+
+	| last |
+	last := self.
+
+	[ last nextLink ] whileNotNil: [ last := last nextLink ].
+
+	^ last
+]
+
+{ #category : #'*Containers-Essentials' }
 Link >> next: anObject [
 
 	^ anObject nextFromLink: self
@@ -52,6 +63,16 @@ Link >> size [
 	size := 1.
 	nl := self.
 	[ nl := nl nextLink ] whileNotNil: [ size := size + 1 ].
+	^ size
+]
+
+{ #category : #'*Containers-Essentials' }
+Link >> sizeBlock: aBlock [
+
+	| size nl |
+	size := 1.
+	nl := self.
+	[ nl := aBlock value: nl ] whileNotNil: [ size := size + 1 ].
 	^ size
 ]
 

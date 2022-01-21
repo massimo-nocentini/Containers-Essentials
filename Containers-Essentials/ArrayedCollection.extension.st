@@ -1,36 +1,6 @@
 Extension { #name : #ArrayedCollection }
 
 { #category : #'*Containers-Essentials' }
-ArrayedCollection >> bisect: mergeBlock baseBlock: baseBlock [
-	^ self
-		bisect: mergeBlock
-		from: 1
-		to: self size
-		baseBlock: baseBlock
-]
-
-{ #category : #'*Containers-Essentials' }
-ArrayedCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock [
-	| diff |
-	diff := high - low.
-	^ diff = 0
-		ifTrue: [ baseBlock value: (self at: high)	"Because `high` equals `low`." ]
-		ifFalse: [ | middle left right |
-			middle := diff // 2 + low.
-			left := self
-				bisect: mergeBlock
-				from: low
-				to: middle
-				baseBlock: baseBlock.
-			right := self
-				bisect: mergeBlock
-				from: middle + 1
-				to: high
-				baseBlock: baseBlock.
-			mergeBlock value: left value: right ]
-]
-
-{ #category : #'*Containers-Essentials' }
 ArrayedCollection >> countingSort: key maximum: k [
 	| count output |
 	count := self class new: k + 1 withAll: 0.

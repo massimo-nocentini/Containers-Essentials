@@ -124,16 +124,6 @@ BlockClosure >> prependBlock: aFullBlockClosure [
 ]
 
 { #category : #'*Containers-Essentials' }
-BlockClosure >> value: doBlock then: afterBlock [
-
-	| carry result |
-	carry := self value.
-
-	^ [ result := doBlock cull: carry ] ensure: [ 
-		  afterBlock cull: result cull: carry ]
-]
-
-{ #category : #'*Containers-Essentials' }
 BlockClosure >> valueWithArgumentedExit [
 
 	^ self value: [ :anObject | ^ anObject ]

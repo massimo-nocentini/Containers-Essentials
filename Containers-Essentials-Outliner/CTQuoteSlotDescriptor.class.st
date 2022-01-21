@@ -54,6 +54,12 @@ CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 	^ descriptor header: anObject shapeBuilder: aShapeBuilder
 ]
 
+{ #category : #dispatched }
+CTQuoteSlotDescriptor >> headerWithClass [
+
+	descriptor headerWithClass
+]
+
 { #category : #accessing }
 CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 

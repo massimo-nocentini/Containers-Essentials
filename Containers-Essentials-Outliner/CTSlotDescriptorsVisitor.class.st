@@ -85,12 +85,17 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
+	| traits |
+	traits := aBehavior traits
+		          ifEmpty: [ {  } ]
+		          ifNotEmpty: [ { #traits asSlotDescriptor } ].
+
 	^ { 
 		  (#name asSlotDescriptor inline: true).
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
 		  "#mcType asSlotDescriptor."
-		  #instanceCount asSlotDescriptor }
+		  #instanceCount asSlotDescriptor } , traits
 ]
 
 { #category : #visiting }

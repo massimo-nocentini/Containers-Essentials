@@ -12,6 +12,36 @@ SequenceableCollection >> asValueLink [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> bisect: mergeBlock baseBlock: baseBlock [
+	^ self
+		bisect: mergeBlock
+		from: 1
+		to: self size
+		baseBlock: baseBlock
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock [
+	| diff |
+	diff := high - low.
+	^ diff = 0
+		ifTrue: [ baseBlock value: (self at: high)	"Because `high` equals `low`." ]
+		ifFalse: [ | middle left right |
+			middle := diff // 2 + low.
+			left := self
+				bisect: mergeBlock
+				from: low
+				to: middle
+				baseBlock: baseBlock.
+			right := self
+				bisect: mergeBlock
+				from: middle + 1
+				to: high
+				baseBlock: baseBlock.
+			mergeBlock value: left value: right ]
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> doubleExponentiallyWeighted: beta [
 
 	^ self doubleExponentiallyWeighted: beta init: 0
@@ -163,15 +193,73 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 
 	^ ((1 to: self size) inject: 0 -> anObject into: [ :anAssoc :each | 
 		   | nextCode index code block acc |
+		   "Unpacking."
 		   code := anAssoc key.
 		   acc := anAssoc value.
+
 		   nextCode := each bitBRGC.
 		   index := (code bitXor: nextCode) highBit.
+
 		   block := (nextCode bitAt: index) = 0
 			            ifTrue: [ oBlock ]
 			            ifFalse: [ iBlock ].
+
 		   acc := block cull: acc cull: (self at: index) cull: index.
+
 		   nextCode -> acc ]) value
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> inversions: lessThan [
+
+	^ Array
+		  new: (1 to: self size - 1) sum "The very worst case, reversed wrt to `lessThan`."
+		  streamContents: [ :invStream | 
+			  self
+				  bisect: [ :left :right | 
+					  self class
+						  new: left size + right size
+						  streamContents: [ :aStream | 
+							  left readStream
+								  merge: right readStream
+								  sortBlock: lessThan
+								  on: aStream
+								  inversionsOrNil: invStream ] ]
+				  baseBlock: [ :each | { each } ] ] 
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> kth: anInteger ranking: aBlock atRandom: aRandom [
+
+	| lessThan equals greaterThan pivot k lessThanSize |
+	k := anInteger min: self size max: 1.
+
+	lessThan := OrderedCollection new.
+	equals := 0.
+	greaterThan := OrderedCollection new.
+
+	pivot := self atRandom: aRandom.
+
+	self do: [ :each | 
+		each == pivot
+			ifTrue: [ equals := equals + 1 ]
+			ifFalse: [ 
+				(aBlock value: each value: pivot)
+					ifTrue: [ lessThan add: each ]
+					ifFalse: [ greaterThan add: each ] ] ].
+
+	lessThanSize := lessThan size.
+
+	^ k <= lessThanSize
+		  ifTrue: [ lessThan kth: k ranking: aBlock atRandom: aRandom ]
+		  ifFalse: [ 
+			  (k between: lessThanSize + 1 and: lessThanSize + equals)
+				  ifTrue: [ pivot ]
+				  ifFalse: [ 
+					  greaterThan
+						  kth: k - lessThanSize - equals
+						  ranking: aBlock
+						  atRandom: aRandom ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -191,6 +279,49 @@ SequenceableCollection >> scan: aBlock init: aValue [
 		  self do: [ :each | 
 			  acc := aBlock value: acc value: each.
 			  aStream nextPut: acc ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> sizeInversions: lessThan [
+
+	| inversions |
+	inversions := 0.
+	
+	self
+		bisect: [ :lAssoc :rAssoc | 
+			self class streamContents: [ :aStream | 
+				| localInversions |
+				localInversions := lAssoc readStream
+					                   merge: rAssoc readStream
+					                   sortBlock: lessThan
+					                   on: aStream
+					                   inversionsOrNil: nil.
+
+				inversions := inversions + localInversions ] ]
+		baseBlock: [ :each | { each } ].
+
+	^ inversions
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> withBRGCIndexCollect: aBlock [
+
+	^ Array streamContents: [ :aStream | 
+		  self withBRGCIndexDo: [ :element :index | 
+			  aStream nextPut: (aBlock value: element value: index) ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
+SequenceableCollection >> withBRGCIndexDo: aBlock [
+
+	| block |
+	block := [ :acc :element :index | aBlock value: element value: index ].
+
+	self
+		injectBRGC: nil
+		intoIn: block
+		intoOut: [ :acc :element :index | 
+		aBlock value: element value: index ]
 ]
 
 { #category : #'*Containers-Essentials' }

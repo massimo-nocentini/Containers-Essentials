@@ -165,6 +165,12 @@ EssentialsObjectTest >> testInspectCharacterPi [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectCollectionRootTest [
+
+	^ self exportSlotsGraphOf: CollectionRootTest
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectColorGray [
 
 	^ self exportSlotsGraphOf: Color gray translucent
@@ -202,6 +208,12 @@ EssentialsObjectTest >> testInspectDictionary [
 			   at: 2 -> 3 put: 4;
 			   at: 'World' put: #Smalltalk;
 			   yourself)
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectFalse [
+
+	^ self exportSlotsGraphOf: false
 ]
 
 { #category : #tests }
@@ -363,6 +375,8 @@ EssentialsObjectTest >> testInspectHeap [
 { #category : #tests }
 EssentialsObjectTest >> testInspectIceRepository [
 
+	self skip.
+
 	^ self exportSlotsGraphOf:
 		  (IceRepository registry detect: [ :each | 
 			   each name = 'Containers-HeapQ' ])
@@ -445,9 +459,7 @@ EssentialsObjectTest >> testInspectObject [
 { #category : #tests }
 EssentialsObjectTest >> testInspectObjectModel [
 
-	^ self exportSlotsGraphOf: { 
-			  Object.
-			  Trait }
+	^ self exportSlotsGraphOf: Object
 ]
 
 { #category : #tests }
@@ -471,6 +483,34 @@ EssentialsObjectTest >> testInspectPascalArray [
 EssentialsObjectTest >> testInspectPoint [
 
 	^ self exportSlotsGraphOf: 42 @ 24
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectProbabilisticMedianRatioWithSorting [
+
+	| n random collection randomized sorting middle v w |
+	self timeLimit: 6 seconds.
+
+	n := 1e5.
+	random := Random seed: 541.
+	collection := OrderedCollection new.
+	1 to: n do: [ :i | collection add: (random nextInteger: n) ].
+
+	middle := (collection size / 2) floor.
+
+	randomized := [ 
+	              v := collection
+		                   kth: middle
+		                   ranking: [ :each :pivot | each < pivot ]
+		                   atRandom: random ] benchFor: 2 seconds.
+
+	sorting := [ w := collection sorted at: middle ] benchFor: 2 seconds.
+
+	self assert: v equals: w.
+
+	self assert: ((randomized iterations / sorting iterations) asFloat
+			 between: 2
+			 and: 3)
 ]
 
 { #category : #tests }
@@ -549,13 +589,57 @@ EssentialsObjectTest >> testInspectString [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testInspectTrueAndFalse [
+EssentialsObjectTest >> testInspectTraitModel [
 
-	^ self
-		  exportSlotsGraphOf: (Array with: true with: false)
-		  slotDescriptorsContext:
-			  (CTSlotDescriptorsVisitor new collect: [ :aDescriptor | 
-				   aDescriptor inline: false ])
+	^ self exportSlotsGraphOf: { 
+			  Trait.
+			  TraitedClass.
+			  MetaclassForTraits }
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectTrue [
+
+	^ self exportSlotsGraphOf: true
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInversions [
+
+	self
+		assert: ((1 to: 100) asArray sizeInversions: [ :i :j | i < j ])
+		equals: 0.
+
+	self
+		assert: ((1 to: 100) reversed sizeInversions: [ :i :j | i < j ])
+		equals: (1 to: 100 - 1) sum.
+
+	"https://towardsdatascience.com/basic-algorithms-counting-inversions-71aaa579a2c0"
+	self
+		assert: ({ 2. 3. 8. 6. 1 } inversions: [ :i :j | i < j ])
+		equals: { 
+				(1 -> 6).
+				(1 -> 2).
+				(1 -> 3).
+				(1 -> 8).
+				(6 -> 8) }.
+
+	"https://www.interviewbit.com/blog/count-inversions-of-an-array/"
+	self
+		assert: ({ 6. 3. 5. 2. 7 } inversions: [ :i :j | i < j ])
+		equals: { 
+				(3 -> 6).
+				(5 -> 6).
+				(2 -> 3).
+				(2 -> 5).
+				(2 -> 6) }.
+
+	"https://people.cs.umass.edu/~sheldon/teaching/mhc/cs312/2013sp/Slides/Slides13%20-%20Counting%20Inversions.pdf"
+	self
+		assert:
+			({ 1. 5. 4. 8. 10. 2. 6. 9. 12. 11. 3. 7 } sizeInversions: [ :i :j | 
+				 i < j ])
+		equals: 22
 ]
 
 { #category : #tests }
@@ -588,4 +672,72 @@ EssentialsObjectTest >> testRBNodeSubclasses [
 EssentialsObjectTest >> testRandomSubclasses [
 
 	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDo [
+
+	{ 
+		Object new.
+		Object new.
+		Object new } withIntegersCollectionDo: [ :iCollection :map | 
+		self assert: iCollection equals: #( 0 1 2 ) ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDoLoremIpsum [
+
+	String loremIpsum withIntegersCollectionDo: [ :iCollection :map | 
+		self
+			assert: iCollection
+			equals:
+				#( 0 1 2 3 4 5 6 7 8 9 4 5 10 1 11 1 2 5 8 6 12 5 13 4 3 12 14 5 15
+				   1 16 8 3 15 12 3 12 9 2 5 13 10 6 7 6 8 15 6 16 17 5 3 11 6 12
+				   14 5 8 3 10 5 10 1 5 3 6 9 8 4 1 10 5 12 3 4 7 1 2 5 6 16 15 6
+				   10 6 10 9 16 12 5 9 12 5 11 13 18 1 2 3 5 3 12 5 10 1 11 1 2 3
+				   5 4 13 17 16 13 5 13 11 6 19 9 13 20 5 21 12 5 3 16 6 4 5 13 10
+				   5 4 6 16 6 4 5 22 3 16 6 13 4 14 5 19 9 6 8 5 16 1 8 12 2 9 10
+				   5 3 23 3 2 15 6 12 13 12 6 1 16 5 9 11 11 13 4 15 1 5 11 13 18
+				   1 2 6 8 5 16 6 8 6 5 9 12 5 13 11 6 19 9 6 7 5 3 23 5 3 13 5 15
+				   1 4 4 1 10 1 5 15 1 16 8 3 19 9 13 12 20 5 24 9 6 8 5 13 9 12
+				   3 5 6 2 9 2 3 5 10 1 11 1 2 5 6 16 5 2 3 7 2 3 25 3 16 10 3 2 6
+				   12 5 6 16 5 22 1 11 9 7 12 13 12 3 5 22 3 11 6 12 5 3 8 8 3 5 15
+				   6 11 11 9 4 5 10 1 11 1 2 3 5 3 9 5 26 9 17 6 13 12 5 16 9 11
+				   11 13 5 7 13 2 6 13 12 9 2 20 5 27 23 15 3 7 12 3 9 2 5 8 6 16
+				   12 5 1 15 15 13 3 15 13 12 5 15 9 7 6 10 13 12 13 12 5 16 1 16
+				   5 7 2 1 6 10 3 16 12 14 5 8 9 16 12 5 6 16 5 15 9 11 7 13 5 19
+				   9 6 5 1 26 26 6 15 6 13 5 10 3 8 3 2 9 16 12 5 4 1 11 11 6 12
+				   5 13 16 6 4 5 6 10 5 3 8 12 5 11 13 18 1 2 9 4 20 ) ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDoSharingObjects [
+
+	| t o |
+	o := Object new.
+	t := Object new.
+
+	{ 
+		1.
+		o.
+		t.
+		o.
+		1 } withIntegersCollectionDo: [ :iCollection :map | 
+		self
+			assert: iCollection equals: #( 0 1 2 1 0 );
+			assert: (map value: iCollection first) equals: 1;
+			assert: (map value: iCollection second) equals: o;
+			assert: (map value: iCollection third) equals: t;
+			assert: (map value: iCollection fourth) equals: o;
+			assert: (map value: iCollection fifth) equals: 1 ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testWithIntegersCollectionDoThreeDifferentObjects [
+
+	{ 
+		Object new.
+		Object new.
+		Object new } withIntegersCollectionDo: [ :iCollection :map | 
+		self assert: iCollection equals: #( 0 1 2 ) ]
 ]
