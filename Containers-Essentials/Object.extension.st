@@ -12,12 +12,6 @@ Object >> asReflexivePoint [
 ]
 
 { #category : #'*Containers-Essentials' }
-Object >> isBoolean [
-
-	^ false
-]
-
-{ #category : #'*Containers-Essentials' }
 Object >> isComplex [
 	"Answer true if receiver is a Complex number. False by default."
 
