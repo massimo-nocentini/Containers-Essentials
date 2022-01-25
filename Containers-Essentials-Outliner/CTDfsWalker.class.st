@@ -337,7 +337,10 @@ CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level 
 		                level: level
 		                default:
 			                level = maxLevel | anObject isImmediateObject
-			                | anObject isNil | anObject isBoolean
+			                | anObject isNil | (anObject == true)
+			                | (anObject == false)
+			                | (anObject == Float infinity)
+			                | (anObject == Float negativeInfinity)
 			                | anObject isSymbol.
 
 	^ shouldInline

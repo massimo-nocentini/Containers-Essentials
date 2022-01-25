@@ -719,7 +719,10 @@ Integer >> skewBinaryCanonicalSparseRepresentation [
 { #category : #'*Containers-Essentials' }
 Integer >> slowExplicitFibonacci: a tail: b [
 
-	^ self > 0 slowExplicitFibonacci: a tail: b greaterThanZero: self
+	^ (CTRelation is: self greaterThan: 0)
+		  slowExplicitFibonacci: a
+		  tail: b
+		  greaterThanZero: self
 ]
 
 { #category : #'*Containers-Essentials' }
