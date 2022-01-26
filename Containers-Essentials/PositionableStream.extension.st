@@ -13,8 +13,13 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream [
 { #category : #'*Containers-Essentials' }
 PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversionsOrNil: invStream [
 
-	| inversions |
+	| inversions append |
 	inversions := 0.
+
+	append := invStream ifNil: [ [ :inv |  ] ] ifNotNil: [ 
+		          [ :inv | 
+		          self preservingPositionDo: [ :each | 
+			          invStream nextPut: inv inversion: each ] ] ].
 
 	[ self atEnd or: [ aStream atEnd ] ] whileFalse: [ 
 		| anObject myNext itsNext |
@@ -24,11 +29,10 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversion
 		anObject := (lessThan value: myNext value: itsNext)
 			            ifTrue: [ self next ]
 			            ifFalse: [ 
-				            invStream ifNotNil: [ 
-					            self preservingPositionDo: [ :each | 
-						            invStream nextPut: itsNext inversion: each ] ].
+				            append value: itsNext.
 
 				            inversions := inversions + self sizeUpToEnd.
+
 				            aStream next ].
 
 		outStream nextPut: anObject ].
