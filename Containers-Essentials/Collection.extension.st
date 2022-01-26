@@ -22,27 +22,12 @@ Collection >> doª: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
-Collection >> merge: anObject [
-
-	^ anObject mergeCollection: self
-]
-
-{ #category : #'*Containers-Essentials' }
-Collection >> mergeCollection: aCollection [
-
-	self subclassResponsibility
-]
-
-{ #category : #'*Containers-Essentials' }
-Collection >> mergeSortedCollection: aSortedCollection [
-
-	^ aSortedCollection mergeCollection: self
-]
-
-{ #category : #'*Containers-Essentials' }
 Collection >> select: selectBlock thenFlatCollect: collectBlock [
 
-	^ (self select: selectBlock) flatCollect: collectBlock
+	^ self class streamContents: [ :aStream | 
+		  self
+			  select: selectBlock
+			  thenDo: [ :each | aStream nextPutAll: collectBlock ! each ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
