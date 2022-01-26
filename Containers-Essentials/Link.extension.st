@@ -23,6 +23,36 @@ Link >> last [
 ]
 
 { #category : #'*Containers-Essentials' }
+Link >> moveToFront: eqBlock [
+
+	^ self moveToFront: eqBlock ifNone: [ self ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Link >> moveToFront: eqBlock ifNone: noneBlock [
+
+	^ (eqBlock value: self)
+		  ifTrue: [ self ]
+		  ifFalse: [ 
+			  | p pNext |
+			  p := self.
+
+			  [ 
+			  pNext := p nextLink.
+			  pNext isNotNil and: [ (eqBlock value: pNext) not ] ] whileTrue: [ 
+				  p := pNext ].
+
+			  pNext ifNil: noneBlock ifNotNil: [ 
+				  | tmp ret |
+				  tmp := self.
+				  ret := pNext.
+				  p nextLink: pNext nextLink.
+				  ret nextLink: tmp.
+
+				  ret ] ]
+]
+
+{ #category : #'*Containers-Essentials' }
 Link >> next: anObject [
 
 	^ anObject nextFromLink: self
