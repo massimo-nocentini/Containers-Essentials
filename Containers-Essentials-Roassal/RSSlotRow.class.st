@@ -1,32 +1,34 @@
 Class {
 	#name : #RSSlotRow,
-	#superclass : #RSComposite,
+	#superclass : #RSGroup,
 	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #creating }
-RSSlotRow class >> var: varLabel box: valueBox label: valueLabel [
+RSSlotRow class >> var: varLabel box: valueBox labelOrNil: valueLabel [
 
-	^ self new
-		  shapes: (Array with: varLabel with: valueBox)
-			  , (valueLabel ifNil: [ #(  ) ] ifNotNil: [ { valueLabel } ]);
-		  yourself
+	| shapes |
+	shapes := (Array with: varLabel with: valueBox)
+	          ,
+	          (valueLabel ifNil: [ #(  ) ] ifNotNil: [ { valueLabel } ]).
+
+	^ self withAll: shapes
 ]
 
 { #category : #accessing }
 RSSlotRow >> box [
 
-	^ self shapes second
+	^ self at: 2
 ]
 
 { #category : #accessing }
 RSSlotRow >> label [
 
-	^ self shapes at: 3 ifAbsent: [ nil ]
+	^ self at: 3 ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }
 RSSlotRow >> var [
 
-	^ self shapes first
+	^ self at: 1
 ]

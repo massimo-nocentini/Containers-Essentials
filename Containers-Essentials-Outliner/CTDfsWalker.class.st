@@ -201,7 +201,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 		            valueBox height: (extent y max: varLabel extent y).
 
-		            RSSlotRow var: varLabel box: valueBox label: valueLabel ].
+		            RSSlotRow var: varLabel box: valueBox labelOrNil: valueLabel ].
 
 	self
 		dfsClockTick;
