@@ -38,20 +38,18 @@ Collection >> withIntegersCollectionDo: aBlock [
 
 	identities := IdentityDictionary new.
 
-	collection := Array streamContents: [ :aStream | 
-		              self do: [ :each | 
-			              | i |
-			              i := identities
-				                   at: each
-				                   ifAbsentPut: [ identities size + 1 ].
+	collection := Array new: self size.
 
-			              map
-				              at: i
-				              ifPresent: [ :anObject | 
-				              self assert: anObject == each ]
-				              ifAbsentPut: [ each ].
+	self withIndexDo: [ :each :index | 
+		| i |
+		i := identities at: each ifAbsentPut: [ identities size + 1 ].
 
-			              aStream nextPut: i ] ].
+		map
+			at: i
+			ifPresent: [ :anObject | self assert: anObject == each ]
+			ifAbsentPut: [ each ].
+
+		collection at: index put: i ].
 
 	^ aBlock value: collection value: map
 ]
