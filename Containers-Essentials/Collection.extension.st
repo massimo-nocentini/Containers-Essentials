@@ -43,7 +43,7 @@ Collection >> withIntegersCollectionDo: aBlock [
 			              | i |
 			              i := identities
 				                   at: each
-				                   ifAbsentPut: [ identities size ].
+				                   ifAbsentPut: [ identities size + 1 ].
 
 			              map
 				              at: i
@@ -53,5 +53,5 @@ Collection >> withIntegersCollectionDo: aBlock [
 
 			              aStream nextPut: i ] ].
 
-	^ aBlock value: collection value: [ :anInteger | map at: anInteger ]
+	^ aBlock value: collection value: map
 ]

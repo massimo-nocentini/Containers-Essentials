@@ -675,39 +675,30 @@ EssentialsObjectTest >> testRandomSubclasses [
 ]
 
 { #category : #tests }
-EssentialsObjectTest >> testWithIntegersCollectionDo [
-
-	{ 
-		Object new.
-		Object new.
-		Object new } withIntegersCollectionDo: [ :iCollection :map | 
-		self assert: iCollection equals: #( 0 1 2 ) ]
-]
-
-{ #category : #tests }
 EssentialsObjectTest >> testWithIntegersCollectionDoLoremIpsum [
 
 	String loremIpsum withIntegersCollectionDo: [ :iCollection :map | 
 		self
 			assert: iCollection
 			equals:
-				#( 0 1 2 3 4 5 6 7 8 9 4 5 10 1 11 1 2 5 8 6 12 5 13 4 3 12 14 5 15
-				   1 16 8 3 15 12 3 12 9 2 5 13 10 6 7 6 8 15 6 16 17 5 3 11 6 12
-				   14 5 8 3 10 5 10 1 5 3 6 9 8 4 1 10 5 12 3 4 7 1 2 5 6 16 15 6
-				   10 6 10 9 16 12 5 9 12 5 11 13 18 1 2 3 5 3 12 5 10 1 11 1 2 3
-				   5 4 13 17 16 13 5 13 11 6 19 9 13 20 5 21 12 5 3 16 6 4 5 13 10
-				   5 4 6 16 6 4 5 22 3 16 6 13 4 14 5 19 9 6 8 5 16 1 8 12 2 9 10
-				   5 3 23 3 2 15 6 12 13 12 6 1 16 5 9 11 11 13 4 15 1 5 11 13 18
-				   1 2 6 8 5 16 6 8 6 5 9 12 5 13 11 6 19 9 6 7 5 3 23 5 3 13 5 15
-				   1 4 4 1 10 1 5 15 1 16 8 3 19 9 13 12 20 5 24 9 6 8 5 13 9 12
-				   3 5 6 2 9 2 3 5 10 1 11 1 2 5 6 16 5 2 3 7 2 3 25 3 16 10 3 2 6
-				   12 5 6 16 5 22 1 11 9 7 12 13 12 3 5 22 3 11 6 12 5 3 8 8 3 5 15
-				   6 11 11 9 4 5 10 1 11 1 2 3 5 3 9 5 26 9 17 6 13 12 5 16 9 11
-				   11 13 5 7 13 2 6 13 12 9 2 20 5 27 23 15 3 7 12 3 9 2 5 8 6 16
-				   12 5 1 15 15 13 3 15 13 12 5 15 9 7 6 10 13 12 13 12 5 16 1 16
-				   5 7 2 1 6 10 3 16 12 14 5 8 9 16 12 5 6 16 5 15 9 11 7 13 5 19
-				   9 6 5 1 26 26 6 15 6 13 5 10 3 8 3 2 9 16 12 5 4 1 11 11 6 12
-				   5 13 16 6 4 5 6 10 5 3 8 12 5 11 13 18 1 2 9 4 20 ) ]
+				#( 1 2 3 4 5 6 7 8 9 10 5 6 11 2 12 2 3 6 9 7 13 6 14 5 4 13 15 6
+				   16 2 17 9 4 16 13 4 13 10 3 6 14 11 7 8 7 9 16 7 17 18 6 4 12
+				   7 13 15 6 9 4 11 6 11 2 6 4 7 10 9 5 2 11 6 13 4 5 8 2 3 6 7 17
+				   16 7 11 7 11 10 17 13 6 10 13 6 12 14 19 2 3 4 6 4 13 6 11 2 12
+				   2 3 4 6 5 14 18 17 14 6 14 12 7 20 10 14 21 6 22 13 6 4 17 7 5
+				   6 14 11 6 5 7 17 7 5 6 23 4 17 7 14 5 15 6 20 10 7 9 6 17 2 9 13
+				   3 10 11 6 4 24 4 3 16 7 13 14 13 7 2 17 6 10 12 12 14 5 16 2 6
+				   12 14 19 2 3 7 9 6 17 7 9 7 6 10 13 6 14 12 7 20 10 7 8 6 4 24
+				   6 4 14 6 16 2 5 5 2 11 2 6 16 2 17 9 4 20 10 14 13 21 6 25 10
+				   7 9 6 14 10 13 4 6 7 3 10 3 4 6 11 2 12 2 3 6 7 17 6 3 4 8 3 4
+				   26 4 17 11 4 3 7 13 6 7 17 6 23 2 12 10 8 13 14 13 4 6 23 4 12
+				   7 13 6 4 9 9 4 6 16 7 12 12 10 5 6 11 2 12 2 3 4 6 4 10 6 27 10
+				   18 7 14 13 6 17 10 12 12 14 6 8 14 3 7 14 13 10 3 21 6 28 24 16
+				   4 8 13 4 10 3 6 9 7 17 13 6 2 16 16 14 4 16 14 13 6 16 10 8 7 11
+				   14 13 14 13 6 17 2 17 6 8 3 2 7 11 4 17 13 15 6 9 10 17 13 6 7
+				   17 6 16 10 12 8 14 6 20 10 7 6 2 27 27 7 16 7 14 6 11 4 9 4 3 10
+				   17 13 6 5 2 12 12 7 13 6 14 17 7 5 6 7 11 6 4 9 13 6 12 14 19
+				   2 3 10 5 21 ) ]
 ]
 
 { #category : #tests }
@@ -724,12 +715,12 @@ EssentialsObjectTest >> testWithIntegersCollectionDoSharingObjects [
 		o.
 		1 } withIntegersCollectionDo: [ :iCollection :map | 
 		self
-			assert: iCollection equals: #( 0 1 2 1 0 );
-			assert: (map value: iCollection first) equals: 1;
-			assert: (map value: iCollection second) equals: o;
-			assert: (map value: iCollection third) equals: t;
-			assert: (map value: iCollection fourth) equals: o;
-			assert: (map value: iCollection fifth) equals: 1 ]
+			assert: iCollection equals: #( 1 2 3 2 1 );
+			assert: (map at: iCollection first) equals: 1;
+			assert: (map at: iCollection second) equals: o;
+			assert: (map at: iCollection third) equals: t;
+			assert: (map at: iCollection fourth) equals: o;
+			assert: (map at: iCollection fifth) equals: 1 ]
 ]
 
 { #category : #tests }
@@ -739,5 +730,5 @@ EssentialsObjectTest >> testWithIntegersCollectionDoThreeDifferentObjects [
 		Object new.
 		Object new.
 		Object new } withIntegersCollectionDo: [ :iCollection :map | 
-		self assert: iCollection equals: #( 0 1 2 ) ]
+		self assert: iCollection equals: #( 1 2 3 ) ]
 ]
