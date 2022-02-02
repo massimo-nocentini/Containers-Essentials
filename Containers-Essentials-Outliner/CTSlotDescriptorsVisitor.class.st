@@ -78,7 +78,7 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 	^ { 
 		  #associations asSlotDescriptor.
 		  (#asShapeHistogram asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -91,7 +91,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		          ifNotEmpty: [ { #traits asSlotDescriptor } ].
 
 	^ { 
-		  (#name asSlotDescriptor inline: true).
+		  #name asSlotDescriptor inline.
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
 		  "#mcType asSlotDescriptor."
@@ -121,7 +121,7 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  #asString asSlotDescriptor.
 		  #asArray asSlotDescriptor.
 		  (#asShapeBitsDump asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -136,7 +136,7 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)
 	  , { (#asShapeColoredBox asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -158,10 +158,10 @@ CTSlotDescriptorsVisitor >> visitContext: aContext [
 		  #outerContext asSlotDescriptor.
 		  #sender asSlotDescriptor.
 
-		  (#receiver asSlotDescriptor inline: true).
+		  #receiver asSlotDescriptor inline.
 
 		  #selector asSlotDescriptor.
-		  (#closure asSlotDescriptor inline: true).
+		  #closure asSlotDescriptor inline.
 
 		  "(#arguments asSlotDescriptor inline: true)."
 		  #pc asSlotDescriptor.
@@ -172,16 +172,16 @@ CTSlotDescriptorsVisitor >> visitContext: aContext [
 CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
-		  (#asTimeZoneString asSlotDescriptor inline: true).
+		  #asTimeZoneString asSlotDescriptor inline.
 		  #asISO8601String asSlotDescriptor.
-		  (#asLocalStringYMDHM asSlotDescriptor inline: true).
+		  #asLocalStringYMDHM asSlotDescriptor inline.
 		  #dayOfWeekName asSlotDescriptor.
 		  #monthName asSlotDescriptor.
 		  #month asSlotDescriptor.
 		  #dayOfMonth asSlotDescriptor.
 		  "		  ('Day of year' -> [ :anObj | anObj dayOfYear ])."
 		  #year asSlotDescriptor.
-		  (#asTimeString asSlotDescriptor inline: true) }
+		  #asTimeString asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
@@ -210,14 +210,14 @@ CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 		  #asMilliSeconds asSlotDescriptor.
 		  #asMicroseconds asSlotDescriptor.
 		  #asNanoSeconds asSlotDescriptor.
-		  (#asStringDHHMMSSµ asSlotDescriptor inline: true).
-		  (#asStringScaledUptoHours asSlotDescriptor inline: true) }
+		  #asStringDHHMMSSµ asSlotDescriptor inline.
+		  #asStringScaledUptoHours asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 
-	^  { (#printString asSlotDescriptor inline: true) }
+	^ { #printString asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
@@ -238,10 +238,10 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 		  "#asFractionWrtFloor asSlotDescriptor."
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
-			   inline: true;
+			   inline;
 			   quote: [ :anArray | anArray asShapeSlotsDfsTree: self ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -252,26 +252,26 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 		  #a asSlotDescriptor.
 		  #b asSlotDescriptor.
 		  #value asSlotDescriptor.
-		  (#asString asSlotDescriptor inline: true).
+		  #asString asSlotDescriptor inline.
 		  #equations asSlotDescriptor.
 		  #point asSlotDescriptor.
-		  (#asStringDiophantineEquation asSlotDescriptor inline: true) }
+		  #asStringDiophantineEquation asSlotDescriptor inline }
 	  , (aGreatestCommonDivisor = 1
 			   ifTrue: [ 
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
-						    inline: true;
+						    inline;
 						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
-						    inline: true;
+						    inline;
 						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
-						    inline: true;
+						    inline;
 						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
-						    inline: true;
+						    inline;
 						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ])
 	".
 
@@ -286,11 +286,11 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	^ (self visitObject: aHeap)
 	  , { (#asShapeValuesHorizontalTree asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
 		   ifTrue: [ 
 			   { (#asShapeBubblesHorizontalTree asSlotDescriptor
-				    inline: true;
+				    inline;
 				    quote) } ]
 		   ifFalse: [ Array empty ])
 ]
@@ -345,11 +345,11 @@ CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 		  #rem asSlotDescriptor.
 		  "(#value asSlotDescriptor
 			   blockClosure: [ self value asShapeSlotsDfsTree ];
-			   inline: true;
+			   inline;
 			   quote)."
-		  (#asString asSlotDescriptor inline: true).
+		  #asString asSlotDescriptor inline.
 		  (#asShapeDots asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -365,7 +365,7 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 
 	^ (self visitArray: aGroup) collect: [ :each | 
 		  each
-			  inline: true;
+			  inline;
 			  quote ]
 ]
 
@@ -373,7 +373,7 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 
 	^ (self visitObject: aRandom) , { (#asShapeScatter asSlotDescriptor
-		   inline: true;
+		   inline;
 		   quote) }
 ]
 

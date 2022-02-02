@@ -109,8 +109,7 @@ CTDfsWalker >> initialize [
 		maxLevel: 0;
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
-		oneToManyShapes: IdentityDictionary new;
-		shapeBuilder: CTDfsShapeBuilder new
+		oneToManyShapes: IdentityDictionary new
 ]
 
 { #category : #accessing }

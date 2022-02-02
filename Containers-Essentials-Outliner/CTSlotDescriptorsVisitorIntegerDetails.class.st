@@ -11,21 +11,21 @@ Class {
 CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
-		  (#asStringDecimal asSlotDescriptor inline: true).
-		  (#asStringHex asSlotDescriptor inline: true).
-		  (#asStringOctal asSlotDescriptor inline: true).
-		  (#asStringBinary asSlotDescriptor inline: true).
-		  (#asStringBRGC asSlotDescriptor inline: true).
-		  (#asStringSkew asSlotDescriptor inline: true).
+		  #asStringDecimal asSlotDescriptor inline.
+		  #asStringHex asSlotDescriptor inline.
+		  #asStringOctal asSlotDescriptor inline.
+		  #asStringBinary asSlotDescriptor inline.
+		  #asStringBRGC asSlotDescriptor inline.
+		  #asStringSkew asSlotDescriptor inline.
 		  (#asShapeBinaryDots asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote).
 		  (#asShapeBRGCDots asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote).
 		  (#asShapeSkewDots asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote).
-		  (#asStringAZaz asSlotDescriptor inline: true).
-		  (#asStringaz asSlotDescriptor inline: true) }
+		  #asStringAZaz asSlotDescriptor inline.
+		  #asStringaz asSlotDescriptor inline }
 ]

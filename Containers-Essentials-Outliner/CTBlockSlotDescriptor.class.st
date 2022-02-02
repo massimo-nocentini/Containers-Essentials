@@ -101,11 +101,18 @@ CTBlockSlotDescriptor >> initialize [
 
 	super initialize.
 
+	inline := [ :anObject :level :default | default ].
+
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		inline: [ :anObject :level :aBoolean | aBoolean ];
 		selectorHasBeenGiven
+]
+
+{ #category : #dispatching }
+CTBlockSlotDescriptor >> inline [
+
+	inline := [ :anObject :level :default | true ]
 ]
 
 { #category : #dispatching }
@@ -118,18 +125,6 @@ CTBlockSlotDescriptor >> inline: aController [
 CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inline value: anObject value: level value: aBoolean
-]
-
-{ #category : #dispatched }
-CTBlockSlotDescriptor >> inlineBlockClosure: aBlock [
-
-	inline := aBlock
-]
-
-{ #category : #dispatched }
-CTBlockSlotDescriptor >> inlineBoolean: aBoolean [
-
-	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
 ]
 
 { #category : #accessing }

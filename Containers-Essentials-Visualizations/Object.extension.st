@@ -13,6 +13,7 @@ Object >> asShapeDfsPainter: aDfsPainter slotDescriptorsContext: aSlotDescriptor
 	dfsWalker := CTDfsWalker new
 		             rootObject: self;
 		             slotDescriptorsContext: aSlotDescriptorsContext;
+		             shapeBuilder: CTDfsShapeBuilder new;
 		             yourself.
 
 	^ aDfsPainter
