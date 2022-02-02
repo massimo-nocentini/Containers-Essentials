@@ -136,7 +136,10 @@ CTBlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
 { #category : #initialization }
 CTBlockSlotDescriptor >> noHeader [
 
-	self header: [ :anObject :aShapeBuilder | RSBoundingShape nilShape ]
+	self header: [ :anObject :aShapeBuilder | 
+		RSComposite new
+			extent: 0 asPoint;
+			yourself ]
 ]
 
 { #category : #accessing }
