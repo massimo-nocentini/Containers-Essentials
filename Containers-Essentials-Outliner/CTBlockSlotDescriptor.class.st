@@ -140,10 +140,10 @@ CTBlockSlotDescriptor >> notInline [
 { #category : #accessing }
 CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	value := blockClosure
-		         value: anObject
-		         value: selector
-		         value: aDfsWalker
+	^ value := blockClosure
+		           value: anObject
+		           value: selector
+		           value: aDfsWalker
 ]
 
 { #category : #accessing }

@@ -150,9 +150,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 	slotRows := descriptors withIndexCollect: [ :childDescriptor :index | 
 		            | valueLabel varLabel valueBox value extent |
-		            value := childDescriptor
-			                     on: anObject walker: self;
-			                     value.
+		            value := childDescriptor on: anObject walker: self.
 
 		            valueLabel := self
 			                          valueLabelShapeOf: value
