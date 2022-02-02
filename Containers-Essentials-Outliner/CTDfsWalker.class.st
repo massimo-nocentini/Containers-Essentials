@@ -49,29 +49,25 @@ CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 		assert: aShape propertyDfsEntryTime isNotNil;
 		assert: aShape propertyDfsLowlink isNotNil.
 
-	^ aShape propertyDfsEntryTime = aShape propertyDfsLowlink
-		  ifTrue: [ 
-			  | scc |
-			  scc := sccs add: OrderedCollection new.
+	aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
+		| scc |
+		scc := sccs add: OrderedCollection new.
 
-			  [ 
-			  sccShapeStack isNotNil and: [ 
-				  sccShapeStack value propertyDfsEntryTime
-				  >= aShape propertyDfsEntryTime ] ] whileTrue: [ 
-				  | shape |
-				  shape := sccShapeStack value
-					           propertyDfsSCC: scc;
-					           propertyDfsObjectStack: nil;
-					           yourself.
+		[ 
+		sccShapeStack isNotNil and: [ 
+			sccShapeStack value propertyDfsEntryTime
+			>= aShape propertyDfsEntryTime ] ] whileTrue: [ 
+			| shape |
+			shape := sccShapeStack value
+				         propertyDfsSCC: scc;
+				         propertyDfsObjectStack: nil;
+				         yourself.
 
-				  scc add: shape.
+			scc add: shape.
 
-				  sccShapeStack := sccShapeStack nextLink ].
+			sccShapeStack := sccShapeStack nextLink ].
 
-			  self assert: aShape propertyDfsSCC == scc.
-
-			  scc ]
-		  ifFalse: [ Array new ]
+		self assert: aShape propertyDfsSCC == scc ]
 ]
 
 { #category : #DFS }
