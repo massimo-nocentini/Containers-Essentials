@@ -66,16 +66,10 @@ CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 				  sccShapeStack := sccShapeStack nextLink ].
 
-			  self
-				  assert: aShape propertyDfsSCC == scc;
-				  itself: scc ]
+			  self assert: aShape propertyDfsSCC == scc.
+
+			  scc ]
 		  ifFalse: [ Array new ]
-]
-
-{ #category : #DFS }
-CTDfsWalker >> dfsClockTick [
-
-	^ dfsClock := dfsClock + 1
 ]
 
 { #category : #DFS }
@@ -90,6 +84,12 @@ CTDfsWalker >> dfsRecordTimingsOfShape: mineShape [
 CTDfsWalker >> fromShapes: anObject [
 
 	fromShapes := anObject
+]
+
+{ #category : #DFS }
+CTDfsWalker >> incrementDfsClock [
+
+	^ dfsClock := dfsClock + 1
 ]
 
 { #category : #initialization }
@@ -127,8 +127,6 @@ CTDfsWalker >> maxLevel: anObject [
 { #category : #DFS }
 CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	"https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm"
-
 	| descriptors aShape metaExtent widthsExtent slotRows classShape noSlotsShape |
 	aShape := shapeBuilder outline: anObject.
 
@@ -164,7 +162,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 					                          shapeHasBeenVisited: anAlreadySeenShape
 					                          childOfShape: aShape ]
 			                          ifNotVisited: [ 
-				                          self dfsClockTick.
+				                          self incrementDfsClock.
 
 				                          "The DFS clock advanced, now recur."
 				                          self
@@ -200,10 +198,13 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 		            valueBox height: (extent y max: varLabel extent y).
 
-		            RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel ].
+		            RSGroupSlotsRow
+			            var: varLabel
+			            box: valueBox
+			            labelOrNil: valueLabel ].
 
 	self
-		dfsClockTick;
+		incrementDfsClock;
 		dfsRecordTimingsOfShape: aShape;
 		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
 
@@ -305,9 +306,9 @@ CTDfsWalker >> value [
 		          parent: nil
 		          level: 1.
 
-	^ self
-		  assert: sccShapeStack isNil;
-		  itself: aShape
+	self assert: sccShapeStack isNil.
+
+	^ aShape
 ]
 
 { #category : #DFS }
