@@ -115,12 +115,6 @@ CTBlockSlotDescriptor >> inline [
 	inline := [ :anObject :level :default | true ]
 ]
 
-{ #category : #dispatching }
-CTBlockSlotDescriptor >> inline: aController [
-
-	aController inlineFromSlotDescriptor: self
-]
-
 { #category : #accessing }
 CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 

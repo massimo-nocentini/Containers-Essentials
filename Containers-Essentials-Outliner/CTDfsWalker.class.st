@@ -330,17 +330,16 @@ CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild
 { #category : #DFS }
 CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
-	| shouldInline |
+	| shouldInline boolean |
+	boolean := level = maxLevel | anObject isImmediateObject
+	           | anObject isNil | anObject isSymbol | (anObject == true)
+	           | (anObject == false) | (anObject == Float infinity)
+	           | (anObject == Float negativeInfinity).
+
 	shouldInline := descriptor
 		                inline: anObject
 		                level: level
-		                default:
-			                level = maxLevel | anObject isImmediateObject
-			                | anObject isNil | (anObject == true)
-			                | (anObject == false)
-			                | (anObject == Float infinity)
-			                | (anObject == Float negativeInfinity)
-			                | anObject isSymbol.
+		                default: boolean.
 
 	^ shouldInline
 		  ifTrue: sBlock
