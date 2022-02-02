@@ -37,12 +37,6 @@ CTQuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
-
-	^ aReceiver addQuotedShape: shape model: value
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
@@ -89,8 +83,8 @@ CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 	self assert: (shape isKindOf: RSShape).
 
 	value := Object new.
-"
-	aDfsWalker addQuotedShape: shape model: value"
+
+	aDfsWalker addQuotedShape: shape model: value
 ]
 
 { #category : #accessing }

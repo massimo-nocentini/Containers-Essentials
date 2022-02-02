@@ -55,14 +55,6 @@ CTBlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
-
-	"Nothing to do because I don't have a quoted shape."
-
-	
-]
-
-{ #category : #accessing }
 CTBlockSlotDescriptor >> blockClosure: anObject [
 
 	blockClosure := anObject

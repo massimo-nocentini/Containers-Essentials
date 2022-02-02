@@ -35,12 +35,6 @@ CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility

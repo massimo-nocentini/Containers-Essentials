@@ -152,7 +152,6 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 		            | valueLabel varLabel valueBox value extent |
 		            value := childDescriptor
 			                     on: anObject walker: self;
-			                     addQuotedShapeInVisit: self;
 			                     value.
 
 		            valueLabel := self
