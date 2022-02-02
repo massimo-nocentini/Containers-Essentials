@@ -19,7 +19,9 @@ Class {
 		'quotedShapes',
 		'slotDescriptorsContext',
 		'oneToManyShapes',
-		'shapeBuilder'
+		'shapeBuilder',
+		'startTimestamp',
+		'maxDurationInMicroseconds'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -109,13 +111,20 @@ CTDfsWalker >> initialize [
 		maxLevel: 0;
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
-		oneToManyShapes: IdentityDictionary new
+		oneToManyShapes: IdentityDictionary new;
+		maxDurationInMicroseconds: 2 seconds asMicroseconds
 ]
 
 { #category : #accessing }
 CTDfsWalker >> levels: aDictionary [
 
 	levels := aDictionary
+]
+
+{ #category : #accessing }
+CTDfsWalker >> maxDurationInMicroseconds: microSeconds [
+
+	maxDurationInMicroseconds := microSeconds
 ]
 
 { #category : #accessing }
@@ -299,6 +308,8 @@ CTDfsWalker >> toShapes: anObject [
 CTDfsWalker >> value [
 
 	| aShape |
+	startTimestamp := Time microsecondClockValue.
+
 	aShape := self
 		          object: rootObject
 		          slotsDescriptor: slotDescriptorsContext rootDescriptor
@@ -331,9 +342,13 @@ CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild
 { #category : #DFS }
 CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
-	| shouldInline boolean |
-	boolean := level = maxLevel | anObject isImmediateObject
-	           | anObject isNil | anObject isSymbol | (anObject == true)
+	| shouldInline boolean durationInMicroseconds |
+	durationInMicroseconds := Time microsecondsSince: startTimestamp.
+
+	boolean := level = maxLevel
+	           | (durationInMicroseconds > maxDurationInMicroseconds)
+	           | anObject isImmediateObject | anObject isNil
+	           | anObject isSymbol | (anObject == true)
 	           | (anObject == false) | (anObject == Float infinity)
 	           | (anObject == Float negativeInfinity).
 
