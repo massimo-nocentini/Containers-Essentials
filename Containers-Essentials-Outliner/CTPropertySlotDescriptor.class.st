@@ -4,9 +4,6 @@ I describe a single slot in an outline shape.
 Class {
 	#name : #CTPropertySlotDescriptor,
 	#superclass : #Object,
-	#instVars : [
-		'value'
-	],
 	#category : #'Containers-Essentials-Outliner'
 }
 
@@ -47,12 +44,6 @@ CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean 
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> noHeader [
 
 	self subclassResponsibility
@@ -86,15 +77,9 @@ CTPropertySlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> shape: aShapeBuilder [
+CTPropertySlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> value [
-
-	^ value
 ]
 
 { #category : #accessing }

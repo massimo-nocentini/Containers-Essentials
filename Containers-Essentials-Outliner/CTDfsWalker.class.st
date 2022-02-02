@@ -157,7 +157,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 			                          describedBy: childDescriptor
 			                          level: level
 			                          ifStopped: [ 
-			                          childDescriptor shape: shapeBuilder ]
+			                          childDescriptor shape: value walker: self ]
 			                          ifVisited: [ :anAlreadySeenShape | 
 				                          self
 					                          shapeHasBeenVisited: anAlreadySeenShape
@@ -259,6 +259,12 @@ CTDfsWalker >> rootObject: anObject [
 ]
 
 { #category : #accessing }
+CTDfsWalker >> shapeBuilder [
+
+	^ shapeBuilder
+]
+
+{ #category : #accessing }
 CTDfsWalker >> shapeBuilder: aShapeBuilder [
 
 	shapeBuilder := aShapeBuilder
@@ -353,7 +359,7 @@ CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level 
 		  ifTrue: sBlock
 		  ifFalse: [ 
 			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
-			  descriptor isOneToManyFromVisit: self.
+			  descriptor isOneToMany: anObject walker: self.
 			  nil ]
 ]
 

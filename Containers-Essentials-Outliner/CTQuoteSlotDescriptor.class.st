@@ -61,9 +61,9 @@ CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 ]
 
 { #category : #testing }
-CTQuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTQuoteSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
-	^ descriptor isOneToManyFromVisit: aVisit
+	^ descriptor isOneToMany: anObject walker: aDfsWalker
 ]
 
 { #category : #initialization }
@@ -75,6 +75,7 @@ CTQuoteSlotDescriptor >> noHeader [
 { #category : #accessing }
 CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
+	| value |
 	value := descriptor on: anObject walker: aDfsWalker.
 
 	shape := quoteBlock value: value value: aDfsWalker.
@@ -101,7 +102,7 @@ CTQuoteSlotDescriptor >> selector [
 ]
 
 { #category : #testing }
-CTQuoteSlotDescriptor >> shape: aShapeBuilder [
+CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ shape
 ]

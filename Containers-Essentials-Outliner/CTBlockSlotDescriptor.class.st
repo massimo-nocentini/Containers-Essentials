@@ -115,9 +115,9 @@ CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 ]
 
 { #category : #testing }
-CTBlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTBlockSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
-	isOneToMany ifTrue: [ aVisit oneToMany: self value ]
+	isOneToMany ifTrue: [ aDfsWalker oneToMany: anObject ]
 ]
 
 { #category : #initialization }
@@ -140,10 +140,7 @@ CTBlockSlotDescriptor >> notInline [
 { #category : #accessing }
 CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	^ value := blockClosure
-		           value: anObject
-		           value: selector
-		           value: aDfsWalker
+	^ blockClosure value: anObject value: selector value: aDfsWalker
 ]
 
 { #category : #accessing }
@@ -171,9 +168,9 @@ CTBlockSlotDescriptor >> selector: anObject [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> shape: aShapeBuilder [
+CTBlockSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
-	^ aShapeBuilder multilineLabel: self value
+	^ aDfsWalker shapeBuilder multilineLabel: anObject
 ]
 
 { #category : #accessing }
