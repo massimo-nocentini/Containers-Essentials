@@ -18,7 +18,7 @@ CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 					   inline;
 					   noHeader;
 					   in: [ :aDescriptor | 
-						   aDescriptor quote: [ :anArray | 
+						   aDescriptor quote: [ :anArray :aDfsWalker | 
 								   anArray asShapeSlotsDfsTree:
 										   (self copy yourself: [ :sdc | 
 												    sdc rootDescriptor noHeader ]) ] ]) ].
@@ -28,7 +28,7 @@ CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 					   inline;
 					   noHeader;
 					   in: [ :aDescriptor | 
-						   aDescriptor quote: [ :anArray | 
+						   aDescriptor quote: [ :anArray :aDfsWalker | 
 								   anArray asShapeSlotsDfsTree:
 										   (self copy yourself: [ :sdc | 
 												    sdc rootDescriptor noHeader ]) ] ]) ].

@@ -15,7 +15,7 @@ EssentialsObjectTest >> testByteArrayInteger [
 { #category : #tests }
 EssentialsObjectTest >> testByteArrayLiteral [
 
-	^ self exportSlotsGraphOf: #[ 18 10 253 ]
+	^ self exportSlotsGraphOf: (ByteArray with: 18 with: 10 with: 253)
 ]
 
 { #category : #tests }

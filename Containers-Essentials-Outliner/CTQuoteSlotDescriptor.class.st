@@ -79,13 +79,18 @@ CTQuoteSlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> on: anObject [
+CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	shape := (descriptor on: anObject) value in: quoteBlock.
+	descriptor on: anObject walker: aDfsWalker.
+
+	shape := descriptor value in: [ :innerObject | 
+		         quoteBlock value: innerObject value: aDfsWalker ].
 
 	self assert: (shape isKindOf: RSShape).
 
-	value := Object new
+	value := Object new.
+"
+	aDfsWalker addQuotedShape: shape model: value"
 ]
 
 { #category : #accessing }

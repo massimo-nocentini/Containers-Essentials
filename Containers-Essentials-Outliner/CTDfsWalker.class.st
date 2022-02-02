@@ -73,9 +73,8 @@ CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 { #category : #DFS }
 CTDfsWalker >> dfsRecordTimingsOfShape: mineShape [
 
-	^ mineShape
-		  propertyDfsTimings: mineShape propertyDfsEntryTime @ dfsClock;
-		  yourself
+	mineShape propertyDfsTimings:
+		mineShape propertyDfsEntryTime @ dfsClock
 ]
 
 { #category : #accessing }
@@ -152,7 +151,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 	slotRows := descriptors withIndexCollect: [ :childDescriptor :index | 
 		            | valueLabel varLabel valueBox value extent |
 		            value := childDescriptor
-			                     on: anObject;
+			                     on: anObject walker: self;
 			                     addQuotedShapeInVisit: self;
 			                     value.
 

@@ -106,7 +106,8 @@ CTBlockSlotDescriptor >> initialize [
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		selectorHasBeenGiven
+		blockClosure: [ :anObj :aSelector :aDfsWalker | 
+			anObj perform: aSelector withEnoughArguments: { aDfsWalker } ]
 ]
 
 { #category : #dispatching }
@@ -119,12 +120,6 @@ CTBlockSlotDescriptor >> inline [
 CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inline value: anObject value: level value: aBoolean
-]
-
-{ #category : #accessing }
-CTBlockSlotDescriptor >> instVarNameHasBeenGiven [
-
-	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
 ]
 
 { #category : #testing }
@@ -151,9 +146,12 @@ CTBlockSlotDescriptor >> notInline [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> on: anObject [
+CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	value := blockClosure cull: anObject cull: self selector
+	value := blockClosure
+		         value: anObject
+		         value: selector
+		         value: aDfsWalker
 ]
 
 { #category : #accessing }
@@ -178,12 +176,6 @@ CTBlockSlotDescriptor >> selector [
 CTBlockSlotDescriptor >> selector: anObject [
 
 	selector := anObject
-]
-
-{ #category : #accessing }
-CTBlockSlotDescriptor >> selectorHasBeenGiven [
-
-	self blockClosure: [ :anObj :aSelector | anObj perform: aSelector ]
 ]
 
 { #category : #accessing }

@@ -69,7 +69,10 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
-		  index asString asSlotDescriptor blockClosure: [ each ] ]
+		  index asString asSlotDescriptor blockClosure: [ 
+			  :anObj 
+			  :aSelector 
+			  :aDfsWalker | each ] ]
 ]
 
 { #category : #visiting }
@@ -105,10 +108,11 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 	copied := aBlock sourceNode allVariables flatCollect: [ :aRBVariable | 
 		          | var |
 		          var := aBlock outerContext lookupVar: aRBVariable name.
-		          var
-			          ifNil: [ #(  ) ]
-			          ifNotNil: [ 
-			          { (var name asSlotDescriptor blockClosure: [ var value ]) } ] ].
+		          var ifNil: [ #(  ) ] ifNotNil: [ 
+			          { (var name asSlotDescriptor blockClosure: [ 
+				           :anObj 
+				           :aSelector 
+				           :aDfsWalker | var value ]) } ] ].
 
 	^ (self visitObject: aBlock) , copied
 ]
@@ -239,7 +243,8 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline;
-			   quote: [ :anArray | anArray asShapeSlotsDfsTree: self ]).
+			   quote: [ :anArray :aDfsWalker | 
+				   anArray asShapeSlotsDfsTree: self ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline;
 			   quote) }
@@ -261,18 +266,22 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
 						    inline;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: self ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
 						    inline;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ]
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: self ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
 						    inline;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: self ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
 						    inline;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ])
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: self ]) } ])
 	".
 
 		  #divisibility asSlotDescriptor"
@@ -310,8 +319,11 @@ CTSlotDescriptorsVisitor >> visitLink: aLink [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
-	^ anObject class allInstVarNames collect: [ :varName | 
-		  varName asSlotDescriptor instVarNameHasBeenGiven ]
+	^ anObject class allInstVarNames collect: [ :varNameSymbol | 
+		  varNameSymbol asSlotDescriptor blockClosure: [ 
+			  :anObj 
+			  :varName 
+			  :aDfsWalker | anObj instVarNamed: varName ] ]
 ]
 
 { #category : #visiting }

@@ -65,7 +65,7 @@ CTPropertySlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> on: anObject [
+CTPropertySlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]
@@ -73,7 +73,7 @@ CTPropertySlotDescriptor >> on: anObject [
 { #category : #accessing }
 CTPropertySlotDescriptor >> quote [
 
-	^ self quote: [ :aShape | aShape ]
+	^ self quote: [ :aShape :aDfsWalker | aShape ]
 ]
 
 { #category : #accessing }
