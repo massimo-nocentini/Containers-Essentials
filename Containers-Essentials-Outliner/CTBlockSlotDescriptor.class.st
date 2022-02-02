@@ -142,6 +142,14 @@ CTBlockSlotDescriptor >> noHeader [
 			yourself ]
 ]
 
+{ #category : #dispatching }
+CTBlockSlotDescriptor >> notInline [
+
+	"To allow the DFS to proceed, regardless of the computed `default` flag."
+
+	inline := [ :anObject :level :default | false ]
+]
+
 { #category : #accessing }
 CTBlockSlotDescriptor >> on: anObject [
 
