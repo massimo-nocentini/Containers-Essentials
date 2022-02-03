@@ -26,6 +26,14 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
+{ #category : #creating }
+CTDfsWalker class >> withDefaultShapeBuilder [
+
+	^ self new
+		  shapeBuilder: CTDfsShapeBuilder new;
+		  yourself
+]
+
 { #category : #dispatched }
 CTDfsWalker >> addQuotedShape: shape model: value [
 
@@ -282,6 +290,12 @@ CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 			lowlink min: shapeEntryTime ].
 
 		self assert: parentShape model ~~ childShape model ]
+]
+
+{ #category : #accessing }
+CTDfsWalker >> slotDescriptorsContext [
+
+	^ slotDescriptorsContext
 ]
 
 { #category : #accessing }

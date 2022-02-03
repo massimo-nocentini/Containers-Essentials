@@ -17,13 +17,13 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 		  #asStringBinary asSlotDescriptor inline.
 		  #asStringBRGC asSlotDescriptor inline.
 		  #asStringSkew asSlotDescriptor inline.
-		  (#asShapeBinaryDots asSlotDescriptor
+		  (#asShapeBinaryDots: asSlotDescriptor
 			   inline;
 			   quote).
-		  (#asShapeBRGCDots asSlotDescriptor
+		  (#asShapeBRGCDots: asSlotDescriptor
 			   inline;
 			   quote).
-		  (#asShapeSkewDots asSlotDescriptor
+		  (#asShapeSkewDots: asSlotDescriptor
 			   inline;
 			   quote).
 		  #asStringAZaz asSlotDescriptor inline.
