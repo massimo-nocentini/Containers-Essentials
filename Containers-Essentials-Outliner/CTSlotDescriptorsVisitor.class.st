@@ -244,7 +244,7 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 			   noHeader;
 			   inline;
 			   quote: [ :anArray :aDfsWalker | 
-				   anArray asShapeSlotsDfsTree: self ]).
+				   anArray asShapeSlotsDfsTree: aDfsWalker ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline;
 			   quote) }
@@ -267,21 +267,21 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 					   (#inverseMultiplicativeOfa asSlotDescriptor
 						    inline;
 						    quote: [ :anObject :aDfsWalker | 
-							    anObject asShapeSlotsDfsTree: self ]).
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
 						    inline;
 						    quote: [ :anObject :aDfsWalker | 
-							    anObject asShapeSlotsDfsTree: self ]) } ]
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
 						    inline;
 						    quote: [ :anObject :aDfsWalker | 
-							    anObject asShapeSlotsDfsTree: self ]).
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
 						    inline;
 						    quote: [ :anObject :aDfsWalker | 
-							    anObject asShapeSlotsDfsTree: self ]) } ])
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ])
 	".
 
 		  #divisibility asSlotDescriptor"
@@ -293,17 +293,18 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
-	^ (self visitObject: aHeap)
-	  , { (#asShapeValuesHorizontalTree: asSlotDescriptor
+	^ (self visitObject: aHeap) , { 
+		  (#asShapeValuesHorizontalTree: asSlotDescriptor
 			   inline;
-			   quote) } , { (#asShapeValuesHorizontalTree asSlotDescriptor
-		   inline;
-		   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
+			   quote).
+		  (#asShapeValuesHorizontalTree asSlotDescriptor
+			   inline;
+			   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
 		   ifTrue: [ 
 			   { (#asShapeBubblesHorizontalTree: asSlotDescriptor
 				    inline;
 				    quote) } ]
-		   ifFalse: [ Array empty ])
+		   ifFalse: [ {  } ])
 ]
 
 { #category : #visiting }

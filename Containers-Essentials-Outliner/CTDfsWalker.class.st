@@ -26,10 +26,12 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #creating }
-CTDfsWalker class >> withDefaultShapeBuilder [
+{ #category : #'instance creation' }
+CTDfsWalker class >> on: anObject [
 
 	^ self new
+		  rootObject: anObject;
+		  slotDescriptorsContext: CTSlotDescriptorsVisitor new;
 		  shapeBuilder: CTDfsShapeBuilder new;
 		  yourself
 ]
@@ -47,6 +49,16 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 
 	^ (levels at: aNumber ifAbsentPut: [ OrderedCollection new ])
 		  add: aShape;
+		  yourself
+]
+
+{ #category : #copying }
+CTDfsWalker >> copyShapeBuilderAndSlotDescriptorsContextOn: anObject [
+
+	^ self class new
+		  rootObject: anObject;
+		  slotDescriptorsContext: slotDescriptorsContext;
+		  shapeBuilder: shapeBuilder;
 		  yourself
 ]
 
@@ -290,12 +302,6 @@ CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 			lowlink min: shapeEntryTime ].
 
 		self assert: parentShape model ~~ childShape model ]
-]
-
-{ #category : #accessing }
-CTDfsWalker >> slotDescriptorsContext [
-
-	^ slotDescriptorsContext
 ]
 
 { #category : #accessing }

@@ -143,8 +143,7 @@ EssentialsObjectTest >> testInspectAssociation [
 EssentialsObjectTest >> testInspectBRGCodes [
 
 	^ self exportSlotsGraphOf: ((0 to: 15)
-			   collect: [ :each | 
-			   each asShapeBRGCDots: CTDfsWalker withDefaultShapeBuilder ]
+			   collect: [ :each | each asShapeBRGCDots: (CTDfsWalker on: each) ]
 			   as: RSGroup)
 ]
 

@@ -9,8 +9,7 @@ Heap >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 Heap >> asShapeBubblesHorizontalTree [
 
-	^ self asShapeBubblesHorizontalTree:
-		  CTDfsWalker withDefaultShapeBuilder
+	^ self asShapeBubblesHorizontalTree: (CTDfsWalker on: self)
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
@@ -161,8 +160,7 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: n
 	 Nodes are represented as labels with their corresponding positions as subscripts."
 
 	| shapes aDfsWalker |
-	aDfsWalker := nullableDfsWalker ifNil: [ 
-		              CTDfsWalker withDefaultShapeBuilder ].
+	aDfsWalker := nullableDfsWalker ifNil: [ CTDfsWalker on: self ].
 
 	shapes := array collect: [ :each | 
 		          | valueShape indexShape i |
@@ -175,8 +173,7 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: n
 					                        useDefaultCodeFont;
 					                        yourself ]
 			                        ifNotNil: [ 
-			                        each asShapeSlotsDfsTree:
-				                        aDfsWalker slotDescriptorsContext ].
+			                        each asShapeSlotsDfsTree: aDfsWalker ].
 
 		          indexShape := RSLabel new
 			                        model: i;

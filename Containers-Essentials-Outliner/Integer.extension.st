@@ -4,10 +4,16 @@ Extension { #name : #Integer }
 Integer >> inspectorCanvasRepresentations [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	walker slotDescriptorsContext:
+		CTSlotDescriptorsVisitorIntegerDetails new.
+
+	shape := self asShapeSlotsDfsTree: walker.
+
 	^ RSCanvas new
-		  add:
-			  (self asShapeSlotsDfsTree:
-					   CTSlotDescriptorsVisitorIntegerDetails new);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]

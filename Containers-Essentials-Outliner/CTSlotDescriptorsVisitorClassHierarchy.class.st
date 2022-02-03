@@ -19,9 +19,7 @@ CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 					   noHeader;
 					   in: [ :aDescriptor | 
 						   aDescriptor quote: [ :anArray :aDfsWalker | 
-								   anArray asShapeSlotsDfsTree:
-										   (self copy yourself: [ :sdc | 
-												    sdc rootDescriptor noHeader ]) ] ]) ].
+								   anArray asShapeSlotsDfsTree: aDfsWalker ] ]) ].
 
 		  aClass classVarNames ifNotEmpty: [ "(#comment asSlotDescriptor inline)."
 			  aStream nextPut: (#classVarNames asSlotDescriptor
@@ -29,9 +27,7 @@ CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 					   noHeader;
 					   in: [ :aDescriptor | 
 						   aDescriptor quote: [ :anArray :aDfsWalker | 
-								   anArray asShapeSlotsDfsTree:
-										   (self copy yourself: [ :sdc | 
-												    sdc rootDescriptor noHeader ]) ] ]) ].
+								   anArray asShapeSlotsDfsTree: aDfsWalker ] ]) ].
 
 		  aClass subclasses ifNotEmpty: [ "(#comment asSlotDescriptor inline: true)."
 			  aStream nextPut:

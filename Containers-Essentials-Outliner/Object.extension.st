@@ -4,8 +4,13 @@ Extension { #name : #Object }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	shape := self asShapeSlotsDfsTree: walker.
+
 	^ RSCanvas new
-		  add: (self asShapeSlotsDfsTree: self slotDescriptorsContext);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -13,12 +18,15 @@ Object >> inspectorCanvasSlotsGraph [
 { #category : #'*Containers-Essentials-Outliner' }
 Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 
-	<inspectorPresentationOrder: 1002 title:
-	'Collapsed SCCs of Slots graph'>
+	"<inspectorPresentationOrder: 1002 title:
+	'Collapsed SCCs of Slots graph'>"
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	shape := self asShapeSlotsCollapsedSCCsDfsTree: walker.
+
 	^ RSCanvas new
-		  add:
-			  (self asShapeSlotsCollapsedSCCsDfsTree:
-					   self slotDescriptorsContext);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -39,9 +47,13 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 Object >> inspectorCanvasSlotsGraphLayered [
 
 	<inspectorPresentationOrder: 1004 title: 'Layered slots graph'>
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	shape := self asShapeSlotsLayeredDfsTree: walker.
+
 	^ RSCanvas new
-		  add:
-			  (self asShapeSlotsLayeredDfsTree: self slotDescriptorsContext);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -56,8 +68,13 @@ Object >> inspectorCanvasSlotsGraphLayeredContext: aContext [
 Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 1001 title: 'SCCs of Slots graph'>
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	shape := self asShapeSlotsSCCsDfsTree: walker.
+
 	^ RSCanvas new
-		  add: (self asShapeSlotsSCCsDfsTree: self slotDescriptorsContext);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -73,9 +90,13 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 
 	<inspectorPresentationOrder: 1003 title:
 	'Slots graph, topologically sorted.'>
+	| walker shape |
+	walker := CTDfsWalker on: self.
+
+	shape := self asShapeSlotsTopologicallySortedDfsTree: walker.
+
 	^ RSCanvas new
-		  add: (self asShapeSlotsTopologicallySortedDfsTree:
-					   self slotDescriptorsContext);
+		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
@@ -84,10 +105,4 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
-]
-
-{ #category : #'*Containers-Essentials-Outliner' }
-Object >> slotDescriptorsContext [
-
-	^ CTSlotDescriptorsVisitor new
 ]

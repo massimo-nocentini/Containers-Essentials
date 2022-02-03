@@ -12,7 +12,7 @@ CTSlotDescriptorsVisitorNestedLinks >> visitLink: aLink [
 
 	^ { (#nextLink asSlotDescriptor
 		   blockClosure: [ :anObj :aSelector :aDfsWalker | 
-			   aLink nextLink asShapeSlotsDfsTree: self ];
+			   aLink nextLink asShapeSlotsDfsTree: aDfsWalker ];
 		   inline;
 		   quote) }
 ]
