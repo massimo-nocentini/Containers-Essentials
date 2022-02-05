@@ -5,7 +5,7 @@ Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	shape := self asShapeSlotsDfsTree: walker.
 
@@ -20,8 +20,9 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 
 	"<inspectorPresentationOrder: 1002 title:
 	'Collapsed SCCs of Slots graph'>"
+
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	shape := self asShapeSlotsCollapsedSCCsDfsTree: walker.
 
@@ -48,7 +49,7 @@ Object >> inspectorCanvasSlotsGraphLayered [
 
 	<inspectorPresentationOrder: 1004 title: 'Layered slots graph'>
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	shape := self asShapeSlotsLayeredDfsTree: walker.
 
@@ -69,7 +70,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 1001 title: 'SCCs of Slots graph'>
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	shape := self asShapeSlotsSCCsDfsTree: walker.
 
@@ -91,7 +92,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 	<inspectorPresentationOrder: 1003 title:
 	'Slots graph, topologically sorted.'>
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	shape := self asShapeSlotsTopologicallySortedDfsTree: walker.
 

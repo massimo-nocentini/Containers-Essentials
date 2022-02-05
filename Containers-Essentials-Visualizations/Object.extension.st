@@ -10,43 +10,38 @@ Object >> acceptSlotDescriptorsVisitor: aVisitor [
 Object >> asShapeSlotsCollapsedSCCsDfsTree: dfsWalker [
 
 	^ CTCollapsedSccDfsPainter new
-		  dfsWalker:
-			  (dfsWalker copyShapeBuilderAndSlotDescriptorsContextOn: self);
-		  value
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsDfsTree: dfsWalker [
 
 	^ CTDfsPainter new
-		  dfsWalker:
-			  (dfsWalker copyShapeBuilderAndSlotDescriptorsContextOn: self);
-		  value
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsLayeredDfsTree: dfsWalker [
 
 	^ CTLayeredDfsPainter new
-		  dfsWalker:
-			  (dfsWalker copyShapeBuilderAndSlotDescriptorsContextOn: self);
-		  value
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsSCCsDfsTree: dfsWalker [
 
 	^ CTSccDfsPainter new
-		  dfsWalker:
-			  (dfsWalker copyShapeBuilderAndSlotDescriptorsContextOn: self);
-		  value
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsTopologicallySortedDfsTree: dfsWalker [
 
 	^ CTTopologicalSortDfsPainter new
-		  dfsWalker:
-			  (dfsWalker copyShapeBuilderAndSlotDescriptorsContextOn: self);
-		  value
+		  dfsWalker: dfsWalker;
+		  value: self
 ]

@@ -66,12 +66,12 @@ CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #DFS }
-CTCollapsedSccDfsPainter >> dfsWalk [
+CTCollapsedSccDfsPainter >> dfsWalk: anObject [
 
 	| aCollection |
 	associations := Set new.
 
-	aCollection := super dfsWalk.
+	aCollection := super dfsWalk: anObject.
 
 	^ stronglyConnectedComponents collect: [ :aSCC | 
 		  RSBox new

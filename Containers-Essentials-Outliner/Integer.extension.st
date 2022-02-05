@@ -5,7 +5,7 @@ Integer >> inspectorCanvasRepresentations [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
 	| walker shape |
-	walker := CTDfsWalker on: self.
+	walker := CTDfsWalker new.
 
 	walker slotDescriptorsContext:
 		CTSlotDescriptorsVisitorIntegerDetails new.

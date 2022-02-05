@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #DFS }
-CTLayeredDfsPainter >> dfsWalk [
+CTLayeredDfsPainter >> dfsWalk: anObject [
 
 	| gr location layout aCollection |
-	aCollection := super dfsWalk.
+	aCollection := super dfsWalk: anObject.
 
 	gr := Float goldenRatio double.
 	location := RSLocation new center.

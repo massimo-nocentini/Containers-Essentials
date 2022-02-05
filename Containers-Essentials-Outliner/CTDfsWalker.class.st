@@ -14,7 +14,6 @@ Class {
 		'dfsClock',
 		'sccShapeStack',
 		'sccs',
-		'rootObject',
 		'levels',
 		'quotedShapes',
 		'slotDescriptorsContext',
@@ -25,16 +24,6 @@ Class {
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
-
-{ #category : #'instance creation' }
-CTDfsWalker class >> on: anObject [
-
-	^ self new
-		  rootObject: anObject;
-		  slotDescriptorsContext: CTSlotDescriptorsVisitor new;
-		  shapeBuilder: CTDfsShapeBuilder new;
-		  yourself
-]
 
 { #category : #dispatched }
 CTDfsWalker >> addQuotedShape: shape model: value [
@@ -53,10 +42,9 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 ]
 
 { #category : #copying }
-CTDfsWalker >> copyShapeBuilderAndSlotDescriptorsContextOn: anObject [
+CTDfsWalker >> copyForQuoteSlotDescriptor: aDescriptor [
 
 	^ self class new
-		  rootObject: anObject;
 		  slotDescriptorsContext: slotDescriptorsContext;
 		  shapeBuilder: shapeBuilder;
 		  yourself
@@ -127,7 +115,9 @@ CTDfsWalker >> initialize [
 		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		maxDurationInMicroseconds: 2 seconds asMicroseconds
+		maxDurationInMicroseconds: 2 seconds asMicroseconds;
+		slotDescriptorsContext: CTSlotDescriptorsVisitor new;
+		shapeBuilder: CTDfsShapeBuilder new
 ]
 
 { #category : #accessing }
@@ -273,12 +263,6 @@ CTDfsWalker >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
 ]
 
 { #category : #accessing }
-CTDfsWalker >> rootObject: anObject [
-
-	rootObject := anObject
-]
-
-{ #category : #accessing }
 CTDfsWalker >> shapeBuilder [
 
 	^ shapeBuilder
@@ -323,7 +307,7 @@ CTDfsWalker >> toShapes: anObject [
 ]
 
 { #category : #API }
-CTDfsWalker >> value [
+CTDfsWalker >> value: rootObject [
 
 	| aShape |
 	startTimestamp := Time microsecondClockValue.

@@ -17,6 +17,8 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 		  #asStringBinary asSlotDescriptor inline.
 		  #asStringBRGC asSlotDescriptor inline.
 		  #asStringSkew asSlotDescriptor inline.
+		  #numberOfDigits asSlotDescriptor.
+		  #numberOfDigitsInBase2 asSlotDescriptor.
 		  (#asShapeBinaryDots: asSlotDescriptor
 			   inline;
 			   quote).

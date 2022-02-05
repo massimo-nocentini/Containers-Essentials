@@ -38,10 +38,10 @@ CTSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #DFS }
-CTSccDfsPainter >> dfsWalk [
+CTSccDfsPainter >> dfsWalk: anObject [
 
 	| scale max lowerBound aCollection |
-	aCollection := super dfsWalk.
+	aCollection := super dfsWalk: anObject.
 
 	lowerBound := 1.
 	max := stronglyConnectedComponents

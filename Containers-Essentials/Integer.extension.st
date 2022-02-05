@@ -608,6 +608,12 @@ Integer >> nthRootsOfUnity [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> numberOfDigitsInBase2 [
+
+	^ self numberOfDigitsInBase: 2
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> previousEven [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
