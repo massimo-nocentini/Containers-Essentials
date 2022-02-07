@@ -329,18 +329,6 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 			  :aDfsWalker | anObj instVarNamed: varName ] ]
 ]
 
-{ #category : #OrderPreservingTree }
-CTSlotDescriptorsVisitor >> visitOrderPreservingTree: aTree [
-
-	^ (self visitObject: aTree) , { 
-		  (#asShapeValuesHorizontalTreeWithLabelShapes asSlotDescriptor
-			   inline: true;
-			   quote).
-		  (#asShapeValuesHorizontalTreeWithOutlinerShapes asSlotDescriptor
-			   inline: true;
-			   quote) }
-]
-
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitPoint: aPoint [
 
