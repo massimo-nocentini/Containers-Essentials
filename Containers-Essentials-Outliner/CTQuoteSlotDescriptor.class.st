@@ -37,12 +37,6 @@ CTQuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> addQuotedShapeInVisit: aReceiver [
-
-	^ aReceiver addQuotedShape: shape model: value
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject
@@ -67,9 +61,9 @@ CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 ]
 
 { #category : #testing }
-CTQuoteSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTQuoteSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
-	^ descriptor isOneToManyFromVisit: aVisit
+	^ descriptor isOneToMany: anObject walker: aDfsWalker
 ]
 
 { #category : #initialization }
@@ -79,13 +73,24 @@ CTQuoteSlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> on: anObject [
+CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	shape := (descriptor on: anObject) value in: quoteBlock.
+	| value |
+	value := descriptor
+		         on: anObject
+		         walker: (aDfsWalker copyForQuoteSlotDescriptor: self).
+
+	shape := quoteBlock
+		         value: value
+		         value: (aDfsWalker copyForQuoteSlotDescriptor: self).
 
 	self assert: (shape isKindOf: RSShape).
 
-	value := Object new
+	value := Object new.
+
+	aDfsWalker addQuotedShape: shape model: value.
+
+	^ value
 ]
 
 { #category : #accessing }
@@ -101,7 +106,7 @@ CTQuoteSlotDescriptor >> selector [
 ]
 
 { #category : #testing }
-CTQuoteSlotDescriptor >> shape: aShapeBuilder [
+CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ shape
 ]

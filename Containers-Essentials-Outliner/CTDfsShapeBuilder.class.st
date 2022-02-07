@@ -267,5 +267,5 @@ CTDfsShapeBuilder >> prototypeLabel: aLabel [
 { #category : #accessing }
 CTDfsShapeBuilder >> radiusOrPadding [
 
-	^ Float goldenRatio double
+	^ Float goldenPlatinumRatio
 ]

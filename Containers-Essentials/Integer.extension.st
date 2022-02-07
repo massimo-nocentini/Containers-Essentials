@@ -602,6 +602,18 @@ Integer >> nextOddOrSelf [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> nthRootsOfUnity [
+
+	^ (0 to: self - 1) collect: [ :j | (2 * Float π * j / self) i exp ]
+]
+
+{ #category : #'*Containers-Essentials' }
+Integer >> numberOfDigitsInBase2 [
+
+	^ self numberOfDigitsInBase: 2
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> previousEven [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 

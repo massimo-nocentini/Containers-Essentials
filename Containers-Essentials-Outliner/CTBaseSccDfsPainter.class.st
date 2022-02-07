@@ -12,12 +12,12 @@ Class {
 }
 
 { #category : #DFS }
-CTBaseSccDfsPainter >> dfsWalk [
+CTBaseSccDfsPainter >> dfsWalk: anObject [
 
 	shapeBySCC := IdentityDictionary new.
 	stronglyConnectedComponents := OrderedCollection new.
 
 	dfsWalker stronglyConnectedComponents: stronglyConnectedComponents.
 
-	^ super dfsWalk
+	^ super dfsWalk: anObject
 ]

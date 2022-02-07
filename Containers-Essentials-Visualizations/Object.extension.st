@@ -7,55 +7,41 @@ Object >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeDfsPainter: aDfsPainter slotDescriptorsContext: aSlotDescriptorsContext [
+Object >> asShapeSlotsCollapsedSCCsDfsTree: dfsWalker [
 
-	| dfsWalker |
-	dfsWalker := CTDfsWalker new
-		             rootObject: self;
-		             slotDescriptorsContext: aSlotDescriptorsContext;
-		             yourself.
-
-	^ aDfsPainter
+	^ CTCollapsedSccDfsPainter new
 		  dfsWalker: dfsWalker;
-		  value
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsCollapsedSCCsDfsTree: aSlotDescriptorsContext [
+Object >> asShapeSlotsDfsTree: dfsWalker [
 
-	^ self
-		  asShapeDfsPainter: CTCollapsedSccDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
+	^ CTDfsPainter new
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsDfsTree: aSlotDescriptorsContext [
+Object >> asShapeSlotsLayeredDfsTree: dfsWalker [
 
-	^ self
-		  asShapeDfsPainter: CTDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
+	^ CTLayeredDfsPainter new
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsLayeredDfsTree: aSlotDescriptorsContext [
+Object >> asShapeSlotsSCCsDfsTree: dfsWalker [
 
-	^ self
-		  asShapeDfsPainter: CTLayeredDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
+	^ CTSccDfsPainter new
+		  dfsWalker: dfsWalker;
+		  value: self
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsSCCsDfsTree: aSlotDescriptorsContext [
+Object >> asShapeSlotsTopologicallySortedDfsTree: dfsWalker [
 
-	^ self
-		  asShapeDfsPainter: CTSccDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
-]
-
-{ #category : #'*Containers-Essentials-Visualizations' }
-Object >> asShapeSlotsTopologicallySortedDfsTree: aSlotDescriptorsContext [
-
-	^ self
-		  asShapeDfsPainter: CTTopologicalSortDfsPainter new
-		  slotDescriptorsContext: aSlotDescriptorsContext
+	^ CTTopologicalSortDfsPainter new
+		  dfsWalker: dfsWalker;
+		  value: self
 ]

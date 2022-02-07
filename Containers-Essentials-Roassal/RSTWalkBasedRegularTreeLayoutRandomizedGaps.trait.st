@@ -4,28 +4,23 @@ Trait {
 }
 
 { #category : #initialization }
-RSTWalkBasedRegularTreeLayoutRandomizedGaps >> horizontalGap: aGap [
-
-	self explicitRequirement
-]
-
-{ #category : #initialization }
-RSTWalkBasedRegularTreeLayoutRandomizedGaps >> initializeRSTWalkBasedRegularTreeLayoutRandomizedGaps [
-
-	| random |
-	random := RandomGaussian new
-		          sigma: Float goldenRatio * 3;
-		          yourself.
+RSTWalkBasedRegularTreeLayoutRandomizedGaps >> bothVerticalAndHorizontalGapsUseRandomGaussian: aRandom [
 
 	self
 		verticalGap: [ :previousBrother :currentBrother :default | 
-			random
+			aRandom
 				mu: default;
 				next ];
 		horizontalGap: [ :previousBrother :currentBrother :default | 
-			random
+			aRandom
 				mu: default;
 				next ]
+]
+
+{ #category : #initialization }
+RSTWalkBasedRegularTreeLayoutRandomizedGaps >> horizontalGap: aGap [
+
+	self explicitRequirement
 ]
 
 { #category : #initialization }

@@ -16,6 +16,14 @@ ValueLink >> do: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
+ValueLink >> moveToFront: eqBlock ifNone: noneBlock [
+
+	^ super
+		  moveToFront: [ :aLink | eqBlock value: aLink value ]
+		  ifNone: noneBlock
+]
+
+{ #category : #'*Containers-Essentials' }
 ValueLink >> nextInteger: n [
 
 	^ (super nextInteger: n) ifNotNil: [ :aValueLink | 

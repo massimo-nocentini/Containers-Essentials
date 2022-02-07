@@ -54,9 +54,9 @@ CTTopologicalSortDfsPainter >> crossLinesBuilder [
 ]
 
 { #category : #DFS }
-CTTopologicalSortDfsPainter >> dfsWalk [
+CTTopologicalSortDfsPainter >> dfsWalk: anObject [
 
-	^ super dfsWalk sorted: [ :aShape :anotherShape | 
+	^ (super dfsWalk: anObject) sorted: [ :aShape :anotherShape | 
 		  aShape propertyDfsLeaveTime > anotherShape propertyDfsLeaveTime ]
 ]
 

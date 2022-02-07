@@ -55,14 +55,6 @@ CTBlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
-
-	"Nothing to do because I don't have a quoted shape."
-
-	
-]
-
-{ #category : #accessing }
 CTBlockSlotDescriptor >> blockClosure: anObject [
 
 	blockClosure := anObject
@@ -101,17 +93,19 @@ CTBlockSlotDescriptor >> initialize [
 
 	super initialize.
 
+	inline := [ :anObject :level :default | default ].
+
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		inline: [ :anObject :level :aBoolean | aBoolean ];
-		selectorHasBeenGiven
+		blockClosure: [ :anObj :aSelector :aDfsWalker | 
+			anObj perform: aSelector withEnoughArguments: { aDfsWalker } ]
 ]
 
 { #category : #dispatching }
-CTBlockSlotDescriptor >> inline: aController [
+CTBlockSlotDescriptor >> inline [
 
-	aController inlineFromSlotDescriptor: self
+	inline := [ :anObject :level :default | true ]
 ]
 
 { #category : #accessing }
@@ -120,40 +114,33 @@ CTBlockSlotDescriptor >> inline: anObject level: level default: aBoolean [
 	^ inline value: anObject value: level value: aBoolean
 ]
 
-{ #category : #dispatched }
-CTBlockSlotDescriptor >> inlineBlockClosure: aBlock [
-
-	inline := aBlock
-]
-
-{ #category : #dispatched }
-CTBlockSlotDescriptor >> inlineBoolean: aBoolean [
-
-	self inlineBlockClosure: [ :anObject :level :default | aBoolean ]
-]
-
-{ #category : #accessing }
-CTBlockSlotDescriptor >> instVarNameHasBeenGiven [
-
-	self blockClosure: [ :anObj :varName | anObj instVarNamed: varName ]
-]
-
 { #category : #testing }
-CTBlockSlotDescriptor >> isOneToManyFromVisit: aVisit [
+CTBlockSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
-	isOneToMany ifTrue: [ aVisit oneToMany: self value ]
+	isOneToMany ifTrue: [ aDfsWalker oneToMany: anObject ]
 ]
 
 { #category : #initialization }
 CTBlockSlotDescriptor >> noHeader [
 
-	self header: [ :anObject :aShapeBuilder | RSBoundingShape nilShape ]
+	self header: [ :anObject :aShapeBuilder | 
+		RSComposite new
+			extent: 0 asPoint;
+			yourself ]
+]
+
+{ #category : #dispatching }
+CTBlockSlotDescriptor >> notInline [
+
+	"To allow the DFS to proceed, regardless of the computed `default` flag."
+
+	inline := [ :anObject :level :default | false ]
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> on: anObject [
+CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	value := blockClosure cull: anObject cull: self selector
+	^ blockClosure value: anObject value: selector value: aDfsWalker
 ]
 
 { #category : #accessing }
@@ -181,15 +168,9 @@ CTBlockSlotDescriptor >> selector: anObject [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> selectorHasBeenGiven [
+CTBlockSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
-	self blockClosure: [ :anObj :aSelector | anObj perform: aSelector ]
-]
-
-{ #category : #accessing }
-CTBlockSlotDescriptor >> shape: aShapeBuilder [
-
-	^ aShapeBuilder multilineLabel: self value
+	^ aDfsWalker shapeBuilder multilineLabel: anObject
 ]
 
 { #category : #accessing }

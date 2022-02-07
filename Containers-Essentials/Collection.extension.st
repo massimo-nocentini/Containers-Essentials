@@ -22,27 +22,12 @@ Collection >> doª: aBlock [
 ]
 
 { #category : #'*Containers-Essentials' }
-Collection >> merge: anObject [
-
-	^ anObject mergeCollection: self
-]
-
-{ #category : #'*Containers-Essentials' }
-Collection >> mergeCollection: aCollection [
-
-	self subclassResponsibility
-]
-
-{ #category : #'*Containers-Essentials' }
-Collection >> mergeSortedCollection: aSortedCollection [
-
-	^ aSortedCollection mergeCollection: self
-]
-
-{ #category : #'*Containers-Essentials' }
 Collection >> select: selectBlock thenFlatCollect: collectBlock [
 
-	^ (self select: selectBlock) flatCollect: collectBlock
+	^ self class streamContents: [ :aStream | 
+		  self
+			  select: selectBlock
+			  thenDo: [ :each | aStream nextPutAll: collectBlock ! each ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
@@ -53,20 +38,18 @@ Collection >> withIntegersCollectionDo: aBlock [
 
 	identities := IdentityDictionary new.
 
-	collection := Array streamContents: [ :aStream | 
-		              self do: [ :each | 
-			              | i |
-			              i := identities
-				                   at: each
-				                   ifAbsentPut: [ identities size ].
+	collection := Array new: self size.
 
-			              map
-				              at: i
-				              ifPresent: [ :anObject | 
-				              self assert: anObject == each ]
-				              ifAbsentPut: [ each ].
+	self withIndexDo: [ :each :index | 
+		| i |
+		i := identities at: each ifAbsentPut: [ identities size + 1 ].
 
-			              aStream nextPut: i ] ].
+		map
+			at: i
+			ifPresent: [ :anObject | self assert: anObject == each ]
+			ifAbsentPut: [ each ].
 
-	^ aBlock value: collection value: [ :anInteger | map at: anInteger ]
+		collection at: index put: i ].
+
+	^ aBlock value: collection value: map
 ]

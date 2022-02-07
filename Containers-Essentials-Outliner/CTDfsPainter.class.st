@@ -95,6 +95,25 @@ CTDfsPainter >> dfsWalk [
 	^ toShapes values
 ]
 
+{ #category : #DFS }
+CTDfsPainter >> dfsWalk: anObject [
+
+	| aShape |
+	fromShapes := IdentityDictionary new.
+	toShapes := IdentityDictionary new.
+	oneToManyShapes := IdentityDictionary new.
+	levels := Dictionary new.
+
+	aShape := dfsWalker
+		          fromShapes: fromShapes;
+		          toShapes: toShapes;
+		          levels: levels;
+		          oneToManyShapes: oneToManyShapes;
+		          value: anObject.
+
+	^ toShapes values
+]
+
 { #category : #accessing }
 CTDfsPainter >> dfsWalker: aWalker [
 
@@ -301,12 +320,12 @@ CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #API }
-CTDfsPainter >> value [
+CTDfsPainter >> value: anObject [
 
 	| edgesForLayout forbiddenShapes |
 	forbiddenShapes := IdentitySet new.
 	edges := OrderedCollection new.
-	shapes := self dfsWalk.
+	shapes := self dfsWalk: anObject.
 
 	self
 		forbiddenShapes: forbiddenShapes

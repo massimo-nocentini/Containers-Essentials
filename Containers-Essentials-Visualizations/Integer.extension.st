@@ -7,41 +7,53 @@ Integer >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Integer >> asShapeBRGCDots [
+Integer >> asShapeBRGCDots: aDfsWalker [
 
-	^ self asShapeBinaryDots: (self bitBRGC printStringBase: 2) asArray
+	^ self
+		  asShapeBinaryDots: (self bitBRGC printStringBase: 2) asArray
+		  walker: aDfsWalker
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Integer >> asShapeBinaryDots [
+Integer >> asShapeBinaryDots: aDfsWalker [
 
-	^ self asShapeBinaryDots: (self printStringBase: 2) asArray
+	^ self
+		  asShapeBinaryDots: (self printStringBase: 2) asArray
+		  walker: aDfsWalker
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Integer >> asShapeBinaryDots: repr [
+Integer >> asShapeBinaryDots: repr walker: aDfsWalker [
 
-	| dots |
+	| dots radiusOrPadding |
+	radiusOrPadding := aDfsWalker shapeBuilder radiusOrPadding.
+
 	dots := repr collect: [ :each | 
-		        | int |
+		        | int circle color |
 		        int := Integer readFrom: each asString.
-		        RSCircle new
-			        model: int;
-			        radius: Float goldenRatio double double;
-			        color: Color white;
-			        withBorder;
-			        yourself: [ :c | 
-				        c color: (int
-							         ifZero: [ Color white ]
-							         ifOne: [ c border color ]
-							         ifTwo: [ 
-								         c border
-									         color: Color black;
-									         color ]
-							         otherwise: [ Error signal ]) ] ].
+
+		        circle := RSCircle new
+			                  model: int;
+			                  radius: radiusOrPadding * 2;
+			                  color: Color white;
+			                  withBorder;
+			                  yourself.
+
+		        color := int
+			                 ifZero: [ Color white ]
+			                 ifOne: [ circle border color ]
+			                 ifTwo: [ 
+				                 circle border
+					                 color: Color black;
+					                 color ]
+			                 otherwise: [ Error signal ].
+
+		        circle color: color.
+
+		        circle ].
 
 	RSHorizontalLineLayout new
-		gapSize: Float goldenRatio;
+		gapSize: radiusOrPadding / 2;
 		on: dots.
 
 	^ RSComposite new
@@ -51,9 +63,11 @@ Integer >> asShapeBinaryDots: repr [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Integer >> asShapeSkewDots [
+Integer >> asShapeSkewDots: aDfsWalker [
 
-	^ self asShapeBinaryDots: (Array streamContents: [ :aStream | 
-			   self skewBinaryCanonicalDenseRepresentation reversed do: [ :each | 
-				   aStream nextPutAll: each asString ] ])
+	^ self
+		  asShapeBinaryDots: (Array streamContents: [ :aStream | 
+				   self skewBinaryCanonicalDenseRepresentation reversed do: [ 
+					   :each | aStream nextPutAll: each asString ] ])
+		  walker: aDfsWalker
 ]

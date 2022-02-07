@@ -4,9 +4,6 @@ I describe a single slot in an outline shape.
 Class {
 	#name : #CTPropertySlotDescriptor,
 	#superclass : #Object,
-	#instVars : [
-		'value'
-	],
 	#category : #'Containers-Essentials-Outliner'
 }
 
@@ -35,12 +32,6 @@ CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> addQuotedShapeInVisit: quotedShapes [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	self subclassResponsibility
@@ -53,19 +44,13 @@ CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean 
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> isOneToManyFromVisit: aVisit [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> noHeader [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> on: anObject [
+CTPropertySlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]
@@ -73,7 +58,7 @@ CTPropertySlotDescriptor >> on: anObject [
 { #category : #accessing }
 CTPropertySlotDescriptor >> quote [
 
-	^ self quote: [ :aShape | aShape ]
+	^ self quote: [ :aShape :aDfsWalker | aShape ]
 ]
 
 { #category : #accessing }
@@ -92,15 +77,9 @@ CTPropertySlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> shape: aShapeBuilder [
+CTPropertySlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> value [
-
-	^ value
 ]
 
 { #category : #accessing }

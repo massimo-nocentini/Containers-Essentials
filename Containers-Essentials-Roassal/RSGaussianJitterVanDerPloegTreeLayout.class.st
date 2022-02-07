@@ -11,5 +11,8 @@ RSGaussianJitterVanDerPloegTreeLayout >> initialize [
 
 	super initialize.
 
-	self initializeRSTWalkBasedRegularTreeLayoutRandomizedGaps
+	self bothVerticalAndHorizontalGapsUseRandomGaussian:
+		((RandomGaussian seed: 541)
+			 sigma: Float goldenPlatinumRatio;
+			 yourself)
 ]
