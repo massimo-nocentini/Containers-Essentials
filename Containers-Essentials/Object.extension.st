@@ -9,15 +9,6 @@ Object >> isComplex [
 ]
 
 { #category : #'*Containers-Essentials' }
-Object >> yourself: aBlock [
-
-	"I invoke the given block giving myself as argument if it needs to consume me.
-	 Then I return my self discarding the value returned by the given block."
-
-	aBlock cull: self
-]
-
-{ #category : #'*Containers-Essentials' }
 Object >> |<| aBlockOrSymbol [
 	^ [ :arg | 
 	  aBlockOrSymbol isSymbol
