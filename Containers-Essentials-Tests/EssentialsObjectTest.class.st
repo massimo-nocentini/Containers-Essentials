@@ -142,7 +142,14 @@ EssentialsObjectTest >> testInspectAssociation [
 { #category : #tests }
 EssentialsObjectTest >> testInspectBRGCodes [
 
-	^ self exportSlotsGraphOf: ((0 to: 15)
+	| n |
+	n := 15.
+
+	self
+		exportSlotsGraphOf: n asBRGCCollection
+		pathSuffix: 'changing-bits'.
+
+	^ self exportSlotsGraphOf: ((0 to: n)
 			   collect: [ :each | each asShapeBRGCDots: CTDfsWalker new ]
 			   as: RSGroup)
 ]

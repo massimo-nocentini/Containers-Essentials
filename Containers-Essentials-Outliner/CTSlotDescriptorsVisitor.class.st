@@ -124,7 +124,7 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  #hex asSlotDescriptor.
 		  #asString asSlotDescriptor.
 		  #asArray asSlotDescriptor.
-		  (#asShapeBitsDump asSlotDescriptor
+		  (#asShapeBitsDump: asSlotDescriptor
 			   inline;
 			   quote) }
 ]

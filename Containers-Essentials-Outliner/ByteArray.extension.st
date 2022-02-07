@@ -5,7 +5,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 1010 title: 'Bits dump (big-endian)'>
 	^ RSCanvas new
-		  add: self asShapeBitsDump;
+		  add: (self asShapeBitsDump: CTDfsWalker new);
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
 ]
