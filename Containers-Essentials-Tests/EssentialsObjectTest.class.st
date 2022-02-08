@@ -7,6 +7,28 @@ Class {
 }
 
 { #category : #tests }
+EssentialsObjectTest >> sutInspectIntervalLinspace [
+
+	| linspace |
+	linspace := (0 to: 1) linspace: 10.
+
+	self assert: linspace asArray equals: { 
+			0.
+			(1 / 10).
+			(1 / 5).
+			(3 / 10).
+			(2 / 5).
+			(1 / 2).
+			(3 / 5).
+			(7 / 10).
+			(4 / 5).
+			(9 / 10).
+			1 }.
+
+	^ linspace
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testByteArrayInteger [
 
 	^ self exportSlotsGraphOf: 50 fibonacciNumbers last asByteArray
@@ -411,6 +433,12 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 	^ self
 		  exportSlotsGraphOf: 13
 		  slotDescriptorsContext: CTSlotDescriptorsVisitorIntegerDetails new
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectIntervalLinspace [
+
+	^ self exportSlotsGraphOf: self sutInspectIntervalLinspace
 ]
 
 { #category : #tests }
