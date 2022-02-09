@@ -9,6 +9,12 @@ Heap >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 Heap >> asShapeBubblesHorizontalTree [
 
+	^ self asShapeBubblesHorizontalTree: CTDfsWalker new
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> asShapeBubblesHorizontalTree: aDfsWalker [
+
 	"This visualization represents the current Heap object as a binary tree,
 	 where a solid edge denotes the child at position 2n and a dashed edge
 	 denotes a child at position 2n + 1, where n is the position of the parent."
@@ -18,7 +24,10 @@ Heap >> asShapeBubblesHorizontalTree [
 	heap := array copyFrom: 1 to: tally.
 	heap withIndexDo: [ :each :i | indexes at: each put: i ].
 
-	^ (self class asShapeBubblesHorizontalTree: heap indexes: indexes)
+	^ (self class
+		   asShapeBubblesHorizontalTree: heap
+		   indexes: indexes
+		   walker: aDfsWalker)
 		  model: self;
 		  yourself
 ]
@@ -48,6 +57,32 @@ Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes walker: aDfsWalker [
+
+	"This visualization represents the current Heap object as a binary tree,
+	 where a solid edge denotes the child at position 2n and a dashed edge
+	 denotes a child at position 2n + 1, where n is the position of the parent.
+	
+	 Nodes are represented as circles such that their areas equals their #value."
+
+	| shapes |
+	shapes := array collect: [ :each | 
+		          RSCircle new
+			          model: each;
+			          radius:
+				          (each / Float pi) sqrt
+				          * aDfsWalker shapeBuilder radiusOrPadding;
+			          color: Color white;
+			          withBorder;
+			          addInteraction: RSPopup new ].
+
+	^ self
+		  asShapeHorizontalTreeWithShapes: shapes
+		  array: array
+		  indexes: indexes
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array indexes: indexes [
 
 	| edgeBuilder evenEdges oddEdges edges tally |
@@ -62,10 +97,12 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 		             index := (indexes at: each) << 1.
 		             index <= tally ifTrue: [ array at: index ] ].
 
-	oddEdges := edgeBuilder dashed connectTo: [ :each | 
-		            | index |
-		            index := (indexes at: each) << 1 bitOr: 1.
-		            index <= tally ifTrue: [ array at: index ] ].
+	oddEdges := edgeBuilder
+		            dashed;
+		            connectTo: [ :each | 
+			            | index |
+			            index := (indexes at: each) << 1 bitOr: 1.
+			            index <= tally ifTrue: [ array at: index ] ].
 
 	edges := evenEdges , oddEdges.
 
@@ -81,6 +118,12 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 { #category : #'*Containers-Essentials-Visualizations' }
 Heap >> asShapeValuesHorizontalTree [
 
+	^ self asShapeValuesHorizontalTree: nil
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> asShapeValuesHorizontalTree: aDfsWalker [
+
 	"This visualization represents the current Heap object as a binary tree,
 	 where a solid edge denotes the child at position 2n and a dashed edge
 	 denotes a child at position 2n + 1, where n is the position of the parent."
@@ -90,7 +133,10 @@ Heap >> asShapeValuesHorizontalTree [
 	heap := array copyFrom: 1 to: tally.
 	heap withIndexDo: [ :each :i | indexes at: each put: i ].
 
-	^ (self class asShapeValuesHorizontalTree: heap indexes: indexes)
+	^ (self class
+		   asShapeValuesHorizontalTree: heap
+		   indexes: indexes
+		   walkerOrNil: aDfsWalker)
 		  model: self;
 		  yourself
 ]
@@ -98,37 +144,54 @@ Heap >> asShapeValuesHorizontalTree [
 { #category : #'*Containers-Essentials-Visualizations' }
 Heap class >> asShapeValuesHorizontalTree: array indexes: indexes [
 
+	^ self
+		  asShapeValuesHorizontalTree: array
+		  indexes: indexes
+		  walkerOrNil: nil
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: nullableDfsWalker [
+
 	"This visualization represents the current Heap object as a binary tree,
 	 where a solid edge denotes the child at position 2n and a dashed edge
 	 denotes a child at position 2n + 1, where n is the position of the parent.
 	
 	 Nodes are represented as labels with their corresponding positions as subscripts."
 
-	| shapes |
+	| shapes aDfsWalker |
+	aDfsWalker := nullableDfsWalker ifNil: [ CTDfsWalker new ].
+
 	shapes := array collect: [ :each | 
 		          | valueShape indexShape i |
 		          i := indexes at: each.
 
-		          valueShape := RSLabel new
-			                        model: each;
-			                        fontName: 'Source Code Pro';
-			                        yourself.
+		          valueShape := nullableDfsWalker
+			                        ifNil: [ 
+				                        RSLabel new
+					                        model: each;
+					                        useDefaultCodeFont;
+					                        yourself ]
+			                        ifNotNil: [ 
+			                        each asShapeSlotsDfsTree: aDfsWalker ].
 
 		          indexShape := RSLabel new
 			                        model: i;
 			                        text: '(' , i asString , ')';
-			                        fontSize:
-				                        valueShape fontSize * Float silverRatio;
+			                        fontSizeSilverRatio;
 			                        yourself.
+
 		          RSLocation new bottom right
-			          offset: indexShape textWidth + Float goldenRatio @ 0;
-			          move: indexShape on: valueShape.
+			          offset:
+				          indexShape textWidth
+				          + aDfsWalker shapeBuilder radiusOrPadding @ 0;
+			          stick: indexShape on: valueShape.
+
 		          RSComposite new
 			          model: each;
 			          addShape: valueShape;
 			          addShape: indexShape;
-			          adjustToChildren;
-			          padding: Float goldenRatio double;
+			          padding: aDfsWalker shapeBuilder radiusOrPadding;
 			          draggable;
 			          yourself ].
 
@@ -136,4 +199,20 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes [
 		  asShapeHorizontalTreeWithShapes: shapes
 		  array: array
 		  indexes: indexes
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> inspectorCanvasBubblesTree [
+
+	<inspectorPresentationOrder: 90 title: 'Bubbles tree'>
+	^ RSCanvas new
+		  @ RSCanvasController;
+		  add: self asShapeBubblesHorizontalTree;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> inspectorCanvasBubblesTreeContext: aContext [
+
+	aContext withoutEvaluator
 ]

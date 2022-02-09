@@ -69,7 +69,10 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
-		  index asString asSlotDescriptor blockClosure: [ each ] ]
+		  index asString asSlotDescriptor blockClosure: [ 
+			  :anObj 
+			  :aSelector 
+			  :aDfsWalker | each ] ]
 ]
 
 { #category : #visiting }
@@ -78,7 +81,7 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 	^ { 
 		  #associations asSlotDescriptor.
 		  (#asShapeHistogram asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -91,7 +94,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		          ifNotEmpty: [ { #traits asSlotDescriptor } ].
 
 	^ { 
-		  (#name asSlotDescriptor inline: true).
+		  #name asSlotDescriptor inline.
 		  #class asSlotDescriptor.
 		  #superclass asSlotDescriptor.
 		  "#mcType asSlotDescriptor."
@@ -105,10 +108,11 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 	copied := aBlock sourceNode allVariables flatCollect: [ :aRBVariable | 
 		          | var |
 		          var := aBlock outerContext lookupVar: aRBVariable name.
-		          var
-			          ifNil: [ #(  ) ]
-			          ifNotNil: [ 
-			          { (var name asSlotDescriptor blockClosure: [ var value ]) } ] ].
+		          var ifNil: [ #(  ) ] ifNotNil: [ 
+			          { (var name asSlotDescriptor blockClosure: [ 
+				           :anObj 
+				           :aSelector 
+				           :aDfsWalker | var value ]) } ] ].
 
 	^ (self visitObject: aBlock) , copied
 ]
@@ -121,7 +125,7 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  #asString asSlotDescriptor.
 		  #asArray asSlotDescriptor.
 		  (#asShapeBitsDump asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -136,7 +140,7 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)
 	  , { (#asShapeColoredBox asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -158,10 +162,10 @@ CTSlotDescriptorsVisitor >> visitContext: aContext [
 		  #outerContext asSlotDescriptor.
 		  #sender asSlotDescriptor.
 
-		  (#receiver asSlotDescriptor inline: true).
+		  #receiver asSlotDescriptor inline.
 
 		  #selector asSlotDescriptor.
-		  (#closure asSlotDescriptor inline: true).
+		  #closure asSlotDescriptor inline.
 
 		  "(#arguments asSlotDescriptor inline: true)."
 		  #pc asSlotDescriptor.
@@ -172,16 +176,16 @@ CTSlotDescriptorsVisitor >> visitContext: aContext [
 CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
-		  (#asTimeZoneString asSlotDescriptor inline: true).
+		  #asTimeZoneString asSlotDescriptor inline.
 		  #asISO8601String asSlotDescriptor.
-		  (#asLocalStringYMDHM asSlotDescriptor inline: true).
+		  #asLocalStringYMDHM asSlotDescriptor inline.
 		  #dayOfWeekName asSlotDescriptor.
 		  #monthName asSlotDescriptor.
 		  #month asSlotDescriptor.
 		  #dayOfMonth asSlotDescriptor.
 		  "		  ('Day of year' -> [ :anObj | anObj dayOfYear ])."
 		  #year asSlotDescriptor.
-		  (#asTimeString asSlotDescriptor inline: true) }
+		  #asTimeString asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
@@ -210,14 +214,14 @@ CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 		  #asMilliSeconds asSlotDescriptor.
 		  #asMicroseconds asSlotDescriptor.
 		  #asNanoSeconds asSlotDescriptor.
-		  (#asStringDHHMMSSµ asSlotDescriptor inline: true).
-		  (#asStringScaledUptoHours asSlotDescriptor inline: true) }
+		  #asStringDHHMMSSµ asSlotDescriptor inline.
+		  #asStringScaledUptoHours asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 
-	^  { (#printString asSlotDescriptor inline: true) }
+	^ { #printString asSlotDescriptor inline }
 ]
 
 { #category : #visiting }
@@ -238,10 +242,11 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 		  "#asFractionWrtFloor asSlotDescriptor."
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
-			   inline: true;
-			   quote: [ :anArray | anArray asShapeSlotsDfsTree: self ]).
+			   inline;
+			   quote: [ :anArray :aDfsWalker | 
+				   anArray asShapeSlotsDfsTree: aDfsWalker ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -252,27 +257,31 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 		  #a asSlotDescriptor.
 		  #b asSlotDescriptor.
 		  #value asSlotDescriptor.
-		  (#asString asSlotDescriptor inline: true).
+		  #asString asSlotDescriptor inline.
 		  #equations asSlotDescriptor.
 		  #point asSlotDescriptor.
-		  (#asStringDiophantineEquation asSlotDescriptor inline: true) }
+		  #asStringDiophantineEquation asSlotDescriptor inline }
 	  , (aGreatestCommonDivisor = 1
 			   ifTrue: [ 
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
-						    inline: true;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
+						    inline;
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
-						    inline: true;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ]
+						    inline;
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
-						    inline: true;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]).
+						    inline;
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
-						    inline: true;
-						    quote: [ :anObject | anObject asShapeSlotsDfsTree: self ]) } ])
+						    inline;
+						    quote: [ :anObject :aDfsWalker | 
+							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ])
 	".
 
 		  #divisibility asSlotDescriptor"
@@ -284,15 +293,18 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
-	^ (self visitObject: aHeap)
-	  , { (#asShapeValuesHorizontalTree asSlotDescriptor
-			   inline: true;
+	^ (self visitObject: aHeap) , { 
+		  (#asShapeValuesHorizontalTree: asSlotDescriptor
+			   inline;
+			   quote).
+		  (#asShapeValuesHorizontalTree asSlotDescriptor
+			   inline;
 			   quote) } , ((aHeap allSatisfy: [ :each | each isNumber ])
 		   ifTrue: [ 
-			   { (#asShapeBubblesHorizontalTree asSlotDescriptor
-				    inline: true;
+			   { (#asShapeBubblesHorizontalTree: asSlotDescriptor
+				    inline;
 				    quote) } ]
-		   ifFalse: [ Array empty ])
+		   ifFalse: [ {  } ])
 ]
 
 { #category : #visiting }
@@ -310,20 +322,11 @@ CTSlotDescriptorsVisitor >> visitLink: aLink [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
-	^ anObject class allInstVarNames collect: [ :varName | 
-		  varName asSlotDescriptor instVarNameHasBeenGiven ]
-]
-
-{ #category : #OrderPreservingTree }
-CTSlotDescriptorsVisitor >> visitOrderPreservingTree: aTree [
-
-	^ (self visitObject: aTree) , { 
-		  (#asShapeValuesHorizontalTreeWithLabelShapes asSlotDescriptor
-			   inline: true;
-			   quote).
-		  (#asShapeValuesHorizontalTreeWithOutlinerShapes asSlotDescriptor
-			   inline: true;
-			   quote) }
+	^ anObject class allInstVarNames collect: [ :varNameSymbol | 
+		  varNameSymbol asSlotDescriptor blockClosure: [ 
+			  :anObj 
+			  :varName 
+			  :aDfsWalker | anObj instVarNamed: varName ] ]
 ]
 
 { #category : #visiting }
@@ -357,11 +360,11 @@ CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 		  #rem asSlotDescriptor.
 		  "(#value asSlotDescriptor
 			   blockClosure: [ self value asShapeSlotsDfsTree ];
-			   inline: true;
+			   inline;
 			   quote)."
-		  (#asString asSlotDescriptor inline: true).
+		  #asString asSlotDescriptor inline.
 		  (#asShapeDots asSlotDescriptor
-			   inline: true;
+			   inline;
 			   quote) }
 ]
 
@@ -377,7 +380,7 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 
 	^ (self visitArray: aGroup) collect: [ :each | 
 		  each
-			  inline: true;
+			  inline;
 			  quote ]
 ]
 
@@ -385,7 +388,7 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 
 	^ (self visitObject: aRandom) , { (#asShapeScatter asSlotDescriptor
-		   inline: true;
+		   inline;
 		   quote) }
 ]
 
