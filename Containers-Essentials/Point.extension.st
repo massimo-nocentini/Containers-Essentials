@@ -1,6 +1,16 @@
 Extension { #name : #Point }
 
 { #category : #'*Containers-Essentials' }
+Point >> asFloatPointRound: numberOfWishedDecimal [
+
+	| aPoint |
+	aPoint := self asFloatPoint.
+
+	^ (aPoint x round: numberOfWishedDecimal)
+	  @ (aPoint y round: numberOfWishedDecimal)
+]
+
+{ #category : #'*Containers-Essentials' }
 Point >> distanceToOrigin [
 
 	^ self distanceTo: 0 @ 0
