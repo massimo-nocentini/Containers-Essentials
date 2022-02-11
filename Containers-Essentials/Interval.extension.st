@@ -3,7 +3,7 @@ Extension { #name : #Interval }
 { #category : #'*Containers-Essentials' }
 Interval >> linspace: n [
 
-	^ n
-		  ifZero: [ self ]
-		  ifNotZero: [ start to: stop by: stop - start / n ]
+	^ n < 2
+		  ifTrue: [ self ]
+		  ifFalse: [ start to: stop by: stop - start / (n - 1) ]
 ]
