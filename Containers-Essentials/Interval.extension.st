@@ -7,3 +7,9 @@ Interval >> linspace: n [
 		  ifTrue: [ self ]
 		  ifFalse: [ start to: stop by: stop - start / (n - 1) ]
 ]
+
+{ #category : #'*Containers-Essentials' }
+Interval >> unitAt: t [
+
+	^ (t min: stop max: start) - start / (stop - start)
+]
