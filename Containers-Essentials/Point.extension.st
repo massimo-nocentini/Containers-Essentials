@@ -17,6 +17,15 @@ Point >> distanceToOrigin [
 ]
 
 { #category : #'*Containers-Essentials' }
+Point >> unitAffine: aPoint at: aParam [
+
+	| t |
+	t := aParam min: 1 max: 0.
+
+	^ self * t + (1 - t * aPoint)
+]
+
+{ #category : #'*Containers-Essentials' }
 Point >> xMinusY [
 
 	^ self x - self y
