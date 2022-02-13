@@ -10,6 +10,15 @@ RSShape >> boxedWithPad: aPadding [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
+RSShape >> notedWithPad: aPadding [
+
+	^ self padded: aPadding withNoteDo: [ :box | 
+		  box
+			  color: Color white;
+			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withBoxDo: aBlock [
 
 	| box |
