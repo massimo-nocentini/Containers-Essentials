@@ -32,6 +32,27 @@ RSShape >> padded: aPadding withBoxDo: aBlock [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
+RSShape >> padded: aPadding withNoteDo: aBlock [
+
+	| box |
+	box := RSNote new
+		       extent: self extent + (aPadding * 2);
+		       yourself.
+
+	aBlock cull: box cull: self.
+
+	RSLocation new
+		center;
+		stick: box on: self.
+
+	^ RSComposite new
+		  shapes: { 
+				  box.
+				  self };
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
 RSShape >> paddedWithGoldenRatio [
 
 	| pad |
