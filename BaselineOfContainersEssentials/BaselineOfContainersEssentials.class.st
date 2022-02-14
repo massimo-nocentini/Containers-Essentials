@@ -23,11 +23,12 @@ BaselineOfContainersEssentials >> baseline: spec [
 { #category : #baselines }
 BaselineOfContainersEssentials >> roassal: spec [
 
+	spec baseline: 'Roassal3' with: [ 
+		spec
+			repository: 'github://massimo-nocentini/Roassal3/src';
+			loads: #( Full ) ].
+
 	spec
-		baseline: 'Roassal3' with: [ 
-			spec
-				repository: 'github://massimo-nocentini/Roassal3:UML-sequence-diagram/src';
-				loads: #( Full ) ];
 		baseline: 'Roassal3Exporters'
 		with: [ 
 		spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
