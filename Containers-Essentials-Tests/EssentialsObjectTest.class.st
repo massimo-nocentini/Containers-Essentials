@@ -14,15 +14,14 @@ EssentialsObjectTest >> sutInspectIntervalLinspace [
 
 	self assert: linspace asArray equals: { 
 			0.
-			(1 / 10).
-			(1 / 5).
-			(3 / 10).
-			(2 / 5).
-			(1 / 2).
-			(3 / 5).
-			(7 / 10).
-			(4 / 5).
-			(9 / 10).
+			(1 / 9).
+			(2 / 9).
+			(1 / 3).
+			(4 / 9).
+			(5 / 9).
+			(2 / 3).
+			(7 / 9).
+			(8 / 9).
 			1 }.
 
 	^ linspace
