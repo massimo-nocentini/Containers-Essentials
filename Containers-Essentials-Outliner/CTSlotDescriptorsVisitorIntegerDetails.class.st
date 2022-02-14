@@ -29,5 +29,8 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 			   inline;
 			   quote).
 		  #asStringAZaz asSlotDescriptor inline.
-		  #asStringaz asSlotDescriptor inline }
+		  #asStringaz asSlotDescriptor inline.
+		  #isProbablyPrime asSlotDescriptor } , (anInteger isProbablyPrime
+		   ifTrue: [ { #isPrime asSlotDescriptor } ]
+		   ifFalse: [ {  } ])
 ]
