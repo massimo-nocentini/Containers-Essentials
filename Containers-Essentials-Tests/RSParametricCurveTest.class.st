@@ -3,7 +3,7 @@ Class {
 	#superclass : #TestCase,
 	#traits : 'TIceImagesExporting',
 	#classTraits : 'TIceImagesExporting classTrait',
-	#category : #'Containers-Essentials-Roassal'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #tests }
