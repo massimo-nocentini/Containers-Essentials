@@ -17,11 +17,10 @@ Class {
 { #category : #shapes }
 CTDfsShapeBuilder >> box: aValue [
 
-	^ RSBox new
+	^ RSNote new
 		  model: aValue;
 		  color: metaColor translucent lighter lighter;
-		  cornerRadius: self radiusOrPadding;
-		  yourself
+		  "		  cornerRadius: self radiusOrPadding;"yourself
 ]
 
 { #category : #shapes }
@@ -117,7 +116,7 @@ CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descripto
 		                  padding: padding;
 		                  yourself.
 
-	boxedCompositeShape := RSBox new
+	boxedCompositeShape := (self box: nil)
 		                       color: Color white;
 		                       extent: { 
 				                       (varWidth + µ + boxWidth + π
@@ -125,7 +124,6 @@ CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descripto
 				                       compositeShape extent x.
 				                       classLabel extent x } max
 			                       @ compositeShape extent y;
-		                       cornerRadius: padding;
 		                       withBorder;
 		                       yourself.
 
