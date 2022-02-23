@@ -49,6 +49,12 @@ RSParametricCurveTest >> testLineParametricNeil [
 ]
 
 { #category : #tests }
+RSParametricCurveTest >> testLineParametricNeil2 [
+
+	self exportShapeOf: RSBasicShapeExamples new lineParametricNeil2
+]
+
+{ #category : #tests }
 RSParametricCurveTest >> testLineParametricTrochoid [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricTrochoid
