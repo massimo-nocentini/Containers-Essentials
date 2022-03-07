@@ -20,7 +20,8 @@ CTDfsShapeBuilder >> box: aValue [
 	^ RSNote new
 		  model: aValue;
 		  color: metaColor translucent lighter lighter;
-		  "		  cornerRadius: self radiusOrPadding;"yourself
+		  cornerRadius: self radiusOrPadding;
+		  yourself
 ]
 
 { #category : #shapes }
