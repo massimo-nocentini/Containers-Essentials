@@ -25,6 +25,27 @@ RSParametricCurveTest >> exampleBaricentricCoordinates [
 			  yourself ]
 ]
 
+{ #category : #examples }
+RSParametricCurveTest >> exampleBaricentricCoordinatesTriangle [
+
+	<script: 'self new exampleBaricentricCoordinatesTriangle open'>
+	^ self sutBaricentricCoordinatesTriangle: [ :points :param :anotherParam | 
+		  | group |
+		  group := self
+			           groupBaricentricCoordinatesPoint: points first
+			           anotherPoint: points second
+			           yetAnotherPoint: points third
+			           baricentricPoint: points fourth
+			           at: param
+			           at: anotherParam.
+
+		  RSCanvas new
+			  addAll: group;
+			  zoomToFit;
+			  addInteraction: RSCanvasController new;
+			  yourself ]
+]
+
 { #category : #utilities }
 RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: anotherPoint baricentricPoint: baricentricPoint at: param [
 
@@ -86,6 +107,84 @@ RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: 
 		  yourself
 ]
 
+{ #category : #utilities }
+RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: anotherPoint yetAnotherPoint: yetAnotherPoint baricentricPoint: baricentricPoint at: param at: anotherParam [
+
+	| group aCircle anotherCircle thirdCircle baricentricCircle line |
+	group := RSGroup new.
+
+	aCircle := RSCircle new
+		           model: aPoint;
+		           position: aPoint;
+		           color: Color transparent;
+		           withBorder;
+		           labeled;
+		           yourself.
+
+	anotherCircle := RSCircle new
+		                 model: anotherPoint;
+		                 position: anotherPoint;
+		                 color: Color transparent;
+		                 withBorder;
+		                 labeled;
+		                 yourself.
+
+	thirdCircle := RSCircle new
+		               model: yetAnotherPoint;
+		               position: yetAnotherPoint;
+		               color: Color transparent;
+		               withBorder;
+		               labeled;
+		               yourself.
+
+	baricentricCircle := RSCircle new
+		                     model: baricentricPoint;
+		                     position: baricentricPoint;
+		                     color: Color transparent;
+		                     withBorder;
+		                     sameColorAsBorderColor;
+		                     labeled;
+		                     yourself.
+
+	line := RSPolyline new
+		        controlPoints: { 
+				        aPoint.
+				        anotherPoint.
+				        yetAnotherPoint.
+				        aPoint };
+		        dotted;
+		        yourself.
+
+	^ group
+		  add: aCircle;
+		  add: anotherCircle;
+		  add: thirdCircle;
+		  add: baricentricCircle;
+		  add: line;
+		  add: (RSLine new
+				   from: (aPoint unitAffine: yetAnotherPoint at: param);
+				   to: (aPoint unitAffine: anotherPoint at: param);
+				   dashed;
+				   yourself);
+		  add: (RSLine new
+				   from: (anotherPoint unitAffine: aPoint at: anotherParam);
+				   to: (anotherPoint unitAffine: yetAnotherPoint at: anotherParam);
+				   dashed;
+				   yourself);
+		  add: (RSLine new
+				   from:
+					   (yetAnotherPoint
+						    unitAffine: aPoint
+						    at: 1 - param - anotherParam);
+				   to:
+					   (yetAnotherPoint
+						    unitAffine: anotherPoint
+						    at: 1 - param - anotherParam);
+				   dashed;
+				   yourself);
+		  yourself
+]
+
 { #category : #'systems under tests' }
 RSParametricCurveTest >> sutBaricentricCoordinates: aBlock [
 
@@ -104,6 +203,35 @@ RSParametricCurveTest >> sutBaricentricCoordinates: aBlock [
 				  anotherPoint.
 				  baricentricPoint }
 		  value: param
+]
+
+{ #category : #'systems under tests' }
+RSParametricCurveTest >> sutBaricentricCoordinatesTriangle: aBlock [
+
+	| aPoint anotherPoint param baricentricPoint yetAnotherPoint anotherParam |
+	aPoint := 100 @ 100.
+	anotherPoint := 300 @ 400.
+	yetAnotherPoint := -100 @ 250.
+
+	param := 1 / 6.
+	anotherParam := 1 / 2.
+
+	baricentricPoint := aPoint
+		                    unitAffine: anotherPoint
+		                    at: param
+		                    and: yetAnotherPoint
+		                    at: anotherParam.
+
+	self assert: baricentricPoint equals: 400 / 3 @ 300.
+
+	^ aBlock
+		  value: { 
+				  aPoint.
+				  anotherPoint.
+				  yetAnotherPoint.
+				  baricentricPoint }
+		  value: param
+		  value: anotherParam
 ]
 
 { #category : #tests }
@@ -125,10 +253,19 @@ RSParametricCurveTest >> testBaricentricCoordinates [
 { #category : #tests }
 RSParametricCurveTest >> testBaricentricCoordinatesTriangle [
 
-	self
-		exportShapeOf:
-		RSBasicShapeExamples new groupBaricentricCoordinatesTriangle
-		accessorBlock: [ :aGroup | aGroup asShape ]
+	self sutBaricentricCoordinatesTriangle: [ :points :param :anotherParam | 
+		| group |
+		group := self
+			         groupBaricentricCoordinatesPoint: points first
+			         anotherPoint: points second
+			         yetAnotherPoint: points third
+			         baricentricPoint: points fourth
+			         at: param
+			         at: anotherParam.
+
+		self
+			exportShapeOf: group
+			accessorBlock: [ :aGroup | aGroup asShape ] ]
 ]
 
 { #category : #tests }
