@@ -52,6 +52,14 @@ EssentialsObjectTest >> testCollectionSubclasses [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
+
+	self
+		assert: Float epsilon equals: 2.220446049250313e-16;
+		assert: Float epsilon log negated ceiling equals: 16
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
 	| ratios |
@@ -707,6 +715,17 @@ EssentialsObjectTest >> testRBNodeSubclasses [
 EssentialsObjectTest >> testRandomSubclasses [
 
 	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testRelativeErrorPi [
+
+	| error |
+	error := Float pi relativeError: 3.1415.
+
+	self
+		assert: error equals: -2.9492553621508708e-5;
+		assert: error abs log negated ceiling equals: 5
 ]
 
 { #category : #tests }

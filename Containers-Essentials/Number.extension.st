@@ -135,6 +135,12 @@ Number >> multiplyNumber: aNumber [
 ]
 
 { #category : #'*Containers-Essentials' }
+Number >> relativeError: anApproximation [
+
+	^ anApproximation - self / self
+]
+
+{ #category : #'*Containers-Essentials' }
 Number >> sinh [
 	
 	^self asFloat sinh
