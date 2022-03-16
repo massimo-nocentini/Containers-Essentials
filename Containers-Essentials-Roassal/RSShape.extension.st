@@ -10,12 +10,42 @@ RSShape >> boxedWithPad: aPadding [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
+RSShape >> notedWithPad: aPadding [
+
+	^ self padded: aPadding withNoteDo: [ :box | 
+		  box
+			  color: Color white;
+			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withBoxDo: aBlock [
 
 	| box |
 	box := RSBox new
 		       extent: self extent + (aPadding * 2);
 		       cornerRadius: aPadding;
+		       yourself.
+
+	aBlock cull: box cull: self.
+
+	RSLocation new
+		center;
+		stick: box on: self.
+
+	^ RSComposite new
+		  shapes: { 
+				  box.
+				  self };
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
+RSShape >> padded: aPadding withNoteDo: aBlock [
+
+	| box |
+	box := RSNote new
+		       extent: self extent + (aPadding * 2);
 		       yourself.
 
 	aBlock cull: box cull: self.

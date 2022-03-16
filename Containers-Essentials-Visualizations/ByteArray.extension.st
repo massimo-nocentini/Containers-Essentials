@@ -7,10 +7,11 @@ ByteArray >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-ByteArray >> asShapeBitsDump [
+ByteArray >> asShapeBitsDump: aWalker [
 
-	| shapes dGR |
-	dGR := Float goldenRatio double.
+	| shapes dGR gapSize |
+	dGR := aWalker shapeBuilder radiusOrPadding.
+	gapSize := dGR half.
 
 	shapes := self asArray collect: [ :byte | 
 		          | bits composite box |
@@ -25,14 +26,12 @@ ByteArray >> asShapeBitsDump [
 								                   ifFalse: [ Color white ]) ] ].
 
 		          RSHorizontalLineLayout new
-			          gapSize: Float goldenRatio;
+			          gapSize: gapSize;
 			          on: bits.
 
 		          composite := RSComposite new
 			                       shapes: bits;
-			                       "
-			                       padding: dGR;"
-				                       yourself.
+			                       yourself.
 
 		          box := RSBox new
 			                 extent: composite extent;
@@ -53,7 +52,7 @@ ByteArray >> asShapeBitsDump [
 		          composite ].
 
 	RSVerticalLineLayout new
-		gapSize: dGR half;
+		gapSize: gapSize;
 		on: shapes.
 
 	^ RSComposite new

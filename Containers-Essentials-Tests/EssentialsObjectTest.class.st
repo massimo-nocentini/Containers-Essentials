@@ -7,6 +7,27 @@ Class {
 }
 
 { #category : #tests }
+EssentialsObjectTest >> sutInspectIntervalLinspace [
+
+	| linspace |
+	linspace := (0 to: 1) linspace: 10.
+
+	self assert: linspace asArray equals: { 
+			0.
+			(1 / 9).
+			(2 / 9).
+			(1 / 3).
+			(4 / 9).
+			(5 / 9).
+			(2 / 3).
+			(7 / 9).
+			(8 / 9).
+			1 }.
+
+	^ linspace
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testByteArrayInteger [
 
 	^ self exportSlotsGraphOf: 50 fibonacciNumbers last asByteArray
@@ -28,6 +49,14 @@ EssentialsObjectTest >> testByteArrayLoremIpsum [
 EssentialsObjectTest >> testCollectionSubclasses [
 
 	^ self exportShapeOf: Collection accessorBlock: #asShapeSubclasses
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
+
+	self
+		assert: Float epsilon equals: 2.220446049250313e-16;
+		assert: Float epsilon log negated ceiling equals: 16
 ]
 
 { #category : #tests }
@@ -142,7 +171,14 @@ EssentialsObjectTest >> testInspectAssociation [
 { #category : #tests }
 EssentialsObjectTest >> testInspectBRGCodes [
 
-	^ self exportSlotsGraphOf: ((0 to: 15)
+	| n |
+	n := 15.
+
+	self
+		exportSlotsGraphOf: n asBRGCCollection
+		pathSuffix: 'changing-bits'.
+
+	^ self exportSlotsGraphOf: ((0 to: n)
 			   collect: [ :each | each asShapeBRGCDots: CTDfsWalker new ]
 			   as: RSGroup)
 ]
@@ -404,6 +440,12 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 	^ self
 		  exportSlotsGraphOf: 13
 		  slotDescriptorsContext: CTSlotDescriptorsVisitorIntegerDetails new
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testInspectIntervalLinspace [
+
+	^ self exportSlotsGraphOf: self sutInspectIntervalLinspace
 ]
 
 { #category : #tests }
@@ -673,6 +715,17 @@ EssentialsObjectTest >> testRBNodeSubclasses [
 EssentialsObjectTest >> testRandomSubclasses [
 
 	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testRelativeErrorPi [
+
+	| error |
+	error := Float pi relativeError: 3.1415.
+
+	self
+		assert: error equals: -2.9492553621508708e-5;
+		assert: error abs log negated ceiling equals: 5
 ]
 
 { #category : #tests }

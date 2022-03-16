@@ -50,26 +50,19 @@ Behavior >> asShapeSubclasses [
 	gr := Float goldenRatio.
 	commits := Array streamContents: [ :aStream | 
 		           self withAllSubclassesDo: [ :aSubClass | 
-			           | label box |
-			           label := RSLabel new text: aSubClass name.
-			           aSubClass isAbstract ifTrue: [ 
-				           label
-					           bold;
-					           italic ].
-			           box := RSBox new
-				                  color: Color white;
-				                  withBorder;
-				                  cornerRadius: gr * 2;
-				                  extent: label extent + (gr * 4) asPoint;
-				                  yourself.
-			           RSLocation new center stick: label on: box.
-			           aStream nextPut: (RSComposite new
-					            model: aSubClass;
-					            shapes: (Array with: box with: label);
-					            draggable;
-					            when: RSMouseLeftClick
-					            do: [ :ev | aSubClass browse ];
-					            yourself) ] ].
+			           | aShape |
+			           aShape := RSLabel new
+				                     text: aSubClass name;
+				                     when: RSMouseLeftClick
+				                     do: [ :ev | aSubClass browse ];
+				                     yourself.
+
+			           aShape := (aShape notedWithPad:
+					                      Float goldenPlatinumRatio)
+				                     model: aSubClass;
+				                     yourself.
+
+			           aStream nextPut: aShape ] ].
 
 	edges := RSLineBuilder orthoHorizontal
 		         shapes: commits;
@@ -78,6 +71,8 @@ Behavior >> asShapeSubclasses [
 			         RSHorizontalGoldenRatioOffsetCPAPController new;
 		         cornerRadii: Float goldenRatio double;
 		         connectToAll: [ :aSubClass | aSubClass subclasses ].
+
+	edges do: [ :each | each color: each color translucent ].
 
 	edges sort: [ :a :b | 
 		| aName bName |
@@ -94,4 +89,20 @@ Behavior >> asShapeSubclasses [
 	^ RSComposite new
 		  shapes: commits , edges;
 		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> inspectorCanvasBubblesTree [
+
+	<inspectorPresentationOrder: 1000 title: 'All subclasses tree'>
+	^ RSCanvas new
+		  add: self asShapeSubclasses;
+		  @ RSCanvasController;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> inspectorCanvasBubblesTreeContext: aContext [
+
+	aContext withoutEvaluator
 ]
