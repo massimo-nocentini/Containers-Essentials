@@ -46,6 +46,7 @@ RSShape >> padded: aPadding withNoteDo: aBlock [
 	| box |
 	box := RSNote new
 		       extent: self extent + (aPadding * 2);
+		       cornerRadius: aPadding;
 		       yourself.
 
 	aBlock cull: box cull: self.
