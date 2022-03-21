@@ -92,7 +92,7 @@ Behavior >> asShapeSubclasses [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> inspectorCanvasBubblesTree [
+Behavior >> inspectorCanvasSubclassesTree [
 
 	<inspectorPresentationOrder: 1000 title: 'All subclasses tree'>
 	^ RSCanvas new
@@ -102,7 +102,7 @@ Behavior >> inspectorCanvasBubblesTree [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> inspectorCanvasBubblesTreeContext: aContext [
+Behavior >> inspectorCanvasSubclassesTreeContext: aContext [
 
 	aContext withoutEvaluator
 ]
