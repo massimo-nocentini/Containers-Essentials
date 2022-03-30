@@ -64,12 +64,12 @@ Behavior >> asShapeSubclasses [
 
 			           aStream nextPut: aShape ] ].
 
-	edges := RSLineBuilder orthoHorizontal
+	edges := RSLineBuilder horizontalBezier
 		         shapes: commits;
 		         withHorizontalAttachPoint;
 		         controlPointsController:
 			         RSHorizontalGoldenRatioOffsetCPAPController new;
-		         cornerRadii: Float goldenRatio double;
+		        " cornerRadii: Float goldenRatio double;"
 		         connectToAll: [ :aSubClass | aSubClass subclasses ].
 
 	edges do: [ :each | each color: each color translucent ].
@@ -82,7 +82,7 @@ Behavior >> asShapeSubclasses [
 			ifTrue: [ a to model name < b to model name ]
 			ifFalse: [ aName < bName ] ].
 
-	RSHorizontalVanDerPloegTreeLayout new
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
 		doNotValidateCycles;
 		on: commits edges: edges.
 
@@ -92,7 +92,7 @@ Behavior >> asShapeSubclasses [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> inspectorCanvasBubblesTree [
+Behavior >> inspectorCanvasSubclassesTree [
 
 	<inspectorPresentationOrder: 1000 title: 'All subclasses tree'>
 	^ RSCanvas new
@@ -102,7 +102,7 @@ Behavior >> inspectorCanvasBubblesTree [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Behavior >> inspectorCanvasBubblesTreeContext: aContext [
+Behavior >> inspectorCanvasSubclassesTreeContext: aContext [
 
 	aContext withoutEvaluator
 ]
