@@ -262,9 +262,21 @@ CTDfsPainter >> layoutLinesBuilder [
 { #category : #layouting }
 CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	RSHorizontalVanDerPloegTreeLayout
-		on: aCollectionOfShapes
-		edges: aCollectionOfLines
+	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
+		horizontalGap: [ :aParent :aChild :default | 
+			| aPoint childrenSize i |
+			aPoint := aChild propertyDfsExploreIndex key.
+
+			i := aPoint x.
+			childrenSize := aPoint y.
+
+			i := i <= childrenSize half ceiling
+				     ifTrue: [ i ]
+				     ifFalse: [ childrenSize - i + 1 ].
+
+			i * default
+			"(aParent width max: aChild width) * Float goldenRatio " ];
+		on: aCollectionOfShapes edges: aCollectionOfLines
 ]
 
 { #category : #'line drawing' }
