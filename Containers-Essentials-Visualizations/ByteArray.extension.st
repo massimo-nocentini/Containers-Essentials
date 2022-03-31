@@ -11,7 +11,7 @@ ByteArray >> asShapeBitsDump: aWalker [
 
 	| shapes dGR gapSize |
 	dGR := aWalker shapeBuilder radiusOrPadding.
-	gapSize := dGR half.
+	gapSize := dGR halved.
 
 	shapes := self asArray collect: [ :byte | 
 		          | bits composite box |

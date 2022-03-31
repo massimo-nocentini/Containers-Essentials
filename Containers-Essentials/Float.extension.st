@@ -59,6 +59,12 @@ Float class >> goldenPlatinumRatio [
 ]
 
 { #category : #'*Containers-Essentials' }
+Float >> halved [
+
+	^ self * 0.5
+]
+
+{ #category : #'*Containers-Essentials' }
 Float >> sinh [
 	"Answer receivers hyperbolic sine"
 	
