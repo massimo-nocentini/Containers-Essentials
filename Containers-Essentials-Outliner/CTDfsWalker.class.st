@@ -147,7 +147,7 @@ CTDfsWalker >> maxLevel: anObject [
 { #category : #DFS }
 CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors aShape metaExtent widthsExtentRef slotsRows classShape noSlotsShape expandPoints |
+	| descriptors aShape metaExtent widthsExtentRef slotsRows classShape noSlotsShape lookupKeys |
 	aShape := shapeBuilder outline: anObject.
 
 	self
@@ -167,7 +167,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 	descriptors := slotDescriptorsContext visit: anObject.
 
-	expandPoints := OrderedCollection new.
+	lookupKeys := OrderedCollection new.
 
 	slotsRows := OrderedCollection new.
 
@@ -184,7 +184,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 				            value: value
 				            descriptor: childDescriptor
 				            level: level
-				            ithChild: expandPoints
+				            expandingLookupKeys: lookupKeys
 				            parent: anObject
 				            parentShape: aShape
 				            widthsExtentRef: widthsExtentRef
@@ -192,8 +192,8 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 			slotsRows add: slotsRow ] ].
 
-	expandPoints do: [ :aLookupKey | 
-		aLookupKey key: aLookupKey key @ expandPoints size ].
+	lookupKeys do: [ :aLookupKey | 
+		aLookupKey key: aLookupKey key @ lookupKeys size ].
 
 	self
 		incrementDfsClock;
@@ -324,7 +324,7 @@ CTDfsWalker >> value: rootObject [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: expandPoints parent: anObject parentShape: aShape widthsExtentRef: widthsExtentRef metaExtent: metaExtent [
+CTDfsWalker >> value: value descriptor: childDescriptor level: level expandingLookupKeys: lookupKeys parent: anObject parentShape: aShape widthsExtentRef: widthsExtentRef metaExtent: metaExtent [
 
 	| valueLabel varLabel valueBox extent widthsExtent |
 	widthsExtent := widthsExtentRef key.
@@ -346,7 +346,7 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: e
 			              self
 				              valueHasntBeenVisited: value
 				              describedBy: childDescriptor
-				              ithChild: expandPoints
+				              expandingLookupKeys: lookupKeys
 				              parent: anObject
 				              shape: aShape
 				              level: level ].
@@ -381,14 +381,14 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: e
 ]
 
 { #category : #DFS }
-CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: expandPoints parent: aParent shape: mineShape level: level [
+CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor expandingLookupKeys: lookupKeys parent: aParent shape: mineShape level: level [
 
 	| childShape aLookupKey |
 	aLookupKey := LookupKey new
-		              key: expandPoints size + 1;
+		              key: lookupKeys size + 1;
 		              yourself.
 
-	expandPoints add: aLookupKey.
+	lookupKeys add: aLookupKey.
 
 	childShape := self
 		              object: anObject
