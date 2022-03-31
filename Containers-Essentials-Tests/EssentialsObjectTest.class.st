@@ -97,7 +97,7 @@ EssentialsObjectTest >> testInspect10GoldenRectanglesNested [
 
 	| rectangles |
 	rectangles := self testInspect10GoldenRectangles foldr1: [ :each :aBox | 
-		              aBox rotateByRadians: Float pi half negated.
+		              aBox rotateByRadians: Float pi halved negated.
 		              RSLocation new left stick: aBox on: each.
 		              RSComposite new
 			              shapes: { 

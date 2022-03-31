@@ -270,11 +270,11 @@ CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 			i := aPoint x.
 			childrenSize := aPoint y.
 
-			i := i <= childrenSize half ceiling
+			i := i <= childrenSize halved ceiling
 				     ifTrue: [ i ]
 				     ifFalse: [ childrenSize - i + 1 ].
 
-			i * default
+			i * default"(aParent width + aChild width) halved * Float silverRatio "
 			"(aParent width max: aChild width) * Float goldenRatio " ];
 		on: aCollectionOfShapes edges: aCollectionOfLines
 ]
@@ -305,7 +305,7 @@ CTDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
-	^ RSLineBuilder polyline
+	^ (RSLineBuilder new: RSdeCasteljauHorizontalSegmentedLine new)
 		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;
@@ -319,8 +319,7 @@ CTDfsPainter >> treeLinesBuilder [
 		  attachPoint: (RSHorizontalAttachPoint new
 				   startOffset: Float goldenRatio double double negated;
 				   yourself);
-		  controlPointsController:
-		  RSHorizontalGoldenRatioOffsetCPAPController new;
+		  controlPointsController: RSHorizontalSegmentedCPAPController new;
 		  yourself
 ]
 

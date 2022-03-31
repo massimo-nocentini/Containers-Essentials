@@ -68,7 +68,7 @@ Number >> double [
 ]
 
 { #category : #'*Containers-Essentials' }
-Number >> half [
+Number >> halved [
 
 	^ self / 2
 ]
