@@ -60,6 +60,12 @@ Behavior >> asShapeSubclasses [
 			           aShape := (aShape notedWithPad:
 					                      Float goldenPlatinumRatio)
 				                     model: aSubClass;
+				                     propertyDfsExploreIndex: (LookupKey new
+						                      key:
+							                      (aSubClass superclass subclasses 
+								                       indexOf: aSubClass)
+							                      @ aSubClass superclass subclasses size;
+						                      yourself);
 				                     yourself.
 
 			           aStream nextPut: aShape ] ].
@@ -82,6 +88,7 @@ Behavior >> asShapeSubclasses [
 
 	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
 		doNotValidateCycles;
+		usePyramidalHorizontalGap;
 		on: commits edges: edges.
 
 	^ RSComposite new
