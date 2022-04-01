@@ -60,16 +60,20 @@ Behavior >> asShapeSubclasses [
 			           aShape := (aShape notedWithPad:
 					                      Float goldenPlatinumRatio)
 				                     model: aSubClass;
+				                     propertyDfsExploreIndex: (LookupKey new
+						                      key:
+							                      (aSubClass superclass subclasses 
+								                       indexOf: aSubClass)
+							                      @ aSubClass superclass subclasses size;
+						                      yourself);
 				                     yourself.
 
 			           aStream nextPut: aShape ] ].
 
-	edges := RSLineBuilder horizontalBezier
+	edges := RSLineBuilder horizontalDeCasteljauSegmentedLine
 		         shapes: commits;
 		         withHorizontalAttachPoint;
-		         controlPointsController:
-			         RSHorizontalGoldenRatioOffsetCPAPController new;
-		        " cornerRadii: Float goldenRatio double;"
+		         cornerRadii: Float goldenRatio double;
 		         connectToAll: [ :aSubClass | aSubClass subclasses ].
 
 	edges do: [ :each | each color: each color translucent ].
@@ -84,6 +88,7 @@ Behavior >> asShapeSubclasses [
 
 	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
 		doNotValidateCycles;
+		usePyramidalHorizontalGap;
 		on: commits edges: edges.
 
 	^ RSComposite new
