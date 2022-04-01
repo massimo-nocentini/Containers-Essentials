@@ -1,14 +1,12 @@
 Extension { #name : #RSHorizontalVanDerPloegTreeLayout }
 
 { #category : #'*Containers-Essentials-Roassal' }
-RSHorizontalVanDerPloegTreeLayout >> usePyramidalHorizontalGap [
+RSHorizontalVanDerPloegTreeLayout >> usePyramidalDepthGaps [
 
 	self horizontalGap: [ :aParent :aChild :default | 
-		| aPoint childrenSize i |
-		aPoint := aChild propertyDfsExploreIndex key.
-
-		i := aPoint x.
-		childrenSize := aPoint y.
+		| childrenSize i |
+		i := self childIndexOf: aChild.
+		childrenSize := (self siblingsOf: aChild) size.
 
 		i := i <= childrenSize halved ceiling
 			     ifTrue: [ i ]

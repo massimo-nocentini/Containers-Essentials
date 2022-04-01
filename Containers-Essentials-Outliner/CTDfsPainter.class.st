@@ -263,7 +263,7 @@ CTDfsPainter >> layoutLinesBuilder [
 CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
-		usePyramidalHorizontalGap;
+		usePyramidalDepthGaps;
 		on: aCollectionOfShapes edges: aCollectionOfLines
 ]
 

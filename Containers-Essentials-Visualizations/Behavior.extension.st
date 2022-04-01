@@ -88,7 +88,7 @@ Behavior >> asShapeSubclasses [
 
 	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
 		doNotValidateCycles;
-		usePyramidalHorizontalGap;
+		usePyramidalDepthGaps;
 		on: commits edges: edges.
 
 	^ RSComposite new
