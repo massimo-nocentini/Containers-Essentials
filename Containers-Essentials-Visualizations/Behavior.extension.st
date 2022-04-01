@@ -64,12 +64,10 @@ Behavior >> asShapeSubclasses [
 
 			           aStream nextPut: aShape ] ].
 
-	edges := RSLineBuilder horizontalBezier
+	edges := RSLineBuilder horizontalDeCasteljauSegmentedLine
 		         shapes: commits;
 		         withHorizontalAttachPoint;
-		         controlPointsController:
-			         RSHorizontalGoldenRatioOffsetCPAPController new;
-		        " cornerRadii: Float goldenRatio double;"
+		         cornerRadii: Float goldenRatio double;
 		         connectToAll: [ :aSubClass | aSubClass subclasses ].
 
 	edges do: [ :each | each color: each color translucent ].

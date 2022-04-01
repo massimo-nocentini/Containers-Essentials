@@ -305,7 +305,7 @@ CTDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
-	^ (RSLineBuilder new: RSdeCasteljauHorizontalSegmentedLine new)
+	^ RSLineBuilder horizontalDeCasteljauSegmentedLine
 		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;
@@ -319,7 +319,6 @@ CTDfsPainter >> treeLinesBuilder [
 		  attachPoint: (RSHorizontalAttachPoint new
 				   startOffset: Float goldenRatio double double negated;
 				   yourself);
-		  controlPointsController: RSHorizontalSegmentedCPAPController new;
 		  yourself
 ]
 
