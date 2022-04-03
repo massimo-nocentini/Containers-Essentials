@@ -49,18 +49,6 @@ RSObjectWithProperty >> propertyDfsEntryTime [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
-RSObjectWithProperty >> propertyDfsExploreIndex [
-
-	^ self propertyAt: #dfsExploreIndex
-]
-
-{ #category : #'*Containers-Essentials-Roassal' }
-RSObjectWithProperty >> propertyDfsExploreIndex: anInteger [
-
-	^ self propertyAt: #dfsExploreIndex put: anInteger
-]
-
-{ #category : #'*Containers-Essentials-Roassal' }
 RSObjectWithProperty >> propertyDfsIsOnObjectStack [
 
 	^ (self propertyAt: #dfsObjectStack ifAbsent: [ nil ])
