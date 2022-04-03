@@ -147,7 +147,7 @@ CTDfsWalker >> maxLevel: anObject [
 { #category : #DFS }
 CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: aParent level: level [
 
-	| descriptors aShape metaExtent widthsExtentRef slotsRows classShape noSlotsShape lookupKeys |
+	| descriptors aShape metaExtent widthsExtent slotsRows classShape noSlotsShape lookupKeys |
 	aShape := shapeBuilder outline: anObject.
 
 	self
@@ -161,9 +161,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 
 	metaExtent := shapeBuilder metaExtent.
 
-	widthsExtentRef := LookupKey new
-		                   key: 0 -> metaExtent x;
-		                   yourself.
+	widthsExtent := 0 -> metaExtent x.
 
 	descriptors := slotDescriptorsContext visit: anObject.
 
@@ -187,7 +185,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 				            expandingLookupKeys: lookupKeys
 				            parent: anObject
 				            parentShape: aShape
-				            widthsExtentRef: widthsExtentRef
+				            widthsExtentRef: widthsExtent
 				            metaExtent: metaExtent.
 
 			slotsRows add: slotsRow ] ].
@@ -218,7 +216,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor childNo: i parent: 
 		  classShape: classShape
 		  noSlotsShape: noSlotsShape
 		  descriptors: slotsRows
-		  extent: widthsExtentRef key
+		  extent: widthsExtent
 		  shape: aShape
 ]
 
@@ -324,11 +322,9 @@ CTDfsWalker >> value: rootObject [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> value: value descriptor: childDescriptor level: level expandingLookupKeys: lookupKeys parent: anObject parentShape: aShape widthsExtentRef: widthsExtentRef metaExtent: metaExtent [
+CTDfsWalker >> value: value descriptor: childDescriptor level: level expandingLookupKeys: lookupKeys parent: anObject parentShape: aShape widthsExtentRef: widthsExtent metaExtent: metaExtent [
 
-	| valueLabel varLabel valueBox extent widthsExtent |
-	widthsExtent := widthsExtentRef key.
-
+	| valueLabel varLabel valueBox extent |
 	valueLabel := self
 		              valueLabelShapeOf: value
 		              describedBy: childDescriptor
@@ -370,12 +366,11 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level expandingLo
 			          valueLabel extent x
 			          @ (valueLabel extent y max: metaExtent y) ].
 
-	widthsExtent := (widthsExtent key max: varLabel extent x)
-	                -> (widthsExtent value max: extent x).
+	widthsExtent
+		key: (widthsExtent key max: varLabel extent x);
+		value: (widthsExtent value max: extent x).
 
 	valueBox height: (extent y max: varLabel extent y).
-
-	widthsExtentRef key: widthsExtent.
 
 	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
 ]
