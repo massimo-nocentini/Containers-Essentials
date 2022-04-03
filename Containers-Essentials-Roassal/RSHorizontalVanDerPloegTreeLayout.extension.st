@@ -10,7 +10,7 @@ RSHorizontalVanDerPloegTreeLayout >> usePyramidalDepthGaps [
 
 		i := i <= childrenSize halved ceiling
 			     ifTrue: [ i ]
-			     ifFalse: [ childrenSize - i + 2 ].
+			     ifFalse: [ childrenSize - i + 1 + childrenSize even asBit ].
 
 		i * default ]
 ]
