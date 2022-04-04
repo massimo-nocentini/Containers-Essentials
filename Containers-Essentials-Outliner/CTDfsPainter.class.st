@@ -260,7 +260,7 @@ CTDfsPainter >> initialize [
 	super initialize.
 
 	self layout: (RSHorizontalGaussianJitterVanDerPloegTreeLayout new
-			 usePyramidalHorizontalGap;
+			 usePyramidalDepthGaps;
 			 yourself)
 ]
 
