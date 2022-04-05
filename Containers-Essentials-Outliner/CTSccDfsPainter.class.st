@@ -161,15 +161,15 @@ CTSccDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 	edgessOfSCCs := stronglyConnectedComponents
 		                inject: IdentityDictionary new
 		                into: [ :aDictionary :each | 
-			                | edges sccTuples |
+			                | aCollectionOfEdges sccTuples |
 			                sccTuples := tuplesOfSCCs
 				                             at: each
 				                             ifAbsent: [ OrderedCollection new ].
-			                edges := super
-				                         layoutTuples: sccTuples
-				                         lineBuilder: lineBuilder.
+			                aCollectionOfEdges := super
+				                                      layoutTuples: sccTuples
+				                                      lineBuilder: lineBuilder.
 			                aDictionary
-				                at: each put: edges;
+				                at: each put: aCollectionOfEdges;
 				                yourself ].
 
 	^ super layoutTuples: tuples lineBuilder: lineBuilder

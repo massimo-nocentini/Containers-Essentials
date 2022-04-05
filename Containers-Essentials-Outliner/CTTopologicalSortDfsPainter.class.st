@@ -93,7 +93,7 @@ CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionO
 { #category : #'line drawing' }
 CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
-	^ Array empty
+	^ {  }
 ]
 
 { #category : #'line building' }
