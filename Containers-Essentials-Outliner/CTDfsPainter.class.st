@@ -254,14 +254,12 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 										  'Logical inconsistency: a non-sense association has been recognized.' ] ] ] ]
 ]
 
-{ #category : #layouting }
+{ #category : #initialization }
 CTDfsPainter >> initialize [
 
 	super initialize.
 
-	self layout: (RSHorizontalGaussianJitterVanDerPloegTreeLayout new
-			 usePyramidalDepthGaps;
-			 yourself)
+	self layout: RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
 ]
 
 { #category : #accessing }
