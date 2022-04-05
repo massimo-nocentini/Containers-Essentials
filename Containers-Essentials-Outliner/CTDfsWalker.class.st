@@ -348,18 +348,22 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: i
 
 	valueBox := shapeBuilder box: value.
 
-	extent := valueLabel
-		          ifNil: [ 
-			          childDescriptor addHighlightWithLinesInteractionOnShape:
-				          valueBox.
+	valueLabel
+		ifNil: [ 
+			childDescriptor addHighlightWithLinesInteractionOnShape: valueBox.
 
-			          fromShapes at: valueBox put: aShape.
+			fromShapes at: valueBox put: aShape.
 
-			          widthsExtent value @ metaExtent y ]
-		          ifNotNil: [ 
-			          valueLabel := shapeBuilder pad: valueLabel.
-			          valueLabel extent x
-			          @ (valueLabel extent y max: metaExtent y) ].
+			valueBox color: valueBox color lighter lighter.
+
+			extent := widthsExtent value @ metaExtent y ]
+		ifNotNil: [ 
+			| y |
+			valueLabel := shapeBuilder pad: valueLabel.
+
+			y := valueLabel extent y max: metaExtent y.
+
+			extent := valueLabel extent x @ y ].
 
 	widthsExtent
 		key: (widthsExtent key max: varLabel extent x);

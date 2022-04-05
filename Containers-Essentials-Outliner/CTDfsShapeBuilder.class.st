@@ -19,7 +19,7 @@ CTDfsShapeBuilder >> box: aValue [
 
 	^ RSNote new
 		  model: aValue;
-		  color: metaColor translucent lighter lighter;
+		  color: metaColor translucent;
 		  cornerRadius: self radiusOrPadding;
 		  yourself
 ]
@@ -170,7 +170,7 @@ CTDfsShapeBuilder >> label: anObject var: selector [
 	| composite var |
 	var := selector.
 	composite := var asString asShapeMultilineLabel: (RSLabel new
-			              color: Color black;
+			              color: metaColor;
 			              yourself).
 
 	RSAlignment new
