@@ -259,9 +259,7 @@ CTDfsPainter >> initialize [
 
 	super initialize.
 
-	self layout:
-		RSHorizontalGaussianJitterAndPyramidalWidthGapsVanDerPloegTreeLayout
-			new
+	self layout: RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
 ]
 
 { #category : #initialization }

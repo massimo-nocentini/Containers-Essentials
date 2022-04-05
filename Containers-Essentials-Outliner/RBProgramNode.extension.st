@@ -75,7 +75,7 @@ RBProgramNode >> inspectorRoassalTree [
 			         associations collect: [ :eachAssoc | 
 				         eb edgeFrom: eachAssoc key to: eachAssoc value ] ].
 
-	RSHorizontalGaussianJitterVanDerPloegTreeLayout new
+	RSHorizontalVanDerPloegTreeLayout new
 		doNotValidateCycles;
 		on: shapes values edges: edges.
 
