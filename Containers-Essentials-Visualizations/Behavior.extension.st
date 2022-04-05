@@ -80,8 +80,7 @@ Behavior >> asShapeSubclasses [
 			ifTrue: [ a to model name < b to model name ]
 			ifFalse: [ aName < bName ] ].
 
-	RSHorizontalGaussianJitterAndPyramidalWidthGapsVanDerPloegTreeLayout
-		new
+	RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
 		doNotValidateCycles;
 		on: commits edges: edges.
 

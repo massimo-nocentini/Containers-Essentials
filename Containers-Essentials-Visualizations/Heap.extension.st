@@ -106,7 +106,7 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 
 	edges := evenEdges , oddEdges.
 
-	RSHorizontalGaussianJitterVanDerPloegTreeLayout
+	RSHorizontalVanDerPloegTreeLayout
 		on: aCollectionOfShapes
 		edges: edges.
 
