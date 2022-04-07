@@ -11,8 +11,7 @@ Class {
 		'oneToManyShapes',
 		'shapes',
 		'edges',
-		'dfsWalker',
-		'layout'
+		'dfsWalker'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -254,18 +253,10 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 										  'Logical inconsistency: a non-sense association has been recognized.' ] ] ] ]
 ]
 
-{ #category : #initialization }
-CTDfsPainter >> initialize [
+{ #category : #layouting }
+CTDfsPainter >> layout [
 
-	super initialize.
-
-	self layout: RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
-]
-
-{ #category : #accessing }
-CTDfsPainter >> layout: aLayout [
-
-	layout := aLayout
+	^ RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
 ]
 
 { #category : #'line building' }
@@ -277,7 +268,7 @@ CTDfsPainter >> layoutLinesBuilder [
 { #category : #layouting }
 CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
-	layout on: aCollectionOfShapes edges: aCollectionOfLines
+	self layout on: aCollectionOfShapes edges: aCollectionOfLines
 ]
 
 { #category : #'line drawing' }
