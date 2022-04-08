@@ -42,10 +42,22 @@ CTQuoteSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #dispatched }
+CTQuoteSlotDescriptor >> header: aBlock [
+
+	descriptor header: aBlock
+]
+
 { #category : #initialization }
 CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
 
 	^ descriptor header: anObject shapeBuilder: aShapeBuilder
+]
+
+{ #category : #dispatched }
+CTQuoteSlotDescriptor >> headerWithAllSuperclasses [
+
+	descriptor headerWithAllSuperclasses
 ]
 
 { #category : #dispatched }

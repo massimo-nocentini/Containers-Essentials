@@ -32,7 +32,25 @@ CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> header: aBlock [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> headerWithAllSuperclasses [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> headerWithClass [
 
 	self subclassResponsibility
 ]
