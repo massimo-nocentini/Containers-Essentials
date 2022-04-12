@@ -243,7 +243,7 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 		  (#asPythagoreanTriple asSlotDescriptor
 			   noHeader;
 			   inline;
-			   quote: [ :anArray :aDfsWalker | 
+			   quote: [ :anObject :anArray :aDfsWalker | 
 				   anArray asShapeSlotsDfsTree: aDfsWalker ]).
 		  (#asShapeOnUnitCircle asSlotDescriptor
 			   inline;
@@ -266,21 +266,21 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 				   { 
 					   (#inverseMultiplicativeOfa asSlotDescriptor
 						    inline;
-						    quote: [ :anObject :aDfsWalker | 
+						    quote: [ :sourceObject :anObject :aDfsWalker | 
 							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#inverseMultiplicativeOfb asSlotDescriptor
 						    inline;
-						    quote: [ :anObject :aDfsWalker | 
+						    quote: [ :sourceObject :anObject :aDfsWalker | 
 							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ]
 			   ifFalse: [ 
 				   { 
 					   (#asShapeDividendOverGCD asSlotDescriptor
 						    inline;
-						    quote: [ :anObject :aDfsWalker | 
+						    quote: [ :sourceObject :anObject :aDfsWalker | 
 							    anObject asShapeSlotsDfsTree: aDfsWalker ]).
 					   (#asShapeDivisorOverGCD asSlotDescriptor
 						    inline;
-						    quote: [ :anObject :aDfsWalker | 
+						    quote: [ :sourceObject :anObject :aDfsWalker | 
 							    anObject asShapeSlotsDfsTree: aDfsWalker ]) } ])
 	".
 
@@ -369,6 +369,12 @@ CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitRSArcLengthParametricLine: aLine [
+
+	^ (self visitRSParametricLine: aLine) , { #line asSlotDescriptor }
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 
 	^ (self visitObject: aShape)
@@ -382,6 +388,28 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 		  each
 			  inline;
 			  quote ]
+]
+
+{ #category : #visiting }
+CTSlotDescriptorsVisitor >> visitRSParametricLine: aLine [
+
+	^ { 
+		  #pointsSize asSlotDescriptor.
+		  #paramSize asSlotDescriptor.
+		  #arcLength asSlotDescriptor.
+		  #asGroupWithControlNet asSlotDescriptor quoteGroup.
+		  (#asShapeParamDistanceScatter asSlotDescriptor
+			   inline;
+			   quote) }
+]
+
+{ #category : #visiting }
+CTSlotDescriptorsVisitor >> visitRSdeCasteljauLine: aLine [
+
+	^ (self visitRSParametricLine: aLine)
+	  , { (#asGroupBernsteinBase asSlotDescriptor
+			   inline;
+			   quoteGroup) }
 ]
 
 { #category : #visiting }

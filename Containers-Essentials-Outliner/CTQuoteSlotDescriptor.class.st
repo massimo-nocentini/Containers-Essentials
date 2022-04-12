@@ -93,6 +93,7 @@ CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 		         walker: (aDfsWalker copyForQuoteSlotDescriptor: self).
 
 	shape := quoteBlock
+		         value: anObject
 		         value: value
 		         value: (aDfsWalker copyForQuoteSlotDescriptor: self).
 
