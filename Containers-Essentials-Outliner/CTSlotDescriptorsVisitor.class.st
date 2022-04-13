@@ -391,16 +391,23 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitRSParameterization: aParameterization [
+
+	^ { 
+		  #arcLength asSlotDescriptor.
+		  (#asShapeParamDistanceScatter asSlotDescriptor
+			   inline;
+			   quote) }
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitRSParametricLine: aLine [
 
 	^ { 
 		  #pointsSize asSlotDescriptor.
 		  #paramSize asSlotDescriptor.
-		  #arcLength asSlotDescriptor.
-		  #asGroupWithControlNet asSlotDescriptor quoteGroup.
-		  (#asShapeParamDistanceScatter asSlotDescriptor
-			   inline;
-			   quote) }
+		  #parameterization asSlotDescriptor.
+		  #asGroupWithControlNet asSlotDescriptor quoteGroup }
 ]
 
 { #category : #visiting }
