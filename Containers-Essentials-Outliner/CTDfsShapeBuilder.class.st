@@ -35,7 +35,9 @@ CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descripto
 	varWidth := widthsAssociation key.
 	boxWidth := widthsAssociation value.
 
-	(slotWidth := varWidth + boxWidth) < classLabel width ifTrue: [ 
+	slotWidth := varWidth + boxWidth.
+
+	slotWidth < classLabel width ifTrue: [ 
 		slotWidth
 			isTo: classLabel width
 			as: varWidth

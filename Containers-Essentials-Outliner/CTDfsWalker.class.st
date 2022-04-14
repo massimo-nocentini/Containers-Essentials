@@ -363,6 +363,9 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: i
 
 			y := valueLabel extent y max: metaExtent y.
 
+			(quotedShapes includesKey: value) ifTrue: [ 
+				valueBox color: Color transparent ].
+
 			extent := valueLabel extent x @ y ].
 
 	widthsExtent
