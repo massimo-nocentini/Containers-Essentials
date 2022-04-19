@@ -231,12 +231,6 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 ]
 
 { #category : #accessing }
-CTDfsWalker >> quotedShapesAt: anObject ifPresent: pBlock ifAbsent: aBlock [
-
-	^ quotedShapes at: anObject ifPresent: pBlock ifAbsent: aBlock
-]
-
-{ #category : #accessing }
 CTDfsWalker >> shapeBuilder [
 
 	^ shapeBuilder
