@@ -259,7 +259,8 @@ CTDfsPainter >> initialize [
 
 	super initialize.
 
-	self layout: RSHorizontalWithPyramidalWidthsVanDerPloegTreeLayout new
+	self layout:
+		RSHorizontalWithChildrenSizeDepthsVanDerPloegTreeLayout new
 ]
 
 { #category : #initialization }

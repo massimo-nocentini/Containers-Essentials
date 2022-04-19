@@ -106,7 +106,7 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 
 	edges := evenEdges , oddEdges.
 
-	RSHorizontalVanDerPloegTreeLayout
+	RSHorizontalWithChildrenSizeDepthsVanDerPloegTreeLayout
 		on: aCollectionOfShapes
 		edges: edges.
 
