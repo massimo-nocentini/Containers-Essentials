@@ -1,9 +1,6 @@
 Class {
 	#name : #FFICairoPathDataExternalStructure,
-	#superclass : #FFIExternalUnion,
-	#pools : [
-		'FFICairoPathTypes'
-	],
+	#superclass : #FFIUnion,
 	#category : #'Containers-Essentials-Roassal'
 }
 
@@ -14,19 +11,11 @@ FFICairoPathDataExternalStructure class >> ffiLibraryName [
 
 { #category : #'field definition' }
 FFICairoPathDataExternalStructure class >> fieldsDesc [
-	"self rebuildFieldAccessors"
+	"self rebuildFieldAccessors" 
 	^ #(
  	 FFICairoPathDataHeaderExternalStructure header;
 	 FFICairoPathDataPointExternalStructure point;
 	)
-]
-
-{ #category : #initialization }
-FFICairoPathDataExternalStructure class >> initialize [
-
-	header := FFICairoPathDataHeaderExternalStructure externalType.
-
-	point := ExternalType forceTypeNamed: 'point'
 ]
 
 { #category : #'accessing - structure variables' }

@@ -1,9 +1,12 @@
 Class {
 	#name : #FFICairoPathDataHeaderExternalStructure,
-	#superclass : #FFIExternalStructure,
+	#superclass : #FFIStructure,
 	#classVars : [
 		'OFFSET_LENGTH',
 		'OFFSET_TYPE'
+	],
+	#pools : [
+		'FFICairoPathDataTypeEnumeration'
 	],
 	#category : #'Containers-Essentials-Roassal'
 }
@@ -18,7 +21,9 @@ FFICairoPathDataHeaderExternalStructure class >> fieldsDesc [
 
 	"self rebuildFieldAccessors"
 
-	^ #( int type; int length; )
+	^ #( 
+			FFICairoPathDataTypeEnumeration type; 
+			int length; )
 ]
 
 { #category : #'accessing - structure variables' }
@@ -36,11 +41,11 @@ FFICairoPathDataHeaderExternalStructure >> length: anObject [
 { #category : #'accessing - structure variables' }
 FFICairoPathDataHeaderExternalStructure >> type [
 	"This method was automatically generated"
-	^handle signedLongAt: OFFSET_TYPE
+	^FFICairoPathDataTypeEnumeration fromInteger: (handle unsignedLongAt: OFFSET_TYPE)
 ]
 
 { #category : #'accessing - structure variables' }
 FFICairoPathDataHeaderExternalStructure >> type: anObject [
 	"This method was automatically generated"
-	handle signedLongAt: OFFSET_TYPE put: anObject
+	handle unsignedLongAt: OFFSET_TYPE put: anObject value
 ]

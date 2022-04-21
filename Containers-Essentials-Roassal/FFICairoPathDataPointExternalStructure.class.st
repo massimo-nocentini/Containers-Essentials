@@ -1,6 +1,6 @@
 Class {
 	#name : #FFICairoPathDataPointExternalStructure,
-	#superclass : #FFIExternalStructure,
+	#superclass : #FFIStructure,
 	#classVars : [
 		'OFFSET_X',
 		'OFFSET_Y'
