@@ -59,3 +59,26 @@ FFICairoPathExternalStructure >> status: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_STATUS put: anObject
 ]
+
+{ #category : #enumerating }
+FFICairoPathExternalStructure >> withTypeAndPointsDo: aBlock [
+
+	"for (i=0; i < path->num_data; i += path->data[i].header.length) {
+    data = &path->data[i];"
+
+	| array i |
+
+	array := FFIArray
+		         fromHandle: self data getHandle
+		         type: FFICairoPathDataExternalStructure externalType
+		         size: self num_data.
+
+	i := 1.
+	[ i <= self num_data ] whileTrue: [ 
+		| type points each length |
+		each := array at: i.
+		type := each header type.
+		length := each header length.
+		points := (i to: i + length - 1) collect: [ :j | array at: j ].
+		i := i + length ]
+]
