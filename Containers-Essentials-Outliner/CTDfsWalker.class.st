@@ -163,7 +163,8 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor ithChild: parentInd
 
 	widthsExtent := 0 -> metaExtent x.
 
-	descriptors := slotDescriptorsContext visit: anObject.
+	descriptors := (slotDescriptorsContext visit: anObject) select: [ 
+		               :each | each enabled ].
 
 	slotsRows := OrderedCollection new.
 

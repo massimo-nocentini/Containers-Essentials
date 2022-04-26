@@ -42,6 +42,12 @@ CTQuoteSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> enabled [
+
+	^ descriptor enabled
+]
+
 { #category : #dispatched }
 CTQuoteSlotDescriptor >> header: aBlock [
 

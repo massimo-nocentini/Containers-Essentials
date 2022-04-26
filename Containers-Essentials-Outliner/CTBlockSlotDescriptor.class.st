@@ -9,7 +9,8 @@ Class {
 		'selector',
 		'inline',
 		'header',
-		'isOneToMany'
+		'isOneToMany',
+		'enablePredicate'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -61,6 +62,18 @@ CTBlockSlotDescriptor >> blockClosure: anObject [
 ]
 
 { #category : #accessing }
+CTBlockSlotDescriptor >> enablePredicate: aBlock [
+
+	enablePredicate := aBlock
+]
+
+{ #category : #accessing }
+CTBlockSlotDescriptor >> enabled [
+
+	^ enablePredicate value
+]
+
+{ #category : #accessing }
 CTBlockSlotDescriptor >> header: aBlock [
 
 	header := aBlock
@@ -99,7 +112,8 @@ CTBlockSlotDescriptor >> initialize [
 		oneToOne;
 		headerWithAllSuperclasses;
 		blockClosure: [ :anObj :aSelector :aDfsWalker | 
-			anObj perform: aSelector withEnoughArguments: { aDfsWalker } ]
+			anObj perform: aSelector withEnoughArguments: { aDfsWalker } ];
+		enablePredicate: [ true ]
 ]
 
 { #category : #dispatching }
