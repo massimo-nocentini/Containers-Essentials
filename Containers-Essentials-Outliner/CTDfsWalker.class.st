@@ -163,6 +163,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor ithChild: parentInd
 
 	widthsExtent := 0 -> metaExtent x.
 
+	"Select the *enabled* descriptors only for `anObject`."
 	descriptors := (slotDescriptorsContext visit: anObject) select: [ 
 		               :each | each enabled ].
 

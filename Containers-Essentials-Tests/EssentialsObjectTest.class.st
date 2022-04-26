@@ -190,6 +190,20 @@ EssentialsObjectTest >> testInspectBag [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectBlockClosure [
+
+	| aBlock anInteger |
+	anInteger := 541.
+
+	aBlock := [ :anArg | 
+	          | temp |
+	          temp := 3.
+	          anInteger + anArg + temp ].
+
+	^ self exportSlotsGraphOf: aBlock
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectCatalanArray [
 
 	^ self exportSlotsGraphOf: (Array2D catalan: 1 << 4)

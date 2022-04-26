@@ -111,8 +111,8 @@ CTBlockSlotDescriptor >> initialize [
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		blockClosure: [ :anObj :aSelector :aDfsWalker | 
-			anObj perform: aSelector withEnoughArguments: { aDfsWalker } ];
+		blockClosure: [ :anObj :aDfsWalker | 
+			anObj perform: self selector withEnoughArguments: { aDfsWalker } ];
 		enablePredicate: [ true ]
 ]
 
@@ -154,7 +154,7 @@ CTBlockSlotDescriptor >> notInline [
 { #category : #accessing }
 CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	^ blockClosure value: anObject value: selector value: aDfsWalker
+	^ blockClosure value: anObject value: aDfsWalker
 ]
 
 { #category : #accessing }
