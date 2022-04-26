@@ -216,6 +216,8 @@ EssentialsObjectTest >> testInspectColorGray [
 { #category : #tests }
 EssentialsObjectTest >> testInspectContext [
 
+	self timeLimit: 25 seconds.
+
 	^ self exportSlotsGraphOf: thisContext
 ]
 

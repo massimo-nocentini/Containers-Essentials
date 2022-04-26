@@ -339,14 +339,14 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 
 		  (self newSlotDescriptor
 			   selector: #asShapeDividendOverGCD;
-			   enablePredicate: [ aGreatestCommonDivisor > 1 ];
+			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
 			   inline;
 			   quote: [ :sourceObject :anObject :aDfsWalker | 
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
 
 		  (self newSlotDescriptor
 			   selector: #asShapeDivisorOverGCD;
-			   enablePredicate: [ aGreatestCommonDivisor > 1 ];
+			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
 			   inline;
 			   quote: [ :sourceObject :anObject :aDfsWalker | 
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]) }
