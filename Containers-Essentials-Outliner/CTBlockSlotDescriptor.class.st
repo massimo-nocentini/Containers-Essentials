@@ -15,6 +15,12 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
+{ #category : #accessing }
+CTBlockSlotDescriptor >> accessor: anObject [
+
+	blockClosure := anObject
+]
+
 { #category : #visiting }
 CTBlockSlotDescriptor >> addDraggableInteractionOnShape: aShape [
 
@@ -53,12 +59,6 @@ CTBlockSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 cr;
 					 nextPutAll: 'SCC size: ';
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
-]
-
-{ #category : #accessing }
-CTBlockSlotDescriptor >> blockClosure: anObject [
-
-	blockClosure := anObject
 ]
 
 { #category : #accessing }
@@ -111,7 +111,7 @@ CTBlockSlotDescriptor >> initialize [
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		blockClosure: [ :anObj :aDfsWalker | 
+		accessor: [ :anObj :aDfsWalker | 
 			anObj perform: self selector withEnoughArguments: { aDfsWalker } ];
 		enablePredicate: [ true ]
 ]

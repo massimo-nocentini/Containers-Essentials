@@ -37,6 +37,15 @@ CTSlotDescriptorsVisitor >> newSlotDescriptor [
 	^ CTBlockSlotDescriptor new
 ]
 
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptor: aSelector fullAccessor: aBlock [
+
+	^ CTBlockSlotDescriptor new
+		  selector: aSelector;
+		  accessor: [ :anObject :aDfsWalker | aBlock value ];
+		  yourself
+]
+
 { #category : #copying }
 CTSlotDescriptorsVisitor >> postCopy [
 
@@ -81,10 +90,7 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
-		  self newSlotDescriptor
-			  selector: index asString;
-			  blockClosure: [ :anObj :aDfsWalker | each ];
-			  yourself ]
+		  self newSlotDescriptor: index asString fullAccessor: [ each ] ]
 ]
 
 { #category : #visiting }
@@ -135,9 +141,9 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 		  (aBlock outerContext lookupVar: aRBVariable name)
 			  ifNil: [ #(  ) ]
 			  ifNotNil: [ :var | 
-				  { (self newSlotDescriptor
-					   selector: var name;
-					   blockClosure: [ :anObj :aDfsWalker | var value ]) } ] ]
+				  { (self
+					   newSlotDescriptor: var name
+					   fullAccessor: [ aBlock outerContext at: var index ]) } ] ]
 ]
 
 { #category : #visiting }
@@ -385,10 +391,9 @@ CTSlotDescriptorsVisitor >> visitLink: aLink [
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
 	^ anObject class allInstVarNames collect: [ :varNameSymbol | 
-		  self newSlotDescriptor
-			  selector: varNameSymbol;
-			  blockClosure: [ :anObj :aDfsWalker | 
-				  anObject instVarNamed: varNameSymbol ] ]
+		  self
+			  newSlotDescriptor: varNameSymbol
+			  fullAccessor: [ anObject instVarNamed: varNameSymbol ] ]
 ]
 
 { #category : #visiting }

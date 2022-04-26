@@ -198,7 +198,7 @@ EssentialsObjectTest >> testInspectBlockClosure [
 	aBlock := [ :anArg | 
 	          | temp |
 	          temp := 3.
-	          anInteger + anArg + temp ].
+	          [ anInteger + anArg + temp ] ].
 
 	^ self exportSlotsGraphOf: aBlock
 ]
