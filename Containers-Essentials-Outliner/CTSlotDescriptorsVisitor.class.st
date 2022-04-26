@@ -40,7 +40,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptor [
 { #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptor: aSelector fullAccessor: aBlock [
 
-	^ CTBlockSlotDescriptor new
+	^ self newSlotDescriptor
 		  selector: aSelector;
 		  accessor: [ :anObject :aDfsWalker | aBlock value ];
 		  yourself
