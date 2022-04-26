@@ -16,7 +16,7 @@ CTSlotDescriptorsVisitor >> collect: aBlock [
 
 	^ CTSlotDescriptorsVisitorCollect basicNew
 		  slotDescriptorsContext: self;
-		  blockClosure: aBlock;
+		  collectBlock: aBlock;
 		  initialize;
 		  yourself
 ]
