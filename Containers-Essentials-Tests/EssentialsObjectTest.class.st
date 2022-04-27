@@ -193,6 +193,8 @@ EssentialsObjectTest >> testInspectBag [
 EssentialsObjectTest >> testInspectBlockClosure [
 
 	| aBlock anInteger |
+	self skip.
+
 	anInteger := 541.
 
 	aBlock := [ :anArg | 

@@ -143,7 +143,7 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 			  ifNotNil: [ :var | 
 				  { (self
 					   newSlotDescriptor: var name
-					   fullAccessor: [ aBlock outerContext at: var index ]) } ] ]
+					   fullAccessor: [ var ]) } ] ]
 ]
 
 { #category : #visiting }

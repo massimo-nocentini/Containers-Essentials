@@ -44,15 +44,6 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 		  yourself
 ]
 
-{ #category : #copying }
-CTDfsWalker >> copyForQuoteSlotDescriptor: aDescriptor [
-
-	^ self class new
-		  slotDescriptorsContext: slotDescriptorsContext;
-		  shapeBuilder: shapeBuilder;
-		  yourself
-]
-
 { #category : #DFS }
 CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
@@ -230,6 +221,25 @@ CTDfsWalker >> oneToMany: aValue [
 CTDfsWalker >> oneToManyShapes: aDictionary [
 
 	oneToManyShapes := aDictionary
+]
+
+{ #category : #initialization }
+CTDfsWalker >> postCopy [
+
+	super postCopy.
+
+	"Both the dfs clock and the shapes stack is managed locally, so
+	 no client of me can interact with these data."
+	dfsClock := 0.
+	sccShapeStack := nil.
+
+	"The handling of quoted shapes is my own responsibility only."
+	quotedShapes := IdentityDictionary new.
+
+	self
+		stronglyConnectedComponents: OrderedCollection new;
+		levels: Dictionary new;
+		oneToManyShapes: IdentityDictionary new
 ]
 
 { #category : #accessing }

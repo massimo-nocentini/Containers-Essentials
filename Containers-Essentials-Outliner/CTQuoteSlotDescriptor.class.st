@@ -94,14 +94,12 @@ CTQuoteSlotDescriptor >> noHeader [
 CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	| value |
-	value := descriptor
-		         on: anObject
-		         walker: (aDfsWalker copyForQuoteSlotDescriptor: self).
+	value := descriptor on: anObject walker: aDfsWalker copy.
 
 	shape := quoteBlock
 		         value: anObject
 		         value: value
-		         value: (aDfsWalker copyForQuoteSlotDescriptor: self).
+		         value: aDfsWalker copy.
 
 	self assert: (shape isKindOf: RSShape).
 

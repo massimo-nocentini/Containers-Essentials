@@ -5,12 +5,12 @@ Class {
 	#name : #CTBlockSlotDescriptor,
 	#superclass : #CTPropertySlotDescriptor,
 	#instVars : [
-		'blockClosure',
 		'selector',
 		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate'
+		'enablePredicate',
+		'accessor'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -18,7 +18,7 @@ Class {
 { #category : #accessing }
 CTBlockSlotDescriptor >> accessor: anObject [
 
-	blockClosure := anObject
+	accessor := anObject
 ]
 
 { #category : #visiting }
@@ -154,7 +154,7 @@ CTBlockSlotDescriptor >> notInline [
 { #category : #accessing }
 CTBlockSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	^ blockClosure value: anObject value: aDfsWalker
+	^ accessor value: anObject value: aDfsWalker
 ]
 
 { #category : #accessing }
