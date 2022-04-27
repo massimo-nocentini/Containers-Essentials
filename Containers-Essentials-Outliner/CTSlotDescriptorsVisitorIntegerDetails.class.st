@@ -11,49 +11,32 @@ Class {
 CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
-		  (self newSlotDescriptorSelector
-			   selector: #asStringDecimal;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringHex;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringOctal;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringBinary;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringBRGC;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringSkew;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #numberOfDigits).
-		  (self newSlotDescriptorSelector selector: #numberOfDigitsInBase2).
+		  (self newSlotDescriptorSelector: #asStringDecimal) inline.
+		  (self newSlotDescriptorSelector: #asStringHex) inline.
+		  (self newSlotDescriptorSelector: #asStringOctal) inline.
+		  (self newSlotDescriptorSelector: #asStringBinary) inline.
+		  (self newSlotDescriptorSelector: #asStringBRGC) inline.
+		  (self newSlotDescriptorSelector: #asStringSkew) inline.
+		  (self newSlotDescriptorSelector: #numberOfDigits).
+		  (self newSlotDescriptorSelector: #numberOfDigitsInBase2).
 		  ((self
 			    newSlotDescriptorLabel: #asShapeBinaryDots:
 			    accessor: [ anInteger ])
 			   inline;
-			   quote: [ :i :aDfsWalker | i asShapeBinaryDots: aDfsWalker ]).
+			   quoteUsingSelector).
 		  ((self
 			    newSlotDescriptorLabel: #asShapeBRGCDots:
 			    accessor: [ anInteger ])
 			   inline;
-			   quote: [ :i :aDfsWalker | i asShapeBRGCDots: aDfsWalker ]).
+			   quoteUsingSelector).
 		  ((self
 			    newSlotDescriptorLabel: #asShapeSkewDots:
 			    accessor: [ anInteger ])
 			   inline;
-			   quote: [ :i :aDfsWalker | i asShapeSkewDots: aDfsWalker ]).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringAZaz;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringaz;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #isProbablyPrime).
-		  (self newSlotDescriptorSelector
-			   selector: #isPrime;
-			   enablePredicate: [ anInteger isProbablyPrime ]) }
+			   quoteUsingSelector).
+		  (self newSlotDescriptorSelector: #asStringAZaz) inline.
+		  (self newSlotDescriptorSelector: #asStringaz) inline.
+		  (self newSlotDescriptorSelector: #isProbablyPrime).
+		  ((self newSlotDescriptorSelector: #isPrime) enablePredicate: [ 
+			   anInteger isProbablyPrime ]) }
 ]

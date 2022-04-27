@@ -26,15 +26,15 @@ CTSlotDescriptorsVisitor >> initialize [
 
 	super initialize.
 
-	self rootDescriptor: (self newSlotDescriptorSelector
-			 selector: #yourself;
-			 yourself)
+	self rootDescriptor: (self newSlotDescriptorSelector: #yourself)
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName [
+CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 
 	^ CTInstVarSlotDescriptor new
+		  selector: aVarName;
+		  yourself
 ]
 
 { #category : #'instance creation' }
@@ -47,9 +47,11 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector accessor: aBlock [
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorSelector [
+CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 
 	^ CTSelectorSlotDescriptor new
+		  selector: aSelector;
+		  yourself
 ]
 
 { #category : #copying }
@@ -82,11 +84,8 @@ CTSlotDescriptorsVisitor >> visit: anObject [
 CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 
 	^ (self visitObject: aMatrix) allButFirst , { 
-		  (self newSlotDescriptorSelector
-			   selector: #asArrayOfLinks;
-			   yourself).
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeMod2;
+		  (self newSlotDescriptorSelector: #asArrayOfLinks).
+		  ((self newSlotDescriptorSelector: #asShapeMod2)
 			   enablePredicate: [ 
 				   aMatrix allSatisfy: [ :each | each isInteger ] ];
 			   quote) }
@@ -103,12 +102,9 @@ CTSlotDescriptorsVisitor >> visitArray: anArray [
 CTSlotDescriptorsVisitor >> visitBag: aBag [
 
 	^ { 
-		  (self newSlotDescriptorSelector
-			   selector: #associations;
-			   yourself).
+		  (self newSlotDescriptorSelector: #associations).
 
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeHistogram;
+		  ((self newSlotDescriptorSelector: #asShapeHistogram)
 			   inline;
 			   quote) }
 ]
@@ -117,27 +113,12 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 	^ { 
-		  (self newSlotDescriptorSelector
-			   selector: #name;
-			   inline;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #class;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #superclass;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #instanceCount;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #traits;
-			   enablePredicate: [ aBehavior traits isNotEmpty ];
-			   yourself) }
+		  (self newSlotDescriptorSelector: #name) inline.
+		  (self newSlotDescriptorSelector: #class).
+		  (self newSlotDescriptorSelector: #superclass).
+		  (self newSlotDescriptorSelector: #instanceCount).
+		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [ 
+			   aBehavior traits isNotEmpty ]) }
 ]
 
 { #category : #visiting }
@@ -156,22 +137,14 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 
 	^ { 
-		  (self newSlotDescriptorSelector
-			   selector: #hex;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asString;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asArray;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeBitsDump:;
+		  (self newSlotDescriptorSelector: #hex).
+		  (self newSlotDescriptorSelector: #asString).
+		  (self newSlotDescriptorSelector: #asArray).
+		  ((self
+			    newSlotDescriptorLabel: #asShapeBitsDump:
+			    accessor: [ aByteArray ])
 			   inline;
-			   quote) }
+			   quoteUsingSelector) }
 ]
 
 { #category : #visiting }
@@ -183,67 +156,49 @@ CTSlotDescriptorsVisitor >> visitClass: aClass [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitColor: aColor [
 
-	^ (self visitObject: aColor) , { (self newSlotDescriptorSelector
-		   selector: #asShapeColoredBox;
-		   inline;
-		   quote) }
+	^ (self visitObject: aColor)
+	  , { ((self newSlotDescriptorSelector: #asShapeColoredBox)
+			   inline;
+			   quote) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 
 	^ { 
-		  (self newSlotDescriptorSelector
-			   selector: #methodClassName;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #selector;
-			   yourself).
-
-		  (self newSlotDescriptorSelector
-			   selector: #formattedCode;
-			   yourself) }
+		  (self newSlotDescriptorSelector: #methodClassName).
+		  (self newSlotDescriptorSelector: #selector).
+		  (self newSlotDescriptorSelector: #formattedCode) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitContext: aContext [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #home).
-		  (self newSlotDescriptorSelector selector: #activeHome).
-		  (self newSlotDescriptorSelector selector: #outerContext).
-		  (self newSlotDescriptorSelector selector: #sender).
-		  (self newSlotDescriptorSelector
-			   selector: #receiver;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #selector).
-		  (self newSlotDescriptorSelector
-			   selector: #closure;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #pc).
-		  (self newSlotDescriptorSelector selector: #stackPtr) }
+		  (self newSlotDescriptorSelector: #home).
+		  (self newSlotDescriptorSelector: #activeHome).
+		  (self newSlotDescriptorSelector: #outerContext).
+		  (self newSlotDescriptorSelector: #sender).
+		  (self newSlotDescriptorSelector: #receiver) inline.
+		  (self newSlotDescriptorSelector: #selector).
+		  (self newSlotDescriptorSelector: #closure) inline.
+		  (self newSlotDescriptorSelector: #pc).
+		  (self newSlotDescriptorSelector: #stackPtr) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
-		  (self newSlotDescriptorSelector
-			   selector: #asTimeZoneString;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #asISO8601String).
-		  (self newSlotDescriptorSelector
-			   selector: #asLocalStringYMDHM;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #dayOfWeekName).
-		  (self newSlotDescriptorSelector selector: #monthName).
-		  (self newSlotDescriptorSelector selector: #month).
-		  (self newSlotDescriptorSelector selector: #dayOfMonth).
-		  (self newSlotDescriptorSelector selector: #year).
-		  (self newSlotDescriptorSelector
-			   selector: #asTimeString;
-			   inline) }
+		  (self newSlotDescriptorSelector: #asTimeZoneString) inline.
+		  (self newSlotDescriptorSelector: #asISO8601String).
+		  (self newSlotDescriptorSelector: #asLocalStringYMDHM) inline.
+		  (self newSlotDescriptorSelector: #dayOfWeekName).
+		  (self newSlotDescriptorSelector: #monthName).
+		  (self newSlotDescriptorSelector: #month).
+		  (self newSlotDescriptorSelector: #dayOfMonth).
+		  (self newSlotDescriptorSelector: #year).
+		  (self newSlotDescriptorSelector: #asTimeString) inline }
 ]
 
 { #category : #visiting }
@@ -256,61 +211,53 @@ CTSlotDescriptorsVisitor >> visitDictionary: aDictionary [
 CTSlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #previousLink).
-		  (self newSlotDescriptorSelector selector: #value).
-		  (self newSlotDescriptorSelector selector: #nextLink) }
+		  (self newSlotDescriptorSelector: #previousLink).
+		  (self newSlotDescriptorSelector: #value).
+		  (self newSlotDescriptorSelector: #nextLink) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #asDays).
-		  (self newSlotDescriptorSelector selector: #asHours).
-		  (self newSlotDescriptorSelector selector: #asMinutes).
-		  (self newSlotDescriptorSelector selector: #asSeconds).
-		  (self newSlotDescriptorSelector selector: #asMilliSeconds).
-		  (self newSlotDescriptorSelector selector: #asMicroseconds).
-		  (self newSlotDescriptorSelector selector: #asNanoSeconds).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringDHHMMSSµ;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringScaledUptoHours;
-			   inline) }
+		  (self newSlotDescriptorSelector: #asDays).
+		  (self newSlotDescriptorSelector: #asHours).
+		  (self newSlotDescriptorSelector: #asMinutes).
+		  (self newSlotDescriptorSelector: #asSeconds).
+		  (self newSlotDescriptorSelector: #asMilliSeconds).
+		  (self newSlotDescriptorSelector: #asMicroseconds).
+		  (self newSlotDescriptorSelector: #asNanoSeconds).
+		  (self newSlotDescriptorSelector: #asStringDHHMMSSµ) inline.
+		  (self newSlotDescriptorSelector: #asStringScaledUptoHours) inline }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 
-	^ { (self newSlotDescriptorSelector
-		   selector: #printString;
-		   inline) }
+	^ { (self newSlotDescriptorSelector: #printString) inline }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 
 	^ (self visitObject: aFileReference) , { 
-		  (self newSlotDescriptorSelector selector: #fullName).
-		  (self newSlotDescriptorSelector selector: #contents).
-		  (self newSlotDescriptorSelector selector: #size) }
+		  (self newSlotDescriptorSelector: #fullName).
+		  (self newSlotDescriptorSelector: #contents).
+		  (self newSlotDescriptorSelector: #size) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
 	^ (self visitObject: aFraction) , { 
-		  (self newSlotDescriptorSelector selector: #floor).
-		  (self newSlotDescriptorSelector selector: #asFloat).
-		  (self newSlotDescriptorSelector
-			   selector: #asPythagoreanTriple;
+		  (self newSlotDescriptorSelector: #floor).
+		  (self newSlotDescriptorSelector: #asFloat).
+		  ((self newSlotDescriptorSelector: #asPythagoreanTriple)
 			   inline;
 			   noHeader;
 			   quote: [ :aTriple :aDfsWalker | 
 				   aTriple asShapeSlotsDfsTree: aDfsWalker ]).
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeOnUnitCircle;
+		  ((self newSlotDescriptorSelector: #asShapeOnUnitCircle)
 			   inline;
 			   quote) }
 ]
@@ -319,41 +266,30 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #a).
-		  (self newSlotDescriptorSelector selector: #b).
-		  (self newSlotDescriptorSelector selector: #value).
-		  (self newSlotDescriptorSelector
-			   selector: #asString;
-			   inline).
-		  (self newSlotDescriptorSelector selector: #equations).
-		  (self newSlotDescriptorSelector selector: #point).
-		  (self newSlotDescriptorSelector
-			   selector: #asStringDiophantineEquation;
-			   inline).
-
-		  (self newSlotDescriptorSelector
-			   selector: #inverseMultiplicativeOfa;
+		  (self newSlotDescriptorSelector: #a).
+		  (self newSlotDescriptorSelector: #b).
+		  (self newSlotDescriptorSelector: #value).
+		  (self newSlotDescriptorSelector: #asString) inline.
+		  (self newSlotDescriptorSelector: #equations).
+		  (self newSlotDescriptorSelector: #point).
+		  (self newSlotDescriptorSelector: #asStringDiophantineEquation)
+			  inline.
+		  ((self newSlotDescriptorSelector: #inverseMultiplicativeOfa)
 			   enablePredicate: [ aGreatestCommonDivisor = 1 ];
 			   inline;
 			   quote: [ :anObject :aDfsWalker | 
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
-
-		  (self newSlotDescriptorSelector
-			   selector: #inverseMultiplicativeOfb;
+		  ((self newSlotDescriptorSelector: #inverseMultiplicativeOfb)
 			   enablePredicate: [ aGreatestCommonDivisor = 1 ];
 			   inline;
 			   quote: [ :anObject :aDfsWalker | 
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeDividendOverGCD;
+		  ((self newSlotDescriptorSelector: #asShapeDividendOverGCD)
 			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
 			   inline;
 			   quote: [ :anObject :aDfsWalker | 
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeDivisorOverGCD;
+		  ((self newSlotDescriptorSelector: #asShapeDivisorOverGCD)
 			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
 			   inline;
 			   quote: [ :anObject :aDfsWalker | 
@@ -364,23 +300,18 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	^ (self visitObject: aHeap) , { 
-		  ((self
-			    newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
-			    accessor: [ aHeap ]) quote: [ :anObject :aDfsWalker | 
-			   anObject asShapeValuesHorizontalTree: aDfsWalker ]).
-
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeValuesHorizontalTree;
+		  (self
+			   newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
+			   accessor: [ aHeap ]) quoteUsingSelector.
+		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
 			   inline;
 			   quote).
-
 		  ((self
 			    newSlotDescriptorLabel: #asShapeBubblesHorizontalTree:
 			    accessor: [ aHeap ])
 			   enablePredicate: [ aHeap allSatisfy: [ :each | each isNumber ] ];
 			   inline;
-			   quote: [ :anObject :aDfsWalker | 
-				   anObject asShapeBubblesHorizontalTree: aDfsWalker ]) }
+			   quoteUsingSelector) }
 ]
 
 { #category : #visiting }
@@ -392,29 +323,28 @@ CTSlotDescriptorsVisitor >> visitInteger: anInteger [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitLink: aLink [
 
-	^ { (self newSlotDescriptorSelector selector: #nextLink) }
+	^ { (self newSlotDescriptorSelector: #nextLink) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
 	^ anObject class allInstVarNames collect: [ :varNameSymbol | 
-		  self newSlotDescriptorInstVarName selector: varNameSymbol ]
+		  self newSlotDescriptorInstVarName: varNameSymbol ]
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitPoint: aPoint [
 
 	^ (self visitObject: aPoint)
-	  , { (self newSlotDescriptorSelector selector: #π) }
+	  , { (self newSlotDescriptorSelector: #π) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitPointArray: aPointArray [
 
-	^ (self visitObject: aPointArray) , { (self newSlotDescriptorSelector
-		   selector: #asShapeDots;
-		   quote) }
+	^ (self visitObject: aPointArray)
+	  , { (self newSlotDescriptorSelector: #asShapeDots) quote }
 ]
 
 { #category : #visiting }
@@ -427,15 +357,12 @@ CTSlotDescriptorsVisitor >> visitProcess: aProcess [
 CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #a).
-		  (self newSlotDescriptorSelector selector: #b).
-		  (self newSlotDescriptorSelector selector: #quo).
-		  (self newSlotDescriptorSelector selector: #rem).
-		  (self newSlotDescriptorSelector
-			   selector: #asString;
-			   inline).
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeDots;
+		  (self newSlotDescriptorSelector: #a).
+		  (self newSlotDescriptorSelector: #b).
+		  (self newSlotDescriptorSelector: #quo).
+		  (self newSlotDescriptorSelector: #rem).
+		  (self newSlotDescriptorSelector: #asString) inline.
+		  ((self newSlotDescriptorSelector: #asShapeDots)
 			   inline;
 			   quote) }
 ]
@@ -444,15 +371,14 @@ CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 CTSlotDescriptorsVisitor >> visitRSArcLengthParametricLine: aLine [
 
 	^ (self visitRSParametricLine: aLine)
-	  , { (self newSlotDescriptorSelector selector: #line) }
+	  , { (self newSlotDescriptorSelector: #line) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 
-	^ (self visitObject: aShape) , { (self newSlotDescriptorSelector
-		   selector: #asShapeQuoted;
-		   quote) }
+	^ (self visitObject: aShape)
+	  , { (self newSlotDescriptorSelector: #asShapeQuoted) quote }
 ]
 
 { #category : #visiting }
@@ -468,10 +394,9 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 CTSlotDescriptorsVisitor >> visitRSParameterization: aParameterization [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #size).
-		  (self newSlotDescriptorSelector selector: #arcLength).
-		  (self newSlotDescriptorSelector
-			   selector: #asShapeParamDistanceScatter;
+		  (self newSlotDescriptorSelector: #size).
+		  (self newSlotDescriptorSelector: #arcLength).
+		  ((self newSlotDescriptorSelector: #asShapeParamDistanceScatter)
 			   inline;
 			   quote) }
 ]
@@ -480,41 +405,39 @@ CTSlotDescriptorsVisitor >> visitRSParameterization: aParameterization [
 CTSlotDescriptorsVisitor >> visitRSParametricLine: aLine [
 
 	^ { 
-		  (self newSlotDescriptorSelector selector: #controlPointsSize).
-		  (self newSlotDescriptorSelector selector: #parameterization).
-		  (self newSlotDescriptorSelector
-			   selector: #asGroupWithControlNet;
-			   quote: [ :aGroup :aDfsWalker | aGroup asShapeFor: aLine ]) }
+		  (self newSlotDescriptorSelector: #controlPointsSize).
+		  (self newSlotDescriptorSelector: #parameterization).
+		  ((self newSlotDescriptorSelector: #asGroupWithControlNet) 
+			   quoteGroupWithModel: aLine) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitRSdeCasteljauLine: aLine [
 
 	^ (self visitRSParametricLine: aLine)
-	  , { (self newSlotDescriptorSelector
-			   selector: #asGroupBernsteinBase;
+	  , { ((self newSlotDescriptorSelector: #asGroupBernsteinBase)
 			   inline;
-			   quote: [ :aGroup :aDfsWalker | aGroup asShapeFor: aLine ]) }
+			   quoteGroupWithModel: aLine) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 
-	^ (self visitObject: aRandom) , { (self newSlotDescriptorSelector
-		   selector: #asShapeScatter;
-		   inline;
-		   quote) }
+	^ (self visitObject: aRandom)
+	  , { ((self newSlotDescriptorSelector: #asShapeScatter)
+			   inline;
+			   quote) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitStack: aStack [
 
-	^ { (self newSlotDescriptorSelector selector: #firstLink) }
+	^ { (self newSlotDescriptorSelector: #firstLink) }
 ]
 
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitValueLink: aValueLink [
 
-	^ { (self newSlotDescriptorSelector selector: #value) }
+	^ { (self newSlotDescriptorSelector: #value) }
 	  , (self visitLink: aValueLink)
 ]

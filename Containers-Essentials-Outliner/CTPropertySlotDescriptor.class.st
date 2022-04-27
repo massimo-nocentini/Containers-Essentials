@@ -95,6 +95,19 @@ CTPropertySlotDescriptor >> quote: aBlock [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> quoteGroupWithModel: anObject [
+
+	^ self quote: [ :aGroup :aDfsWalker | aGroup asShapeFor: anObject ]
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> quoteUsingSelector [
+
+	^ self quote: [ :anObject :aDfsWalker | 
+		  anObject perform: self selector with: aDfsWalker ]
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> selector [
 
 	self subclassResponsibility
