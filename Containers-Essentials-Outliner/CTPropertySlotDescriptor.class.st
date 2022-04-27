@@ -82,7 +82,7 @@ CTPropertySlotDescriptor >> on: anObject walker: aDfsWalker [
 { #category : #accessing }
 CTPropertySlotDescriptor >> quote [
 
-	^ self quote: [ :anObject :aShape :aDfsWalker | aShape ]
+	^ self quote: [ :aShape :aDfsWalker | aShape ]
 ]
 
 { #category : #accessing }
@@ -92,13 +92,6 @@ CTPropertySlotDescriptor >> quote: aBlock [
 		  quoteBlock: aBlock;
 		  descriptor: self;
 		  yourself
-]
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> quoteGroup [
-
-	^ self quote: [ :anObject :aGroup :aDfsWalker | 
-		  aGroup asShapeFor: anObject ]
 ]
 
 { #category : #accessing }

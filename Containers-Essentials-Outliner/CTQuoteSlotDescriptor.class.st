@@ -94,12 +94,12 @@ CTQuoteSlotDescriptor >> noHeader [
 CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	| value |
-	value := descriptor on: anObject walker: aDfsWalker copy.
+	value := descriptor on: anObject walker: aDfsWalker.
 
-	shape := quoteBlock
-		         value: anObject
-		         value: value
-		         value: aDfsWalker copy.
+	"We need to pass a copy of the original walker because of the
+	 intermediate data structures populated during the search: such
+	 data structures should be fresh when we start a quotation."
+	shape := quoteBlock value: value value: aDfsWalker copy.
 
 	self assert: (shape isKindOf: RSShape).
 
