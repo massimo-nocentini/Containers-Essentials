@@ -164,10 +164,7 @@ CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor ithChild: parentInd
 		| value |
 		value := childDescriptor on: anObject walker: self.
 
-		((skipNils and: [ value isNil ]) or: [ 
-			 (skipBacks and: [ toShapes includesKey: value ]) or: [ 
-				 skipEmptyCollections and: [ 
-					 value isCollection and: [ value isEmpty ] ] ] ]) ifFalse: [ 
+		(self shouldSkip: value) ifFalse: [ 
 			| slotsRow |
 			slotsRow := self
 				            value: value
@@ -266,6 +263,15 @@ CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 			lowlink min: shapeEntryTime ].
 
 		self assert: parentShape model ~~ childShape model ]
+]
+
+{ #category : #DFS }
+CTDfsWalker >> shouldSkip: value [
+
+	^ (skipNils and: [ value isNil ]) or: [ 
+		  (skipBacks and: [ toShapes includesKey: value ]) or: [ 
+			  value isCollection and: [ 
+				  skipEmptyCollections and: [ value isEmpty ] ] ] ]
 ]
 
 { #category : #accessing }
