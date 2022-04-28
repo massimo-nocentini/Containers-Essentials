@@ -1,0 +1,145 @@
+Class {
+	#name : #CTDfsSCCsWalker,
+	#superclass : #CTDfsWalker,
+	#instVars : [
+		'sccShapeStack',
+		'sccs'
+	],
+	#category : #'Containers-Essentials-Outliner'
+}
+
+{ #category : #adding }
+CTDfsSCCsWalker >> addInteractionsBySlotDescriptor: aDescriptor onShape: aShape [
+
+	super addInteractionsBySlotDescriptor: aDescriptor onShape: aShape.
+
+	aDescriptor addHighlightInteractionOnShape: aShape
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
+
+	self
+		assert: aShape propertyDfsEntryTime isNotNil;
+		assert: aShape propertyDfsLowlink isNotNil.
+
+	aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
+		| scc |
+		scc := sccs add: OrderedCollection new.
+
+		[ 
+		sccShapeStack isNotNil and: [ 
+			sccShapeStack value propertyDfsEntryTime
+			>= aShape propertyDfsEntryTime ] ] whileTrue: [ 
+			| shape |
+			shape := sccShapeStack value
+				         propertyDfsSCC: scc;
+				         propertyDfsObjectStack: nil;
+				         yourself.
+
+			scc add: shape.
+
+			sccShapeStack := sccShapeStack nextLink ].
+
+		self assert: aShape propertyDfsSCC == scc ]
+]
+
+{ #category : #initialization }
+CTDfsSCCsWalker >> initialize [
+
+	super initialize.
+	
+	sccShapeStack := nil.
+
+	self stronglyConnectedComponents: OrderedCollection new
+]
+
+{ #category : #copying }
+CTDfsSCCsWalker >> postCopy [
+
+	super postCopy.
+
+	sccShapeStack := nil.
+
+	self stronglyConnectedComponents: OrderedCollection new
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> push: aShape [
+
+	sccShapeStack := ValueLink new
+		                 value: aShape;
+		                 nextLink: sccShapeStack;
+		                 yourself
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> recordDfsTimingsOfShape: aShape [
+
+	super recordDfsTimingsOfShape: aShape.
+
+	self createStronglyConnectedComponentIfNecessaryOnShape: aShape
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
+
+	| shapeEntryTime |
+	super shapeHasBeenVisited: childShape childOfShape: parentShape.
+
+	shapeEntryTime := childShape propertyDfsEntryTime.
+
+	(childShape propertyDfsIsOnObjectStack and: [ 
+		 shapeEntryTime < parentShape propertyDfsEntryTime ]) ifTrue: [ 
+		parentShape propertyDfsLowlinkUpdate: [ :lowlink | 
+			lowlink min: shapeEntryTime ].
+
+		self assert: parentShape model ~~ childShape model ]
+]
+
+{ #category : #accessing }
+CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
+
+	sccs := aCollection
+]
+
+{ #category : #accessing }
+CTDfsSCCsWalker >> value: rootObject [
+
+	| aShape |
+	aShape := super value: rootObject.
+
+	self assert: sccShapeStack isNil.
+
+	^ aShape
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
+
+	| childShape |
+	childShape := super
+		              valueHasntBeenVisited: anObject
+		              describedBy: aDescriptor
+		              ithChild: ithChild
+		              parent: aParent
+		              shape: mineShape
+		              level: level.
+
+	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
+		lowlink min: childShape propertyDfsLowlink ].
+
+	^ childShape
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> visiting: anObject shape: aShape [
+
+	super visiting: anObject shape: aShape.
+
+	self push: aShape.
+
+	aShape
+		propertyDfsObjectStack: sccShapeStack;
+		propertyDfsLowlink: dfsClock
+]

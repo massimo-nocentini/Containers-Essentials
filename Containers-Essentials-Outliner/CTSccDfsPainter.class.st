@@ -17,7 +17,7 @@ CTSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	backTuples do: [ :aTuple | 
 		self fixEndShapeOfTuple: aTuple ifNecessary: [ :toShape | 
 			Error signal:
-				'Logical inconsistency: a backward edge is trying to exiting from its SCC.' ] ].
+				'Logical inconsistency: a backward edge is trying to exit from its SCC.' ] ].
 
 	^ super backTuples: backTuples lineBuilder: lineBuilder
 ]

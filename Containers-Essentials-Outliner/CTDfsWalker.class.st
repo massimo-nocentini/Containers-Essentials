@@ -12,8 +12,6 @@ Class {
 		'fromShapes',
 		'maxLevel',
 		'dfsClock',
-		'sccShapeStack',
-		'sccs',
 		'levels',
 		'quotedShapes',
 		'slotDescriptorsContext',
@@ -28,55 +26,64 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
+{ #category : #DFS }
+CTDfsWalker >> addInteractionsBySlotDescriptor: aDescriptor onShape: aShape [
+
+	aDescriptor addDraggableInteractionOnShape: aShape
+	"addPopupInteractionOnShape: wholeShape;"
+]
+
 { #category : #dispatched }
 CTDfsWalker >> addQuotedShape: shape model: value [
 
-	^ quotedShapes at: value put: shape
+	quotedShapes at: value put: shape
 ]
 
 { #category : #accessing }
 CTDfsWalker >> atLevel: aNumber putShape: aShape [
 
+	| level |
 	aShape propertyDfsDepth: aNumber.
 
-	^ (levels at: aNumber ifAbsentPut: [ OrderedCollection new ])
-		  add: aShape;
+	level := levels at: aNumber ifAbsentPut: [ OrderedCollection new ].
+	level add: aShape
+]
+
+{ #category : #DFS }
+CTDfsWalker >> collectSlotRowsInto: slotsRows for: anObject shape: aShape at: level widthsAssociation: widthsAssociation metaExtent: metaExtent [
+
+	| descriptors |
+	descriptors := (slotDescriptorsContext visit: anObject) select: [ 
+		               :each | each enabled ].
+
+	descriptors withIndexDo: [ :childDescriptor :childIndex | 
+		| value |
+		value := childDescriptor on: anObject walker: self.
+
+		(self shouldSkip: value) ifFalse: [ 
+			| slotsRow |
+			slotsRow := self
+				            value: value
+				            descriptor: childDescriptor
+				            level: level
+				            ithChild: childIndex
+				            parent: anObject
+				            parentShape: aShape
+				            widthsAssociation: widthsAssociation
+				            metaExtent: metaExtent.
+
+			slotsRows add: slotsRow ] ].
+
+	^ slotsRows
+]
+
+{ #category : #initialization }
+CTDfsWalker >> copyForQuoteSlotDescriptor: aSlotDescriptor [
+
+	^ self class new
+		  shapeBuilder: shapeBuilder;
+		  slotDescriptorsContext: slotDescriptorsContext;
 		  yourself
-]
-
-{ #category : #DFS }
-CTDfsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
-
-	self
-		assert: aShape propertyDfsEntryTime isNotNil;
-		assert: aShape propertyDfsLowlink isNotNil.
-
-	aShape propertyDfsEntryTime = aShape propertyDfsLowlink ifTrue: [ 
-		| scc |
-		scc := sccs add: OrderedCollection new.
-
-		[ 
-		sccShapeStack isNotNil and: [ 
-			sccShapeStack value propertyDfsEntryTime
-			>= aShape propertyDfsEntryTime ] ] whileTrue: [ 
-			| shape |
-			shape := sccShapeStack value
-				         propertyDfsSCC: scc;
-				         propertyDfsObjectStack: nil;
-				         yourself.
-
-			scc add: shape.
-
-			sccShapeStack := sccShapeStack nextLink ].
-
-		self assert: aShape propertyDfsSCC == scc ]
-]
-
-{ #category : #DFS }
-CTDfsWalker >> dfsRecordTimingsOfShape: mineShape [
-
-	mineShape propertyDfsTimings:
-		mineShape propertyDfsEntryTime @ dfsClock
 ]
 
 { #category : #accessing }
@@ -99,7 +106,6 @@ CTDfsWalker >> initialize [
 	"Both the dfs clock and the shapes stack is managed locally, so
 	 no client of me can interact with these data."
 	dfsClock := 0.
-	sccShapeStack := nil.
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
@@ -109,7 +115,6 @@ CTDfsWalker >> initialize [
 		skipNils: false;
 		skipBacks: false;
 		skipEmptyCollections: false;
-		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
 		maxDurationInMicroseconds: 2 seconds asMicroseconds;
@@ -136,73 +141,36 @@ CTDfsWalker >> maxLevel: anObject [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> object: anObject slotsDescriptor: aDescriptor ithChild: parentIndex parent: aParent level: level [
+CTDfsWalker >> object: anObject slotDescriptor: aDescriptor ithChild: parentIndex parent: aParent level: level [
 
-	| descriptors aShape metaExtent widthsExtent slotsRows classShape noSlotsShape |
+	| aShape metaExtent widthsAssociation slotsRows |
 	aShape := shapeBuilder outline: anObject.
+	metaExtent := shapeBuilder metaExtent.
+	widthsAssociation := 0 -> metaExtent x.
 
 	self
-		visitingShape: aShape of: anObject;
-		atLevel: level putShape: aShape.
+		visiting: anObject shape: aShape;
+		atLevel: level putShape: aShape;
+		addInteractionsBySlotDescriptor: aDescriptor onShape: aShape.
 
-	aDescriptor
-		addDraggableInteractionOnShape: aShape;
-		"addPopupInteractionOnShape: wholeShape;"
-		addHighlightInteractionOnShape: aShape.
-
-	metaExtent := shapeBuilder metaExtent.
-
-	widthsExtent := 0 -> metaExtent x.
-
-	"Select the *enabled* descriptors only for `anObject`."
-	descriptors := (slotDescriptorsContext visit: anObject) select: [ 
-		               :each | each enabled ].
-
-	slotsRows := OrderedCollection new.
-
-	descriptors withIndexDo: [ :childDescriptor :childIndex | 
-		| value |
-		value := childDescriptor on: anObject walker: self.
-
-		(self shouldSkip: value) ifFalse: [ 
-			| slotsRow |
-			slotsRow := self
-				            value: value
-				            descriptor: childDescriptor
-				            level: level
-				            ithChild: childIndex
-				            parent: anObject
-				            parentShape: aShape
-				            widthsAssociation: widthsExtent
-				            metaExtent: metaExtent.
-
-			slotsRows add: slotsRow ] ].
+	slotsRows := self
+		             collectSlotRowsInto: OrderedCollection new
+		             for: anObject
+		             shape: aShape
+		             at: level
+		             widthsAssociation: widthsAssociation
+		             metaExtent: metaExtent.
 
 	self
 		incrementDfsClock;
-		dfsRecordTimingsOfShape: aShape;
-		createStronglyConnectedComponentIfNecessaryOnShape: aShape.
+		recordDfsTimingsOfShape: aShape.
 
-	noSlotsShape := slotsRows
-		                ifEmpty: [ 
-			                quotedShapes
-				                at: anObject
-				                ifAbsent: [ shapeBuilder multilineLabel: anObject ] ]
-		                ifNotEmpty: [ 
-			                RSComposite new
-				                model: anObject;
-				                yourself ].
-
-	classShape := aDescriptor
-		              header: noSlotsShape model
-		              shapeBuilder: shapeBuilder.
-
-	^ shapeBuilder
-		  classShape: classShape
-		  noSlotsShape: noSlotsShape
-		  descriptors: slotsRows
-		  extent: widthsExtent
+	^ self
+		  synthesize: anObject
+		  descriptor: aDescriptor
 		  shape: aShape
+		  slotsRows: slotsRows
+		  widthsAssociation: widthsAssociation
 ]
 
 { #category : #dispatched }
@@ -228,15 +196,19 @@ CTDfsWalker >> postCopy [
 	"Both the dfs clock and the shapes stack is managed locally, so
 	 no client of me can interact with these data."
 	dfsClock := 0.
-	sccShapeStack := nil.
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
 
 	self
-		stronglyConnectedComponents: OrderedCollection new;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new
+]
+
+{ #category : #DFS }
+CTDfsWalker >> recordDfsTimingsOfShape: aShape [
+
+	aShape propertyDfsTimings: aShape propertyDfsEntryTime @ dfsClock
 ]
 
 { #category : #accessing }
@@ -254,15 +226,7 @@ CTDfsWalker >> shapeBuilder: aShapeBuilder [
 { #category : #DFS }
 CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 
-	| shapeEntryTime |
-	shapeEntryTime := childShape propertyDfsEntryTime.
-
-	(childShape propertyDfsIsOnObjectStack and: [ 
-		 shapeEntryTime < parentShape propertyDfsEntryTime ]) ifTrue: [ 
-		parentShape propertyDfsLowlinkUpdate: [ :lowlink | 
-			lowlink min: shapeEntryTime ].
-
-		self assert: parentShape model ~~ childShape model ]
+	
 ]
 
 { #category : #DFS }
@@ -298,10 +262,32 @@ CTDfsWalker >> slotDescriptorsContext: aBlock [
 	slotDescriptorsContext := aBlock
 ]
 
-{ #category : #accessing }
-CTDfsWalker >> stronglyConnectedComponents: aCollection [
+{ #category : #DFS }
+CTDfsWalker >> synthesize: anObject descriptor: aDescriptor shape: aShape slotsRows: slotsRows widthsAssociation: widthsAssociation [
 
-	sccs := aCollection
+	| noSlotsShape classShape |
+	noSlotsShape := slotsRows
+		                ifEmpty: [ 
+			                quotedShapes
+				                at: anObject
+				                ifAbsent: [ shapeBuilder multilineLabel: anObject ] ]
+		                ifNotEmpty: [ 
+			                RSComposite new
+				                model: anObject;
+				                shapes: RSGroup new;
+				                extent: 0 @ 0;
+				                yourself ].
+
+	classShape := aDescriptor
+		              header: noSlotsShape model
+		              shapeBuilder: shapeBuilder.
+
+	^ shapeBuilder
+		  classShape: classShape
+		  noSlotsShape: noSlotsShape
+		  descriptors: slotsRows
+		  widthsAssociation: widthsAssociation
+		  shape: aShape
 ]
 
 { #category : #accessing }
@@ -313,19 +299,14 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: rootObject [
 
-	| aShape |
 	startTimestamp := Time microsecondClockValue.
 
-	aShape := self
-		          object: rootObject
-		          slotsDescriptor: slotDescriptorsContext rootDescriptor
-		          ithChild: 0
-		          parent: nil
-		          level: 1.
-
-	self assert: sccShapeStack isNil.
-
-	^ aShape
+	^ self
+		  object: rootObject
+		  slotDescriptor: slotDescriptorsContext rootDescriptor
+		  ithChild: 0
+		  parent: nil
+		  level: 1
 ]
 
 { #category : #DFS }
@@ -392,18 +373,12 @@ CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: i
 { #category : #DFS }
 CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
 
-	| childShape |
-	childShape := self
-		              object: anObject
-		              slotsDescriptor: aDescriptor
-		              ithChild: ithChild
-		              parent: aParent
-		              level: level + 1.
-
-	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
-		lowlink min: childShape propertyDfsLowlink ].
-
-	^ childShape
+	^ self
+		  object: anObject
+		  slotDescriptor: aDescriptor
+		  ithChild: ithChild
+		  parent: aParent
+		  level: level + 1
 ]
 
 { #category : #DFS }
@@ -433,18 +408,9 @@ CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level 
 ]
 
 { #category : #DFS }
-CTDfsWalker >> visitingShape: aShape of: anObject [
+CTDfsWalker >> visiting: anObject shape: aShape [
 
 	toShapes at: anObject put: aShape.
 
-	sccShapeStack := ValueLink new
-		                 value: aShape;
-		                 nextLink: sccShapeStack;
-		                 yourself.
-
-	^ aShape
-		  propertyDfsObjectStack: sccShapeStack;
-		  propertyDfsTimings: dfsClock @ -1;
-		  propertyDfsLowlink: dfsClock;
-		  yourself
+	aShape propertyDfsTimings: dfsClock @ -1
 ]
