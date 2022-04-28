@@ -101,7 +101,7 @@ CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 	 data structures should be fresh when we start a quotation."
 	shape := quoteBlock
 		         value: value
-		         value: (aDfsWalker copyForQuoteSlotDescriptor: self).
+		         value: (aDfsWalker copy "copyForQuoteSlotDescriptor: self").
 
 	self assert: (shape isKindOf: RSShape).
 

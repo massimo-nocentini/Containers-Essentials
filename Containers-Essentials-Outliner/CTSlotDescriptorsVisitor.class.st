@@ -300,9 +300,11 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	^ (self visitObject: aHeap) , { 
-		  (self
-			   newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
-			   accessor: [ aHeap ]) quoteUsingSelector.
+		  ((self
+			    newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
+			    accessor: [ aHeap ])
+			   inline;
+			   quoteUsingSelector).
 		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
 			   inline;
 			   quote).

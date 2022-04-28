@@ -8,10 +8,10 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #adding }
-CTDfsSCCsWalker >> addInteractionsBySlotDescriptor: aDescriptor onShape: aShape [
+{ #category : #shapes }
+CTDfsSCCsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
-	super addInteractionsBySlotDescriptor: aDescriptor onShape: aShape.
+	super addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape.
 
 	aDescriptor addHighlightInteractionOnShape: aShape
 ]
@@ -61,10 +61,10 @@ CTDfsSCCsWalker >> postCopy [
 
 	sccShapeStack := nil.
 
-	self stronglyConnectedComponents: OrderedCollection new
+	self stronglyConnectedComponents: sccs class new
 ]
 
-{ #category : #DFS }
+{ #category : #accessing }
 CTDfsSCCsWalker >> push: aShape [
 
 	sccShapeStack := ValueLink new
@@ -74,9 +74,9 @@ CTDfsSCCsWalker >> push: aShape [
 ]
 
 { #category : #DFS }
-CTDfsSCCsWalker >> recordDfsTimingsOfShape: aShape [
+CTDfsSCCsWalker >> recordDfsTimingsOnShape: aShape [
 
-	super recordDfsTimingsOfShape: aShape.
+	super recordDfsTimingsOnShape: aShape.
 
 	self createStronglyConnectedComponentIfNecessaryOnShape: aShape
 ]
@@ -103,7 +103,7 @@ CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
 	sccs := aCollection
 ]
 
-{ #category : #accessing }
+{ #category : #API }
 CTDfsSCCsWalker >> value: rootObject [
 
 	| aShape |
@@ -132,7 +132,7 @@ CTDfsSCCsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithC
 	^ childShape
 ]
 
-{ #category : #DFS }
+{ #category : #shapes }
 CTDfsSCCsWalker >> visiting: anObject shape: aShape [
 
 	super visiting: anObject shape: aShape.

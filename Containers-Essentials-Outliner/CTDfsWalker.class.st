@@ -26,20 +26,20 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #DFS }
-CTDfsWalker >> addInteractionsBySlotDescriptor: aDescriptor onShape: aShape [
+{ #category : #shapes }
+CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
 	aDescriptor addDraggableInteractionOnShape: aShape
 	"addPopupInteractionOnShape: wholeShape;"
 ]
 
-{ #category : #dispatched }
+{ #category : #shapes }
 CTDfsWalker >> addQuotedShape: shape model: value [
 
 	quotedShapes at: value put: shape
 ]
 
-{ #category : #accessing }
+{ #category : #shapes }
 CTDfsWalker >> atLevel: aNumber putShape: aShape [
 
 	| level |
@@ -49,41 +49,33 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 	level add: aShape
 ]
 
-{ #category : #DFS }
-CTDfsWalker >> collectSlotRowsInto: slotsRows for: anObject shape: aShape at: level widthsAssociation: widthsAssociation metaExtent: metaExtent [
+{ #category : #shapes }
+CTDfsWalker >> collectSlotsRowsInto: rows object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
 
-	| descriptors |
-	descriptors := (slotDescriptorsContext visit: anObject) select: [ 
-		               :each | each enabled ].
+	| childIndex |
+	childIndex := 0.
 
-	descriptors withIndexDo: [ :childDescriptor :childIndex | 
-		| value |
-		value := childDescriptor on: anObject walker: self.
+	(slotDescriptorsContext visit: object)
+		select: [ :each | each enabled ]
+		thenDo: [ :childDescriptor | 
+			| value |
+			childIndex := childIndex + 1.
 
-		(self shouldSkip: value) ifFalse: [ 
-			| slotsRow |
-			slotsRow := self
-				            value: value
-				            descriptor: childDescriptor
-				            level: level
-				            ithChild: childIndex
-				            parent: anObject
-				            parentShape: aShape
-				            widthsAssociation: widthsAssociation
-				            metaExtent: metaExtent.
+			value := childDescriptor on: object walker: self.
 
-			slotsRows add: slotsRow ] ].
+			(self shouldSkip: value) ifFalse: [ 
+				| slotsRow |
+				slotsRow := self
+					            value: value
+					            descriptor: childDescriptor
+					            level: level
+					            ithChild: childIndex
+					            parent: object
+					            parentShape: shape
+					            widthsAssociation: widthsAssociation
+					            metaExtent: metaExtent.
 
-	^ slotsRows
-]
-
-{ #category : #initialization }
-CTDfsWalker >> copyForQuoteSlotDescriptor: aSlotDescriptor [
-
-	^ self class new
-		  shapeBuilder: shapeBuilder;
-		  slotDescriptorsContext: slotDescriptorsContext;
-		  yourself
+				rows add: slotsRow ] ]
 ]
 
 { #category : #accessing }
@@ -141,39 +133,40 @@ CTDfsWalker >> maxLevel: anObject [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> object: anObject slotDescriptor: aDescriptor ithChild: parentIndex parent: aParent level: level [
+CTDfsWalker >> object: object slotDescriptor: descriptor ithChild: parentIndex parent: parent level: level [
 
-	| aShape metaExtent widthsAssociation slotsRows |
-	aShape := shapeBuilder outline: anObject.
+	| shape metaExtent widthsAssociation slotsRows |
+	shape := shapeBuilder outline: object.
 	metaExtent := shapeBuilder metaExtent.
 	widthsAssociation := 0 -> metaExtent x.
+	slotsRows := OrderedCollection new.
 
 	self
-		visiting: anObject shape: aShape;
-		atLevel: level putShape: aShape;
-		addInteractionsBySlotDescriptor: aDescriptor onShape: aShape.
+		visiting: object shape: shape;
+		atLevel: level putShape: shape;
+		addInteractionsUsingSlotDescriptor: descriptor onShape: shape.
 
-	slotsRows := self
-		             collectSlotRowsInto: OrderedCollection new
-		             for: anObject
-		             shape: aShape
-		             at: level
-		             widthsAssociation: widthsAssociation
-		             metaExtent: metaExtent.
+	self
+		collectSlotsRowsInto: slotsRows
+		object: object
+		shape: shape
+		at: level
+		widths_Association: widthsAssociation
+		metaExtent: metaExtent.
 
 	self
 		incrementDfsClock;
-		recordDfsTimingsOfShape: aShape.
+		recordDfsTimingsOnShape: shape.
 
 	^ self
-		  synthesize: anObject
-		  descriptor: aDescriptor
-		  shape: aShape
+		  synthesize: object
+		  descriptor: descriptor
+		  shape: shape
 		  slotsRows: slotsRows
-		  widthsAssociation: widthsAssociation
+		  widths_Association: widthsAssociation
 ]
 
-{ #category : #dispatched }
+{ #category : #shapes }
 CTDfsWalker >> oneToMany: aValue [
 
 	| manyShapes |
@@ -188,7 +181,7 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 	oneToManyShapes := aDictionary
 ]
 
-{ #category : #initialization }
+{ #category : #copying }
 CTDfsWalker >> postCopy [
 
 	super postCopy.
@@ -198,15 +191,17 @@ CTDfsWalker >> postCopy [
 	dfsClock := 0.
 
 	"The handling of quoted shapes is my own responsibility only."
-	quotedShapes := IdentityDictionary new.
+	quotedShapes := quotedShapes class new.
 
 	self
-		levels: Dictionary new;
-		oneToManyShapes: IdentityDictionary new
+		levels: levels class new;
+		oneToManyShapes: oneToManyShapes class new;
+		fromShapes: fromShapes class new;
+		toShapes: toShapes class new
 ]
 
 { #category : #DFS }
-CTDfsWalker >> recordDfsTimingsOfShape: aShape [
+CTDfsWalker >> recordDfsTimingsOnShape: aShape [
 
 	aShape propertyDfsTimings: aShape propertyDfsEntryTime @ dfsClock
 ]
@@ -229,7 +224,7 @@ CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
 	
 ]
 
-{ #category : #DFS }
+{ #category : #accessing }
 CTDfsWalker >> shouldSkip: value [
 
 	^ (skipNils and: [ value isNil ]) or: [ 
@@ -262,32 +257,48 @@ CTDfsWalker >> slotDescriptorsContext: aBlock [
 	slotDescriptorsContext := aBlock
 ]
 
-{ #category : #DFS }
-CTDfsWalker >> synthesize: anObject descriptor: aDescriptor shape: aShape slotsRows: slotsRows widthsAssociation: widthsAssociation [
+{ #category : #shapes }
+CTDfsWalker >> synthesize: object descriptor: descriptor shape: shape slotsRows: slotsRows widths_Association: widths [
 
-	| noSlotsShape classShape |
-	noSlotsShape := slotsRows
+	"
+	
+	s = self synthesize: anObject 
+		      descriptor: aDescriptor 
+				shape: aShape 
+				slotsRows: slotsRows 
+				widths_Association: widths
+	
+	iff 
+	
+	`s` is a RSShape that represents `object` which is described by `descriptor` 
+	and has `shape` as box-enclosed slot shapes `slotsRows`, using `widths` 
+	as bounds over the x axis.
+	
+	"
+
+	| defaultShape classShape |
+	defaultShape := slotsRows
 		                ifEmpty: [ 
 			                quotedShapes
-				                at: anObject
-				                ifAbsent: [ shapeBuilder multilineLabel: anObject ] ]
+				                at: object
+				                ifAbsent: [ shapeBuilder multilineLabel: object ] ]
 		                ifNotEmpty: [ 
 			                RSComposite new
-				                model: anObject;
+				                model: object;
 				                shapes: RSGroup new;
 				                extent: 0 @ 0;
 				                yourself ].
 
-	classShape := aDescriptor
-		              header: noSlotsShape model
+	classShape := descriptor
+		              header: defaultShape model
 		              shapeBuilder: shapeBuilder.
 
 	^ shapeBuilder
 		  classShape: classShape
-		  noSlotsShape: noSlotsShape
-		  descriptors: slotsRows
-		  widthsAssociation: widthsAssociation
-		  shape: aShape
+		  defaultShape: defaultShape
+		  slotsRows: slotsRows
+		  widths_Association: widths
+		  shape: shape
 ]
 
 { #category : #accessing }
@@ -381,7 +392,7 @@ CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild
 		  level: level + 1
 ]
 
-{ #category : #DFS }
+{ #category : #shapes }
 CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
 
 	| shouldInline boolean durationInMicroseconds |
@@ -407,7 +418,7 @@ CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level 
 			  nil ]
 ]
 
-{ #category : #DFS }
+{ #category : #shapes }
 CTDfsWalker >> visiting: anObject shape: aShape [
 
 	toShapes at: anObject put: aShape.
