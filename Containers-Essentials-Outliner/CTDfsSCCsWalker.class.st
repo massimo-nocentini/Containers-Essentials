@@ -61,13 +61,12 @@ CTDfsSCCsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
 ]
 
 { #category : #DFS }
-CTDfsSCCsWalker >> hasntBeenVisited: anObject descriptor: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
+CTDfsSCCsWalker >> hasntBeenVisited: anObject descriptor: aDescriptor parent: aParent shape: mineShape level: level [
 
 	| childShape |
 	childShape := super
 		              hasntBeenVisited: anObject
 		              descriptor: aDescriptor
-		              ithChild: ithChild
 		              parent: aParent
 		              shape: mineShape
 		              level: level.

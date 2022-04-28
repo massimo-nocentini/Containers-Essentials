@@ -48,7 +48,7 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> child: object descriptor: descriptor ithChild: parentIndex parent: parent level: level [
+CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
 
 	| shape metaExtent widthsAssociation slotsRows descriptors |
 	shape := shapeBuilder outline: object.
@@ -83,7 +83,7 @@ CTDfsWalker >> child: object descriptor: descriptor ithChild: parentIndex parent
 ]
 
 { #category : #DFS }
-CTDfsWalker >> child: child descriptor: descriptor level: level ithChild: ithChild parent: parent parentShape: shape widths_Association: widthsExtent metaExtent: metaExtent [
+CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsExtent metaExtent: metaExtent [
 
 	| valueLabel varLabel valueBox extent shouldInline |
 	varLabel := descriptor
@@ -121,7 +121,6 @@ CTDfsWalker >> child: child descriptor: descriptor level: level ithChild: ithChi
 					self
 						hasntBeenVisited: child
 						descriptor: descriptor
-						ithChild: ithChild
 						parent: parent
 						shape: shape
 						level: level ].
@@ -160,10 +159,9 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 			slotsRow := self
 				            child: value
 				            descriptor: each
-				            level: level
-				            ithChild: rows size + 1
+				            at: level
 				            parent: object
-				            parentShape: shape
+				            shape: shape
 				            widths_Association: widthsAssociation
 				            metaExtent: metaExtent.
 
@@ -185,16 +183,15 @@ CTDfsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor ithChild: ithChild parent: parent shape: shape level: level [
+CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor parent: parent shape: shape level: level [
 
 	self incrementDfsClock.
 
 	^ self
 		  child: child
 		  descriptor: descriptor
-		  ithChild: ithChild
+		  at: level + 1
 		  parent: parent
-		  level: level + 1
 ]
 
 { #category : #DFS }
@@ -382,14 +379,13 @@ CTDfsWalker >> toShapes: anObject [
 ]
 
 { #category : #API }
-CTDfsWalker >> value: rootObject [
+CTDfsWalker >> value: object [
 
 	^ self
-		  child: rootObject
+		  child: object
 		  descriptor: slotDescriptorsContext rootDescriptor
-		  ithChild: 0
+		  at: 1
 		  parent: nil
-		  level: 1
 ]
 
 { #category : #shapes }
