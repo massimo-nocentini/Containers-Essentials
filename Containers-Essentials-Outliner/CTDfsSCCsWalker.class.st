@@ -44,6 +44,40 @@ CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 		self assert: aShape propertyDfsSCC == scc ]
 ]
 
+{ #category : #DFS }
+CTDfsSCCsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
+
+	| shapeEntryTime |
+	super hasBeenVisited: childShape childOfShape: parentShape.
+
+	shapeEntryTime := childShape propertyDfsEntryTime.
+
+	(childShape propertyDfsIsOnObjectStack and: [ 
+		 shapeEntryTime < parentShape propertyDfsEntryTime ]) ifTrue: [ 
+		parentShape propertyDfsLowlinkUpdate: [ :lowlink | 
+			lowlink min: shapeEntryTime ].
+
+		self assert: parentShape model ~~ childShape model ]
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> hasntBeenVisited: anObject descriptor: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
+
+	| childShape |
+	childShape := super
+		              hasntBeenVisited: anObject
+		              descriptor: aDescriptor
+		              ithChild: ithChild
+		              parent: aParent
+		              shape: mineShape
+		              level: level.
+
+	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
+		lowlink min: childShape propertyDfsLowlink ].
+
+	^ childShape
+]
+
 { #category : #initialization }
 CTDfsSCCsWalker >> initialize [
 
@@ -81,22 +115,6 @@ CTDfsSCCsWalker >> recordDfsTimingsOnShape: aShape [
 	self createStronglyConnectedComponentIfNecessaryOnShape: aShape
 ]
 
-{ #category : #DFS }
-CTDfsSCCsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
-
-	| shapeEntryTime |
-	super shapeHasBeenVisited: childShape childOfShape: parentShape.
-
-	shapeEntryTime := childShape propertyDfsEntryTime.
-
-	(childShape propertyDfsIsOnObjectStack and: [ 
-		 shapeEntryTime < parentShape propertyDfsEntryTime ]) ifTrue: [ 
-		parentShape propertyDfsLowlinkUpdate: [ :lowlink | 
-			lowlink min: shapeEntryTime ].
-
-		self assert: parentShape model ~~ childShape model ]
-]
-
 { #category : #accessing }
 CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
 
@@ -112,24 +130,6 @@ CTDfsSCCsWalker >> value: rootObject [
 	self assert: sccShapeStack isNil.
 
 	^ aShape
-]
-
-{ #category : #DFS }
-CTDfsSCCsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
-
-	| childShape |
-	childShape := super
-		              valueHasntBeenVisited: anObject
-		              describedBy: aDescriptor
-		              ithChild: ithChild
-		              parent: aParent
-		              shape: mineShape
-		              level: level.
-
-	mineShape propertyDfsLowlinkUpdate: [ :lowlink | 
-		lowlink min: childShape propertyDfsLowlink ].
-
-	^ childShape
 ]
 
 { #category : #shapes }

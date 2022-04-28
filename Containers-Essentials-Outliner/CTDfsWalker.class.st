@@ -17,8 +17,6 @@ Class {
 		'slotDescriptorsContext',
 		'oneToManyShapes',
 		'shapeBuilder',
-		'startTimestamp',
-		'maxDurationInMicroseconds',
 		'skipBacks',
 		'skipNils',
 		'skipEmptyCollections'
@@ -49,89 +47,8 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 	level add: aShape
 ]
 
-{ #category : #shapes }
-CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
-
-	| rows |
-	rows := OrderedCollection new.
-
-	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
-		| value |
-		value := each on: object walker: self.
-
-		(self shouldSkip: value) ifFalse: [ 
-			| slotsRow |
-			slotsRow := self
-				            value: value
-				            descriptor: each
-				            level: level
-				            ithChild: rows size + 1
-				            parent: object
-				            parentShape: shape
-				            widths_Association: widthsAssociation
-				            metaExtent: metaExtent.
-
-			rows add: slotsRow ] ].
-
-	^ rows
-]
-
-{ #category : #accessing }
-CTDfsWalker >> fromShapes: anObject [
-
-	fromShapes := anObject
-]
-
 { #category : #DFS }
-CTDfsWalker >> incrementDfsClock [
-
-	^ dfsClock := dfsClock + 1
-]
-
-{ #category : #initialization }
-CTDfsWalker >> initialize [
-
-	super initialize.
-
-	"Both the dfs clock and the shapes stack is managed locally, so
-	 no client of me can interact with these data."
-	dfsClock := 0.
-
-	"The handling of quoted shapes is my own responsibility only."
-	quotedShapes := IdentityDictionary new.
-
-	self
-		maxLevel: 0;
-		skipNils: false;
-		skipBacks: false;
-		skipEmptyCollections: false;
-		levels: Dictionary new;
-		oneToManyShapes: IdentityDictionary new;
-		maxDurationInMicroseconds: 2 seconds asMicroseconds;
-		slotDescriptorsContext: CTSlotDescriptorsVisitor new;
-		shapeBuilder: CTDfsShapeBuilder new
-]
-
-{ #category : #accessing }
-CTDfsWalker >> levels: aDictionary [
-
-	levels := aDictionary
-]
-
-{ #category : #accessing }
-CTDfsWalker >> maxDurationInMicroseconds: microSeconds [
-
-	maxDurationInMicroseconds := microSeconds
-]
-
-{ #category : #accessing }
-CTDfsWalker >> maxLevel: anObject [
-
-	maxLevel := anObject
-]
-
-{ #category : #DFS }
-CTDfsWalker >> object: object slotDescriptor: descriptor ithChild: parentIndex parent: parent level: level [
+CTDfsWalker >> child: object descriptor: descriptor ithChild: parentIndex parent: parent level: level [
 
 	| shape metaExtent widthsAssociation slotsRows descriptors |
 	shape := shapeBuilder outline: object.
@@ -163,6 +80,162 @@ CTDfsWalker >> object: object slotDescriptor: descriptor ithChild: parentIndex p
 		  shape: shape
 		  slotsRows: slotsRows
 		  widths_Association: widthsAssociation
+]
+
+{ #category : #DFS }
+CTDfsWalker >> child: child descriptor: descriptor level: level ithChild: ithChild parent: parent parentShape: shape widths_Association: widthsExtent metaExtent: metaExtent [
+
+	| valueLabel varLabel valueBox extent shouldInline |
+	varLabel := descriptor
+		            varLabelShapeOf: parent
+		            shapeBuilder: shapeBuilder.
+
+	valueBox := shapeBuilder box: child.
+
+	shouldInline := self
+		                shouldInline: child
+		                descriptor: descriptor
+		                at: level.
+
+	shouldInline
+		ifTrue: [ 
+			| y |
+			valueLabel := descriptor shape: child walker: self.
+
+			valueLabel := shapeBuilder pad: valueLabel.
+
+			y := valueLabel extent y max: metaExtent y.
+
+			(quotedShapes includesKey: child) ifTrue: [ 
+				valueBox color: Color transparent ].
+
+			extent := valueLabel extent x @ y ]
+		ifFalse: [ 
+			valueLabel := nil.
+
+			toShapes
+				at: child
+				ifPresent: [ :anAlreadySeenShape | 
+					self hasBeenVisited: anAlreadySeenShape childOfShape: shape ]
+				ifAbsent: [ 
+					self
+						hasntBeenVisited: child
+						descriptor: descriptor
+						ithChild: ithChild
+						parent: parent
+						shape: shape
+						level: level ].
+
+			descriptor
+				isOneToMany: child walker: self;
+				addHighlightWithLinesInteractionOnShape: valueBox.
+
+			fromShapes at: valueBox put: shape.
+
+			valueBox color: valueBox color lighter lighter.
+
+			extent := widthsExtent value @ metaExtent y ].
+
+	widthsExtent
+		key: (widthsExtent key max: varLabel extent x);
+		value: (widthsExtent value max: extent x).
+
+	valueBox height: (extent y max: varLabel extent y).
+
+	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+]
+
+{ #category : #shapes }
+CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
+
+	| rows |
+	rows := OrderedCollection new.
+
+	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
+		| value |
+		value := each on: object walker: self.
+
+		(self shouldSkip: value) ifFalse: [ 
+			| slotsRow |
+			slotsRow := self
+				            child: value
+				            descriptor: each
+				            level: level
+				            ithChild: rows size + 1
+				            parent: object
+				            parentShape: shape
+				            widths_Association: widthsAssociation
+				            metaExtent: metaExtent.
+
+			rows add: slotsRow ] ].
+
+	^ rows
+]
+
+{ #category : #accessing }
+CTDfsWalker >> fromShapes: anObject [
+
+	fromShapes := anObject
+]
+
+{ #category : #DFS }
+CTDfsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
+
+	
+]
+
+{ #category : #DFS }
+CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor ithChild: ithChild parent: parent shape: shape level: level [
+
+	self incrementDfsClock.
+
+	^ self
+		  child: child
+		  descriptor: descriptor
+		  ithChild: ithChild
+		  parent: parent
+		  level: level + 1
+]
+
+{ #category : #DFS }
+CTDfsWalker >> incrementDfsClock [
+
+	^ dfsClock := dfsClock + 1
+]
+
+{ #category : #initialization }
+CTDfsWalker >> initialize [
+
+	super initialize.
+
+	"Both the dfs clock and the shapes stack is managed locally, so
+	 no client of me can interact with these data."
+	dfsClock := 0.
+
+	"The handling of quoted shapes is my own responsibility only."
+	quotedShapes := IdentityDictionary new.
+
+	self
+		maxLevel: 0;
+		skipNils: false;
+		skipBacks: false;
+		skipEmptyCollections: false;
+		levels: Dictionary new;
+		oneToManyShapes: IdentityDictionary new;
+		slotDescriptorsContext: CTSlotDescriptorsVisitor new;
+		shapeBuilder: CTDfsShapeBuilder new
+]
+
+{ #category : #accessing }
+CTDfsWalker >> levels: aDictionary [
+
+	levels := aDictionary
+]
+
+{ #category : #accessing }
+CTDfsWalker >> maxLevel: anObject [
+
+	maxLevel := anObject
 ]
 
 { #category : #shapes }
@@ -217,10 +290,16 @@ CTDfsWalker >> shapeBuilder: aShapeBuilder [
 	shapeBuilder := aShapeBuilder
 ]
 
-{ #category : #DFS }
-CTDfsWalker >> shapeHasBeenVisited: childShape childOfShape: parentShape [
+{ #category : #accessing }
+CTDfsWalker >> shouldInline: anObject descriptor: descriptor at: level [
 
-	
+	| boolean |
+	boolean := level = maxLevel | anObject isImmediateObject
+	           | anObject isNil | anObject isSymbol | (anObject == true)
+	           | (anObject == false) | (anObject == Float infinity)
+	           | (anObject == Float negativeInfinity).
+
+	^ descriptor inline: anObject level: level default: boolean
 ]
 
 { #category : #accessing }
@@ -305,112 +384,12 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: rootObject [
 
-	startTimestamp := Time microsecondClockValue.
-
 	^ self
-		  object: rootObject
-		  slotDescriptor: slotDescriptorsContext rootDescriptor
+		  child: rootObject
+		  descriptor: slotDescriptorsContext rootDescriptor
 		  ithChild: 0
 		  parent: nil
 		  level: 1
-]
-
-{ #category : #DFS }
-CTDfsWalker >> value: value descriptor: childDescriptor level: level ithChild: ithChild parent: anObject parentShape: aShape widths_Association: widthsExtent metaExtent: metaExtent [
-
-	| valueLabel varLabel valueBox extent |
-	valueLabel := self
-		              valueLabelShapeOf: value
-		              describedBy: childDescriptor
-		              level: level
-		              ifStopped: [ 
-		              childDescriptor shape: value walker: self ]
-		              ifVisited: [ :anAlreadySeenShape | 
-			              self
-				              shapeHasBeenVisited: anAlreadySeenShape
-				              childOfShape: aShape ]
-		              ifNotVisited: [ 
-			              self incrementDfsClock.
-
-			              "The DFS clock advanced, now recur."
-			              self
-				              valueHasntBeenVisited: value
-				              describedBy: childDescriptor
-				              ithChild: ithChild
-				              parent: anObject
-				              shape: aShape
-				              level: level ].
-
-	varLabel := childDescriptor
-		            varLabelShapeOf: anObject
-		            shapeBuilder: shapeBuilder.
-
-	valueBox := shapeBuilder box: value.
-
-	valueLabel
-		ifNil: [ 
-			childDescriptor addHighlightWithLinesInteractionOnShape: valueBox.
-
-			fromShapes at: valueBox put: aShape.
-
-			valueBox color: valueBox color lighter lighter.
-
-			extent := widthsExtent value @ metaExtent y ]
-		ifNotNil: [ 
-			| y |
-			valueLabel := shapeBuilder pad: valueLabel.
-
-			y := valueLabel extent y max: metaExtent y.
-
-			(quotedShapes includesKey: value) ifTrue: [ 
-				valueBox color: Color transparent ].
-
-			extent := valueLabel extent x @ y ].
-
-	widthsExtent
-		key: (widthsExtent key max: varLabel extent x);
-		value: (widthsExtent value max: extent x).
-
-	valueBox height: (extent y max: varLabel extent y).
-
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
-]
-
-{ #category : #DFS }
-CTDfsWalker >> valueHasntBeenVisited: anObject describedBy: aDescriptor ithChild: ithChild parent: aParent shape: mineShape level: level [
-
-	^ self
-		  object: anObject
-		  slotDescriptor: aDescriptor
-		  ithChild: ithChild
-		  parent: aParent
-		  level: level + 1
-]
-
-{ #category : #shapes }
-CTDfsWalker >> valueLabelShapeOf: anObject describedBy: descriptor level: level ifStopped: sBlock ifVisited: vBlock ifNotVisited: nvBlock [
-
-	| shouldInline boolean durationInMicroseconds |
-	durationInMicroseconds := Time microsecondsSince: startTimestamp.
-
-	boolean := level = maxLevel
-	           | (durationInMicroseconds > maxDurationInMicroseconds)
-	           | anObject isImmediateObject | anObject isNil
-	           | anObject isSymbol | (anObject == true)
-	           | (anObject == false) | (anObject == Float infinity)
-	           | (anObject == Float negativeInfinity).
-
-	shouldInline := descriptor
-		                inline: anObject
-		                level: level
-		                default: boolean.
-
-	^ shouldInline
-		  ifTrue: sBlock
-		  ifFalse: [ 
-			  toShapes at: anObject ifPresent: vBlock ifAbsent: nvBlock.
-			  descriptor isOneToMany: anObject walker: self.
-			  nil ]
 ]
 
 { #category : #shapes }
