@@ -19,7 +19,8 @@ Class {
 		'shapeBuilder',
 		'skipBacks',
 		'skipNils',
-		'skipEmptyCollections'
+		'skipEmptyCollections',
+		'shouldInlineCondition'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
@@ -83,61 +84,40 @@ CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsExtent metaExtent: metaExtent [
+CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsAssociation metaExtent: metaExtent [
 
-	| valueLabel varLabel valueBox extent shouldInline |
+	| varLabel valueBox extent shouldInline valueLabel |
 	varLabel := descriptor
 		            varLabelShapeOf: parent
 		            shapeBuilder: shapeBuilder.
 
 	valueBox := shapeBuilder box: child.
 
-	shouldInline := self
-		                shouldInline: child
-		                descriptor: descriptor
-		                at: level.
+	shouldInline := CTConditionShouldInline new
+		                child: child;
+		                descriptor: descriptor;
+		                fromShapes: fromShapes;
+		                level: level;
+		                metaExtent: metaExtent;
+		                parent: parent;
+		                quotedShapes: quotedShapes;
+		                shape: shape;
+		                toShapes: toShapes;
+		                valueBox: valueBox;
+		                walker: self;
+		                widthsExtent: widthsAssociation;
+		                boolean:
+			                (self
+				                 shouldInline: child
+				                 descriptor: descriptor
+				                 at: level).
 
-	shouldInline
-		ifTrue: [ 
-			| y |
-			valueLabel := descriptor shape: child walker: self.
+	extent := shouldInline extent.
+	valueLabel := shouldInline valueLabel.
 
-			valueLabel := shapeBuilder pad: valueLabel.
-
-			y := valueLabel extent y max: metaExtent y.
-
-			(quotedShapes includesKey: child) ifTrue: [ 
-				valueBox color: Color transparent ].
-
-			extent := valueLabel extent x @ y ]
-		ifFalse: [ 
-			valueLabel := nil.
-
-			toShapes
-				at: child
-				ifPresent: [ :anAlreadySeenShape | 
-					self hasBeenVisited: anAlreadySeenShape childOfShape: shape ]
-				ifAbsent: [ 
-					self
-						hasntBeenVisited: child
-						descriptor: descriptor
-						parent: parent
-						shape: shape
-						level: level ].
-
-			descriptor
-				isOneToMany: child walker: self;
-				addHighlightWithLinesInteractionOnShape: valueBox.
-
-			fromShapes at: valueBox put: shape.
-
-			valueBox color: valueBox color lighter lighter.
-
-			extent := widthsExtent value @ metaExtent y ].
-
-	widthsExtent
-		key: (widthsExtent key max: varLabel extent x);
-		value: (widthsExtent value max: extent x).
+	widthsAssociation
+		key: (widthsAssociation key max: varLabel extent x);
+		value: (widthsAssociation value max: extent x).
 
 	valueBox height: (extent y max: varLabel extent y).
 
@@ -204,6 +184,8 @@ CTDfsWalker >> incrementDfsClock [
 CTDfsWalker >> initialize [
 
 	super initialize.
+
+	shouldInlineCondition := CTConditionShouldInline new.
 
 	"Both the dfs clock and the shapes stack is managed locally, so
 	 no client of me can interact with these data."
