@@ -50,7 +50,7 @@ CTDfsWalker >> atLevel: aNumber putShape: aShape [
 { #category : #DFS }
 CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
 
-	| shape metaExtent widthsAssociation slotsRows descriptors |
+	| shape metaExtent widthsAssociation slotsRows descriptors defaultShape classShape |
 	shape := shapeBuilder outline: object.
 	metaExtent := shapeBuilder metaExtent.
 	widthsAssociation := 0 -> metaExtent x.
@@ -74,115 +74,18 @@ CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
 		incrementDfsClock;
 		recordDfsTimingsOnShape: shape.
 
-	^ self
-		  synthesize: object
-		  descriptor: descriptor
-		  shape: shape
+	defaultShape := self defaultShapeFor: object slotsRows: slotsRows.
+
+	classShape := self
+		              headerShapeFor: defaultShape model
+		              descriptor: descriptor.
+
+	^ shapeBuilder
+		  classShape: classShape
+		  defaultShape: defaultShape
 		  slotsRows: slotsRows
 		  widths_Association: widthsAssociation
-]
-
-{ #category : #DFS }
-CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsAssociation metaExtent1: metaExtent [
-
-	| varLabel valueBox extent shouldInline valueLabel |
-	varLabel := descriptor
-		            varLabelShapeOf: parent
-		            shapeBuilder: shapeBuilder.
-
-	valueBox := shapeBuilder box: child.
-
-	shouldInline := CTConditionShouldInline new
-		                child: child;
-		                descriptor: descriptor;
-		                fromShapes: fromShapes;
-		                level: level;
-		                metaExtent: metaExtent;
-		                parent: parent;
-		                quotedShapes: quotedShapes;
-		                shape: shape;
-		                toShapes: toShapes;
-		                valueBox: valueBox;
-		                walker: self;
-		                widthsExtent: widthsAssociation;
-		                ifTrueIfFalse:
-			                (self
-				                 shouldInline: child
-				                 descriptor: descriptor
-				                 at: level).
-
-	extent := shouldInline extent.
-	valueLabel := shouldInline valueLabel.
-
-	widthsAssociation
-		key: (widthsAssociation key max: varLabel extent x);
-		value: (widthsAssociation value max: extent x).
-
-	valueBox height: (extent y max: varLabel extent y).
-
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
-]
-
-{ #category : #DFS }
-CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsExtent metaExtent2: metaExtent [
-
-	| valueLabel varLabel valueBox extent shouldInline |
-	varLabel := descriptor
-		            varLabelShapeOf: parent
-		            shapeBuilder: shapeBuilder.
-
-	valueBox := shapeBuilder box: child.
-
-	shouldInline := self
-		                shouldInline: child
-		                descriptor: descriptor
-		                at: level.
-
-	shouldInline
-		ifTrue: [ 
-			| y |
-			valueLabel := descriptor shape: child walker: self.
-
-			valueLabel := shapeBuilder pad: valueLabel.
-
-			y := valueLabel extent y max: metaExtent y.
-
-			(quotedShapes includesKey: child) ifTrue: [ 
-				valueBox color: Color transparent ].
-
-			extent := valueLabel extent x @ y ]
-		ifFalse: [ 
-			valueLabel := nil.
-
-			toShapes
-				at: child
-				ifPresent: [ :anAlreadySeenShape | 
-					self hasBeenVisited: anAlreadySeenShape childOfShape: shape ]
-				ifAbsent: [ 
-					self
-						hasntBeenVisited: child
-						descriptor: descriptor
-						parent: parent
-						shape: shape
-						level: level ].
-
-			descriptor
-				isOneToMany: child walker: self;
-				addHighlightWithLinesInteractionOnShape: valueBox.
-
-			fromShapes at: valueBox put: shape.
-
-			valueBox color: valueBox color lighter lighter.
-
-			extent := widthsExtent value @ metaExtent y ].
-
-	widthsExtent
-		key: (widthsExtent key max: varLabel extent x);
-		value: (widthsExtent value max: extent x).
-
-	valueBox height: (extent y max: varLabel extent y).
-
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+		  shape: shape
 ]
 
 { #category : #DFS }
@@ -252,6 +155,16 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 	^ rows
 ]
 
+{ #category : #shapes }
+CTDfsWalker >> defaultShapeFor: object slotsRows: slotsRows [
+
+	^ CTConditionSlotsRowsEmptyOrNotForSynthesize new
+		  object: object;
+		  quotedShapes: quotedShapes;
+		  shapeBuilder: shapeBuilder;
+		  ifEmptyIfNotEmpty: slotsRows
+]
+
 { #category : #accessing }
 CTDfsWalker >> fromShapes: anObject [
 
@@ -274,6 +187,12 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor parent: parent sha
 		  descriptor: descriptor
 		  at: level + 1
 		  parent: parent
+]
+
+{ #category : #shapes }
+CTDfsWalker >> headerShapeFor: object descriptor: descriptor [
+
+	^ descriptor header: object shapeBuilder: shapeBuilder
 ]
 
 { #category : #DFS }
@@ -412,46 +331,6 @@ CTDfsWalker >> skipNils: aBoolean [
 CTDfsWalker >> slotDescriptorsContext: aBlock [
 
 	slotDescriptorsContext := aBlock
-]
-
-{ #category : #shapes }
-CTDfsWalker >> synthesize: object descriptor: descriptor shape: shape slotsRows: slotsRows widths_Association: widths [
-
-	"
-	
-	s = (self synthesize: object 
-				 descriptor: descriptor 
-				 shape: shape 
-				 slotsRows: slotsRows 
-				 widths_Association: widths)
-	
-	iff 
-	
-	`s` is a RSShape that represents `object` which is described by `descriptor` 
-	and has `shape` as box-enclosed slot shapes `slotsRows`, using `widths` 
-	as bounds over the x axis.
-	
-	"
-
-	| defaultShape classShape |
-	defaultShape := CTConditionSlotsRowsEmptyOrNotForSynthesize new
-		                object: object;
-		                quotedShapes: quotedShapes;
-		                shapeBuilder: shapeBuilder;
-		                ifEmptyIfNotEmpty: slotsRows.
-
-	self assert: object == defaultShape model.
-
-	classShape := descriptor
-		              header: defaultShape model
-		              shapeBuilder: shapeBuilder.
-
-	^ shapeBuilder
-		  classShape: classShape
-		  defaultShape: defaultShape
-		  slotsRows: slotsRows
-		  widths_Association: widths
-		  shape: shape
 ]
 
 { #category : #accessing }
