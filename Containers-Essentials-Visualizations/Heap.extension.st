@@ -88,7 +88,7 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 	| edgeBuilder evenEdges oddEdges edges tally |
 	tally := array size.
 
-	edgeBuilder := RSEdgeBuilder horizontalBezier
+	edgeBuilder := RSLineBuilder horizontalDeCasteljauSegmentedLine
 		               withHorizontalAttachPoint;
 		               shapes: aCollectionOfShapes.
 
@@ -106,7 +106,7 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 
 	edges := evenEdges , oddEdges.
 
-	RSHorizontalVanDerPloegTreeLayout
+	RSHorizontalWithChildrenSizeDepthsVanDerPloegTreeLayout
 		on: aCollectionOfShapes
 		edges: edges.
 

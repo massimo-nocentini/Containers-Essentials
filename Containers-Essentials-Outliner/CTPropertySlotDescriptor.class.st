@@ -32,6 +32,12 @@ CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> enabled [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> header: aBlock [
 
 	self subclassResponsibility
@@ -86,6 +92,19 @@ CTPropertySlotDescriptor >> quote: aBlock [
 		  quoteBlock: aBlock;
 		  descriptor: self;
 		  yourself
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> quoteGroupWithModel: anObject [
+
+	^ self quote: [ :aGroup :aDfsWalker | aGroup asShapeFor: anObject ]
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> quoteUsingSelector [
+
+	^ self quote: [ :anObject :aDfsWalker | 
+		  anObject perform: self selector with: aDfsWalker ]
 ]
 
 { #category : #accessing }

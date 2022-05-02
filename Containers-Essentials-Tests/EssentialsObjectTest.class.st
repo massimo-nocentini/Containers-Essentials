@@ -190,6 +190,22 @@ EssentialsObjectTest >> testInspectBag [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectBlockClosure [
+
+	| aBlock anInteger |
+	self skip.
+
+	anInteger := 541.
+
+	aBlock := [ :anArg | 
+	          | temp |
+	          temp := 3.
+	          [ anInteger + anArg + temp ] ].
+
+	^ self exportSlotsGraphOf: aBlock
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectCatalanArray [
 
 	^ self exportSlotsGraphOf: (Array2D catalan: 1 << 4)
@@ -215,6 +231,8 @@ EssentialsObjectTest >> testInspectColorGray [
 
 { #category : #tests }
 EssentialsObjectTest >> testInspectContext [
+
+	self timeLimit: 25 seconds.
 
 	^ self exportSlotsGraphOf: thisContext
 ]

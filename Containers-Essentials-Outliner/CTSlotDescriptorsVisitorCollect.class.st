@@ -5,16 +5,16 @@ Class {
 	#name : #CTSlotDescriptorsVisitorCollect,
 	#superclass : #CTSlotDescriptorsVisitor,
 	#instVars : [
-		'blockClosure',
-		'slotDescriptorsContext'
+		'slotDescriptorsContext',
+		'collectBlock'
 	],
 	#category : #'Containers-Essentials-Outliner'
 }
 
 { #category : #accessing }
-CTSlotDescriptorsVisitorCollect >> blockClosure: anObject [
+CTSlotDescriptorsVisitorCollect >> collectBlock: anObject [
 
-	blockClosure := anObject
+	collectBlock := anObject
 ]
 
 { #category : #initialization }
@@ -23,7 +23,7 @@ CTSlotDescriptorsVisitorCollect >> initialize [
 	super initialize.
 
 	self rootDescriptor:
-		(blockClosure value: slotDescriptorsContext rootDescriptor)
+		(collectBlock value: slotDescriptorsContext rootDescriptor)
 ]
 
 { #category : #accessing }
@@ -35,5 +35,5 @@ CTSlotDescriptorsVisitorCollect >> slotDescriptorsContext: anObject [
 { #category : #visiting }
 CTSlotDescriptorsVisitorCollect >> visit: anObject [
 
-	^ (slotDescriptorsContext visit: anObject) collect: blockClosure
+	^ (slotDescriptorsContext visit: anObject) collect: collectBlock
 ]

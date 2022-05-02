@@ -11,26 +11,32 @@ Class {
 CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 
 	^ { 
-		  #asStringDecimal asSlotDescriptor inline.
-		  #asStringHex asSlotDescriptor inline.
-		  #asStringOctal asSlotDescriptor inline.
-		  #asStringBinary asSlotDescriptor inline.
-		  #asStringBRGC asSlotDescriptor inline.
-		  #asStringSkew asSlotDescriptor inline.
-		  #numberOfDigits asSlotDescriptor.
-		  #numberOfDigitsInBase2 asSlotDescriptor.
-		  (#asShapeBinaryDots: asSlotDescriptor
+		  (self newSlotDescriptorSelector: #asStringDecimal) inline.
+		  (self newSlotDescriptorSelector: #asStringHex) inline.
+		  (self newSlotDescriptorSelector: #asStringOctal) inline.
+		  (self newSlotDescriptorSelector: #asStringBinary) inline.
+		  (self newSlotDescriptorSelector: #asStringBRGC) inline.
+		  (self newSlotDescriptorSelector: #asStringSkew) inline.
+		  (self newSlotDescriptorSelector: #numberOfDigits).
+		  (self newSlotDescriptorSelector: #numberOfDigitsInBase2).
+		  ((self
+			    newSlotDescriptorLabel: #asShapeBinaryDots:
+			    accessor: [ anInteger ])
 			   inline;
-			   quote).
-		  (#asShapeBRGCDots: asSlotDescriptor
+			   quoteUsingSelector).
+		  ((self
+			    newSlotDescriptorLabel: #asShapeBRGCDots:
+			    accessor: [ anInteger ])
 			   inline;
-			   quote).
-		  (#asShapeSkewDots: asSlotDescriptor
+			   quoteUsingSelector).
+		  ((self
+			    newSlotDescriptorLabel: #asShapeSkewDots:
+			    accessor: [ anInteger ])
 			   inline;
-			   quote).
-		  #asStringAZaz asSlotDescriptor inline.
-		  #asStringaz asSlotDescriptor inline.
-		  #isProbablyPrime asSlotDescriptor } , (anInteger isProbablyPrime
-		   ifTrue: [ { #isPrime asSlotDescriptor } ]
-		   ifFalse: [ {  } ])
+			   quoteUsingSelector).
+		  (self newSlotDescriptorSelector: #asStringAZaz) inline.
+		  (self newSlotDescriptorSelector: #asStringaz) inline.
+		  (self newSlotDescriptorSelector: #isProbablyPrime).
+		  ((self newSlotDescriptorSelector: #isPrime) enablePredicate: [ 
+			   anInteger isProbablyPrime ]) }
 ]

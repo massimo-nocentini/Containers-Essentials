@@ -25,7 +25,7 @@ CTDfsShapeBuilder >> box: aValue [
 ]
 
 { #category : #shapes }
-CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descriptors: slotRows extent: widthsAssociation shape: mineShape [
+CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape slotsRows: slotRows widths_Association: widthsAssociation shape: mineShape [
 
 	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
 	padding := self radiusOrPadding.
@@ -35,7 +35,9 @@ CTDfsShapeBuilder >> classShape: classShape noSlotsShape: noSlotsShape descripto
 	varWidth := widthsAssociation key.
 	boxWidth := widthsAssociation value.
 
-	(slotWidth := varWidth + boxWidth) < classLabel width ifTrue: [ 
+	slotWidth := varWidth + boxWidth.
+
+	slotWidth < classLabel width ifTrue: [ 
 		slotWidth
 			isTo: classLabel width
 			as: varWidth

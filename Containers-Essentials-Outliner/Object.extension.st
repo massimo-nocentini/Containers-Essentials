@@ -70,7 +70,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 
 	<inspectorPresentationOrder: 1001 title: 'SCCs of Slots graph'>
 	| walker shape |
-	walker := CTDfsWalker new.
+	walker := CTDfsSCCsWalker new.
 
 	shape := self asShapeSlotsSCCsDfsTree: walker.
 

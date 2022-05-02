@@ -58,9 +58,9 @@ IceLibgitRepository >> asShapeCommitsGraph [
 						> (b from propertyAt: #gitCommit) datetime ]
 					ifFalse: [ false ] ] ].
 
-	RSVanDerPloegTreeLayout new
+	RSBlockDepthsVanDerPloegTreeLayout new
 		doNotValidateCycles;
-		verticalGap: [ :parent :child :default | 
+		depthBlock: [ :parent :child :default | 
 			| duration goldenRatio |
 			goldenRatio := 1.61803398875.
 			duration := (parent propertyAt: #gitCommit) datetime
@@ -72,15 +72,13 @@ IceLibgitRepository >> asShapeCommitsGraph [
 
 
 
-	edges do: [ :each | 
-		"self assert: each to encompassingRectangle top
+	edges do: [ :each | "self assert: each to encompassingRectangle top
 			>= each from encompassingRectangle bottom."
-
 		(each to propertyAt: #vdpLevel) - (each from propertyAt: #vdpLevel)
 		> 1 ifTrue: [ 
 			each
 				dashArray: #( 4 );
-				color: each color translucent";
+				color: each color translucent ";
 				pushBack" ] ].
 
 	^ RSComposite new

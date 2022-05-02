@@ -310,6 +310,12 @@ SequenceableCollection >> sizeInversions: lessThan [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> unitAt: t [
+
+	^ (self first to: self last) unitAt: t
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> withBRGCIndexCollect: aBlock [
 
 	^ Array streamContents: [ :aStream | 
