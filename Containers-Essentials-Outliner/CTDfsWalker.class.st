@@ -135,22 +135,17 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 	| rows |
 	rows := OrderedCollection new.
 
-	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
-		| value |
-		value := each on: object walker: self.
-
-		(self shouldSkip: value) ifFalse: [ 
-			| slotsRow |
-			slotsRow := self
-				            child: value
-				            descriptor: each
-				            at: level
-				            parent: object
-				            shape: shape
-				            widths_Association: widthsAssociation
-				            metaExtent: metaExtent.
-
-			rows add: slotsRow ] ].
+	descriptors
+		select: [ :each | each enabled ]
+		thenDo: (CTConditionCollectDescriptors new
+				 level: level;
+				 metaExtent: metaExtent;
+				 object: object;
+				 rows: rows;
+				 shape: shape;
+				 walker: self;
+				 widths_Association: widthsAssociation;
+				 yourself).
 
 	^ rows
 ]
