@@ -4,18 +4,6 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
-{ #category : #API }
-CTCondition >> boolean: bool [
-
-	^ self boolean: bool truthWitness: nil
-]
-
-{ #category : #API }
-CTCondition >> boolean: bool truthWitness: anObject [
-
-	^ bool conditionHandler: self truthWitness: anObject
-]
-
 { #category : #accessing }
 CTCondition >> cull: anObject [
 
@@ -26,6 +14,26 @@ CTCondition >> cull: anObject [
 CTCondition >> falsehood [
 
 	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+CTCondition >> ifEmptyIfNotEmpty: collection [
+
+	^ collection ifEmpty: self ifNotEmpty: self
+]
+
+{ #category : #API }
+CTCondition >> ifTrueIfFalse: bool [
+
+	^ self ifTrueIfFalse: bool truthWitness: nil
+]
+
+{ #category : #API }
+CTCondition >> ifTrueIfFalse: bool truthWitness: anObject [
+
+	^ bool
+		  ifTrue: [ self cull: anObject ]
+		  ifFalse: self
 ]
 
 { #category : #API }

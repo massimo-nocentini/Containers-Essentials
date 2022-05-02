@@ -128,7 +128,7 @@ CTConditionShouldInline >> truthWitness: _ [
 	y := valueLabel extent y max: metaExtent y.
 
 	quotedShapeBackgroundColorConditionHandler
-		boolean: (quotedShapes includesKey: child)
+		ifTrueIfFalse: (quotedShapes includesKey: child)
 		truthWitness: valueBox.
 
 	extent := valueLabel extent x @ y
