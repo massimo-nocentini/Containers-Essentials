@@ -16,7 +16,7 @@ CTCondition >> falsehood [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #API }
 CTCondition >> ifEmptyIfNotEmpty: collection [
 
 	^ collection ifEmpty: self ifNotEmpty: self

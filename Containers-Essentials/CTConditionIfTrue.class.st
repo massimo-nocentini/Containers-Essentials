@@ -1,13 +1,13 @@
 Class {
-	#name : #CTConditionIfFalse,
+	#name : #CTConditionIfTrue,
 	#superclass : #CTCondition,
 	#category : #'Containers-Essentials-Conditions'
 }
 
 { #category : #accessing }
-CTConditionIfFalse >> truthWitness: anObject [
+CTConditionIfTrue >> falsehood [
 
-	"According to False>>#ifTrue:"
+	"According to True>>#ifFalse:"
 
 	^ nil
 ]
