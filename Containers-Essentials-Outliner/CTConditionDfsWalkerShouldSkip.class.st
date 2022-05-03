@@ -1,34 +1,34 @@
 Class {
-	#name : #CTConditionShouldSkip,
+	#name : #CTConditionDfsWalkerShouldSkip,
 	#superclass : #CTConditionIfFalse,
 	#instVars : [
 		'caller',
 		'child',
 		'descriptor'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #accessing }
-CTConditionShouldSkip >> caller: anObject [
+CTConditionDfsWalkerShouldSkip >> caller: anObject [
 
 	caller := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldSkip >> child: anObject [
+CTConditionDfsWalkerShouldSkip >> child: anObject [
 
 	child := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldSkip >> descriptor: anObject [
+CTConditionDfsWalkerShouldSkip >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldSkip >> falsehood [
+CTConditionDfsWalkerShouldSkip >> falsehood [
 
 	^ caller shouldntSkip: child descriptor: descriptor
 ]

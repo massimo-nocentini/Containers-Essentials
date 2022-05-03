@@ -21,7 +21,7 @@ Class {
 		'skipNils',
 		'skipEmptyCollections'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #shapes }
@@ -98,7 +98,7 @@ CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shap
 
 	valueBox := shapeBuilder box: child.
 
-	shouldInline := CTConditionShouldInline new
+	shouldInline := CTConditionDfsWalkerShouldInline new
 		                child: child;
 		                descriptor: descriptor;
 		                fromShapes: fromShapes;
@@ -135,7 +135,7 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 	| rows rowsCollector |
 	rows := OrderedCollection new.
 
-	rowsCollector := CTConditionCollectDescriptors new
+	rowsCollector := CTConditionDfsWalkerCollectDescriptors new
 		                 level: level;
 		                 metaExtent: metaExtent;
 		                 object: object;
@@ -153,7 +153,7 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 { #category : #shapes }
 CTDfsWalker >> defaultShapeFor: object slotsRows: slotsRows [
 
-	^ CTConditionSlotsRowsEmptyOrNotForSynthesize new
+	^ CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize new
 		  object: object;
 		  quotedShapes: quotedShapes;
 		  shapeBuilder: shapeBuilder;

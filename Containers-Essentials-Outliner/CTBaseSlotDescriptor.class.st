@@ -11,7 +11,7 @@ Class {
 		'isOneToMany',
 		'enablePredicate'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #visiting }

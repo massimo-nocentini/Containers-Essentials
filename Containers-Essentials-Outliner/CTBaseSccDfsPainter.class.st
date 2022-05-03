@@ -8,7 +8,7 @@ Class {
 		'stronglyConnectedComponents',
 		'shapeBySCC'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #DFS }

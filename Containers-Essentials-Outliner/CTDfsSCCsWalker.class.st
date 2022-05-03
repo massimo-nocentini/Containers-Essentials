@@ -5,7 +5,7 @@ Class {
 		'sccShapeStack',
 		'sccs'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #shapes }

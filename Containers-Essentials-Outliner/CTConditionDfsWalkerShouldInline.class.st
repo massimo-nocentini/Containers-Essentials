@@ -1,5 +1,5 @@
 Class {
-	#name : #CTConditionShouldInline,
+	#name : #CTConditionDfsWalkerShouldInline,
 	#superclass : #CTCondition,
 	#instVars : [
 		'descriptor',
@@ -19,29 +19,29 @@ Class {
 		'fromShapes',
 		'widthsExtent'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #accessing }
-CTConditionShouldInline >> child: anObject [
+CTConditionDfsWalkerShouldInline >> child: anObject [
 
 	child := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> descriptor: anObject [
+CTConditionDfsWalkerShouldInline >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> extent [
+CTConditionDfsWalkerShouldInline >> extent [
 
 	^ extent
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> falsehood [
+CTConditionDfsWalkerShouldInline >> falsehood [
 
 	valueLabel := nil.
 
@@ -66,59 +66,59 @@ CTConditionShouldInline >> falsehood [
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> fromShapes: anObject [
+CTConditionDfsWalkerShouldInline >> fromShapes: anObject [
 
 	fromShapes := anObject
 ]
 
 { #category : #initialization }
-CTConditionShouldInline >> initialize [
+CTConditionDfsWalkerShouldInline >> initialize [
 
 	super initialize.
 
-	hasBeenVisitedConditionHandler := CTConditionHasBeenVisited new.
-	quotedShapeBackgroundColorConditionHandler := CTConditionQuotedShapeBackgroundColor
+	hasBeenVisitedConditionHandler := CTConditionDfsWalkerHasBeenVisited new.
+	quotedShapeBackgroundColorConditionHandler := CTConditionDfsWalkerQuotedShapeBackgroundColor
 		                                              new
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> level: anObject [
+CTConditionDfsWalkerShouldInline >> level: anObject [
 
 	level := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> metaExtent: anObject [
+CTConditionDfsWalkerShouldInline >> metaExtent: anObject [
 
 	metaExtent := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> parent: anObject [
+CTConditionDfsWalkerShouldInline >> parent: anObject [
 
 	parent := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> quotedShapes: anObject [
+CTConditionDfsWalkerShouldInline >> quotedShapes: anObject [
 
 	quotedShapes := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> shape: anObject [
+CTConditionDfsWalkerShouldInline >> shape: anObject [
 
 	shape := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> toShapes: anObject [
+CTConditionDfsWalkerShouldInline >> toShapes: anObject [
 
 	toShapes := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> truthWitness: _ [
+CTConditionDfsWalkerShouldInline >> truthWitness: _ [
 
 	| y |
 	valueLabel := descriptor shape: child walker: walker.
@@ -135,25 +135,25 @@ CTConditionShouldInline >> truthWitness: _ [
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> valueBox: anObject [
+CTConditionDfsWalkerShouldInline >> valueBox: anObject [
 
 	valueBox := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> valueLabel [
+CTConditionDfsWalkerShouldInline >> valueLabel [
 
 	^ valueLabel
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> walker: anObject [
+CTConditionDfsWalkerShouldInline >> walker: anObject [
 
 	walker := anObject
 ]
 
 { #category : #accessing }
-CTConditionShouldInline >> widthsExtent: anObject [
+CTConditionDfsWalkerShouldInline >> widthsExtent: anObject [
 
 	widthsExtent := anObject
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #CTConditionHasBeenVisited,
+	#name : #CTConditionDfsWalkerHasBeenVisited,
 	#superclass : #CTCondition,
 	#instVars : [
 		'child',
@@ -9,23 +9,23 @@ Class {
 		'level',
 		'walker'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> child: anObject [
+CTConditionDfsWalkerHasBeenVisited >> child: anObject [
 
 	child := anObject
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> descriptor: anObject [
+CTConditionDfsWalkerHasBeenVisited >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> falsehood [
+CTConditionDfsWalkerHasBeenVisited >> falsehood [
 
 	^ walker
 		  hasntBeenVisited: child
@@ -36,31 +36,31 @@ CTConditionHasBeenVisited >> falsehood [
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> level: anObject [
+CTConditionDfsWalkerHasBeenVisited >> level: anObject [
 
 	level := anObject
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> parent: anObject [
+CTConditionDfsWalkerHasBeenVisited >> parent: anObject [
 
 	parent := anObject
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> shape: anObject [
+CTConditionDfsWalkerHasBeenVisited >> shape: anObject [
 
 	shape := anObject
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> truthWitness: anAlreadySeenShape [
+CTConditionDfsWalkerHasBeenVisited >> truthWitness: anAlreadySeenShape [
 
 	^ walker hasBeenVisited: anAlreadySeenShape childOfShape: shape
 ]
 
 { #category : #accessing }
-CTConditionHasBeenVisited >> walker: anObject [
+CTConditionDfsWalkerHasBeenVisited >> walker: anObject [
 
 	walker := anObject
 ]

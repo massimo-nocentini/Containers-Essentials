@@ -4,7 +4,7 @@ I describe a single slot in an outline shape.
 Class {
 	#name : #CTPropertySlotDescriptor,
 	#superclass : #Object,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #accessing }

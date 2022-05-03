@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'edgessOfSCCs'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #'line drawing' }

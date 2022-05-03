@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'rootDescriptor'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #copying }

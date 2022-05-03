@@ -1,16 +1,16 @@
 Class {
-	#name : #CTConditionSlotsRowsEmptyOrNotForSynthesize,
+	#name : #CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize,
 	#superclass : #CTCondition,
 	#instVars : [
 		'quotedShapes',
 		'object',
 		'shapeBuilder'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #accessing }
-CTConditionSlotsRowsEmptyOrNotForSynthesize >> falsehood [
+CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize >> falsehood [
 
 	^ quotedShapes
 		  at: object
@@ -18,25 +18,25 @@ CTConditionSlotsRowsEmptyOrNotForSynthesize >> falsehood [
 ]
 
 { #category : #accessing }
-CTConditionSlotsRowsEmptyOrNotForSynthesize >> object: anObject [
+CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize >> object: anObject [
 
 	object := anObject
 ]
 
 { #category : #accessing }
-CTConditionSlotsRowsEmptyOrNotForSynthesize >> quotedShapes: anObject [
+CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize >> quotedShapes: anObject [
 
 	quotedShapes := anObject
 ]
 
 { #category : #accessing }
-CTConditionSlotsRowsEmptyOrNotForSynthesize >> shapeBuilder: anObject [
+CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize >> shapeBuilder: anObject [
 
 	shapeBuilder := anObject
 ]
 
 { #category : #accessing }
-CTConditionSlotsRowsEmptyOrNotForSynthesize >> truthWitness: useless [
+CTConditionDfsWalkerSlotsRowsEmptyOrNotForSynthesize >> truthWitness: useless [
 
 	^ RSComposite new
 		  model: object;

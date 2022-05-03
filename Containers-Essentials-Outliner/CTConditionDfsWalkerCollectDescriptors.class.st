@@ -1,5 +1,5 @@
 Class {
-	#name : #CTConditionCollectDescriptors,
+	#name : #CTConditionDfsWalkerCollectDescriptors,
 	#superclass : #CTConditionValueable,
 	#instVars : [
 		'object',
@@ -10,41 +10,41 @@ Class {
 		'rows',
 		'walker'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> level: anObject [
+CTConditionDfsWalkerCollectDescriptors >> level: anObject [
 
 	level := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> metaExtent: anObject [
+CTConditionDfsWalkerCollectDescriptors >> metaExtent: anObject [
 
 	metaExtent := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> object: anObject [
+CTConditionDfsWalkerCollectDescriptors >> object: anObject [
 
 	object := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> rows: anObject [
+CTConditionDfsWalkerCollectDescriptors >> rows: anObject [
 
 	rows := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> shape: anObject [
+CTConditionDfsWalkerCollectDescriptors >> shape: anObject [
 
 	shape := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> shouldntSkip: child descriptor: descriptor [
+CTConditionDfsWalkerCollectDescriptors >> shouldntSkip: child descriptor: descriptor [
 
 	| slotsRow |
 	slotsRow := walker
@@ -60,12 +60,12 @@ CTConditionCollectDescriptors >> shouldntSkip: child descriptor: descriptor [
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> truthWitness: descriptor [
+CTConditionDfsWalkerCollectDescriptors >> truthWitness: descriptor [
 
 	| child |
 	child := descriptor on: object walker: walker.
 
-	^ CTConditionShouldSkip new
+	^ CTConditionDfsWalkerShouldSkip new
 		  caller: self;
 		  child: child;
 		  descriptor: descriptor;
@@ -73,13 +73,13 @@ CTConditionCollectDescriptors >> truthWitness: descriptor [
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> walker: anObject [
+CTConditionDfsWalkerCollectDescriptors >> walker: anObject [
 
 	walker := anObject
 ]
 
 { #category : #accessing }
-CTConditionCollectDescriptors >> widths_Association: anObject [
+CTConditionDfsWalkerCollectDescriptors >> widths_Association: anObject [
 
 	widths_Association := anObject
 ]

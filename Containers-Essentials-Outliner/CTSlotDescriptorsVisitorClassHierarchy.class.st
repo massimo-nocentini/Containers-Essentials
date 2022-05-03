@@ -4,7 +4,7 @@ I am a variant that customize the slot descriptors for Class objects.
 Class {
 	#name : #CTSlotDescriptorsVisitorClassHierarchy,
 	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #visiting }
