@@ -1,7 +1,7 @@
 Class {
 	#name : #CTCondition,
 	#superclass : #Object,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Conditions'
 }
 
 { #category : #accessing }

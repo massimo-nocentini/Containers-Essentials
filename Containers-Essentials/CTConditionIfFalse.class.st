@@ -1,7 +1,7 @@
 Class {
 	#name : #CTConditionIfFalse,
 	#superclass : #CTCondition,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Conditions'
 }
 
 { #category : #accessing }
