@@ -132,20 +132,20 @@ CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shap
 { #category : #shapes }
 CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
 
-	| rows |
+	| rows rowsCollector |
 	rows := OrderedCollection new.
 
-	descriptors
-		select: [ :each | each enabled ]
-		thenDo: (CTConditionCollectDescriptors new
-				 level: level;
-				 metaExtent: metaExtent;
-				 object: object;
-				 rows: rows;
-				 shape: shape;
-				 walker: self;
-				 widths_Association: widthsAssociation;
-				 yourself).
+	rowsCollector := CTConditionCollectDescriptors new
+		                 level: level;
+		                 metaExtent: metaExtent;
+		                 object: object;
+		                 rows: rows;
+		                 shape: shape;
+		                 walker: self;
+		                 widths_Association: widthsAssociation;
+		                 yourself.
+
+	descriptors select: [ :each | each enabled ] thenDo: rowsCollector.
 
 	^ rows
 ]

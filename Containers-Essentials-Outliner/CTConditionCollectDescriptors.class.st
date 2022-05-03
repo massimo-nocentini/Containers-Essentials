@@ -44,23 +44,32 @@ CTConditionCollectDescriptors >> shape: anObject [
 ]
 
 { #category : #accessing }
+CTConditionCollectDescriptors >> shouldntSkip: child descriptor: descriptor [
+
+	| slotsRow |
+	slotsRow := walker
+		            child: child
+		            descriptor: descriptor
+		            at: level
+		            parent: object
+		            shape: shape
+		            widths_Association: widths_Association
+		            metaExtent: metaExtent.
+
+	rows add: slotsRow
+]
+
+{ #category : #accessing }
 CTConditionCollectDescriptors >> truthWitness: descriptor [
 
-	| value |
-	value := descriptor on: object walker: walker.
+	| child |
+	child := descriptor on: object walker: walker.
 
-	(walker shouldSkip: value) ifFalse: [ 
-		| slotsRow |
-		slotsRow := walker
-			            child: value
-			            descriptor: descriptor
-			            at: level
-			            parent: object
-			            shape: shape
-			            widths_Association: widths_Association
-			            metaExtent: metaExtent.
-
-		rows add: slotsRow ]
+	^ CTConditionShouldSkip new
+		  caller: self;
+		  child: child;
+		  descriptor: descriptor;
+		  ifTrueIfFalse: (walker shouldSkip: child)
 ]
 
 { #category : #accessing }
