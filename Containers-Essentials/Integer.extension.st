@@ -352,6 +352,12 @@ Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 ]
 
 { #category : #'*Containers-Essentials' }
+Integer >> double [
+
+	^ self << 1
+]
+
+{ #category : #'*Containers-Essentials' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.

@@ -55,7 +55,7 @@ Float >> cosh [
 { #category : #'*Containers-Essentials' }
 Float >> double [
 
-	^ 2.0 * self
+	^ self * 2.0
 ]
 
 { #category : #'*Containers-Essentials' }
