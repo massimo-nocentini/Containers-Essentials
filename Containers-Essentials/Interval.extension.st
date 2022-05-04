@@ -31,7 +31,7 @@ Interval >> chebyshevInclusive: samples [
 
 	^ array
 		  at: 1 put: start;
-		  replaceFrom: 2 to: n + 1 with: (self chebyshev: n);
+		  replaceFrom: 2 to: samples - 1 with: (self chebyshev: n);
 		  atLast: 1 put: stop;
 		  yourself
 ]
