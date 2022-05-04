@@ -1,13 +1,33 @@
 Class {
 	#name : #CTCondition,
 	#superclass : #Object,
+	#instVars : [
+		'requestor',
+		'data'
+	],
 	#category : #'Containers-Essentials-Conditions'
 }
+
+{ #category : #'instance creation' }
+CTCondition class >> requestor: requestor data: data [
+
+	^ self basicNew
+		  requestor: requestor;
+		  data: data;
+		  initialize;
+		  yourself
+]
 
 { #category : #accessing }
 CTCondition >> cull: anObject [
 
 	^ self truthWitness: anObject
+]
+
+{ #category : #accessing }
+CTCondition >> data: anObject [
+
+	data := anObject
 ]
 
 { #category : #accessing }
@@ -40,6 +60,12 @@ CTCondition >> ifTrueIfFalse: bool truthWitness: anObject [
 CTCondition >> lookupInDictionary: dict at: key [
 
 	^ dict at: key ifPresent: self ifAbsent: self
+]
+
+{ #category : #accessing }
+CTCondition >> requestor: anObject [
+
+	requestor := anObject
 ]
 
 { #category : #accessing }
