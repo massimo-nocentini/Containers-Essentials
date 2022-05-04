@@ -22,6 +22,21 @@ Interval >> chebyshev: samples [
 ]
 
 { #category : #'*Containers-Essentials' }
+Interval >> chebyshevInclusive: samples [
+
+	| n array |
+	n := samples - 2.
+
+	array := Array new: samples.
+
+	^ array
+		  at: 1 put: start;
+		  replaceFrom: 2 to: n + 1 with: (self chebyshev: n);
+		  atLast: 1 put: stop;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials' }
 Interval >> linspace: n [
 
 	^ n < 2
