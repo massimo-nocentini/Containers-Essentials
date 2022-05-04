@@ -24,72 +24,8 @@ Class {
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
 
-{ #category : #shapes }
-CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
-
-	aDescriptor addDraggableInteractionOnShape: aShape
-	"addPopupInteractionOnShape: wholeShape;"
-]
-
-{ #category : #shapes }
-CTDfsWalker >> addQuotedShape: shape model: value [
-
-	quotedShapes at: value put: shape
-]
-
-{ #category : #shapes }
-CTDfsWalker >> atLevel: aNumber putShape: aShape [
-
-	| level |
-	aShape propertyDfsDepth: aNumber.
-
-	level := levels at: aNumber ifAbsentPut: [ OrderedCollection new ].
-	level add: aShape
-]
-
 { #category : #DFS }
-CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
-
-	| shape metaExtent widthsAssociation slotsRows descriptors defaultShape classShape |
-	shape := shapeBuilder outline: object.
-	metaExtent := shapeBuilder metaExtent.
-	widthsAssociation := 0 -> metaExtent x.
-
-	descriptors := slotDescriptorsContext visit: object.
-
-	self
-		visiting: object shape: shape;
-		atLevel: level putShape: shape;
-		addInteractionsUsingSlotDescriptor: descriptor onShape: shape.
-
-	slotsRows := self
-		             collectDescriptors: descriptors
-		             object: object
-		             shape: shape
-		             at: level
-		             widths_Association: widthsAssociation
-		             metaExtent: metaExtent.
-
-	self
-		incrementDfsClock;
-		recordDfsTimingsOnShape: shape.
-
-	defaultShape := self defaultShapeFor: object slotsRows: slotsRows.
-
-	classShape := self
-		              headerShapeFor: defaultShape model
-		              descriptor: descriptor.
-
-	^ shapeBuilder
-		  classShape: classShape
-		  defaultShape: defaultShape
-		  slotsRows: slotsRows
-		  widths_Association: widthsAssociation
-		  shape: shape
-]
-
-{ #category : #DFS }
-CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsAssociation metaExtent: metaExtent [
+CTDfsWalker >> _child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsAssociation metaExtent: metaExtent [
 
 	| varLabel valueBox extent shouldInline valueLabel |
 	varLabel := descriptor
@@ -130,7 +66,7 @@ CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shap
 ]
 
 { #category : #shapes }
-CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
+CTDfsWalker >> _collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
 
 	| rows rowsCollector |
 	rows := OrderedCollection new.
@@ -146,6 +82,152 @@ CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: l
 		                 yourself.
 
 	descriptors select: [ :each | each enabled ] thenDo: rowsCollector.
+
+	^ rows
+]
+
+{ #category : #shapes }
+CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
+
+	aDescriptor addDraggableInteractionOnShape: aShape
+	"addPopupInteractionOnShape: wholeShape;"
+]
+
+{ #category : #shapes }
+CTDfsWalker >> addQuotedShape: shape model: value [
+
+	quotedShapes at: value put: shape
+]
+
+{ #category : #shapes }
+CTDfsWalker >> atLevel: aNumber putShape: aShape [
+
+	| level |
+	aShape propertyDfsDepth: aNumber.
+
+	level := levels at: aNumber ifAbsentPut: [ OrderedCollection new ].
+	level add: aShape
+]
+
+{ #category : #DFS }
+CTDfsWalker >> child: object descriptor: descriptor at: level parent: parent [
+
+	| shape metaExtent widthsAssociation slotsRows descriptors |
+	shape := shapeBuilder outline: object.
+	metaExtent := shapeBuilder metaExtent.
+	widthsAssociation := 0 -> metaExtent x.
+
+	descriptors := slotDescriptorsContext visit: object.
+
+	self
+		visiting: object shape: shape;
+		atLevel: level putShape: shape;
+		addInteractionsUsingSlotDescriptor: descriptor onShape: shape.
+
+	slotsRows := self
+		             collectDescriptors: descriptors
+		             object: object
+		             shape: shape
+		             at: level
+		             widths_Association: widthsAssociation
+		             metaExtent: metaExtent.
+
+	self
+		incrementDfsClock;
+		recordDfsTimingsOnShape: shape.
+
+	^ self
+		  synthesize: object
+		  descriptor: descriptor
+		  shape: shape
+		  slotsRows: slotsRows
+		  widths_Association: widthsAssociation
+]
+
+{ #category : #DFS }
+CTDfsWalker >> child: child descriptor: descriptor at: level parent: parent shape: shape widths_Association: widthsExtent metaExtent: metaExtent [
+
+	| valueLabel varLabel valueBox extent shouldInline |
+	varLabel := descriptor
+		            varLabelShapeOf: parent
+		            shapeBuilder: shapeBuilder.
+
+	valueBox := shapeBuilder box: child.
+
+	shouldInline := self
+		                shouldInline: child
+		                descriptor: descriptor
+		                at: level.
+
+	shouldInline
+		ifTrue: [ 
+			| y |
+			valueLabel := descriptor shape: child walker: self.
+
+			valueLabel := shapeBuilder pad: valueLabel.
+
+			y := valueLabel extent y max: metaExtent y.
+
+			(quotedShapes includesKey: child) ifTrue: [ 
+				valueBox color: Color transparent ].
+
+			extent := valueLabel extent x @ y ]
+		ifFalse: [ 
+			valueLabel := nil.
+
+			toShapes
+				at: child
+				ifPresent: [ :anAlreadySeenShape | 
+					self hasBeenVisited: anAlreadySeenShape childOfShape: shape ]
+				ifAbsent: [ 
+					self
+						hasntBeenVisited: child
+						descriptor: descriptor
+						parent: parent
+						shape: shape
+						level: level ].
+
+			descriptor
+				isOneToMany: child walker: self;
+				addHighlightWithLinesInteractionOnShape: valueBox.
+
+			fromShapes at: valueBox put: shape.
+
+			valueBox color: valueBox color lighter lighter.
+
+			extent := widthsExtent value @ metaExtent y ].
+
+	widthsExtent
+		key: (widthsExtent key max: varLabel extent x);
+		value: (widthsExtent value max: extent x).
+
+	valueBox height: (extent y max: varLabel extent y).
+
+	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+]
+
+{ #category : #shapes }
+CTDfsWalker >> collectDescriptors: descriptors object: object shape: shape at: level widths_Association: widthsAssociation metaExtent: metaExtent [
+
+	| rows |
+	rows := OrderedCollection new.
+
+	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
+		| value |
+		value := each on: object walker: self.
+
+		(self shouldSkip: value) ifFalse: [ 
+			| slotsRow |
+			slotsRow := self
+				            child: value
+				            descriptor: each
+				            at: level
+				            parent: object
+				            shape: shape
+				            widths_Association: widthsAssociation
+				            metaExtent: metaExtent.
+
+			rows add: slotsRow ] ].
 
 	^ rows
 ]
@@ -326,6 +408,46 @@ CTDfsWalker >> skipNils: aBoolean [
 CTDfsWalker >> slotDescriptorsContext: aBlock [
 
 	slotDescriptorsContext := aBlock
+]
+
+{ #category : #shapes }
+CTDfsWalker >> synthesize: object descriptor: descriptor shape: shape slotsRows: slotsRows widths_Association: widths [
+
+	"
+	
+	s = (self synthesize: object descriptor: descriptor shape: shape slotsRows: slotsRows widths_Association: widths)
+	
+	iff 
+	
+	`s` is a RSShape that represents `object` which is described by `descriptor` 
+	and has `shape` as box-enclosed slot shapes `slotsRows`, using `widths` 
+	as bounds over the x axis.
+	
+	"
+
+	| defaultShape classShape |
+	defaultShape := slotsRows
+		                ifEmpty: [ 
+			                quotedShapes
+				                at: object
+				                ifAbsent: [ shapeBuilder multilineLabel: object ] ]
+		                ifNotEmpty: [ 
+			                RSComposite new
+				                model: object;
+				                shapes: RSGroup new;
+				                extent: 0 @ 0;
+				                yourself ].
+
+	classShape := descriptor
+		              header: defaultShape model
+		              shapeBuilder: shapeBuilder.
+
+	^ shapeBuilder
+		  classShape: classShape
+		  defaultShape: defaultShape
+		  slotsRows: slotsRows
+		  widths_Association: widths
+		  shape: shape
 ]
 
 { #category : #accessing }
