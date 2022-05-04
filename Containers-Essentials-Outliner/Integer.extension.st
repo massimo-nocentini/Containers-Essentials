@@ -7,7 +7,7 @@ Integer >> inspectorCanvasRepresentations [
 	| walker shape |
 	walker := CTDfsWalker new.
 
-	walker slotDescriptorsContext:
+	walker slotDescriptorsVisitor:
 		CTSlotDescriptorsVisitorIntegerDetails new.
 
 	shape := self asShapeSlotsDfsTree: walker.

@@ -93,7 +93,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlo
 			  | aShape walker |
 			  walker := CTDfsWalker new.
 
-			  walker slotDescriptorsContext: aSlotDescriptorsContext.
+			  walker slotDescriptorsVisitor: aSlotDescriptorsContext.
 
 			  aShape := obj asShapeSlotsDfsTree: walker.
 

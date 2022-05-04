@@ -14,13 +14,13 @@ Class {
 		'dfsClock',
 		'levels',
 		'quotedShapes',
-		'slotDescriptorsContext',
 		'oneToManyShapes',
 		'shapeBuilder',
 		'skipBacks',
 		'skipNils',
 		'skipEmptyCollections',
-		'metaExtent'
+		'metaExtent',
+		'slotDescriptorsVisitor'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -111,7 +111,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 	| shape descriptors data |
 	shape := shapeBuilder outline: object.
 
-	descriptors := slotDescriptorsContext visit: object.
+	descriptors := slotDescriptorsVisitor visit: object.
 
 	data := CTDfsWalkerData new
 		        object: object;
@@ -201,7 +201,7 @@ CTDfsWalker >> initialize [
 		skipEmptyCollections: false;
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
-		slotDescriptorsContext: CTSlotDescriptorsVisitor new;
+		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new
 ]
 
@@ -311,9 +311,9 @@ CTDfsWalker >> skipNils: aBoolean [
 ]
 
 { #category : #accessing }
-CTDfsWalker >> slotDescriptorsContext: aBlock [
+CTDfsWalker >> slotDescriptorsVisitor: aBlock [
 
-	slotDescriptorsContext := aBlock
+	slotDescriptorsVisitor := aBlock
 ]
 
 { #category : #shapes }
@@ -354,7 +354,7 @@ CTDfsWalker >> toShapes: anObject [
 CTDfsWalker >> value: object [
 
 	^ self
-		  descriptor: slotDescriptorsContext rootDescriptor
+		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
 		  parent: nil
