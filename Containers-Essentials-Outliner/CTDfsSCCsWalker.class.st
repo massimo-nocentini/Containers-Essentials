@@ -61,12 +61,12 @@ CTDfsSCCsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
 ]
 
 { #category : #DFS }
-CTDfsSCCsWalker >> hasntBeenVisited: anObject descriptor: aDescriptor data: data [
+CTDfsSCCsWalker >> hasntBeenVisited: object descriptor: descriptor data: data [
 
 	| childShape |
 	childShape := super
-		              hasntBeenVisited: anObject
-		              descriptor: aDescriptor
+		              hasntBeenVisited: object
+		              descriptor: descriptor
 		              data: data.
 
 	data shape propertyDfsLowlinkUpdate: [ :lowlink | 
@@ -121,22 +121,22 @@ CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
 { #category : #API }
 CTDfsSCCsWalker >> value: rootObject [
 
-	| aShape |
-	aShape := super value: rootObject.
+	| shape |
+	shape := super value: rootObject.
 
 	self assert: sccShapeStack isNil.
 
-	^ aShape
+	^ shape
 ]
 
 { #category : #shapes }
-CTDfsSCCsWalker >> visiting: anObject shape: aShape [
+CTDfsSCCsWalker >> visiting: object shape: shape [
 
-	super visiting: anObject shape: aShape.
+	super visiting: object shape: shape.
 
-	self push: aShape.
+	self push: shape.
 
-	aShape
+	shape
 		propertyDfsObjectStack: sccShapeStack;
 		propertyDfsLowlink: dfsClock
 ]
