@@ -61,7 +61,7 @@ CTDfsWalker >> descriptor: descriptor child: child data: data [
 	shouldInline := self
 		                shouldInline: child
 		                descriptor: descriptor
-		                at: data level.
+		                level: data level.
 
 	shouldInline
 		ifTrue: [ 
@@ -82,7 +82,10 @@ CTDfsWalker >> descriptor: descriptor child: child data: data [
 			toShapes
 				at: child
 				ifPresent: [ :anAlreadySeenShape | 
-					self hasBeenVisited: anAlreadySeenShape childOfShape: data shape ]
+					self
+						hasBeenVisited: child
+						childShape: anAlreadySeenShape
+						parentShape: data shape ]
 				ifAbsent: [ 
 				self hasntBeenVisited: child descriptor: descriptor data: data ].
 
@@ -159,7 +162,7 @@ CTDfsWalker >> fromShapes: anObject [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
+CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentShape [
 
 	
 ]
@@ -272,7 +275,7 @@ CTDfsWalker >> shapeBuilder: aShapeBuilder [
 ]
 
 { #category : #accessing }
-CTDfsWalker >> shouldInline: anObject descriptor: descriptor at: level [
+CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 
 	| boolean |
 	boolean := level = maxLevel | anObject isImmediateObject

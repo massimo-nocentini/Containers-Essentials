@@ -45,10 +45,13 @@ CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 ]
 
 { #category : #DFS }
-CTDfsSCCsWalker >> hasBeenVisited: childShape childOfShape: parentShape [
+CTDfsSCCsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentShape [
 
 	| shapeEntryTime |
-	super hasBeenVisited: childShape childOfShape: parentShape.
+	super
+		hasBeenVisited: child
+		childShape: childShape
+		parentShape: parentShape.
 
 	shapeEntryTime := childShape propertyDfsEntryTime.
 
