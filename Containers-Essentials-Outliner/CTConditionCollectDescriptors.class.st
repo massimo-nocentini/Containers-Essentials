@@ -47,7 +47,7 @@ CTConditionCollectDescriptors >> shape: anObject [
 CTConditionCollectDescriptors >> truthWitness: descriptor [
 
 	| value |
-	value := descriptor on: object walker: walker.
+	value := descriptor valueOn: object walker: walker.
 
 	(walker shouldSkip: value) ifFalse: [ 
 		| slotsRow |

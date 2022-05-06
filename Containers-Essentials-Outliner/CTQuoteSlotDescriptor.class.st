@@ -91,28 +91,6 @@ CTQuoteSlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
-
-	| value |
-	value := descriptor on: anObject walker: aDfsWalker.
-
-	"We need to pass a copy of the original walker because of the
-	 intermediate data structures populated during the search: such
-	 data structures should be fresh when we start a quotation."
-	shape := quoteBlock
-		         value: value
-		         value: (aDfsWalker copy "copyForQuoteSlotDescriptor: self").
-
-	self assert: (shape isKindOf: RSShape).
-
-	value := Object new.
-
-	aDfsWalker addQuotedShape: shape model: value.
-
-	^ value
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 
 	quoteBlock := aBlock
@@ -128,6 +106,28 @@ CTQuoteSlotDescriptor >> selector [
 CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ shape
+]
+
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
+
+	| value |
+	value := descriptor valueOn: anObject walker: aDfsWalker.
+
+	"We need to pass a copy of the original walker because of the
+	 intermediate data structures populated during the search: such
+	 data structures should be fresh when we start a quotation."
+	shape := quoteBlock
+		         value: value
+		         value: (aDfsWalker copy "copyForQuoteSlotDescriptor: self").
+
+	self assert: (shape isKindOf: RSShape).
+
+	value := Object new.
+
+	aDfsWalker addQuotedShape: shape model: value.
+
+	^ value
 ]
 
 { #category : #initialization }

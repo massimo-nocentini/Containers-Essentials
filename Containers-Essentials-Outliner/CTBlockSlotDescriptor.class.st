@@ -14,7 +14,7 @@ CTBlockSlotDescriptor >> accessor: anObject [
 ]
 
 { #category : #accessing }
-CTBlockSlotDescriptor >> on: anObject [
+CTBlockSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	^ accessor value
 ]

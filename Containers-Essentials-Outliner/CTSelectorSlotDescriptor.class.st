@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CTSelectorSlotDescriptor >> on: anObject [
+CTSelectorSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	^ anObject perform: self selector
 ]

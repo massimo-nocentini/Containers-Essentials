@@ -47,6 +47,15 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector accessor: aBlock [
 ]
 
 { #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector value: aValue [
+
+	^ CTxValueSlotDescriptor new
+		  selector: aSelector;
+		  value: aValue;
+		  yourself
+]
+
+{ #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 
 	^ CTSelectorSlotDescriptor new
@@ -95,7 +104,7 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
-		  self newSlotDescriptorLabel: index asString accessor: [ each ] ]
+		  self newSlotDescriptorLabel: index asString value: each ]
 ]
 
 { #category : #visiting }
@@ -130,7 +139,7 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 			  ifNotNil: [ :var | 
 				  { (self
 					   newSlotDescriptorLabel: var name
-					   accessor: [ var ]) } ] ]
+					   value: var) } ] ]
 ]
 
 { #category : #visiting }
@@ -142,7 +151,7 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  (self newSlotDescriptorSelector: #asArray).
 		  ((self
 			    newSlotDescriptorLabel: #asShapeBitsDump:
-			    accessor: [ aByteArray ])
+			    value: aByteArray )
 			   inline;
 			   quoteUsingSelector) }
 ]
@@ -302,7 +311,7 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 	^ (self visitObject: aHeap) , { 
 		  ((self
 			    newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
-			    accessor: [ aHeap ])
+			    value: aHeap )
 			   inline;
 			   quoteUsingSelector).
 		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
@@ -310,7 +319,7 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 			   quote).
 		  ((self
 			    newSlotDescriptorLabel: #asShapeBubblesHorizontalTree:
-			    accessor: [ aHeap ])
+			    value: aHeap )
 			   enablePredicate: [ aHeap allSatisfy: [ :each | each isNumber ] ];
 			   inline;
 			   quoteUsingSelector) }
