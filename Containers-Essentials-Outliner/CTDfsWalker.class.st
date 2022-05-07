@@ -131,6 +131,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		  atLevel: level putShape: shape;
 		  addInteractionsUsingSlotDescriptor: descriptor onShape: shape;
 		  descriptors: descriptors data: data;
+		  followersOf: object data: data;
 		  incrementDfsClock;
 		  recordDfsTimingsOnShape: shape;
 		  synthesize: data
@@ -153,6 +154,28 @@ CTDfsWalker >> descriptors: descriptors data: data [
 			rows add: slotsRow ] ].
 
 	data rows: rows
+]
+
+{ #category : #shapes }
+CTDfsWalker >> followersOf: object data: data [
+
+	data rows ifEmpty: [ 
+		data descriptor ifHasFollowers: [ :followers | 
+			| model |
+			self assert: data object == object.
+
+			model := (quotedShapes at: object ifAbsent: [ toShapes at: object ])
+				         model.
+
+			data object: model.
+
+			self descriptors: followers data: data.
+
+			data followersRows: data rows.
+
+			"Restore."
+			data object: object.
+			data rows: {  } ] ]
 ]
 
 { #category : #accessing }
@@ -322,7 +345,7 @@ CTDfsWalker >> slotDescriptorsVisitor: aBlock [
 { #category : #shapes }
 CTDfsWalker >> synthesize: data [
 
-	| defaultShape classShape object |
+	| defaultShape classShape object synthesized |
 	object := data object.
 
 	defaultShape := data rows
@@ -341,10 +364,15 @@ CTDfsWalker >> synthesize: data [
 		              header: defaultShape model
 		              shapeBuilder: shapeBuilder.
 
-	^ shapeBuilder
-		  classShape: classShape
-		  defaultShape: defaultShape
-		  data: data
+	synthesized := shapeBuilder
+		               classShape: classShape
+		               defaultShape: defaultShape
+		               data: data.
+
+	data followersRows do: [ :each | 
+		fromShapes at: each box put: synthesized ].
+
+	^ synthesized
 ]
 
 { #category : #accessing }

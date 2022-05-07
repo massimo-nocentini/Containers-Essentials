@@ -38,6 +38,12 @@ CTPropertySlotDescriptor >> enabled [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> follower: anObject [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> header: aBlock [
 
 	self subclassResponsibility
@@ -57,6 +63,12 @@ CTPropertySlotDescriptor >> headerWithAllSuperclasses [
 
 { #category : #accessing }
 CTPropertySlotDescriptor >> headerWithClass [
+
+	self subclassResponsibility
+]
+
+{ #category : #'as yet unclassified' }
+CTPropertySlotDescriptor >> ifHasFollowers: block [
 
 	self subclassResponsibility
 ]

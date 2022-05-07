@@ -9,7 +9,8 @@ Class {
 		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate'
+		'enablePredicate',
+		'follower'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -67,6 +68,12 @@ CTBaseSlotDescriptor >> enabled [
 ]
 
 { #category : #accessing }
+CTBaseSlotDescriptor >> follower: anObject [
+
+	follower := anObject
+]
+
+{ #category : #accessing }
 CTBaseSlotDescriptor >> header: aBlock [
 
 	header := aBlock
@@ -92,6 +99,16 @@ CTBaseSlotDescriptor >> headerWithClass [
 	self header: [ :anObject :aShapeBuilder | 
 		anObject class asShapeClass: [ :each | 
 			aShapeBuilder labelForClass: each ] ]
+]
+
+{ #category : #'as yet unclassified' }
+CTBaseSlotDescriptor >> ifHasFollowers: block [
+
+	^ follower ifNotNil: [ 
+		  | slots |
+		  slots := follower value.
+
+		  block value: slots ]
 ]
 
 { #category : #initialization }
@@ -135,9 +152,7 @@ CTBaseSlotDescriptor >> noHeader [
 ]
 
 { #category : #dispatching }
-CTBaseSlotDescriptor >> notInline [
-
-	"To allow the DFS to proceed, regardless of the computed `default` flag."
+CTBaseSlotDescriptor >> noInline [
 
 	inline := [ :anObject :level :default | false ]
 ]

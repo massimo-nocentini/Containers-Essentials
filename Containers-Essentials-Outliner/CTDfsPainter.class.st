@@ -78,25 +78,6 @@ CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #DFS }
-CTDfsPainter >> dfsWalk [
-
-	| aShape |
-	fromShapes := IdentityDictionary new.
-	toShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new.
-	levels := Dictionary new.
-
-	aShape := dfsWalker
-		          fromShapes: fromShapes;
-		          toShapes: toShapes;
-		          levels: levels;
-		          oneToManyShapes: oneToManyShapes;
-		          value.
-
-	^ toShapes values
-]
-
-{ #category : #DFS }
 CTDfsPainter >> dfsWalk: anObject [
 
 	| aShape |

@@ -48,6 +48,12 @@ CTQuoteSlotDescriptor >> enabled [
 	^ descriptor enabled
 ]
 
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> follower: anObject [
+
+	descriptor follower: anObject
+]
+
 { #category : #dispatched }
 CTQuoteSlotDescriptor >> header: aBlock [
 
@@ -70,6 +76,12 @@ CTQuoteSlotDescriptor >> headerWithAllSuperclasses [
 CTQuoteSlotDescriptor >> headerWithClass [
 
 	descriptor headerWithClass
+]
+
+{ #category : #'as yet unclassified' }
+CTQuoteSlotDescriptor >> ifHasFollowers: block [
+
+	^ descriptor ifHasFollowers: block
 ]
 
 { #category : #accessing }

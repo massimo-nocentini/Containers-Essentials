@@ -303,8 +303,14 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 		  ((self
 			    newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
 			    accessor: [ aHeap ])
-			   inline;
+			   follower: [ 
+				   { 
+					   (self newSlotDescriptorSelector: #size) noInline.
+					   (self newSlotDescriptorSelector: #yourself) noInline.
+					   (self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
+						   quote } ];
 			   quoteUsingSelector).
+		  " inline;"
 		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
 			   inline;
 			   quote).

@@ -9,7 +9,8 @@ Class {
 		'boxesWidth',
 		'rows',
 		'object',
-		'shape'
+		'shape',
+		'followersRows'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -36,6 +37,18 @@ CTDfsWalkerData >> descriptor [
 CTDfsWalkerData >> descriptor: anObject [
 
 	descriptor := anObject
+]
+
+{ #category : #accessing }
+CTDfsWalkerData >> followersRows [
+
+	^ followersRows
+]
+
+{ #category : #accessing }
+CTDfsWalkerData >> followersRows: collection [
+
+	followersRows := collection
 ]
 
 { #category : #accessing }
