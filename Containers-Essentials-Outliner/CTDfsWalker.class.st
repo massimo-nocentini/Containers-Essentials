@@ -109,12 +109,10 @@ CTDfsWalker >> descriptor: descriptor child: child data: data [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent [
+CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent childrenDescriptors: descriptors [
 
-	| shape descriptors data |
+	| shape data |
 	shape := shapeBuilder outline: object.
-
-	descriptors := slotDescriptorsVisitor visit: object.
 
 	data := CTDfsWalkerData new
 		        object: object;
@@ -200,6 +198,7 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 		  object: child
 		  level: data level + 1
 		  parent: data object
+		  childrenDescriptors: (slotDescriptorsVisitor visit: child)
 ]
 
 { #category : #DFS }
@@ -389,6 +388,7 @@ CTDfsWalker >> value: object [
 		  object: object
 		  level: 1
 		  parent: nil
+		  childrenDescriptors: (slotDescriptorsVisitor visit: object)
 ]
 
 { #category : #shapes }
