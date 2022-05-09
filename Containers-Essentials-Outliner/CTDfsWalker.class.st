@@ -132,6 +132,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        yourself.
 
 	^ self
+		  incrementDfsClock;
 		  visiting: model shape: shape;
 		  atLevel: level putShape: shape;
 		  addInteractionsUsingSlotDescriptor: descriptor onShape: shape;
@@ -172,8 +173,6 @@ CTDfsWalker >> followersOf: object data: data [
 			link := followUps at: model ifAbsent: [ nil ].
 			link := followUps at: model put: witness -> model ~~> link.
 
-			self incrementDfsClock.
-
 			shape := self
 				         descriptor: data descriptor
 				         object: model
@@ -207,8 +206,6 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
-
-	self incrementDfsClock.
 
 	self
 		descriptor: descriptor

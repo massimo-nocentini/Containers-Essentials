@@ -99,7 +99,7 @@ CTBaseSlotDescriptor >> headerWithClass [
 { #category : #'as yet unclassified' }
 CTBaseSlotDescriptor >> ifHasFollowers: block [
 
-	^ model ifNothing: [ Error signal ] ifJust: [ :just | 
+	^ model ifNothing: [ nil ] ifJust: [ :just | 
 		  follower ifNotNil: [ 
 			  | slots |
 			  slots := follower value.

@@ -67,10 +67,9 @@ CTDfsSCCsWalker >> hasBeenVisited: child childShape: childShape parentShape: par
 CTDfsSCCsWalker >> hasntBeenVisited: object descriptor: descriptor data: data [
 
 	| childShape |
-	childShape := super
-		              hasntBeenVisited: object
-		              descriptor: descriptor
-		              data: data.
+	super hasntBeenVisited: object descriptor: descriptor data: data.
+
+	childShape := toShapes at: object.
 
 	data shape propertyDfsLowlinkUpdate: [ :lowlink | 
 		lowlink min: childShape propertyDfsLowlink ]
