@@ -10,16 +10,11 @@ Class {
 		'header',
 		'isOneToMany',
 		'enablePredicate',
-		'follower'
+		'follower',
+		'model'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
-
-{ #category : #visiting }
-CTBaseSlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	aShape addInteraction: RSDraggable new
-]
 
 { #category : #visiting }
 CTBaseSlotDescriptor >> addHighlightInteractionOnShape: aShape [
@@ -104,11 +99,12 @@ CTBaseSlotDescriptor >> headerWithClass [
 { #category : #'as yet unclassified' }
 CTBaseSlotDescriptor >> ifHasFollowers: block [
 
-	^ follower ifNotNil: [ 
-		  | slots |
-		  slots := follower value.
+	^ model ifNothing: [ Error signal ] ifJust: [ :just | 
+		  follower ifNotNil: [ 
+			  | slots |
+			  slots := follower value.
 
-		  block value: slots ]
+			  block value: slots value: just content ] ]
 ]
 
 { #category : #initialization }
@@ -117,6 +113,8 @@ CTBaseSlotDescriptor >> initialize [
 	super initialize.
 
 	inline := [ :anObject :level :default | default ].
+
+	model := self nothing.
 
 	self
 		oneToOne;
@@ -165,6 +163,8 @@ CTBaseSlotDescriptor >> on: anObject [
 
 { #category : #accessing }
 CTBaseSlotDescriptor >> on: anObject walker: aDfsWalker [
+
+	model := anObject just.
 
 	^ self on: anObject
 ]

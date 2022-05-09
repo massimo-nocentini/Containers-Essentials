@@ -8,12 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	self subclassResponsibility

@@ -10,7 +10,7 @@ Class {
 		'rows',
 		'object',
 		'shape',
-		'followersRows'
+		'hasOutgoings'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -40,15 +40,15 @@ CTDfsWalkerData >> descriptor: anObject [
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> followersRows [
+CTDfsWalkerData >> hasOutgoings [
 
-	^ followersRows
+	^ hasOutgoings
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> followersRows: collection [
+CTDfsWalkerData >> hasOutgoings: anObject [
 
-	followersRows := collection
+	hasOutgoings := anObject
 ]
 
 { #category : #accessing }

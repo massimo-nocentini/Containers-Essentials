@@ -73,9 +73,7 @@ CTDfsSCCsWalker >> hasntBeenVisited: object descriptor: descriptor data: data [
 		              data: data.
 
 	data shape propertyDfsLowlinkUpdate: [ :lowlink | 
-		lowlink min: childShape propertyDfsLowlink ].
-
-	^ childShape
+		lowlink min: childShape propertyDfsLowlink ]
 ]
 
 { #category : #initialization }

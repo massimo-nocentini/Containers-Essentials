@@ -13,12 +13,6 @@ Class {
 }
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	^ descriptor addDraggableInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	^ descriptor addHighlightInteractionOnShape: aShape

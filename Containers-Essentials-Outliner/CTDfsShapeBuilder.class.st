@@ -27,7 +27,7 @@ CTDfsShapeBuilder >> box: aValue [
 { #category : #shapes }
 CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: data [
 
-	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
+	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location xMax |
 	padding := self radiusOrPadding.
 
 	classLabel := self pad: classShape.
@@ -119,14 +119,13 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 		                  padding: padding;
 		                  yourself.
 
+	xMax := varWidth + µ + boxWidth + π + padding triple max:
+		        compositeShape extent x.
+	xMax := xMax max: classLabel extent x.
+	
 	boxedCompositeShape := (self box: nil)
 		                       color: Color white;
-		                       extent: { 
-				                       (varWidth + µ + boxWidth + π
-				                        + padding triple).
-				                       compositeShape extent x.
-				                       classLabel extent x } max
-			                       @ compositeShape extent y;
+		                       extent: xMax @ compositeShape extent y;
 		                       withBorder;
 		                       yourself.
 

@@ -139,6 +139,10 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 		value := boxShape model.
 		toShape := toShapes at: value.
 
+		boxShape
+			propertyAt: #isGhostShape
+			ifPresent: [ boxShape := fromShape ].
+
 		oneToManyShapes
 			at: value
 			ifPresent: [ :someShapes | 

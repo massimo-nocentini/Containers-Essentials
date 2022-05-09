@@ -20,7 +20,8 @@ Class {
 		'skipNils',
 		'skipEmptyCollections',
 		'metaExtent',
-		'slotDescriptorsVisitor'
+		'slotDescriptorsVisitor',
+		'followUps'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -28,7 +29,7 @@ Class {
 { #category : #shapes }
 CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
-	aDescriptor addDraggableInteractionOnShape: aShape
+	aShape addInteraction: RSDraggable new
 	"addPopupInteractionOnShape: wholeShape;"
 ]
 
@@ -111,8 +112,13 @@ CTDfsWalker >> descriptor: descriptor child: child data: data [
 { #category : #DFS }
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent childrenDescriptors: descriptors [
 
-	| shape data |
-	shape := shapeBuilder outline: object.
+	| shape data model |
+	model := followUps
+		         at: object
+		         ifPresent: [ :link | link value key ]
+		         ifAbsent: [ object ].
+
+	shape := shapeBuilder outline: model.
 
 	data := CTDfsWalkerData new
 		        object: object;
@@ -122,10 +128,11 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        labelsWidth: 0;
 		        boxesWidth: metaExtent x;
 		        shape: shape;
+		        hasOutgoings: false;
 		        yourself.
 
 	^ self
-		  visiting: object shape: shape;
+		  visiting: model shape: shape;
 		  atLevel: level putShape: shape;
 		  addInteractionsUsingSlotDescriptor: descriptor onShape: shape;
 		  descriptors: descriptors data: data;
@@ -157,23 +164,33 @@ CTDfsWalker >> descriptors: descriptors data: data [
 { #category : #shapes }
 CTDfsWalker >> followersOf: object data: data [
 
-	data rows ifEmpty: [ 
-		data descriptor ifHasFollowers: [ :followers | 
-			| model |
-			self assert: data object == object.
+	data hasOutgoings ifFalse: [ 
+		data descriptor ifHasFollowers: [ :followers :model | 
+			| shape link witness ghost |
+			witness := Object new.
 
-			model := (quotedShapes at: object ifAbsent: [ toShapes at: object ])
-				         model.
+			link := followUps at: model ifAbsent: [ nil ].
+			link := followUps at: model put: witness -> model ~~> link.
 
-			data object: model.
+			self incrementDfsClock.
 
-			self descriptors: followers data: data.
+			shape := self
+				         descriptor: data descriptor
+				         object: model
+				         level: data level + 1
+				         parent: object
+				         childrenDescriptors: followers.
 
-			data followersRows: data rows.
+			link := followUps at: model put: link nextLink.
+			link ifNil: [ followUps removeKey: model ].
 
-			"Restore."
-			data object: object.
-			data rows: {  } ] ]
+			ghost := RSComposite new
+				         model: witness;
+				         extent: 0 @ 0;
+				         propertyAt: #isGhostShape put: true;
+				         yourself.
+
+			fromShapes at: ghost put: data shape ] ]
 ]
 
 { #category : #accessing }
@@ -193,12 +210,14 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
 	self incrementDfsClock.
 
-	^ self
-		  descriptor: descriptor
-		  object: child
-		  level: data level + 1
-		  parent: data object
-		  childrenDescriptors: (slotDescriptorsVisitor visit: child)
+	self
+		descriptor: descriptor
+		object: child
+		level: data level + 1
+		parent: data object
+		childrenDescriptors: (slotDescriptorsVisitor visit: child).
+
+	data hasOutgoings: (toShapes includesKey: child)
 ]
 
 { #category : #DFS }
@@ -218,6 +237,7 @@ CTDfsWalker >> initialize [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
+	followUps := IdentityDictionary new.
 
 	self
 		maxLevel: 0;
@@ -268,6 +288,7 @@ CTDfsWalker >> postCopy [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
+	followUps := followUps class new.
 
 	self
 		levels: levels class new;
@@ -344,7 +365,7 @@ CTDfsWalker >> slotDescriptorsVisitor: aBlock [
 { #category : #shapes }
 CTDfsWalker >> synthesize: data [
 
-	| defaultShape classShape object synthesized |
+	| defaultShape classShape object |
 	object := data object.
 
 	defaultShape := data rows
@@ -363,15 +384,10 @@ CTDfsWalker >> synthesize: data [
 		              header: defaultShape model
 		              shapeBuilder: shapeBuilder.
 
-	synthesized := shapeBuilder
-		               classShape: classShape
-		               defaultShape: defaultShape
-		               data: data.
-
-	data followersRows do: [ :each | 
-		fromShapes at: each box put: synthesized ].
-
-	^ synthesized
+	^ shapeBuilder
+		  classShape: classShape
+		  defaultShape: defaultShape
+		  data: data
 ]
 
 { #category : #accessing }
