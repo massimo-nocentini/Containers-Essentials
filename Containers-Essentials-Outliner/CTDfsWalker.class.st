@@ -21,7 +21,8 @@ Class {
 		'skipEmptyCollections',
 		'metaExtent',
 		'slotDescriptorsVisitor',
-		'followUps'
+		'followUps',
+		'descriptorsInOut'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -37,6 +38,22 @@ CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 CTDfsWalker >> addQuotedShape: shape model: value [
 
 	quotedShapes at: value put: shape
+]
+
+{ #category : #shapes }
+CTDfsWalker >> applyDescriptor: descriptor on: object [
+
+	| inOutAssoc out |
+	inOutAssoc := descriptorsInOut
+		              at: descriptor
+		              ifPresent: [ Error signal ]
+		              ifAbsent: [ object -> nil ].
+
+	out := descriptor on: object walker: self.
+
+	inOutAssoc value: out.
+
+	^ out
 ]
 
 { #category : #shapes }
@@ -151,7 +168,7 @@ CTDfsWalker >> descriptors: descriptors data: data [
 
 	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
 		| child |
-		child := each on: data object walker: self.
+		child := self applyDescriptor: each on: data object.
 
 		(self shouldSkip: child) ifFalse: [ 
 			| slotsRow |
@@ -235,6 +252,7 @@ CTDfsWalker >> initialize [
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
 	followUps := IdentityDictionary new.
+	descriptorsInOut := IdentityDictionary new.
 
 	self
 		maxLevel: 0;
@@ -286,6 +304,7 @@ CTDfsWalker >> postCopy [
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
 	followUps := followUps class new.
+	descriptorsInOut := followUps class new.
 
 	self
 		levels: levels class new;
@@ -374,7 +393,9 @@ CTDfsWalker >> synthesize: data [
 			                RSComposite new
 				                model: object;
 				                shapes: RSGroup new;
+				                color: Color transparent;
 				                extent: 0 @ 0;
+				                noPaint;
 				                yourself ].
 
 	classShape := data descriptor
@@ -396,10 +417,12 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| rootDescriptor |
-	rootDescriptor := slotDescriptorsVisitor rootDescriptor
-		                  on: object walker: self;
-		                  yourself.
+	| rootDescriptor theSameObject |
+	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
+
+	theSameObject := self applyDescriptor: rootDescriptor on: object.
+
+	self assert: object == theSameObject.
 
 	^ self
 		  descriptor: rootDescriptor

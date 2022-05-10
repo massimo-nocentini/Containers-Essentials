@@ -109,8 +109,10 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
-	^ anArray withIndexCollect: [ :each :index | 
-		  self newSlotDescriptorLabel: index asString accessor: [ each ] ]
+	^ (1 to: anArray size) collect: [ :index | 
+		  self
+			  newSlotDescriptorLabel: index asString
+			  accessor: [ anArray at: index ] ]
 ]
 
 { #category : #visiting }
