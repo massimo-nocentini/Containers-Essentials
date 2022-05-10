@@ -56,67 +56,7 @@ CTDfsWalker >> applyDescriptor: descriptor on: object [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> descriptor: descriptor child: child data: data [
-
-	| valueLabel varLabel valueBox extent shouldInline |
-	varLabel := descriptor
-		            varLabelShapeOf: data object
-		            shapeBuilder: shapeBuilder.
-
-	valueBox := shapeBuilder box: child.
-
-	shouldInline := self
-		                shouldInline: child
-		                descriptor: descriptor
-		                level: data level.
-
-	shouldInline
-		ifTrue: [ 
-			| y |
-			valueLabel := descriptor shape: child walker: self.
-
-			valueLabel := shapeBuilder pad: valueLabel.
-
-			y := valueLabel extent y max: metaExtent y.
-
-			(quotedShapes includesKey: child) ifTrue: [ 
-				valueBox color: Color transparent ].
-
-			extent := valueLabel extent x @ y ]
-		ifFalse: [ 
-			valueLabel := nil.
-
-			toShapes
-				at: child
-				ifPresent: [ :anAlreadySeenShape | 
-					self
-						hasBeenVisited: child
-						childShape: anAlreadySeenShape
-						parentShape: data shape ]
-				ifAbsent: [ 
-				self hasntBeenVisited: child descriptor: descriptor data: data ].
-
-			descriptor
-				isOneToMany: child walker: self;
-				addHighlightWithLinesInteractionOnShape: valueBox.
-
-			fromShapes at: valueBox put: data shape.
-
-			valueBox color: valueBox color lighter lighter.
-
-			extent := data boxesWidth @ metaExtent y ].
-
-	data
-		labelsWidth: (data labelsWidth max: varLabel extent x);
-		boxesWidth: (data boxesWidth max: extent x).
-
-	valueBox height: (extent y max: varLabel extent y).
-
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
-]
-
-{ #category : #DFS }
-CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent childrenDescriptors: descriptors shape: shape [
+CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent exploringDescriptors: descriptors shape: shape [
 
 	| data |
 	data := CTDfsWalkerData new
@@ -128,65 +68,48 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        boxesWidth: metaExtent x;
 		        shape: shape;
 		        hasOutgoings: false;
+		        exploringDescriptors: descriptors;
+		        rows: OrderedCollection new;
 		        yourself.
 
 	^ self
-		  incrementDfsClock;
-		  visitingShape: shape atLevel: level;
-		  addInteractionsUsingSlotDescriptor: descriptor onShape: shape;
-		  descriptors: descriptors data: data;
-		  followersOf: object data: data;
-		  incrementDfsClock;
-		  recordDfsTimingsOnShape: shape;
-		  synthesize: data
+		  entering: data;
+		  recurring: data;
+		  exiting: data;
+		  synthesizing: data
+]
+
+{ #category : #DFS }
+CTDfsWalker >> entering: data [
+
+	self
+		incrementDfsClock;
+		enteringShape: data shape atLevel: data level.
+
+	self
+		addInteractionsUsingSlotDescriptor: data descriptor
+		onShape: data shape
 ]
 
 { #category : #shapes }
-CTDfsWalker >> descriptors: descriptors data: data [
+CTDfsWalker >> enteringShape: shape atLevel: depth [
 
-	| rows |
-	rows := OrderedCollection new.
+	toShapes at: shape model put: shape.
 
-	descriptors select: [ :each | each enabled ] thenDo: [ :each | 
-		| child |
-		child := self applyDescriptor: each on: data object.
+	shape
+		propertyDfsTimings: dfsClock @ -1;
+		propertyDfsDepth: depth.
 
-		(self shouldSkip: child) ifFalse: [ 
-			| slotsRow |
-			slotsRow := self descriptor: each child: child data: data.
-
-			rows add: slotsRow ] ].
-
-	data rows: rows
+	(levels at: depth ifAbsentPut: [ OrderedCollection new ]) add: shape
 ]
 
-{ #category : #shapes }
-CTDfsWalker >> followersOf: object data: data [
+{ #category : #DFS }
+CTDfsWalker >> exiting: data [
 
-	data hasOutgoings ifFalse: [ 
-		data descriptor ifHasFollowers: [ :followers :model :descriptor | 
-			| shape witness ghost outlinerShape |
-			witness := Object new.
+	self incrementDfsClock.
 
-			outlinerShape := shapeBuilder outline: witness.
-
-			shape := self
-				         descriptor: descriptor
-				         object: model
-				         level: data level + 1
-				         parent: object
-				         childrenDescriptors: followers
-				         shape: outlinerShape.
-
-			ghost := RSComposite new
-				         model: witness;
-				         extent: 0 @ 0;
-				         color: Color transparent;
-				         noPaint;
-				         propertyAt: #isGhostShape put: true;
-				         yourself.
-
-			fromShapes at: ghost put: data shape ] ]
+	data shape propertyDfsTimings:
+		data shape propertyDfsEntryTime @ dfsClock
 ]
 
 { #category : #accessing }
@@ -213,7 +136,7 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 		object: child
 		level: data level + 1
 		parent: data object
-		childrenDescriptors: descriptors
+		exploringDescriptors: descriptors
 		shape: outlinerShape.
 
 	data hasOutgoings:
@@ -298,9 +221,101 @@ CTDfsWalker >> postCopy [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> recordDfsTimingsOnShape: aShape [
+CTDfsWalker >> recurring: data [
 
-	aShape propertyDfsTimings: aShape propertyDfsEntryTime @ dfsClock
+	| rows |
+	rows := data rows.
+
+	data exploringDescriptors
+		select: [ :each | each enabled ]
+		thenDo: [ :each | 
+			| child |
+			child := self applyDescriptor: each on: data object.
+
+			(self shouldSkip: child) ifFalse: [ 
+				| slotsRow |
+				slotsRow := self recurring: data child: child descriptor: each.
+
+				rows add: slotsRow ] ].
+
+	data hasOutgoings ifFalse: [ 
+		data descriptor ifHasFollowers: [ :followers :model :descriptor | 
+			| shape witness ghost outlinerShape |
+			witness := Object new.
+
+			outlinerShape := shapeBuilder outline: witness.
+
+			shape := self
+				         descriptor: descriptor
+				         object: model
+				         level: data level + 1
+				         parent: data object
+				         exploringDescriptors: followers
+				         shape: outlinerShape.
+
+			ghost := RSComposite ghost: witness.
+
+			fromShapes at: ghost put: data shape ] ]
+]
+
+{ #category : #DFS }
+CTDfsWalker >> recurring: data child: child descriptor: descriptor [
+
+	| valueLabel varLabel valueBox extent shouldInline |
+	varLabel := descriptor
+		            varLabelShapeOf: data object
+		            shapeBuilder: shapeBuilder.
+
+	valueBox := shapeBuilder box: child.
+
+	shouldInline := self
+		                shouldInline: child
+		                descriptor: descriptor
+		                level: data level.
+
+	shouldInline
+		ifTrue: [ 
+			| y |
+			valueLabel := descriptor shape: child walker: self.
+
+			valueLabel := shapeBuilder pad: valueLabel.
+
+			y := valueLabel extent y max: metaExtent y.
+
+			(quotedShapes includesKey: child) ifTrue: [ 
+				valueBox color: Color transparent ].
+
+			extent := valueLabel extent x @ y ]
+		ifFalse: [ 
+			valueLabel := nil.
+
+			toShapes
+				at: child
+				ifPresent: [ :anAlreadySeenShape | 
+					self
+						hasBeenVisited: child
+						childShape: anAlreadySeenShape
+						parentShape: data shape ]
+				ifAbsent: [ 
+				self hasntBeenVisited: child descriptor: descriptor data: data ].
+
+			descriptor
+				isOneToMany: child walker: self;
+				addHighlightWithLinesInteractionOnShape: valueBox.
+
+			fromShapes at: valueBox put: data shape.
+
+			valueBox color: valueBox color lighter lighter.
+
+			extent := data boxesWidth @ metaExtent y ].
+
+	data
+		labelsWidth: (data labelsWidth max: varLabel extent x);
+		boxesWidth: (data boxesWidth max: extent x).
+
+	valueBox height: (extent y max: varLabel extent y).
+
+	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
 ]
 
 { #category : #accessing }
@@ -363,7 +378,7 @@ CTDfsWalker >> slotDescriptorsVisitor: aBlock [
 ]
 
 { #category : #shapes }
-CTDfsWalker >> synthesize: data [
+CTDfsWalker >> synthesizing: data [
 
 	| defaultShape classShape object |
 	object := data object.
@@ -413,18 +428,6 @@ CTDfsWalker >> value: object [
 		  object: object
 		  level: 1
 		  parent: nil
-		  childrenDescriptors: descriptors
+		  exploringDescriptors: descriptors
 		  shape: outlinerShape
-]
-
-{ #category : #shapes }
-CTDfsWalker >> visitingShape: shape atLevel: depth [
-
-	toShapes at: shape model put: shape.
-
-	shape
-		propertyDfsTimings: dfsClock @ -1;
-		propertyDfsDepth: depth.
-
-	(levels at: depth ifAbsentPut: [ OrderedCollection new ]) add: shape
 ]

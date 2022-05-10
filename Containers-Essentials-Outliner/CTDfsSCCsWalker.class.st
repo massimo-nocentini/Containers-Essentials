@@ -44,6 +44,26 @@ CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 		self assert: aShape propertyDfsSCC == scc ]
 ]
 
+{ #category : #shapes }
+CTDfsSCCsWalker >> enteringShape: shape atLevel: depth [
+
+	super enteringShape: shape atLevel: depth.
+
+	self push: shape.
+
+	shape
+		propertyDfsObjectStack: sccShapeStack;
+		propertyDfsLowlink: dfsClock
+]
+
+{ #category : #DFS }
+CTDfsSCCsWalker >> exiting: data [
+
+	super exiting: data.
+
+	self createStronglyConnectedComponentIfNecessaryOnShape: data shape
+]
+
 { #category : #DFS }
 CTDfsSCCsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentShape [
 
@@ -104,14 +124,6 @@ CTDfsSCCsWalker >> push: aShape [
 		                 yourself
 ]
 
-{ #category : #DFS }
-CTDfsSCCsWalker >> recordDfsTimingsOnShape: aShape [
-
-	super recordDfsTimingsOnShape: aShape.
-
-	self createStronglyConnectedComponentIfNecessaryOnShape: aShape
-]
-
 { #category : #accessing }
 CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
 
@@ -127,16 +139,4 @@ CTDfsSCCsWalker >> value: rootObject [
 	self assert: sccShapeStack isNil.
 
 	^ shape
-]
-
-{ #category : #shapes }
-CTDfsSCCsWalker >> visitingShape: shape atLevel: depth [
-
-	super visitingShape: shape atLevel: depth.
-
-	self push: shape.
-
-	shape
-		propertyDfsObjectStack: sccShapeStack;
-		propertyDfsLowlink: dfsClock
 ]

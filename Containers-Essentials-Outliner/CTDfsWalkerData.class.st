@@ -10,7 +10,8 @@ Class {
 		'rows',
 		'object',
 		'shape',
-		'hasOutgoings'
+		'hasOutgoings',
+		'exploringDescriptors'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -37,6 +38,18 @@ CTDfsWalkerData >> descriptor [
 CTDfsWalkerData >> descriptor: anObject [
 
 	descriptor := anObject
+]
+
+{ #category : #accessing }
+CTDfsWalkerData >> exploringDescriptors [
+
+	^ exploringDescriptors
+]
+
+{ #category : #accessing }
+CTDfsWalkerData >> exploringDescriptors: anObject [
+
+	exploringDescriptors := anObject
 ]
 
 { #category : #accessing }
