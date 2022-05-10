@@ -80,7 +80,7 @@ CTSlotDescriptorsVisitor >> postCopy [
 { #category : #accessing }
 CTSlotDescriptorsVisitor >> rootDescriptor [
 
-	^ rootDescriptor
+	^ rootDescriptor copy
 ]
 
 { #category : #accessing }

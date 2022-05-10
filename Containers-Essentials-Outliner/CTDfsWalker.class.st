@@ -46,7 +46,7 @@ CTDfsWalker >> applyDescriptor: descriptor on: object [
 	inOutAssoc := descriptorsInOut
 		              at: descriptor
 		              ifPresent: [ Error signal ]
-		              ifAbsent: [ object -> nil ].
+		              ifAbsentPut: [ object -> nil ].
 
 	out := descriptor on: object walker: self.
 
