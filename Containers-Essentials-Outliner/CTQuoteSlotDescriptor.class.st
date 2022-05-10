@@ -1,106 +1,19 @@
-"
-I am a variant that stops the visit and provides an already built shape to be referenced in a slot.
-"
 Class {
 	#name : #CTQuoteSlotDescriptor,
-	#superclass : #CTPropertySlotDescriptor,
+	#superclass : #CTDecorateSlotDescriptor,
 	#instVars : [
-		'descriptor',
 		'shape',
-		'quoteBlock'
+		'quoteBlock',
+		'witness'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
-
-	^ descriptor addHighlightInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
-
-	^ descriptor addHighlightWithLinesInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
-
-	^ descriptor addPopupInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> descriptor: anObject [
-
-	descriptor := anObject
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> enabled [
-
-	^ descriptor enabled
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> follower: anObject [
-
-	descriptor follower: anObject
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> header: aBlock [
-
-	descriptor header: aBlock
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
-
-	^ descriptor header: anObject shapeBuilder: aShapeBuilder
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> headerWithAllSuperclasses [
-
-	descriptor headerWithAllSuperclasses
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> headerWithClass [
-
-	descriptor headerWithClass
-]
-
-{ #category : #'as yet unclassified' }
-CTQuoteSlotDescriptor >> ifHasFollowers: block [
-
-	^ descriptor ifHasFollowers: block
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
-
-	^ descriptor inline: anObject level: anInteger default: aBoolean
-]
-
-{ #category : #testing }
-CTQuoteSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	^ descriptor isOneToMany: anObject walker: aDfsWalker
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> noHeader [
-
-	descriptor noHeader
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	| value |
-	value := descriptor on: anObject walker: aDfsWalker.
+	value := super on: anObject walker: aDfsWalker.
 
 	"We need to pass a copy of the original walker because of the
 	 intermediate data structures populated during the search: such
@@ -109,11 +22,11 @@ CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 
 	self assert: (shape isKindOf: RSShape).
 
-	value := Object new.
+	witness := Object new.
 
-	aDfsWalker addQuotedShape: shape model: value.
+	aDfsWalker addQuotedShape: shape model: witness.
 
-	^ value
+	^ witness
 ]
 
 { #category : #accessing }
@@ -123,19 +36,7 @@ CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> selector [
-
-	^ descriptor selector
-]
-
-{ #category : #testing }
 CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ shape
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
-
-	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
 ]

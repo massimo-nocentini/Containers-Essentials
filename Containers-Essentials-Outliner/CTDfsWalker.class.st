@@ -166,7 +166,7 @@ CTDfsWalker >> descriptors: descriptors data: data [
 CTDfsWalker >> followersOf: object data: data [
 
 	data hasOutgoings ifFalse: [ 
-		data descriptor ifHasFollowers: [ :followers :model | 
+		data descriptor ifHasFollowers: [ :followers :model :descriptor | 
 			| shape link witness ghost |
 			witness := Object new.
 
@@ -174,7 +174,7 @@ CTDfsWalker >> followersOf: object data: data [
 			link := followUps at: model put: witness -> model ~~> link.
 
 			shape := self
-				         descriptor: data descriptor
+				         descriptor: descriptor
 				         object: model
 				         level: data level + 1
 				         parent: object
@@ -220,7 +220,7 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 { #category : #DFS }
 CTDfsWalker >> incrementDfsClock [
 
-	^ dfsClock := dfsClock + 1
+	dfsClock := dfsClock + 1
 ]
 
 { #category : #initialization }
@@ -396,8 +396,13 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
+	| rootDescriptor |
+	rootDescriptor := slotDescriptorsVisitor rootDescriptor
+		                  on: object walker: self;
+		                  yourself.
+
 	^ self
-		  descriptor: slotDescriptorsVisitor rootDescriptor
+		  descriptor: rootDescriptor
 		  object: object
 		  level: 1
 		  parent: nil

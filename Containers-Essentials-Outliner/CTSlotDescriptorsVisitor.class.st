@@ -30,6 +30,15 @@ CTSlotDescriptorsVisitor >> initialize [
 ]
 
 { #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorFollowerOf: descriptor then: block [
+
+	^ CTFollowerSlotDescriptor new
+		  descriptor: descriptor;
+		  follower: block;
+		  yourself
+]
+
+{ #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 
 	^ CTInstVarSlotDescriptor new
@@ -52,6 +61,12 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 	^ CTSelectorSlotDescriptor new
 		  selector: aSelector;
 		  yourself
+]
+
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorYourself [
+
+	^ self newSlotDescriptorSelector: #yourself
 ]
 
 { #category : #copying }

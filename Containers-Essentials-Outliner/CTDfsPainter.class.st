@@ -105,10 +105,16 @@ CTDfsPainter >> dfsWalker: aWalker [
 { #category : #'line drawing' }
 CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
-	^ lineBuilder
-		  edgeFrom: aTuple propertyFromSlotShape
-		  to: (aTuple propertyToShape propertyDfsBoxedSlotsShape ifNil: [ 
-				   aTuple propertyToShape ])
+	| fromShape toShape |
+	fromShape := aTuple propertyFromSlotShape.
+	fromShape propertyDfsBoxedSlotsShape ifNotNil: [ :boxedShape | 
+		fromShape := boxedShape ].
+
+	toShape := aTuple propertyToShape.
+	toShape propertyDfsBoxedSlotsShape ifNotNil: [ :boxedShape | 
+		toShape := boxedShape ].
+
+	^ lineBuilder edgeFrom: fromShape to: toShape
 ]
 
 { #category : #iterating }

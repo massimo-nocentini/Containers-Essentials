@@ -10,8 +10,8 @@ Class {
 		'header',
 		'isOneToMany',
 		'enablePredicate',
-		'follower',
-		'model'
+		'model',
+		'evaluated'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -63,12 +63,6 @@ CTBaseSlotDescriptor >> enabled [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> follower: anObject [
-
-	follower := anObject
-]
-
-{ #category : #accessing }
 CTBaseSlotDescriptor >> header: aBlock [
 
 	header := aBlock
@@ -99,12 +93,7 @@ CTBaseSlotDescriptor >> headerWithClass [
 { #category : #'as yet unclassified' }
 CTBaseSlotDescriptor >> ifHasFollowers: block [
 
-	^ model ifNothing: [ nil ] ifJust: [ :just | 
-		  follower ifNotNil: [ 
-			  | slots |
-			  slots := follower value.
-
-			  block value: slots value: just content ] ]
+	^ nil
 ]
 
 { #category : #initialization }
@@ -115,6 +104,7 @@ CTBaseSlotDescriptor >> initialize [
 	inline := [ :anObject :level :default | default ].
 
 	model := self nothing.
+	evaluated := self nothing.
 
 	self
 		oneToOne;
@@ -138,6 +128,12 @@ CTBaseSlotDescriptor >> inline: anObject level: level default: aBoolean [
 CTBaseSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
 	isOneToMany ifTrue: [ aDfsWalker oneToMany: anObject ]
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> model [
+
+	^ model
 ]
 
 { #category : #initialization }
@@ -164,9 +160,14 @@ CTBaseSlotDescriptor >> on: anObject [
 { #category : #accessing }
 CTBaseSlotDescriptor >> on: anObject walker: aDfsWalker [
 
+	| value |
 	model := anObject just.
 
-	^ self on: anObject
+	value := self on: anObject.
+
+	evaluated := value just.
+
+	^ value
 ]
 
 { #category : #accessing }
@@ -197,6 +198,12 @@ CTBaseSlotDescriptor >> selector: anObject [
 CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ aDfsWalker shapeBuilder multilineLabel: anObject
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> value [
+
+	^ evaluated
 ]
 
 { #category : #accessing }
