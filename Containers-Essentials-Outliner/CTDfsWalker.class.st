@@ -21,7 +21,6 @@ Class {
 		'skipEmptyCollections',
 		'metaExtent',
 		'slotDescriptorsVisitor',
-		'followUps',
 		'descriptorsInOut'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
@@ -54,16 +53,6 @@ CTDfsWalker >> applyDescriptor: descriptor on: object [
 	inOutAssoc value: out.
 
 	^ out
-]
-
-{ #category : #shapes }
-CTDfsWalker >> atLevel: aNumber putShape: aShape [
-
-	| level |
-	aShape propertyDfsDepth: aNumber.
-
-	level := levels at: aNumber ifAbsentPut: [ OrderedCollection new ].
-	level add: aShape
 ]
 
 { #category : #DFS }
@@ -127,16 +116,9 @@ CTDfsWalker >> descriptor: descriptor child: child data: data [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent childrenDescriptors: descriptors [
+CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent childrenDescriptors: descriptors shape: shape [
 
-	| shape data model |
-	model := followUps
-		         at: object
-		         ifPresent: [ :link | link value key ]
-		         ifAbsent: [ object ].
-
-	shape := shapeBuilder outline: model.
-
+	| data |
 	data := CTDfsWalkerData new
 		        object: object;
 		        descriptor: descriptor;
@@ -150,8 +132,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 
 	^ self
 		  incrementDfsClock;
-		  visiting: model shape: shape;
-		  atLevel: level putShape: shape;
+		  visitingShape: shape atLevel: level;
 		  addInteractionsUsingSlotDescriptor: descriptor onShape: shape;
 		  descriptors: descriptors data: data;
 		  followersOf: object data: data;
@@ -184,25 +165,24 @@ CTDfsWalker >> followersOf: object data: data [
 
 	data hasOutgoings ifFalse: [ 
 		data descriptor ifHasFollowers: [ :followers :model :descriptor | 
-			| shape link witness ghost |
+			| shape witness ghost outlinerShape |
 			witness := Object new.
 
-			link := followUps at: model ifAbsent: [ nil ].
-			link := followUps at: model put: witness -> model ~~> link.
+			outlinerShape := shapeBuilder outline: witness.
 
 			shape := self
 				         descriptor: descriptor
 				         object: model
 				         level: data level + 1
 				         parent: object
-				         childrenDescriptors: followers.
-
-			link := followUps at: model put: link nextLink.
-			link ifNil: [ followUps removeKey: model ].
+				         childrenDescriptors: followers
+				         shape: outlinerShape.
 
 			ghost := RSComposite new
 				         model: witness;
 				         extent: 0 @ 0;
+				         color: Color transparent;
+				         noPaint;
 				         propertyAt: #isGhostShape put: true;
 				         yourself.
 
@@ -224,12 +204,17 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
+	| outlinerShape descriptors |
+	outlinerShape := shapeBuilder outline: child.
+	descriptors := slotDescriptorsVisitor visit: child.
+
 	self
 		descriptor: descriptor
 		object: child
 		level: data level + 1
 		parent: data object
-		childrenDescriptors: (slotDescriptorsVisitor visit: child).
+		childrenDescriptors: descriptors
+		shape: outlinerShape.
 
 	data hasOutgoings: (toShapes includesKey: child)
 ]
@@ -251,7 +236,6 @@ CTDfsWalker >> initialize [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
-	followUps := IdentityDictionary new.
 	descriptorsInOut := IdentityDictionary new.
 
 	self
@@ -303,8 +287,7 @@ CTDfsWalker >> postCopy [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
-	followUps := followUps class new.
-	descriptorsInOut := followUps class new.
+	descriptorsInOut := descriptorsInOut class new.
 
 	self
 		levels: levels class new;
@@ -417,25 +400,32 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| rootDescriptor theSameObject |
+	| rootDescriptor theSameObject outlinerShape descriptors |
 	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
 
 	theSameObject := self applyDescriptor: rootDescriptor on: object.
-
 	self assert: object == theSameObject.
+
+	outlinerShape := shapeBuilder outline: object.
+	descriptors := slotDescriptorsVisitor visit: object.
 
 	^ self
 		  descriptor: rootDescriptor
 		  object: object
 		  level: 1
 		  parent: nil
-		  childrenDescriptors: (slotDescriptorsVisitor visit: object)
+		  childrenDescriptors: descriptors
+		  shape: outlinerShape
 ]
 
 { #category : #shapes }
-CTDfsWalker >> visiting: object shape: shape [
+CTDfsWalker >> visitingShape: shape atLevel: depth [
 
-	toShapes at: object put: shape.
+	toShapes at: shape model put: shape.
 
-	shape propertyDfsTimings: dfsClock @ -1
+	shape
+		propertyDfsTimings: dfsClock @ -1;
+		propertyDfsDepth: depth.
+
+	(levels at: depth ifAbsentPut: [ OrderedCollection new ]) add: shape
 ]

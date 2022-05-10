@@ -130,9 +130,9 @@ CTDfsSCCsWalker >> value: rootObject [
 ]
 
 { #category : #shapes }
-CTDfsSCCsWalker >> visiting: object shape: shape [
+CTDfsSCCsWalker >> visitingShape: shape atLevel: depth [
 
-	super visiting: object shape: shape.
+	super visitingShape: shape atLevel: depth.
 
 	self push: shape.
 
