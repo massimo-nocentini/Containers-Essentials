@@ -216,7 +216,8 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 		childrenDescriptors: descriptors
 		shape: outlinerShape.
 
-	data hasOutgoings: (toShapes includesKey: child)
+	data hasOutgoings:
+		(data hasOutgoings or: [ toShapes includesKey: child ])
 ]
 
 { #category : #DFS }
