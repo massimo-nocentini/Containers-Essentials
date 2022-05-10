@@ -228,36 +228,41 @@ CTDfsWalker >> postCopy [
 { #category : #DFS }
 CTDfsWalker >> recurring: data [
 
-	| rows |
+	| rows parent |
 	rows := data rows.
+	parent := data object.
 
 	data exploringDescriptors
 		select: [ :each | each enabled ]
 		thenDo: [ :each | 
 			| child |
-			child := each on: data object walker: self.
+			child := each on: parent walker: self.
 
 			(self shouldSkip: child) ifFalse: [ 
-				| slotsRow |
-				slotsRow := self recurring: data child: child descriptor: each.
+				| rowGroup |
+				rowGroup := self recurring: data child: child descriptor: each.
 
-				rows add: slotsRow ] ].
+				rows add: rowGroup ] ].
 
 	data hasOutgoings ifFalse: [ 
 		data descriptor
-			ifHasFollowers: [ :followers :model :descriptor | 
-				| shape witness ghost outlinerShape |
+			ifHasFollowers: [ :followers :descriptor | 
+				| witness ghost outlinerShape model |
 				witness := Object new.
+
+				model := (quotedShapes
+					          at: parent
+					          ifAbsent: [ toShapes at: parent ]) model.
 
 				outlinerShape := shapeBuilder outline: witness.
 
-				shape := self
-					         descriptor: descriptor
-					         object: model
-					         level: data level + 1
-					         parent: data object
-					         exploringDescriptors: followers
-					         shape: outlinerShape.
+				self
+					descriptor: descriptor
+					object: model
+					level: data level + 1
+					parent: parent
+					exploringDescriptors: followers
+					shape: outlinerShape.
 
 				ghost := RSComposite ghost: witness.
 

@@ -46,7 +46,7 @@ CTDecorateSlotDescriptor >> header: aBlock [
 	descriptor header: aBlock
 ]
 
-{ #category : #delegating }
+{ #category : #accessing }
 CTDecorateSlotDescriptor >> header: anObject walker: walker [
 
 	^ descriptor header: anObject walker: walker

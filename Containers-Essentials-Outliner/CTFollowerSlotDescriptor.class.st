@@ -16,10 +16,9 @@ CTFollowerSlotDescriptor >> follower: anObject [
 { #category : #delegating }
 CTFollowerSlotDescriptor >> ifHasFollowers: block walker: walker [
 
-	| slots value model |
-	model := self model: walker.
+	| slots value |
 	value := self value: walker.
 
 	slots := follower value: value.
-	block value: slots value: model value: descriptor
+	block value: slots value: descriptor
 ]
