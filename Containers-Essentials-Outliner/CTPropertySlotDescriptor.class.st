@@ -55,8 +55,8 @@ CTPropertySlotDescriptor >> headerWithClass [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
-CTPropertySlotDescriptor >> ifHasFollowers: block [
+{ #category : #accessing }
+CTPropertySlotDescriptor >> ifHasFollowers: block walker: walker [
 
 	self subclassResponsibility
 ]
@@ -74,7 +74,7 @@ CTPropertySlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> model [
+CTPropertySlotDescriptor >> model: walker [
 
 	self subclassResponsibility
 ]
@@ -132,7 +132,7 @@ CTPropertySlotDescriptor >> shape: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> value [
+CTPropertySlotDescriptor >> value: walker [
 
 	self subclassResponsibility
 ]

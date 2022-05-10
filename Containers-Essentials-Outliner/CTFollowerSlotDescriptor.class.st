@@ -14,19 +14,12 @@ CTFollowerSlotDescriptor >> follower: anObject [
 ]
 
 { #category : #delegating }
-CTFollowerSlotDescriptor >> ifHasFollowers: block [
+CTFollowerSlotDescriptor >> ifHasFollowers: block walker: walker [
 
-	^ descriptor model ifNothing: [ Error signal ] ifJust: [ :just | 
-		  | slots v |
-		  v := self value
-			       ifNothing: [ Error signal ]
-			       ifJust: [ :valueJust | valueJust content ].
-		  slots := follower value: v.
-		  block value: slots value: just content value: descriptor ]
-]
+	| slots value model |
+	model := self model: walker.
+	value := self value: walker.
 
-{ #category : #accessing }
-CTFollowerSlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	^ descriptor shape: anObject walker: aDfsWalker
+	slots := follower value: value.
+	block value: slots value: model value: descriptor
 ]

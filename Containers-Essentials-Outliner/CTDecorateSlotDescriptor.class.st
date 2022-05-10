@@ -65,9 +65,9 @@ CTDecorateSlotDescriptor >> headerWithClass [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> ifHasFollowers: block [
+CTDecorateSlotDescriptor >> ifHasFollowers: block walker: walker [
 
-	^ descriptor ifHasFollowers: block
+	^ descriptor ifHasFollowers: block walker: walker
 ]
 
 { #category : #delegating }
@@ -82,10 +82,10 @@ CTDecorateSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 	^ descriptor isOneToMany: anObject walker: aDfsWalker
 ]
 
-{ #category : #accessing }
-CTDecorateSlotDescriptor >> model [
+{ #category : #delegating }
+CTDecorateSlotDescriptor >> model: walker [
 
-	^ descriptor model
+	^ descriptor model: walker
 ]
 
 { #category : #delegating }
@@ -107,9 +107,15 @@ CTDecorateSlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-CTDecorateSlotDescriptor >> value [
+CTDecorateSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
-	^ descriptor value
+	^ descriptor shape: anObject walker: aDfsWalker
+]
+
+{ #category : #delegating }
+CTDecorateSlotDescriptor >> value: walker [
+
+	^ descriptor value: walker
 ]
 
 { #category : #delegating }

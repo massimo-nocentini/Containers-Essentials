@@ -40,19 +40,12 @@ CTDfsWalker >> addQuotedShape: shape model: value [
 ]
 
 { #category : #shapes }
-CTDfsWalker >> applyDescriptor: descriptor on: object [
+CTDfsWalker >> descriptor: descriptor in: model out: value [
 
-	| inOutAssoc out |
-	inOutAssoc := descriptorsInOut
-		              at: descriptor
-		              ifPresent: [ Error signal ]
-		              ifAbsentPut: [ object -> nil ].
-
-	out := descriptor on: object walker: self.
-
-	inOutAssoc value: out.
-
-	^ out
+	descriptorsInOut
+		at: descriptor
+		ifPresent: [ Error signal ]
+		ifAbsentPut: [ model -> value ]
 ]
 
 { #category : #DFS }
@@ -143,6 +136,12 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 		(data hasOutgoings or: [ toShapes includesKey: child ])
 ]
 
+{ #category : #shapes }
+CTDfsWalker >> inOfDescriptor: descriptor [
+
+	^ descriptorsInOut at: descriptor ifPresent: [ :assoc | assoc key ]
+]
+
 { #category : #DFS }
 CTDfsWalker >> incrementDfsClock [
 
@@ -200,6 +199,12 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 	oneToManyShapes := aDictionary
 ]
 
+{ #category : #shapes }
+CTDfsWalker >> outOfDescriptor: descriptor [
+
+	^ descriptorsInOut at: descriptor ifPresent: [ :assoc | assoc value ]
+]
+
 { #category : #copying }
 CTDfsWalker >> postCopy [
 
@@ -230,7 +235,7 @@ CTDfsWalker >> recurring: data [
 		select: [ :each | each enabled ]
 		thenDo: [ :each | 
 			| child |
-			child := self applyDescriptor: each on: data object.
+			child := each on: data object walker: self.
 
 			(self shouldSkip: child) ifFalse: [ 
 				| slotsRow |
@@ -239,23 +244,25 @@ CTDfsWalker >> recurring: data [
 				rows add: slotsRow ] ].
 
 	data hasOutgoings ifFalse: [ 
-		data descriptor ifHasFollowers: [ :followers :model :descriptor | 
-			| shape witness ghost outlinerShape |
-			witness := Object new.
+		data descriptor
+			ifHasFollowers: [ :followers :model :descriptor | 
+				| shape witness ghost outlinerShape |
+				witness := Object new.
 
-			outlinerShape := shapeBuilder outline: witness.
+				outlinerShape := shapeBuilder outline: witness.
 
-			shape := self
-				         descriptor: descriptor
-				         object: model
-				         level: data level + 1
-				         parent: data object
-				         exploringDescriptors: followers
-				         shape: outlinerShape.
+				shape := self
+					         descriptor: descriptor
+					         object: model
+					         level: data level + 1
+					         parent: data object
+					         exploringDescriptors: followers
+					         shape: outlinerShape.
 
-			ghost := RSComposite ghost: witness.
+				ghost := RSComposite ghost: witness.
 
-			fromShapes at: ghost put: data shape ] ]
+				fromShapes at: ghost put: data shape ]
+			walker: self ]
 ]
 
 { #category : #DFS }
@@ -417,7 +424,7 @@ CTDfsWalker >> value: object [
 	| rootDescriptor theSameObject outlinerShape descriptors |
 	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
 
-	theSameObject := self applyDescriptor: rootDescriptor on: object.
+	theSameObject := rootDescriptor on: object walker: self.
 	self assert: object == theSameObject.
 
 	outlinerShape := shapeBuilder outline: object.
