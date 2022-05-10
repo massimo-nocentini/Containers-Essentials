@@ -38,7 +38,7 @@ CTPropertySlotDescriptor >> header: aBlock [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTPropertySlotDescriptor >> header: anObject walker: aShapeBuilder [
 
 	self subclassResponsibility
 ]

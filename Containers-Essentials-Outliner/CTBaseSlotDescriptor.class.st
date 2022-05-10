@@ -69,11 +69,12 @@ CTBaseSlotDescriptor >> header: aBlock [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTBaseSlotDescriptor >> header: anObject walker: walker [
 
 	^ evaluated
 		  ifNothing: [ Error signal ]
-		  ifJust: [ :just | header value: just content value: aShapeBuilder ]
+		  ifJust: [ :just | 
+		  header value: just content value: walker shapeBuilder ]
 ]
 
 { #category : #dispatched }

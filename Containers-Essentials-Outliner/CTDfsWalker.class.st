@@ -382,9 +382,7 @@ CTDfsWalker >> synthesize: data [
 				                noPaint;
 				                yourself ].
 
-	classShape := data descriptor
-		              header: defaultShape model
-		              shapeBuilder: shapeBuilder.
+	classShape := data descriptor header: defaultShape model walker: self.
 
 	^ shapeBuilder
 		  classShape: classShape

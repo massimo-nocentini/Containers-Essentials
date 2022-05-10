@@ -47,9 +47,9 @@ CTDecorateSlotDescriptor >> header: aBlock [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTDecorateSlotDescriptor >> header: anObject walker: walker [
 
-	^ descriptor header: anObject shapeBuilder: aShapeBuilder
+	^ descriptor header: anObject walker: walker
 ]
 
 { #category : #delegating }
