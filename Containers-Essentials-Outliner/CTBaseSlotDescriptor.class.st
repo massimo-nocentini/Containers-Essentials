@@ -179,7 +179,7 @@ CTBaseSlotDescriptor >> selector: anObject [
 { #category : #accessing }
 CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
-	^ aDfsWalker shapeBuilder multilineLabel: anObject
+	^ aDfsWalker defaultShapeOf: anObject
 ]
 
 { #category : #accessing }

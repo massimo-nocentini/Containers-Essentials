@@ -20,7 +20,8 @@ Class {
 		'skipNils',
 		'skipEmptyCollections',
 		'metaExtent',
-		'slotDescriptorsVisitor'
+		'slotDescriptorsVisitor',
+		'defaultShapeBlock'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -36,6 +37,18 @@ CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 CTDfsWalker >> addQuotedShape: shape model: value [
 
 	quotedShapes at: value put: shape
+]
+
+{ #category : #accessing }
+CTDfsWalker >> defaultShapeBlock: aBlock [
+
+	defaultShapeBlock := aBlock
+]
+
+{ #category : #shapes }
+CTDfsWalker >> defaultShapeOf: object [
+
+	^ defaultShapeBlock value: object
 ]
 
 { #category : #DFS }
@@ -152,7 +165,8 @@ CTDfsWalker >> initialize [
 		levels: Dictionary new;
 		oneToManyShapes: IdentityDictionary new;
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
-		shapeBuilder: CTDfsShapeBuilder new
+		shapeBuilder: CTDfsShapeBuilder new;
+		defaultShapeBlock: [ :object | shapeBuilder multilineLabel: object ]
 ]
 
 { #category : #accessing }
@@ -379,9 +393,9 @@ CTDfsWalker >> synthesizing: data [
 
 	defaultShape := data rows
 		                ifEmpty: [ 
-			                quotedShapes
-				                at: object
-				                ifAbsent: [ shapeBuilder multilineLabel: object ] ]
+		                quotedShapes
+			                at: object
+			                ifAbsent: [ self defaultShapeOf: object ] ]
 		                ifNotEmpty: [ RSComposite ghost: object ].
 
 	classShape := data descriptor header: defaultShape model walker: self.
