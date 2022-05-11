@@ -242,7 +242,7 @@ CTDfsWalker >> recurring: data [
 
 				ghost := RSComposite ghost: witness.
 
-				fromShapes at: ghost put: data shape ]
+				self registerSlotShape: ghost intoOutlineShape: data shape ]
 			walker: self ]
 ]
 
@@ -291,7 +291,7 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 				isOneToMany: child walker: self;
 				addHighlightWithLinesInteractionOnShape: valueBox.
 
-			fromShapes at: valueBox put: data shape.
+			self registerSlotShape: valueBox intoOutlineShape: data shape.
 
 			valueBox color: valueBox color lighter lighter.
 
@@ -304,6 +304,12 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 	valueBox height: (extent y max: varLabel extent y).
 
 	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+]
+
+{ #category : #shapes }
+CTDfsWalker >> registerSlotShape: slotShape intoOutlineShape: outlineShape [
+
+	fromShapes at: slotShape put: outlineShape
 ]
 
 { #category : #accessing }

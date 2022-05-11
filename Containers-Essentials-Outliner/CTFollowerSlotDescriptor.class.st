@@ -18,5 +18,5 @@ CTFollowerSlotDescriptor >> ifHasFollowers: block walker: walker [
 
 	| slots |
 	slots := follower value.
-	block value: slots value: descriptor
+	^ block value: slots value: descriptor
 ]
