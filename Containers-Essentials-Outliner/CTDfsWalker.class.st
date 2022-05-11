@@ -382,14 +382,7 @@ CTDfsWalker >> synthesizing: data [
 			                quotedShapes
 				                at: object
 				                ifAbsent: [ shapeBuilder multilineLabel: object ] ]
-		                ifNotEmpty: [ 
-			                RSComposite new
-				                model: object;
-				                shapes: RSGroup new;
-				                color: Color transparent;
-				                extent: 0 @ 0;
-				                noPaint;
-				                yourself ].
+		                ifNotEmpty: [ RSComposite ghost: object ].
 
 	classShape := data descriptor header: defaultShape model walker: self.
 

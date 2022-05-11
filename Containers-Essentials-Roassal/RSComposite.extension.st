@@ -5,6 +5,7 @@ RSComposite class >> ghost: model [
 
 	^ self new
 		  model: model;
+		  shapes: RSGroup new;
 		  extent: 0 @ 0;
 		  color: Color transparent;
 		  noPaint;
