@@ -83,12 +83,6 @@ CTDecorateSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> model: walker [
-
-	^ descriptor model: walker
-]
-
-{ #category : #delegating }
 CTDecorateSlotDescriptor >> noHeader [
 
 	descriptor noHeader
@@ -110,12 +104,6 @@ CTDecorateSlotDescriptor >> selector [
 CTDecorateSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ descriptor shape: anObject walker: aDfsWalker
-]
-
-{ #category : #delegating }
-CTDecorateSlotDescriptor >> value: walker [
-
-	^ descriptor value: walker
 ]
 
 { #category : #delegating }

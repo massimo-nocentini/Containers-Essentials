@@ -69,9 +69,7 @@ CTBaseSlotDescriptor >> header: aBlock [
 { #category : #accessing }
 CTBaseSlotDescriptor >> header: anObject walker: walker [
 
-	^ header
-		  value: (walker outOfDescriptor: self)
-		  value: walker shapeBuilder
+	^ header value: anObject value: walker shapeBuilder
 ]
 
 { #category : #dispatched }
@@ -127,12 +125,6 @@ CTBaseSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 	isOneToMany ifTrue: [ aDfsWalker oneToMany: anObject ]
 ]
 
-{ #category : #accessing }
-CTBaseSlotDescriptor >> model: walker [
-
-	^ walker inOfDescriptor: self
-]
-
 { #category : #initialization }
 CTBaseSlotDescriptor >> noHeader [
 
@@ -157,12 +149,7 @@ CTBaseSlotDescriptor >> on: anObject [
 { #category : #accessing }
 CTBaseSlotDescriptor >> on: anObject walker: aDfsWalker [
 
-	| value |
-	value := self on: anObject.
-
-	aDfsWalker descriptor: self in: anObject out: value.
-
-	^ value
+	^ self on: anObject
 ]
 
 { #category : #accessing }
@@ -193,12 +180,6 @@ CTBaseSlotDescriptor >> selector: anObject [
 CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ aDfsWalker shapeBuilder multilineLabel: anObject
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> value: walker [
-
-	^ walker outOfDescriptor: self
 ]
 
 { #category : #accessing }

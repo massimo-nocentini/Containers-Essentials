@@ -471,7 +471,7 @@ EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 				   rootDescriptor := visitor
 					                     newSlotDescriptorFollowerOf:
 					                     visitor rootDescriptor
-					                     then: [ :_ | 
+					                     then: [ 
 					                     { (visitor newSlotDescriptorSelector: #odd) } ].
 
 				   visitor rootDescriptor: rootDescriptor.

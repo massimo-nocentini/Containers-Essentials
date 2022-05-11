@@ -20,8 +20,7 @@ Class {
 		'skipNils',
 		'skipEmptyCollections',
 		'metaExtent',
-		'slotDescriptorsVisitor',
-		'descriptorsInOut'
+		'slotDescriptorsVisitor'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -30,22 +29,13 @@ Class {
 CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
 	aShape addInteraction: RSDraggable new
-	"addPopupInteractionOnShape: wholeShape;"
+	"aDescriptor addPopupInteractionOnShape: wholeShape"
 ]
 
 { #category : #shapes }
 CTDfsWalker >> addQuotedShape: shape model: value [
 
 	quotedShapes at: value put: shape
-]
-
-{ #category : #shapes }
-CTDfsWalker >> descriptor: descriptor in: model out: value [
-
-	descriptorsInOut
-		at: descriptor
-		ifPresent: [ Error signal ]
-		ifAbsentPut: [ model -> value ]
 ]
 
 { #category : #DFS }
@@ -136,12 +126,6 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 		(data hasOutgoings or: [ toShapes includesKey: child ])
 ]
 
-{ #category : #shapes }
-CTDfsWalker >> inOfDescriptor: descriptor [
-
-	^ descriptorsInOut at: descriptor ifPresent: [ :assoc | assoc key ]
-]
-
 { #category : #DFS }
 CTDfsWalker >> incrementDfsClock [
 
@@ -159,7 +143,6 @@ CTDfsWalker >> initialize [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
-	descriptorsInOut := IdentityDictionary new.
 
 	self
 		maxLevel: 0;
@@ -199,12 +182,6 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 	oneToManyShapes := aDictionary
 ]
 
-{ #category : #shapes }
-CTDfsWalker >> outOfDescriptor: descriptor [
-
-	^ descriptorsInOut at: descriptor ifPresent: [ :assoc | assoc value ]
-]
-
 { #category : #copying }
 CTDfsWalker >> postCopy [
 
@@ -216,7 +193,6 @@ CTDfsWalker >> postCopy [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
-	descriptorsInOut := descriptorsInOut class new.
 
 	self
 		levels: levels class new;
@@ -246,7 +222,7 @@ CTDfsWalker >> recurring: data [
 
 	data hasOutgoings ifFalse: [ 
 		data descriptor
-			ifHasFollowers: [ :followers :descriptor | 
+			ifHasFollowers: [ :followers :parentDescriptor | 
 				| witness ghost outlinerShape model |
 				witness := Object new.
 
@@ -257,7 +233,7 @@ CTDfsWalker >> recurring: data [
 				outlinerShape := shapeBuilder outline: witness.
 
 				self
-					descriptor: descriptor
+					descriptor: parentDescriptor
 					object: model
 					level: data level + 1
 					parent: parent

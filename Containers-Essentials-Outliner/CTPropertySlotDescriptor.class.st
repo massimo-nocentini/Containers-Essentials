@@ -55,7 +55,7 @@ CTPropertySlotDescriptor >> headerWithClass [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : #delegating }
 CTPropertySlotDescriptor >> ifHasFollowers: block walker: walker [
 
 	self subclassResponsibility
@@ -69,12 +69,6 @@ CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean 
 
 { #category : #testing }
 CTPropertySlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> model: walker [
 
 	self subclassResponsibility
 ]
@@ -127,12 +121,6 @@ CTPropertySlotDescriptor >> selector [
 
 { #category : #accessing }
 CTPropertySlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> value: walker [
 
 	self subclassResponsibility
 ]

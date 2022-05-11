@@ -8,17 +8,17 @@ Integer >> inspectorCanvasRepresentations [
 	walker := CTDfsWalker new.
 
 	walker slotDescriptorsVisitor:
-		(CTSlotDescriptorsVisitorIntegerDetails new in: [ :visitor | 
+		(CTSlotDescriptorsVisitorIntegerDetails new" in: [ :visitor | 
 			 | rootDescriptor |
 			 rootDescriptor := visitor
 				                   newSlotDescriptorFollowerOf:
 				                   visitor rootDescriptor
-				                   then: [ :_ | 
+				                   then: [ 
 				                   { (visitor newSlotDescriptorSelector: #odd) } ].
 
 			 visitor rootDescriptor: rootDescriptor.
 
-			 visitor ]).
+			 visitor ]").
 
 	shape := self asShapeSlotsDfsTree: walker.
 

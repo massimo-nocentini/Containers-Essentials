@@ -316,18 +316,60 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
+	| followedSlotDescriptor |
+	followedSlotDescriptor := (self
+		                           newSlotDescriptorLabel:
+		                           #asShapeValuesHorizontalTree:
+		                           accessor: [ aHeap ]) quoteUsingSelector.
+
+	followedSlotDescriptor := self
+		                          newSlotDescriptorFollowerOf:
+		                          followedSlotDescriptor
+		                          then: [ 
+			                          | size |
+			                          size := aHeap size.
+
+			                          { 
+				                          (self newSlotDescriptorSelector:
+					                           #yourself) noInline.
+				                          (self
+					                           newSlotDescriptorFollowerOf:
+						                           ((self newSlotDescriptorSelector:
+								                             #size)
+							                            noInline;
+							                            headerWithClass)
+					                           then: [ 
+						                           | printString |
+						                           printString := size printString.
+						                           { 
+							                           self newSlotDescriptorYourself
+								                           noInline.
+							                           (self
+								                            newSlotDescriptorFollowerOf:
+									                            (self
+										                             newSlotDescriptorLabel:
+										                             #somePrintString
+										                             accessor: [ printString ])
+								                            then: [ 
+									                            { 
+										                            self newSlotDescriptorYourself.
+										                            ((self 
+											                              newSlotDescriptorSelector:
+												                              #size)
+											                             noInline;
+											                             headerWithClass) } ]) } ]).
+				                          (self
+					                           newSlotDescriptorFollowerOf:
+					                           (self newSlotDescriptorSelector:
+						                            #asShapeValuesHorizontalTree) quote
+					                           then: [ 
+						                           { 
+							                           (self newSlotDescriptorSelector:
+								                            #array).
+							                           self newSlotDescriptorYourself } ]) } ].
+
 	^ (self visitObject: aHeap) , { 
-		  ((self
-			    newSlotDescriptorLabel: #asShapeValuesHorizontalTree:
-			    accessor: [ aHeap ])
-			   follower: [ 
-				   { 
-					   (self newSlotDescriptorSelector: #size) noInline.
-					   (self newSlotDescriptorSelector: #yourself) noInline.
-					   (self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
-						   quote } ];
-			   quoteUsingSelector).
-		  " inline;"
+		  followedSlotDescriptor.
 		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
 			   inline;
 			   quote).
