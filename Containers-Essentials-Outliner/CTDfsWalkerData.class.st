@@ -1,3 +1,6 @@
+"
+I am a data holder for the DFS visit recursive steps.
+"
 Class {
 	#name : #CTDfsWalkerData,
 	#superclass : #Object,

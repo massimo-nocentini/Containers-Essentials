@@ -1,3 +1,6 @@
+"
+I use the given selector to provide a value for the argument.
+"
 Class {
 	#name : #CTSelectorSlotDescriptor,
 	#superclass : #CTBaseSlotDescriptor,

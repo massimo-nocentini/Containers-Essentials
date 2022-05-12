@@ -1,8 +1,5 @@
 "
-I walk a graph of objects according to the Depth-First Search strategy;
-additionally, I also take care of Strongly Connected Components (also see 
-Tarjan, R. E. (1972), ""Depth-first search and linear graph algorithms"", 
-SIAM Journal on Computing, 1 (2): 146–160).
+I walk a graph of objects according to the Depth-First Search strategy.
 "
 Class {
 	#name : #CTDfsWalker,

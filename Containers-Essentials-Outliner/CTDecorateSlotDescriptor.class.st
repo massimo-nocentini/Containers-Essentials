@@ -1,5 +1,5 @@
 "
-I am a variant that stops the visit and provides an already built shape to be referenced in a slot.
+I am a decorator so my duty is to forward messages to the decorated slot descriptor.
 "
 Class {
 	#name : #CTDecorateSlotDescriptor,
