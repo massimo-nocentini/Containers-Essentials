@@ -88,12 +88,6 @@ CTDecorateSlotDescriptor >> noHeader [
 	descriptor noHeader
 ]
 
-{ #category : #accessing }
-CTDecorateSlotDescriptor >> on: anObject walker: aDfsWalker [
-
-	^ descriptor on: anObject walker: aDfsWalker
-]
-
 { #category : #delegating }
 CTDecorateSlotDescriptor >> selector [
 
@@ -104,6 +98,12 @@ CTDecorateSlotDescriptor >> selector [
 CTDecorateSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ descriptor shape: anObject walker: aDfsWalker
+]
+
+{ #category : #accessing }
+CTDecorateSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
+
+	^ descriptor valueOn: anObject walker: aDfsWalker
 ]
 
 { #category : #delegating }
