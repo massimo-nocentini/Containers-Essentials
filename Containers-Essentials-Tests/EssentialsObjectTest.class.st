@@ -461,6 +461,25 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
+
+	^ self
+		  exportSlotsGraphOf: 13
+		  slotDescriptorsContext:
+			  (CTSlotDescriptorsVisitorIntegerDetails new in: [ :visitor | 
+				   | rootDescriptor |
+				   rootDescriptor := visitor
+					                     newSlotDescriptorFollowerOf:
+					                     visitor rootDescriptor
+					                     then: [ 
+					                     { (visitor newSlotDescriptorSelector: #odd) } ].
+
+				   visitor rootDescriptor: rootDescriptor.
+
+				   visitor ])
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectIntervalLinspace [
 
 	^ self exportSlotsGraphOf: self sutInspectIntervalLinspace

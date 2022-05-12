@@ -4,7 +4,7 @@ I am a variant that group outline shapes if they are equally far from the root o
 Class {
 	#name : #CTLayeredDfsPainter,
 	#superclass : #CTDfsPainter,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #DFS }

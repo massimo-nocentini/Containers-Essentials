@@ -1,94 +1,13 @@
-"
-I am a variant that stops the visit and provides an already built shape to be referenced in a slot.
-"
 Class {
 	#name : #CTQuoteSlotDescriptor,
-	#superclass : #CTPropertySlotDescriptor,
+	#superclass : #CTDecorateSlotDescriptor,
 	#instVars : [
-		'descriptor',
 		'shape',
-		'quoteBlock'
+		'quoteBlock',
+		'witness'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	^ descriptor addDraggableInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addHighlightInteractionOnShape: aShape [
-
-	^ descriptor addHighlightInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
-
-	^ descriptor addHighlightWithLinesInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> addPopupInteractionOnShape: aShape [
-
-	^ descriptor addPopupInteractionOnShape: aShape
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> descriptor: anObject [
-
-	descriptor := anObject
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> enabled [
-
-	^ descriptor enabled
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> header: aBlock [
-
-	descriptor header: aBlock
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
-
-	^ descriptor header: anObject shapeBuilder: aShapeBuilder
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> headerWithAllSuperclasses [
-
-	descriptor headerWithAllSuperclasses
-]
-
-{ #category : #dispatched }
-CTQuoteSlotDescriptor >> headerWithClass [
-
-	descriptor headerWithClass
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
-
-	^ descriptor inline: anObject level: anInteger default: aBoolean
-]
-
-{ #category : #testing }
-CTQuoteSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	^ descriptor isOneToMany: anObject walker: aDfsWalker
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> noHeader [
-
-	descriptor noHeader
-]
 
 { #category : #accessing }
 CTQuoteSlotDescriptor >> quoteBlock: aBlock [
@@ -97,12 +16,6 @@ CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> selector [
-
-	^ descriptor selector
-]
-
-{ #category : #testing }
 CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
 	^ shape
@@ -128,10 +41,4 @@ CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 	aDfsWalker addQuotedShape: shape model: value.
 
 	^ value
-]
-
-{ #category : #initialization }
-CTQuoteSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
-
-	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
 ]

@@ -77,25 +77,6 @@ CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #DFS }
-CTDfsPainter >> dfsWalk [
-
-	| aShape |
-	fromShapes := IdentityDictionary new.
-	toShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new.
-	levels := Dictionary new.
-
-	aShape := dfsWalker
-		          fromShapes: fromShapes;
-		          toShapes: toShapes;
-		          levels: levels;
-		          oneToManyShapes: oneToManyShapes;
-		          value.
-
-	^ toShapes values
-]
-
-{ #category : #DFS }
 CTDfsPainter >> dfsWalk: anObject [
 
 	| aShape |
@@ -123,10 +104,16 @@ CTDfsPainter >> dfsWalker: aWalker [
 { #category : #'line drawing' }
 CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
-	^ lineBuilder
-		  edgeFrom: aTuple propertyFromSlotShape
-		  to: (aTuple propertyToShape propertyDfsBoxedSlotsShape ifNil: [ 
-				   aTuple propertyToShape ])
+	| fromShape toShape |
+	fromShape := aTuple propertyFromSlotShape.
+	fromShape propertyDfsBoxedSlotsShape ifNotNil: [ :boxedShape | 
+		fromShape := boxedShape ].
+
+	toShape := aTuple propertyToShape.
+	toShape propertyDfsBoxedSlotsShape ifNotNil: [ :boxedShape | 
+		toShape := boxedShape ].
+
+	^ lineBuilder edgeFrom: fromShape to: toShape
 ]
 
 { #category : #iterating }
@@ -156,6 +143,10 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 
 		value := boxShape model.
 		toShape := toShapes at: value.
+
+		boxShape
+			propertyAt: #isGhostShape
+			ifPresent: [ boxShape := fromShape ].
 
 		oneToManyShapes
 			at: value
@@ -297,6 +288,7 @@ CTDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
+	
 	^ RSLineBuilder horizontalDeCasteljauSegmentedLine
 		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
@@ -304,12 +296,13 @@ CTDfsPainter >> treeLinesBuilder [
 						    cornerRadii: Float goldenRatio;
 						    color: color;
 						    yourself);
-				   offset: Float goldenRatio + 1;
+				   offset: Float goldenRatio double;
 				   yourself);
 		  color: color;
 		  cornerRadii: Float goldenRatio double;
 		  attachPoint: (RSHorizontalAttachPoint new
 				   startOffset: Float goldenRatio double double negated;
+				   endOffset: Float goldenPlatinumRatio negated;
 				   yourself);
 		  yourself
 ]

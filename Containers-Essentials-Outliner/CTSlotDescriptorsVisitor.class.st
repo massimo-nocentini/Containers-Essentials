@@ -8,14 +8,14 @@ Class {
 	#instVars : [
 		'rootDescriptor'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #copying }
 CTSlotDescriptorsVisitor >> collect: aBlock [
 
 	^ CTSlotDescriptorsVisitorCollect basicNew
-		  slotDescriptorsContext: self;
+		  slotDescriptorsVisitor: self;
 		  collectBlock: aBlock;
 		  initialize;
 		  yourself
@@ -30,19 +30,19 @@ CTSlotDescriptorsVisitor >> initialize [
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
+CTSlotDescriptorsVisitor >> newSlotDescriptorFollowerOf: descriptor then: block [
 
-	^ CTInstVarSlotDescriptor new
-		  selector: aVarName;
+	^ CTFollowerSlotDescriptor new
+		  descriptor: descriptor;
+		  follower: block;
 		  yourself
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector accessor: aBlock [
+CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 
-	^ CTBlockSlotDescriptor new
-		  selector: aSelector;
-		  accessor: aBlock;
+	^ CTInstVarSlotDescriptor new
+		  selector: aVarName;
 		  yourself
 ]
 
@@ -63,6 +63,21 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector accessor: aBlock [
+
+	^ CTBlockSlotDescriptor new
+		  selector: aSelector;
+		  accessor: aBlock;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorYourself [
+
+	^ self newSlotDescriptorSelector: #yourself
+]
+
 { #category : #copying }
 CTSlotDescriptorsVisitor >> postCopy [
 
@@ -74,7 +89,7 @@ CTSlotDescriptorsVisitor >> postCopy [
 { #category : #accessing }
 CTSlotDescriptorsVisitor >> rootDescriptor [
 
-	^ rootDescriptor
+	^ rootDescriptor copy
 ]
 
 { #category : #accessing }

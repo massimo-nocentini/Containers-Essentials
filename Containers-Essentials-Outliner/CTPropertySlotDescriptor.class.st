@@ -4,14 +4,8 @@ I describe a single slot in an outline shape.
 Class {
 	#name : #CTPropertySlotDescriptor,
 	#superclass : #Object,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
-
-{ #category : #accessing }
-CTPropertySlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	self subclassResponsibility
-]
 
 { #category : #accessing }
 CTPropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
@@ -44,7 +38,7 @@ CTPropertySlotDescriptor >> header: aBlock [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTPropertySlotDescriptor >> header: anObject walker: aShapeBuilder [
 
 	self subclassResponsibility
 ]
@@ -61,8 +55,20 @@ CTPropertySlotDescriptor >> headerWithClass [
 	self subclassResponsibility
 ]
 
+{ #category : #delegating }
+CTPropertySlotDescriptor >> ifHasFollowers: block walker: walker [
+
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
+
+	self subclassResponsibility
+]
+
+{ #category : #testing }
+CTPropertySlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]

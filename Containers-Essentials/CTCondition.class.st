@@ -1,8 +1,22 @@
 Class {
 	#name : #CTCondition,
 	#superclass : #Object,
-	#category : #'Containers-Essentials-Outliner'
+	#instVars : [
+		'requestor',
+		'data'
+	],
+	#category : #'Containers-Essentials-Conditions'
 }
+
+{ #category : #'instance creation' }
+CTCondition class >> requestor: requestor data: data [
+
+	^ self basicNew
+		  requestor: requestor;
+		  data: data;
+		  initialize;
+		  yourself
+]
 
 { #category : #accessing }
 CTCondition >> cull: anObject [
@@ -11,12 +25,18 @@ CTCondition >> cull: anObject [
 ]
 
 { #category : #accessing }
+CTCondition >> data: anObject [
+
+	data := anObject
+]
+
+{ #category : #accessing }
 CTCondition >> falsehood [
 
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #API }
 CTCondition >> ifEmptyIfNotEmpty: collection [
 
 	^ collection ifEmpty: self ifNotEmpty: self
@@ -40,6 +60,12 @@ CTCondition >> ifTrueIfFalse: bool truthWitness: anObject [
 CTCondition >> lookupInDictionary: dict at: key [
 
 	^ dict at: key ifPresent: self ifAbsent: self
+]
+
+{ #category : #accessing }
+CTCondition >> requestor: anObject [
+
+	requestor := anObject
 ]
 
 { #category : #accessing }

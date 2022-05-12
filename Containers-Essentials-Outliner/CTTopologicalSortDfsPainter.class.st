@@ -4,7 +4,7 @@ I am a variant that layout the outline shapes in a vertical line acording to the
 Class {
 	#name : #CTTopologicalSortDfsPainter,
 	#superclass : #CTDfsPainter,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #'line building' }

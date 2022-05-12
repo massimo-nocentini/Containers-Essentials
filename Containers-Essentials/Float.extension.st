@@ -53,6 +53,12 @@ Float >> cosh [
 ]
 
 { #category : #'*Containers-Essentials' }
+Float >> double [
+
+	^ self * 2.0
+]
+
+{ #category : #'*Containers-Essentials' }
 Float class >> goldenPlatinumRatio [
 
 	^ self goldenRatio + self platinumRatio

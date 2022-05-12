@@ -11,7 +11,7 @@ Class {
 		'prototypeLabel',
 		'goldenRatios'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #shapes }
@@ -25,15 +25,15 @@ CTDfsShapeBuilder >> box: aValue [
 ]
 
 { #category : #shapes }
-CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape slotsRows: slotRows widths_Association: widthsAssociation shape: mineShape [
+CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: data [
 
-	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location |
+	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location xMax |
 	padding := self radiusOrPadding.
 
 	classLabel := self pad: classShape.
 
-	varWidth := widthsAssociation key.
-	boxWidth := widthsAssociation value.
+	varWidth := data labelsWidth.
+	boxWidth := data boxesWidth.
 
 	slotWidth := varWidth + boxWidth.
 
@@ -65,7 +65,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape slotsRows
 				     as: (goldenRatios at: 3)
 				     isTo: [ :x | x - boxWidth max: 0 ] ].
 
-	shapes := slotRows collect: [ :slotRow | 
+	shapes := data rows collect: [ :slotRow | 
 		          | varLabel valueBox valueLabel valueShape |
 		          "Unpacking."
 		          varLabel := slotRow var.
@@ -119,18 +119,17 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape slotsRows
 		                  padding: padding;
 		                  yourself.
 
+	xMax := varWidth + µ + boxWidth + π + padding triple max:
+		        compositeShape extent x.
+	xMax := xMax max: classLabel extent x.
+	
 	boxedCompositeShape := (self box: nil)
 		                       color: Color white;
-		                       extent: { 
-				                       (varWidth + µ + boxWidth + π
-				                        + padding triple).
-				                       compositeShape extent x.
-				                       classLabel extent x } max
-			                       @ compositeShape extent y;
+		                       extent: xMax @ compositeShape extent y;
 		                       withBorder;
 		                       yourself.
 
-	mineShape propertyDfsBoxedSlotsShape: boxedCompositeShape.
+	data shape propertyDfsBoxedSlotsShape: boxedCompositeShape.
 
 	location stick: compositeShape on: boxedCompositeShape.
 
@@ -146,7 +145,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape slotsRows
 		offset: classLabel width @ 0;
 		stick: classLabel on: boxedCompositeShape.
 
-	^ mineShape
+	^ data shape
 		  shapes: { 
 				  classLabel.
 				  boxedCompositeShape };

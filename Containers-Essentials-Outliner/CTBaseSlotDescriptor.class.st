@@ -11,14 +11,8 @@ Class {
 		'isOneToMany',
 		'enablePredicate'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
-
-{ #category : #visiting }
-CTBaseSlotDescriptor >> addDraggableInteractionOnShape: aShape [
-
-	aShape addInteraction: RSDraggable new
-]
 
 { #category : #visiting }
 CTBaseSlotDescriptor >> addHighlightInteractionOnShape: aShape [
@@ -73,9 +67,9 @@ CTBaseSlotDescriptor >> header: aBlock [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> header: anObject shapeBuilder: aShapeBuilder [
+CTBaseSlotDescriptor >> header: anObject walker: walker [
 
-	^ header value: anObject value: aShapeBuilder
+	^ header value: anObject value: walker shapeBuilder
 ]
 
 { #category : #dispatched }
@@ -92,6 +86,12 @@ CTBaseSlotDescriptor >> headerWithClass [
 	self header: [ :anObject :aShapeBuilder | 
 		anObject class asShapeClass: [ :each | 
 			aShapeBuilder labelForClass: each ] ]
+]
+
+{ #category : #delegating }
+CTBaseSlotDescriptor >> ifHasFollowers: block walker: walker [
+
+	^ nil
 ]
 
 { #category : #initialization }
@@ -135,9 +135,7 @@ CTBaseSlotDescriptor >> noHeader [
 ]
 
 { #category : #dispatching }
-CTBaseSlotDescriptor >> notInline [
-
-	"To allow the DFS to proceed, regardless of the computed `default` flag."
+CTBaseSlotDescriptor >> noInline [
 
 	inline := [ :anObject :level :default | false ]
 ]
@@ -169,7 +167,7 @@ CTBaseSlotDescriptor >> selector: anObject [
 { #category : #accessing }
 CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
 
-	^ aDfsWalker shapeBuilder multilineLabel: anObject
+	^ aDfsWalker defaultShapeOf: anObject
 ]
 
 { #category : #accessing }

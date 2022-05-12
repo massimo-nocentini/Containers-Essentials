@@ -11,7 +11,7 @@ Class {
 		'treeEdgeBuilder',
 		'layoutLineBuilder'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Painters'
 }
 
 { #category : #'line drawing' }
