@@ -4,14 +4,8 @@ Class {
 	#instVars : [
 		'value'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Slots'
 }
-
-{ #category : #accessing }
-CTxValueSlotDescriptor >> value [
-
-	^ value
-]
 
 { #category : #accessing }
 CTxValueSlotDescriptor >> value: anObject [

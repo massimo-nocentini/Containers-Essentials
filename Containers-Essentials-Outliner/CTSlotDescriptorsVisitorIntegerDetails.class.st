@@ -20,20 +20,20 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 		  (self newSlotDescriptorSelector: #numberOfDigits).
 		  (self newSlotDescriptorSelector: #numberOfDigitsInBase2).
 		  ((self
-				newSlotDescriptorLabel: #asShapeBinaryDots:
-				value: anInteger )
-				inline;
-				quoteUsingSelector).
+			    newSlotDescriptorString: #asShapeBinaryDots:
+			    accessor: [ anInteger ])
+			   inline;
+			   quoteUsingSelector).
 		  ((self
-				newSlotDescriptorLabel: #asShapeBRGCDots:
-				value: anInteger )
-				inline;
-				quoteUsingSelector).
+			    newSlotDescriptorString: #asShapeBRGCDots:
+			    accessor: [ anInteger ])
+			   inline;
+			   quoteUsingSelector).
 		  ((self
-				newSlotDescriptorLabel: #asShapeSkewDots:
-				value: anInteger )
-				inline;
-				quoteUsingSelector).
+			    newSlotDescriptorString: #asShapeSkewDots:
+			    accessor: [ anInteger ])
+			   inline;
+			   quoteUsingSelector).
 		  (self newSlotDescriptorSelector: #asStringAZaz) inline.
 		  (self newSlotDescriptorSelector: #asStringaz) inline.
 		  (self newSlotDescriptorSelector: #isProbablyPrime).
