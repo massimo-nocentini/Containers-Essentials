@@ -10,10 +10,22 @@ Class {
 }
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
+CTQuoteSlotDescriptor >> quoteBlock: aBlock [
+
+	quoteBlock := aBlock
+]
+
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
+
+	^ shape
+]
+
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	| value |
-	value := super on: anObject walker: aDfsWalker.
+	value := super valueOn: anObject walker: aDfsWalker.
 
 	"We need to pass a copy of the original walker because of the
 	 intermediate data structures populated during the search: such
@@ -27,16 +39,4 @@ CTQuoteSlotDescriptor >> on: anObject walker: aDfsWalker [
 	aDfsWalker addQuotedShape: shape model: witness.
 
 	^ witness
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> quoteBlock: aBlock [
-
-	quoteBlock := aBlock
-]
-
-{ #category : #accessing }
-CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	^ shape
 ]

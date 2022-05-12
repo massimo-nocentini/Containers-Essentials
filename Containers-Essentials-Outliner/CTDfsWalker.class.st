@@ -226,7 +226,7 @@ CTDfsWalker >> recurring: data [
 		select: [ :each | each enabled ]
 		thenDo: [ :each | 
 			| child |
-			child := each on: parent walker: self.
+			child := each valueOn: parent walker: self.
 
 			(self shouldSkip: child) ifFalse: [ 
 				| rowGroup |
@@ -418,7 +418,7 @@ CTDfsWalker >> value: object [
 	| rootDescriptor theSameObject outlinerShape descriptors |
 	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
 
-	theSameObject := rootDescriptor on: object walker: self.
+	theSameObject := rootDescriptor valueOn: object walker: self.
 	self assert: object == theSameObject.
 
 	outlinerShape := shapeBuilder outline: object.

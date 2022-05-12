@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CTInstVarSlotDescriptor >> on: anObject [
+CTInstVarSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	^ anObject instVarNamed: self selector
 ]

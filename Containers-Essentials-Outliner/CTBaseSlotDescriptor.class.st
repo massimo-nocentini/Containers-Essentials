@@ -141,18 +141,6 @@ CTBaseSlotDescriptor >> noInline [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> on: anObject [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> on: anObject walker: aDfsWalker [
-
-	^ self on: anObject
-]
-
-{ #category : #accessing }
 CTBaseSlotDescriptor >> oneToMany [
 
 	isOneToMany := true
