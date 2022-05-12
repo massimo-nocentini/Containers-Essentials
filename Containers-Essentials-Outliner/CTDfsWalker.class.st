@@ -415,20 +415,15 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| rootDescriptor theSameObject outlinerShape descriptors |
-	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
-
-	theSameObject := rootDescriptor valueOn: object walker: self.
-	self assert: object == theSameObject.
-
+	| outlinerShape descriptors |
 	outlinerShape := shapeBuilder outline: object.
 	descriptors := slotDescriptorsVisitor visit: object.
 
 	^ self
-		  descriptor: rootDescriptor
+		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: nil
+		  parent: self nothing
 		  exploringDescriptors: descriptors
 		  shape: outlinerShape
 ]
