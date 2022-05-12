@@ -62,7 +62,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotDescriptorsContext: CTSlotDescriptorsVisitor new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitor new
 ]
 
 { #category : #utilities }
@@ -70,21 +70,21 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject pathSuffix: aSuffix [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotDescriptorsContext: CTSlotDescriptorsVisitor new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitor new
 		  pathSuffix: aSuffix
 ]
 
 { #category : #utilities }
-TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlotDescriptorsContext [
+TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVisitor [
 
 	^ self
 		  exportSlotsGraphOf: anObject
-		  slotDescriptorsContext: aSlotDescriptorsContext
+		  slotDescriptorsVisitor: aVisitor
 		  pathSuffix: ''
 ]
 
 { #category : #utilities }
-TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlotDescriptorsContext pathSuffix: aSuffix [
+TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVisitor pathSuffix: aSuffix [
 
 	^ self
 		  export: anObject
@@ -93,7 +93,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsContext: aSlo
 			  | aShape walker |
 			  walker := CTDfsWalker new.
 
-			  walker slotDescriptorsVisitor: aSlotDescriptorsContext.
+			  walker slotDescriptorsVisitor: aVisitor.
 
 			  aShape := obj asShapeSlotsDfsTree: walker.
 

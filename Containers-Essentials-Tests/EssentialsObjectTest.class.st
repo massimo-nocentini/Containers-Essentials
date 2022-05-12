@@ -457,7 +457,7 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 
 	^ self
 		  exportSlotsGraphOf: 13
-		  slotDescriptorsContext: CTSlotDescriptorsVisitorIntegerDetails new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorIntegerDetails new
 ]
 
 { #category : #tests }
@@ -465,7 +465,7 @@ EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 
 	^ self
 		  exportSlotsGraphOf: 13
-		  slotDescriptorsContext:
+		  slotDescriptorsVisitor:
 			  (CTSlotDescriptorsVisitorIntegerDetails new in: [ :visitor | 
 				   | rootDescriptor |
 				   rootDescriptor := visitor
@@ -549,7 +549,7 @@ EssentialsObjectTest >> testInspectOneToMany [
 		  exportSlotsGraphOf: { 'hello'. 'world' } ~~> ({ 
 				   42 asValueHolder.
 				   Float goldenRatio asValueHolder } ~~> nil)
-		  slotDescriptorsContext:
+		  slotDescriptorsVisitor:
 		  SlotDescriptorsVisitorOneToManyForValueLinkTesting new
 ]
 
@@ -739,7 +739,7 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 
 	^ self
 		  exportSlotsGraphOf: Magnitude
-		  slotDescriptorsContext: CTSlotDescriptorsVisitorClassHierarchy new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorClassHierarchy new
 ]
 
 { #category : #tests }
