@@ -47,19 +47,19 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector accessor: aBlock [
-
-	^ CTBlockSlotDescriptor new
-		  selector: aSelector;
-		  accessor: aBlock;
-		  yourself
-]
-
-{ #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 
 	^ CTSelectorSlotDescriptor new
 		  selector: aSelector;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector accessor: aBlock [
+
+	^ CTBlockSlotDescriptor new
+		  selector: aSelector;
+		  accessor: aBlock;
 		  yourself
 ]
 
@@ -111,7 +111,7 @@ CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ (1 to: anArray size) collect: [ :index | 
 		  self
-			  newSlotDescriptorLabel: index asString
+			  newSlotDescriptorString: index asString
 			  accessor: [ anArray at: index ] ]
 ]
 
@@ -146,7 +146,7 @@ CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 			  ifNil: [ #(  ) ]
 			  ifNotNil: [ :var | 
 				  { (self
-					   newSlotDescriptorLabel: var name
+					   newSlotDescriptorString: var name
 					   accessor: [ var ]) } ] ]
 ]
 
@@ -158,7 +158,7 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 		  (self newSlotDescriptorSelector: #asString).
 		  (self newSlotDescriptorSelector: #asArray).
 		  ((self
-			    newSlotDescriptorLabel: #asShapeBitsDump:
+			    newSlotDescriptorString: #asShapeBitsDump:
 			    accessor: [ aByteArray ])
 			   inline;
 			   quoteUsingSelector) }
@@ -318,7 +318,7 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	| followedSlotDescriptor |
 	followedSlotDescriptor := (self
-		                           newSlotDescriptorLabel:
+		                           newSlotDescriptorString:
 		                           #asShapeValuesHorizontalTree:
 		                           accessor: [ aHeap ]) quoteUsingSelector.
 
@@ -347,7 +347,7 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 							                           (self
 								                            newSlotDescriptorFollowerOf:
 									                            (self
-										                             newSlotDescriptorLabel:
+										                             newSlotDescriptorString:
 										                             #somePrintString
 										                             accessor: [ printString ])
 								                            then: [ 
@@ -374,7 +374,7 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 			   inline;
 			   quote).
 		  ((self
-			    newSlotDescriptorLabel: #asShapeBubblesHorizontalTree:
+			    newSlotDescriptorString: #asShapeBubblesHorizontalTree:
 			    accessor: [ aHeap ])
 			   enablePredicate: [ aHeap allSatisfy: [ :each | each isNumber ] ];
 			   inline;
