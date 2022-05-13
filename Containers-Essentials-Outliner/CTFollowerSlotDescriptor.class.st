@@ -1,3 +1,6 @@
+"
+I am a variant that stops the visit and provides a follow up outliners to continue the diagram.
+"
 Class {
 	#name : #CTFollowerSlotDescriptor,
 	#superclass : #CTDecorateSlotDescriptor,

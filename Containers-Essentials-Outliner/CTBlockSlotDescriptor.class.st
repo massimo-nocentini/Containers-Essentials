@@ -1,3 +1,6 @@
+"
+I use the given block to provide a value for the argument.
+"
 Class {
 	#name : #CTBlockSlotDescriptor,
 	#superclass : #CTBaseSlotDescriptor,

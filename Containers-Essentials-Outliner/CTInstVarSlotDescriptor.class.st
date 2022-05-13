@@ -1,3 +1,6 @@
+"
+I use the given instance variable name to provide a value for the argument.
+"
 Class {
 	#name : #CTInstVarSlotDescriptor,
 	#superclass : #CTBaseSlotDescriptor,

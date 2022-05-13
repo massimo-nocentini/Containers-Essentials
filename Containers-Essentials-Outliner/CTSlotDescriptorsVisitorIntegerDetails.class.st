@@ -21,17 +21,17 @@ CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
 		  (self newSlotDescriptorSelector: #numberOfDigitsInBase2).
 		  ((self
 			    newSlotDescriptorString: #asShapeBinaryDots:
-			    accessor: [ anInteger ])
+			    constant: anInteger)
 			   inline;
 			   quoteUsingSelector).
 		  ((self
 			    newSlotDescriptorString: #asShapeBRGCDots:
-			    accessor: [ anInteger ])
+			    constant: anInteger)
 			   inline;
 			   quoteUsingSelector).
 		  ((self
 			    newSlotDescriptorString: #asShapeSkewDots:
-			    accessor: [ anInteger ])
+			    constant: anInteger)
 			   inline;
 			   quoteUsingSelector).
 		  (self newSlotDescriptorSelector: #asStringAZaz) inline.

@@ -1,8 +1,5 @@
 "
-I walk a graph of objects according to the Depth-First Search strategy;
-additionally, I also take care of Strongly Connected Components (also see 
-Tarjan, R. E. (1972), ""Depth-first search and linear graph algorithms"", 
-SIAM Journal on Computing, 1 (2): 146–160).
+I walk a graph of objects according to the Depth-First Search strategy.
 "
 Class {
 	#name : #CTDfsWalker,
@@ -415,20 +412,15 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| rootDescriptor theSameObject outlinerShape descriptors |
-	rootDescriptor := slotDescriptorsVisitor rootDescriptor.
-
-	theSameObject := rootDescriptor valueOn: object walker: self.
-	self assert: object == theSameObject.
-
+	| outlinerShape descriptors |
 	outlinerShape := shapeBuilder outline: object.
 	descriptors := slotDescriptorsVisitor visit: object.
 
 	^ self
-		  descriptor: rootDescriptor
+		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: nil
+		  parent: self nothing
 		  exploringDescriptors: descriptors
 		  shape: outlinerShape
 ]

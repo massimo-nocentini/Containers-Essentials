@@ -71,3 +71,37 @@ Integer >> asShapeSkewDots: aDfsWalker [
 					   :each | aStream nextPutAll: each asString ] ])
 		  walker: aDfsWalker
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> inspectorCanvasRepresentations [
+
+	<inspectorPresentationOrder: 1010 title: 'Representations'>
+	| walker shape |
+	walker := CTDfsWalker new.
+
+	walker slotDescriptorsVisitor:
+		(CTSlotDescriptorsVisitorIntegerDetails new" in: [ :visitor | 
+			 | rootDescriptor |
+			 rootDescriptor := visitor
+				                   newSlotDescriptorFollowerOf:
+				                   visitor rootDescriptor
+				                   then: [ 
+				                   { (visitor newSlotDescriptorSelector: #odd) } ].
+
+			 visitor rootDescriptor: rootDescriptor.
+
+			 visitor ]").
+
+	shape := self asShapeSlotsDfsTree: walker.
+
+	^ RSCanvas new
+		  add: shape;
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Integer >> inspectorCanvasRepresentationsContext: aContext [
+
+	aContext withoutEvaluator
+]

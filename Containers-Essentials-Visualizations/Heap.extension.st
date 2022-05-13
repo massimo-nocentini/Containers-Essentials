@@ -216,3 +216,19 @@ Heap >> inspectorCanvasBubblesTreeContext: aContext [
 
 	aContext withoutEvaluator
 ]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> inspectorCanvasValuesTree [
+
+	<inspectorPresentationOrder: 1010 title: 'Values tree'>
+	^ RSCanvas new
+		  add: self asShapeValuesHorizontalTree;
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Heap >> inspectorCanvasValuesTreeContext: aContext [
+
+	aContext withoutEvaluator
+]
