@@ -47,15 +47,6 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 ]
 
 { #category : #'instance creation' }
-CTSlotDescriptorsVisitor >> newSlotDescriptorLabel: aSelector value: aValue [
-
-	^ CTxValueSlotDescriptor new
-		  selector: aSelector;
-		  value: aValue;
-		  yourself
-]
-
-{ #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 
 	^ CTSelectorSlotDescriptor new
