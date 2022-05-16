@@ -420,7 +420,7 @@ CTDfsWalker >> value: object [
 		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: self nothing
+		  parent: CTCategoryMaybe nothing
 		  exploringDescriptors: descriptors
 		  shape: outlinerShape
 ]
