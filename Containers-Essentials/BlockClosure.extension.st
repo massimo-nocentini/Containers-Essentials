@@ -31,6 +31,33 @@ BlockClosure >> ?? args [
 ]
 
 { #category : #'*Containers-Essentials' }
+BlockClosure >> currified [
+
+	| size |
+	size := self numArgs.
+
+	^ size < 2
+		  ifTrue: [ self ]
+		  ifFalse: [ 
+			  | currified args |
+			  args := Array new: size.
+
+			  currified := [ :arg | 
+			               args atLast: 1 put: arg.
+			               self valueWithArguments: args ].
+
+			  1 to: size - 1 do: [ :each | 
+				  | previousCurrified |
+				  previousCurrified := currified.
+
+				  currified := [ :arg | 
+				               args at: each put: arg.
+				               previousCurrified ] ].
+
+			  currified ]
+]
+
+{ #category : #'*Containers-Essentials' }
 BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBlock [
 
 	^ self
