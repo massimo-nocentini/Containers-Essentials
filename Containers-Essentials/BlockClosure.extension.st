@@ -38,24 +38,28 @@ BlockClosure >> currified [
 
 	^ size < 2
 		  ifTrue: [ self ]
-		  ifFalse: [ 
-			  self
-				  currified: size
-				  argsBlock: [ :aValueLink | aValueLink asArray ] ]
+		  ifFalse: [ self class currify: self numArgs: size ]
 ]
 
 { #category : #'*Containers-Essentials' }
-BlockClosure >> currified: n argsBlock: argsBlock [
+BlockClosure class >> currify: aBlock numArgs: n [
+
+	^ self
+		  currify: aBlock
+		  numArgs: n
+		  argsBlock: [ :aValueLink | aValueLink asArray ]
+]
+
+{ #category : #'*Containers-Essentials' }
+BlockClosure class >> currify: aBlock numArgs: n argsBlock: argsBlock [
 
 	^ n
-		  ifZero: [ 
-			  | aValueLink |
-			  aValueLink := argsBlock value: nil.
-			  self valueWithArguments: aValueLink  ]
+		  ifZero: [ aBlock valueWithArguments: (argsBlock value: nil) ]
 		  ifNotZero: [ 
 			  [ :arg | 
 			  self
-				  currified: n - 1
+				  currify: aBlock
+				  numArgs: n - 1
 				  argsBlock: [ :args | argsBlock value: arg ~~> args ] ] ]
 ]
 
