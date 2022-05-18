@@ -39,22 +39,24 @@ BlockClosure >> currified [
 	^ size < 2
 		  ifTrue: [ self ]
 		  ifFalse: [ 
-			  | currified args |
-			  args := Array new: size.
+			  self
+				  currified: size
+				  argsBlock: [ :aValueLink | aValueLink asArray ] ]
+]
 
-			  currified := [ :arg | 
-			               args atLast: 1 put: arg.
-			               self valueWithArguments: args ].
+{ #category : #'*Containers-Essentials' }
+BlockClosure >> currified: n argsBlock: argsBlock [
 
-			  1 to: size - 1 do: [ :each | 
-				  | previousCurrified |
-				  previousCurrified := currified.
-
-				  currified := [ :arg | 
-				               args at: each put: arg.
-				               previousCurrified ] ].
-
-			  currified ]
+	^ n
+		  ifZero: [ 
+			  | aValueLink |
+			  aValueLink := argsBlock value: nil.
+			  self valueWithArguments: aValueLink  ]
+		  ifNotZero: [ 
+			  [ :arg | 
+			  self
+				  currified: n - 1
+				  argsBlock: [ :args | argsBlock value: arg ~~> args ] ] ]
 ]
 
 { #category : #'*Containers-Essentials' }
