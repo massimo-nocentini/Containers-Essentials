@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials' }
+Object >> -! aBlock [
+
+	^ aBlock ! self
+]
+
+{ #category : #'*Containers-Essentials' }
 Object >> asReflexiveAssociation [
 	^ self -> self
 ]
