@@ -272,11 +272,7 @@ CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
-	^ (self visitObject: aFraction)
-	  ,
-		  { ((self newSlotDescriptorSelector: #asShapeNaturalRepresentation)
-			   inline;
-			   quote) }
+	^ {  }
 ]
 
 { #category : #visiting }
