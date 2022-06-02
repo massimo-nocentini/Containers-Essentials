@@ -33,6 +33,61 @@ Fraction >> asShapeFordCircles [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> asShapeNaturalRepresentation [
+
+	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y |
+	random := RandomBoxMullerBivariateGaussian new.
+
+	numeratorShape := RSLabel new
+		                  model: self numerator;
+		                  yourself.
+
+	denominatorShape := RSLabel new
+		                    model: self denominator;
+		                    yourself.
+
+	shapeWithMaxWidth := numeratorShape width > denominatorShape width
+		                     ifTrue: [ numeratorShape ]
+		                     ifFalse: [ denominatorShape ].
+
+	offset := (shapeWithMaxWidth width * Float bronzeRatio) halved.
+
+	shapes := RSGroup new
+		          add: numeratorShape;
+		          add: denominatorShape;
+		          yourself.
+
+	vOffset := (Float bronzeRatio
+	            * (numeratorShape height + denominatorShape height))
+		           halved.
+
+	RSVerticalLineLayout new
+		verticalGap: vOffset;
+		alignCenter;
+		on: shapes.
+
+	linspace := (shapeWithMaxWidth encompassingRectangle left - offset 
+	             to:
+	             shapeWithMaxWidth encompassingRectangle right + offset) 
+		            linspace: 6.
+
+	y := numeratorShape encompassingRectangle bottom + vOffset halved.
+
+	dashShape := RSdeCasteljauLine new
+		             samples: 50;
+		             controlPoints:
+			             (linspace collect: [ :each | each @ y + random next ]);
+		             from: shapeWithMaxWidth;
+		             to: shapeWithMaxWidth;
+		             yourself.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: shapes , { dashShape };
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeOnUnitCircle [
 
 	| circle point puc scale origin |
