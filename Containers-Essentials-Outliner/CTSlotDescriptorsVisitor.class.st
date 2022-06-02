@@ -272,18 +272,9 @@ CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
-	^ { ((self newSlotDescriptorSelector: #asShapeNaturalRepresentation)
-		   inline;
-		   quote) } , (self visitObject: aFraction) , { 
-		  (self newSlotDescriptorSelector: #floor).
-		  (self newSlotDescriptorSelector: #asFloat).
-
-		  ((self newSlotDescriptorSelector: #asPythagoreanTriple)
-			   inline;
-			   noHeader;
-			   quote: [ :aTriple :aDfsWalker | 
-				   aTriple asShapeSlotsDfsTree: aDfsWalker ]).
-		  ((self newSlotDescriptorSelector: #asShapeOnUnitCircle)
+	^ (self visitObject: aFraction)
+	  ,
+		  { ((self newSlotDescriptorSelector: #asShapeNaturalRepresentation)
 			   inline;
 			   quote) }
 ]

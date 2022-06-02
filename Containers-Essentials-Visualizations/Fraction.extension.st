@@ -7,6 +7,12 @@ Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> asDefaultShapeForWalker: aWalker [
+
+	^ self asShapeNaturalRepresentation
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
 	| r c reduced floor ratio |
@@ -139,6 +145,30 @@ Fraction >> inspectorCanvasFordCircles [
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasFordCirclesContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> inspectorCanvasRepresentations [
+
+	<inspectorPresentationOrder: 1010 title: 'Representations'>
+	| walker shape |
+	walker := CTDfsWalker new.
+
+	walker slotDescriptorsVisitor:
+		CTSlotDescriptorsVisitorDetails new.
+
+	shape := self asShapeSlotsDfsTree: walker.
+
+	^ RSCanvas new
+		  add: shape;
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> inspectorCanvasRepresentationsContext: aContext [
 
 	aContext withoutEvaluator
 ]

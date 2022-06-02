@@ -163,7 +163,7 @@ CTDfsWalker >> initialize [
 		oneToManyShapes: IdentityDictionary new;
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new;
-		defaultShapeBlock: [ :object | shapeBuilder multilineLabel: object ]
+		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
 ]
 
 { #category : #accessing }

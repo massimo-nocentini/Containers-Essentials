@@ -457,7 +457,7 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 
 	^ self
 		  exportSlotsGraphOf: 13
-		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorIntegerDetails new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorDetails new
 ]
 
 { #category : #tests }
@@ -466,7 +466,7 @@ EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 	^ self
 		  exportSlotsGraphOf: 13
 		  slotDescriptorsVisitor:
-			  (CTSlotDescriptorsVisitorIntegerDetails new in: [ :visitor | 
+			  (CTSlotDescriptorsVisitorDetails new in: [ :visitor | 
 				   | rootDescriptor |
 				   rootDescriptor := visitor
 					                     newSlotDescriptorFollowerOf:

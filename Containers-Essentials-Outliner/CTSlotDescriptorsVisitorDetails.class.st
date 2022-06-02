@@ -2,13 +2,32 @@
 I am a variant that enriches the slot descriptors for Integer objects.
 "
 Class {
-	#name : #CTSlotDescriptorsVisitorIntegerDetails,
+	#name : #CTSlotDescriptorsVisitorDetails,
 	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
 { #category : #visiting }
-CTSlotDescriptorsVisitorIntegerDetails >> visitInteger: anInteger [
+CTSlotDescriptorsVisitorDetails >> visitFraction: aFraction [
+
+	^ { ((self newSlotDescriptorSelector: #asShapeNaturalRepresentation)
+		   inline;
+		   quote) } , (self visitObject: aFraction) , { 
+		  (self newSlotDescriptorSelector: #floor).
+		  (self newSlotDescriptorSelector: #asFloat).
+
+		  ((self newSlotDescriptorSelector: #asPythagoreanTriple)
+			   inline;
+			   noHeader;
+			   quote: [ :aTriple :aDfsWalker | 
+				   aTriple asShapeSlotsDfsTree: aDfsWalker ]).
+		  ((self newSlotDescriptorSelector: #asShapeOnUnitCircle)
+			   inline;
+			   quote) }
+]
+
+{ #category : #visiting }
+CTSlotDescriptorsVisitorDetails >> visitInteger: anInteger [
 
 	^ { 
 		  (self newSlotDescriptorSelector: #asStringDecimal) inline.
