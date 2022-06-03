@@ -60,6 +60,38 @@ EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testDocumapsIsCompanySite [
+
+	| relation left right |
+	left := CTEssentialsTestEntity new
+		        name: 'IBS Schmallenberg';
+		        yourself.
+
+	right := CTEssentialsTestEntity new
+		         name: 'Ingenieurbüro für Bauwesen Schmidt';
+		         yourself.
+
+	relation := CTEssentialsTestRelation new
+		            left: left;
+		            name: 'is company site of';
+		            right: right;
+		            yourself.
+
+	left relation: relation.
+	right relation: relation.
+
+	^ self
+		  exportSlotsGraphOf: left
+		  slotDescriptorsVisitor:
+			  (CTEssentialsEntityRelationSlotDescriptorsVisitor new
+				   rootDescriptor: (CTSelectorSlotDescriptor new
+						    selector: #yourself;
+						    noHeader;
+						    yourself);
+				   yourself)
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
 	| ratios |
@@ -550,7 +582,7 @@ EssentialsObjectTest >> testInspectOneToMany [
 				   42 asValueHolder.
 				   Float goldenRatio asValueHolder } ~~> nil)
 		  slotDescriptorsVisitor:
-		  SlotDescriptorsVisitorOneToManyForValueLinkTesting new
+		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
 ]
 
 { #category : #tests }

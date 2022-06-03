@@ -1,11 +1,11 @@
 Class {
-	#name : #SlotDescriptorsVisitorOneToManyForValueLinkTesting,
+	#name : #CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor,
 	#superclass : #CTSlotDescriptorsVisitor,
 	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #visiting }
-SlotDescriptorsVisitorOneToManyForValueLinkTesting >> visitValueLink: aValueLink [
+CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor >> visitValueLink: aValueLink [
 
 	^ (super visitValueLink: aValueLink) yourself: [ :descriptors | 
 		  descriptors first oneToMany ]
