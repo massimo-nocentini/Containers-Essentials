@@ -148,12 +148,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 
-	^ aBlock sourceNode allVariables flatCollect: [ :aRBVariable | 
-		  (aBlock outerContext lookupVar: aRBVariable name)
-			  ifNil: [ #(  ) ]
-			  ifNotNil: [ :var | 
-				  Array with:
-					  (self newSlotDescriptorString: var name constant: var) ] ]
+	^ { (self newSlotDescriptorSelector: #compiledBlock) }
 ]
 
 { #category : #visiting }
@@ -186,12 +181,19 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 ]
 
 { #category : #visiting }
-CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
+CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledCode [
 
-	^ { 
-		  (self newSlotDescriptorSelector: #methodClassName).
-		  (self newSlotDescriptorSelector: #selector).
-		  (self newSlotDescriptorSelector: #formattedCode) }
+	| i |
+	i := 0.
+
+	^ Array streamContents: [ :aStream | 
+		  aCompiledCode withAllNestedLiteralsDo: [ :value | 
+			  | descriptor |
+			  i := i + 1.
+			  descriptor := self
+				                newSlotDescriptorString: i asString
+				                constant: value.
+			  aStream nextPut: descriptor ] ]
 ]
 
 { #category : #visiting }
