@@ -41,7 +41,9 @@ Fraction >> asShapeFordCircles [
 { #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeNaturalRepresentation [
 
-	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y |
+	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y ratio |
+	ratio := Float bronzeRatio.
+
 	random := RandomBoxMullerBivariateGaussian new.
 
 	numeratorShape := RSLabel new
@@ -56,16 +58,15 @@ Fraction >> asShapeNaturalRepresentation [
 		                     ifTrue: [ numeratorShape ]
 		                     ifFalse: [ denominatorShape ].
 
-	offset := (shapeWithMaxWidth width * Float bronzeRatio) halved.
+	vOffset := (ratio * (numeratorShape height + denominatorShape height))
+		           halved.
+
+	offset := (shapeWithMaxWidth width * ratio) halved.
 
 	shapes := RSGroup new
 		          add: numeratorShape;
 		          add: denominatorShape;
 		          yourself.
-
-	vOffset := (Float bronzeRatio
-	            * (numeratorShape height + denominatorShape height))
-		           halved.
 
 	RSVerticalLineLayout new
 		verticalGap: vOffset;
@@ -80,16 +81,17 @@ Fraction >> asShapeNaturalRepresentation [
 	y := numeratorShape encompassingRectangle bottom + vOffset halved.
 
 	dashShape := RSdeCasteljauLine new
-		             samples: 1;
 		             controlPoints:
 			             (linspace collect: [ :each | each @ y + random next ]);
 		             from: shapeWithMaxWidth;
 		             to: shapeWithMaxWidth;
 		             yourself.
 
+	shapes add: dashShape.
+
 	^ RSComposite new
 		  model: self;
-		  shapes: shapes , { dashShape };
+		  shapes: shapes;
 		  yourself
 ]
 

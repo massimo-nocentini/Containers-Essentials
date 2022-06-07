@@ -181,13 +181,13 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 ]
 
 { #category : #visiting }
-CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledCode [
+CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 
 	| i |
 	i := 0.
 
 	^ Array streamContents: [ :aStream | 
-		  aCompiledCode withAllNestedLiteralsDo: [ :value | 
+		  aCompiledCode allLiterals do: [ :value | 
 			  | descriptor |
 			  i := i + 1.
 			  descriptor := self
