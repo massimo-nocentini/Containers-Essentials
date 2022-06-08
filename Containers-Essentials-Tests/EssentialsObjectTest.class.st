@@ -452,9 +452,11 @@ EssentialsObjectTest >> testInspectHeap [
 	self exportSlotsGraphOf: heap.
 
 	array withIndexDo: [ :each :i | 
-		heap add: each.
+		heap add: each
 
-		self exportSlotsGraphOf: heap pathSuffix: i asString ]
+		"self exportSlotsGraphOf: heap pathSuffix: i asString " ].
+
+	self exportSlotsGraphOf: heap pathSuffix: 'final'
 ]
 
 { #category : #tests }

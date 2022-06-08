@@ -1,8 +1,8 @@
 Class {
 	#name : #RSParametricCurveTest,
 	#superclass : #TestCase,
-	#traits : 'TIceImagesExporting',
-	#classTraits : 'TIceImagesExporting classTrait',
+	#traits : 'TIceImagesExporting + RSTParametricXYLines',
+	#classTraits : 'TIceImagesExporting classTrait + RSTParametricXYLines classTrait',
 	#category : #'Containers-Essentials-Tests'
 }
 
@@ -286,12 +286,6 @@ RSParametricCurveTest >> testLineDeCasteljauLineNoteBox [
 ]
 
 { #category : #tests }
-RSParametricCurveTest >> testLineParametricButterfly [
-
-	self exportShapeOf: RSBasicShapeExamples new lineParametricButterfly
-]
-
-{ #category : #tests }
 RSParametricCurveTest >> testLineParametricHypotrochoid [
 
 	self exportShapeOf:
@@ -358,4 +352,10 @@ RSParametricCurveTest >> testNoteInteger [
 RSParametricCurveTest >> testNoteLoremIpsum [
 
 	self exportShapeOf: RSBasicShapeExamples new noteLoremIpsum
+]
+
+{ #category : #tests }
+RSParametricCurveTest >> testParametricXYlineButterfly [
+
+	self exportShapeOf: self parametricXYlineButterfly
 ]
