@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Outliner' }
+Object >> asDefaultShapeForWalker: aWalker [
+
+	^ aWalker shapeBuilder multilineLabel: self
+]
+
+{ #category : #'*Containers-Essentials-Outliner' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>

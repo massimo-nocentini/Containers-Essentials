@@ -1,6 +1,22 @@
 Extension { #name : #Link }
 
 { #category : #'*Containers-Essentials' }
+Link >> asArray [
+
+	| array size i |
+	size := self size.
+
+	array := Array new: size.
+
+	i := 0.
+	self do: [ :each | 
+		i := i + 1.
+		array at: i put: each ].
+
+	^ array
+]
+
+{ #category : #'*Containers-Essentials' }
 Link >> do: aBlock [
 
 	| link |

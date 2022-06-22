@@ -7,6 +7,12 @@ Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> asDefaultShapeForWalker: aWalker [
+
+	^ self asShapeNaturalRepresentation
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
 	| r c reduced floor ratio |
@@ -29,6 +35,63 @@ Fraction >> asShapeFordCircles [
 						   radius: radius;
 						   yourself: [ :circle | 
 							   each = reduced ifTrue: [ circle sameColorAsBorderColor ] ] ]);
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> asShapeNaturalRepresentation [
+
+	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y ratio |
+	ratio := Float bronzeRatio.
+
+	random := RandomBoxMullerBivariateGaussian new.
+
+	numeratorShape := RSLabel new
+		                  model: self numerator;
+		                  yourself.
+
+	denominatorShape := RSLabel new
+		                    model: self denominator;
+		                    yourself.
+
+	shapeWithMaxWidth := numeratorShape width > denominatorShape width
+		                     ifTrue: [ numeratorShape ]
+		                     ifFalse: [ denominatorShape ].
+
+	vOffset := (ratio * (numeratorShape height + denominatorShape height))
+		           halved.
+
+	offset := (shapeWithMaxWidth width * ratio) halved.
+
+	shapes := RSGroup new
+		          add: numeratorShape;
+		          add: denominatorShape;
+		          yourself.
+
+	RSVerticalLineLayout new
+		verticalGap: vOffset;
+		alignCenter;
+		on: shapes.
+
+	linspace := (shapeWithMaxWidth encompassingRectangle left - offset 
+	             to:
+	             shapeWithMaxWidth encompassingRectangle right + offset) 
+		            linspace: 6.
+
+	y := numeratorShape encompassingRectangle bottom + vOffset halved.
+
+	dashShape := RSdeCasteljauLine new
+		             controlPoints:
+			             (linspace collect: [ :each | each @ y + random next ]);
+		             from: shapeWithMaxWidth;
+		             to: shapeWithMaxWidth;
+		             yourself.
+
+	shapes add: dashShape.
+
+	^ RSComposite new
+		  model: self;
+		  shapes: shapes;
 		  yourself
 ]
 
@@ -84,6 +147,30 @@ Fraction >> inspectorCanvasFordCircles [
 
 { #category : #'*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasFordCirclesContext: aContext [
+
+	aContext withoutEvaluator
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> inspectorCanvasRepresentations [
+
+	<inspectorPresentationOrder: 1010 title: 'Representations'>
+	| walker shape |
+	walker := CTDfsWalker new.
+
+	walker slotDescriptorsVisitor:
+		CTSlotDescriptorsVisitorDetails new.
+
+	shape := self asShapeSlotsDfsTree: walker.
+
+	^ RSCanvas new
+		  add: shape;
+		  addInteraction: RSCanvasController new;
+		  inspectorCanvas
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
+Fraction >> inspectorCanvasRepresentationsContext: aContext [
 
 	aContext withoutEvaluator
 ]

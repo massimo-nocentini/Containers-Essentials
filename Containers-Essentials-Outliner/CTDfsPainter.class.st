@@ -285,12 +285,18 @@ CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 ]
 
 { #category : #'line building' }
+CTDfsPainter >> newTreeLine [
+
+	^ RSLineBuilder horizontalDeCasteljauSegmentedLine "Or horizontalSegmentedBezierLine"
+]
+
+{ #category : #'line building' }
 CTDfsPainter >> treeLinesBuilder [
 
 	| color |
 	color := Color gray lighter lighter lighter.
-	
-	^ RSLineBuilder horizontalDeCasteljauSegmentedLine
+
+	^ self newTreeLine
 		  markerEnd: (RSMarker new
 				   shape: (RSShapeFactory arrow
 						    size: Float goldenRatio * 5;

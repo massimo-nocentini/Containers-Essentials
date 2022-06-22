@@ -60,6 +60,38 @@ EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testDocumapsIsCompanySite [
+
+	| relation left right |
+	left := CTEssentialsTestEntity new
+		        name: 'IBS Schmallenberg';
+		        yourself.
+
+	right := CTEssentialsTestEntity new
+		         name: 'Ingenieurbüro für Bauwesen Schmidt';
+		         yourself.
+
+	relation := CTEssentialsTestRelation new
+		            left: left;
+		            name: 'is company site of';
+		            right: right;
+		            yourself.
+
+	left relation: relation.
+	right relation: relation.
+
+	^ self
+		  exportSlotsGraphOf: left
+		  slotDescriptorsVisitor:
+			  (CTEssentialsEntityRelationSlotDescriptorsVisitor new
+				   rootDescriptor: (CTSelectorSlotDescriptor new
+						    selector: #yourself;
+						    noHeader;
+						    yourself);
+				   yourself)
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
 	| ratios |
@@ -193,8 +225,6 @@ EssentialsObjectTest >> testInspectBag [
 EssentialsObjectTest >> testInspectBlockClosure [
 
 	| aBlock anInteger |
-	self skip.
-
 	anInteger := 541.
 
 	aBlock := [ :anArg | 
@@ -422,9 +452,11 @@ EssentialsObjectTest >> testInspectHeap [
 	self exportSlotsGraphOf: heap.
 
 	array withIndexDo: [ :each :i | 
-		heap add: each.
+		heap add: each
 
-		self exportSlotsGraphOf: heap pathSuffix: i asString ]
+		"self exportSlotsGraphOf: heap pathSuffix: i asString " ].
+
+	self exportSlotsGraphOf: heap pathSuffix: 'final'
 ]
 
 { #category : #tests }
@@ -457,7 +489,7 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 
 	^ self
 		  exportSlotsGraphOf: 13
-		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorIntegerDetails new
+		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorDetails new
 ]
 
 { #category : #tests }
@@ -466,7 +498,7 @@ EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 	^ self
 		  exportSlotsGraphOf: 13
 		  slotDescriptorsVisitor:
-			  (CTSlotDescriptorsVisitorIntegerDetails new in: [ :visitor | 
+			  (CTSlotDescriptorsVisitorDetails new in: [ :visitor | 
 				   | rootDescriptor |
 				   rootDescriptor := visitor
 					                     newSlotDescriptorFollowerOf:
@@ -550,7 +582,7 @@ EssentialsObjectTest >> testInspectOneToMany [
 				   42 asValueHolder.
 				   Float goldenRatio asValueHolder } ~~> nil)
 		  slotDescriptorsVisitor:
-		  SlotDescriptorsVisitorOneToManyForValueLinkTesting new
+		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
 ]
 
 { #category : #tests }

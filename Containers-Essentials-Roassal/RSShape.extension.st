@@ -19,10 +19,10 @@ RSShape >> notedWithPad: aPadding [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
-RSShape >> padded: aPadding withBoxDo: aBlock [
+RSShape >> padded: aPadding shape: boxShape do: aBlock [
 
 	| box |
-	box := RSBox new
+	box := boxShape
 		       extent: self extent + (aPadding * 2);
 		       cornerRadius: aPadding;
 		       yourself.
@@ -41,25 +41,21 @@ RSShape >> padded: aPadding withBoxDo: aBlock [
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
+RSShape >> padded: aPadding withBoxDo: aBlock [
+
+	^ self padded: aPadding shape: RSBox new do: aBlock
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withNoteDo: aBlock [
 
-	| box |
-	box := RSNote new
-		       extent: self extent + (aPadding * 2);
-		       cornerRadius: aPadding;
-		       yourself.
+	^ self padded: aPadding shape: RSNote new do: aBlock
+]
 
-	aBlock cull: box cull: self.
+{ #category : #'*Containers-Essentials-Roassal' }
+RSShape >> padded: aPadding withSimplerNoteDo: aBlock [
 
-	RSLocation new
-		center;
-		stick: box on: self.
-
-	^ RSComposite new
-		  shapes: { 
-				  box.
-				  self };
-		  yourself
+	^ self padded: aPadding shape: RSSimplerNote new do: aBlock
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }

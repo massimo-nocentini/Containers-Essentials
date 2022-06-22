@@ -80,7 +80,7 @@ Integer >> inspectorCanvasRepresentations [
 	walker := CTDfsWalker new.
 
 	walker slotDescriptorsVisitor:
-		(CTSlotDescriptorsVisitorIntegerDetails new" in: [ :visitor | 
+		(CTSlotDescriptorsVisitorDetails new" in: [ :visitor | 
 			 | rootDescriptor |
 			 rootDescriptor := visitor
 				                   newSlotDescriptorFollowerOf:

@@ -163,7 +163,7 @@ CTDfsWalker >> initialize [
 		oneToManyShapes: IdentityDictionary new;
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new;
-		defaultShapeBlock: [ :object | shapeBuilder multilineLabel: object ]
+		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
 ]
 
 { #category : #accessing }
@@ -344,7 +344,8 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 	boolean := level = maxLevel | anObject isImmediateObject
 	           | anObject isNil | anObject isSymbol | (anObject == true)
 	           | (anObject == false) | (anObject == Float infinity)
-	           | (anObject == Float negativeInfinity).
+	           | (anObject == Float negativeInfinity)
+	           | anObject isFraction.
 
 	^ descriptor inline: anObject level: level default: boolean
 ]
@@ -420,7 +421,7 @@ CTDfsWalker >> value: object [
 		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: CTCategoryMaybe nothing
+		  parent: self
 		  exploringDescriptors: descriptors
 		  shape: outlinerShape
 ]

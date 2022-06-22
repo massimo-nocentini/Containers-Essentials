@@ -148,12 +148,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 
-	^ aBlock sourceNode allVariables flatCollect: [ :aRBVariable | 
-		  (aBlock outerContext lookupVar: aRBVariable name)
-			  ifNil: [ #(  ) ]
-			  ifNotNil: [ :var | 
-				  Array with:
-					  (self newSlotDescriptorString: var name constant: var) ] ]
+	^ { (self newSlotDescriptorSelector: #compiledBlock) }
 ]
 
 { #category : #visiting }
@@ -186,12 +181,19 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 ]
 
 { #category : #visiting }
-CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
+CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 
-	^ { 
-		  (self newSlotDescriptorSelector: #methodClassName).
-		  (self newSlotDescriptorSelector: #selector).
-		  (self newSlotDescriptorSelector: #formattedCode) }
+	| i |
+	i := 0.
+
+	^ Array streamContents: [ :aStream | 
+		  aCompiledCode literalsDo: [ :value | 
+			  | descriptor |
+			  i := i + 1.
+			  descriptor := self
+				                newSlotDescriptorString: i asString
+				                constant: value.
+			  aStream nextPut: descriptor ] ]
 ]
 
 { #category : #visiting }
@@ -272,17 +274,7 @@ CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
-	^ (self visitObject: aFraction) , { 
-		  (self newSlotDescriptorSelector: #floor).
-		  (self newSlotDescriptorSelector: #asFloat).
-		  ((self newSlotDescriptorSelector: #asPythagoreanTriple)
-			   inline;
-			   noHeader;
-			   quote: [ :aTriple :aDfsWalker | 
-				   aTriple asShapeSlotsDfsTree: aDfsWalker ]).
-		  ((self newSlotDescriptorSelector: #asShapeOnUnitCircle)
-			   inline;
-			   quote) }
+	^ {  }
 ]
 
 { #category : #visiting }
