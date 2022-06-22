@@ -17,11 +17,19 @@ Class {
 { #category : #shapes }
 CTDfsShapeBuilder >> box: aValue [
 
-	^ RSNote new
+	^ self boxClass new
 		  model: aValue;
 		  color: metaColor translucent;
 		  cornerRadius: self radiusOrPadding;
 		  yourself
+]
+
+{ #category : #shapes }
+CTDfsShapeBuilder >> boxClass [
+
+	"This message is here to allow subclass to customize the style of boxes."
+
+	^ RSNote "or perhaps RSSimplerNote"
 ]
 
 { #category : #shapes }

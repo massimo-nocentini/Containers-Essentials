@@ -187,7 +187,7 @@ CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 	i := 0.
 
 	^ Array streamContents: [ :aStream | 
-		  aCompiledCode allLiterals do: [ :value | 
+		  aCompiledCode literalsDo: [ :value | 
 			  | descriptor |
 			  i := i + 1.
 			  descriptor := self
