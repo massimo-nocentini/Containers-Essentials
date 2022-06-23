@@ -6,7 +6,8 @@ Class {
 	#name : #CTSlotDescriptorsVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'rootDescriptor'
+		'rootDescriptor',
+		'stack'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -78,12 +79,35 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorYourself [
 	^ self newSlotDescriptorSelector: #yourself
 ]
 
+{ #category : #adding }
+CTSlotDescriptorsVisitor >> pop [
+
+	^ stack
+		  ifNil: [ Error signal: 'Cannot pop from an empty stack.' ]
+		  ifNotNil: [ 
+			  | value |
+			  value := stack value.
+
+			  stack := stack nextLink.
+
+			  value ]
+]
+
 { #category : #copying }
 CTSlotDescriptorsVisitor >> postCopy [
 
 	super postCopy.
 
 	self rootDescriptor: rootDescriptor copy
+]
+
+{ #category : #adding }
+CTSlotDescriptorsVisitor >> push: anObject [
+
+	stack := ValueLink new
+		         value: anObject;
+		         nextLink: stack;
+		         yourself
 ]
 
 { #category : #accessing }
