@@ -279,27 +279,32 @@ SequenceableCollection >> lastButOne [
 { #category : #'*Containers-Essentials' }
 SequenceableCollection >> runs: aBlock [
 
-	| collected i j runs |
-	collected := self collect: aBlock.
+	| i runs mySize |
+	mySize := self size.
 
 	runs := OrderedCollection new.
 
 	i := 1.
 
-	[ 
-	| run |
-	run := OrderedCollection new.
-	j := i.
-	[ j <= collected size and: [ (collected at: i) = (collected at: j) ] ] 
-		whileTrue: [ 
-			run add: (self at: j).
+	[ i <= mySize ] whileTrue: [ 
+		| run j witness each |
+		witness := aBlock value: (self at: i).
+
+		run := OrderedCollection new.
+
+		j := i.
+		[ 
+		j <= mySize and: [ 
+			| next |
+			each := self at: j.
+			next := aBlock value: each.
+			witness = next ] ] whileTrue: [ 
+			run add: each.
 			j := j + 1 ].
 
-	runs add: run asArray.
+		runs add: run asArray.
 
-	i := j.
-
-	i <= collected size ] whileTrue.
+		i := j ].
 
 	^ runs asArray
 ]
