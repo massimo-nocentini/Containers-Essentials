@@ -277,6 +277,34 @@ SequenceableCollection >> lastButOne [
 ]
 
 { #category : #'*Containers-Essentials' }
+SequenceableCollection >> runs: aBlock [
+
+	| collected i j runs |
+	collected := self collect: aBlock.
+
+	runs := OrderedCollection new.
+
+	i := 1.
+
+	[ 
+	| run |
+	run := OrderedCollection new.
+	j := i.
+	[ j <= collected size and: [ (collected at: i) = (collected at: j) ] ] 
+		whileTrue: [ 
+			run add: (self at: j).
+			j := j + 1 ].
+
+	runs add: run asArray.
+
+	i := j.
+
+	i <= collected size ] whileTrue.
+
+	^ runs asArray
+]
+
+{ #category : #'*Containers-Essentials' }
 SequenceableCollection >> scan: aBlock init: aValue [
 
 	^ self class new: self size + 1 streamContents: [ :aStream | 

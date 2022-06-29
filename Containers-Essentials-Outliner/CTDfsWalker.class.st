@@ -233,27 +233,28 @@ CTDfsWalker >> recurring: data [
 
 	data hasOutgoings ifFalse: [ 
 		data descriptor
-			ifHasFollowers: [ :followers :parentDescriptor | 
-				| witness ghost outlinerShape model |
-				witness := Object new.
+			ifHasFollowers: [ :anArray :parentDescriptor | 
+				anArray do: [ :followers | 
+					| witness ghost outlinerShape model |
+					witness := Object new.
 
-				model := (quotedShapes
-					          at: parent
-					          ifAbsent: [ toShapes at: parent ]) model.
+					model := (quotedShapes
+						          at: parent
+						          ifAbsent: [ toShapes at: parent ]) model.
 
-				outlinerShape := shapeBuilder outline: witness.
+					outlinerShape := shapeBuilder outline: witness.
 
-				self
-					descriptor: parentDescriptor
-					object: model
-					level: data level + 1
-					parent: parent
-					exploringDescriptors: followers
-					shape: outlinerShape.
+					self
+						descriptor: parentDescriptor
+						object: model
+						level: data level + 1
+						parent: parent
+						exploringDescriptors: followers
+						shape: outlinerShape.
 
-				ghost := RSComposite ghost: witness.
+					ghost := RSComposite ghost: witness.
 
-				self registerSlotShape: ghost intoOutlineShape: data shape ]
+					self registerSlotShape: ghost intoOutlineShape: data shape ] ]
 			walker: self ]
 ]
 
