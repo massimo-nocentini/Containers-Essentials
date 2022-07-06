@@ -33,6 +33,14 @@ CTSlotDescriptorsVisitor >> initialize [
 { #category : #'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorFollowerOf: descriptor then: block [
 
+	^ self
+		  newSlotDescriptorFollowersOf: descriptor
+		  then: [ { block value } ]
+]
+
+{ #category : #'instance creation' }
+CTSlotDescriptorsVisitor >> newSlotDescriptorFollowersOf: descriptor then: block [
+
 	^ CTFollowerSlotDescriptor new
 		  descriptor: descriptor;
 		  follower: block;
@@ -345,50 +353,67 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 		                           constant: aHeap) quoteUsingSelector.
 
 	followedSlotDescriptor := self
-		                          newSlotDescriptorFollowerOf:
+		                          newSlotDescriptorFollowersOf:
 		                          followedSlotDescriptor
 		                          then: [ 
-			                          | size |
+			                          | size anArray anotherArray |
 			                          size := aHeap size.
 
+			                          anArray := { 
+				                                     (self 
+					                                      newSlotDescriptorSelector:
+					                                      #yourself) noInline.
+				                                     (self
+					                                      newSlotDescriptorFollowerOf:
+						                                      ((self 
+							                                        newSlotDescriptorSelector:
+								                                        #size)
+							                                       noInline;
+							                                       headerWithClass)
+					                                      then: [ 
+						                                      | printString |
+						                                      printString := size
+							                                                     printString.
+						                                      { 
+							                                      self
+								                                      newSlotDescriptorYourself
+								                                      noInline.
+							                                      (self
+								                                       newSlotDescriptorFollowerOf:
+								                                       (self
+									                                        newSlotDescriptorString:
+									                                        #somePrintString
+									                                        constant: printString)
+								                                       then: [ 
+									                                       { 
+										                                       self
+											                                       newSlotDescriptorYourself.
+										                                       ((self 
+											                                         newSlotDescriptorSelector:
+												                                         #size)
+											                                        noInline;
+											                                        headerWithClass) } ]) } ]).
+				                                     (self
+					                                      newSlotDescriptorFollowerOf:
+					                                      (self 
+						                                       newSlotDescriptorSelector:
+						                                       #asShapeValuesHorizontalTree)
+						                                      quote
+					                                      then: [ 
+						                                      { 
+							                                      (self 
+								                                       newSlotDescriptorSelector:
+								                                       #array).
+							                                      self
+								                                      newSlotDescriptorYourself } ]) }.
+
+			                          anotherArray := { (self 
+				                                           newSlotDescriptorSelector:
+				                                           #yourself) noInline }.
+
 			                          { 
-				                          (self newSlotDescriptorSelector:
-					                           #yourself) noInline.
-				                          (self
-					                           newSlotDescriptorFollowerOf:
-						                           ((self newSlotDescriptorSelector:
-								                             #size)
-							                            noInline;
-							                            headerWithClass)
-					                           then: [ 
-						                           | printString |
-						                           printString := size printString.
-						                           { 
-							                           self newSlotDescriptorYourself
-								                           noInline.
-							                           (self
-								                            newSlotDescriptorFollowerOf:
-								                            (self
-									                             newSlotDescriptorString:
-									                             #somePrintString
-									                             constant: printString)
-								                            then: [ 
-									                            { 
-										                            self newSlotDescriptorYourself.
-										                            ((self 
-											                              newSlotDescriptorSelector:
-												                              #size)
-											                             noInline;
-											                             headerWithClass) } ]) } ]).
-				                          (self
-					                           newSlotDescriptorFollowerOf:
-					                           (self newSlotDescriptorSelector:
-						                            #asShapeValuesHorizontalTree) quote
-					                           then: [ 
-						                           { 
-							                           (self newSlotDescriptorSelector:
-								                            #array).
-							                           self newSlotDescriptorYourself } ]) } ].
+				                          anArray.
+				                          anotherArray } ].
 
 	^ (self visitObject: aHeap) , { 
 		  followedSlotDescriptor.
