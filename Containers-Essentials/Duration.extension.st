@@ -14,12 +14,6 @@ Duration >> asStringScaledUptoHours [
 ]
 
 { #category : #'*Containers-Essentials' }
-Duration class >> microSeconds: micros [
-
-	^ self nanoSeconds: micros * 1e3
-]
-
-{ #category : #'*Containers-Essentials' }
 Duration >> printOn: aStream scales: scales withRespectTo: aBlock [
 
 	| base i scale |
