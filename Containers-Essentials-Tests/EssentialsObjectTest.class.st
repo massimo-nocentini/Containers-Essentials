@@ -48,9 +48,7 @@ EssentialsObjectTest >> testByteArrayLoremIpsum [
 { #category : #tests }
 EssentialsObjectTest >> testCannotInstantiateSmallFloat64 [
 
-	self should: [ SmallFloat64 new ] raise: Error.
-
-	self exportCompiledMethod: SmallFloat64 class >> #basicNew
+	self should: [ SmallFloat64 new ] raise: Error
 ]
 
 { #category : #tests }
