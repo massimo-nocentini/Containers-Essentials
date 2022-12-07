@@ -84,6 +84,13 @@ TIceImagesExporting >> exportCompiledMethod: anObject [
 ]
 
 { #category : #utilities }
+TIceImagesExporting >> exportImplementorsOf: aSelector [
+
+	aSelector implementors do: [ :aCompiledMethod | 
+		self exportCompiledMethod: aCompiledMethod ]
+]
+
+{ #category : #utilities }
 TIceImagesExporting >> exportShapeOf: anObject [
 
 	^ self exportShapeOf: anObject accessorBlock: [ :aShape | aShape ]

@@ -97,6 +97,15 @@ EssentialsObjectTest >> testDocumapsIsCompanySite [
 				   yourself)
 ]
 
+{ #category : #'export compiled methods' }
+EssentialsObjectTest >> testExportCompiledMethodsAboutFloats [
+
+	self
+		exportCompiledMethod: SmallFloat64 class >> #basicNew;
+		exportCompiledMethod:
+			EssentialsObjectTest >> #testCannotInstantiateSmallFloat64
+]
+
 { #category : #tests }
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
