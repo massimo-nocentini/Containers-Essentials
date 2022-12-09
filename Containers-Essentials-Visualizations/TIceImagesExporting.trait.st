@@ -71,8 +71,6 @@ TIceImagesExporting >> exportCompiledMethod: anObject [
 		nextPutAll: ']'	
 " ].
 
-			  (Object class >> #initialize) methodClass.
-
 			  builder := RSMultilineLabelBuilder new.
 			  builder labelShape useDefaultCodeFont.
 			  shape := builder shapeFor: code.
