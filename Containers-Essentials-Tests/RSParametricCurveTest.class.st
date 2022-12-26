@@ -1,8 +1,8 @@
 Class {
 	#name : #RSParametricCurveTest,
 	#superclass : #TestCase,
-	#traits : 'TIceImagesExporting',
-	#classTraits : 'TIceImagesExporting classTrait',
+	#traits : 'TIceImagesExporting + RSTParametricXYLines',
+	#classTraits : 'TIceImagesExporting classTrait + RSTParametricXYLines classTrait',
 	#category : #'Containers-Essentials-Tests'
 }
 
