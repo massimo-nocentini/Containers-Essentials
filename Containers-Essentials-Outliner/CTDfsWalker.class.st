@@ -26,7 +26,7 @@ Class {
 { #category : #shapes }
 CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
-	aShape addInteraction: RSDraggable new
+	"aShape addInteraction: RSDraggable new"
 	"aDescriptor addPopupInteractionOnShape: wholeShape"
 ]
 

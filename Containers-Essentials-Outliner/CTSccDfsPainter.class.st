@@ -61,7 +61,7 @@ CTSccDfsPainter >> dfsWalk: anObject [
 				  aBorder
 					  joinRound;
 					  color: (scale scale: aSCC size) translucent ];
-			  addInteraction: RSDraggable new;
+			 " addInteraction: RSDraggable new;"
 			  yourself: [ :aComposite | 
 				  shapeBySCC at: aSCC put: aComposite.
 

@@ -80,7 +80,7 @@ CTCollapsedSccDfsPainter >> dfsWalk: anObject [
 			  addInteraction: (RSPopup new text: [ :aModel | aSCC size ]);
 			  withBorder;
 			  cornerRadius: Float goldenRatio double;
-			  addInteraction: RSDraggable new;
+			"  addInteraction: RSDraggable new;"
 			  when: RSMouseDoubleLeftClick do: [ :ev | 
 				  | composite boxShape innerTreeTuples innerTreeEdges layoutEdges |
 				  boxShape := ev shape.
