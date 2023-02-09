@@ -343,10 +343,10 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 
 	| boolean |
 	boolean := level = maxLevel | anObject isImmediateObject
-	           | anObject isNil | anObject isSymbol | (anObject == true)
-	           | (anObject == false) | (anObject == Float infinity)
-	           | (anObject == Float negativeInfinity)
-	           | anObject isFraction.
+	           | anObject isNil | anObject isSymbol | anObject isString
+	           | anObject isFraction | (true = anObject)
+	           | (false = anObject) | (Float infinity = anObject)
+	           | (Float negativeInfinity = anObject).
 
 	^ descriptor inline: anObject level: level default: boolean
 ]
