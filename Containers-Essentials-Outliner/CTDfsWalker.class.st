@@ -49,6 +49,23 @@ CTDfsWalker >> defaultShapeOf: object [
 ]
 
 { #category : #DFS }
+CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent [
+
+	| shape descriptors |
+	shape := shapeBuilder outline: object.
+	
+	descriptors := slotDescriptorsVisitor visit: object.
+
+	^ self
+		  descriptor: descriptor
+		  object: object
+		  level: level
+		  parent: parent
+		  exploringDescriptors: descriptors
+		  shape: shape
+]
+
+{ #category : #DFS }
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent exploringDescriptors: descriptors shape: shape [
 
 	| data |
@@ -120,17 +137,11 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
-	| outlinerShape descriptors |
-	outlinerShape := shapeBuilder outline: child.
-	descriptors := slotDescriptorsVisitor visit: child.
-
 	self
 		descriptor: descriptor
 		object: child
 		level: data level + 1
-		parent: data object
-		exploringDescriptors: descriptors
-		shape: outlinerShape.
+		parent: data object.
 
 	data hasOutgoings:
 		(data hasOutgoings or: [ toShapes includesKey: child ])
@@ -414,15 +425,9 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| outlinerShape descriptors |
-	outlinerShape := shapeBuilder outline: object.
-	descriptors := slotDescriptorsVisitor visit: object.
-
 	^ self
 		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: self
-		  exploringDescriptors: descriptors
-		  shape: outlinerShape
+		  parent: Object new
 ]
