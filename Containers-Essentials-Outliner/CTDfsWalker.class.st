@@ -104,13 +104,16 @@ CTDfsWalker >> entering: data [
 { #category : #shapes }
 CTDfsWalker >> enteringShape: shape atLevel: depth [
 
+	| level |
 	toShapes at: shape model put: shape.
 
 	shape
 		propertyDfsTimings: dfsClock @ -1;
 		propertyDfsDepth: depth.
 
-	(levels at: depth ifAbsentPut: [ OrderedCollection new ]) add: shape
+	level := levels at: depth ifAbsentPut: [ OrderedCollection new ].
+
+	level add: shape
 ]
 
 { #category : #DFS }
