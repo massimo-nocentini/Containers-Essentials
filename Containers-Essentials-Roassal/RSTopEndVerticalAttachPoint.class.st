@@ -1,15 +1,15 @@
 Class {
-	#name : #RSBottomEndVerticalAttachPoint,
+	#name : #RSTopEndVerticalAttachPoint,
 	#superclass : #RSVerticalAttachPoint,
 	#category : #'Containers-Essentials-Roassal'
 }
 
 { #category : #'public - hooks' }
-RSBottomEndVerticalAttachPoint >> basicEndingPointOf: anEdge [
+RSTopEndVerticalAttachPoint >> basicEndingPointOf: anEdge [
 
 	^ self
 		  positionFor: anEdge to
 		  in: anEdge
 		  point:
-		  anEdge to encompassingRectangle bottomCenter + (0 @ endOffset)
+		  anEdge to encompassingRectangle topCenter + (0 @ endOffset)
 ]
