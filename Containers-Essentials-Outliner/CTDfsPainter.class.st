@@ -220,29 +220,27 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 
 	^ fromShape == toShape
 		  ifTrue: bBlock
-		  ifFalse: [ 
+		  ifFalse: [
 			  | fromEntryTime toEntryTime fromLeaveTime toLeaveTime |
 			  fromEntryTime := fromShape propertyDfsEntryTime.
 			  toEntryTime := toShape propertyDfsEntryTime.
 			  fromLeaveTime := fromShape propertyDfsLeaveTime.
 			  toLeaveTime := toShape propertyDfsLeaveTime.
 
-			  (fromEntryTime < toEntryTime and: [ 
+			  (fromEntryTime < toEntryTime and: [
 				   toShape propertyDfsLeaveTime < fromLeaveTime ])
-				  ifTrue: [ 
+				  ifTrue: [
 					  toShape propertyDfsDepth - fromShape propertyDfsDepth = 1
 						  ifTrue: tBlock
 						  ifFalse: fBlock ]
-				  ifFalse: [ 
-					  (toEntryTime < fromEntryTime and: [ 
+				  ifFalse: [
+					  (toEntryTime < fromEntryTime and: [
 						   fromLeaveTime < toLeaveTime ])
 						  ifTrue: bBlock
-						  ifFalse: [ 
+						  ifFalse: [
 							  toLeaveTime < fromEntryTime
 								  ifTrue: cBlock
-								  ifFalse: [ 
-									  Error signal:
-										  'Logical inconsistency: a non-sense association has been recognized.' ] ] ] ]
+								  ifFalse: cBlock ] ] ]
 ]
 
 { #category : #initialization }

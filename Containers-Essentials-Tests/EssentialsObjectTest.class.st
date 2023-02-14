@@ -792,7 +792,7 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 { #category : #tests }
 EssentialsObjectTest >> testPostpone [
 
-	| first second third root |
+	| first second third fourth root |
 	first := CTDummyForPostpone new
 		         name: 'First';
 		         yourself.
@@ -805,14 +805,22 @@ EssentialsObjectTest >> testPostpone [
 		         name: 'Third';
 		         yourself.
 
-	first cross: second.
-	second cross: 'hello'.
-	third cross: second.
+	fourth := CTDummyForPostpone new
+		          name: 'Forth';
+		          yourself.
+
+	first cross: third.
+	second cross: third.
+	third cross: fourth.
+	fourth cross: third.
 
 	root := {
-		        first.
+		        {
+			        first.
+			        'some other stuff' }.
 		        second.
-		        third }.
+		        (Object new -> third).
+		        fourth }.
 
 	^ self
 		  exportSlotsGraphOf: root

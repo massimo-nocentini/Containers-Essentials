@@ -157,7 +157,7 @@ CTBaseSlotDescriptor >> oneToOne [
 { #category : #accessing }
 CTBaseSlotDescriptor >> postpone: aBoolean [
 
-	postpone := postpone
+	postpone := aBoolean
 ]
 
 { #category : #accessing }
