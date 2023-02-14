@@ -790,6 +790,36 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testPostpone [
+
+	| first second third root |
+	first := CTDummyForPostpone new
+		         name: 'First';
+		         yourself.
+
+	second := CTDummyForPostpone new
+		          name: 'Second';
+		          yourself.
+
+	third := CTDummyForPostpone new
+		         name: 'Third';
+		         yourself.
+
+	first cross: second.
+	second cross: 'hello'.
+	third cross: second.
+
+	root := {
+		        first.
+		        second.
+		        third }.
+
+	^ self
+		  exportSlotsGraphOf: root
+		  slotDescriptorsVisitor: CTPostponeSlotDescriptorsVisitor new
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testRBNodeSubclasses [
 
 	^ self exportShapeOf: RBNode accessorBlock: #asShapeSubclasses

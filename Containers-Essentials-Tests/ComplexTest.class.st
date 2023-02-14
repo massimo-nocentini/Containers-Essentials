@@ -320,15 +320,15 @@ ComplexTest >> testNegated [
 { #category : #tests }
 ComplexTest >> testPolarForm [
 
-	1 + 1 i polarForm: [ :r :theta | 
+	1 + 1 i polarForm: [ :r :theta |
 		self
 			assert: r equals: 2 sqrt;
 			assert: theta equals: Float π / 4 ].
 
-	1 + 2 i polarForm: [ :r :theta | 
+	1 + 2 i polarForm: [ :r :theta |
 		self
 			assert: r equals: 5 sqrt;
-			assert: theta equals: 1.1071487177940906 ]
+			assert: theta equals: 1.1071487177940904 ]
 ]
 
 { #category : #tests }

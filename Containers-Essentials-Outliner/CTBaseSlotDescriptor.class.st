@@ -9,7 +9,8 @@ Class {
 		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate'
+		'enablePredicate',
+		'postpone'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -104,7 +105,8 @@ CTBaseSlotDescriptor >> initialize [
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
-		enablePredicate: [ true ]
+		enablePredicate: [ true ];
+		postpone: false
 ]
 
 { #category : #dispatching }
@@ -150,6 +152,18 @@ CTBaseSlotDescriptor >> oneToMany [
 CTBaseSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> postpone: aBoolean [
+
+	postpone := postpone
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> postponed [
+
+	^ postpone
 ]
 
 { #category : #accessing }

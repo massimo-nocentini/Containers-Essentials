@@ -89,6 +89,12 @@ CTDecorateSlotDescriptor >> noHeader [
 ]
 
 { #category : #delegating }
+CTDecorateSlotDescriptor >> postponed [
+
+	^ descriptor postponed
+]
+
+{ #category : #delegating }
 CTDecorateSlotDescriptor >> selector [
 
 	^ descriptor selector
