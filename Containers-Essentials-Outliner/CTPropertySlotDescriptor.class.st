@@ -80,6 +80,12 @@ CTPropertySlotDescriptor >> noHeader [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> postponed [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> quote [
 
 	^ self quote: [ :aShape :aDfsWalker | aShape ]

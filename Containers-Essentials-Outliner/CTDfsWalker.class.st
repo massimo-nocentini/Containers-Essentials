@@ -49,6 +49,23 @@ CTDfsWalker >> defaultShapeOf: object [
 ]
 
 { #category : #DFS }
+CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent [
+
+	| shape descriptors |
+	shape := shapeBuilder outline: object.
+	
+	descriptors := slotDescriptorsVisitor visit: object.
+
+	^ self
+		  descriptor: descriptor
+		  object: object
+		  level: level
+		  parent: parent
+		  exploringDescriptors: descriptors
+		  shape: shape
+]
+
+{ #category : #DFS }
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent exploringDescriptors: descriptors shape: shape [
 
 	| data |
@@ -87,13 +104,16 @@ CTDfsWalker >> entering: data [
 { #category : #shapes }
 CTDfsWalker >> enteringShape: shape atLevel: depth [
 
+	| level |
 	toShapes at: shape model put: shape.
 
 	shape
 		propertyDfsTimings: dfsClock @ -1;
 		propertyDfsDepth: depth.
 
-	(levels at: depth ifAbsentPut: [ OrderedCollection new ]) add: shape
+	level := levels at: depth ifAbsentPut: [ OrderedCollection new ].
+
+	level add: shape
 ]
 
 { #category : #DFS }
@@ -120,17 +140,12 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
-	| outlinerShape descriptors |
-	outlinerShape := shapeBuilder outline: child.
-	descriptors := slotDescriptorsVisitor visit: child.
-
-	self
-		descriptor: descriptor
-		object: child
-		level: data level + 1
-		parent: data object
-		exploringDescriptors: descriptors
-		shape: outlinerShape.
+	descriptor postponed ifFalse: [
+		self
+			descriptor: descriptor
+			object: child
+			level: data level + 1
+			parent: data object ].
 
 	data hasOutgoings:
 		(data hasOutgoings or: [ toShapes includesKey: child ])
@@ -343,10 +358,10 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 
 	| boolean |
 	boolean := level = maxLevel | anObject isImmediateObject
-	           | anObject isNil | anObject isSymbol | (anObject == true)
-	           | (anObject == false) | (anObject == Float infinity)
-	           | (anObject == Float negativeInfinity)
-	           | anObject isFraction.
+	           | anObject isNil | anObject isSymbol | anObject isString
+	           | anObject isFraction | (true = anObject)
+	           | (false = anObject) | (Float infinity = anObject)
+	           | (Float negativeInfinity = anObject).
 
 	^ descriptor inline: anObject level: level default: boolean
 ]
@@ -414,15 +429,9 @@ CTDfsWalker >> toShapes: anObject [
 { #category : #API }
 CTDfsWalker >> value: object [
 
-	| outlinerShape descriptors |
-	outlinerShape := shapeBuilder outline: object.
-	descriptors := slotDescriptorsVisitor visit: object.
-
 	^ self
 		  descriptor: slotDescriptorsVisitor rootDescriptor
 		  object: object
 		  level: 1
-		  parent: self
-		  exploringDescriptors: descriptors
-		  shape: outlinerShape
+		  parent: Object new
 ]

@@ -46,6 +46,12 @@ EssentialsObjectTest >> testByteArrayLoremIpsum [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testCannotInstantiateSmallFloat64 [
+
+	self should: [ SmallFloat64 new ] raise: Error
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testCollectionSubclasses [
 
 	^ self exportShapeOf: Collection accessorBlock: #asShapeSubclasses
@@ -89,6 +95,15 @@ EssentialsObjectTest >> testDocumapsIsCompanySite [
 						    noHeader;
 						    yourself);
 				   yourself)
+]
+
+{ #category : #'export compiled methods' }
+EssentialsObjectTest >> testExportCompiledMethodsAboutFloats [
+
+	self
+		exportCompiledMethod: SmallFloat64 class >> #basicNew;
+		exportCompiledMethod:
+			EssentialsObjectTest >> #testCannotInstantiateSmallFloat64
 ]
 
 { #category : #tests }
@@ -772,6 +787,44 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 	^ self
 		  exportSlotsGraphOf: Magnitude
 		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorClassHierarchy new
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testPostpone [
+
+	| first second third fourth root |
+	first := CTDummyForPostpone new
+		         name: 'First';
+		         yourself.
+
+	second := CTDummyForPostpone new
+		          name: 'Second';
+		          yourself.
+
+	third := CTDummyForPostpone new
+		         name: 'Third';
+		         yourself.
+
+	fourth := CTDummyForPostpone new
+		          name: 'Forth';
+		          yourself.
+
+	first cross: third.
+	second cross: third.
+	third cross: fourth.
+	fourth cross: third.
+
+	root := {
+		        {
+			        first.
+			        'some other stuff' }.
+		        second.
+		        (Object new -> third).
+		        fourth }.
+
+	^ self
+		  exportSlotsGraphOf: root
+		  slotDescriptorsVisitor: CTPostponeSlotDescriptorsVisitor new
 ]
 
 { #category : #tests }
