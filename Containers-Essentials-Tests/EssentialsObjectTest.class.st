@@ -828,6 +828,62 @@ EssentialsObjectTest >> testPostpone [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testPostponeWithSharingEdges [
+
+	| first second third fourth root uidType primaryType pippo pluto |
+	first := CTDummyForPostpone new
+		         name: 'item UID';
+		         yourself.
+
+	second := CTDummyForPostpone new
+		          name: 'primary key';
+		          yourself.
+
+	third := CTDummyForPostpone new
+		         name: 'item UID';
+		         yourself.
+
+	fourth := CTDummyForPostpone new
+		          name: 'primary key';
+		          yourself.
+
+	pippo := 'pippo' -> (CTPostponeOrderedCollection new
+		          add: first;
+		          add: third;
+		          yourself).
+		
+	pluto := 'pluto' -> (CTPostponeOrderedCollection new
+		          add: second;
+		          add: fourth;
+		          yourself).
+
+	uidType := 'Item UID' -> {
+		           pippo.
+		           pluto }.
+
+	first cross: uidType.
+	third cross: uidType.
+
+	primaryType := 'Primary Key' -> {
+		               pippo.
+		               pluto }.
+
+	second cross: primaryType.
+	fourth cross: primaryType.
+
+	root := {
+		        pippo.
+		        pluto.
+		        ('types' -> {
+			         uidType.
+			         primaryType }) }.
+
+	^ self
+		  exportSlotsGraphOf: root
+		  slotDescriptorsVisitor: CTPostponeSlotDescriptorsVisitor new
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testRBNodeSubclasses [
 
 	^ self exportShapeOf: RBNode accessorBlock: #asShapeSubclasses
