@@ -876,7 +876,10 @@ EssentialsObjectTest >> testPostponeWithSharingEdges [
 		        pluto.
 		        ('types' -> {
 			         uidType.
-			         primaryType }) }.
+			         primaryType }).
+		        (LookupKey new
+			         key: pippo;
+			         yourself) }.
 
 	^ self
 		  exportSlotsGraphOf: root

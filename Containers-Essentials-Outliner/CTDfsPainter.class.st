@@ -314,8 +314,8 @@ CTDfsPainter >> postLinesBuilder [
 						    yourself);
 				   offset: Float goldenRatio double;
 				   yourself);
-		  color: color;
-		  dashed;
+		  color: color lighter;
+		  dashArray: { (4 * Float silverRatio) };
 		  controlPointsController: (RSStartEndCPAPController new
 				   controller: RSDirectedBezierConcavityCPAPController new;
 				   startAttachPoint: RSCenteredAttachPoint new;
