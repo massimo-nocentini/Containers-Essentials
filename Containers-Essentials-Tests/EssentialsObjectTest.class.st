@@ -849,11 +849,11 @@ EssentialsObjectTest >> testPostponeWithSharingEdges [
 
 	pippo := 'pippo' -> (CTPostponeOrderedCollection new
 		          add: first;
-		          add: third;
-		          yourself).
-		
-	pluto := 'pluto' -> (CTPostponeOrderedCollection new
 		          add: second;
+		          yourself).
+
+	pluto := 'pluto' -> (CTPostponeOrderedCollection new
+		          add: third;
 		          add: fourth;
 		          yourself).
 
