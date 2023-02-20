@@ -16,7 +16,6 @@ Class {
 		'skipBacks',
 		'skipNils',
 		'skipEmptyCollections',
-		'metaExtent',
 		'slotDescriptorsVisitor',
 		'defaultShapeBlock'
 	],
@@ -75,7 +74,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        level: level;
 		        parent: parent;
 		        labelsWidth: 0;
-		        boxesWidth: metaExtent x;
+		        boxesWidth: shapeBuilder metaExtent x;
 		        shape: shape;
 		        hasOutgoings: false;
 		        exploringDescriptors: descriptors;
@@ -289,29 +288,29 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 		                level: data level.
 
 	shouldInline
-		ifTrue: [ 
+		ifTrue: [
 			| y |
 			valueLabel := descriptor shape: child walker: self.
 
 			valueLabel := shapeBuilder pad: valueLabel.
 
-			y := valueLabel extent y max: metaExtent y.
+			y := valueLabel extent y max: shapeBuilder metaExtent y.
 
-			(quotedShapes includesKey: child) ifTrue: [ 
+			(quotedShapes includesKey: child) ifTrue: [
 				valueBox color: Color transparent ].
 
 			extent := valueLabel extent x @ y ]
-		ifFalse: [ 
+		ifFalse: [
 			valueLabel := nil.
 
 			toShapes
 				at: child
-				ifPresent: [ :anAlreadySeenShape | 
+				ifPresent: [ :anAlreadySeenShape |
 					self
 						hasBeenVisited: child
 						childShape: anAlreadySeenShape
 						parentShape: data shape ]
-				ifAbsent: [ 
+				ifAbsent: [
 				self hasntBeenVisited: child descriptor: descriptor data: data ].
 
 			descriptor
@@ -322,7 +321,7 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 			valueBox color: valueBox color lighter lighter.
 
-			extent := data boxesWidth @ metaExtent y ].
+			extent := data boxesWidth @ shapeBuilder metaExtent y ].
 
 	data
 		labelsWidth: (data labelsWidth max: varLabel extent x);
@@ -348,9 +347,7 @@ CTDfsWalker >> shapeBuilder [
 { #category : #accessing }
 CTDfsWalker >> shapeBuilder: aShapeBuilder [
 
-	shapeBuilder := aShapeBuilder.
-
-	metaExtent := shapeBuilder metaExtent
+	shapeBuilder := aShapeBuilder
 ]
 
 { #category : #accessing }
