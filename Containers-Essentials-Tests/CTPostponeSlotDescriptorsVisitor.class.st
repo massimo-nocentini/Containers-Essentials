@@ -15,7 +15,9 @@ CTPostponeSlotDescriptorsVisitor >> visitCTDummyForPostpone: anObject [
 { #category : #visiting }
 CTPostponeSlotDescriptorsVisitor >> visitCTPostponeOrderedCollection: aCollectionOfPostpones [
 
-	^ aCollectionOfPostpones collect: [ :each |
-		  (self newSlotDescriptorString: each name constant: each cross)
+	^ aCollectionOfPostpones collection collect: [ :each |
+		  | assoc |
+		  assoc := aCollectionOfPostpones keyAndValueOf: each.
+		  (self newSlotDescriptorString: assoc key constant: assoc value)
 			  postpone: true ]
 ]

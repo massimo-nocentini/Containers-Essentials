@@ -847,15 +847,15 @@ EssentialsObjectTest >> testPostponeWithSharingEdges [
 		          name: 'primary key';
 		          yourself.
 
-	pippo := 'pippo' -> (CTPostponeOrderedCollection new
+	pippo := 'pippo' -> (OrderedCollection new
 		          add: first;
 		          add: second;
-		          yourself).
+		          asCollectionKeyBlock: #name valueBlock: #cross).
 
-	pluto := 'pluto' -> (CTPostponeOrderedCollection new
+	pluto := 'pluto' -> (OrderedCollection new
 		          add: third;
 		          add: fourth;
-		          yourself).
+		          asCollectionKeyBlock: #name valueBlock: #cross).
 
 	uidType := 'Item UID' -> {
 		           pippo.
@@ -879,6 +879,15 @@ EssentialsObjectTest >> testPostponeWithSharingEdges [
 			         primaryType }).
 		        (LookupKey new
 			         key: pippo;
+			         yourself).
+		        (LookupKey new
+			         key: pluto;
+			         yourself).
+		        (LookupKey new
+			         key: uidType;
+			         yourself).
+		        (LookupKey new
+			         key: primaryType;
 			         yourself) }.
 
 	^ self
