@@ -245,26 +245,22 @@ CTDfsWalker >> postCopy [
 { #category : #DFS }
 CTDfsWalker >> recurring: data [
 
-	| rows parent |
-	rows := data rows.
+	| parent |
 	parent := data object.
 
 	data exploringDescriptors
 		select: [ :each | each enabled ]
-		thenDo: [ :each | 
+		thenDo: [ :each |
 			| child |
 			child := each valueOn: parent walker: self.
 
-			(self shouldSkip: child) ifFalse: [ 
-				| rowGroup |
-				rowGroup := self recurring: data child: child descriptor: each.
+			(self shouldSkip: child) ifFalse: [
+				self recurring: data child: child descriptor: each ] ].
 
-				rows add: rowGroup ] ].
-
-	data hasOutgoings ifFalse: [ 
+	data hasOutgoings ifFalse: [
 		data descriptor
-			ifHasFollowers: [ :anArray :parentDescriptor | 
-				anArray do: [ :followers | 
+			ifHasFollowers: [ :anArray :parentDescriptor |
+				anArray do: [ :followers |
 					| witness ghost outlinerShape model |
 					witness := Object new.
 
@@ -291,7 +287,7 @@ CTDfsWalker >> recurring: data [
 { #category : #DFS }
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
-	| valueLabel varLabel valueBox extent shouldInline |
+	| valueLabel varLabel valueBox extent shouldInline rowsGroup |
 	varLabel := descriptor varShapeOf: data object dfsWalker: self.
 
 	valueBox := shapeBuilder box: child.
@@ -343,7 +339,12 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 	valueBox height: (extent y max: varLabel extent y).
 
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+	rowsGroup := RSGroupSlotsRow
+		             var: varLabel
+		             box: valueBox
+		             labelOrNil: valueLabel.
+
+	data rows add: rowsGroup
 ]
 
 { #category : #shapes }
