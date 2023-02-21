@@ -9,7 +9,7 @@ Class {
 		'keyBlock',
 		'valueBlock'
 	],
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Collections'
 }
 
 { #category : #visiting }
