@@ -94,7 +94,6 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        shape: shape;
 		        hasOutgoings: false;
 		        exploringDescriptors: descriptors;
-		        rows: OrderedCollection new;
 		        yourself.
 
 	^ self
@@ -287,17 +286,17 @@ CTDfsWalker >> recurring: data [
 { #category : #DFS }
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
-	| valueLabel varLabel valueBox extent shouldInline rowsGroup |
+	| valueLabel varLabel valueBox extent inlined rowsGroup |
 	varLabel := descriptor varShapeOf: data object dfsWalker: self.
 
 	valueBox := shapeBuilder box: child.
 
-	shouldInline := self
-		                shouldInline: child
-		                descriptor: descriptor
-		                level: data level.
+	inlined := self
+		           shouldInline: child
+		           descriptor: descriptor
+		           level: data level.
 
-	shouldInline
+	inlined
 		ifTrue: [
 			| y |
 			valueLabel := descriptor shape: child walker: self.
@@ -344,7 +343,7 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 		             box: valueBox
 		             labelOrNil: valueLabel.
 
-	data rows add: rowsGroup
+	data addRowGroup: rowsGroup inlined: inlined
 ]
 
 { #category : #shapes }

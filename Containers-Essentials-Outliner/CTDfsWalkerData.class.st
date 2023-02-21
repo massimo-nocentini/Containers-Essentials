@@ -10,7 +10,8 @@ Class {
 		'parent',
 		'labelsWidth',
 		'boxesWidth',
-		'rows',
+		'rowsInlined',
+		'rowsOutgoing',
 		'object',
 		'shape',
 		'hasOutgoings',
@@ -18,6 +19,17 @@ Class {
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
+
+{ #category : #adding }
+CTDfsWalkerData >> addRowGroup: aGroup inlined: aBoolean [
+
+	| dict |
+	dict := aBoolean
+		        ifTrue: [ rowsInlined ]
+		        ifFalse: [ rowsOutgoing ].
+
+	^ dict at: rowsInlined size + rowsOutgoing size + 1 put: aGroup
+]
 
 { #category : #accessing }
 CTDfsWalkerData >> boxesWidth [
@@ -65,6 +77,15 @@ CTDfsWalkerData >> hasOutgoings [
 CTDfsWalkerData >> hasOutgoings: anObject [
 
 	hasOutgoings := anObject
+]
+
+{ #category : #initialization }
+CTDfsWalkerData >> initialize [
+
+	super initialize.
+
+	rowsInlined := SmallDictionary new.
+	rowsOutgoing := SmallDictionary new
 ]
 
 { #category : #accessing }
@@ -118,13 +139,13 @@ CTDfsWalkerData >> parent: anObject [
 { #category : #accessing }
 CTDfsWalkerData >> rows [
 
-	^ rows
-]
+	| array |
+	array := Array new: rowsInlined size + rowsOutgoing size.
 
-{ #category : #accessing }
-CTDfsWalkerData >> rows: anObject [
+	rowsInlined keysAndValuesDo: [ :i :group | array at: i put: group ].
+	rowsOutgoing keysAndValuesDo: [ :i :group | array at: i put: group ].
 
-	rows := anObject
+	^ array
 ]
 
 { #category : #accessing }
