@@ -1,5 +1,21 @@
 "
 I walk a graph of objects according to the Depth-First Search strategy.
+
+# Instance variables
+
+- toShapes 
+- fromShapes 
+- maxLevel 
+- dfsClock 
+- levels 
+- quotedShapes 
+- oneToManyShapes
+- shapeBuilder
+- skipBacks
+- skipNils
+- skipEmptyCollections
+- slotDescriptorsVisitor
+- defaultShapeBlock
 "
 Class {
 	#name : #CTDfsWalker,
@@ -73,7 +89,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        descriptor: descriptor;
 		        level: level;
 		        parent: parent;
-		        labelsWidth: 0;
+		        labelsWidth: 0.0;
 		        boxesWidth: shapeBuilder metaExtent x;
 		        shape: shape;
 		        hasOutgoings: false;
@@ -276,9 +292,7 @@ CTDfsWalker >> recurring: data [
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 	| valueLabel varLabel valueBox extent shouldInline |
-	varLabel := descriptor
-		            varLabelShapeOf: data object
-		            shapeBuilder: shapeBuilder.
+	varLabel := descriptor varShapeOf: data object dfsWalker: self.
 
 	valueBox := shapeBuilder box: child.
 
@@ -366,10 +380,10 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 { #category : #accessing }
 CTDfsWalker >> shouldSkip: value [
 
-	^ (skipNils and: [ value isNil ]) or: [ 
-		  (skipBacks and: [ toShapes includesKey: value ]) or: [ 
-			  value isCollection and: [ 
-				  skipEmptyCollections and: [ value isEmpty ] ] ] ]
+	^ (skipNils and: [ value isNil ]) or: [
+		  (skipBacks and: [ toShapes includesKey: value ]) or: [
+			  skipEmptyCollections and: [
+				  value isCollection and: [ value isEmpty ] ] ] ]
 ]
 
 { #category : #accessing }

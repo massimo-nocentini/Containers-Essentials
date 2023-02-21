@@ -113,7 +113,7 @@ CTDecorateSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTDecorateSlotDescriptor >> varShapeOf: anObject dfsWalker: walker [
 
-	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
+	^ descriptor varShapeOf: anObject dfsWalker: walker
 ]

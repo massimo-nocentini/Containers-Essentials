@@ -185,7 +185,7 @@ CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTBaseSlotDescriptor >> varShapeOf: anObject dfsWalker: walker [
 
-	^ aShapeBuilder label: anObject var: self selector
+	^ walker shapeBuilder label: anObject var: self selector
 ]

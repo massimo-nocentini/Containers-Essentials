@@ -132,7 +132,7 @@ CTPropertySlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTPropertySlotDescriptor >> varShapeOf: anObject dfsWalker: walker [
 
 	self subclassResponsibility
 ]
