@@ -238,9 +238,9 @@ CTDfsShapeBuilder >> metaExtent [
 ]
 
 { #category : #shapes }
-CTDfsShapeBuilder >> multilineLabel: anObject [
+CTDfsShapeBuilder >> multilineLabel: aString model: anObject [
 
-	^ (anObject asString asShapeMultilineLabel: prototypeLabel)
+	^ (aString asShapeMultilineLabel: prototypeLabel)
 		  model: anObject;
 		  yourself
 ]

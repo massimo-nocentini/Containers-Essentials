@@ -3,7 +3,7 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Outliner' }
 Object >> asDefaultShapeForWalker: aWalker [
 
-	^ aWalker shapeBuilder multilineLabel: self
+	^ aWalker shapeBuilder multilineLabel: self asString model: self
 ]
 
 { #category : #'*Containers-Essentials-Outliner' }
