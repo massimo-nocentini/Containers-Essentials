@@ -286,7 +286,7 @@ CTDfsWalker >> recurring: data [
 { #category : #DFS }
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
-	| valueLabel varLabel valueBox extent inlined rowsGroup |
+	| valueLabel varLabel valueBox extent inlined rowGroup |
 	varLabel := descriptor varShapeOf: data object dfsWalker: self.
 
 	valueBox := shapeBuilder box: child.
@@ -338,12 +338,12 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 	valueBox height: (extent y max: varLabel extent y).
 
-	rowsGroup := RSGroupSlotsRow
-		             var: varLabel
-		             box: valueBox
-		             labelOrNil: valueLabel.
+	rowGroup := RSGroupSlotsRow
+		            var: varLabel
+		            box: valueBox
+		            labelOrNil: valueLabel.
 
-	data addRowGroup: rowsGroup inlined: inlined
+	data addRowGroup: rowGroup inlined: inlined
 ]
 
 { #category : #shapes }
