@@ -1,3 +1,6 @@
+"
+I'm a wrapper over a collection providing the capability to use two blocks for representing my objects as `Association`s.
+"
 Class {
 	#name : #CTKeyedValuedOrderedCollection,
 	#superclass : #Object,
