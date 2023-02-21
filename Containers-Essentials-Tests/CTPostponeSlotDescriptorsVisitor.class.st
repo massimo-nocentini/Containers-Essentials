@@ -13,7 +13,7 @@ CTPostponeSlotDescriptorsVisitor >> visitCTDummyForPostpone: anObject [
 ]
 
 { #category : #visiting }
-CTPostponeSlotDescriptorsVisitor >> visitCTPostponeOrderedCollection: aCollectionOfPostpones [
+CTPostponeSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones [
 
 	^ aCollectionOfPostpones collection collect: [ :each |
 		  | assoc |

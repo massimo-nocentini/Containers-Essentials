@@ -15,7 +15,7 @@ Class {
 { #category : #visiting }
 CTKeyedValuedOrderedCollection >> acceptSlotDescriptorsVisitor: aVisitor [
 
-	^ aVisitor visitCTPostponeOrderedCollection: self
+	^ aVisitor visitCTKeyedValuedOrderedCollection: self
 ]
 
 { #category : #accessing }
