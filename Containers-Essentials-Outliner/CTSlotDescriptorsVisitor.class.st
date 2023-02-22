@@ -198,6 +198,13 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollection [
+
+	^ aKeyedCollection keysAndValuesCollect: [ :key :value |
+		  self newSlotDescriptorString: key constant: value ]
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitClass: aClass [
 
 	^ self visitBehavior: aClass

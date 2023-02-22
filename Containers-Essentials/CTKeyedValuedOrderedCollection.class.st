@@ -42,6 +42,15 @@ CTKeyedValuedOrderedCollection >> keyBlock: anObject [
 	keyBlock := anObject
 ]
 
+{ #category : #enumerating }
+CTKeyedValuedOrderedCollection >> keysAndValuesCollect: aBlock [
+
+	^ collection collect: [ :each |
+		  | assoc |
+		  assoc := self keyAndValueOf: each.
+		  aBlock value: assoc key value: assoc value ]
+]
+
 { #category : #accessing }
 CTKeyedValuedOrderedCollection >> valueBlock: anObject [
 

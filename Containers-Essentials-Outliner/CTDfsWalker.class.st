@@ -156,12 +156,13 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
-	descriptor postponed ifFalse: [
-		self
-			descriptor: descriptor
-			object: child
-			level: data level + 1
-			parent: data object ].
+	descriptor postponed ifTrue: [ ^ self ].
+
+	self
+		descriptor: descriptor
+		object: child
+		level: data level + 1
+		parent: data object.
 
 	data hasOutgoings:
 		(data hasOutgoings or: [ toShapes includesKey: child ])
