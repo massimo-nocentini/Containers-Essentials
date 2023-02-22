@@ -35,7 +35,9 @@ Class {
 		'skipNils',
 		'skipEmptyCollections',
 		'slotDescriptorsVisitor',
-		'defaultShapeBlock'
+		'defaultShapeBlock',
+		'postponedObjects',
+		'parents'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -112,6 +114,8 @@ CTDfsWalker >> entering: data [
 		incrementDfsClock;
 		enteringShape: data shape atLevel: data level.
 
+	data shape propertyAt: #dfsWalkerData put: data.
+
 	self
 		addInteractionsUsingSlotDescriptor: data descriptor
 		onShape: data shape
@@ -156,16 +160,19 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
-	descriptor postponed ifTrue: [ ^ self ].
+	descriptor
+		dispatchPostponed: child
+		data: data
+		walker: self
+		otherwise: [
+			self
+				descriptor: descriptor
+				object: child
+				level: data level + 1
+				parent: data object.
 
-	self
-		descriptor: descriptor
-		object: child
-		level: data level + 1
-		parent: data object.
-
-	data hasOutgoings:
-		(data hasOutgoings or: [ toShapes includesKey: child ])
+			data hasOutgoings:
+				(data hasOutgoings or: [ toShapes includesKey: child ]) ]
 ]
 
 { #category : #DFS }
@@ -185,6 +192,8 @@ CTDfsWalker >> initialize [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
+	postponedObjects := IdentityDictionary new.
+	parents := IdentityDictionary new.
 
 	self
 		maxLevel: 0;
@@ -225,6 +234,12 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 	oneToManyShapes := aDictionary
 ]
 
+{ #category : #accessing }
+CTDfsWalker >> parentOf: anObject [
+
+	^ parents at: anObject
+]
+
 { #category : #copying }
 CTDfsWalker >> postCopy [
 
@@ -236,12 +251,35 @@ CTDfsWalker >> postCopy [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
+	postponedObjects := postponedObjects class new.
+	parents := parents class new.
 
 	self
 		levels: levels class new;
 		oneToManyShapes: oneToManyShapes class new;
 		fromShapes: fromShapes class new;
 		toShapes: toShapes class new
+]
+
+{ #category : #DFS }
+CTDfsWalker >> postponedBlockClosure: block child: child data: data descriptor: descriptor [
+
+	postponedObjects
+		at: data rows last box
+		put: data object -> (block value: child)
+]
+
+{ #category : #DFS }
+CTDfsWalker >> postponedObjects [
+
+	^ postponedObjects
+]
+
+{ #category : #DFS }
+CTDfsWalker >> postponedTrue: post child: child data: data descriptor: descriptor [
+	"Simply do nothing, proceed as usual delegating to the painter the job of connecting boxes."
+
+	
 ]
 
 { #category : #DFS }
@@ -257,6 +295,11 @@ CTDfsWalker >> recurring: data [
 			child := each valueOn: parent walker: self.
 
 			(self shouldSkip: child) ifFalse: [
+				parents
+					at: child
+					ifPresent: [ ]
+					ifAbsentPut: [ parent ].
+
 				self recurring: data child: child descriptor: each ] ].
 
 	data hasOutgoings ifFalse: [
@@ -289,7 +332,7 @@ CTDfsWalker >> recurring: data [
 { #category : #DFS }
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
-	| valueLabel varLabel valueBox extent inlined rowGroup |
+	| varLabel valueBox extent inlined rowGroup |
 	varLabel := descriptor varShapeOf: data object walker: self.
 
 	valueBox := shapeBuilder box: child.
@@ -299,9 +342,13 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 		           descriptor: descriptor
 		           level: data level.
 
+	rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
+
+	data addRowGroup: rowGroup inlined: inlined.
+
 	inlined
 		ifTrue: [
-			| y |
+			| y valueLabel |
 			valueLabel := descriptor valueShapeOf: child walker: self.
 
 			valueLabel := shapeBuilder pad: valueLabel.
@@ -311,10 +358,10 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 			(quotedShapes includesKey: child) ifTrue: [
 				valueBox color: Color transparent ].
 
-			extent := valueLabel extent x @ y ]
-		ifFalse: [
-			valueLabel := nil.
+			extent := valueLabel extent x @ y.
 
+			rowGroup label: valueLabel ]
+		ifFalse: [
 			toShapes
 				at: child
 				ifPresent: [ :anAlreadySeenShape |
@@ -339,14 +386,7 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 		labelsWidth: (data labelsWidth max: varLabel extent x);
 		boxesWidth: (data boxesWidth max: extent x).
 
-	valueBox height: (extent y max: varLabel extent y).
-
-	rowGroup := RSGroupSlotsRow
-		            var: varLabel
-		            box: valueBox
-		            labelOrNil: valueLabel.
-
-	data addRowGroup: rowGroup inlined: inlined
+	valueBox height: (extent y max: varLabel extent y)
 ]
 
 { #category : #shapes }

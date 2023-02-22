@@ -16,5 +16,6 @@ CTPostponeSlotDescriptorsVisitor >> visitCTDummyForPostpone: anObject [
 CTPostponeSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones [
 
 	^ (super visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones)
-		  collect: [ :each | each postpone: true ]
+		  collect: [ :descriptor |
+		  descriptor postpone: [ :anAssoc | anAssoc value ] ]
 ]

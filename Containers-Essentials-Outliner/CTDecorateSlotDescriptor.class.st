@@ -34,6 +34,16 @@ CTDecorateSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+CTDecorateSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
+
+	^ descriptor
+		  dispatchPostponed: child
+		  data: data
+		  walker: walker
+		  otherwise: oBlock
+]
+
 { #category : #delegating }
 CTDecorateSlotDescriptor >> enabled [
 
@@ -86,12 +96,6 @@ CTDecorateSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 CTDecorateSlotDescriptor >> noHeader [
 
 	descriptor noHeader
-]
-
-{ #category : #delegating }
-CTDecorateSlotDescriptor >> postponed [
-
-	^ descriptor postponed
 ]
 
 { #category : #delegating }

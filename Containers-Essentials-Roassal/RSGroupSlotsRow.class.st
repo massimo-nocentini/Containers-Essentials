@@ -5,14 +5,9 @@ Class {
 }
 
 { #category : #creating }
-RSGroupSlotsRow class >> var: varLabel box: valueBox labelOrNil: valueLabel [
+RSGroupSlotsRow class >> var: varLabel box: valueBox [
 
-	| shapes |
-	shapes := (Array with: varLabel with: valueBox)
-	          ,
-	          (valueLabel ifNil: [ #(  ) ] ifNotNil: [ { valueLabel } ]).
-
-	^ self withAll: shapes
+	^ self withAll: (Array with: varLabel with: valueBox)
 ]
 
 { #category : #accessing }
@@ -25,6 +20,14 @@ RSGroupSlotsRow >> box [
 RSGroupSlotsRow >> label [
 
 	^ self at: 3 ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+RSGroupSlotsRow >> label: aShape [
+
+	self assert: self size = 2.
+
+	self add: aShape
 ]
 
 { #category : #accessing }

@@ -9,8 +9,7 @@ Class {
 		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate',
-		'postpone'
+		'enablePredicate'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -47,6 +46,12 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 cr;
 					 nextPutAll: 'SCC size: ';
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
+]
+
+{ #category : #'as yet unclassified' }
+CTBaseSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
+
+	^ oBlock value
 ]
 
 { #category : #accessing }
@@ -152,18 +157,6 @@ CTBaseSlotDescriptor >> oneToMany [
 CTBaseSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> postpone: aBoolean [
-
-	postpone := aBoolean
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> postponed [
-
-	^ postpone
 ]
 
 { #category : #accessing }

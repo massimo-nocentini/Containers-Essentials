@@ -12,7 +12,8 @@ Class {
 		'shapes',
 		'edges',
 		'dfsWalker',
-		'layout'
+		'layout',
+		'skipBoxes'
 	],
 	#category : #'Containers-Essentials-Outliner-Painters'
 }
@@ -43,7 +44,7 @@ CTDfsPainter >> backLinesBuilder [
 { #category : #'line drawing' }
 CTDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
-	^ backTuples collect: [ :aTuple | 
+	^ backTuples collect: [ :aTuple |
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
@@ -73,7 +74,7 @@ CTDfsPainter >> crossLinesBuilder [
 { #category : #'line drawing' }
 CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
-	^ crossTuples collect: [ :aTuple | 
+	^ crossTuples collect: [ :aTuple |
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
@@ -133,18 +134,19 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 		                    | aTime anotherTime |
 		                    aTime := (toShapes at: anAssoc key model)
 			                             propertyDfsEntryTime.
+
 		                    anotherTime := (toShapes at:
 			                                    anotherAssoc key model)
 			                                   propertyDfsEntryTime.
+
 		                    aTime < anotherTime ].
 
 	sortedFromShapes withIndexDo: [ :anAssociation :index |
-		| value boxShape fromShape manyShapes tuple tuples isOneToMany toShape |
+		| value boxShape fromShape manyShapes tuple tuples isOneToMany |
 		boxShape := anAssociation key.
 		fromShape := anAssociation value.
 
 		value := boxShape model.
-		toShape := toShapes at: value.
 
 		boxShape
 			propertyAt: #isGhostShape
@@ -251,6 +253,8 @@ CTDfsPainter >> initialize [
 
 	super initialize.
 
+	skipBoxes := IdentitySet new.
+
 	self layout:
 		RSHorizontalWithChildrenSizeDepthsVanDerPloegTreeLayout new
 ]
@@ -323,11 +327,55 @@ CTDfsPainter >> postLinesBuilder [
 		  yourself
 ]
 
+{ #category : #'line building' }
+CTDfsPainter >> postSharingLinesBuilder [
+
+	| color |
+	color := Color gray lighter lighter lighter.
+	^ RSLineBuilder bezier
+		  "markerEnd: (RSMarker new
+				   shape: (RSShapeFactory arrow
+						    size: Float goldenRatio * 5;
+						    color: color;
+						    cornerRadii: Float goldenRatio;
+						    yourself);
+				   offset: Float goldenRatio double;
+				   yourself);"
+		  color: color lighter;
+		  dashArray: { (4 * Float silverRatio) };
+		  controlPointsController: (RSStartEndCPAPController new
+				   controller: RSDirectedBezierCPAPController new;
+				   startAttachPoint: RSCenteredAttachPoint new;
+				   endAttachPoint: RSCenteredAttachPoint new);
+		  yourself
+]
+
 { #category : #'line drawing' }
 CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 
 	^ postTuples collect: [ :aTuple |
-		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
+		  dfsWalker postponedObjects
+			  at: aTuple second
+			  ifPresent: [ :anAssoc |
+				  | toShape boxes toObject parent toBox newTuple |
+				  parent := dfsWalker parentOf: anAssoc key.
+				  toObject := anAssoc value.
+
+				  toShape := toShapes at: toObject.
+				  boxes := (toShape propertyAt: #dfsWalkerData) rows collect: #box.
+
+				  toBox := boxes detect: [ :each | each model == parent ].
+
+				  skipBoxes add: toBox.
+
+				  newTuple := aTuple copy
+					              at: 4 put: toBox;
+					              yourself.
+
+				  self
+					  edgeForTuple: newTuple
+					  lineBuilder: self postSharingLinesBuilder ]
+			  ifAbsent: [ self edgeForTuple: aTuple lineBuilder: lineBuilder ] ]
 ]
 
 { #category : #'line building' }
@@ -397,6 +445,7 @@ CTDfsPainter >> value: anObject [
 				                  lineBuilder: self layoutLinesBuilder ].
 
 	shapes := shapes reject: [ :each | forbiddenShapes includes: each ].
+	edges := edges reject: [ :each | skipBoxes includes: each from ].
 
 	self layoutOn: shapes edges: edgesForLayout.
 
