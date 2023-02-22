@@ -174,10 +174,9 @@ CTDfsShapeBuilder >> initialize [
 ]
 
 { #category : #shapes }
-CTDfsShapeBuilder >> label: anObject var: selector [
+CTDfsShapeBuilder >> label: anObject var: var [
 
-	| composite var |
-	var := selector.
+	| composite |
 	composite := var asString asShapeMultilineLabel: (RSLabel new
 			              color: metaColor;
 			              yourself).
@@ -186,11 +185,11 @@ CTDfsShapeBuilder >> label: anObject var: selector [
 		shapes: composite shapes;
 		right.
 
-	(anObject class lookupSelector: var) ifNotNil: [ :cm | 
-		cm firstComment ifNotEmpty: [ :firstComment | 
+	(anObject class lookupSelector: var) ifNotNil: [ :cm |
+		cm firstComment ifNotEmpty: [ :firstComment |
 			| popup |
 			popup := RSPopup new
-				         shapeBuilder: [ :aComment | 
+				         shapeBuilder: [ :aComment |
 					         | commentComposite box |
 					         commentComposite := aComment asShapeMultilineLabel:
 							                             prototypeLabel.
@@ -205,7 +204,7 @@ CTDfsShapeBuilder >> label: anObject var: selector [
 					         RSLocation new center stick: commentComposite on: box.
 
 					         RSComposite new
-						         shapes: { 
+						         shapes: {
 								         box.
 								         commentComposite };
 						         yourself ];
@@ -238,9 +237,9 @@ CTDfsShapeBuilder >> metaExtent [
 ]
 
 { #category : #shapes }
-CTDfsShapeBuilder >> multilineLabel: anObject [
+CTDfsShapeBuilder >> multilineLabel: aString model: anObject [
 
-	^ (anObject asString asShapeMultilineLabel: prototypeLabel)
+	^ (aString asShapeMultilineLabel: prototypeLabel)
 		  model: anObject;
 		  yourself
 ]

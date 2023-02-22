@@ -34,6 +34,16 @@ CTDecorateSlotDescriptor >> descriptor: anObject [
 	descriptor := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+CTDecorateSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
+
+	^ descriptor
+		  dispatchPostponed: child
+		  data: data
+		  walker: walker
+		  otherwise: oBlock
+]
+
 { #category : #delegating }
 CTDecorateSlotDescriptor >> enabled [
 
@@ -89,21 +99,9 @@ CTDecorateSlotDescriptor >> noHeader [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> postponed [
-
-	^ descriptor postponed
-]
-
-{ #category : #delegating }
 CTDecorateSlotDescriptor >> selector [
 
 	^ descriptor selector
-]
-
-{ #category : #accessing }
-CTDecorateSlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	^ descriptor shape: anObject walker: aDfsWalker
 ]
 
 { #category : #accessing }
@@ -112,8 +110,14 @@ CTDecorateSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 	^ descriptor valueOn: anObject walker: aDfsWalker
 ]
 
-{ #category : #delegating }
-CTDecorateSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+{ #category : #accessing }
+CTDecorateSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
-	^ descriptor varLabelShapeOf: anObject shapeBuilder: aShapeBuilder
+	^ descriptor valueShapeOf: anObject walker: aDfsWalker
+]
+
+{ #category : #delegating }
+CTDecorateSlotDescriptor >> varShapeOf: anObject walker: walker [
+
+	^ descriptor varShapeOf: anObject walker: walker
 ]

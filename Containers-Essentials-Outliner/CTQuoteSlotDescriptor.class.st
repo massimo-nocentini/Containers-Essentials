@@ -19,12 +19,6 @@ CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 ]
 
 { #category : #accessing }
-CTQuoteSlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	^ shape
-]
-
-{ #category : #accessing }
 CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	| value |
@@ -42,4 +36,10 @@ CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 	aDfsWalker addQuotedShape: shape model: witness.
 
 	^ witness
+]
+
+{ #category : #accessing }
+CTQuoteSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
+
+	^ shape
 ]

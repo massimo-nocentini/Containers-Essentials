@@ -9,8 +9,7 @@ Class {
 		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate',
-		'postpone'
+		'enablePredicate'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -47,6 +46,12 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 cr;
 					 nextPutAll: 'SCC size: ';
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
+]
+
+{ #category : #'as yet unclassified' }
+CTBaseSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
+
+	^ oBlock value
 ]
 
 { #category : #accessing }
@@ -155,18 +160,6 @@ CTBaseSlotDescriptor >> oneToOne [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> postpone: aBoolean [
-
-	postpone := aBoolean
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> postponed [
-
-	^ postpone
-]
-
-{ #category : #accessing }
 CTBaseSlotDescriptor >> selector [
 
 	^ selector
@@ -179,13 +172,13 @@ CTBaseSlotDescriptor >> selector: anObject [
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> shape: anObject walker: aDfsWalker [
+CTBaseSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
 	^ aDfsWalker defaultShapeOf: anObject
 ]
 
 { #category : #accessing }
-CTBaseSlotDescriptor >> varLabelShapeOf: anObject shapeBuilder: aShapeBuilder [
+CTBaseSlotDescriptor >> varShapeOf: anObject walker: walker [
 
-	^ aShapeBuilder label: anObject var: self selector
+	^ walker shapeBuilder label: anObject var: self selector
 ]

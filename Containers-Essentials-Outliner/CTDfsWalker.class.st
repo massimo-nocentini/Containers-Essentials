@@ -1,5 +1,23 @@
 "
 I walk a graph of objects according to the Depth-First Search strategy.
+
+The entry point of the computation is `CTDfsWalker>>#value:`
+
+# Instance variables
+
+- toShapes 
+- fromShapes 
+- maxLevel 
+- dfsClock 
+- levels 
+- quotedShapes 
+- oneToManyShapes
+- shapeBuilder
+- skipBacks
+- skipNils
+- skipEmptyCollections
+- slotDescriptorsVisitor
+- defaultShapeBlock
 "
 Class {
 	#name : #CTDfsWalker,
@@ -16,9 +34,10 @@ Class {
 		'skipBacks',
 		'skipNils',
 		'skipEmptyCollections',
-		'metaExtent',
 		'slotDescriptorsVisitor',
-		'defaultShapeBlock'
+		'defaultShapeBlock',
+		'postponedObjects',
+		'parents'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -74,12 +93,11 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		        descriptor: descriptor;
 		        level: level;
 		        parent: parent;
-		        labelsWidth: 0;
-		        boxesWidth: metaExtent x;
+		        labelsWidth: 0.0;
+		        boxesWidth: shapeBuilder metaExtent x;
 		        shape: shape;
 		        hasOutgoings: false;
 		        exploringDescriptors: descriptors;
-		        rows: OrderedCollection new;
 		        yourself.
 
 	^ self
@@ -95,6 +113,8 @@ CTDfsWalker >> entering: data [
 	self
 		incrementDfsClock;
 		enteringShape: data shape atLevel: data level.
+
+	data shape propertyAt: #dfsWalkerData put: data.
 
 	self
 		addInteractionsUsingSlotDescriptor: data descriptor
@@ -140,15 +160,19 @@ CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentS
 { #category : #DFS }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
-	descriptor postponed ifFalse: [
-		self
-			descriptor: descriptor
-			object: child
-			level: data level + 1
-			parent: data object ].
+	descriptor
+		dispatchPostponed: child
+		data: data
+		walker: self
+		otherwise: [
+			self
+				descriptor: descriptor
+				object: child
+				level: data level + 1
+				parent: data object.
 
-	data hasOutgoings:
-		(data hasOutgoings or: [ toShapes includesKey: child ])
+			data hasOutgoings:
+				(data hasOutgoings or: [ toShapes includesKey: child ]) ]
 ]
 
 { #category : #DFS }
@@ -168,6 +192,8 @@ CTDfsWalker >> initialize [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
+	postponedObjects := IdentityDictionary new.
+	parents := IdentityDictionary new.
 
 	self
 		maxLevel: 0;
@@ -208,6 +234,12 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 	oneToManyShapes := aDictionary
 ]
 
+{ #category : #accessing }
+CTDfsWalker >> parentOf: anObject [
+
+	^ parents at: anObject
+]
+
 { #category : #copying }
 CTDfsWalker >> postCopy [
 
@@ -219,6 +251,8 @@ CTDfsWalker >> postCopy [
 
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
+	postponedObjects := postponedObjects class new.
+	parents := parents class new.
 
 	self
 		levels: levels class new;
@@ -228,28 +262,50 @@ CTDfsWalker >> postCopy [
 ]
 
 { #category : #DFS }
+CTDfsWalker >> postponedBlockClosure: block child: child data: data descriptor: descriptor [
+
+	postponedObjects
+		at: data rows last box
+		put: data object -> (block value: child)
+]
+
+{ #category : #DFS }
+CTDfsWalker >> postponedObjects [
+
+	^ postponedObjects
+]
+
+{ #category : #DFS }
+CTDfsWalker >> postponedTrue: post child: child data: data descriptor: descriptor [
+	"Simply do nothing, proceed as usual delegating to the painter the job of connecting boxes."
+
+	
+]
+
+{ #category : #DFS }
 CTDfsWalker >> recurring: data [
 
-	| rows parent |
-	rows := data rows.
+	| parent |
 	parent := data object.
 
 	data exploringDescriptors
 		select: [ :each | each enabled ]
-		thenDo: [ :each | 
+		thenDo: [ :each |
 			| child |
 			child := each valueOn: parent walker: self.
 
-			(self shouldSkip: child) ifFalse: [ 
-				| rowGroup |
-				rowGroup := self recurring: data child: child descriptor: each.
+			(self shouldSkip: child) ifFalse: [
+				parents
+					at: child
+					ifPresent: [ ]
+					ifAbsentPut: [ parent ].
 
-				rows add: rowGroup ] ].
+				self recurring: data child: child descriptor: each ] ].
 
-	data hasOutgoings ifFalse: [ 
+	data hasOutgoings ifFalse: [
 		data descriptor
-			ifHasFollowers: [ :anArray :parentDescriptor | 
-				anArray do: [ :followers | 
+			ifHasFollowers: [ :anArray :parentDescriptor |
+				anArray do: [ :followers |
 					| witness ghost outlinerShape model |
 					witness := Object new.
 
@@ -276,42 +332,44 @@ CTDfsWalker >> recurring: data [
 { #category : #DFS }
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
-	| valueLabel varLabel valueBox extent shouldInline |
-	varLabel := descriptor
-		            varLabelShapeOf: data object
-		            shapeBuilder: shapeBuilder.
+	| varLabel valueBox extent inlined rowGroup |
+	varLabel := descriptor varShapeOf: data object walker: self.
 
 	valueBox := shapeBuilder box: child.
 
-	shouldInline := self
-		                shouldInline: child
-		                descriptor: descriptor
-		                level: data level.
+	inlined := self
+		           shouldInline: child
+		           descriptor: descriptor
+		           level: data level.
 
-	shouldInline
-		ifTrue: [ 
-			| y |
-			valueLabel := descriptor shape: child walker: self.
+	rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
+
+	data addRowGroup: rowGroup inlined: inlined.
+
+	inlined
+		ifTrue: [
+			| y valueLabel |
+			valueLabel := descriptor valueShapeOf: child walker: self.
 
 			valueLabel := shapeBuilder pad: valueLabel.
 
-			y := valueLabel extent y max: metaExtent y.
+			y := valueLabel extent y max: shapeBuilder metaExtent y.
 
-			(quotedShapes includesKey: child) ifTrue: [ 
+			(quotedShapes includesKey: child) ifTrue: [
 				valueBox color: Color transparent ].
 
-			extent := valueLabel extent x @ y ]
-		ifFalse: [ 
-			valueLabel := nil.
+			extent := valueLabel extent x @ y.
 
+			rowGroup label: valueLabel ]
+		ifFalse: [
 			toShapes
 				at: child
-				ifPresent: [ :anAlreadySeenShape | 
+				ifPresent: [ :anAlreadySeenShape |
 					self
 						hasBeenVisited: child
 						childShape: anAlreadySeenShape
 						parentShape: data shape ]
-				ifAbsent: [ 
+				ifAbsent: [
 				self hasntBeenVisited: child descriptor: descriptor data: data ].
 
 			descriptor
@@ -322,15 +380,13 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 			valueBox color: valueBox color lighter lighter.
 
-			extent := data boxesWidth @ metaExtent y ].
+			extent := data boxesWidth @ shapeBuilder metaExtent y ].
 
 	data
 		labelsWidth: (data labelsWidth max: varLabel extent x);
 		boxesWidth: (data boxesWidth max: extent x).
 
-	valueBox height: (extent y max: varLabel extent y).
-
-	^ RSGroupSlotsRow var: varLabel box: valueBox labelOrNil: valueLabel
+	valueBox height: (extent y max: varLabel extent y)
 ]
 
 { #category : #shapes }
@@ -348,9 +404,7 @@ CTDfsWalker >> shapeBuilder [
 { #category : #accessing }
 CTDfsWalker >> shapeBuilder: aShapeBuilder [
 
-	shapeBuilder := aShapeBuilder.
-
-	metaExtent := shapeBuilder metaExtent
+	shapeBuilder := aShapeBuilder
 ]
 
 { #category : #accessing }
@@ -369,10 +423,10 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 { #category : #accessing }
 CTDfsWalker >> shouldSkip: value [
 
-	^ (skipNils and: [ value isNil ]) or: [ 
-		  (skipBacks and: [ toShapes includesKey: value ]) or: [ 
-			  value isCollection and: [ 
-				  skipEmptyCollections and: [ value isEmpty ] ] ] ]
+	^ (skipNils and: [ value isNil ]) or: [
+		  (skipBacks and: [ toShapes includesKey: value ]) or: [
+			  skipEmptyCollections and: [
+				  value isCollection and: [ value isEmpty ] ] ] ]
 ]
 
 { #category : #accessing }
