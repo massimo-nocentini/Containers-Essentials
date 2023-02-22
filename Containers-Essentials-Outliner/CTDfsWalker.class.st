@@ -1,6 +1,8 @@
 "
 I walk a graph of objects according to the Depth-First Search strategy.
 
+The entry point of the computation is `CTDfsWalker>>#value:`
+
 # Instance variables
 
 - toShapes 
@@ -287,7 +289,7 @@ CTDfsWalker >> recurring: data [
 CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 
 	| valueLabel varLabel valueBox extent inlined rowGroup |
-	varLabel := descriptor varShapeOf: data object dfsWalker: self.
+	varLabel := descriptor varShapeOf: data object walker: self.
 
 	valueBox := shapeBuilder box: child.
 
@@ -299,7 +301,7 @@ CTDfsWalker >> recurring: data child: child descriptor: descriptor [
 	inlined
 		ifTrue: [
 			| y |
-			valueLabel := descriptor shape: child walker: self.
+			valueLabel := descriptor valueShapeOf: child walker: self.
 
 			valueLabel := shapeBuilder pad: valueLabel.
 

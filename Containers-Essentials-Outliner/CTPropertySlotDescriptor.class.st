@@ -120,19 +120,19 @@ CTPropertySlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> varShapeOf: anObject dfsWalker: walker [
+CTPropertySlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+CTPropertySlotDescriptor >> varShapeOf: anObject walker: walker [
 
 	self subclassResponsibility
 ]

@@ -101,19 +101,19 @@ CTDecorateSlotDescriptor >> selector [
 ]
 
 { #category : #accessing }
-CTDecorateSlotDescriptor >> shape: anObject walker: aDfsWalker [
-
-	^ descriptor shape: anObject walker: aDfsWalker
-]
-
-{ #category : #accessing }
 CTDecorateSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	^ descriptor valueOn: anObject walker: aDfsWalker
 ]
 
-{ #category : #delegating }
-CTDecorateSlotDescriptor >> varShapeOf: anObject dfsWalker: walker [
+{ #category : #accessing }
+CTDecorateSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
-	^ descriptor varShapeOf: anObject dfsWalker: walker
+	^ descriptor valueShapeOf: anObject walker: aDfsWalker
+]
+
+{ #category : #delegating }
+CTDecorateSlotDescriptor >> varShapeOf: anObject walker: walker [
+
+	^ descriptor varShapeOf: anObject walker: walker
 ]
