@@ -248,6 +248,14 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 								  ifFalse: pBlock ] ] ]
 ]
 
+{ #category : #initialization }
+CTDfsPainter >> initialize [
+
+	super initialize.
+
+	skipBoxes := IdentitySet new
+]
+
 { #category : #layouting }
 CTDfsPainter >> layout [
 
