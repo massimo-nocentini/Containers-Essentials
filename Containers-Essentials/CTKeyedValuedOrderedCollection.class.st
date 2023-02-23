@@ -30,6 +30,18 @@ CTKeyedValuedOrderedCollection >> collection: anObject [
 	collection := anObject
 ]
 
+{ #category : #testing }
+CTKeyedValuedOrderedCollection >> isCollection [
+
+	^ true
+]
+
+{ #category : #testing }
+CTKeyedValuedOrderedCollection >> isEmpty [
+
+	^ collection isEmpty
+]
+
 { #category : #collecting }
 CTKeyedValuedOrderedCollection >> keyAndValueOf: anObject [
 
