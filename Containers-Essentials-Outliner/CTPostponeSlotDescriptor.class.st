@@ -22,10 +22,11 @@ CTPostponeSlotDescriptor >> dispatchPostponed: child data: data walker: walker o
 				  data: data
 				  descriptor: descriptor ]
 		  ifFalse: [
-			  post isClosure
+			  post isAssociation
 				  ifTrue: [
 					  walker
-						  postponedBlockClosure: post
+						  postponedBlockClosure: post key
+						  backToBlock: post value
 						  child: child
 						  data: data
 						  descriptor: descriptor ]

@@ -262,11 +262,11 @@ CTDfsWalker >> postCopy [
 ]
 
 { #category : #DFS }
-CTDfsWalker >> postponedBlockClosure: block child: child data: data descriptor: descriptor [
+CTDfsWalker >> postponedBlockClosure: block backToBlock: backBlock child: child data: data descriptor: descriptor [
 
 	postponedObjects
 		at: data rows last box
-		put: data object -> (block value: child)
+		put: (backBlock value: self) -> (block value: child)
 ]
 
 { #category : #DFS }

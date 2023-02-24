@@ -355,7 +355,7 @@ CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 			  at: aTuple second
 			  ifPresent: [ :anAssoc |
 				  | toShape boxes toObject parent toBox newTuple |
-				  parent := dfsWalker parentOf: anAssoc key.
+				  parent := anAssoc key.
 				  toObject := anAssoc value.
 
 				  toShape := toShapes at: toObject.
