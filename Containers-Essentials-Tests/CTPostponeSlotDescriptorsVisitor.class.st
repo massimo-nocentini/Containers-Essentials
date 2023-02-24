@@ -17,5 +17,6 @@ CTPostponeSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aCollec
 
 	^ (super visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones)
 		  collect: [ :descriptor |
-		  descriptor postpone: [ :anAssoc | anAssoc value ] ]
+			  descriptor postpone: [ :anAssoc | anAssoc value ]
+				  -> [ :walker | walker parentOf: aCollectionOfPostpones ] ]
 ]
