@@ -10,7 +10,7 @@ Class {
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #dispatching }
 CTPostponeSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 	"Dispatch by hand to not mess up Boolean and BlockClosure."
 
