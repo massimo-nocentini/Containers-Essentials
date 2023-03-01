@@ -5,7 +5,8 @@ Class {
 	#name : #RSPangoText,
 	#superclass : #RSBoundingShape,
 	#instVars : [
-		'markup'
+		'markup',
+		'fontDescription'
 	],
 	#category : #'Containers-Essentials-Roassal'
 }
@@ -16,10 +17,38 @@ RSPangoText >> accept: aVisitor [
 	^ aVisitor visitPangoText: self
 ]
 
+{ #category : #accessing }
+RSPangoText >> baseRectangle [
+
+	| surface |
+	surface := AthensCairoSurface width: 1 height: 1.
+
+	surface drawDuring: [ :canvas |
+		| pangoLayout extent |
+		pangoLayout := PangoLayout newCanvas: canvas.
+		pangoLayout
+			fontDescription: fontDescription;
+			markup: self markup.
+
+		extent := pangoLayout size pangoUnscaled.
+
+		baseRectangle := Rectangle center: 0 asPoint extent: extent ].
+
+	^ super baseRectangle
+]
+
 { #category : #testing }
 RSPangoText >> hasText [
 
 	^ markup ifNil: [ false ] ifNotNil: [ markup isNotEmpty ]
+]
+
+{ #category : #initialization }
+RSPangoText >> initialize [
+
+	super initialize.
+
+	fontDescription := PangoFontDescription new
 ]
 
 { #category : #accessing }

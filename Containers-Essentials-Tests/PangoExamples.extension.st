@@ -4,9 +4,10 @@ Extension { #name : #PangoExamples }
 PangoExamples class >> example8RoassalShape [
 
 	<example>
-	RSCanvas new
-		add: (RSPangoText new
-				 markup: '<span foreground="blue" font_family="Sans">
+	| pangoText |
+	pangoText := RSPangoText new
+		             markup:
+			             '<span foreground="blue" font_family="Helvetica">
 		<b> bold </b>
 		<u> is </u>
 		<i> nice </i>
@@ -14,9 +15,14 @@ PangoExamples class >> example8RoassalShape [
 	<span foreground="red" font_family="Helvetica"><tt> hello </tt></span>
 	 <span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light"> SANS</span><span foreground="#FFCC00"> colored</span>
 	';
-				 draggable;
-				 "notedWithPad: Float goldenRatio"yourself);
+		             draggable;
+		             notedWithPad: Float goldenRatio.
+
+
+	RSCanvas new
+		add: pangoText;
 		zoomToFit;
 		addInteraction: RSCanvasController new;
-		"showEncompassingRectangles;"open
+		"showEncompassingRectangles;"
+		open
 ]
