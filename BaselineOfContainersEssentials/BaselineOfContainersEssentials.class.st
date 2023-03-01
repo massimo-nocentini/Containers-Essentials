@@ -9,7 +9,9 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [ "Externals."
-		self roassal: spec.
+		self
+			roassal: spec;
+			gtk: spec.
 
 		"Packages"
 		spec
@@ -18,6 +20,15 @@ BaselineOfContainersEssentials >> baseline: spec [
 			package: 'Containers-Essentials-Outliner';
 			package: 'Containers-Essentials-Visualizations';
 			package: 'Containers-Essentials-Tests' ]
+]
+
+{ #category : #baselines }
+BaselineOfContainersEssentials >> gtk: spec [
+
+	spec baseline: 'Gtk' with: [
+		spec
+			repository: 'github://pharo-spec/gtk-bindings';
+			loads: #( Pango ) ]
 ]
 
 { #category : #baselines }
