@@ -6,20 +6,24 @@ RSAthensRenderer >> visitPangoText: aPangoShape [
 	aPangoShape hasText ifFalse: [ ^ self ].
 
 	self visitShapeIfNecessary: aPangoShape block: [
-		| fontLayout fontDescription |
+		| fontLayout fontDescription lbtranslation |
 		aPangoShape hasText ifFalse: [ ^ self ].
 
-		athensCanvas pathTransform loadAffineTransform: matrix.
+		lbtranslation := (aPangoShape encompassingRectangle extent)
+			                 negated.
 
-		fontDescription := PangoFontDescription new"FromString:
-			                   'Helvetica 18'".
+		matrix translateBy: lbtranslation.
+		athensCanvas paintTransform loadAffineTransform: matrix.
+
+		fontDescription := PangoFontDescription new.
 		fontLayout := PangoLayout newCanvas: athensCanvas.
 		fontLayout fontDescription: fontDescription.
 		fontLayout markup: aPangoShape markup.
+		fontLayout setAlignment: PangoAlignment PANGO_ALIGN_LEFT.
 
 		athensCanvas updateLayout: fontLayout.
 
-		"athensCanvas paintTransform rotateByDegrees: 45."
+		athensCanvas showLayout: fontLayout.
 
-		athensCanvas showLayout: fontLayout ]
+		athensCanvas pathTransform translateBy: lbtranslation negated ]
 ]
