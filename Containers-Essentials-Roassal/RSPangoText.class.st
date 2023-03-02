@@ -30,9 +30,10 @@ RSPangoText >> baseRectangle [
 			fontDescription: fontDescription;
 			markup: self markup.
 
-		extent := pangoLayout size pangoUnscaled.
+		extent := pangoLayout  scaledSize .
 
-		baseRectangle := Rectangle center: 0 asPoint extent: extent ].
+		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ].
+
 
 	^ super baseRectangle
 ]
