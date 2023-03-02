@@ -25,10 +25,10 @@ BaselineOfContainersEssentials >> baseline: spec [
 { #category : #baselines }
 BaselineOfContainersEssentials >> gtk: spec [
 
-	spec baseline: 'Gtk' with: [
+	spec baseline: 'Gtk' "with: [
 		spec
 			repository: 'github://pharo-spec/gtk-bindings';
-			loads: #( Pango ) ]
+			loads: #( Pango ) ]"
 ]
 
 { #category : #baselines }
