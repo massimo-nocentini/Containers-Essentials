@@ -32,19 +32,27 @@ PangoExamples class >> example8RoassalShapeSmallText [
 	<example>
 	| pangoText |
 	pangoText := RSPangoText new
-		             markup: '<span foreground="blue" font_family="Ubuntu"><b>bold </b>
+		             position: 10 asPoint;
+		             markup:
+			             '<span foreground="blue" font_family="Ubuntu"><b>bold </b>
 <u> is </u>
 <i> nice </i>
 </span>
 <span foreground="red" font_family="Helvetica"><tt> hello </tt></span>
-<span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light">SANS</span><span foreground="#FFCC00"> colored</span>'; "draggable;yourself."
-		             notedWithPad: Float goldenRatio.
+<span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light">SANS</span><span foreground="#FFCC00"> colored</span>d';
+		             "draggable;
+		             yourself. "notedWithPad: Float goldenRatio.
 
 
 	pangoText draggable.
 
 	RSCanvas new
 		add: pangoText;
+		add: (RSCircle new
+				 radius: Float goldenRatio;
+				 position: 0 asPoint;
+				 color: Color red;
+				 yourself);
 		add: (RSLabel new
 				 text: 'hello';
 				 position: 0 @ 0;

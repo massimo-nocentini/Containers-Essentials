@@ -8,11 +8,13 @@ RSAthensRenderer >> visitPangoText: aPangoShape [
 	self visitShapeIfNecessary: aPangoShape block: [
 		| fontLayout fontDescription lbtranslation |
 		aPangoShape hasText ifFalse: [ ^ self ].
+		
+		lbtranslation := (aPangoShape encompassingRectangle extent / 2.0)
+			                 negated.
 
-		"lbtranslation := (aPangoShape encompassingRectangle extent / 2.0) negated."
-
-		"matrix translateBy: lbtranslation."
+		matrix translateBy: lbtranslation.
 		athensCanvas pathTransform loadAffineTransform: matrix.
+		athensCanvas setPathMatrix.
 
 		fontDescription := PangoFontDescription new.
 		fontLayout := PangoLayout newCanvas: athensCanvas.
@@ -22,9 +24,8 @@ RSAthensRenderer >> visitPangoText: aPangoShape [
 
 		athensCanvas updateLayout: fontLayout.
 
-		"athensCanvas paintTransform rotateByDegrees: 45."
-
 		athensCanvas showLayout: fontLayout.
 
-		"athensCanvas pathTransform translateBy: lbtranslation negated" ]
+		athensCanvas pathTransform translateBy: lbtranslation negated.
+		athensCanvas setPathMatrix ]
 ]
