@@ -17,27 +17,6 @@ RSPangoText >> accept: aVisitor [
 	^ aVisitor visitPangoText: self
 ]
 
-{ #category : #accessing }
-RSPangoText >> baseRectangle [
-
-	| surface |
-	surface := AthensCairoSurface width: 1 height: 1.
-
-	surface drawDuring: [ :canvas |
-		| pangoLayout extent |
-		pangoLayout := PangoLayout newCanvas: canvas.
-		pangoLayout
-			fontDescription: fontDescription;
-			markup: self markup.
-
-		extent := pangoLayout  scaledSize .
-
-		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ].
-
-
-	^ super baseRectangle
-]
-
 { #category : #testing }
 RSPangoText >> hasText [
 
@@ -61,5 +40,25 @@ RSPangoText >> markup [
 { #category : #accessing }
 RSPangoText >> markup: anObject [
 
-	markup := anObject
+	markup := anObject.
+
+	self updateBaseRectangle
+]
+
+{ #category : #accessing }
+RSPangoText >> updateBaseRectangle [
+
+	| surface |
+	surface := AthensCairoSurface width: 1 height: 1.
+
+	surface drawDuring: [ :canvas |
+		| pangoLayout extent |
+		pangoLayout := PangoLayout newCanvas: canvas.
+		pangoLayout
+			fontDescription: fontDescription;
+			markup: self markup.
+
+		extent := pangoLayout scaledSize.
+
+		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ]
 ]
