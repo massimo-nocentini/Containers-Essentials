@@ -17,6 +17,20 @@ RSPangoText >> accept: aVisitor [
 	^ aVisitor visitPangoText: self
 ]
 
+{ #category : #accessing }
+RSPangoText >> fontDescription [
+
+	^ fontDescription
+]
+
+{ #category : #accessing }
+RSPangoText >> fontDescription: anObject [
+
+	fontDescription := anObject.
+
+	self updateBaseRectangle
+]
+
 { #category : #testing }
 RSPangoText >> hasText [
 
@@ -58,7 +72,8 @@ RSPangoText >> updateBaseRectangle [
 			fontDescription: fontDescription;
 			markup: self markup.
 
-		extent := pangoLayout scaledSize.
+		extent := (pangoLayout size - (0 @ pangoLayout baseline))
+			          pangoUnscaled.
 
 		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ]
 ]

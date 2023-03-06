@@ -34,14 +34,15 @@ PangoExamples class >> example8RoassalShapeSmallText [
 	pangoText := RSPangoText new
 		             position: 10 asPoint;
 		             markup:
-			             '<span foreground="blue" font_family="Ubuntu Mono"><b>bold </b>
+			             '<span foreground="blue" font_family="sans"><b>bold </b>
 <u> is </u>
 <i> nice </i>
 </span>
-<span foreground="red" font_family="Helvetica"><tt> hello </tt></span>
-<span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light">SANS</span><span foreground="#FFCC00"> colored</span><sup><span foreground="red" font_family="Helvetica" font="4"><tt>12</tt>hello</span></sup>';
-		             draggable;
-		             yourself. "notedWithPad: Float goldenRatio."
+<span foreground="red" font_family="Ubuntu"><tt> hello </tt></span>
+<span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light">SANS</span><span foreground="#FFCC00"> colored</span>';
+		             "draggable;
+		             yourself. "
+		             notedWithPad: Float goldenRatio.
 
 
 	pangoText draggable.
