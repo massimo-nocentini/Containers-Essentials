@@ -38,6 +38,13 @@ RSPangoText >> hasText [
 ]
 
 { #category : #initialization }
+RSPangoText >> initPangoLayout: aPangoLayout [
+
+	aPangoLayout fontDescription: self fontDescription.
+	aPangoLayout markup: self markup
+]
+
+{ #category : #initialization }
 RSPangoText >> initialize [
 
 	super initialize.
