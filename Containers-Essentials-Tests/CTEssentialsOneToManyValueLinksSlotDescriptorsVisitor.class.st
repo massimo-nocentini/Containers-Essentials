@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #visiting }
+CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor >> visitCTDummyForOneToMany: aDummy [
+
+	^ { (self newSlotDescriptorSelector: #collection) oneToMany }
+]
+
+{ #category : #visiting }
 CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor >> visitValueLink: aValueLink [
 
 	^ (super visitValueLink: aValueLink) yourself: [ :descriptors | 

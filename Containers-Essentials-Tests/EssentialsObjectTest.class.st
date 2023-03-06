@@ -601,6 +601,30 @@ EssentialsObjectTest >> testInspectOneToMany [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testInspectOneToManyWithBackwardEdges [
+
+	| obj collection |
+	collection := OrderedCollection new.
+
+	obj := LookupKey new.
+
+	obj key: {
+			3.
+			(CTDummyForOneToMany new
+				 collection: {
+						 42 asValueHolder.
+						 Object new.
+						 obj };
+				 yourself) }.
+
+
+	^ self
+		  exportSlotsGraphOf: obj
+		  slotDescriptorsVisitor:
+		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testInspectPascalArray [
 
 	^ self exportSlotsGraphOf: (Array2D pascal: 1 << 4)
