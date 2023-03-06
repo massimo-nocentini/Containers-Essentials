@@ -6,7 +6,8 @@ Class {
 	#superclass : #RSBoundingShape,
 	#instVars : [
 		'markup',
-		'fontDescription'
+		'fontDescription',
+		'baseline'
 	],
 	#category : #'Containers-Essentials-Roassal'
 }
@@ -41,15 +42,21 @@ RSPangoText >> hasText [
 RSPangoText >> initPangoLayout: aPangoLayout [
 
 	aPangoLayout fontDescription: self fontDescription.
-	aPangoLayout markup: self markup
+	aPangoLayout markup: (self markup ifNil: [ '' ])
 ]
 
 { #category : #initialization }
 RSPangoText >> initialize [
 
+	| font |
 	super initialize.
 
-	fontDescription := PangoFontDescription new
+	baseline := 0.0 asPoint.
+
+	font := StandardFonts defaultFont.
+
+	self fontDescription: (PangoFontDescription newFromString:
+			 font familyName , ' ' , font pointSize asString)
 ]
 
 { #category : #accessing }
@@ -75,12 +82,15 @@ RSPangoText >> updateBaseRectangle [
 	surface drawDuring: [ :canvas |
 		| pangoLayout extent |
 		pangoLayout := PangoLayout newCanvas: canvas.
-		pangoLayout
-			fontDescription: fontDescription;
-			markup: self markup.
 
-		extent := (pangoLayout size - (0 @ pangoLayout baseline))
-			          pangoUnscaled.
+		self initPangoLayout: pangoLayout.
+
+		canvas updateLayout: pangoLayout.
+
+		self markup ifNil: [
+			baseline := pangoLayout size  ].
+
+		extent := (pangoLayout size - baseline - (0 @ pangoLayout baseline / 2)) pangoUnscaled.
 
 		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ]
 ]
