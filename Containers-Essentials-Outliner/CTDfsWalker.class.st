@@ -37,7 +37,8 @@ Class {
 		'slotDescriptorsVisitor',
 		'defaultShapeBlock',
 		'postponedObjects',
-		'parents'
+		'parents',
+		'rootWitness'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -88,7 +89,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent exploringDescriptors: descriptors shape: shape [
 
 	| data |
-	data := CTDfsWalkerData new
+	data := CTDfsWalkingData new
 		        object: object;
 		        descriptor: descriptor;
 		        level: level;
@@ -114,7 +115,7 @@ CTDfsWalker >> entering: data [
 		incrementDfsClock;
 		enteringShape: data shape atLevel: data level.
 
-	data shape propertyAt: #dfsWalkerData put: data.
+	data shape propertyDfsWalkingData: data.
 
 	self
 		addInteractionsUsingSlotDescriptor: data descriptor
@@ -194,6 +195,7 @@ CTDfsWalker >> initialize [
 	quotedShapes := IdentityDictionary new.
 	postponedObjects := IdentityDictionary new.
 	parents := IdentityDictionary new.
+	rootWitness := Object new.
 
 	self
 		maxLevel: 0;
@@ -205,6 +207,15 @@ CTDfsWalker >> initialize [
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new;
 		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
+]
+
+{ #category : #testing }
+CTDfsWalker >> isRoot: anObject [
+
+	^ parents
+		  at: anObject
+		  ifPresent: [ :aCollection | aCollection first == rootWitness ]
+		  ifAbsent: [ false ]
 ]
 
 { #category : #accessing }

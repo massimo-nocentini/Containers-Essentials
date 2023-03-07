@@ -109,3 +109,15 @@ RSObjectWithProperty >> propertyDfsTimings: aPoint [
 
 	^ self propertyAt: #dfsTimings put: aPoint
 ]
+
+{ #category : #'*Containers-Essentials-Roassal' }
+RSObjectWithProperty >> propertyDfsWalkingData [
+
+	^ self propertyAt: #dfsWalkingData
+]
+
+{ #category : #'*Containers-Essentials-Roassal' }
+RSObjectWithProperty >> propertyDfsWalkingData: anObject [
+
+	^ self propertyAt: #dfsWalkingData put: anObject
+]

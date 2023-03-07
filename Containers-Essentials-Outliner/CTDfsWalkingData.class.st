@@ -2,7 +2,7 @@
 I am a data holder for the DFS visit recursive steps.
 "
 Class {
-	#name : #CTDfsWalkerData,
+	#name : #CTDfsWalkingData,
 	#superclass : #Object,
 	#instVars : [
 		'descriptor',
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #adding }
-CTDfsWalkerData >> addRowGroup: aGroup inlined: aBoolean [
+CTDfsWalkingData >> addRowGroup: aGroup inlined: aBoolean [
 
 	| dict |
 	dict := aBoolean
@@ -32,55 +32,55 @@ CTDfsWalkerData >> addRowGroup: aGroup inlined: aBoolean [
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> boxesWidth [
+CTDfsWalkingData >> boxesWidth [
 
 	^ boxesWidth
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> boxesWidth: anObject [
+CTDfsWalkingData >> boxesWidth: anObject [
 
 	boxesWidth := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> descriptor [
+CTDfsWalkingData >> descriptor [
 
 	^ descriptor
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> descriptor: anObject [
+CTDfsWalkingData >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> exploringDescriptors [
+CTDfsWalkingData >> exploringDescriptors [
 
 	^ exploringDescriptors
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> exploringDescriptors: anObject [
+CTDfsWalkingData >> exploringDescriptors: anObject [
 
 	exploringDescriptors := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> hasOutgoings [
+CTDfsWalkingData >> hasOutgoings [
 
 	^ hasOutgoings
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> hasOutgoings: anObject [
+CTDfsWalkingData >> hasOutgoings: anObject [
 
 	hasOutgoings := anObject
 ]
 
 { #category : #initialization }
-CTDfsWalkerData >> initialize [
+CTDfsWalkingData >> initialize [
 
 	super initialize.
 
@@ -89,55 +89,55 @@ CTDfsWalkerData >> initialize [
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> labelsWidth [
+CTDfsWalkingData >> labelsWidth [
 
 	^ labelsWidth
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> labelsWidth: anObject [
+CTDfsWalkingData >> labelsWidth: anObject [
 
 	labelsWidth := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> level [
+CTDfsWalkingData >> level [
 
 	^ level
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> level: anObject [
+CTDfsWalkingData >> level: anObject [
 
 	level := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> object [
+CTDfsWalkingData >> object [
 
 	^ object
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> object: anObject [
+CTDfsWalkingData >> object: anObject [
 
 	object := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> parent [
+CTDfsWalkingData >> parent [
 
 	^ parent
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> parent: anObject [
+CTDfsWalkingData >> parent: anObject [
 
 	parent := anObject
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> rows [
+CTDfsWalkingData >> rows [
 
 	| array |
 	array := Array new: rowsInlined size + rowsOutgoing size.
@@ -149,13 +149,13 @@ CTDfsWalkerData >> rows [
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> shape [
+CTDfsWalkingData >> shape [
 
 	^ shape
 ]
 
 { #category : #accessing }
-CTDfsWalkerData >> shape: anObject [
+CTDfsWalkingData >> shape: anObject [
 
 	shape := anObject
 ]

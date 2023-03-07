@@ -365,7 +365,7 @@ CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 				  toObject := anAssoc value.
 
 				  toShape := toShapes at: toObject.
-				  boxes := (toShape propertyAt: #dfsWalkerData) rows collect: #box.
+				  boxes := toShape propertyDfsWalkingData rows collect: #box.
 
 				  toBox := boxes detect: [ :each | each model == parent ].
 

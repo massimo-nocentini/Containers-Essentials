@@ -126,7 +126,9 @@ CTDfsSCCsWalker >> push: aShape [
 	sccShapeStack := ValueLink new
 		                 value: aShape;
 		                 nextLink: sccShapeStack;
-		                 yourself
+		                 yourself.
+
+	^ aShape
 ]
 
 { #category : #accessing }
