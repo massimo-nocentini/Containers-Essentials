@@ -111,35 +111,33 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 { #category : #DFS }
 CTDfsWalker >> entering: data [
 
-	self
-		incrementDfsClock;
-		enteringShape: data shape atLevel: data level.
+	| s l p m |
+	self incrementDfsClock.
+
+	"Unpacking, the short version using compact names."
+	s := data shape.
+	m := s model.
+	l := data level.
+	p := data parent.
+
+	toShapes at: m put: s.
+
+	s
+		propertyDfsWalkingData: data;
+		propertyDfsTimings: dfsClock @ -1;
+		propertyDfsDepth: l.
+
+	levels
+		at: l
+		ifPresent: [ :oc | oc add: s ]
+		ifAbsentPut: [ OrderedCollection with: s ].
 
 	parents
-		at: data shape model
-		ifPresent: [ :oc | oc add: data parent ]
-		ifAbsentPut: [ OrderedCollection with: data parent ].
+		at: m
+		ifPresent: [ :oc | oc add: p ]
+		ifAbsentPut: [ OrderedCollection with: p ].
 
-	data shape propertyDfsWalkingData: data.
-
-	self
-		addInteractionsUsingSlotDescriptor: data descriptor
-		onShape: data shape
-]
-
-{ #category : #shapes }
-CTDfsWalker >> enteringShape: shape atLevel: depth [
-
-	| level |
-	toShapes at: shape model put: shape.
-
-	shape
-		propertyDfsTimings: dfsClock @ -1;
-		propertyDfsDepth: depth.
-
-	level := levels at: depth ifAbsentPut: [ OrderedCollection new ].
-
-	level add: shape
+	self addInteractionsUsingSlotDescriptor: data descriptor onShape: s
 ]
 
 { #category : #DFS }

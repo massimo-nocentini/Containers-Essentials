@@ -49,14 +49,15 @@ CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 		self assert: aShape propertyDfsSCC == scc ]
 ]
 
-{ #category : #shapes }
-CTDfsSCCsWalker >> enteringShape: shape atLevel: depth [
+{ #category : #DFS }
+CTDfsSCCsWalker >> entering: data [
 
-	super enteringShape: shape atLevel: depth.
+	| s |
+	super entering: data.
 
-	self push: shape.
+	s := self push: data shape.
 
-	shape
+	s
 		propertyDfsObjectStack: sccShapeStack;
 		propertyDfsLowlink: dfsClock
 ]
