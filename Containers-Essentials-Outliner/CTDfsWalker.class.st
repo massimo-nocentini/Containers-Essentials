@@ -249,9 +249,9 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 ]
 
 { #category : #accessing }
-CTDfsWalker >> parentOf: anObject [
+CTDfsWalker >> parentsOf: anObject [
 
-	^ (parents at: anObject) first
+	^ parents at: anObject
 ]
 
 { #category : #copying }
