@@ -115,6 +115,11 @@ CTDfsWalker >> entering: data [
 		incrementDfsClock;
 		enteringShape: data shape atLevel: data level.
 
+	parents
+		at: data shape model
+		ifPresent: [ :oc | oc add: data parent ]
+		ifAbsentPut: [ OrderedCollection with: data parent ].
+
 	data shape propertyDfsWalkingData: data.
 
 	self
@@ -306,11 +311,6 @@ CTDfsWalker >> recurring: data [
 			child := each valueOn: parent walker: self.
 
 			(self shouldSkip: child) ifFalse: [
-				parents
-					at: child
-					ifPresent: [ :oc | oc add: parent ]
-					ifAbsentPut: [ OrderedCollection with: parent ].
-
 				self recurring: data child: child descriptor: each ] ].
 
 	data hasOutgoings ifFalse: [
