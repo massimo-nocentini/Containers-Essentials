@@ -309,7 +309,61 @@ CTDfsWalker >> recurring: data [
 			child := each valueOn: parent walker: self.
 
 			(self shouldSkip: child) ifFalse: [
-				self recurring: data child: child descriptor: each ] ].
+				| varLabel valueBox extent inlined rowGroup |
+				varLabel := each varShapeOf: parent walker: self.
+
+				valueBox := shapeBuilder box: child.
+
+				inlined := self
+					           shouldInline: child
+					           descriptor: each
+					           level: data level.
+
+				rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
+
+				data addRowGroup: rowGroup inlined: inlined.
+
+				inlined
+					ifTrue: [
+						| y valueLabel |
+						valueLabel := each valueShapeOf: child walker: self.
+
+						valueLabel := shapeBuilder pad: valueLabel.
+
+						y := valueLabel extent y max: shapeBuilder metaExtent y.
+
+						(quotedShapes includesKey: child) ifTrue: [
+							valueBox color: Color transparent ].
+
+						extent := valueLabel extent x @ y.
+
+						rowGroup label: valueLabel ]
+					ifFalse: [
+						toShapes
+							at: child
+							ifPresent: [ :anAlreadySeenShape |
+								self
+									hasBeenVisited: child
+									childShape: anAlreadySeenShape
+									parentShape: data shape ]
+							ifAbsent: [
+							self hasntBeenVisited: child descriptor: each data: data ].
+
+						each
+							isOneToMany: child walker: self;
+							addHighlightWithLinesInteractionOnShape: valueBox.
+
+						self registerSlotShape: valueBox intoOutlineShape: data shape.
+
+						valueBox color: valueBox color lighter lighter.
+
+						extent := data boxesWidth @ shapeBuilder metaExtent y ].
+
+				data
+					labelsWidth: (data labelsWidth max: varLabel extent x);
+					boxesWidth: (data boxesWidth max: extent x).
+
+				valueBox height: (extent y max: varLabel extent y) ] ].
 
 	data hasOutgoings ifFalse: [
 		data descriptor
@@ -336,66 +390,6 @@ CTDfsWalker >> recurring: data [
 
 					self registerSlotShape: ghost intoOutlineShape: data shape ] ]
 			walker: self ]
-]
-
-{ #category : #DFS }
-CTDfsWalker >> recurring: data child: child descriptor: descriptor [
-
-	| varLabel valueBox extent inlined rowGroup |
-	varLabel := descriptor varShapeOf: data object walker: self.
-
-	valueBox := shapeBuilder box: child.
-
-	inlined := self
-		           shouldInline: child
-		           descriptor: descriptor
-		           level: data level.
-
-	rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
-
-	data addRowGroup: rowGroup inlined: inlined.
-
-	inlined
-		ifTrue: [
-			| y valueLabel |
-			valueLabel := descriptor valueShapeOf: child walker: self.
-
-			valueLabel := shapeBuilder pad: valueLabel.
-
-			y := valueLabel extent y max: shapeBuilder metaExtent y.
-
-			(quotedShapes includesKey: child) ifTrue: [
-				valueBox color: Color transparent ].
-
-			extent := valueLabel extent x @ y.
-
-			rowGroup label: valueLabel ]
-		ifFalse: [
-			toShapes
-				at: child
-				ifPresent: [ :anAlreadySeenShape |
-					self
-						hasBeenVisited: child
-						childShape: anAlreadySeenShape
-						parentShape: data shape ]
-				ifAbsent: [
-				self hasntBeenVisited: child descriptor: descriptor data: data ].
-
-			descriptor
-				isOneToMany: child walker: self;
-				addHighlightWithLinesInteractionOnShape: valueBox.
-
-			self registerSlotShape: valueBox intoOutlineShape: data shape.
-
-			valueBox color: valueBox color lighter lighter.
-
-			extent := data boxesWidth @ shapeBuilder metaExtent y ].
-
-	data
-		labelsWidth: (data labelsWidth max: varLabel extent x);
-		boxesWidth: (data boxesWidth max: extent x).
-
-	valueBox height: (extent y max: varLabel extent y)
 ]
 
 { #category : #shapes }
