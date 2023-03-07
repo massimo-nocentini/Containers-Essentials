@@ -248,7 +248,7 @@ CTDfsWalker >> oneToManyShapes: aDictionary [
 { #category : #accessing }
 CTDfsWalker >> parentOf: anObject [
 
-	^ parents at: anObject
+	^ (parents at: anObject) first
 ]
 
 { #category : #copying }
@@ -308,8 +308,8 @@ CTDfsWalker >> recurring: data [
 			(self shouldSkip: child) ifFalse: [
 				parents
 					at: child
-					ifPresent: [ ]
-					ifAbsentPut: [ parent ].
+					ifPresent: [ :oc | oc add: parent ]
+					ifAbsentPut: [ OrderedCollection with: parent ].
 
 				self recurring: data child: child descriptor: each ] ].
 
