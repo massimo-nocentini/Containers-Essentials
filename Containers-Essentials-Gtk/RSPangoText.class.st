@@ -9,7 +9,7 @@ Class {
 		'fontDescription',
 		'baseline'
 	],
-	#category : #'Containers-Essentials-Roassal'
+	#category : #'Containers-Essentials-Gtk'
 }
 
 { #category : #visiting }

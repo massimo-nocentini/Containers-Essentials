@@ -1,6 +1,6 @@
 Extension { #name : #PangoLayout }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : #'*Containers-Essentials-Gtk' }
 PangoLayout >> getExtentsInkRectangle: inkRectangle logicalRectangle: logicalRectangle [
 	"https://docs.gtk.org/Pango/method.Layout.get_attributes.html"
 
@@ -9,7 +9,7 @@ PangoLayout >> getExtentsInkRectangle: inkRectangle logicalRectangle: logicalRec
 		        * inkRectangle , PangoRectangle * logicalRectangle ) )
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : #'*Containers-Essentials-Gtk' }
 PangoLayout >> logicalRectangle [
 	"Answer a Rectangle with the logical bounds.
 	See https://docs.gtk.org/Pango/method.GlyphString.extents.html"

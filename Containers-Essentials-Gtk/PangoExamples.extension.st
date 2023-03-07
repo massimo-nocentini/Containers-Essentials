@@ -1,6 +1,6 @@
 Extension { #name : #PangoExamples }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'*Containers-Essentials-Gtk' }
 PangoExamples class >> example8RoassalShape [
 
 	<example>

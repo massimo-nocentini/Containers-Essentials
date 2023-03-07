@@ -8,18 +8,22 @@ Class {
 BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ "Externals."
+	spec for: #common do: [
 		self
 			roassal: spec;
-			gtk: spec.
+			gtk: spec;
+			common: spec ]
+]
 
-		"Packages"
-		spec
-			package: 'Containers-Essentials';
-			package: 'Containers-Essentials-Roassal';
-			package: 'Containers-Essentials-Outliner';
-			package: 'Containers-Essentials-Visualizations';
-			package: 'Containers-Essentials-Tests' ]
+{ #category : #baselines }
+BaselineOfContainersEssentials >> common: spec [
+
+	spec
+		package: 'Containers-Essentials';
+		package: 'Containers-Essentials-Roassal';
+		package: 'Containers-Essentials-Outliner';
+		package: 'Containers-Essentials-Visualizations';
+		package: 'Containers-Essentials-Tests'
 ]
 
 { #category : #baselines }

@@ -1,6 +1,6 @@
 Extension { #name : #RSAthensRenderer }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : #'*Containers-Essentials-Gtk' }
 RSAthensRenderer >> visitPangoText: aPangoShape [
 
 	aPangoShape hasText ifFalse: [ ^ self ].
