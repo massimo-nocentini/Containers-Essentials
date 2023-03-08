@@ -86,6 +86,12 @@ CTDecorateSlotDescriptor >> isEnabledAtLevel: l [
 	^ descriptor isEnabledAtLevel: l
 ]
 
+{ #category : #testing }
+CTDecorateSlotDescriptor >> isOneToMany [
+
+	^ descriptor isOneToMany
+]
+
 { #category : #delegating }
 CTDecorateSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 

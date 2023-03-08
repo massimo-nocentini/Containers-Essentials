@@ -74,6 +74,12 @@ CTPropertySlotDescriptor >> isEnabledAtLevel: l [
 ]
 
 { #category : #testing }
+CTPropertySlotDescriptor >> isOneToMany [
+
+	self subclassResponsibility
+]
+
+{ #category : #testing }
 CTPropertySlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 
 	self subclassResponsibility

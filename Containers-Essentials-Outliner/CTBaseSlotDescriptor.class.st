@@ -131,6 +131,12 @@ CTBaseSlotDescriptor >> isEnabledAtLevel: l [
 	^ enablePredicate value: l
 ]
 
+{ #category : #accessing }
+CTBaseSlotDescriptor >> isOneToMany [
+
+	^ isOneToMany
+]
+
 { #category : #testing }
 CTBaseSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
 

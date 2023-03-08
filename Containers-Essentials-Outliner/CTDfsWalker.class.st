@@ -38,7 +38,8 @@ Class {
 		'defaultShapeBlock',
 		'postponedObjects',
 		'parents',
-		'rootWitness'
+		'rootWitness',
+		'oneToManyMap'
 	],
 	#category : #'Containers-Essentials-Outliner-Walkers'
 }
@@ -197,6 +198,7 @@ CTDfsWalker >> initialize [
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := IdentityDictionary new.
 	postponedObjects := IdentityDictionary new.
+	oneToManyMap := IdentityDictionary new.
 	parents := IdentityDictionary new.
 	rootWitness := Object new.
 
@@ -234,6 +236,12 @@ CTDfsWalker >> oneToMany: aValue [
 ]
 
 { #category : #accessing }
+CTDfsWalker >> oneToManyAt: aBoxShape [
+
+	^ oneToManyMap at: aBoxShape ifAbsent: [ aBoxShape ]
+]
+
+{ #category : #accessing }
 CTDfsWalker >> oneToManyShapes: aDictionary [
 
 	oneToManyShapes := aDictionary
@@ -257,6 +265,7 @@ CTDfsWalker >> postCopy [
 	"The handling of quoted shapes is my own responsibility only."
 	quotedShapes := quotedShapes class new.
 	postponedObjects := postponedObjects class new.
+	oneToManyMap := oneToManyMap class new.
 	parents := parents class new.
 
 	self
@@ -329,6 +338,9 @@ CTDfsWalker >> recurring: data [
 
 						rowGroup label: valueLabel ]
 					ifFalse: [
+						| isOneToMany |
+						isOneToMany := false.
+
 						toShapes
 							at: child
 							ifPresent: [ :anAlreadySeenShape |
@@ -337,13 +349,27 @@ CTDfsWalker >> recurring: data [
 									childShape: anAlreadySeenShape
 									parentShape: objectOutlinerShape ]
 							ifAbsent: [
-							self hasntBeenVisited: child descriptor: each data: data ].
+								self hasntBeenVisited: child descriptor: each data: data.
 
-						each
-							isOneToMany: child walker: self;
-							addHighlightWithLinesInteractionOnShape: valueBox.
+								each isOneToMany ifTrue: [
+									| childOutliner noInlinedObjects childSlotRows |
+									childOutliner := toShapes removeKey: child.
 
-						fromShapes at: valueBox put: objectOutlinerShape.
+									childSlotRows := childOutliner propertyDfsWalkingData rows.
+
+									noInlinedObjects := childSlotRows allSatisfy: [ :r |
+										                    r label isNil ].
+
+									noInlinedObjects ifTrue: [
+										isOneToMany := true.
+										childSlotRows do: [ :r |
+											oneToManyMap at: r box put: valueBox ] ] ].
+
+								each addHighlightWithLinesInteractionOnShape: valueBox
+								"isOneToMany: child walker: self;" ].
+
+						isOneToMany ifFalse: [
+							fromShapes at: valueBox put: objectOutlinerShape ].
 
 						valueBox color: valueBox color lighter lighter.
 
