@@ -212,15 +212,6 @@ CTDfsWalker >> initialize [
 		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
 ]
 
-{ #category : #testing }
-CTDfsWalker >> isRoot: anObject [
-
-	^ parents
-		  at: anObject
-		  ifPresent: [ :aCollection | aCollection first == rootWitness ]
-		  ifAbsent: [ false ]
-]
-
 { #category : #accessing }
 CTDfsWalker >> levels: aDictionary [
 
@@ -314,12 +305,12 @@ CTDfsWalker >> recurring: data [
 
 				valueBox := shapeBuilder box: child.
 
+				rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
+
 				inlined := self
 					           shouldInline: child
 					           descriptor: each
 					           level: data level.
-
-				rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
 
 				data addRowGroup: rowGroup inlined: inlined.
 
@@ -353,7 +344,7 @@ CTDfsWalker >> recurring: data [
 							isOneToMany: child walker: self;
 							addHighlightWithLinesInteractionOnShape: valueBox.
 
-						self registerSlotShape: valueBox intoOutlineShape: data shape.
+						fromShapes at: valueBox put: data shape.
 
 						valueBox color: valueBox color lighter lighter.
 
@@ -388,14 +379,8 @@ CTDfsWalker >> recurring: data [
 
 					ghost := RSComposite ghost: witness.
 
-					self registerSlotShape: ghost intoOutlineShape: data shape ] ]
+					fromShapes at: ghost put: data shape ] ]
 			walker: self ]
-]
-
-{ #category : #shapes }
-CTDfsWalker >> registerSlotShape: slotShape intoOutlineShape: outlineShape [
-
-	fromShapes at: slotShape put: outlineShape
 ]
 
 { #category : #accessing }
