@@ -6,10 +6,10 @@ Class {
 	#superclass : #CTPropertySlotDescriptor,
 	#instVars : [
 		'selector',
-		'inline',
 		'header',
 		'isOneToMany',
-		'enablePredicate'
+		'enablePredicate',
+		'inlinePredicate'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -105,11 +105,10 @@ CTBaseSlotDescriptor >> initialize [
 
 	super initialize.
 
-	inline := [ :anObject :level :default | default ].
-
 	self
 		oneToOne;
 		headerWithAllSuperclasses;
+		inlinePredicate: [ :level :default | default ];
 		enablePredicate: [ true ];
 		postpone: false
 ]
@@ -117,13 +116,19 @@ CTBaseSlotDescriptor >> initialize [
 { #category : #dispatching }
 CTBaseSlotDescriptor >> inline [
 
-	inline := [ :anObject :level :default | true ]
+	self inlinePredicate: [ :level :default | true ]
 ]
 
 { #category : #accessing }
 CTBaseSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
-	^ inline value: anObject value: level value: aBoolean
+	^ inlinePredicate value: level value: aBoolean
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> inlinePredicate: anObject [
+
+	inlinePredicate := anObject
 ]
 
 { #category : #testing }
@@ -144,7 +149,7 @@ CTBaseSlotDescriptor >> noHeader [
 { #category : #dispatching }
 CTBaseSlotDescriptor >> noInline [
 
-	inline := [ :anObject :level :default | false ]
+	self inlinePredicate: [ :level :default | false ]
 ]
 
 { #category : #accessing }
