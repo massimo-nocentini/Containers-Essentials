@@ -266,7 +266,7 @@ CTDfsWalker >> postCopy [
 		toShapes: toShapes class new
 ]
 
-{ #category : #DFS }
+{ #category : #dispatched }
 CTDfsWalker >> postponedBlockClosure: block backToBlock: backBlock child: child data: data descriptor: descriptor [
 
 	postponedObjects
@@ -274,13 +274,13 @@ CTDfsWalker >> postponedBlockClosure: block backToBlock: backBlock child: child 
 		put: (backBlock value: self) -> (block value: child)
 ]
 
-{ #category : #DFS }
+{ #category : #accessing }
 CTDfsWalker >> postponedObjects [
 
 	^ postponedObjects
 ]
 
-{ #category : #DFS }
+{ #category : #dispatched }
 CTDfsWalker >> postponedTrue: post child: child data: data descriptor: descriptor [
 	"Simply do nothing, proceed as usual delegating to the painter the job of connecting boxes."
 
@@ -394,7 +394,7 @@ CTDfsWalker >> shapeBuilder: aShapeBuilder [
 	shapeBuilder := aShapeBuilder
 ]
 
-{ #category : #accessing }
+{ #category : #DFS }
 CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 
 	| boolean |
