@@ -290,11 +290,13 @@ CTDfsWalker >> postponedTrue: post child: child data: data descriptor: descripto
 { #category : #DFS }
 CTDfsWalker >> recurring: data [
 
-	| parent |
+	| parent objectOutlinerShape l |
 	parent := data object.
+	objectOutlinerShape := data shape.
+	l := data level.
 
 	data exploringDescriptors
-		select: [ :each | each isEnabledAtLevel: data level ]
+		select: [ :each | each isEnabledAtLevel: l ]
 		thenDo: [ :each |
 			| child |
 			child := each valueOn: parent walker: self.
@@ -307,10 +309,7 @@ CTDfsWalker >> recurring: data [
 
 				rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
 
-				inlined := self
-					           shouldInline: child
-					           descriptor: each
-					           level: data level.
+				inlined := self shouldInline: child descriptor: each level: l.
 
 				data addRowGroup: rowGroup inlined: inlined.
 
@@ -336,7 +335,7 @@ CTDfsWalker >> recurring: data [
 								self
 									hasBeenVisited: child
 									childShape: anAlreadySeenShape
-									parentShape: data shape ]
+									parentShape: objectOutlinerShape ]
 							ifAbsent: [
 							self hasntBeenVisited: child descriptor: each data: data ].
 
@@ -344,7 +343,7 @@ CTDfsWalker >> recurring: data [
 							isOneToMany: child walker: self;
 							addHighlightWithLinesInteractionOnShape: valueBox.
 
-						fromShapes at: valueBox put: data shape.
+						fromShapes at: valueBox put: objectOutlinerShape.
 
 						valueBox color: valueBox color lighter lighter.
 
@@ -372,14 +371,14 @@ CTDfsWalker >> recurring: data [
 					self
 						descriptor: parentDescriptor
 						object: model
-						level: data level + 1
+						level: l + 1
 						parent: parent
 						exploringDescriptors: followers
 						shape: outlinerShape.
 
 					ghost := RSComposite ghost: witness.
 
-					fromShapes at: ghost put: data shape ] ]
+					fromShapes at: ghost put: objectOutlinerShape ] ]
 			walker: self ]
 ]
 
