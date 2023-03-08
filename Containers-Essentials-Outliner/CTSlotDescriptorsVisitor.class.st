@@ -139,10 +139,10 @@ CTSlotDescriptorsVisitor >> visit: anObject [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 
-	^ (self visitObject: aMatrix) allButFirst , { 
+	^ (self visitObject: aMatrix) allButFirst , {
 		  (self newSlotDescriptorSelector: #asArrayOfLinks).
 		  ((self newSlotDescriptorSelector: #asShapeMod2)
-			   enablePredicate: [ 
+			   enablePredicate: [ :level |
 				   aMatrix allSatisfy: [ :each | each isInteger ] ];
 			   quote) }
 ]
@@ -168,13 +168,13 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
-	^ { 
-		  (self newSlotDescriptorSelector: #name) inline.
+	^ {
+		  (self newSlotDescriptorSelector: #name).
 		  (self newSlotDescriptorSelector: #class).
 		  (self newSlotDescriptorSelector: #superclass).
 		  (self newSlotDescriptorSelector: #instanceCount).
-		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [ 
-			   aBehavior traits isNotEmpty ]) }
+		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
+			   :level | aBehavior traits isNotEmpty ]) }
 ]
 
 { #category : #visiting }
@@ -319,7 +319,7 @@ CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 
-	^ { 
+	^ {
 		  (self newSlotDescriptorSelector: #a).
 		  (self newSlotDescriptorSelector: #b).
 		  (self newSlotDescriptorSelector: #value).
@@ -329,24 +329,24 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 		  (self newSlotDescriptorSelector: #asStringDiophantineEquation)
 			  inline.
 		  ((self newSlotDescriptorSelector: #inverseMultiplicativeOfa)
-			   enablePredicate: [ aGreatestCommonDivisor = 1 ];
+			   enablePredicate: [ :level | aGreatestCommonDivisor = 1 ];
 			   inline;
-			   quote: [ :anObject :aDfsWalker | 
+			   quote: [ :anObject :aDfsWalker |
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
 		  ((self newSlotDescriptorSelector: #inverseMultiplicativeOfb)
-			   enablePredicate: [ aGreatestCommonDivisor = 1 ];
+			   enablePredicate: [ :level | aGreatestCommonDivisor = 1 ];
 			   inline;
-			   quote: [ :anObject :aDfsWalker | 
+			   quote: [ :anObject :aDfsWalker |
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
 		  ((self newSlotDescriptorSelector: #asShapeDividendOverGCD)
-			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
+			   enablePredicate: [ :level | aGreatestCommonDivisor ~= 1 ];
 			   inline;
-			   quote: [ :anObject :aDfsWalker | 
+			   quote: [ :anObject :aDfsWalker |
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]).
 		  ((self newSlotDescriptorSelector: #asShapeDivisorOverGCD)
-			   enablePredicate: [ aGreatestCommonDivisor ~= 1 ];
+			   enablePredicate: [ :level | aGreatestCommonDivisor ~= 1 ];
 			   inline;
-			   quote: [ :anObject :aDfsWalker | 
+			   quote: [ :anObject :aDfsWalker |
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]) }
 ]
 
@@ -362,26 +362,26 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 	followedSlotDescriptor := self
 		                          newSlotDescriptorFollowersOf:
 		                          followedSlotDescriptor
-		                          then: [ 
+		                          then: [
 			                          | size anArray anotherArray |
 			                          size := aHeap size.
 
-			                          anArray := { 
-				                                     (self 
+			                          anArray := {
+				                                     (self
 					                                      newSlotDescriptorSelector:
 					                                      #yourself) noInline.
 				                                     (self
 					                                      newSlotDescriptorFollowerOf:
-						                                      ((self 
+						                                      ((self
 							                                        newSlotDescriptorSelector:
 								                                        #size)
 							                                       noInline;
 							                                       headerWithClass)
-					                                      then: [ 
+					                                      then: [
 						                                      | printString |
 						                                      printString := size
 							                                                     printString.
-						                                      { 
+						                                      {
 							                                      self
 								                                      newSlotDescriptorYourself
 								                                      noInline.
@@ -391,38 +391,38 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 									                                        newSlotDescriptorString:
 									                                        #somePrintString
 									                                        constant: printString)
-								                                       then: [ 
-									                                       { 
+								                                       then: [
+									                                       {
 										                                       self
 											                                       newSlotDescriptorYourself.
-										                                       ((self 
+										                                       ((self
 											                                         newSlotDescriptorSelector:
 												                                         #size)
 											                                        noInline;
 											                                        headerWithClass) } ]) } ]).
 				                                     (self
 					                                      newSlotDescriptorFollowerOf:
-					                                      (self 
+					                                      (self
 						                                       newSlotDescriptorSelector:
 						                                       #asShapeValuesHorizontalTree)
 						                                      quote
-					                                      then: [ 
-						                                      { 
-							                                      (self 
+					                                      then: [
+						                                      {
+							                                      (self
 								                                       newSlotDescriptorSelector:
 								                                       #array).
 							                                      self
 								                                      newSlotDescriptorYourself } ]) }.
 
-			                          anotherArray := { (self 
+			                          anotherArray := { (self
 				                                           newSlotDescriptorSelector:
 				                                           #yourself) noInline }.
 
-			                          { 
+			                          {
 				                          anArray.
 				                          anotherArray } ].
 
-	^ (self visitObject: aHeap) , { 
+	^ (self visitObject: aHeap) , {
 		  followedSlotDescriptor.
 		  ((self newSlotDescriptorSelector: #asShapeValuesHorizontalTree)
 			   inline;
@@ -430,7 +430,8 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 		  ((self
 			    newSlotDescriptorString: #asShapeBubblesHorizontalTree:
 			    constant: aHeap)
-			   enablePredicate: [ aHeap allSatisfy: [ :each | each isNumber ] ];
+			   enablePredicate: [ :level |
+				   aHeap allSatisfy: [ :each | each isNumber ] ];
 			   inline;
 			   quoteUsingSelector) }
 ]

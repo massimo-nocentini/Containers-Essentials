@@ -32,12 +32,6 @@ CTPropertySlotDescriptor >> dispatchPostponed: child data: data walker: walker o
 ]
 
 { #category : #accessing }
-CTPropertySlotDescriptor >> enabled [
-
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
 CTPropertySlotDescriptor >> header: aBlock [
 
 	self subclassResponsibility
@@ -69,6 +63,12 @@ CTPropertySlotDescriptor >> ifHasFollowers: block walker: walker [
 
 { #category : #accessing }
 CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
+
+	self subclassResponsibility
+]
+
+{ #category : #testing }
+CTPropertySlotDescriptor >> isEnabledAtLevel: l [
 
 	self subclassResponsibility
 ]

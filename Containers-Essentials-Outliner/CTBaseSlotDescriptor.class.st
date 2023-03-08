@@ -48,7 +48,7 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #dispatching }
 CTBaseSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 
 	^ oBlock value
@@ -58,12 +58,6 @@ CTBaseSlotDescriptor >> dispatchPostponed: child data: data walker: walker other
 CTBaseSlotDescriptor >> enablePredicate: aBlock [
 
 	enablePredicate := aBlock
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> enabled [
-
-	^ enablePredicate value
 ]
 
 { #category : #accessing }
@@ -109,7 +103,7 @@ CTBaseSlotDescriptor >> initialize [
 		oneToOne;
 		headerWithAllSuperclasses;
 		inlinePredicate: [ :level :default | default ];
-		enablePredicate: [ true ];
+		enablePredicate: [ :level | true ];
 		postpone: false
 ]
 
@@ -129,6 +123,12 @@ CTBaseSlotDescriptor >> inline: anObject level: level default: aBoolean [
 CTBaseSlotDescriptor >> inlinePredicate: anObject [
 
 	inlinePredicate := anObject
+]
+
+{ #category : #testing }
+CTBaseSlotDescriptor >> isEnabledAtLevel: l [
+
+	^ enablePredicate value: l
 ]
 
 { #category : #testing }

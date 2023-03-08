@@ -45,12 +45,6 @@ CTDecorateSlotDescriptor >> dispatchPostponed: child data: data walker: walker o
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> enabled [
-
-	^ descriptor enabled
-]
-
-{ #category : #delegating }
 CTDecorateSlotDescriptor >> header: aBlock [
 
 	descriptor header: aBlock
@@ -84,6 +78,12 @@ CTDecorateSlotDescriptor >> ifHasFollowers: block walker: walker [
 CTDecorateSlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	^ descriptor inline: anObject level: anInteger default: aBoolean
+]
+
+{ #category : #testing }
+CTDecorateSlotDescriptor >> isEnabledAtLevel: l [
+
+	^ descriptor isEnabledAtLevel: l
 ]
 
 { #category : #delegating }

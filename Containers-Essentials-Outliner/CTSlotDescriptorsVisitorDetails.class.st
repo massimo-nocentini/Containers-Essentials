@@ -29,13 +29,13 @@ CTSlotDescriptorsVisitorDetails >> visitFraction: aFraction [
 { #category : #visiting }
 CTSlotDescriptorsVisitorDetails >> visitInteger: anInteger [
 
-	^ { 
-		  (self newSlotDescriptorSelector: #asStringDecimal) inline.
-		  (self newSlotDescriptorSelector: #asStringHex) inline.
-		  (self newSlotDescriptorSelector: #asStringOctal) inline.
-		  (self newSlotDescriptorSelector: #asStringBinary) inline.
-		  (self newSlotDescriptorSelector: #asStringBRGC) inline.
-		  (self newSlotDescriptorSelector: #asStringSkew) inline.
+	^ {
+		  (self newSlotDescriptorSelector: #asStringDecimal).
+		  (self newSlotDescriptorSelector: #asStringHex).
+		  (self newSlotDescriptorSelector: #asStringOctal).
+		  (self newSlotDescriptorSelector: #asStringBinary).
+		  (self newSlotDescriptorSelector: #asStringBRGC).
+		  (self newSlotDescriptorSelector: #asStringSkew).
 		  (self newSlotDescriptorSelector: #numberOfDigits).
 		  (self newSlotDescriptorSelector: #numberOfDigitsInBase2).
 		  ((self
@@ -53,9 +53,9 @@ CTSlotDescriptorsVisitorDetails >> visitInteger: anInteger [
 			    constant: anInteger)
 			   inline;
 			   quoteUsingSelector).
-		  (self newSlotDescriptorSelector: #asStringAZaz) inline.
-		  (self newSlotDescriptorSelector: #asStringaz) inline.
+		  (self newSlotDescriptorSelector: #asStringAZaz).
+		  (self newSlotDescriptorSelector: #asStringaz).
 		  (self newSlotDescriptorSelector: #isProbablyPrime).
-		  ((self newSlotDescriptorSelector: #isPrime) enablePredicate: [ 
-			   anInteger isProbablyPrime ]) }
+		  ((self newSlotDescriptorSelector: #isPrime) enablePredicate: [
+			   :level | anInteger isProbablyPrime ]) }
 ]

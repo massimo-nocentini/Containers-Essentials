@@ -303,7 +303,7 @@ CTDfsWalker >> recurring: data [
 	parent := data object.
 
 	data exploringDescriptors
-		select: [ :each | each enabled ]
+		select: [ :each | each isEnabledAtLevel: data level ]
 		thenDo: [ :each |
 			| child |
 			child := each valueOn: parent walker: self.
