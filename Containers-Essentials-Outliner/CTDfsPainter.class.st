@@ -118,85 +118,6 @@ CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 	^ lineBuilder edgeFrom: fromShape to: toShape
 ]
 
-{ #category : #iterating }
-CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
-
-	| sortedFromShapes treeAssociations forwardAssociations backAssociations crossAssociations postAssociations |
-	treeAssociations := OrderedCollection new.
-	forwardAssociations := OrderedCollection new.
-	backAssociations := OrderedCollection new.
-	crossAssociations := OrderedCollection new.
-	postAssociations := OrderedCollection new.
-
-	sortedFromShapes := fromShapes associations sorted: [
-		                    :anAssoc
-		                    :anotherAssoc |
-		                    | aTime anotherTime |
-		                    aTime := (toShapes at: anAssoc key model)
-			                             propertyDfsEntryTime.
-
-		                    anotherTime := (toShapes at:
-			                                    anotherAssoc key model)
-			                                   propertyDfsEntryTime.
-
-		                    aTime < anotherTime ].
-
-	sortedFromShapes withIndexDo: [ :anAssociation :index |
-		| boxShape fromShape manyShapes tuple tuples isOneToMany mapped |
-		boxShape := anAssociation key.
-		fromShape := anAssociation value.
-
-		manyShapes := Array with: (toShapes at: boxShape model).
-
-		boxShape
-			propertyAt: #isGhostShape
-			ifPresent: [ boxShape := fromShape ].
-
-		mapped := dfsWalker oneToManyAt: boxShape.
-
-		(isOneToMany := mapped isAssociation) ifTrue: [
-			boxShape := mapped key.
-			fromShape := mapped value ].
-
-		"oneToManyShapes
-			at: value
-			ifPresent: [ :someShapes |
-				forbiddenShapes add: (toShapes at: value).
-				isOneToMany := true.
-				manyShapes := someShapes ]
-			ifAbsent: [
-				isOneToMany := false.
-				manyShapes := Array with: (toShapes at: value) ]."
-
-		manyShapes do: [ :aShape |
-			tuple := Array
-				         with: index
-				         with: boxShape
-				         with: fromShape
-				         with: aShape.
-
-			tuples := self
-				          fromShape: fromShape
-				          toShape: aShape
-				          ifTree: [ treeAssociations ]
-				          ifForward: [
-					          isOneToMany
-						          ifTrue: [ treeAssociations ]
-						          ifFalse: [ forwardAssociations ] ]
-				          ifBack: [ backAssociations ]
-				          ifCross: [ crossAssociations ]
-				          ifPost: [ postAssociations ].
-
-			(forbiddenShapes includes: fromShape) ifFalse: [ tuples add: tuple ] ] ].
-
-	^ recvBlock valueWithArguments: {
-			  treeAssociations.
-			  forwardAssociations.
-			  backAssociations.
-			  crossAssociations.
-			  postAssociations }
-]
-
 { #category : #'line building' }
 CTDfsPainter >> forwardLinesBuilder [
 
@@ -384,6 +305,19 @@ CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 			  ifAbsent: [ self edgeForTuple: aTuple lineBuilder: lineBuilder ] ]
 ]
 
+{ #category : #iterating }
+CTDfsPainter >> sortedFromShapes [
+
+	^ fromShapes associations sorted: [ :anAssoc :anotherAssoc |
+		  | aTime anotherTime |
+		  aTime := (toShapes at: anAssoc key model) propertyDfsEntryTime.
+
+		  anotherTime := (toShapes at: anotherAssoc key model)
+			                 propertyDfsEntryTime.
+
+		  aTime < anotherTime ]
+]
+
 { #category : #'line building' }
 CTDfsPainter >> treeLinesBuilder [
 
@@ -418,39 +352,33 @@ CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 { #category : #API }
 CTDfsPainter >> value: anObject [
 
-	| edgesForLayout forbiddenShapes |
-	forbiddenShapes := IdentitySet new.
+	| edgesForLayout |
 	edges := OrderedCollection new.
 	shapes := self dfsWalk: anObject.
 
-	self
-		forbiddenShapes: forbiddenShapes
-		withDfsEdgesDo: [
-			:treeTuples
-			:forwardTuples
-			:backTuples
-			:crossTuples
-			:postTuples |
-			edges
-				addAll:
-					(self treeTuples: treeTuples lineBuilder: self treeLinesBuilder);
-				addAll: (self
-						 forwardTuples: forwardTuples
-						 lineBuilder: self forwardLinesBuilder);
-				addAll:
-					(self backTuples: backTuples lineBuilder: self backLinesBuilder);
-				addAll:
-					(self
-						 crossTuples: crossTuples
-						 lineBuilder: self crossLinesBuilder);
-				addAll:
-					(self postTuples: postTuples lineBuilder: self postLinesBuilder).
+	self withDfsEdgesDo: [
+		:treeTuples
+		:forwardTuples
+		:backTuples
+		:crossTuples
+		:postTuples |
+		edges
+			addAll:
+				(self treeTuples: treeTuples lineBuilder: self treeLinesBuilder);
+			addAll: (self
+					 forwardTuples: forwardTuples
+					 lineBuilder: self forwardLinesBuilder);
+			addAll:
+				(self backTuples: backTuples lineBuilder: self backLinesBuilder);
+			addAll:
+				(self crossTuples: crossTuples lineBuilder: self crossLinesBuilder);
+			addAll:
+				(self postTuples: postTuples lineBuilder: self postLinesBuilder).
 
-			edgesForLayout := self
-				                  layoutTuples: treeTuples
-				                  lineBuilder: self layoutLinesBuilder ].
+		edgesForLayout := self
+			                  layoutTuples: treeTuples
+			                  lineBuilder: self layoutLinesBuilder ].
 
-	shapes := shapes reject: [ :each | forbiddenShapes includes: each ].
 	edges := edges reject: [ :each | skipBoxes includes: each from ].
 
 	self layoutOn: shapes edges: edgesForLayout.
@@ -458,4 +386,59 @@ CTDfsPainter >> value: anObject [
 	^ RSComposite new
 		  shapes: shapes , edges;
 		  yourself
+]
+
+{ #category : #enumerating }
+CTDfsPainter >> withDfsEdgesDo: recvBlock [
+
+	| treeAssociations forwardAssociations backAssociations crossAssociations postAssociations |
+	treeAssociations := OrderedCollection new.
+	forwardAssociations := OrderedCollection new.
+	backAssociations := OrderedCollection new.
+	crossAssociations := OrderedCollection new.
+	postAssociations := OrderedCollection new.
+
+	self sortedFromShapes withIndexDo: [ :anAssociation :index |
+		| boxShape fromShape tuple tuples isOneToMany mapped aShape |
+		boxShape := anAssociation key.
+		fromShape := anAssociation value.
+
+		aShape := toShapes at: boxShape model.
+
+		boxShape
+			propertyAt: #isGhostShape
+			ifPresent: [ boxShape := fromShape ].
+
+		mapped := dfsWalker oneToManyAt: boxShape.
+
+		(isOneToMany := mapped isAssociation) ifTrue: [
+			boxShape := mapped key.
+			fromShape := mapped value ].
+
+		tuple := Array
+			         with: index
+			         with: boxShape
+			         with: fromShape
+			         with: aShape.
+
+		tuples := self
+			          fromShape: fromShape
+			          toShape: aShape
+			          ifTree: [ treeAssociations ]
+			          ifForward: [
+				          isOneToMany
+					          ifTrue: [ treeAssociations ]
+					          ifFalse: [ forwardAssociations ] ]
+			          ifBack: [ backAssociations ]
+			          ifCross: [ crossAssociations ]
+			          ifPost: [ postAssociations ].
+
+		tuples add: tuple ].
+
+	^ recvBlock valueWithArguments: {
+			  treeAssociations.
+			  forwardAssociations.
+			  backAssociations.
+			  crossAssociations.
+			  postAssociations }
 ]
