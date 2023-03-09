@@ -79,12 +79,6 @@ CTPropertySlotDescriptor >> isOneToMany [
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
-CTPropertySlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	self subclassResponsibility
-]
-
 { #category : #accessing }
 CTPropertySlotDescriptor >> noHeader [
 

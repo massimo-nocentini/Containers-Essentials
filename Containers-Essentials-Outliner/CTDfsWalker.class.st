@@ -29,7 +29,6 @@ Class {
 		'dfsClock',
 		'levels',
 		'quotedShapes',
-		'oneToManyShapes',
 		'shapeBuilder',
 		'skipBacks',
 		'skipNils',
@@ -208,7 +207,6 @@ CTDfsWalker >> initialize [
 		skipBacks: false;
 		skipEmptyCollections: false;
 		levels: Dictionary new;
-		oneToManyShapes: IdentityDictionary new;
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new;
 		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
@@ -226,25 +224,10 @@ CTDfsWalker >> maxLevel: anObject [
 	maxLevel := anObject
 ]
 
-{ #category : #shapes }
-CTDfsWalker >> oneToMany: aValue [
-
-	| manyShapes |
-	manyShapes := aValue collect: [ :each | toShapes at: each ].
-
-	oneToManyShapes at: aValue put: manyShapes
-]
-
 { #category : #accessing }
 CTDfsWalker >> oneToManyAt: aBoxShape [
 
 	^ oneToManyMap at: aBoxShape ifAbsent: [ aBoxShape ]
-]
-
-{ #category : #accessing }
-CTDfsWalker >> oneToManyShapes: aDictionary [
-
-	oneToManyShapes := aDictionary
 ]
 
 { #category : #accessing }
@@ -270,7 +253,6 @@ CTDfsWalker >> postCopy [
 
 	self
 		levels: levels class new;
-		oneToManyShapes: oneToManyShapes class new;
 		fromShapes: fromShapes class new;
 		toShapes: toShapes class new
 ]
@@ -365,8 +347,7 @@ CTDfsWalker >> recurring: data [
 										childSlotRows do: [ :r |
 											oneToManyMap at: r box put: valueBox -> objectOutlinerShape ] ] ].
 
-								each addHighlightWithLinesInteractionOnShape: valueBox
-								"isOneToMany: child walker: self;" ].
+								each addHighlightWithLinesInteractionOnShape: valueBox ].
 
 						isOneToMany ifFalse: [
 							fromShapes at: valueBox put: objectOutlinerShape ].

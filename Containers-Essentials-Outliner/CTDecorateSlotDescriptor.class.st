@@ -93,12 +93,6 @@ CTDecorateSlotDescriptor >> isOneToMany [
 ]
 
 { #category : #delegating }
-CTDecorateSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	^ descriptor isOneToMany: anObject walker: aDfsWalker
-]
-
-{ #category : #delegating }
 CTDecorateSlotDescriptor >> noHeader [
 
 	descriptor noHeader

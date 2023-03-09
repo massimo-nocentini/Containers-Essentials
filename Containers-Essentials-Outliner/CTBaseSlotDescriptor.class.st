@@ -137,12 +137,6 @@ CTBaseSlotDescriptor >> isOneToMany [
 	^ isOneToMany
 ]
 
-{ #category : #testing }
-CTBaseSlotDescriptor >> isOneToMany: anObject walker: aDfsWalker [
-
-	isOneToMany ifTrue: [ aDfsWalker oneToMany: anObject ]
-]
-
 { #category : #initialization }
 CTBaseSlotDescriptor >> noHeader [
 

@@ -593,7 +593,13 @@ EssentialsObjectTest >> testInspectObjectModel [
 EssentialsObjectTest >> testInspectOneToMany [
 
 	^ self
-		  exportSlotsGraphOf: { 'hello'. 'world' } ~~> ({ 
+		  exportSlotsGraphOf: {
+				  (LookupKey new
+					   key: 'hello';
+					   yourself).
+				  (LookupKey new
+					   key: 'world';
+					   yourself) } ~~> ({
 				   42 asValueHolder.
 				   Float goldenRatio asValueHolder } ~~> nil)
 		  slotDescriptorsVisitor:

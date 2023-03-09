@@ -8,7 +8,6 @@ Class {
 		'fromShapes',
 		'toShapes',
 		'levels',
-		'oneToManyShapes',
 		'shapes',
 		'edges',
 		'dfsWalker',
@@ -84,14 +83,12 @@ CTDfsPainter >> dfsWalk: anObject [
 	| aShape |
 	fromShapes := IdentityDictionary new.
 	toShapes := IdentityDictionary new.
-	oneToManyShapes := IdentityDictionary new.
 	levels := Dictionary new.
 
 	aShape := dfsWalker
 		          fromShapes: fromShapes;
 		          toShapes: toShapes;
 		          levels: levels;
-		          oneToManyShapes: oneToManyShapes;
 		          value: anObject.
 
 	^ toShapes values
