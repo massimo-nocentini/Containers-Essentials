@@ -1,6 +1,6 @@
 Extension { #name : #SpCodePresenter }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : #'*Containers-Essentials-Visualizations' }
 SpCodePresenter >> textWithStyle [
 
 	self asWindow buildWithSpecLayout: self layout.
