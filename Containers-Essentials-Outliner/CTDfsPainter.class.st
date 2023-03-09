@@ -406,6 +406,8 @@ CTDfsPainter >> withDfsEdgesDo: recvBlock [
 			propertyAt: #isGhostShape
 			ifPresent: [ boxShape := fromShape ].
 
+		"Check if we are in the presence of a one-to-many description,
+		 have a look at corresponding comments in `CTDfsWalker>>#recurring:`."
 		mapped := dfsWalker oneToManyAt: boxShape.
 
 		(isOneToMany := mapped isAssociation) ifTrue: [

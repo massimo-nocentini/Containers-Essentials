@@ -344,13 +344,16 @@ CTDfsWalker >> recurring: data [
 										               r label isNil ].
 
 									isOneToMany ifTrue: [
-										childSlotRows do: [ :r |
-											oneToManyMap at: r box put: valueBox -> objectOutlinerShape ] ] ].
-
-								each addHighlightWithLinesInteractionOnShape: valueBox ].
+										childSlotRows do: [ :r | "here we need to associate to each box the parent `valueBox`
+											 as well as the parent's outliner, because such information will not keep
+											 in the `fromShapes` dictionary to not show such connection by the painter
+											 (see the next `isOneToMany ifFalse: [...]` message send."
+											oneToManyMap at: r box put: valueBox -> objectOutlinerShape ] ] ] ].
 
 						isOneToMany ifFalse: [
 							fromShapes at: valueBox put: objectOutlinerShape ].
+
+						each addHighlightWithLinesInteractionOnShape: valueBox.
 
 						valueBox color: valueBox color lighter lighter.
 
