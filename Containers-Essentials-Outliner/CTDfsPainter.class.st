@@ -142,25 +142,21 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 		                    aTime < anotherTime ].
 
 	sortedFromShapes withIndexDo: [ :anAssociation :index |
-		| value boxShape fromShape manyShapes tuple tuples isOneToMany mappedBox |
+		| boxShape fromShape manyShapes tuple tuples isOneToMany mapped |
 		boxShape := anAssociation key.
 		fromShape := anAssociation value.
 
-		value := boxShape model.
+		manyShapes := Array with: (toShapes at: boxShape model).
 
 		boxShape
 			propertyAt: #isGhostShape
 			ifPresent: [ boxShape := fromShape ].
 
-		mappedBox := dfsWalker oneToManyAt: boxShape.
+		mapped := dfsWalker oneToManyAt: boxShape.
 
-		mappedBox == boxShape
-			ifTrue: [
-				manyShapes := Array with: (toShapes at: value).
-				isOneToMany := false ]
-			ifFalse: [
-				manyShapes := Array with: (toShapes at: boxShape model).
-				isOneToMany := true ].
+		(isOneToMany := mapped isAssociation) ifTrue: [
+			boxShape := mapped key.
+			fromShape := mapped value ].
 
 		"oneToManyShapes
 			at: value
@@ -175,7 +171,7 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 		manyShapes do: [ :aShape |
 			tuple := Array
 				         with: index
-				         with: mappedBox
+				         with: boxShape
 				         with: fromShape
 				         with: aShape.
 
@@ -187,10 +183,7 @@ CTDfsPainter >> forbiddenShapes: forbiddenShapes withDfsEdgesDo: recvBlock [
 					          isOneToMany
 						          ifTrue: [ treeAssociations ]
 						          ifFalse: [ forwardAssociations ] ]
-				          ifBack: [
-					          isOneToMany
-						          ifTrue: [ treeAssociations ]
-						          ifFalse: [ backAssociations ] ]
+				          ifBack: [ backAssociations ]
 				          ifCross: [ crossAssociations ]
 				          ifPost: [ postAssociations ].
 

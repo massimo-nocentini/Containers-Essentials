@@ -619,7 +619,7 @@ EssentialsObjectTest >> testInspectOneToManyWithBackwardEdges [
 
 
 	^ self
-		  exportSlotsGraphOf: { obj }
+		  exportSlotsGraphOf: obj
 		  slotDescriptorsVisitor:
 		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
 ]

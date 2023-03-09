@@ -352,18 +352,18 @@ CTDfsWalker >> recurring: data [
 								self hasntBeenVisited: child descriptor: each data: data.
 
 								each isOneToMany ifTrue: [
-									| childOutliner noInlinedObjects childSlotRows |
+									| childOutliner childSlotRows |
 									childOutliner := toShapes removeKey: child.
 
 									childSlotRows := childOutliner propertyDfsWalkingData rows.
 
-									noInlinedObjects := childSlotRows allSatisfy: [ :r |
-										                    r label isNil ].
+									"In order to be one-to-many, each box in the collapsing object has to point outward."
+									isOneToMany := childSlotRows allSatisfy: [ :r |
+										               r label isNil ].
 
-									noInlinedObjects ifTrue: [
-										isOneToMany := true.
+									isOneToMany ifTrue: [
 										childSlotRows do: [ :r |
-											oneToManyMap at: r box put: valueBox ] ] ].
+											oneToManyMap at: r box put: valueBox -> objectOutlinerShape ] ] ].
 
 								each addHighlightWithLinesInteractionOnShape: valueBox
 								"isOneToMany: child walker: self;" ].
