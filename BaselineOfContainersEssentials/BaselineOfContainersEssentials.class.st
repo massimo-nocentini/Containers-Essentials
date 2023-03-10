@@ -29,9 +29,7 @@ BaselineOfContainersEssentials >> common: spec [
 { #category : #baselines }
 BaselineOfContainersEssentials >> gtk: spec [
 
-	spec baseline: 'Gtk' with: [
-		spec repository: 'github://pharo-spec/gtk-bindings' ";
-			loads: #( Pango )" ]
+	
 ]
 
 { #category : #baselines }
