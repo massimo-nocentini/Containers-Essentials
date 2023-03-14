@@ -957,10 +957,10 @@ EssentialsObjectTest >> testRSPangoText [
 
 	<example>
 	| pangoText markup |
-	markup := '<span>'
+	markup := '<span><tt>'
 	          ,
 		          (EssentialsObjectTest >> #testRSPangoText)
-			          inspectionSource textWithStyle , '</span>'.
+			          inspectionSource textWithStyle , '</tt></span>'.
 
 	pangoText := RSPangoText new
 		             position: 10 asPoint;
