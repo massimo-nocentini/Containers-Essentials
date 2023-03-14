@@ -140,5 +140,40 @@ RSPangoText >> markup: anObject [
 { #category : #accessing }
 RSPangoText >> updateBaseRectangle [
 
-	
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		| code |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		ll
+			lua_getfield: L
+			at: -1
+			name: 'pango_layout_set_markup'
+			remove: true.
+
+		code := ll
+			        on: L push: pangoLayout;
+			        on: L push: self markup;
+			        lua_pcall: L nargs: 2 lets: #( w h b ).
+
+		code = ll LUA_OK
+			ifTrue: [
+				| w h b |
+				ll
+					on: L push: #w;
+					on: L push: #h;
+					on: L push: #b.
+
+				w := ll on: L at: -3.
+				h := ll on: L at: -2.
+				b := ll on: L at: -1.
+
+				ll lua_pop: L nelements: 3.
+
+				baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: w @ h ]
+			ifFalse: [ (ll on: L at: -1) inspect ] ]
 ]
