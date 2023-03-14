@@ -7,7 +7,10 @@ Class {
 	#instVars : [
 		'markup',
 		'fontDescription',
-		'baseline'
+		'baseline',
+		'pangoLayout',
+		'pangoFontMap',
+		'pangoContext'
 	],
 	#category : #'Containers-Essentials-Gtk'
 }
@@ -15,7 +18,45 @@ Class {
 { #category : #visiting }
 RSPangoText >> accept: aVisitor [
 
-	^ aVisitor visitPangoText: self
+	"^ aVisitor visitPangoText: self"
+]
+
+{ #category : #initialization }
+RSPangoText >> finalize [
+
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		ll
+			lua_getfield: L
+			at: -1
+			name: 'g_object_unref'
+			remove: true.
+
+		ll assert: [
+			ll
+				lua_pushvalue: L at: -1;
+				on: L push: pangoLayout;
+				lua_pcall: L nargs: 1 nresults: 0 ].
+
+		ll assert: [
+			ll
+				lua_pushvalue: L at: -1;
+				on: L push: pangoContext;
+				lua_pcall: L nargs: 1 nresults: 0 ].
+
+		ll assert: [
+			ll
+				lua_pushvalue: L at: -1;
+				on: L push: pangoFontMap;
+				lua_pcall: L nargs: 1 nresults: 0 ] ].
+
+	^ super finalize
 ]
 
 { #category : #accessing }
@@ -48,15 +89,38 @@ RSPangoText >> initPangoLayout: aPangoLayout [
 { #category : #initialization }
 RSPangoText >> initialize [
 
-	| font |
+	| ll |
 	super initialize.
 
-	baseline := 0.0 asPoint.
+	ll := LibLua uniqueInstance.
 
-	font := StandardFonts defaultFont.
+	ll withOpenedLibsStateDo: [ :L |
+		| code |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
 
-	self fontDescription: (PangoFontDescription newFromString:
-			 font familyName , ' ' , font pointSize asString)
+		ll
+			lua_getfield: L
+			at: -1
+			name: 'pango_layout_with_default_font_map'
+			remove: true.
+
+		code := ll lua_pcall: L nargs: 0 lets: #( layout map ctx ).
+
+		code = ll LUA_OK
+			ifTrue: [
+				ll
+					on: L push: #layout;
+					on: L push: #map;
+					on: L push: #ctx.
+
+				pangoLayout := ll on: L at: -3.
+				pangoFontMap := ll on: L at: -2.
+				pangoContext := ll on: L at: -1.
+
+				ll lua_pop: L nelements: 3 ]
+			ifFalse: [ (ll on: L at: -1) inspect ] ]
 ]
 
 { #category : #accessing }
@@ -76,21 +140,5 @@ RSPangoText >> markup: anObject [
 { #category : #accessing }
 RSPangoText >> updateBaseRectangle [
 
-	| surface |
-	surface := AthensCairoSurface width: 1 height: 1.
-
-	surface drawDuring: [ :canvas |
-		| pangoLayout extent |
-		pangoLayout := PangoLayout newCanvas: canvas.
-
-		self initPangoLayout: pangoLayout.
-
-		canvas updateLayout: pangoLayout.
-
-		self markup ifNil: [
-			baseline := pangoLayout size  ].
-
-		extent := (pangoLayout size - baseline - (0 @ pangoLayout baseline / 2)) pangoUnscaled.
-
-		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ]
+	
 ]

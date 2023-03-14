@@ -952,6 +952,43 @@ EssentialsObjectTest >> testRBNodeSubclasses [
 	^ self exportShapeOf: RBNode accessorBlock: #asShapeSubclasses
 ]
 
+{ #category : #examples }
+EssentialsObjectTest >> testRSPangoText [
+
+	<example>
+	| pangoText markup |
+	markup := '<span>'
+	          ,
+		          (EssentialsObjectTest >> #testRSPangoText)
+			          inspectionSource textWithStyle , '</span>'.
+
+	pangoText := RSPangoText new
+		             position: 10 asPoint;
+		             markup: markup;
+		             "draggable;
+		             yourself. "notedWithPad:
+			             Float goldenRatio.
+
+
+	pangoText draggable.
+
+	RSCanvas new
+		add: pangoText;
+		add: (RSCircle new
+				 radius: Float goldenRatio;
+				 position: 0 asPoint;
+				 color: Color red;
+				 yourself);
+		add: (RSLabel new
+				 text: 'hello';
+				 position: 0 @ 0;
+				 draggable;
+				 yourself);
+		zoomToFit;
+		addInteraction: RSCanvasController new;
+		"showEncompassingRectangles;"open
+]
+
 { #category : #tests }
 EssentialsObjectTest >> testRandomSubclasses [
 
