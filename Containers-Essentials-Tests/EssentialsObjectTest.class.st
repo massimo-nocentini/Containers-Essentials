@@ -97,6 +97,23 @@ EssentialsObjectTest >> testDocumapsIsCompanySite [
 				   yourself)
 ]
 
+{ #category : #examples }
+EssentialsObjectTest >> testDummyTest [
+
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'dummy_test';
+				lua_pcall: L nargs: 0 nresults: 0 ] ]
+]
+
 { #category : #'export compiled methods' }
 EssentialsObjectTest >> testExportCompiledMethodsAboutFloats [
 
@@ -987,6 +1004,62 @@ EssentialsObjectTest >> testRSPangoText [
 		zoomToFit;
 		addInteraction: RSCanvasController new;
 		"showEncompassingRectangles;"open
+]
+
+{ #category : #examples }
+EssentialsObjectTest >> testRSPangoTextContext [
+
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		| map ctx layout |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		map := ll
+			       lua_getfield: L
+			       at: -1
+			       name: 'pango_cairo_font_map_get_default';
+			       lua_pcall: L nargs: 0 nresults: 1;
+			       on: L at: -1.
+
+		ctx := ll
+			       lua_getfield: L
+			       at: -2
+			       name: 'pango_font_map_create_context';
+			       lua_pushvalue: L at: -2;
+			       lua_remove: L at: -3;
+			       lua_pcall: L nargs: 1 nresults: 1;
+			       on: L at: -1.
+
+		layout := ll
+			          lua_getfield: L at: -2 name: 'pango_layout_new';
+			          lua_pushvalue: L at: -2;
+			          lua_remove: L at: -3;
+			          lua_pcall: L nargs: 1 nresults: 1;
+			          on: L at: -1.
+
+		ll lua_pop: L nelements: 1.
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'g_object_unref';
+				on: L push: layout;
+				lua_pcall: L nargs: 1 nresults: 0 ].
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'g_object_unref';
+				on: L push: ctx;
+				lua_pcall: L nargs: 1 nresults: 0 ].
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'g_object_unref';
+				on: L push: map;
+				lua_pcall: L nargs: 1 nresults: 0 ] ]
 ]
 
 { #category : #tests }
