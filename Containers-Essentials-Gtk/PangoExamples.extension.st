@@ -15,8 +15,8 @@ PangoExamples class >> example8RoassalShape [
 <span foreground="red" font_family="Ubuntu Mono"><tt> hello </tt></span>
 <span foreground="black" font_family="sans" font_stretch="ultracondensed" letter_spacing="500" font_weight="light">SANS</span><span foreground="#FFCC00"> colored</span>';
 		             "draggable;
-		             yourself. "
-		             notedWithPad: Float goldenRatio.
+		             yourself. "notedWithPad:
+			             Float goldenRatio.
 
 
 	pangoText draggable.
@@ -33,6 +33,11 @@ PangoExamples class >> example8RoassalShape [
 				 position: 0 @ 0;
 				 draggable;
 				 yourself);
+		add: (RSPangoText new
+				 position: 10 asPoint;
+				 markup: 'world';
+				 "draggable;
+		             yourself. "boxedWithPad: Float goldenRatio );
 		zoomToFit;
 		addInteraction: RSCanvasController new;
 		"showEncompassingRectangles;"open

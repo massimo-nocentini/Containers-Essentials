@@ -6,8 +6,7 @@ Class {
 	#superclass : #RSBoundingShape,
 	#instVars : [
 		'markup',
-		'fontDescription',
-		'baseline'
+		'fontDescription'
 	],
 	#category : #'Containers-Essentials-Gtk'
 }
@@ -29,7 +28,6 @@ RSPangoText >> fontDescription: anObject [
 
 	fontDescription := anObject.
 
-	self updateBaseRectangle
 ]
 
 { #category : #testing }
@@ -51,8 +49,6 @@ RSPangoText >> initialize [
 	| font |
 	super initialize.
 
-	baseline := 0.0 asPoint.
-
 	font := StandardFonts defaultFont.
 
 	self fontDescription: (PangoFontDescription newFromString:
@@ -70,27 +66,20 @@ RSPangoText >> markup: anObject [
 
 	markup := anObject.
 
-	self updateBaseRectangle
+	(AthensCairoSurface width: 1 height: 1) drawDuring: [
+		:athensCairoCanvas |
+		self updateBaseRectangleOnAthensCairoCanvas: athensCairoCanvas ]
 ]
 
 { #category : #accessing }
-RSPangoText >> updateBaseRectangle [
+RSPangoText >> updateBaseRectangleOnAthensCairoCanvas: cairo_t [
 
-	| surface |
-	surface := AthensCairoSurface width: 1 height: 1.
+	| pangoLayout |
+	pangoLayout := PangoLayout newCanvas: cairo_t.
 
-	surface drawDuring: [ :canvas |
-		| pangoLayout extent |
-		pangoLayout := PangoLayout newCanvas: canvas.
+	self initPangoLayout: pangoLayout.
 
-		self initPangoLayout: pangoLayout.
+	cairo_t updateLayout: pangoLayout.
 
-		canvas updateLayout: pangoLayout.
-
-		self markup ifNil: [
-			baseline := pangoLayout size  ].
-
-		extent := (pangoLayout size - baseline - (0 @ pangoLayout baseline / 2)) pangoUnscaled.
-
-		baseRectangle := Rectangle floatCenter: 0.0 asPoint extent: extent ]
+	self extent: pangoLayout logicalRectangle extent
 ]

@@ -14,12 +14,13 @@ PangoLayout >> logicalRectangle [
 	"Answer a Rectangle with the logical bounds.
 	See https://docs.gtk.org/Pango/method.GlyphString.extents.html"
 
-	| logicalRectangle |
+	| logicalRectangle inkRectangle |
 	logicalRectangle := PangoRectangle externalNew.
+	inkRectangle := PangoRectangle externalNew.
 
 	self
-		getExtentsInkRectangle: ExternalAddress null
+		getExtentsInkRectangle: inkRectangle
 		logicalRectangle: logicalRectangle.
 
-	^ logicalRectangle asRectangle
+	^ inkRectangle asRectangle
 ]

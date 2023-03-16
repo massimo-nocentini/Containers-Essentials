@@ -5,10 +5,10 @@ RSAthensRenderer >> visitPangoText: aPangoShape [
 
 	aPangoShape hasText ifFalse: [ ^ self ].
 
+	aPangoShape updateBaseRectangleOnAthensCairoCanvas: athensCanvas.
+
 	self visitShapeIfNecessary: aPangoShape block: [
 		| pangoLayout lbtranslation |
-		aPangoShape hasText ifFalse: [ ^ self ].
-
 		lbtranslation := (aPangoShape encompassingRectangle extent / 2.0)
 			                 negated.
 
