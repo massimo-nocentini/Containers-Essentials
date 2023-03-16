@@ -24,6 +24,7 @@ RSAthensRenderer >> visitPangoText: aPangoShape [
 
 		athensCanvas showLayout: pangoLayout.
 
-		athensCanvas pathTransform translateBy: lbtranslation negated.
+		matrix translateBy: lbtranslation negated.
+		athensCanvas pathTransform loadAffineTransform: matrix.
 		athensCanvas setPathMatrix ]
 ]
