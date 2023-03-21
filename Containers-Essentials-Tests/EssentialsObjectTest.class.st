@@ -841,6 +841,60 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testPangoDummyTest [
+
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		| fontmap |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'pango_cairo_font_map_new';
+				lua_pcall: L nargs: 0 nresults: 1 ].
+
+		fontmap := ll on: L at: -1.
+
+		self deny: fontmap equals: ExternalAddress null.
+
+		ll lua_pop: L nelements: 1.
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'g_object_unref';
+				on: L push: fontmap;
+				lua_pcall: L nargs: 1 nresults: 0 ] ]
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testPangoDummyTest1 [
+
+	| ll |
+	ll := LibLua uniqueInstance.
+
+	ll withOpenedLibsStateDo: [ :L |
+		ll
+			luaL_requiref: L name: 'cairo';
+			on: L push: #cairo.
+
+		ll assert: [
+			ll
+				lua_getfield: L at: -1 name: 'dummy_test';
+				on: L push: '<span>hello <i>world</i></span>';
+				lua_pcall: L nargs: 1 nresults: 4 ].
+
+		{
+			(ll on: L at: -4).
+			(ll on: L at: -3).
+			(ll on: L at: -2).
+			(ll on: L at: -1) } inspect ]
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testPostpone [
 
 	| first second third fourth root |
