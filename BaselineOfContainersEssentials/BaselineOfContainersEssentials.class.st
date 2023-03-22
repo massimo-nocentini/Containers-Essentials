@@ -11,7 +11,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 	spec for: #common do: [
 		self
 			roassal: spec;
-			gtk: spec;
+			pango: spec;
 			common: spec ]
 ]
 
@@ -27,9 +27,11 @@ BaselineOfContainersEssentials >> common: spec [
 ]
 
 { #category : #baselines }
-BaselineOfContainersEssentials >> gtk: spec [
+BaselineOfContainersEssentials >> pango: spec [
 
-	
+	spec
+		baseline: 'Pango'
+		with: [ spec repository: 'github://massimo-nocentini/pharo-pango' ]
 ]
 
 { #category : #baselines }
