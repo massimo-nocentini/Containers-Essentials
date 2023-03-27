@@ -525,7 +525,7 @@ Complex >> negated [
 	^self class real: real negated imaginary: imaginary negated
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 Complex >> polarForm: aBlock [
 
 	| aPoint |
