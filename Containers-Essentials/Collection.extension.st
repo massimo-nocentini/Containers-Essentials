@@ -10,6 +10,16 @@ Collection >> adaptToComplex: rcvr andSend: selector [
 ]
 
 { #category : #'*Containers-Essentials' }
+Collection >> asCollectionKeyBlock: keyBlock valueBlock: valueBlock [
+
+	^ CTKeyedValuedOrderedCollection new
+		  collection: self;
+		  keyBlock: keyBlock;
+		  valueBlock: valueBlock;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials' }
 Collection >> at: aKey update: aBlock [
 
 	^ self at: aKey put: (aBlock value: (self at: aKey))
