@@ -11,7 +11,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 	spec for: #common do: [
 		self
 			roassal: spec;
-			"pango: spec;"
+			pango: spec;
 			common: spec ]
 ]
 
