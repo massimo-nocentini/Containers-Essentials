@@ -1,7 +1,7 @@
-Extension { #name : #RandomTestDistributions }
+Extension { #name : #RandomDistributionsTest }
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testBernoulli [
+RandomDistributionsTest >> expectedValue_testBernoulli [
 
 	^ #( 1 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 1 0 1 1 0 0
 	     1 0 0 1 1 0 0 0 1 0 1 0 1 0 1 0 0 0 0 1 1 0 0 1 1 0 0 0 0 0 0 1
@@ -38,7 +38,7 @@ RandomTestDistributions >> expectedValue_testBernoulli [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testBinomial [
+RandomDistributionsTest >> expectedValue_testBinomial [
 
 	^ #( 6 13 14 12 14 13 16 17 13 12 15 11 12 15 14 12 14 10 15 13 13 10
 	     15 13 13 16 11 12 15 14 14 13 17 10 15 13 16 15 14 14 16 16 13
@@ -90,7 +90,7 @@ RandomTestDistributions >> expectedValue_testBinomial [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testExponential [
+RandomDistributionsTest >> expectedValue_testExponential [
 
 	^ #( 0.00010174797652236923 1.237844169771575 1.7308667715472523
 	     3.2821275743806817 2.6033400627295458 1.8738555283090597
@@ -429,7 +429,7 @@ RandomTestDistributions >> expectedValue_testExponential [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testGaussian [
+RandomDistributionsTest >> expectedValue_testGaussian [
 
 	^ #( 1.0953310376101364 0.9427304049475156 -1.732874862745636
 	     0.297256830359885 -1.0465880989649263 -0.1784498855598171
@@ -768,7 +768,7 @@ RandomTestDistributions >> expectedValue_testGaussian [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testGaussianBoxMuller [
+RandomDistributionsTest >> expectedValue_testGaussianBoxMuller [
 
 	^ { 
 		  (-1.0665869259590823 @ -4.153133433647688).
@@ -1774,7 +1774,7 @@ RandomTestDistributions >> expectedValue_testGaussianBoxMuller [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testGeometric [
+RandomDistributionsTest >> expectedValue_testGeometric [
 
 	^ #( 1 9 8 6 1 2 3 23 3 8 4 8 4 6 5 11 13 2 4 2 4 1 2 5 1 15 4 1 3 3
 	     1 10 1 5 5 6 1 5 6 3 13 5 10 6 4 6 1 1 1 1 2 9 2 3 1 3 4 1 4 3 3
@@ -1813,7 +1813,7 @@ RandomTestDistributions >> expectedValue_testGeometric [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> expectedValue_testUniform [
+RandomDistributionsTest >> expectedValue_testUniform [
 
 	^ #( 0.00010174280037253294 0.7099912458611611 0.822869188535432
 	     0.9624517150048407 0.9259740863581999 0.8464694222651745
@@ -2152,7 +2152,7 @@ RandomTestDistributions >> expectedValue_testUniform [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testBernoulli [
+RandomDistributionsTest >> testBernoulli [
 
 	| gen |
 	gen := (Random seed: 13) fairCoin.
@@ -2165,7 +2165,7 @@ RandomTestDistributions >> testBernoulli [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testBinomial [
+RandomDistributionsTest >> testBinomial [
 
 	| gen |
 	gen := (RandomBinomial seed: 13)
@@ -2181,7 +2181,7 @@ RandomTestDistributions >> testBinomial [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testExponential [
+RandomDistributionsTest >> testExponential [
 
 	| gen |
 	gen := RandomExponential seed: 13.
@@ -2194,7 +2194,7 @@ RandomTestDistributions >> testExponential [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testGaussian [
+RandomDistributionsTest >> testGaussian [
 
 	| gen |
 	gen := RandomGaussian seed: 13.
@@ -2207,7 +2207,7 @@ RandomTestDistributions >> testGaussian [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testGaussianBoxMuller [
+RandomDistributionsTest >> testGaussianBoxMuller [
 
 	| gen |
 	gen := RandomBoxMullerBivariateGaussian seed: 13.
@@ -2220,7 +2220,7 @@ RandomTestDistributions >> testGaussianBoxMuller [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testGeometric [
+RandomDistributionsTest >> testGeometric [
 
 	| gen |
 	gen := (RandomGeometric seed: 13)
@@ -2235,7 +2235,7 @@ RandomTestDistributions >> testGeometric [
 ]
 
 { #category : #'*Containers-Essentials-Tests' }
-RandomTestDistributions >> testUniform [
+RandomDistributionsTest >> testUniform [
 
 	| gen |
 	gen := Random seed: 13.
