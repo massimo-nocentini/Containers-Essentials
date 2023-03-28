@@ -18,6 +18,12 @@ CTKeyedValuedOrderedCollection >> acceptSlotDescriptorsVisitor: aVisitor [
 	^ aVisitor visitCTKeyedValuedOrderedCollection: self
 ]
 
+{ #category : #collecting }
+CTKeyedValuedOrderedCollection >> associationOf: anObject [
+
+	^ (keyBlock value: anObject) -> (valueBlock value: anObject)
+]
+
 { #category : #accessing }
 CTKeyedValuedOrderedCollection >> collection [
 
@@ -42,12 +48,6 @@ CTKeyedValuedOrderedCollection >> isEmpty [
 	^ collection isEmpty
 ]
 
-{ #category : #collecting }
-CTKeyedValuedOrderedCollection >> keyAndValueOf: anObject [
-
-	^ (keyBlock value: anObject) -> (valueBlock value: anObject)
-]
-
 { #category : #accessing }
 CTKeyedValuedOrderedCollection >> keyBlock: anObject [
 
@@ -59,7 +59,7 @@ CTKeyedValuedOrderedCollection >> keysAndValuesCollect: aBlock [
 
 	^ collection collect: [ :each |
 		  | assoc |
-		  assoc := self keyAndValueOf: each.
+		  assoc := self associationOf: each.
 		  aBlock value: assoc key value: assoc value ]
 ]
 
