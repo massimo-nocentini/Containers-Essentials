@@ -6,7 +6,7 @@ Class {
 		'name',
 		'right'
 	],
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-SUTs'
 }
 
 { #category : #visiting }

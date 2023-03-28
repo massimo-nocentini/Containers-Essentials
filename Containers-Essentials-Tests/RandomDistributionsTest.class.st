@@ -3,10 +3,10 @@ Class {
 	#superclass : #TestCase,
 	#traits : 'TIceImagesExporting',
 	#classTraits : 'TIceImagesExporting classTrait',
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-Tests'
 }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testBernoulli [
 
 	^ #( 1 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 1 1 0 1 0 1 1 0 0
@@ -43,7 +43,7 @@ RandomDistributionsTest >> expectedValue_testBernoulli [
 	     0 1 0 0 0 1 0 1 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testBinomial [
 
 	^ #( 6 13 14 12 14 13 16 17 13 12 15 11 12 15 14 12 14 10 15 13 13 10
@@ -95,7 +95,7 @@ RandomDistributionsTest >> expectedValue_testBinomial [
 	     13 16 19 15 16 14 17 14 15 14 15 14 14 14 10 10 16 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testExponential [
 
 	^ #( 0.00010174797652236923 1.237844169771575 1.7308667715472523
@@ -434,7 +434,7 @@ RandomDistributionsTest >> expectedValue_testExponential [
 	     0.17670200345735482 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testGaussian [
 
 	^ #( 1.0953310376101364 0.9427304049475156 -1.732874862745636
@@ -773,7 +773,7 @@ RandomDistributionsTest >> expectedValue_testGaussian [
 	     -1.2149810804473808 -0.2579178768680838 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testGaussianBoxMuller [
 
 	^ { 
@@ -1779,7 +1779,7 @@ RandomDistributionsTest >> expectedValue_testGaussianBoxMuller [
 		  (-0.760608092559322 @ 0.22293479562453322) }
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testGeometric [
 
 	^ #( 1 9 8 6 1 2 3 23 3 8 4 8 4 6 5 11 13 2 4 2 4 1 2 5 1 15 4 1 3 3
@@ -1818,7 +1818,7 @@ RandomDistributionsTest >> expectedValue_testGeometric [
 	     2 1 2 3 3 8 3 7 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> expectedValue_testUniform [
 
 	^ #( 0.00010174280037253294 0.7099912458611611 0.822869188535432
@@ -2157,7 +2157,7 @@ RandomDistributionsTest >> expectedValue_testUniform [
 	     0.1619705227957901 )
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testBernoulli [
 
 	| gen |
@@ -2170,7 +2170,7 @@ RandomDistributionsTest >> testBernoulli [
 		equals: self expectedValue_testBernoulli
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testBinomial [
 
 	| gen |
@@ -2186,7 +2186,7 @@ RandomDistributionsTest >> testBinomial [
 		equals: self expectedValue_testBinomial
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testExponential [
 
 	| gen |
@@ -2199,7 +2199,7 @@ RandomDistributionsTest >> testExponential [
 		equals: self expectedValue_testExponential
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testGaussian [
 
 	| gen |
@@ -2212,7 +2212,7 @@ RandomDistributionsTest >> testGaussian [
 		equals: self expectedValue_testGaussian
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testGaussianBoxMuller [
 
 	| gen |
@@ -2225,7 +2225,7 @@ RandomDistributionsTest >> testGaussianBoxMuller [
 		equals: self expectedValue_testGaussianBoxMuller
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testGeometric [
 
 	| gen |
@@ -2240,7 +2240,7 @@ RandomDistributionsTest >> testGeometric [
 		equals: self expectedValue_testGeometric
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 RandomDistributionsTest >> testUniform [
 
 	| gen |

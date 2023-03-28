@@ -1,7 +1,7 @@
 Class {
 	#name : #CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor,
 	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-SUTs'
 }
 
 { #category : #visiting }

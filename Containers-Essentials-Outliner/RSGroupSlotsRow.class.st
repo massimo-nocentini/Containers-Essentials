@@ -1,7 +1,10 @@
+"
+I am a variant of RSGroup that takes care of a row of shapes that appears in an outliner `RSComposite` shape.
+"
 Class {
 	#name : #RSGroupSlotsRow,
 	#superclass : #RSGroup,
-	#category : #'Containers-Essentials-Roassal'
+	#category : #'Containers-Essentials-Outliner-Roassal'
 }
 
 { #category : #creating }

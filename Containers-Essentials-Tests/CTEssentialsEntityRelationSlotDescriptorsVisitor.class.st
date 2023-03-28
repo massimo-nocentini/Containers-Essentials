@@ -1,10 +1,10 @@
 Class {
 	#name : #CTEssentialsEntityRelationSlotDescriptorsVisitor,
 	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-SUTs'
 }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 CTEssentialsEntityRelationSlotDescriptorsVisitor >> visitCTEssentialsTestEntity: anEntity [
 
 	^ { 
@@ -14,7 +14,7 @@ CTEssentialsEntityRelationSlotDescriptorsVisitor >> visitCTEssentialsTestEntity:
 		  (self newSlotDescriptorSelector: #relation) noHeader }
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : #'as yet unclassified' }
 CTEssentialsEntityRelationSlotDescriptorsVisitor >> visitCTEssentialsTestRelation: aRelation [
 
 	^ { 

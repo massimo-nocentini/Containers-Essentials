@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'collection'
 	],
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-SUTs'
 }
 
 { #category : #visiting }
