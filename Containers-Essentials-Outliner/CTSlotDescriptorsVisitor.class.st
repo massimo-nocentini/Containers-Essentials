@@ -236,6 +236,22 @@ CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
+
+	^ {
+		  (self newSlotDescriptorSelector: #protocol).
+		  (self newSlotDescriptorSelector: #linesOfCode).
+		  (self newSlotDescriptorSelector: #methodClassName).
+		  (self newSlotDescriptorSelector: #selector).
+		  ((self
+			    newSlotDescriptorString: 'source code'
+			    accessor: [
+				    aCompiledMethod inspectionSource textWithStyle asRSPangoText ])
+			   inline;
+			   quote) }
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitContext: aContext [
 
 	^ { 
