@@ -1,7 +1,7 @@
 Class {
 	#name : #ComplexTest,
 	#superclass : #TestCase,
-	#category : #'Containers-Essentials-Tests'
+	#category : #'Containers-Essentials-Tests-Tests'
 }
 
 { #category : #tests }

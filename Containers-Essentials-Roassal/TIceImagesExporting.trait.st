@@ -154,9 +154,10 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVis
 
 { #category : #utilities }
 TIceImagesExporting >> iceWorkingDirectory [
-	^ (IceRepository registry
-		select: [ :repo | repo includesPackageNamed: self class category ])
-		first location
+
+	^ (IceRepository registry select: [ :repo |
+		   repo includesPackageNamed: self class package name ]) first
+		  location
 ]
 
 { #category : #utilities }
