@@ -244,20 +244,43 @@ CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 		  (self newSlotDescriptorSelector: #methodClassName).
 		  (self newSlotDescriptorSelector: #selector).
 		  ((self newSlotDescriptorString: 'source code' accessor: [
-				    | presenter text |
+				    | presenter lines text |
 				    presenter := aCompiledMethod inspectionSource.
 
-				    text := presenter text lines
-					            collect: [ :l | l ifEmpty: [ ' ' ] ]
-					            as: OrderedCollection.
+				    lines := presenter text lines
+					             collect: [ :l | l ifEmpty: [ ' ' ] ]
+					             as: OrderedCollection.
 
-				    text addFirst: ('"{1}, protocol {2}"' format: {
+				    lines addFirst: ('"{1}, protocol {2}"' format: {
 									     aCompiledMethod methodClassName.
 									     aCompiledMethod protocol }).
 
-				    presenter text: (String cr join: text).
+				    presenter text: (String cr join: lines).
 
-				    presenter textWithStyle asRSPangoText ])
+				    text := presenter textWithStyle.
+
+				    text
+					    addAttribute: TextEmphasis italic
+					    from: 1
+					    to: lines first size.
+
+				    text
+					    addAttribute: TextEmphasis underlined
+					    from:
+						    1 + aCompiledMethod methodClassName size
+						    + ', protocol ' size + 1
+					    to:
+						    1 + aCompiledMethod methodClassName size
+						    + ', protocol ' size + aCompiledMethod protocol size.
+
+				    text
+					    addAttribute: TextEmphasis bold
+					    from: 2
+					    to: 2 + aCompiledMethod methodClassName size.
+
+				    text addAttribute: TextColor gray from: 1 to: lines first size.
+
+				    text asRSPangoText ])
 			   inline;
 			   quote) }
 ]
