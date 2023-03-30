@@ -293,9 +293,12 @@ CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 		  (self newSlotDescriptorSelector: #linesOfCode).
 		  (self newSlotDescriptorSelector: #methodClassName).
 		  (self newSlotDescriptorSelector: #selector).
-		  ((self newSlotDescriptorString: 'source code' accessor: [
+		  ((self newSlotDescriptorString: 'formatted src' accessor: [
 				    | presenter lines text |
 				    presenter := aCompiledMethod inspectionSource.
+
+				    "Adjust the test to show the formatted version of the source code"
+				    presenter text: aCompiledMethod formattedCode.
 
 				    lines := presenter text lines
 					             collect: [ :l |
