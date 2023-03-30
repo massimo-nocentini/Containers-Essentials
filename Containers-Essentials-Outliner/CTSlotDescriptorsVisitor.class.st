@@ -180,15 +180,17 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 				    presenter := SpCodePresenter new
 					                 beForBehavior: aBehavior;
 					                 text:
-						                 (ClassDefinitionPrinter fluid for: aBehavior)
-							                 expandedDefinitionString;
+						                 ((ClassDefinitionPrinter fluid for: aBehavior)
+							                  expandedDefinitionString
+							                  copyReplaceAll: String tab
+							                  with: '   ');
 					                 yourself.
 
 				    lines := presenter text lines
 					             collect: [ :l | l ifEmpty: [ ' ' ] ]
 					             as: OrderedCollection.
 
-				   " lines addFirst: ('""{1}, protocol {2}""' format: {
+				    " lines addFirst: ('""{1}, protocol {2}""' format: {
 							     aCompiledMethod methodClassName.
 							     aCompiledMethod protocol }).
 "
@@ -196,7 +198,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 				    text := presenter textWithStyle.
 
-				   " text
+				    " text
 					    addAttribute: TextEmphasis italic
 					    from: 1
 					    to: lines first size.
@@ -293,7 +295,11 @@ CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 				    presenter := aCompiledMethod inspectionSource.
 
 				    lines := presenter text lines
-					             collect: [ :l | l ifEmpty: [ ' ' ] ]
+					             collect: [ :l |
+						             l
+							             ifEmpty: [ ' ' ]
+							             ifNotEmpty: [
+								             l copyReplaceAll: String tab with: '   ' ] ]
 					             as: OrderedCollection.
 
 				    lines addFirst: ('"{1}, protocol {2}"' format: {
