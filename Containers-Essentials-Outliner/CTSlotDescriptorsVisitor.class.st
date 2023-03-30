@@ -175,15 +175,18 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (self newSlotDescriptorSelector: #instanceCount).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
 			   :level | aBehavior traits isNotEmpty ]).
-		  ((self newSlotDescriptorString: 'source code' accessor: [
-				    | presenter lines text |
+		  ((self newSlotDescriptorString: 'fluid definition' accessor: [
+				    | presenter lines text def printer |
+				    printer := ClassDefinitionPrinter fluid for: aBehavior.
+
+				    def := aBehavior isClass
+					           ifTrue: [ printer expandedDefinitionString ]
+					           ifFalse: [ printer expandedMetaclassDefinitionString ].
+
 				    presenter := SpCodePresenter new
 					                 beForBehavior: aBehavior;
 					                 text:
-						                 ((ClassDefinitionPrinter fluid for: aBehavior)
-							                  expandedDefinitionString
-							                  copyReplaceAll: String tab
-							                  with: '   ');
+						                 (def copyReplaceAll: String tab with: '   ');
 					                 yourself.
 
 				    lines := presenter text lines
