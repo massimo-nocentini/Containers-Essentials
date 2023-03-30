@@ -3,7 +3,7 @@ Class {
 	#superclass : #IntegerTest,
 	#traits : 'TIceImagesExporting',
 	#classTraits : 'TIceImagesExporting classTrait',
-	#category : #'Containers-Essentials-Tests-Tests'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #tests }

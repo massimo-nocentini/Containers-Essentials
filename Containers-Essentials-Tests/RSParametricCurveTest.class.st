@@ -3,7 +3,7 @@ Class {
 	#superclass : #TestCase,
 	#traits : 'TIceImagesExporting + RSTParametricXYLines',
 	#classTraits : 'TIceImagesExporting classTrait + RSTParametricXYLines classTrait',
-	#category : #'Containers-Essentials-Tests-Tests'
+	#category : #'Containers-Essentials-Tests'
 }
 
 { #category : #examples }
