@@ -174,7 +174,52 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (self newSlotDescriptorSelector: #superclass).
 		  (self newSlotDescriptorSelector: #instanceCount).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
-			   :level | aBehavior traits isNotEmpty ]) }
+			   :level | aBehavior traits isNotEmpty ]).
+		  ((self newSlotDescriptorString: 'source code' accessor: [
+				    | presenter lines text |
+				    presenter := SpCodePresenter new
+					                 beForBehavior: aBehavior;
+					                 text:
+						                 (ClassDefinitionPrinter fluid for: aBehavior)
+							                 expandedDefinitionString;
+					                 yourself.
+
+				    lines := presenter text lines
+					             collect: [ :l | l ifEmpty: [ ' ' ] ]
+					             as: OrderedCollection.
+
+				   " lines addFirst: ('""{1}, protocol {2}""' format: {
+							     aCompiledMethod methodClassName.
+							     aCompiledMethod protocol }).
+"
+				    presenter text: (String cr join: lines).
+
+				    text := presenter textWithStyle.
+
+				   " text
+					    addAttribute: TextEmphasis italic
+					    from: 1
+					    to: lines first size.
+
+				    text
+					    addAttribute: TextEmphasis underlined
+					    from:
+					    1 + aCompiledMethod methodClassName size + ', protocol ' size
+					    + 1
+					    to:
+						    1 + aCompiledMethod methodClassName size
+						    + ', protocol ' size + aCompiledMethod protocol size.
+
+				    text
+					    addAttribute: TextEmphasis bold
+					    from: 2
+					    to: 2 + aCompiledMethod methodClassName size.
+
+				    text addAttribute: TextColor gray from: 1 to: lines first size."
+
+				    text asRSPangoText ])
+			   inline;
+			   quote) }
 ]
 
 { #category : #visiting }
