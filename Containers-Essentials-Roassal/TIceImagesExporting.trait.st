@@ -37,48 +37,14 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock
 ]
 
 { #category : #utilities }
-TIceImagesExporting >> exportCompiledMethod: anObject [
+TIceImagesExporting >> exportCompiledMethod: aCompiledMethod [
 
 	^ self
-		  export: anObject
+		  exportSlotsGraphOf: aCompiledMethod
 		  pathSuffix:
-			  (((anObject printString copyReplaceAll: ' ' with: '_')
+			  (((aCompiledMethod printString copyReplaceAll: ' ' with: '_')
 				    copyReplaceAll: ':'
 				    with: '-') copyReplaceAll: '>>#' with: '-')
-		  onCanvasDo: [ :aCanvas :cm | 
-			  | code builder shape |
-			  code := String streamContents: [ :aStream | 
-				          aStream
-					          nextPutAll: '"';
-					          nextPutAll: cm methodClass asString;
-					          nextPutAll: ', protocol ';
-					          nextPutAll: cm protocol;
-					          nextPutAll: '"';
-					          crlf;
-					          nextPutAll: cm formattedCode ";
-	nextPutAll: cm selector;
-	crlf;
-	tab;
-	nextPutAll: ' ['.
-		
-	cm argumentNames do: [ :arg | aStream nextPutAll: ' :' , arg ].
-	
-	aStream 
-		nextPutAll: ' |'; 
-		crlf;
-		nextPutAll: cm ast body formattedCode;
-		crlf;
-		nextPutAll: ']'	
-" ].
-
-			  builder := RSMultilineLabelBuilder new.
-			  builder labelShape useDefaultCodeFont.
-			  shape := builder shapeFor: code.
-
-			  shape shapes first italic.
-			  shape shapes second normal bold.
-
-			  aCanvas addShape: shape ]
 ]
 
 { #category : #utilities }
