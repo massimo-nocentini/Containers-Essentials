@@ -224,6 +224,8 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 				    text asRSPangoText
 					    model: aBehavior;
+					    font: StandardFonts codeFont;
+					    updateBaseRectangle;
 					    yourself ])
 			   inline;
 			   quote) }

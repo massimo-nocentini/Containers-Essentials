@@ -55,8 +55,9 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		from: from
 		to: from + self protocol size - 1.
 
-
 	^ text asRSPangoText
 		  model: self;
+		  font: StandardFonts codeFont;
+		  updateBaseRectangle;
 		  yourself
 ]
