@@ -173,59 +173,27 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (self newSlotDescriptorSelector: #class).
 		  (self newSlotDescriptorSelector: #superclass).
 		  (self newSlotDescriptorSelector: #instanceCount).
+		  (self newSlotDescriptorSelector: #category).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
 			   :level | aBehavior traits isNotEmpty ]).
 		  ((self newSlotDescriptorString: 'fluid definition' accessor: [
-				    | presenter lines text def printer |
+				    | presenter def printer |
 				    printer := ClassDefinitionPrinter fluid for: aBehavior.
 
-				    def := aBehavior isClass
-					           ifTrue: [ printer expandedDefinitionString ]
-					           ifFalse: [ printer expandedMetaclassDefinitionString ].
+				    def := aBehavior isMeta
+					           ifTrue: [ printer expandedMetaclassDefinitionString ]
+					           ifFalse: [ printer expandedDefinitionString ].
 
 				    presenter := SpCodePresenter new
 					                 beForBehavior: aBehavior;
 					                 text:
-						                 (def copyReplaceAll: String tab with: '   ');
+						                 (def copyReplaceAll: String tab with: '   ')
+							                 fixEmptyLinesForPango;
 					                 yourself.
 
-				    lines := presenter text lines
-					             collect: [ :l | l ifEmpty: [ ' ' ] ]
-					             as: OrderedCollection.
-
-				    " lines addFirst: ('""{1}, protocol {2}""' format: {
-							     aCompiledMethod methodClassName.
-							     aCompiledMethod protocol }).
-"
-				    presenter text: (String cr join: lines).
-
-				    text := presenter textWithStyle.
-
-				    " text
-					    addAttribute: TextEmphasis italic
-					    from: 1
-					    to: lines first size.
-
-				    text
-					    addAttribute: TextEmphasis underlined
-					    from:
-					    1 + aCompiledMethod methodClassName size + ', protocol ' size
-					    + 1
-					    to:
-						    1 + aCompiledMethod methodClassName size
-						    + ', protocol ' size + aCompiledMethod protocol size.
-
-				    text
-					    addAttribute: TextEmphasis bold
-					    from: 2
-					    to: 2 + aCompiledMethod methodClassName size.
-
-				    text addAttribute: TextColor gray from: 1 to: lines first size."
-
-				    text asRSPangoText
+				    (presenter textWithStyle asRSPangoTextUsingFont:
+						     StandardFonts codeFont)
 					    model: aBehavior;
-					    font: StandardFonts codeFont;
-					    updateBaseRectangle;
 					    yourself ])
 			   inline;
 			   quote) }

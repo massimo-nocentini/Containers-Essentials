@@ -13,14 +13,11 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	presenter := self inspectionSource.
 
 	"Adjust the test to show the formatted version of the source code"
-	presenter text: self formattedCode.
+	presenter text:
+		(self formattedCode copyReplaceAll: String tab with: '   ')
+			fixEmptyLinesForPango.
 
-	lines := presenter text lines
-		         collect: [ :l |
-			         l
-				         ifEmpty: [ ' ' ]
-				         ifNotEmpty: [ l copyReplaceAll: String tab with: '   ' ] ]
-		         as: OrderedCollection.
+	lines := presenter text lines asOrderedCollection.
 
 	lines
 		addFirst: ' ';
@@ -55,9 +52,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		from: from
 		to: from + self protocol size - 1.
 
-	^ text asRSPangoText
+	^ (text asRSPangoTextUsingFont: StandardFonts codeFont)
 		  model: self;
-		  font: StandardFonts codeFont;
-		  updateBaseRectangle;
 		  yourself
 ]
