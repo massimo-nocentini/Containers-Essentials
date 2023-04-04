@@ -4,6 +4,12 @@ Class {
 	#category : #'Containers-Essentials-Outliner'
 }
 
+{ #category : #accessing }
+CTStNotebookPlayground class >> defaultTitle [ 
+
+	^ 'Notebook'
+]
+
 { #category : #initialization }
 CTStNotebookPlayground class >> initialize [
 	"Make playground active by default"
@@ -18,7 +24,7 @@ CTStNotebookPlayground class >> menuCommandOn: aBuilder [
 	(aBuilder item: #Notebook)
 		parent: #InputOutput;
 		action: [ Smalltalk tools notebook open ];
-		order: 2;
+		order: 1;
 		keyText: 'o, n';
 		help:
 			'A window used as a scratchpad area where fragments of Pharo code can be entered, stored, edited, and evaluated.';
