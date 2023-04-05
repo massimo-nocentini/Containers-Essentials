@@ -229,16 +229,23 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
-	^ aKeyedCollection keysAndValuesCollect: [ :key :value |
-		  | slot |
-		  slot := self newSlotDescriptorString: key constant: value.
-		
-		  key isCommentNode
+	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
+		  astNode isCommentNode
 			  ifTrue: [
-				  slot
+				  | mic pango |
+				  mic := Microdown asRichText:
+					         astNode sourceCode allButFirstAndLast
+						         fixEmptyLinesForPango.
+
+				  pango := mic asRSPangoTextUsingFont: StandardFonts defaultFont.
+
+				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
 					  quote ]
-			  ifFalse: [ slot ] ]
+			  ifFalse: [
+				  self
+					  newSlotDescriptorString: astNode formattedCode
+					  constant: anObject ] ]
 ]
 
 { #category : #visiting }
