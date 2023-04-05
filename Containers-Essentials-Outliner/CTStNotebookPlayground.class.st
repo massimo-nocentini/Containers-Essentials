@@ -1,7 +1,7 @@
 Class {
 	#name : #CTStNotebookPlayground,
 	#superclass : #StPlayground,
-	#category : #'Containers-Essentials-Outliner'
+	#category : #'Containers-Essentials-Outliner-Presenters'
 }
 
 { #category : #accessing }
@@ -44,4 +44,10 @@ CTStNotebookPlayground class >> registerToolsOn: registry [
 	"Add ourselves to registry. See [Smalltalk tools]"
 
 	registry register: self as: #notebook
+]
+
+{ #category : #'private - factory' }
+CTStNotebookPlayground >> newDefaultPlaygroundPage [
+
+	^ CTStNotebookPlaygroundPage new
 ]
