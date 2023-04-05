@@ -32,14 +32,26 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 
 	astNodes do: [ :astNode |
 		| value |
-		value := codePresenter
-			         evaluate: astNode sourceCode
-			         onCompileError: [
-			         Error signal:
-				         'Logical inconsistency: RBParser cannot fail.' ]
-			         onError: [ :e |
-				         errorFree := false.
-				         evaluated add: astNode -> e ].
+		value := astNode isCommentNode
+			         ifTrue: [
+				         | mic |
+				         mic := Microdown asRichText:
+					                astNode sourceCode allButFirstAndLast
+						                fixEmptyLinesForPango.
+
+				         RSGroup new
+					         add:
+						         (mic asRSPangoTextUsingFont: StandardFonts defaultFont);
+					         yourself ]
+			         ifFalse: [
+				         codePresenter
+					         evaluate: astNode sourceCode
+					         onCompileError: [
+					         Error signal:
+						         'Logical inconsistency: RBParser cannot fail.' ]
+					         onError: [ :e |
+						         errorFree := false.
+						         evaluated add: astNode -> e ] ].
 
 		errorFree ifTrue: [ evaluated add: astNode -> value ] ].
 

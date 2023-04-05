@@ -227,6 +227,21 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 ]
 
 { #category : #visiting }
+CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
+
+	^ aKeyedCollection keysAndValuesCollect: [ :key :value |
+		  | slot |
+		  slot := self newSlotDescriptorString: key constant: value.
+		
+		  key isCommentNode
+			  ifTrue: [
+				  slot
+					  inline;
+					  quote ]
+			  ifFalse: [ slot ] ]
+]
+
+{ #category : #visiting }
 CTSlotDescriptorsVisitor >> visitClass: aClass [
 
 	^ self visitBehavior: aClass
