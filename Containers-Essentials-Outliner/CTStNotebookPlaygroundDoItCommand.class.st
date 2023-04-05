@@ -39,7 +39,7 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 				         'Logical inconsistency: RBParser cannot fail.' ]
 			         onError: [ :e |
 				         errorFree := false.
-				         e ].
+				         evaluated add: astNode -> e ].
 
 		errorFree ifTrue: [ evaluated add: astNode -> value ] ].
 
