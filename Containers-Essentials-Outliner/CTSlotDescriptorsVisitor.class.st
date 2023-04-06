@@ -249,7 +249,9 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					  | text |
 					  text := SpCodePresenter new
 						          beForScripting;
-						          text: selector fixEmptyLinesForPango;
+						          text:
+							          (selector copyReplaceAll: String tab with: '   ')
+								          fixEmptyLinesForPango;
 						          textWithStyle.
 					  RSComposite new
 						  shapes:
