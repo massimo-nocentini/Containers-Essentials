@@ -117,6 +117,12 @@ CTDecorateSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 ]
 
 { #category : #delegating }
+CTDecorateSlotDescriptor >> varShapeBlock: aBlock [
+
+	^ descriptor varShapeBlock: aBlock
+]
+
+{ #category : #delegating }
 CTDecorateSlotDescriptor >> varShapeOf: anObject walker: walker [
 
 	^ descriptor varShapeOf: anObject walker: walker

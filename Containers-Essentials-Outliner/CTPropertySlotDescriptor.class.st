@@ -141,6 +141,12 @@ CTPropertySlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> varShapeBlock: aBlock [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> varShapeOf: anObject walker: walker [
 
 	self subclassResponsibility

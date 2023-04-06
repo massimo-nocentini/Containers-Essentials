@@ -9,7 +9,8 @@ Class {
 		'header',
 		'isOneToMany',
 		'enablePredicate',
-		'inlinePredicate'
+		'inlinePredicate',
+		'varShapeBlock'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -104,7 +105,9 @@ CTBaseSlotDescriptor >> initialize [
 		headerWithAllSuperclasses;
 		inlinePredicate: [ :level :default | default ];
 		enablePredicate: [ :level | true ];
-		postpone: false
+		postpone: false;
+		varShapeBlock: [ :obj :walker :var |
+			walker shapeBuilder label: obj var: var ]
 ]
 
 { #category : #dispatching }
@@ -183,7 +186,13 @@ CTBaseSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 ]
 
 { #category : #accessing }
+CTBaseSlotDescriptor >> varShapeBlock: aBlock [
+
+	varShapeBlock := aBlock
+]
+
+{ #category : #accessing }
 CTBaseSlotDescriptor >> varShapeOf: anObject walker: walker [
 
-	^ walker shapeBuilder label: anObject var: self selector
+	^ varShapeBlock value: anObject value: walker value: self selector
 ]

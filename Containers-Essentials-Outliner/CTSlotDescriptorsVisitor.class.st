@@ -243,9 +243,18 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					  inline;
 					  quote ]
 			  ifFalse: [
-				  self
-					  newSlotDescriptorString: astNode formattedCode
-					  constant: anObject ] ]
+				  (self
+					   newSlotDescriptorString: astNode formattedCode
+					   constant: anObject) varShapeBlock: [ :obj :walker :selector |
+					  | text |
+					  text := SpCodePresenter new
+						          beForScripting;
+						          text: selector fixEmptyLinesForPango;
+						          textWithStyle.
+					  RSComposite new
+						  shapes:
+							  { (text asRSPangoTextUsingFont: StandardFonts codeFont) };
+						  yourself ] ] ]
 ]
 
 { #category : #visiting }
