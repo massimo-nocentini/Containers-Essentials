@@ -19,33 +19,36 @@ CTStNotebookPlaygroundDoItCommand class >> order [
 { #category : #execution }
 CTStNotebookPlaygroundDoItCommand >> execute [
 
-	| ast codePresenter evaluated errorFree astNodes |
-	codePresenter := context text.
-	ast := RBParser parseExpression: codePresenter text.
+	context withActivationBlock: [ :aBlock |
+		| ast codePresenter evaluated errorFree astNodes notebook |
+		codePresenter := context text.
+		ast := RBParser parseExpression: codePresenter text.
 
-	evaluated := OrderedCollection new.
+		evaluated := OrderedCollection new.
 
-	errorFree := true.
+		errorFree := true.
 
-	astNodes := ast statements , ast allComments sorted: [ :a :b |
-		            a start < b start ].
+		astNodes := ast statements , ast allComments sorted: [ :a :b |
+			            a start < b start ].
 
-	astNodes do: [ :astNode |
-		| value |
-		value := codePresenter
-			         evaluate: astNode sourceCode
-			         onCompileError: [
-			         Error signal:
-				         'Logical inconsistency: RBParser cannot fail.' ]
-			         onError: [ :e |
-				         errorFree := false.
-				         evaluated add: astNode -> e ].
+		astNodes do: [ :astNode |
+			| value |
+			value := codePresenter
+				         evaluate: astNode sourceCode
+				         onCompileError: [
+				         Error signal:
+					         'Logical inconsistency: RBParser cannot fail.' ]
+				         onError: [ :e |
+					         errorFree := false.
+					         evaluated add: astNode -> e ].
 
-		errorFree ifTrue: [ evaluated add: astNode -> value ] ].
+			errorFree ifTrue: [ evaluated add: astNode -> value ] ].
 
-	CTNotebookKeyedValuedOrderedCollection new
-		collection: evaluated;
-		keyBlock: [ :anAssoc | anAssoc key ];
-		valueBlock: [ :anAssoc | anAssoc value ];
-		inspect
+		notebook := CTNotebookKeyedValuedOrderedCollection new
+			            collection: evaluated;
+			            keyBlock: [ :anAssoc | anAssoc key ];
+			            valueBlock: [ :anAssoc | anAssoc value ];
+			            yourself.
+
+		aBlock value: notebook ]
 ]

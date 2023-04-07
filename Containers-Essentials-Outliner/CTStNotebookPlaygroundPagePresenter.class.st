@@ -9,3 +9,9 @@ CTStNotebookPlaygroundPagePresenter class >> baseToolbarCommands [
 
 	^ super baseToolbarCommands , { CTStNotebookPlaygroundDoItCommand }
 ]
+
+{ #category : #'as yet unclassified' }
+CTStNotebookPlaygroundPagePresenter >> withActivationBlock: aBlock [
+
+	^ activationBlock ifNotNil: aBlock
+]
