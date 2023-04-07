@@ -43,3 +43,9 @@ CTNotebookMicTextStyler >> newLineIfNotAlready [
 
 	^ self newLineBody
 ]
+
+{ #category : #'composer styles' }
+CTNotebookMicTextStyler >> postTextTreatment: aText [
+
+	^ aText asString fixEmptyLinesForPango asText
+]
