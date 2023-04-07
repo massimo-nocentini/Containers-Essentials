@@ -176,46 +176,51 @@ CTDfsShapeBuilder >> initialize [
 { #category : #shapes }
 CTDfsShapeBuilder >> label: anObject var: var [
 
-	| composite |
-	composite := var asString asShapeMultilineLabel: (RSLabel new
-			              color: metaColor;
-			              yourself).
+	| shape descShape font |
+	font := StandardFonts defaultFont.
 
-	RSAlignment new
-		shapes: composite shapes;
-		right.
+	shape := var fixEmptyLinesForPango asText asRSPangoTextUsingFont:
+		         font.
+
+	shape := RSComposite new
+		         shapes: { shape };
+		         yourself.
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
-		cm firstComment ifNotEmpty: [ :firstComment |
-			| popup |
-			popup := RSPopup new
-				         shapeBuilder: [ :aComment |
-					         | commentComposite box |
-					         commentComposite := aComment asShapeMultilineLabel:
-							                             prototypeLabel.
+		cm docString ifNotEmpty: [ :docString |
+			| mic |
+			mic := MicRichTextComposer new
+				       textStyler: CTNotebookMicTextStyler new;
+				       asRichText: docString fixEmptyLinesForPango.
 
-					         box := RSBox new
-						                withBorder;
-						                color: Color veryVeryLightGray;
-						                cornerRadius: self radiusOrPadding;
-						                extent:
-							                commentComposite extent + self radiusOrPadding.
+			descShape := mic asRSPangoTextUsingFont: (font copy
+					              pointSize: font pointSize / Float goldenRatio;
+					              yourself).
 
-					         RSLocation new center stick: commentComposite on: box.
+			descShape := RSComposite new
+				             shapes: { descShape };
+				             yourself.
 
-					         RSComposite new
-						         shapes: {
-								         box.
-								         commentComposite };
-						         yourself ];
-				         model: firstComment;
-				         yourself.
+			RSLocation new
+				above;
+				move: shape on: descShape ].
 
-			composite addInteraction: popup ].
+		shape when: RSMouseLeftClick do: [ :ev | cm browse ] ].
 
-		composite when: RSMouseLeftClick do: [ :ev | cm browse ] ].
+	^ descShape ifNil: [ shape ] ifNotNil: [
+		  | c |
+		  c := RSComposite new
+			       shapes: {
+					       shape.
+					       descShape };
+			       yourself.
 
-	^ composite
+		  "Then align them to the right border."
+		  RSAlignment new
+			  shapes: c shapes;
+			  right.
+
+		  c ]
 ]
 
 { #category : #shapes }
