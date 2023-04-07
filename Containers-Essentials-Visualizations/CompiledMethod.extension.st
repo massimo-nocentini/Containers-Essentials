@@ -13,9 +13,8 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	presenter := self inspectionSource.
 
 	"Adjust the test to show the formatted version of the source code"
-	presenter text:
-		(self formattedCode copyReplaceAll: String tab with: '   ')
-			fixEmptyLinesForPango.
+	presenter text: self formattedCode fixEmptyLinesForPango
+			replaceAllTabsWithSpacesForPango.
 
 	lines := presenter text lines asOrderedCollection.
 

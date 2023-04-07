@@ -187,8 +187,8 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 				    presenter := SpCodePresenter new
 					                 beForBehavior: aBehavior;
 					                 text:
-						                 (def copyReplaceAll: String tab with: '   ')
-							                 fixEmptyLinesForPango;
+						                 def fixEmptyLinesForPango
+							                 replaceAllTabsWithSpacesForPango;
 					                 yourself.
 
 				    (presenter textWithStyle asRSPangoTextUsingFont:
@@ -233,9 +233,11 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		  astNode isCommentNode
 			  ifTrue: [
 				  | mic pango |
-				  mic := Microdown asRichText:
-					         astNode sourceCode allButFirstAndLast
-						         fixEmptyLinesForPango.
+				  mic := MicRichTextComposer new
+					         textStyler: CTNotebookMicTextStyler new;
+					         asRichText:
+						         astNode sourceCode allButFirstAndLast
+							         fixEmptyLinesForPango.
 
 				  pango := mic asRSPangoTextUsingFont: StandardFonts defaultFont.
 
@@ -250,9 +252,10 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					  text := SpCodePresenter new
 						          beForScripting;
 						          text:
-							          (selector copyReplaceAll: String tab with: '   ')
-								          fixEmptyLinesForPango;
+							          selector fixEmptyLinesForPango
+								          replaceAllTabsWithSpacesForPango;
 						          textWithStyle.
+
 					  RSComposite new
 						  shapes:
 							  { (text asRSPangoTextUsingFont: StandardFonts codeFont) };
