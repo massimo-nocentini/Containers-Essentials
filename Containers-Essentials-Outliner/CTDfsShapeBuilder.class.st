@@ -11,7 +11,7 @@ Class {
 		'prototypeLabel',
 		'goldenRatios'
 	],
-	#category : #'Containers-Essentials-Outliner-Painters'
+	#category : #'Containers-Essentials-Outliner-Roassal'
 }
 
 { #category : #shapes }
@@ -190,17 +190,23 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
-			| mic |
+			| mic initialAttributeChunks shrinkedFont |
 			mic := MicRichTextComposer new
 				       textStyler: CTNotebookMicTextStyler new;
 				       asRichText: docString fixEmptyLinesForPango.
 
+			initialAttributeChunks := OrderedCollection new
+				                          add:
+					                          '0 -1 foreground #'
+					                          , metaColor asHexString;
+				                          yourself.
+			shrinkedFont := font copy
+				                pointSize: font pointSize / Float goldenRatio;
+				                yourself.
+
 			descShape := mic
-				             asRSPangoTextUsingFont: (font copy
-						              pointSize: font pointSize / Float goldenRatio;
-						              yourself)
-				             postAttributeChunks:
-				             { ('0 -1 foreground #' , metaColor asHexString) }.
+				             asRSPangoTextUsingFont: shrinkedFont
+				             initialAttributeChunks: initialAttributeChunks.
 
 			descShape := RSComposite new
 				             shapes: { descShape };

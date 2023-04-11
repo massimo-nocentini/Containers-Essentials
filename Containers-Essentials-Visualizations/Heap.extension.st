@@ -16,8 +16,8 @@ Heap >> asShapeBubblesHorizontalTree [
 Heap >> asShapeBubblesHorizontalTree: aDfsWalker [
 
 	"This visualization represents the current Heap object as a binary tree,
-	 where a solid edge denotes the child at position 2n and a dashed edge
-	 denotes a child at position 2n + 1, where n is the position of the parent."
+	 where a solid edge denotes the child at position `2n` and a dashed edge
+	 denotes a child at position `2n + 1`, where `n` is the position of the parent."
 
 	| heap indexes |
 	indexes := IdentityDictionary new.
