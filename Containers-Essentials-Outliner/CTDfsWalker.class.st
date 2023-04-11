@@ -357,12 +357,7 @@ CTDfsWalker >> recurring: data [
 
 						each addHighlightWithLinesInteractionOnShape: valueBox.
 
-						valueBox
-							color: Color transparent;
-							borderDo: [ :border |
-								border
-									style: (RSStrokeStyle fromString: '.');
-									color: border color translucent ].
+						valueBox color: Smalltalk ui theme baseColor translucent.
 
 						extent := data boxesWidth @ shapeBuilder metaExtent y ].
 

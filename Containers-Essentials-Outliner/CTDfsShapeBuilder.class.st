@@ -46,7 +46,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 
 	slotWidth := varWidth + boxWidth.
 
-	slotWidth < classLabel width ifTrue: [ 
+	slotWidth < classLabel width ifTrue: [
 		slotWidth
 			isTo: classLabel width
 			as: varWidth
@@ -57,24 +57,24 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 			isTo: [ :w | boxWidth := w ] ].
 
 	varWidth < boxWidth
-		ifTrue: [ 
+		ifTrue: [
 			µ := (goldenRatios at: 2)
 				     isTo: boxWidth
 				     as: (goldenRatios at: 3)
-				     isTo: [ :x | 
+				     isTo: [ :x |
 					     | ratio |
 					     ratio := goldenRatios first.
 					     ((x - varWidth max: 1) log: ratio) * ratio ].
 
 			π := 0 ]
-		ifFalse: [ 
+		ifFalse: [
 			µ := 0.
 			π := (goldenRatios at: 2)
 				     isTo: varWidth
 				     as: (goldenRatios at: 3)
 				     isTo: [ :x | x - boxWidth max: 0 ] ].
 
-	shapes := data rows collect: [ :slotRow | 
+	shapes := data rows collect: [ :slotRow |
 		          | varLabel valueBox valueLabel valueShape |
 		          "Unpacking."
 		          varLabel := slotRow var.
@@ -83,7 +83,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 
 		          valueBox width: boxWidth + π.
 
-		          valueShape := valueLabel ifNil: [ valueBox ] ifNotNil: [ 
+		          valueShape := valueLabel ifNil: [ valueBox ] ifNotNil: [
 			                        RSLocation new
 				                        inner;
 				                        stick: valueLabel on: valueBox.
@@ -113,7 +113,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 	location := RSLocation new inner.
 
 	shapes
-		ifEmpty: [ 
+		ifEmpty: [
 			| x |
 			x := noSlotsShape extent x max: classLabel extent x.
 			noSlotsShape extent: x @ noSlotsShape extent y.
@@ -131,11 +131,12 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 	xMax := varWidth + µ + boxWidth + π + padding triple max:
 		        compositeShape extent x.
 	xMax := xMax max: classLabel extent x.
-	
+
 	boxedCompositeShape := (self box: nil)
 		                       color: Color white;
 		                       extent: xMax @ compositeShape extent y;
-		                       withBorder;
+		                       borderDo: [ :border |
+			                       border color: Smalltalk ui theme borderColor ];
 		                       yourself.
 
 	data shape propertyDfsBoxedSlotsShape: boxedCompositeShape.
@@ -143,7 +144,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 	location stick: compositeShape on: boxedCompositeShape.
 
 	boxedCompositeShape := RSComposite new
-		                       shapes: { 
+		                       shapes: {
 				                       boxedCompositeShape.
 				                       compositeShape };
 		                       yourself.
@@ -155,7 +156,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 		stick: classLabel on: boxedCompositeShape.
 
 	^ data shape
-		  shapes: { 
+		  shapes: {
 				  classLabel.
 				  boxedCompositeShape };
 		  yourself
