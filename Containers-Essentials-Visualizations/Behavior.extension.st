@@ -7,6 +7,32 @@ Behavior >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
+Behavior >> asFluidDefinitionShape [
+	"I produce a Roassal Pango text with the fluid definition of myself, 
+	 according to `FluidClassDefinitionPrinter`."
+
+	| presenter def printer |
+	printer := ClassDefinitionPrinter fluid for: self.
+
+	def := self isMeta
+		       ifTrue: [ printer expandedMetaclassDefinitionString ]
+		       ifFalse: [ printer expandedDefinitionString ].
+
+	presenter := SpCodePresenter new
+		             beForBehavior: self;
+		             text:
+			             def fixEmptyLinesForPango
+				             replaceAllTabsWithSpacesForPango;
+		             yourself.
+
+	^ (presenter textWithStyle asRSPangoTextUsingFont:
+			   (LogicalFont fontconfigPharoMonospacePointSize:
+					    StandardFonts codeFont pointSize))
+		  model: self;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: aBlock [
 
 	^ self

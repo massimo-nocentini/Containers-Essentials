@@ -176,26 +176,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (self newSlotDescriptorSelector: #category).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
 			   :level | aBehavior traits isNotEmpty ]).
-		  ((self newSlotDescriptorString: 'fluid definition' accessor: [
-				    | presenter def printer |
-				    printer := ClassDefinitionPrinter fluid for: aBehavior.
-
-				    def := aBehavior isMeta
-					           ifTrue: [ printer expandedMetaclassDefinitionString ]
-					           ifFalse: [ printer expandedDefinitionString ].
-
-				    presenter := SpCodePresenter new
-					                 beForBehavior: aBehavior;
-					                 text:
-						                 def fixEmptyLinesForPango
-							                 replaceAllTabsWithSpacesForPango;
-					                 yourself.
-
-				    (presenter textWithStyle asRSPangoTextUsingFont:
-						     (LogicalFont fontconfigPharoMonospacePointSize:
-								      StandardFonts codeFont pointSize))
-					    model: aBehavior;
-					    yourself ])
+		  ((self newSlotDescriptorSelector: #asFluidDefinitionShape)
 			   inline;
 			   quote) }
 ]

@@ -360,7 +360,9 @@ CTDfsWalker >> recurring: data [
 						valueBox
 							color: Color transparent;
 							borderDo: [ :border |
-								border style: (RSStrokeStyle fromString: '.') ].
+								border
+									style: (RSStrokeStyle fromString: '.');
+									color: border color translucent ].
 
 						extent := data boxesWidth @ shapeBuilder metaExtent y ].
 
