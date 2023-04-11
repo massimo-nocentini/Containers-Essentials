@@ -314,7 +314,9 @@ CTDfsWalker >> recurring: data [
 						y := valueLabel extent y max: shapeBuilder metaExtent y.
 
 						(quotedShapes includesKey: child) ifTrue: [
-							valueBox color: Color transparent ].
+							valueBox
+								color: Color transparent;
+								noBorder ].
 
 						extent := valueLabel extent x @ y.
 
