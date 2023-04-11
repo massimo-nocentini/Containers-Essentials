@@ -20,7 +20,7 @@ CTStNotebookPlaygroundDoItCommand class >> order [
 CTStNotebookPlaygroundDoItCommand >> execute [
 
 	context withActivationBlock: [ :aBlock |
-		| ast codePresenter evaluated errorFree astNodes notebook |
+		| ast codePresenter evaluated errorFree astNodes notebook statements |
 		codePresenter := context text.
 		ast := RBParser parseExpression: codePresenter text.
 
@@ -28,7 +28,11 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 
 		errorFree := true.
 
-		astNodes := ast statements , ast allComments sorted: [ :a :b |
+		statements := ast isSequence
+			              ifTrue: [ ast statements ]
+			              ifFalse: [ { ast } ].
+
+		astNodes := statements , ast allComments sorted: [ :a :b |
 			            a start < b start ].
 
 		astNodes do: [ :astNode |
