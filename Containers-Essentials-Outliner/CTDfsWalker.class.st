@@ -355,7 +355,9 @@ CTDfsWalker >> recurring: data [
 
 						each addHighlightWithLinesInteractionOnShape: valueBox.
 
-						valueBox color: valueBox color lighter lighter.
+						valueBox
+							color: Color transparent;
+							noBorder.
 
 						extent := data boxesWidth @ shapeBuilder metaExtent y ].
 

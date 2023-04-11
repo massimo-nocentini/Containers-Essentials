@@ -19,7 +19,8 @@ CTDfsShapeBuilder >> box: aValue [
 
 	^ self boxClass new
 		  model: aValue;
-		  color: metaColor translucent;
+		  color: Smalltalk ui theme backgroundColor;
+		  borderDo: [ :border | border color: border color translucent ];
 		  cornerRadius: self radiusOrPadding;
 		  yourself
 ]
@@ -176,14 +177,15 @@ CTDfsShapeBuilder >> initialize [
 { #category : #shapes }
 CTDfsShapeBuilder >> label: anObject var: var [
 
-	| shape descShape font |
-	font := StandardFonts defaultFont.
+	| pangoVar shape descShape font |
+	font := LogicalFont fontconfigPharoSansPointSize:
+		        StandardFonts defaultFont pointSize.
 
-	shape := var fixEmptyLinesForPango asText asRSPangoTextUsingFont:
-		         font.
+	pangoVar := var fixEmptyLinesForPango asText asRSPangoTextUsingFont:
+		            font.
 
 	shape := RSComposite new
-		         shapes: { shape };
+		         shapes: { pangoVar };
 		         yourself.
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
@@ -193,9 +195,12 @@ CTDfsShapeBuilder >> label: anObject var: var [
 				       textStyler: CTNotebookMicTextStyler new;
 				       asRichText: docString fixEmptyLinesForPango.
 
-			descShape := mic asRSPangoTextUsingFont: (font copy
-					              pointSize: font pointSize / Float goldenRatio;
-					              yourself).
+			descShape := mic
+				             asRSPangoTextUsingFont: (font copy
+						              pointSize: font pointSize / Float goldenRatio;
+						              yourself)
+				             postAttributeChunks:
+				             { ('0 -1 foreground #' , metaColor asHexString) }.
 
 			descShape := RSComposite new
 				             shapes: { descShape };

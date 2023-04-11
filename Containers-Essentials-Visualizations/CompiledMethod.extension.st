@@ -51,7 +51,9 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		from: from
 		to: from + self protocol size - 1.
 
-	^ (text asRSPangoTextUsingFont: StandardFonts codeFont)
+	^ (text asRSPangoTextUsingFont:
+			   (LogicalFont fontconfigPharoMonospacePointSize:
+					    StandardFonts codeFont pointSize))
 		  model: self;
 		  yourself
 ]

@@ -192,7 +192,8 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 					                 yourself.
 
 				    (presenter textWithStyle asRSPangoTextUsingFont:
-						     StandardFonts codeFont)
+						     (LogicalFont fontconfigPharoMonospacePointSize:
+								      StandardFonts codeFont pointSize))
 					    model: aBehavior;
 					    yourself ])
 			   inline;
@@ -239,7 +240,9 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 						         astNode sourceCode allButFirstAndLast
 							         fixEmptyLinesForPango.
 
-				  pango := mic asRSPangoTextUsingFont: StandardFonts defaultFont.
+				  pango := mic asRSPangoTextUsingFont:
+					           (LogicalFont fontconfigPharoSansPointSize:
+						            StandardFonts defaultFont pointSize).
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
@@ -257,8 +260,9 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 						          textWithStyle.
 
 					  RSComposite new
-						  shapes:
-							  { (text asRSPangoTextUsingFont: StandardFonts codeFont) };
+						  shapes: { (text asRSPangoTextUsingFont:
+									   (LogicalFont fontconfigPharoMonospacePointSize:
+											    StandardFonts codeFont pointSize)) };
 						  yourself ] ] ]
 ]
 
