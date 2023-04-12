@@ -509,7 +509,10 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 	slots
 		add: (self newSlotDescriptorSelector: #hash);
 		add: (self newSlotDescriptorSelector: #identityHash);
-		add: (self newSlotDescriptorSelector: #fullPrintString).
+		add: (self newSlotDescriptorSelector: #fullPrintString);
+		add: ((self newSlotDescriptorSelector: #asStringPangoText)
+				 inline;
+				 quote).
 
 	^ slots
 ]

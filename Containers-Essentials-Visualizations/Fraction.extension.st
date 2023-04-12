@@ -46,12 +46,15 @@ Fraction >> asShapeNaturalRepresentation [
 
 	random := RandomBoxMullerBivariateGaussian new.
 
-	numeratorShape := RSLabel new
-		                  model: self numerator;
+	numeratorShape := RSComposite new
+		                  shapes:
+			                  { (self numerator asDefaultShapeForWalker: nil) };
 		                  yourself.
 
-	denominatorShape := RSLabel new
-		                    model: self denominator;
+	denominatorShape := RSComposite new
+		                    shapes:
+			                    { (self denominator asDefaultShapeForWalker:
+					                     nil) };
 		                    yourself.
 
 	shapeWithMaxWidth := numeratorShape width > denominatorShape width
@@ -73,9 +76,9 @@ Fraction >> asShapeNaturalRepresentation [
 		alignCenter;
 		on: shapes.
 
-	linspace := (shapeWithMaxWidth encompassingRectangle left - offset 
+	linspace := (shapeWithMaxWidth encompassingRectangle left - offset
 	             to:
-	             shapeWithMaxWidth encompassingRectangle right + offset) 
+	             shapeWithMaxWidth encompassingRectangle right + offset)
 		            linspace: 6.
 
 	y := numeratorShape encompassingRectangle bottom + vOffset halved.
