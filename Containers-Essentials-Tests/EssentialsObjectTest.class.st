@@ -970,6 +970,86 @@ EssentialsObjectTest >> testRelativeErrorPi [
 ]
 
 { #category : #tests }
+EssentialsObjectTest >> testRoassalExporting [
+
+	| pango another c |
+	pango := ('hello world' asText asRSPangoTextUsingFont:
+		          (LogicalFont fontconfigPharoSansPointSize: 11))
+		         notedWithPad: Float goldenRatio.
+
+	another := ('Michey Mouse' asText asRSPangoTextUsingFont:
+		            (LogicalFont fontconfigPharoSansPointSize: 14))
+		           notedWithPad: Float goldenRatio.
+
+	RSLocation new above stick: pango on: another.
+
+	c := RSComposite new
+		     shapes: {
+				     pango.
+				     another } ;
+		     "translateTo: 100 asPoint;"
+		     yourself.
+
+	^ self exportShapeOf: c
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testRoassalExporting1 [
+
+	| pango another c |
+	pango := (RSLabel new
+		          text: 'hello world';
+		          yourself) notedWithPad: Float goldenRatio.
+
+	another := (RSLabel new
+		            size: 14;
+		            text: 'Michey Mouse';
+		            yourself) notedWithPad: Float goldenRatio.
+
+
+	RSLocation new above move: pango on: another.
+
+	c := RSComposite new
+		     shapes: (RSGroup new
+				      add: pango;
+				      add: another;
+				      yourself);
+		     "translateTo: 100 asPoint;"yourself.
+
+
+	^ self exportShapeOf: c
+]
+
+{ #category : #tests }
+EssentialsObjectTest >> testRoassalExporting2 [
+
+	^ self export: nil pathSuffix: '' onCanvasDo: [ :canvas :_ |
+		  | pango another c |
+		  pango := (RSLabel new
+			            text: 'hello world';
+			            yourself) notedWithPad: Float goldenRatio.
+
+		  another := (RSLabel new
+			              size: 14;
+			              text: 'Michey Mouse';
+			              yourself) notedWithPad: Float goldenRatio.
+
+
+		  RSLocation new above move: pango on: another.
+
+		  c := RSComposite new
+			       shapes: (RSGroup new
+					        add: pango;
+					        add: another;
+					        yourself);
+			       "translateTo: 100 asPoint;"yourself.
+
+		  canvas add: c.
+		
+		canvas svgCairoExporter zoomToShapes ;export  ]
+]
+
+{ #category : #tests }
 EssentialsObjectTest >> testWithIntegersCollectionDoLoremIpsum [
 
 	String loremIpsum withIntegersCollectionDo: [ :iCollection :map | 
