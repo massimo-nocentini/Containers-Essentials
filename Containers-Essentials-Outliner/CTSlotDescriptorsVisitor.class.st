@@ -500,8 +500,18 @@ CTSlotDescriptorsVisitor >> visitLink: aLink [
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
-	^ anObject class allInstVarNames collect: [ :varNameSymbol | 
-		  self newSlotDescriptorInstVarName: varNameSymbol ]
+	| slots |
+	slots := OrderedCollection new.
+
+	anObject class allInstVarNames do: [ :varNameSymbol |
+		slots add: (self newSlotDescriptorInstVarName: varNameSymbol) ].
+
+	slots
+		add: (self newSlotDescriptorSelector: #hash);
+		add: (self newSlotDescriptorSelector: #identityHash);
+		add: (self newSlotDescriptorSelector: #fullPrintString).
+
+	^ slots
 ]
 
 { #category : #visiting }
