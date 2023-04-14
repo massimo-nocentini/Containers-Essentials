@@ -23,3 +23,11 @@ Behavior >> kindAsSymbol [
 		^ 'compiled method' asSymbol ].
 	^ #unknown
 ]
+
+{ #category : #'*Containers-Essentials' }
+Behavior >> methodsCount [
+	"Answer the number of methods of the receiver that are currently 
+	installed in the `methodDictionary`."
+
+	^ self methodDict size
+]

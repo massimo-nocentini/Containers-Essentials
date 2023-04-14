@@ -172,6 +172,7 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 		  (self newSlotDescriptorSelector: #name).
 		  (self newSlotDescriptorSelector: #class).
 		  (self newSlotDescriptorSelector: #superclass).
+		  (self newSlotDescriptorSelector: #methodsCount).
 		  (self newSlotDescriptorSelector: #instanceCount).
 		  (self newSlotDescriptorSelector: #category).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
@@ -509,7 +510,7 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 	slots
 		add: (self newSlotDescriptorSelector: #hash);
 		add: (self newSlotDescriptorSelector: #identityHash);
-		add: (self newSlotDescriptorSelector: #fullPrintString);
+		"add: (self newSlotDescriptorSelector: #fullPrintString);"
 		add: ((self newSlotDescriptorSelector: #asStringPangoText)
 				 inline;
 				 quote).
