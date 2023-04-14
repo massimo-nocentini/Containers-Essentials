@@ -54,5 +54,6 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 			            valueBlock: [ :anAssoc | anAssoc value ];
 			            yourself.
 
-		aBlock value: notebook ]
+		"aBlock value: notebook"
+		notebook inspect ]
 ]
