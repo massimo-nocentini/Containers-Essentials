@@ -8,12 +8,16 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 
 	| canvas |
 	canvas := RSCanvas new.
+
 	aSelector value: canvas value: anObject.
+
 	RSSVGCairoExporter new
+		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;
 		fileName: filename;
 		export.
+
 	^ anObject
 ]
 
