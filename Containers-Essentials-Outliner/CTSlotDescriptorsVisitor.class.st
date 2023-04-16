@@ -215,16 +215,20 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
 			  ifTrue: [
-				  | mic pango |
-				  mic := MicRichTextComposer new
-					         textStyler: CTNotebookMicTextStyler new;
-					         asRichText:
-						         astNode sourceCode allButFirstAndLast
-							         fixEmptyLinesForPango.
+				  | pango markup font |
+				  font := LogicalFont fontconfigPharoSansPointSize:
+					          StandardFonts defaultFont pointSize.
 
-				  pango := mic asRSPangoTextUsingFont:
-					           (LogicalFont fontconfigPharoSansPointSize:
-						            StandardFonts defaultFont pointSize).
+				  markup := '<span font_family="{1}" font_size="{2}pt" foreground="black">{3}</span>'
+					            format: {
+							            font familyName.
+							            font pointSize.
+							            astNode sourceCode allButFirstAndLast }.
+
+				  pango := RSPangoMarkup new
+					           font: font;
+					           markup: markup;
+					           yourself.
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
