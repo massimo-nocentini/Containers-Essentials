@@ -11,7 +11,7 @@ Class {
 		'enablePredicate',
 		'inlinePredicate',
 		'varShapeBlock',
-		'valueAndBoxAlignment'
+		'valueAndBoxAligner'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -53,21 +53,20 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 { #category : #accessing }
 CTBaseSlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
 
-	^ valueAndBoxAlignment ifNotNil: [ :alignment |
-		  | rsa |
-		  rsa := RSAlignment new
-			         shapes: {
-					         valueShape.
-					         boxShape };
-			         yourself.
+	| rsa |
+	rsa := RSAlignment new
+		       shapes: {
+				       valueShape.
+				       boxShape };
+		       yourself.
 
-		  alignment value: rsa ]
+	valueAndBoxAligner value: rsa
 ]
 
 { #category : #accessing }
 CTBaseSlotDescriptor >> centerValueShapeWithinItsBox [
 
-	valueAndBoxAlignment := nil
+	valueAndBoxAligner := [ :rsAlignment | "don't align anything." ]
 ]
 
 { #category : #dispatching }
@@ -165,7 +164,7 @@ CTBaseSlotDescriptor >> isOneToMany [
 { #category : #accessing }
 CTBaseSlotDescriptor >> leftAlignValueShapeWithinItsBox [
 
-	valueAndBoxAlignment := [ :rsAlignment | rsAlignment left ]
+	valueAndBoxAligner := [ :rsAlignment | rsAlignment left ]
 ]
 
 { #category : #initialization }
@@ -205,12 +204,6 @@ CTBaseSlotDescriptor >> selector [
 CTBaseSlotDescriptor >> selector: anObject [
 
 	selector := anObject
-]
-
-{ #category : #accessing }
-CTBaseSlotDescriptor >> valueAndBoxAlignment: anObject [
-
-	valueAndBoxAlignment := anObject
 ]
 
 { #category : #accessing }
