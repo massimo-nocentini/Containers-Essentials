@@ -196,23 +196,20 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
-			| mic initialAttributeChunks shrinkedFont |
-			mic := MicRichTextComposer new
-				       textStyler: CTNotebookMicTextStyler new;
-				       asRichText: docString fixEmptyLinesForPango.
-
-			initialAttributeChunks := OrderedCollection new
-				                          add:
-					                          '0 -1 foreground #'
-					                          , metaColor asHexString;
-				                          yourself.
+			| markup shrinkedFont mic |
 			shrinkedFont := font copy
 				                pointSize: font pointSize / Float goldenRatio;
 				                yourself.
 
-			descShape := mic
-				             asRSPangoTextUsingFont: shrinkedFont
-				             initialAttributeChunks: initialAttributeChunks.
+			mic := Microdown parse: docString.
+
+			markup := PangoMarkupMicrodownVisitor new visit: mic.
+
+			markup := '<span foreground="#{1}">{2}</span>' format: {
+					          metaColor asHexString.
+					          markup }.
+
+			descShape := markup asRSPangoMarkupUsingFont: shrinkedFont.
 
 			descShape := RSComposite new
 				             shapes: { descShape };
