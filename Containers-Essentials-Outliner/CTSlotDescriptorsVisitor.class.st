@@ -232,6 +232,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
+					  leftAlignValueShapeWithinItsBox;
 					  quote ]
 			  ifFalse: [
 				  (self

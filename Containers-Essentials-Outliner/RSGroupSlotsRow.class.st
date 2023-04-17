@@ -4,6 +4,9 @@ I am a variant of RSGroup that takes care of a row of shapes that appears in an 
 Class {
 	#name : #RSGroupSlotsRow,
 	#superclass : #RSGroup,
+	#instVars : [
+		'descriptor'
+	],
 	#category : #'Containers-Essentials-Outliner-Roassal'
 }
 
@@ -17,6 +20,18 @@ RSGroupSlotsRow class >> var: varLabel box: valueBox [
 RSGroupSlotsRow >> box [
 
 	^ self at: 2
+]
+
+{ #category : #accessing }
+RSGroupSlotsRow >> descriptor [
+
+	^ descriptor
+]
+
+{ #category : #accessing }
+RSGroupSlotsRow >> descriptor: anObject [
+
+	descriptor := anObject
 ]
 
 { #category : #accessing }

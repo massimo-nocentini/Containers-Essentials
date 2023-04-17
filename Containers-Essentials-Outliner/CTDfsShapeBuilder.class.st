@@ -87,6 +87,11 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 			                        RSLocation new
 				                        inner;
 				                        stick: valueLabel on: valueBox.
+
+			                        slotRow descriptor
+				                        alignValueShape: valueLabel
+				                        withinBoxShape: valueBox.
+
 			                        RSComposite new
 				                        shapes:
 					                        (Array with: valueBox with: valueLabel);

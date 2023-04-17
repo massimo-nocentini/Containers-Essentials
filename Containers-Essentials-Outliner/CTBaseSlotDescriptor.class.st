@@ -10,7 +10,8 @@ Class {
 		'isOneToMany',
 		'enablePredicate',
 		'inlinePredicate',
-		'varShapeBlock'
+		'varShapeBlock',
+		'valueAndBoxAlignment'
 	],
 	#category : #'Containers-Essentials-Outliner-Slots'
 }
@@ -47,6 +48,26 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 cr;
 					 nextPutAll: 'SCC size: ';
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
+
+	^ valueAndBoxAlignment ifNotNil: [ :alignment |
+		  | rsa |
+		  rsa := RSAlignment new
+			         shapes: {
+					         valueShape.
+					         boxShape };
+			         yourself.
+
+		  alignment value: rsa ]
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> centerValueShapeWithinItsBox [
+
+	valueAndBoxAlignment := nil
 ]
 
 { #category : #dispatching }
@@ -107,7 +128,8 @@ CTBaseSlotDescriptor >> initialize [
 		enablePredicate: [ :level | true ];
 		postpone: false;
 		varShapeBlock: [ :obj :walker :var |
-			walker shapeBuilder label: obj var: var ]
+			walker shapeBuilder label: obj var: var ];
+		centerValueShapeWithinItsBox
 ]
 
 { #category : #dispatching }
@@ -138,6 +160,12 @@ CTBaseSlotDescriptor >> isEnabledAtLevel: l [
 CTBaseSlotDescriptor >> isOneToMany [
 
 	^ isOneToMany
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> leftAlignValueShapeWithinItsBox [
+
+	valueAndBoxAlignment := [ :rsAlignment | rsAlignment left ]
 ]
 
 { #category : #initialization }
@@ -177,6 +205,12 @@ CTBaseSlotDescriptor >> selector [
 CTBaseSlotDescriptor >> selector: anObject [
 
 	selector := anObject
+]
+
+{ #category : #accessing }
+CTBaseSlotDescriptor >> valueAndBoxAlignment: anObject [
+
+	valueAndBoxAlignment := anObject
 ]
 
 { #category : #accessing }

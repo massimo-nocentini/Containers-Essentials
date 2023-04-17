@@ -26,6 +26,12 @@ CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+CTPropertySlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CTPropertySlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 
 	self subclassResponsibility

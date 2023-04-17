@@ -29,6 +29,12 @@ CTDecorateSlotDescriptor >> addPopupInteractionOnShape: aShape [
 ]
 
 { #category : #accessing }
+CTDecorateSlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
+
+	^ descriptor alignValueShape: valueShape withinBoxShape: boxShape
+]
+
+{ #category : #accessing }
 CTDecorateSlotDescriptor >> descriptor: anObject [
 
 	descriptor := anObject

@@ -300,6 +300,8 @@ CTDfsWalker >> recurring: data [
 
 				rowGroup := RSGroupSlotsRow var: varLabel box: valueBox.
 
+				rowGroup descriptor: each.
+
 				inlined := self shouldInline: child descriptor: each level: l.
 
 				data addRowGroup: rowGroup inlined: inlined.
