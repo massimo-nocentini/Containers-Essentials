@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Outliner' }
-Object >> commented: aString [
+Object >> ignoreOutputBecause: aString [
 
 	^ CTNotebookComment new
 		  topic: self;

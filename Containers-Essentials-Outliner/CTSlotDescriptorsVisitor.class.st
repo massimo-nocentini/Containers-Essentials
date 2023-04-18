@@ -231,7 +231,8 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 			  ifFalse: [
 				  | descriptor node isCommentedMessageSend o |
 				  isCommentedMessageSend := astNode isMessage and: [
-					                            astNode selector = #commented: ].
+					                            astNode selector
+					                            = #ignoreOutputBecause: ].
 
 				  isCommentedMessageSend
 					  ifTrue: [
