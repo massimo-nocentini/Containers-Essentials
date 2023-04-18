@@ -187,8 +187,15 @@ CTDfsShapeBuilder >> label: anObject var: var [
 	font := LogicalFont fontconfigPharoSansPointSize:
 		        StandardFonts defaultFont pointSize.
 
-	pangoVar := var fixEmptyLinesForPango asText asRSPangoTextUsingFont:
-		            font.
+	pangoVar := String streamContents: [ :aStream |
+		            aStream
+			            nextPutAll: '<span font_weight="bold" foreground="#';
+			            nextPutAll: metaColor darker asHexString;
+			            nextPutAll: '">';
+			            nextPutAll: var;
+			            nextPutAll: '</span>' ].
+
+	pangoVar := pangoVar asRSPangoMarkupUsingFont: font.
 
 	shape := RSComposite new
 		         shapes: { pangoVar };

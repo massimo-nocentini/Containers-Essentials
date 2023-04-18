@@ -3,22 +3,17 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker [
 
-	| text script ast |
-	script := self fullPrintString.
+	| markup |
+	markup := String streamContents: [ :aStream |
+		          aStream
+			          nextPutAll:
+				          '<span font_family="Neo Euler" font_stretch="condensed" font_size="larger">';
+			          nextPutAll: self fullPangoPrintString;
+			          nextPutAll: '</span>' ].
 
-	ast := RBParser parseExpression: script onError: [ nil ].
-
-	text := ast
-		        ifNil: [ script fixEmptyLinesForPango asText ]
-		        ifNotNil: [
-			        SpCodePresenter new
-				        beForScripting;
-				        text: ast formattedCode fixEmptyLinesForPango;
-				        textWithStyle ].
-
-	^ text asRSPangoTextUsingFont:
+	^ markup asRSPangoMarkupUsingFont:
 		  (LogicalFont fontconfigPharoMonospacePointSize:
-			   StandardFonts codeFont pointSize)
+			   StandardFonts defaultFont pointSize)
 ]
 
 { #category : #'*Containers-Essentials-Roassal' }
@@ -30,9 +25,15 @@ A list:
   - this another <span foreground='red'>hello</span>
     over two lines
 - again at top level 
-   over two lines
+   over two lines. The following is a complete math block:
+   
+$$
+	<span font_size='larger'>&#8747;</span><span rise='-5pt' font_size='smaller'>1</span><span rise='5pt' font_size='smaller'>\infty</span> x dx
+$$
 
-more"
+Perhaps this $a = 1, \forall &#0945; \elementof N \thereexists$ should be some mathy expression.
+
+"
 
 	^ self asString fixEmptyLinesForPango asText asRSPangoTextUsingFont:
 		  (LogicalFont fontconfigPharoSansPointSize:
