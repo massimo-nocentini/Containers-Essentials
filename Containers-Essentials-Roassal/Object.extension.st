@@ -18,22 +18,7 @@ Object >> asDefaultShapeForWalker: aWalker [
 
 { #category : #'*Containers-Essentials-Roassal' }
 Object >> asStringPangoText [
-	"Yields the `#asString` representation in a Pango text shape.
-
-A list:
-- This is a point
-  - this another <span foreground='red'>hello</span>
-    over two lines
-- again at top level 
-   over two lines. The following is a complete math block:
-   
-$$
-	<span font_size='larger'>&#8747;</span><span rise='-5pt' font_size='smaller'>1</span><span rise='5pt' font_size='smaller'>\infty</span> x dx
-$$
-
-Perhaps this $a = 1, \forall &#0945; \elementof N \thereexists$ should be some mathy expression.
-
-"
+	"Yields the `#asString` representation in a Pango text shape."
 
 	^ self asString fixEmptyLinesForPango asText asRSPangoTextUsingFont:
 		  (LogicalFont fontconfigPharoSansPointSize:

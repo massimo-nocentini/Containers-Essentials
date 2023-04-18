@@ -84,6 +84,7 @@ Fraction >> asShapeNaturalRepresentation [
 	y := numeratorShape encompassingRectangle bottom + vOffset halved.
 
 	dashShape := RSdeCasteljauLine new
+		             color: Color black;
 		             controlPoints:
 			             (linspace collect: [ :each | each @ y + random next ]);
 		             from: shapeWithMaxWidth;

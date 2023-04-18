@@ -219,16 +219,10 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 				  font := LogicalFont fontconfigPharoSansPointSize:
 					          StandardFonts defaultFont pointSize.
 
-				  markup := '<span font_family="{1}" font_size="{2}pt" foreground="black">{3}</span>'
-					            format: {
-							            font familyName.
-							            font pointSize.
-							            astNode sourceCode allButFirstAndLast }.
+				  markup := Microdown asPangoMarkupString:
+					            astNode sourceCode allButFirstAndLast.
 
-				  pango := RSPangoMarkup new
-					           font: font;
-					           markup: markup;
-					           yourself.
+				  pango := markup asRSPangoMarkupUsingFont: font.
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;

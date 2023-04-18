@@ -26,6 +26,12 @@ Object >> isComplex [
 ]
 
 { #category : #'*Containers-Essentials' }
+Object >> itself: anObject [
+
+	^ anObject
+]
+
+{ #category : #'*Containers-Essentials' }
 Object >> prependBlock: aFullBlockClosure [
 
 	^ aFullBlockClosure value: self

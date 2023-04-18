@@ -190,7 +190,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
 			            nextPutAll: '<span font_weight="bold" foreground="#';
-			            nextPutAll: metaColor darker asHexString;
+			            nextPutAll: Color black asHexString;
 			            nextPutAll: '">';
 			            nextPutAll: var;
 			            nextPutAll: '</span>' ].
@@ -203,18 +203,14 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
-			| markup shrinkedFont mic |
+			| markup shrinkedFont |
 			shrinkedFont := font copy
 				                pointSize: font pointSize / Float goldenRatio;
 				                yourself.
 
-			mic := Microdown parse: docString.
-
-			markup := PangoMarkupMicrodownVisitor new visit: mic.
-
 			markup := '<span foreground="#{1}">{2}</span>' format: {
 					          metaColor asHexString.
-					          markup }.
+					          (Microdown asPangoMarkupString: docString) }.
 
 			descShape := markup asRSPangoMarkupUsingFont: shrinkedFont.
 
