@@ -229,22 +229,45 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					  leftAlignValueShapeWithinItsBox;
 					  quote ]
 			  ifFalse: [
-				  (self
-					   newSlotDescriptorString: astNode formattedCode
-					   constant: anObject) varShapeBlock: [ :obj :walker :selector |
-					  | text |
-					  text := SpCodePresenter new
-						          beForScripting;
-						          text:
-							          selector fixEmptyLinesForPango
-								          replaceAllTabsWithSpacesForPango;
-						          textWithStyle.
+				  | descriptor node isCommentedMessageSend o |
+				  isCommentedMessageSend := astNode isMessage and: [
+					                            astNode selector = #commented: ].
 
-					  RSComposite new
-						  shapes: { (text asRSPangoTextUsingFont:
-									   (LogicalFont fontconfigPharoMonospacePointSize:
-											    StandardFonts codeFont pointSize)) };
-						  yourself ] ] ]
+				  isCommentedMessageSend
+					  ifTrue: [
+						  node := astNode receiver.
+						  o := anObject asDefaultShapeForWalker: nil ]
+					  ifFalse: [
+						  node := astNode.
+						  o := anObject ].
+
+				  descriptor := self
+					                newSlotDescriptorString: node formattedCode
+					                constant: o.
+
+				  descriptor := descriptor varShapeBlock: [ :obj :walker :selector |
+					                | text |
+					                text := SpCodePresenter new
+						                        beForScripting;
+						                        text:
+							                        selector fixEmptyLinesForPango
+								                        replaceAllTabsWithSpacesForPango;
+						                        textWithStyle.
+
+					                RSComposite new
+						                shapes: { (text asRSPangoTextUsingFont:
+									                 (LogicalFont
+										                  fontconfigPharoMonospacePointSize:
+											                  StandardFonts codeFont pointSize)) };
+						                yourself ].
+
+				  isCommentedMessageSend ifTrue: [
+					  descriptor := descriptor
+						                leftAlignValueShapeWithinItsBox;
+						                inline;
+						                quote ].
+
+				  descriptor ] ]
 ]
 
 { #category : #visiting }

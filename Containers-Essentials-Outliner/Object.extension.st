@@ -1,6 +1,15 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Outliner' }
+Object >> commented: aString [
+
+	^ CTNotebookComment new
+		  topic: self;
+		  text: aString;
+		  yourself
+]
+
+{ #category : #'*Containers-Essentials-Outliner' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
