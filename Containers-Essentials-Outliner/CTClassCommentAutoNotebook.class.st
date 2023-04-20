@@ -17,12 +17,16 @@ CTClassCommentAutoNotebook >> acceptSlotDescriptorsVisitor: aVisitor [
 		            yourself.
 
 	codePresenter := SpCodePresenter new
-		                 beForObject: notebook;
+		                 application: StPharoApplication current;
+		                 overridingContextMenu;
+		                 withEditionContextMenu;
+		                 interactionModel:
+			                 (StPlaygroundInteractionModel new
+				                  owner: StPlayground new;
+				                  yourself);
 		                 yourself.
 
 	ast := RBParser parseExpression: self class comment.
-
-
 
 	errorFree := true.
 
@@ -39,13 +43,20 @@ CTClassCommentAutoNotebook >> acceptSlotDescriptorsVisitor: aVisitor [
 			         ifTrue: [ nil ]
 			         ifFalse: [
 				         codePresenter
+					         text: astNode sourceCode;
+					         selectLine.
+
+				         codePresenter
 					         evaluate: astNode sourceCode
-					         onCompileError: [ :e |
-					         Error signal:
-						         'Logical inconsistency: RBParser cannot fail.' ]
-					         onError: [ :e |
+					         onCompileError: [ "  Error signal:
+						         'Logical inconsistency: RBParser cannot fail.'"
+						         nil ]
+					         onError: [ :e | "]
+					         on: OCUndeclaredVariableWarning
+					         do: [ :warn | warn declareGlobal ]"
 						         errorFree := false.
-						         evaluated add: astNode -> e ] ].
+						         evaluated add: astNode -> e.
+						         e pass ] ].
 
 		errorFree ifTrue: [ evaluated add: astNode -> value ] ].
 

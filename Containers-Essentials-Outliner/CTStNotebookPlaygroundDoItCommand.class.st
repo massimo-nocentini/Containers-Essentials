@@ -39,12 +39,13 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 			| value |
 			value := codePresenter
 				         evaluate: astNode sourceCode
-				         onCompileError: [
-				         Error signal:
-					         'Logical inconsistency: RBParser cannot fail.' ]
+				         onCompileError: [ " Error signal:
+					         'Logical inconsistency: RBParser cannot fail.'"
+					         nil ]
 				         onError: [ :e |
 					         errorFree := false.
-					         evaluated add: astNode -> e ].
+					         evaluated add: astNode -> e.
+					         e pass ].
 
 			errorFree ifTrue: [ evaluated add: astNode -> value ] ].
 
