@@ -3,11 +3,17 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker [
 
-	| markup |
+	| markup fontFamily |
+	fontFamily := self isNumber
+		              ifTrue: [ 'Neo Euler' ]
+		              ifFalse: [ 'Source Sans Pro' ].
+
 	markup := String streamContents: [ :aStream |
 		          aStream
+			          nextPutAll: '<span font_family="';
+			          nextPutAll: fontFamily;
 			          nextPutAll:
-				          '<span font_family="Neo Euler" font_stretch="condensed" font_size="larger">';
+				          '" font_stretch="condensed" font_size="larger">';
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
