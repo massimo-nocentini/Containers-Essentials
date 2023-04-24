@@ -11,7 +11,7 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 
 	aSelector value: canvas value: anObject.
 
-	RSSVGCairoExporter new
+	RSPDFCairoExporter new
 		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;

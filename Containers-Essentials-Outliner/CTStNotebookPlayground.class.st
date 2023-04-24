@@ -1,6 +1,9 @@
 Class {
 	#name : #CTStNotebookPlayground,
 	#superclass : #StPlayground,
+	#instVars : [
+		'notebook'
+	],
 	#category : #'Containers-Essentials-Outliner-Presenters'
 }
 
@@ -46,8 +49,28 @@ CTStNotebookPlayground class >> registerToolsOn: registry [
 	registry register: self as: #notebook
 ]
 
+{ #category : #initialization }
+CTStNotebookPlayground >> initialize [
+
+	self notebook: CTNotebookKeyedValuedOrderedCollection new.
+
+	super initialize
+]
+
 { #category : #'private - factory' }
 CTStNotebookPlayground >> newDefaultPlaygroundPage [
 
 	^ CTStNotebookPlaygroundPage new
+]
+
+{ #category : #accessing }
+CTStNotebookPlayground >> notebook [
+
+	^ notebook
+]
+
+{ #category : #accessing }
+CTStNotebookPlayground >> notebook: anObject [
+
+	notebook := anObject
 ]
