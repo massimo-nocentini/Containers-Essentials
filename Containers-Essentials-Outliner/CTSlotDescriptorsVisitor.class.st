@@ -216,7 +216,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		  astNode isCommentNode
 			  ifTrue: [
 				  | pango markup font |
-				  font := LogicalFont fontconfigPharoSansPointSize:
+				  font := LogicalFont fontconfigPharoSansSerifPointSize:
 					          StandardFonts defaultFont pointSize.
 
 				  markup := Microdown asPangoMarkupString:

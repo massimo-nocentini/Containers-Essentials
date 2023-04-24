@@ -189,7 +189,8 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
-			            nextPutAll: '<span font_weight="bold" foreground="#';
+			            nextPutAll:
+				            '<span font_weight="bold" foreground="#';
 			            nextPutAll: Color black asHexString;
 			            nextPutAll: '">';
 			            nextPutAll: var;
@@ -203,8 +204,11 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
-			| markup shrinkedFont |
-			shrinkedFont := font copy
+			| markup shrinkedFont serifFont |
+			serifFont := LogicalFont fontconfigPharoSansSerifPointSize:
+				             StandardFonts defaultFont pointSize.
+
+			shrinkedFont := serifFont
 				                pointSize: font pointSize / Float goldenRatio;
 				                yourself.
 
