@@ -212,15 +212,19 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
+	| pangoMicVisitor |
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
+
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
 			  ifTrue: [
-				  | pango markup font |
+				  | pango markup font mic |
 				  font := LogicalFont fontconfigPharoSansSerifPointSize:
 					          StandardFonts defaultFont pointSize.
 
-				  markup := Microdown asPangoMarkupString:
-					            astNode sourceCode allButFirstAndLast.
+				  mic := Microdown parse: astNode sourceCode allButFirstAndLast.
+
+				  markup := pangoMicVisitor visit: mic.
 
 				  pango := markup asRSPangoMarkupUsingFont: font.
 
