@@ -6,9 +6,9 @@ Object >> asDefaultShapeForWalker: aWalker [
 	| markup fontFamily textColor |
 	fontFamily := self isNumber
 		              ifTrue: [ 'Neo Euler' ]
-		              ifFalse: [ 'Source Sans Pro' ].
+		              ifFalse: [ 'Source Code Pro' ].
 
-	textColor := self isNumber | self isString
+	textColor := self isNumber | self isString | self isNil
 		             ifTrue: [
 			             | attributes |
 			             attributes := (SpCodePresenter new

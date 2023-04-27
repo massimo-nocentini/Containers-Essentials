@@ -534,14 +534,14 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 	anObject class allInstVarNames do: [ :varNameSymbol |
 		slots add: (self newSlotDescriptorInstVarName: varNameSymbol) ].
 
-	slots
+	"slots
 		add: (self newSlotDescriptorSelector: #hash);
 		add: (self newSlotDescriptorSelector: #identityHash);
-		"add: (self newSlotDescriptorSelector: #fullPrintString);"
+		add: (self newSlotDescriptorSelector: #fullPrintString);
 		add: ((self newSlotDescriptorSelector: #asStringPangoText)
 				 inline;
 				 quote).
-
+"
 	^ slots
 ]
 
