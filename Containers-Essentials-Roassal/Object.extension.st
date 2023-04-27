@@ -3,17 +3,38 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker [
 
-	| markup fontFamily |
+	| markup fontFamily textColor |
 	fontFamily := self isNumber
 		              ifTrue: [ 'Neo Euler' ]
 		              ifFalse: [ 'Source Sans Pro' ].
+
+	textColor := self isNumber | self isString
+		             ifTrue: [
+			             | attributes |
+			             attributes := (SpCodePresenter new
+				                            beForScripting;
+				                            text: self fullPrintString;
+				                            textWithStyle) attributesAt: 1.
+
+			             attributes
+				             detect: [ :attr | attr isMemberOf: TextColor ]
+				             ifNone: [ nil ] ]
+		             ifFalse: [ nil ].
 
 	markup := String streamContents: [ :aStream |
 		          aStream
 			          nextPutAll: '<span font_family="';
 			          nextPutAll: fontFamily;
-			          nextPutAll:
-				          '" font_stretch="condensed" font_size="larger">';
+			          nextPutAll: '"'.
+
+		          textColor ifNotNil: [
+			          aStream
+				          nextPutAll: ' foreground="#';
+				          nextPutAll: textColor color asHexString;
+				          nextPutAll: '"' ].
+
+		          aStream
+			          nextPutAll: ' font_size="larger">';
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
