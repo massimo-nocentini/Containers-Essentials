@@ -20,9 +20,13 @@ CTStNotebookPlaygroundDoItCommand class >> order [
 CTStNotebookPlaygroundDoItCommand >> execute [
 
 	context withActivationBlock: [ :aBlock |
-		| notebook |
-		notebook := CTNotebookKeyedValuedOrderedCollection new
-			            codePresenter: context text;
+		| notebook codePresenter binding |
+		codePresenter := self context text.
+
+		binding := codePresenter interactionModel bindingOf: #thisNotebook.
+
+		notebook := binding value
+			            codePresenter: codePresenter;
 			            value;
 			            yourself.
 
