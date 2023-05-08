@@ -212,7 +212,16 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
-	| pangoMicVisitor |
+	| pangoMicVisitor codePresenter |
+	codePresenter := SpCodePresenter new
+		                 beForScripting;
+		                 yourself.
+
+	"Propagate the bindings"
+	aKeyedCollection codePresenter interactionModel bindings
+		associationsDo: [ :binding |
+		codePresenter interactionModel addBinding: binding ].
+
 	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
@@ -252,8 +261,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 
 				  descriptor := descriptor varShapeBlock: [ :obj :walker :selector |
 					                | text |
-					                text := SpCodePresenter new
-						                        beForScripting;
+					                text := codePresenter
 						                        text:
 							                        selector fixEmptyLinesForPango
 								                        replaceAllTabsWithSpacesForPango;

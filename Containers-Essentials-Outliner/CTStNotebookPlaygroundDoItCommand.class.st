@@ -20,39 +20,10 @@ CTStNotebookPlaygroundDoItCommand class >> order [
 CTStNotebookPlaygroundDoItCommand >> execute [
 
 	context withActivationBlock: [ :aBlock |
-		| ast codePresenter evaluated errorFree astNodes notebook statements |
-		codePresenter := context text.
-		ast := RBParser parseExpression: codePresenter text.
-
-		evaluated := OrderedCollection new.
-
-		errorFree := true.
-
-		statements := ast isSequence
-			              ifTrue: [ ast statements ]
-			              ifFalse: [ { ast } ].
-
-		astNodes := statements , ast allComments sorted: [ :a :b |
-			            a start < b start ].
-
-		astNodes do: [ :astNode |
-			| value |
-			value := codePresenter
-				         evaluate: astNode sourceCode
-				         onCompileError: [ " Error signal:
-					         'Logical inconsistency: RBParser cannot fail.'"
-					         nil ]
-				         onError: [ :e |
-					         errorFree := false.
-					         evaluated add: astNode -> e.
-					         e pass ].
-
-			errorFree ifTrue: [ evaluated add: astNode -> value ] ].
-
+		| notebook |
 		notebook := CTNotebookKeyedValuedOrderedCollection new
-			            collection: evaluated;
-			            keyBlock: [ :anAssoc | anAssoc key ];
-			            valueBlock: [ :anAssoc | anAssoc value ];
+			            codePresenter: context text;
+			            value;
 			            yourself.
 
 		"aBlock value: notebook"
