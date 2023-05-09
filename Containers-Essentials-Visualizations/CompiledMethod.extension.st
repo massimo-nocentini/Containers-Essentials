@@ -9,51 +9,61 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker [
 
-	| presenter lines text from |
-	presenter := self inspectionSource.
+	| formattedCode pangoMicVisitor font text comments mic markup docStringShape codeShape shapeGroup |
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
-	"Adjust the test to show the formatted version of the source code"
-	presenter text: self formattedCode fixEmptyLinesForPango
-			replaceAllTabsWithSpacesForPango.
+	font := LogicalFont fontconfigPharoMonospacePointSize:
+		        StandardFonts codeFont pointSize.
 
-	lines := presenter text lines asOrderedCollection.
+	comments := OrderedCollection new.
 
-	lines
-		addFirst: ' ';
-		addFirst: ('"{1}, protocol {2}"' format: {
-						 self methodClassName.
-						 self protocol }).
+	formattedCode := self ast comments
+		                 inject: self sourceCode
+		                 into: [ :code :commentNode |
+			                 comments add:
+				                 commentNode sourceCode allButFirstAndLast.
 
-	presenter text: (String cr join: lines).
+			                 code
+				                 copyReplaceAll: commentNode sourceCode
+				                 with: '' ].
 
-	text := presenter textWithStyle.
+	mic := Microdown parse: (String cr , String cr join: comments).
 
-	from := 1.
-	text
-		addAttribute: TextEmphasis italic
-		from: from
-		to: from + lines first size - 1.
+	markup := pangoMicVisitor visit: mic.
 
-	text
-		addAttribute: TextColor gray
-		from: from
-		to: from + lines first size - 1.
+	docStringShape := markup asRSPangoMarkupUsingFont:
+		                  (LogicalFont fontconfigPharoSansSerifPointSize:
+			                   StandardFonts defaultFont pointSize).
+	docStringShape := RSComposite new
+		                  shapes: { docStringShape };
+		                  yourself.
 
-	from := 2.
-	text
-		addAttribute: TextEmphasis bold
-		from: from
-		to: from + self methodClassName size - 1.
+	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
+		                 fixEmptyLinesForPango
+		                 replaceAllTabsWithSpacesForPango.
 
-	from := 1 + self methodClassName size + ', protocol ' size + 1.
-	text
-		addAttribute: TextEmphasis underlined
-		from: from
-		to: from + self protocol size - 1.
+	text := self inspectionSource
+		        text: formattedCode;
+		        textWithStyle.
 
-	^ (text asRSPangoTextUsingFont:
-			   (LogicalFont fontconfigPharoMonospacePointSize:
-					    StandardFonts codeFont pointSize))
-		  model: self;
-		  yourself
+	codeShape := text asRSPangoTextUsingFont: font.
+	codeShape := RSComposite new
+		             shapes: { codeShape };
+		             yourself.
+
+	shapeGroup := RSGroup new
+		              add: docStringShape;
+		              add: codeShape;
+		              yourself.
+
+	RSLocation new
+		above;
+		stick: docStringShape on: codeShape.
+
+
+	RSAlignment new
+		shapes: shapeGroup;
+		left.
+
+	^ shapeGroup asShapeFor: self
 ]
