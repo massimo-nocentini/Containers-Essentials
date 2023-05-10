@@ -9,11 +9,22 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker [
 
-	| formattedCode pangoMicVisitor font text comments mic markup docStringShape codeShape shapeGroup |
+	| formattedCode pangoMicVisitor font text comments markup docStringShape codeShape shapeGroup defString yOffset |
 	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
 	font := LogicalFont fontconfigPharoMonospacePointSize:
 		        StandardFonts codeFont pointSize.
+
+	defString := String streamContents: [ :stream |
+		             stream
+			             <<
+				             '<span font_family="Source Sans Pro" font_size="larger"><b>';
+			             << '<span font_family="Source Code Pro">';
+			             << self methodClassName;
+			             << '</span>';
+			             << '</b>, protocol <i><u>';
+			             << self protocol;
+			             << '</u></i>.</span>' ].
 
 	comments := OrderedCollection new.
 
@@ -27,13 +38,21 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 				                 copyReplaceAll: commentNode sourceCode
 				                 with: '' ].
 
-	mic := Microdown parse: (String cr , String cr join: comments).
+	markup := comments ifEmpty: [ String empty ] ifNotEmpty: [
+		          | mic commentsMarkup |
+		          mic := Microdown parse:
+			                 (String cr , String cr join: comments).
 
-	markup := pangoMicVisitor visit: mic.
+		          commentsMarkup := pangoMicVisitor visit: mic.
+
+		          String cr , String cr , commentsMarkup ].
+
+	markup := '<span foreground="gray">' , defString , markup , '</span>'.
 
 	docStringShape := markup asRSPangoMarkupUsingFont:
 		                  (LogicalFont fontconfigPharoSansSerifPointSize:
 			                   StandardFonts defaultFont pointSize).
+
 	docStringShape := RSComposite new
 		                  shapes: { docStringShape };
 		                  yourself.
@@ -58,12 +77,20 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 
 	RSLocation new
 		above;
-		stick: docStringShape on: codeShape.
+		center;
+		move: docStringShape on: codeShape.
 
 
-	RSAlignment new
-		shapes: shapeGroup;
-		left.
+	yOffset := 5 * Float goldenRatio.
+
+	docStringShape width > codeShape width
+		ifTrue: [
+			codeShape translateBy:
+				(docStringShape width - codeShape width) negated halved @ yOffset ]
+		ifFalse: [
+			docStringShape translateBy:
+				(codeShape width - docStringShape width) negated halved
+				@ yOffset negated ].
 
 	^ shapeGroup asShapeFor: self
 ]
