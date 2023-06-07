@@ -235,7 +235,12 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 
 				  markup := pangoMicVisitor visit: mic.
 
-				  pango := markup asRSPangoMarkupUsingFont: font.
+				  pango := markup
+					           asRSPangoMarkupUsingFont: font
+					           withAuxiliaryPangoAttributeSpecs:
+					           pangoMicVisitor auxiliaryPangoAttrSpecs.
+
+				  pangoMicVisitor auxiliaryPangoAttrSpecs removeAll.
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
