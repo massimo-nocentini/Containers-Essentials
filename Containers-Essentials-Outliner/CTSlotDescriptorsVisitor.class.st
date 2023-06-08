@@ -212,7 +212,7 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
-	| pangoMicVisitor codePresenter |
+	| pangoMicVisitor codePresenter auxiliaryOrderedLabelLanguageAssociations |
 	codePresenter := SpCodePresenter new
 		                 beForScripting;
 		                 yourself.
@@ -222,7 +222,12 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		associationsDo: [ :binding |
 		codePresenter interactionModel addBinding: binding ].
 
-	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
+	auxiliaryOrderedLabelLanguageAssociations := OrderedCollection new.
+
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new
+		                   auxiliaryOrderedLabelLanguageAssociations:
+			                   auxiliaryOrderedLabelLanguageAssociations;
+		                   yourself.
 
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
@@ -231,16 +236,18 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 				  font := LogicalFont fontconfigPharoSansSerifPointSize:
 					          StandardFonts defaultFont pointSize.
 
-				  mic := Microdown parse: astNode sourceCode allButFirstAndLast.
+				  mic := Microdown parse:
+					         astNode sourceCode allButFirstAndLast trim
+						         fixEmptyLinesForPango.
 
 				  markup := pangoMicVisitor visit: mic.
 
 				  pango := markup
 					           asRSPangoMarkupUsingFont: font
 					           withAuxiliaryPangoAttributeSpecs:
-					           pangoMicVisitor auxiliaryPangoAttrSpecs.
+					           auxiliaryOrderedLabelLanguageAssociations.
 
-				  pangoMicVisitor auxiliaryPangoAttrSpecs removeAll.
+				  auxiliaryOrderedLabelLanguageAssociations removeAll. "Clean up possible auxiliary attr specs."
 
 				  (self newSlotDescriptorString: '' constant: pango)
 					  inline;
