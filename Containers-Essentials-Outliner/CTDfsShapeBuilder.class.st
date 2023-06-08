@@ -189,8 +189,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
-			            nextPutAll:
-				            '<span font_weight="bold" foreground="#';
+			            nextPutAll: '<span font_weight="bold" foreground="#';
 			            nextPutAll: Color black asHexString;
 			            nextPutAll: '">';
 			            nextPutAll: var;
@@ -226,7 +225,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 				above;
 				move: shape on: descShape ].
 
-		shape when: RSMouseLeftClick do: [ :ev | cm browse ] ].
+		shape when: RSMouseLeftClick do: [ :ev | cm browse ] for: self ].
 
 	^ descShape ifNil: [ shape ] ifNotNil: [
 		  | c |
@@ -251,8 +250,8 @@ CTDfsShapeBuilder >> labelForClass: aClass [
 		  text: aClass name;
 		  fontSize: metaFontSize;
 		  color: metaColor;
-		  when: RSMouseLeftClick do: [ :ev | aClass browse ];
-		  yourself: [ :labelShape | 
+		  when: RSMouseLeftClick do: [ :ev | aClass browse ] for: self;
+		  yourself: [ :labelShape |
 			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
 ]
 

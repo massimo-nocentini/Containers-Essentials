@@ -237,15 +237,16 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					          StandardFonts defaultFont pointSize.
 
 				  mic := Microdown parse:
-					         astNode sourceCode allButFirstAndLast trim
-						         fixEmptyLinesForPango.
+					         astNode sourceCode allButFirstAndLast trim.
 
 				  markup := pangoMicVisitor visit: mic.
 
-				  pango := markup
-					           asRSPangoMarkupUsingFont: font
-					           withAuxiliaryPangoAttributeSpecs:
-					           auxiliaryOrderedLabelLanguageAssociations.
+				  pango := RSPangoMarkup new
+					           font: font;
+					           auxiliaryOrderedLabelLanguageAssociations:
+						           auxiliaryOrderedLabelLanguageAssociations copy;
+					           markup: markup;
+					           yourself.
 
 				  auxiliaryOrderedLabelLanguageAssociations removeAll. "Clean up possible auxiliary attr specs."
 
