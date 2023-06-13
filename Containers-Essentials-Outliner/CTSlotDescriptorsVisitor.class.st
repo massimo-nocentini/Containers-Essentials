@@ -232,12 +232,15 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
 			  ifTrue: [
-				  | pango markup font mic |
+				  | pango markup font mic sourceCode |
 				  font := LogicalFont fontconfigPharoSansSerifPointSize:
 					          StandardFonts defaultFont pointSize.
 
-				  mic := Microdown parse:
-					         astNode sourceCode allButFirstAndLast trim.
+				  sourceCode := astNode sourceCode allButFirstAndLast trim
+					                copyReplaceAll: '""'
+					                with: '"'.
+
+				  mic := Microdown parse: sourceCode.
 
 				  markup := pangoMicVisitor visit: mic.
 
