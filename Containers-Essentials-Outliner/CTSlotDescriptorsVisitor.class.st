@@ -249,7 +249,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					           auxiliaryOrderedLabelLanguageAssociations:
 						           auxiliaryOrderedLabelLanguageAssociations copy;
 					           markup: markup;
-					           yourself.
+					           asCompositeShape.
 
 				  auxiliaryOrderedLabelLanguageAssociations removeAll. "Clean up possible auxiliary attr specs."
 
@@ -283,12 +283,11 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 								                        replaceAllTabsWithSpacesForPango;
 						                        textWithStyle.
 
-					                RSComposite new
-						                shapes: { (text asRSPangoTextUsingFont:
-									                 (LogicalFont
-										                  fontconfigPharoMonospacePointSize:
-											                  StandardFonts codeFont pointSize)) };
-						                yourself ].
+					                (text asRSPangoTextUsingFont:
+						                 (LogicalFont
+							                  fontconfigPharoMonospacePointSize:
+							                  StandardFonts codeFont pointSize))
+						                asCompositeShape ].
 
 				  isCommentedMessageSend ifTrue: [
 					  descriptor := descriptor

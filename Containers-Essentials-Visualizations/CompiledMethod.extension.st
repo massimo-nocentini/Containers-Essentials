@@ -80,7 +80,6 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		center;
 		move: docStringShape on: codeShape.
 
-
 	yOffset := 5 * Float goldenRatio.
 
 	docStringShape width > codeShape width
