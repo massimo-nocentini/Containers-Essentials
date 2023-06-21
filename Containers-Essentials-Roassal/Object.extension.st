@@ -4,14 +4,13 @@ Extension { #name : #Object }
 Object >> asDefaultShapeForWalker: aWalker [
 
 	| markup fontFamily styleElement |
-	fontFamily := self isNumber
-		              ifTrue: [ 'Neo Euler' ]
-		              ifFalse: [ 'Source Code Pro' ].
-
-	styleElement := self isNumber
-		                ifTrue: [ SHStyleElement withTokens: #( number ) ]
-		                ifFalse: [
-			                self isString
+	self isNumber
+		ifTrue: [
+			fontFamily := 'Neo Euler'.
+			styleElement := SHStyleElement withTokens: #( number ) ]
+		ifFalse: [
+			fontFamily := 'Source Code Pro'.
+			styleElement := self isString
 				                ifTrue: [ SHStyleElement withTokens: #( string ) ]
 				                ifFalse: [
 				                SHStyleElement withTokens: #( default ) ] ].
