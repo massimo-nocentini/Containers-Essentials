@@ -31,12 +31,3 @@ Object >> asDefaultShapeForWalker: aWalker [
 		  (LogicalFont fontconfigPharoMonospacePointSize:
 			   StandardFonts defaultFont pointSize)
 ]
-
-{ #category : #'*Containers-Essentials-Roassal' }
-Object >> asStringPangoText [
-	"Yields the `#asString` representation in a Pango text shape."
-
-	^ self asString fixEmptyLinesForPango asText asRSPangoTextUsingFont:
-		  (LogicalFont fontconfigPharoSansPointSize:
-			   StandardFonts defaultFont pointSize)
-]

@@ -247,9 +247,9 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 				  pango := RSPangoMarkup new
 					           font: font;
 					           auxiliaryOrderedLabelLanguageAssociations:
-						           auxiliaryOrderedLabelLanguageAssociations copy;
+						           auxiliaryOrderedLabelLanguageAssociations;
 					           markup: markup;
-					           asCompositeShape.
+					           yourself.
 
 				  auxiliaryOrderedLabelLanguageAssociations removeAll. "Clean up possible auxiliary attr specs."
 
