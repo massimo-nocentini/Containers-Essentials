@@ -973,11 +973,11 @@ EssentialsObjectTest >> testRelativeErrorPi [
 EssentialsObjectTest >> testRoassalExporting [
 
 	| pango another c |
-	pango := ('hello world' asText asRSPangoTextUsingFont:
+	pango := ('hello world' asText asRSPangoShapeUsingFont:
 		          (LogicalFont fontconfigPharoSansPointSize: 11))
 		         notedWithPad: Float goldenRatio.
 
-	another := ('Michey Mouse' asText asRSPangoTextUsingFont:
+	another := ('Michey Mouse' asText asRSPangoShapeUsingFont:
 		            (LogicalFont fontconfigPharoSansPointSize: 14))
 		           notedWithPad: Float goldenRatio.
 

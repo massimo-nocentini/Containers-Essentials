@@ -25,7 +25,7 @@ Behavior >> asFluidDefinitionShape [
 				             replaceAllTabsWithSpacesForPango;
 		             yourself.
 
-	^ (presenter textWithStyle asRSPangoTextUsingFont:
+	^ (presenter textWithStyle asRSPangoShapeUsingFont:
 			   LogicalFont fontconfigPharoMonospace)
 		  model: self;
 		  yourself

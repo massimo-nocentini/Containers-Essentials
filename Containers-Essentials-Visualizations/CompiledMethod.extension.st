@@ -22,7 +22,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 			             << self methodClassName;
 			             << '</span>';
 			             << '</b>, protocol <i><u>';
-			             << self protocol;
+			             << self protocol name;
 			             << '</u></i>.</span>' ].
 
 	comments := OrderedCollection new.
@@ -59,7 +59,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		        text: formattedCode;
 		        textWithStyle.
 
-	codeShape := text asRSPangoTextUsingFont: font.
+	codeShape := text asRSPangoShapeUsingFont: font.
 	codeShape := RSComposite new
 		             shapes: { codeShape };
 		             yourself.
