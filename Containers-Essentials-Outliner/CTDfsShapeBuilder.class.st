@@ -189,16 +189,14 @@ CTDfsShapeBuilder >> label: anObject var: var [
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
 			            nextPutAll: '<span font_weight="bold" foreground="#';
-			            nextPutAll: Color black asHexString;
+			            nextPutAll:
+				            (SHStyleElement withTokens: #( selector )) color
+					            asHexString;
 			            nextPutAll: '">';
 			            nextPutAll: var;
 			            nextPutAll: '</span>' ].
 
-	pangoVar := pangoVar asRSPangoMarkupUsingFont: font.
-
-	shape := RSComposite new
-		         shapes: { pangoVar };
-		         yourself.
+	shape := pangoVar asRSPangoShapeUsingFont: font. "no need to set the model because it is just a comment."
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
@@ -213,7 +211,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 					          metaColor asHexString.
 					          (Microdown asPangoMarkupString: docString) }.
 
-			descShape := markup asRSPangoMarkupUsingFont: shrinkedFont.
+			descShape := markup asRSPangoShapeUsingFont: shrinkedFont.
 
 			descShape := RSComposite new
 				             shapes: { descShape };

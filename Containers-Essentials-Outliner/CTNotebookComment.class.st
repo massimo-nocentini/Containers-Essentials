@@ -11,13 +11,12 @@ Class {
 { #category : #converting }
 CTNotebookComment >> asDefaultShapeForWalker: walker [
 
-	| markup font |
-	font := LogicalFont fontconfigPharoSans.
-
+	| markup |
 	markup := Microdown asPangoMarkupString: self text.
 
 	^ '<span font_style="italic" font_size="smaller" foreground="gray">'
-	  , markup , '</span>' asRSPangoMarkupUsingFont: font
+	  , markup , '</span>' asRSPangoShapeUsingFont:
+		  LogicalFont fontconfigPharoSans
 ]
 
 { #category : #accessing }

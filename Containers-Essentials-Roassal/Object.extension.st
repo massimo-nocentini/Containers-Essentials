@@ -3,13 +3,13 @@ Extension { #name : #Object }
 { #category : #'*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker [
 
-	| markup fontFamily styleElement |
+	| markup font styleElement shape |
 	self isNumber
 		ifTrue: [
-			fontFamily := 'Neo Euler'.
+			font := LogicalFont fontconfigPharoMath.
 			styleElement := SHStyleElement withTokens: #( number ) ]
 		ifFalse: [
-			fontFamily := 'Source Code Pro'.
+			font := LogicalFont fontconfigPharoMonospace.
 			styleElement := self isString
 				                ifTrue: [ SHStyleElement withTokens: #( string ) ]
 				                ifFalse: [
@@ -18,7 +18,7 @@ Object >> asDefaultShapeForWalker: aWalker [
 	markup := String streamContents: [ :aStream |
 		          aStream
 			          nextPutAll: '<span font_family="';
-			          nextPutAll: fontFamily;
+			          nextPutAll: font familyName;
 			          nextPutAll: '"';
 			          nextPutAll: ' foreground="#';
 			          nextPutAll: styleElement color asHexString;
@@ -27,6 +27,10 @@ Object >> asDefaultShapeForWalker: aWalker [
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
-	^ markup asRSPangoMarkupUsingFont:
-		  LogicalFont fontconfigPharoMonospace
+	shape := markup asRSPangoShapeUsingFont:
+		         LogicalFont fontconfigPharoMonospace.
+
+	^ shape
+		  model: self;
+		  yourself
 ]

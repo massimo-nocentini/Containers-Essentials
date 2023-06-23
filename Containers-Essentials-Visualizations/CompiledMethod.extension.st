@@ -48,12 +48,8 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 
 	markup := '<span foreground="gray">' , defString , markup , '</span>'.
 
-	docStringShape := markup asRSPangoMarkupUsingFont:
+	docStringShape := markup asRSPangoShapeUsingFont:
 		                  LogicalFont fontconfigPharoSansSerif.
-
-	docStringShape := RSComposite new
-		                  shapes: { docStringShape };
-		                  yourself.
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 fixEmptyLinesForPango
