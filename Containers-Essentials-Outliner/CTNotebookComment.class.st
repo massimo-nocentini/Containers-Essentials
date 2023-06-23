@@ -16,7 +16,7 @@ CTNotebookComment >> asDefaultShapeForWalker: walker [
 
 	^ '<span font_style="italic" font_size="smaller" foreground="gray">'
 	  , markup , '</span>' asRSPangoShapeUsingFont:
-		  LogicalFont fontconfigPharoSans
+		  LogicalFont pangoSans
 ]
 
 { #category : #accessing }

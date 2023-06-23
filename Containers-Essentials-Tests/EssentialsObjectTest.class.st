@@ -974,11 +974,11 @@ EssentialsObjectTest >> testRoassalExporting [
 
 	| pango another c |
 	pango := ('hello world' asText asRSPangoShapeUsingFont:
-		          (LogicalFont fontconfigPharoSansPointSize: 11))
+		          (LogicalFont pangoSansPointSize: 11))
 		         notedWithPad: Float goldenRatio.
 
 	another := ('Michey Mouse' asText asRSPangoShapeUsingFont:
-		            (LogicalFont fontconfigPharoSansPointSize: 14))
+		            (LogicalFont pangoSansPointSize: 14))
 		           notedWithPad: Float goldenRatio.
 
 	RSLocation new above stick: pango on: another.

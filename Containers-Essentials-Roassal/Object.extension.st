@@ -6,10 +6,10 @@ Object >> asDefaultShapeForWalker: aWalker [
 	| markup font styleElement shape |
 	self isNumber
 		ifTrue: [
-			font := LogicalFont fontconfigPharoMath.
+			font := LogicalFont pangoMath.
 			styleElement := SHStyleElement withTokens: #( number ) ]
 		ifFalse: [
-			font := LogicalFont fontconfigPharoMonospace.
+			font := LogicalFont pangoMonospace.
 			styleElement := self isString
 				                ifTrue: [ SHStyleElement withTokens: #( string ) ]
 				                ifFalse: [
@@ -28,7 +28,7 @@ Object >> asDefaultShapeForWalker: aWalker [
 			          nextPutAll: '</span>' ].
 
 	shape := markup asRSPangoShapeUsingFont:
-		         LogicalFont fontconfigPharoMonospace.
+		         LogicalFont pangoMonospace.
 
 	^ shape
 		  model: self;

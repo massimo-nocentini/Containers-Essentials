@@ -12,13 +12,16 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	| formattedCode pangoMicVisitor font text comments markup docStringShape codeShape shapeGroup defString yOffset |
 	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
-	font := LogicalFont fontconfigPharoMonospace.
+	font := LogicalFont pangoMonospace.
 
 	defString := String streamContents: [ :stream |
 		             stream
-			             <<
-				             '<span font_family="Source Sans Pro" font_size="larger"><b>';
-			             << '<span font_family="Source Code Pro">';
+			             << '<span font_family="';
+			             << LogicalFont pangoSans familyName;
+			             << '" font_size="larger"><b>';
+			             << '<span font_family="';
+			             << font familyName;
+			             << '">';
 			             << self methodClassName;
 			             << '</span>';
 			             << '</b>, protocol <i><u>';
@@ -49,7 +52,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	markup := '<span foreground="gray">' , defString , markup , '</span>'.
 
 	docStringShape := markup asRSPangoShapeUsingFont:
-		                  LogicalFont fontconfigPharoSansSerif.
+		                  LogicalFont pangoSerif.
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 fixEmptyLinesForPango
