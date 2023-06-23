@@ -184,8 +184,7 @@ CTDfsShapeBuilder >> initialize [
 CTDfsShapeBuilder >> label: anObject var: var [
 
 	| pangoVar shape descShape font |
-	font := LogicalFont fontconfigPharoSansPointSize:
-		        StandardFonts defaultFont pointSize.
+	font := LogicalFont fontconfigPharoSans.
 
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
@@ -204,8 +203,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
 			| markup shrinkedFont serifFont |
-			serifFont := LogicalFont fontconfigPharoSansSerifPointSize:
-				             StandardFonts defaultFont pointSize.
+			serifFont := LogicalFont fontconfigPharoSansSerif.
 
 			shrinkedFont := serifFont
 				                pointSize: font pointSize / Float goldenRatio;

@@ -28,6 +28,5 @@ Object >> asDefaultShapeForWalker: aWalker [
 			          nextPutAll: '</span>' ].
 
 	^ markup asRSPangoMarkupUsingFont:
-		  (LogicalFont fontconfigPharoMonospacePointSize:
-			   StandardFonts defaultFont pointSize)
+		  LogicalFont fontconfigPharoMonospace
 ]

@@ -26,8 +26,7 @@ Behavior >> asFluidDefinitionShape [
 		             yourself.
 
 	^ (presenter textWithStyle asRSPangoTextUsingFont:
-			   (LogicalFont fontconfigPharoMonospacePointSize:
-					    StandardFonts codeFont pointSize))
+			   LogicalFont fontconfigPharoMonospace)
 		  model: self;
 		  yourself
 ]

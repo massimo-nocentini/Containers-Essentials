@@ -12,8 +12,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	| formattedCode pangoMicVisitor font text comments markup docStringShape codeShape shapeGroup defString yOffset |
 	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
-	font := LogicalFont fontconfigPharoMonospacePointSize:
-		        StandardFonts codeFont pointSize.
+	font := LogicalFont fontconfigPharoMonospace.
 
 	defString := String streamContents: [ :stream |
 		             stream
@@ -50,8 +49,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 	markup := '<span foreground="gray">' , defString , markup , '</span>'.
 
 	docStringShape := markup asRSPangoMarkupUsingFont:
-		                  (LogicalFont fontconfigPharoSansSerifPointSize:
-			                   StandardFonts defaultFont pointSize).
+		                  LogicalFont fontconfigPharoSansSerif.
 
 	docStringShape := RSComposite new
 		                  shapes: { docStringShape };

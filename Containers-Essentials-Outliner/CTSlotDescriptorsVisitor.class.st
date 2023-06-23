@@ -233,8 +233,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		  astNode isCommentNode
 			  ifTrue: [
 				  | pango markup font mic sourceCode |
-				  font := LogicalFont fontconfigPharoSansSerifPointSize:
-					          StandardFonts defaultFont pointSize.
+				  font := LogicalFont fontconfigPharoSansSerif.
 
 				  sourceCode := astNode sourceCode allButFirstAndLast trim
 					                copyReplaceAll: '""'
@@ -284,9 +283,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 						                        textWithStyle.
 
 					                (text asRSPangoTextUsingFont:
-						                 (LogicalFont
-							                  fontconfigPharoMonospacePointSize:
-							                  StandardFonts codeFont pointSize))
+						                 LogicalFont fontconfigPharoMonospace)
 						                asCompositeShape ].
 
 				  isCommentedMessageSend ifTrue: [

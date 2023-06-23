@@ -12,8 +12,7 @@ Class {
 CTNotebookComment >> asDefaultShapeForWalker: walker [
 
 	| markup font |
-	font := LogicalFont fontconfigPharoSansPointSize:
-		        StandardFonts defaultFont pointSize.
+	font := LogicalFont fontconfigPharoSans.
 
 	markup := Microdown asPangoMarkupString: self text.
 
