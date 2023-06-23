@@ -282,9 +282,8 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 								                        replaceAllTabsWithSpacesForPango;
 						                        textWithStyle.
 
-					                (text asRSPangoShapeUsingFont:
-						                 LogicalFont fontconfigPharoMonospace)
-						                asCompositeShape ].
+					                text asRSPangoShapeUsingFont:
+						                LogicalFont fontconfigPharoMonospace ].
 
 				  isCommentedMessageSend ifTrue: [
 					  descriptor := descriptor

@@ -213,10 +213,6 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 			descShape := markup asRSPangoShapeUsingFont: shrinkedFont.
 
-			descShape := RSComposite new
-				             shapes: { descShape };
-				             yourself.
-
 			RSLocation new
 				above;
 				move: shape on: descShape ].

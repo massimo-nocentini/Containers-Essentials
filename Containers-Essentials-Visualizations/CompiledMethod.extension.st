@@ -60,9 +60,6 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker [
 		        textWithStyle.
 
 	codeShape := text asRSPangoShapeUsingFont: font.
-	codeShape := RSComposite new
-		             shapes: { codeShape };
-		             yourself.
 
 	shapeGroup := RSGroup new
 		              add: docStringShape;
