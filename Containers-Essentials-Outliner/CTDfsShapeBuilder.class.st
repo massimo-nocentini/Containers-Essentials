@@ -20,7 +20,8 @@ CTDfsShapeBuilder >> box: aValue [
 	^ self boxClass new
 		  model: aValue;
 		  color: Smalltalk ui theme backgroundColor;
-		  borderDo: [ :border | border color: border color translucent ];
+		  "borderDo: [ :border | border color: border color translucent ];"
+			  noBorder;
 		  cornerRadius: self radiusOrPadding;
 		  yourself
 ]
