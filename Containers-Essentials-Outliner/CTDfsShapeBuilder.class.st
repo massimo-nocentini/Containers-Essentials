@@ -28,7 +28,6 @@ CTDfsShapeBuilder >> box: aValue [
 
 { #category : #shapes }
 CTDfsShapeBuilder >> boxClass [
-
 	"This message is here to allow subclass to customize the style of boxes."
 
 	^ RSNote "or perhaps RSSimplerNote"
