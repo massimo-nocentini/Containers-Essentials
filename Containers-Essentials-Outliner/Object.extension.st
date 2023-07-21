@@ -116,3 +116,9 @@ Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
 ]
+
+{ #category : #'*Containers-Essentials-Outliner' }
+Object >> isObjectHolder [
+
+	^ false
+]

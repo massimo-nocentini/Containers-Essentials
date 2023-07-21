@@ -7,7 +7,7 @@ Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-Fraction >> asDefaultShapeForWalker: aWalker [
+Fraction >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	^ self asShapeNaturalRepresentation
 ]
@@ -48,13 +48,16 @@ Fraction >> asShapeNaturalRepresentation [
 
 	numeratorShape := RSComposite new
 		                  shapes:
-			                  { (self numerator asDefaultShapeForWalker: nil) };
+			                  { (self numerator
+				                   asDefaultShapeForWalker: nil
+				                   descriptor: nil) };
 		                  yourself.
 
 	denominatorShape := RSComposite new
 		                    shapes:
-			                    { (self denominator asDefaultShapeForWalker:
-					                     nil) };
+			                    { (self denominator
+				                     asDefaultShapeForWalker: nil
+				                     descriptor: nil) };
 		                    yourself.
 
 	shapeWithMaxWidth := numeratorShape width > denominatorShape width

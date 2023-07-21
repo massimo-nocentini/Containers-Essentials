@@ -2,7 +2,8 @@ Class {
 	#name : #CTNotebookKeyedValuedOrderedCollection,
 	#superclass : #CTKeyedValuedOrderedCollection,
 	#instVars : [
-		'codePresenter'
+		'codePresenter',
+		'shouldArrangeInTwoColumns'
 	],
 	#category : #'Containers-Essentials-Outliner-Presenters'
 }
@@ -11,6 +12,12 @@ Class {
 CTNotebookKeyedValuedOrderedCollection >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTNotebookKeyedValuedOrderedCollection: self
+]
+
+{ #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> arrangeInTwoColumns [
+
+	shouldArrangeInTwoColumns := true
 ]
 
 { #category : #accessing }
@@ -23,6 +30,14 @@ CTNotebookKeyedValuedOrderedCollection >> codePresenter [
 CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 
 	codePresenter := anObject
+]
+
+{ #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> initialize [
+
+	super initialize.
+
+	shouldArrangeInTwoColumns := false
 ]
 
 { #category : #evaluating }
@@ -55,14 +70,23 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 		value := astNode isCommentNode
 			         ifTrue: [ nil ]
 			         ifFalse: [
-				         codePresenter
-					         evaluate: astNode sourceCode
-					         onCompileError: [
-					         Error signal:
-						         'Logical inconsistency: RBParser cannot fail.' ]
-					         onError: [ :e |
-						         errorFree := false.
-						         evaluated add: astNode -> e ] ].
+				         | obj |
+				         obj := codePresenter
+					                evaluate: astNode sourceCode
+					                onCompileError: [
+					                Error signal:
+						                'Logical inconsistency: RBParser cannot fail.' ]
+					                onError: [ :e |
+						                errorFree := false.
+						                evaluated add: astNode -> e ].
+
+				         shouldArrangeInTwoColumns
+					         ifTrue: [
+						         CTDfsObjectHoder new
+							         object: obj;
+							         yourself ]
+					         ifFalse: [ obj ] ].
+
 
 		errorFree ifTrue: [ evaluated add: astNode -> value ] ]
 ]

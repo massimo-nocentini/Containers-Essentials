@@ -7,9 +7,11 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 ]
 
 { #category : #'*Containers-Essentials-Visualizations' }
-CompiledMethod >> asDefaultShapeForWalker: aWalker [
+CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| formattedCode pangoMicVisitor font text comments markup docStringShape codeShape shapeGroup defString yOffset |
+	descriptor leftAlignValueShapeWithinItsBox.
+
 	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
 	font := LogicalFont pangoMonospace.

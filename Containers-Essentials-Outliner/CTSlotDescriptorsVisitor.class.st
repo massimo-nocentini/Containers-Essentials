@@ -265,7 +265,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 				  isCommentedMessageSend
 					  ifTrue: [
 						  node := astNode receiver.
-						  o := anObject asDefaultShapeForWalker: nil ]
+						  o := anObject asDefaultShapeForWalker: nil descriptor: nil ]
 					  ifFalse: [
 						  node := astNode.
 						  o := anObject ].
@@ -568,7 +568,7 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 CTSlotDescriptorsVisitor >> visitPoint: aPoint [
 
 	^ (self visitObject: aPoint)
-	  , { (self newSlotDescriptorSelector: #π) }
+	  ", { (self newSlotDescriptorSelector: #π) }"
 ]
 
 { #category : #visiting }

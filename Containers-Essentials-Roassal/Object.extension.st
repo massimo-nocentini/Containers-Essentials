@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Roassal' }
-Object >> asDefaultShapeForWalker: aWalker [
+Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| markup font shape |
 	font := self isNumber

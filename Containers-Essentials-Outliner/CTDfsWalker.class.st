@@ -63,9 +63,9 @@ CTDfsWalker >> defaultShapeBlock: aBlock [
 ]
 
 { #category : #shapes }
-CTDfsWalker >> defaultShapeOf: object [
+CTDfsWalker >> defaultShapeOf: object descriptor: descriptor [
 
-	^ defaultShapeBlock value: object
+	^ defaultShapeBlock value: object value: descriptor
 ]
 
 { #category : #DFS }
@@ -209,7 +209,8 @@ CTDfsWalker >> initialize [
 		levels: Dictionary new;
 		slotDescriptorsVisitor: CTSlotDescriptorsVisitor new;
 		shapeBuilder: CTDfsShapeBuilder new;
-		defaultShapeBlock: [ :object | object asDefaultShapeForWalker: self ]
+		defaultShapeBlock: [ :object :descriptor |
+			object asDefaultShapeForWalker: self descriptor: descriptor ]
 ]
 
 { #category : #accessing }
@@ -414,7 +415,8 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 	| boolean |
 	boolean := level = maxLevel | anObject isImmediateObject
 	           | anObject isNil | anObject isSymbol | anObject isString
-	           | anObject isFraction | anObject isWolframExpression
+	           | anObject isFraction | anObject isCompiledMethod
+	           | anObject isWolframExpression | anObject isObjectHolder
 	           | (true = anObject) | (false = anObject)
 	           | (Float infinity = anObject)
 	           | (Float negativeInfinity = anObject).
@@ -465,7 +467,7 @@ CTDfsWalker >> synthesizing: data [
 		                ifEmpty: [ 
 		                quotedShapes
 			                at: object
-			                ifAbsent: [ self defaultShapeOf: object ] ]
+			                ifAbsent: [ self defaultShapeOf: object descriptor: data descriptor ] ]
 		                ifNotEmpty: [ RSComposite ghost: object ].
 
 	classShape := data descriptor header: defaultShape model walker: self.

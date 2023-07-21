@@ -9,14 +9,13 @@ Class {
 }
 
 { #category : #converting }
-CTNotebookComment >> asDefaultShapeForWalker: walker [
+CTNotebookComment >> asDefaultShapeForWalker: walker descriptor: descriptor [
 
 	| markup |
 	markup := Microdown asPangoMarkupString: self text.
 
 	^ '<span font_style="italic" font_size="smaller" foreground="gray">'
-	  , markup , '</span>' asRSPangoShapeUsingFont:
-		  LogicalFont pangoSans
+	  , markup , '</span>' asRSPangoShapeUsingFont: LogicalFont pangoSans
 ]
 
 { #category : #accessing }
