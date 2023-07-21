@@ -52,7 +52,9 @@ CTStNotebookPlayground class >> registerToolsOn: registry [
 { #category : #initialization }
 CTStNotebookPlayground >> initialize [
 
-	self notebook: CTNotebookKeyedValuedOrderedCollection new.
+	self notebook: (CTNotebookKeyedValuedOrderedCollection new
+			 arrangeInTwoColumns;
+			 yourself).
 
 	super initialize
 ]
