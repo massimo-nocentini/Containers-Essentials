@@ -4,7 +4,7 @@ Class {
 	#category : #'Containers-Essentials-Random'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RandomGeometric >> density: x [
 
 	^ 1 - p ** (x - 1) * p

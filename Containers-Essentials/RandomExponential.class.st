@@ -7,7 +7,7 @@ Class {
 	#category : #'Containers-Essentials-Random'
 }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : #accessing }
 RandomExponential >> density: x [
 
 	^ lambda * (lambda * x) negated exp

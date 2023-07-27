@@ -15,7 +15,7 @@ Class {
 	#category : #'Containers-Essentials-Random'
 }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : #accessing }
 RandomGaussian >> density: x [
 
 	^ densityMultiplier * ((x - mu / sigma) squared negated / 2) exp

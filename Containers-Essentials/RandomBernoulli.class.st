@@ -7,7 +7,7 @@ Class {
 	#category : #'Containers-Essentials-Random'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RandomBernoulli >> density: x [
 
 	^ p ** x * (1 - p ** (1 - x))

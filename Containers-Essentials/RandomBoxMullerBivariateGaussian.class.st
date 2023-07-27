@@ -26,7 +26,7 @@ RandomBoxMullerBivariateGaussian >> asShapeScatter [
 			   shapes)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 RandomBoxMullerBivariateGaussian >> density: x [
 
 	self shouldNotImplement
