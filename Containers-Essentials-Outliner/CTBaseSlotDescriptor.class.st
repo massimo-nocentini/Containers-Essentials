@@ -122,7 +122,8 @@ CTBaseSlotDescriptor >> initialize [
 
 	self
 		oneToOne;
-		headerWithAllSuperclasses;
+"		headerWithAllSuperclasses;"
+		headerWithClass;
 		inlinePredicate: [ :level :default | default ];
 		enablePredicate: [ :level | true ];
 		postpone: false;
