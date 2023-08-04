@@ -55,8 +55,8 @@ CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 	^ node selector = #title:
 		  ifTrue: [
 			  CTDFSRBComment withString:
-				  '<span font_size="50pt">' , node arguments first value
-				  , '</span>' ]
+				  '{{<span font_family="Source Sans Pro"  font_size="50pt" variant="small-caps">}}'
+				  , node arguments first value , '{{</span>}}' ]
 		  ifFalse: [
 			  node selector = #hide:because:
 				  ifTrue: [ node arguments first body ]
