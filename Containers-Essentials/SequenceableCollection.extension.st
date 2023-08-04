@@ -3,7 +3,7 @@ Extension { #name : #SequenceableCollection }
 { #category : #'*Containers-Essentials' }
 SequenceableCollection >> allButFirstAndLast [
 
-	^ self copyFrom: 2 to: self size - 1
+	^ self ifNotEmpty: [ self copyFrom: 2 to: self size - 1 ]
 ]
 
 { #category : #'*Containers-Essentials' }

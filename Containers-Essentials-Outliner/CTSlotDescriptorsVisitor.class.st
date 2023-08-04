@@ -257,21 +257,16 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					  leftAlignValueShapeWithinItsBox;
 					  quote ]
 			  ifFalse: [
-				  | descriptor node isCommentedMessageSend o |
-				  isCommentedMessageSend := astNode isMessage and: [
-					                            astNode selector
-					                            = #ignoreOutputBecause: ].
+				  | descriptor isCommentedMessageSend o |
+				  isCommentedMessageSend := anObject isNotebookHideReason.
 
-				  isCommentedMessageSend
-					  ifTrue: [
-						  node := astNode receiver.
-						  o := anObject asDefaultShapeForWalker: nil descriptor: nil ]
-					  ifFalse: [
-						  node := astNode.
-						  o := anObject ].
+				  o := isCommentedMessageSend
+					       ifTrue: [
+					       anObject asDefaultShapeForWalker: nil descriptor: nil ]
+					       ifFalse: [ anObject ].
 
 				  descriptor := self
-					                newSlotDescriptorString: node formattedCode
+					                newSlotDescriptorString: astNode formattedCode
 					                constant: o.
 
 				  descriptor := descriptor varShapeBlock: [ :obj :walker :selector |

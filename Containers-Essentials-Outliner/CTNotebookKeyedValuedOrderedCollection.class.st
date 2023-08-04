@@ -3,7 +3,7 @@ Class {
 	#superclass : #CTKeyedValuedOrderedCollection,
 	#instVars : [
 		'codePresenter',
-		'shouldArrangeInTwoColumns'
+		'title'
 	],
 	#category : #'Containers-Essentials-Outliner-Presenters'
 }
@@ -12,12 +12,6 @@ Class {
 CTNotebookKeyedValuedOrderedCollection >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTNotebookKeyedValuedOrderedCollection: self
-]
-
-{ #category : #'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> arrangeInTwoColumns [
-
-	shouldArrangeInTwoColumns := true
 ]
 
 { #category : #accessing }
@@ -33,17 +27,49 @@ CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 ]
 
 { #category : #'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> initialize [
+CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 
-	super initialize.
+	^ CTNotebookComment new
+		  topic: block value;
+		  text: reason;
+		  yourself
+]
 
-	shouldArrangeInTwoColumns := false
+{ #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> outside: block [
+
+	^ CTDfsObjectHoder new
+		  object: block value;
+		  yourself
+]
+
+{ #category : #accessing }
+CTNotebookKeyedValuedOrderedCollection >> title: anObject [
+
+	title := anObject
+]
+
+{ #category : #evaluating }
+CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
+
+	^ node selector = #title:
+		  ifTrue: [
+			  CTDFSRBComment withString:
+				  '<span font_size="50pt">' , node arguments first value
+				  , '</span>' ]
+		  ifFalse: [
+			  node selector = #hide:because:
+				  ifTrue: [ node arguments first body ]
+				  ifFalse: [
+					  node selector = #outside:
+						  ifTrue: [ node arguments first body ]
+						  ifFalse: [ nil ] ] ]
 ]
 
 { #category : #evaluating }
 CTNotebookKeyedValuedOrderedCollection >> value [
 
-	| evaluated ast errorFree statements astNodes |
+	| evaluated ast errorFree statements astNodes astNodesRewritten |
 	evaluated := OrderedCollection new.
 
 	self
@@ -65,7 +91,12 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 		addAll: statements;
 		addAll: ast allComments.
 
-	astNodes do: [ :astNode |
+	astNodesRewritten := astNodes
+		                     collect: [ :each |
+		                     each translateForNotebook: self ]
+		                     as: Array.
+
+	astNodes with: astNodesRewritten do: [ :astNode :astNodeRewritten |
 		| value |
 		value := astNode isCommentNode
 			         ifTrue: [ nil ]
@@ -80,13 +111,17 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 						                errorFree := false.
 						                evaluated add: astNode -> e ].
 
-				         shouldArrangeInTwoColumns
-					         ifTrue: [
-						         CTDfsObjectHoder new
-							         object: obj;
-							         yourself ]
-					         ifFalse: [ obj ] ].
+				         obj isObjectHolder
+					         ifTrue: [ obj object ]
+					         ifFalse: [
+						         obj isNotebookHideReason
+							         ifTrue: [ obj ]
+							         ifFalse: [
+								         CTDfsObjectHoder new
+									         object: obj;
+									         yourself ] ] ].
 
 
-		errorFree ifTrue: [ evaluated add: astNode -> value ] ]
+		(errorFree and: [ astNodeRewritten isNotNil ]) ifTrue: [
+			evaluated add: astNodeRewritten -> value ] ]
 ]

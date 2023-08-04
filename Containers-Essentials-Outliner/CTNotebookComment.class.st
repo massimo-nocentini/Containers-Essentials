@@ -18,6 +18,12 @@ CTNotebookComment >> asDefaultShapeForWalker: walker descriptor: descriptor [
 	  , markup , '</span>' asRSPangoShapeUsingFont: LogicalFont pangoSans
 ]
 
+{ #category : #testing }
+CTNotebookComment >> isNotebookHideReason [
+
+	^ true
+]
+
 { #category : #accessing }
 CTNotebookComment >> text [
 

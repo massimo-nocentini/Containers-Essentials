@@ -417,8 +417,8 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 	           | anObject isNil | anObject isSymbol | anObject isString
 	           | anObject isFraction | anObject isCompiledMethod
 	           | anObject isWolframExpression | anObject isObjectHolder
-	           | (true = anObject) | (false = anObject)
-	           | (Float infinity = anObject)
+	           | anObject isNotebookHideReason | (true = anObject)
+	           | (false = anObject) | (Float infinity = anObject)
 	           | (Float negativeInfinity = anObject).
 
 	^ descriptor inline: anObject level: level default: boolean

@@ -1,15 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*Containers-Essentials-Outliner' }
-Object >> ignoreOutputBecause: aString [
-
-	^ CTNotebookComment new
-		  topic: self;
-		  text: aString;
-		  yourself
-]
-
-{ #category : #'*Containers-Essentials-Outliner' }
 Object >> inspectorCanvasSlotsGraph [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
@@ -115,6 +106,12 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 Object >> inspectorCanvasSlotsGraphTopologicallySortedContext: aContext [
 
 	aContext withoutEvaluator
+]
+
+{ #category : #'*Containers-Essentials-Outliner' }
+Object >> isNotebookHideReason [
+
+	^ false
 ]
 
 { #category : #'*Containers-Essentials-Outliner' }
