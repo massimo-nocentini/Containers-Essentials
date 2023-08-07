@@ -52,18 +52,18 @@ CTNotebookKeyedValuedOrderedCollection >> title: anObject [
 { #category : #evaluating }
 CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 
-	^ node selector = #title:
+	| selector |
+	selector := node selector.
+
+	^ selector = #title:
 		  ifTrue: [
 			  CTDFSRBComment withString:
 				  '{{<span font_family="Source Sans Pro"  font_size="50pt" variant="small-caps">}}'
 				  , node arguments first value , '{{</span>}}' ]
 		  ifFalse: [
-			  node selector = #hide:because:
+			  selector = #hide:because: | (selector = #outside:)
 				  ifTrue: [ node arguments first body ]
-				  ifFalse: [
-					  node selector = #outside:
-						  ifTrue: [ node arguments first body ]
-						  ifFalse: [ nil ] ] ]
+				  ifFalse: [ nil ] ]
 ]
 
 { #category : #evaluating }
