@@ -26,9 +26,17 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			             << '">';
 			             << self methodClassName;
 			             << '</span>';
-			             << '</b>, protocol <i><u>';
-			             << self protocol name;
-			             << '</u></i>.</span>' ].
+			             << '</b>, protocol <i><u>'.
+
+		             self protocol isUnclassifiedProtocol ifTrue: [
+			             stream << '<span foreground="red">' ].
+
+		             stream << self protocol name.
+
+		             self protocol isUnclassifiedProtocol ifTrue: [
+			             stream << '</span>' ].
+
+		             stream << '</u></i>.</span>' ].
 
 	comments := OrderedCollection new.
 
