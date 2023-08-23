@@ -41,6 +41,15 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock
 ]
 
 { #category : #utilities }
+TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: selector [
+
+	^ self
+		  export: anObject
+		  pathSuffix: aFilename
+		  onCanvasDo: [ :canvas :obj | obj perform: selector with: canvas ]
+]
+
+{ #category : #utilities }
 TIceImagesExporting >> exportCompiledMethod: aCompiledMethod [
 
 	^ self
