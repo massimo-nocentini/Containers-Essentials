@@ -212,7 +212,7 @@ CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollectio
 { #category : #visiting }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
-	| pangoMicVisitor codePresenter auxiliaryOrderedLabelLanguageAssociations |
+	| pangoMicVisitor codePresenter |
 	codePresenter := SpCodePresenter new
 		                 beForScripting;
 		                 yourself.
@@ -222,17 +222,12 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		associationsDo: [ :binding |
 		codePresenter interactionModel addBinding: binding ].
 
-	auxiliaryOrderedLabelLanguageAssociations := OrderedCollection new.
-
-	pangoMicVisitor := PangoMarkupMicrodownVisitor new
-		                   auxiliaryOrderedLabelLanguageAssociations:
-			                   auxiliaryOrderedLabelLanguageAssociations;
-		                   yourself.
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
 			  ifTrue: [
-				  | pango markup font mic sourceCode |
+				  | font mic sourceCode composite |
 				  font := LogicalFont pangoSerif.
 
 				  sourceCode := astNode sourceCode allButFirstAndLast trim
@@ -241,18 +236,11 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 
 				  mic := Microdown parse: sourceCode.
 
-				  markup := pangoMicVisitor visit: mic.
+				  pangoMicVisitor visit: mic.
 
-				  pango := RSPangoMarkup new
-					           font: font;
-					           auxiliaryOrderedLabelLanguageAssociations:
-						           auxiliaryOrderedLabelLanguageAssociations;
-					           markup: markup;
-					           yourself.
+				  composite := pangoMicVisitor asRSPangoShapeUsingFont: font.
 
-				  auxiliaryOrderedLabelLanguageAssociations removeAll. "Clean up possible auxiliary attr specs."
-
-				  (self newSlotDescriptorString: '' constant: pango)
+				  (self newSlotDescriptorString: '' constant: composite)
 					  inline;
 					  leftAlignValueShapeWithinItsBox;
 					  quote ]

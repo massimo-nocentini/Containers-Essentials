@@ -9,11 +9,8 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : #'*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| formattedCode pangoMicVisitor font text comments markup docStringShape codeShape shapeGroup defString yOffset |
+	| formattedCode font text comments markup docStringShape codeShape shapeGroup defString yOffset |
 	descriptor leftAlignValueShapeWithinItsBox.
-
-	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
-
 	font := LogicalFont pangoMonospace.
 
 	defString := String streamContents: [ :stream |
@@ -55,7 +52,9 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		          mic := Microdown parse:
 			                 (String cr , String cr join: comments).
 
-		          commentsMarkup := pangoMicVisitor visit: mic.
+		          commentsMarkup := PangoMarkupMicrodownVisitor new
+			                            visit: mic;
+			                            pangoMarkup.
 
 		          String cr , String cr , commentsMarkup ].
 
