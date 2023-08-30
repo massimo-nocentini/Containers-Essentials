@@ -31,14 +31,17 @@ CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 { #category : #'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
 
+	| size |
+	size := self liblua lua_gettop: luaState.
+
 	^ (self liblua luaL_dostring: luaState chunk: chunk)
 	  = self liblua LUA_OK
 		  ifTrue: [
-			  | array n |
-			  n := self liblua lua_gettop: luaState.
-			  array := Array new: n.
-			  1 to: n do: [ :i |
-			  array at: i put: (self liblua on: luaState at: i) ].
+			  | array newElementsSize |
+			  newElementsSize := (self liblua lua_gettop: luaState) - size.
+			  array := Array new: newElementsSize.
+			  1 to: newElementsSize do: [ :i |
+			  array at: i put: (self liblua on: luaState at: size + i) ].
 			  array ]
 		  ifFalse: [ self liblua on: luaState at: -1 ]
 ]
@@ -93,7 +96,9 @@ CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 		ifNotNil: [
 		luaState isNull ifFalse: [ self liblua lua_close: luaState ] ].
 
-	luaState := self liblua luaL_newstate
+	luaState := self liblua luaL_newstate.
+
+	self liblua luaL_openlibs: luaState
 ]
 
 { #category : #accessing }

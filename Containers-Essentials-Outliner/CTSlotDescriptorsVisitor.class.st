@@ -253,20 +253,12 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 					       anObject asDefaultShapeForWalker: nil descriptor: nil ]
 					       ifFalse: [ anObject ].
 
-				  descriptor := self
-					                newSlotDescriptorString: astNode formattedCode
-					                constant: o.
+				  descriptor := self newSlotDescriptorString: astNode constant: o. "formattedCode"
 
 				  descriptor := descriptor varShapeBlock: [ :obj :walker :selector |
-					                | text |
-					                text := codePresenter
-						                        text:
-							                        selector fixEmptyLinesForPango
-								                        replaceAllTabsWithSpacesForPango;
-						                        textWithStyle.
-
-					                text asRSPangoShapeUsingFont:
-						                LogicalFont pangoMonospace ].
+					                selector
+						                asVarShapeUsingPresenter: codePresenter
+						                clientSlotDescriptorVisitor: self ].
 
 				  isCommentedMessageSend ifTrue: [
 					  descriptor := descriptor
