@@ -60,6 +60,8 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 
 	super initialize.
 
+	self refreshExternalKernels.
+
 	switch := SmallDictionary new
 		          at: #title: put: [ :node |
 			          CTDFSRBComment withString:
