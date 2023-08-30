@@ -25,6 +25,8 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 
 		binding := codePresenter interactionModel bindingOf: #thisNotebook.
 
+		binding value refreshExternalKernels.
+
 		notebook := binding value
 			            codePresenter: codePresenter;
 			            value;

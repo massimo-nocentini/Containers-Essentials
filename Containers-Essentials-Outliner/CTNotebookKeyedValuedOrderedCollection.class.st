@@ -3,7 +3,9 @@ Class {
 	#superclass : #CTKeyedValuedOrderedCollection,
 	#instVars : [
 		'codePresenter',
-		'title'
+		'title',
+		'luaState',
+		'switch'
 	],
 	#category : #'Containers-Essentials-Outliner-Presenters'
 }
@@ -27,6 +29,21 @@ CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 ]
 
 { #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
+
+	^ (self liblua luaL_dostring: luaState chunk: chunk)
+	  = self liblua LUA_OK
+		  ifTrue: [
+			  | array n |
+			  n := self liblua lua_gettop: luaState.
+			  array := Array new: n.
+			  1 to: n do: [ :i |
+			  array at: i put: (self liblua on: luaState at: i) ].
+			  array ]
+		  ifFalse: [ self liblua on: luaState at: -1 ]
+]
+
+{ #category : #'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 
 	^ CTNotebookComment new
@@ -35,12 +52,48 @@ CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 		  yourself
 ]
 
+{ #category : #initialization }
+CTNotebookKeyedValuedOrderedCollection >> initialize [
+
+	super initialize.
+
+	switch := SmallDictionary new
+		          at: #title: put: [ :node |
+			          CTDFSRBComment withString:
+					          '{{<span font_family="Source Sans Pro"  font_size="50pt" variant="small-caps">}}'
+					          , node arguments first value , '{{</span>}}' ];
+		          at: #hide:because:
+		          put: [ :node | node arguments first body ];
+		          at: #outside: put: [ :node | node arguments first body ];
+		          at: #doLuaChunk:
+		          put: [ :node |
+			          RBLuaLiteralValueNode value: node arguments first value ];
+		          yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> liblua [
+
+	^ LibLua uniqueInstance
+]
+
 { #category : #'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> outside: block [
 
 	^ CTDfsObjectHoder new
 		  object: block value;
 		  yourself
+]
+
+{ #category : #'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
+
+	luaState
+		ifNil: [ luaState := ExternalAddress null ]
+		ifNotNil: [
+		luaState isNull ifFalse: [ self liblua lua_close: luaState ] ].
+
+	luaState := self liblua luaL_newstate
 ]
 
 { #category : #accessing }
@@ -52,18 +105,10 @@ CTNotebookKeyedValuedOrderedCollection >> title: anObject [
 { #category : #evaluating }
 CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 
-	| selector |
-	selector := node selector.
-
-	^ selector = #title:
-		  ifTrue: [
-			  CTDFSRBComment withString:
-				  '{{<span font_family="Source Sans Pro"  font_size="50pt" variant="small-caps">}}'
-				  , node arguments first value , '{{</span>}}' ]
-		  ifFalse: [
-			  selector = #hide:because: | (selector = #outside:)
-				  ifTrue: [ node arguments first body ]
-				  ifFalse: [ nil ] ]
+	^ switch
+		  at: node selector
+		  ifPresent: [ :valuable | valuable value: node ]
+		  ifAbsent: [ nil ]
 ]
 
 { #category : #evaluating }
