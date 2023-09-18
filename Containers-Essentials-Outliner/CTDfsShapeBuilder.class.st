@@ -2,8 +2,8 @@
 I provide basic shape constructors to be assembled in an outliner shape.
 "
 Class {
-	#name : #CTDfsShapeBuilder,
-	#superclass : #Object,
+	#name : 'CTDfsShapeBuilder',
+	#superclass : 'Object',
 	#instVars : [
 		'metaColor',
 		'metaFontSize',
@@ -11,10 +11,12 @@ Class {
 		'prototypeLabel',
 		'goldenRatios'
 	],
-	#category : #'Containers-Essentials-Outliner-Roassal'
+	#category : 'Containers-Essentials-Outliner-Roassal',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Roassal'
 }
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> box: aValue [
 
 	^ self boxClass new
@@ -26,14 +28,14 @@ CTDfsShapeBuilder >> box: aValue [
 		  yourself
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> boxClass [
 	"This message is here to allow subclass to customize the style of boxes."
 
 	^ RSNote "or perhaps RSSimplerNote"
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: data [
 
 	| shapes boxedCompositeShape compositeShape classLabel padding boxWidth varWidth µ π slotWidth location xMax |
@@ -167,7 +169,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsShapeBuilder >> initialize [
 
 	super initialize.
@@ -180,7 +182,7 @@ CTDfsShapeBuilder >> initialize [
 			 yourself)
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> label: anObject var: var [
 
 	| pangoVar shape descShape font |
@@ -235,7 +237,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 		  c ]
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> labelForClass: aClass [
 
 	^ RSLabel new
@@ -247,13 +249,13 @@ CTDfsShapeBuilder >> labelForClass: aClass [
 			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsShapeBuilder >> metaExtent [
 
 	^ metaExtent
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> multilineLabel: aString model: anObject [
 
 	^ (aString asShapeMultilineLabel: prototypeLabel)
@@ -261,7 +263,7 @@ CTDfsShapeBuilder >> multilineLabel: aString model: anObject [
 		  yourself
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> outline: anObject [
 
 	^ RSComposite new
@@ -269,7 +271,7 @@ CTDfsShapeBuilder >> outline: anObject [
 		  yourself
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsShapeBuilder >> pad: aShape [
 
 	^ RSComposite new
@@ -278,7 +280,7 @@ CTDfsShapeBuilder >> pad: aShape [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsShapeBuilder >> prototypeLabel: aLabel [
 
 	(prototypeLabel := aLabel) copy in: [ :aShape | 
@@ -288,7 +290,7 @@ CTDfsShapeBuilder >> prototypeLabel: aLabel [
 		metaFontSize := aShape fontSize * Float silverRatio ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsShapeBuilder >> radiusOrPadding [
 
 	^ Float goldenPlatinumRatio

@@ -2,8 +2,8 @@
 I am a variant that shows a tree of strongly connected components and, by double-click, I expand the clicked one.
 "
 Class {
-	#name : #CTCollapsedSccDfsPainter,
-	#superclass : #CTBaseSccDfsPainter,
+	#name : 'CTCollapsedSccDfsPainter',
+	#superclass : 'CTBaseSccDfsPainter',
 	#instVars : [
 		'associations',
 		'outgoingEdges',
@@ -11,10 +11,12 @@ Class {
 		'treeEdgeBuilder',
 		'layoutLineBuilder'
 	],
-	#category : #'Containers-Essentials-Outliner-Painters'
+	#category : 'Containers-Essentials-Outliner-Painters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Painters'
 }
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	| tuples |
@@ -25,7 +27,7 @@ CTCollapsedSccDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 	^ super backTuples: tuples lineBuilder: lineBuilder
 ]
 
-{ #category : #'control points controller' }
+{ #category : 'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 
 	^ RSStartEndCPAPController new
@@ -35,7 +37,7 @@ CTCollapsedSccDfsPainter >> cpapControllerBezierDirected [
 		  yourself
 ]
 
-{ #category : #'control points controller' }
+{ #category : 'control points controller' }
 CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 
 	^ RSStartEndCPAPController new
@@ -45,7 +47,7 @@ CTCollapsedSccDfsPainter >> cpapControllerHorizontal [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	| tuples crossEdges |
@@ -65,7 +67,7 @@ CTCollapsedSccDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 		  yourself
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTCollapsedSccDfsPainter >> dfsWalk: anObject [
 
 	| aCollection |
@@ -149,7 +151,7 @@ CTCollapsedSccDfsPainter >> dfsWalk: anObject [
 			  yourself: [ :aCircle | shapeBySCC at: aSCC put: aCircle ] ]
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	^ lineBuilder
@@ -157,7 +159,7 @@ CTCollapsedSccDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 		  to: aTuple propertyToShape
 ]
 
-{ #category : #decorating }
+{ #category : 'decorating' }
 CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 
 	| toSCCShape fromSCCShape |
@@ -172,7 +174,7 @@ CTCollapsedSccDfsPainter >> fixFromToShapesOfTuple: aTuple [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ super
@@ -180,7 +182,7 @@ CTCollapsedSccDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilde
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 
 	layoutLineBuilder := lineBuilder.
@@ -189,7 +191,7 @@ CTCollapsedSccDfsPainter >> layoutTuples: aCollection lineBuilder: lineBuilder [
 		  lineBuilder: lineBuilder
 ]
 
-{ #category : #decorating }
+{ #category : 'decorating' }
 CTCollapsedSccDfsPainter >> liftTuples: tuples [
 
 	^ tuples
@@ -197,7 +199,7 @@ CTCollapsedSccDfsPainter >> liftTuples: tuples [
 		  thenReject: [ :r | r propertyFromShape == r propertyToShape ]
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTCollapsedSccDfsPainter >> treeTuples: aCollection lineBuilder: lineBuilder [
 
 	treeTuples := aCollection.

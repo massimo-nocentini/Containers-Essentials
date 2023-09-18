@@ -2,8 +2,8 @@
 I am able to compose the final tree representation of outliners provided by `CTDfsVisitWalker`.
 "
 Class {
-	#name : #CTDfsPainter,
-	#superclass : #Object,
+	#name : 'CTDfsPainter',
+	#superclass : 'Object',
 	#instVars : [
 		'fromShapes',
 		'toShapes',
@@ -14,10 +14,12 @@ Class {
 		'layout',
 		'skipBoxes'
 	],
-	#category : #'Containers-Essentials-Outliner-Painters'
+	#category : 'Containers-Essentials-Outliner-Painters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Painters'
 }
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> backLinesBuilder [
 
 	| color |
@@ -40,14 +42,14 @@ CTDfsPainter >> backLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> backTuples: backTuples lineBuilder: lineBuilder [
 
 	^ backTuples collect: [ :aTuple |
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> crossLinesBuilder [
 
 	| color |
@@ -70,14 +72,14 @@ CTDfsPainter >> crossLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> crossTuples: crossTuples lineBuilder: lineBuilder [
 
 	^ crossTuples collect: [ :aTuple |
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsPainter >> dfsWalk: anObject [
 
 	| aShape |
@@ -94,13 +96,13 @@ CTDfsPainter >> dfsWalk: anObject [
 	^ toShapes values
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsPainter >> dfsWalker: aWalker [
 
 	dfsWalker := aWalker
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 
 	| fromShape toShape |
@@ -115,7 +117,7 @@ CTDfsPainter >> edgeForTuple: aTuple lineBuilder: lineBuilder [
 	^ lineBuilder edgeFrom: fromShape to: toShape
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> forwardLinesBuilder [
 
 	| color |
@@ -137,14 +139,14 @@ CTDfsPainter >> forwardLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> forwardTuples: forwardTuples lineBuilder: lineBuilder [
 
 	^ forwardTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #mapping }
+{ #category : 'mapping' }
 CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: fBlock ifBack: bBlock ifCross: cBlock ifPost: pBlock [
 
 	^ fromShape == toShape
@@ -172,7 +174,7 @@ CTDfsPainter >> fromShape: fromShape toShape: toShape ifTree: tBlock ifForward: 
 								  ifFalse: pBlock ] ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsPainter >> initialize [
 
 	super initialize.
@@ -183,25 +185,25 @@ CTDfsPainter >> initialize [
 		RSHorizontalWithChildrenSizeDepthsVanDerPloegTreeLayout new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsPainter >> layout: aLayout [
 
 	layout := aLayout
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> layoutLinesBuilder [
 
 	^ RSLineBuilder line
 ]
 
-{ #category : #layouting }
+{ #category : 'layouting' }
 CTDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	layout on: aCollectionOfShapes edges: aCollectionOfLines
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	| layoutAssociations |
@@ -222,13 +224,13 @@ CTDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 		  lineBuilder edgeFrom: anAssoc key to: anAssoc value ]
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> newTreeLine [
 
 	^ RSLineBuilder horizontalDeCasteljauSegmentedLine "Or horizontalSegmentedBezierLine"
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> postLinesBuilder [
 
 	| color |
@@ -251,7 +253,7 @@ CTDfsPainter >> postLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> postSharingLinesBuilder [
 
 	| color |
@@ -274,7 +276,7 @@ CTDfsPainter >> postSharingLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 
 	^ postTuples collect: [ :aTuple |
@@ -302,7 +304,7 @@ CTDfsPainter >> postTuples: postTuples lineBuilder: lineBuilder [
 			  ifAbsent: [ self edgeForTuple: aTuple lineBuilder: lineBuilder ] ]
 ]
 
-{ #category : #iterating }
+{ #category : 'iterating' }
 CTDfsPainter >> sortedFromShapes [
 
 	^ fromShapes associations sorted: [ :anAssoc :anotherAssoc |
@@ -315,7 +317,7 @@ CTDfsPainter >> sortedFromShapes [
 		  aTime < anotherTime ]
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTDfsPainter >> treeLinesBuilder [
 
 	| color |
@@ -339,14 +341,14 @@ CTDfsPainter >> treeLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTDfsPainter >> treeTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ treeTuples collect: [ :aTuple | 
 		  self edgeForTuple: aTuple lineBuilder: lineBuilder ]
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTDfsPainter >> value: anObject [
 
 	| edgesForLayout |
@@ -385,7 +387,7 @@ CTDfsPainter >> value: anObject [
 		  yourself
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 CTDfsPainter >> withDfsEdgesDo: recvBlock [
 
 	| treeAssociations forwardAssociations backAssociations crossAssociations postAssociations |

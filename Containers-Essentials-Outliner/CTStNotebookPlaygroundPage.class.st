@@ -1,10 +1,12 @@
 Class {
-	#name : #CTStNotebookPlaygroundPage,
-	#superclass : #StPlaygroundPage,
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#name : 'CTStNotebookPlaygroundPage',
+	#superclass : 'StPlaygroundPage',
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #'inspector compatibility' }
+{ #category : 'inspector compatibility' }
 CTStNotebookPlaygroundPage >> defaultObjectInspectorClass [
 
 	^ CTStNotebookPlaygroundPagePresenter

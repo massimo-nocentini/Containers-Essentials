@@ -2,12 +2,14 @@
 I am a variant that layout the outline shapes in a vertical line acording to the topological order among them.
 "
 Class {
-	#name : #CTTopologicalSortDfsPainter,
-	#superclass : #CTDfsPainter,
-	#category : #'Containers-Essentials-Outliner-Painters'
+	#name : 'CTTopologicalSortDfsPainter',
+	#superclass : 'CTDfsPainter',
+	#category : 'Containers-Essentials-Outliner-Painters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Painters'
 }
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTTopologicalSortDfsPainter >> backLinesBuilder [
 
 	| color |
@@ -30,7 +32,7 @@ CTTopologicalSortDfsPainter >> backLinesBuilder [
 		  yourself
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTTopologicalSortDfsPainter >> crossLinesBuilder [
 
 	| color |
@@ -53,14 +55,14 @@ CTTopologicalSortDfsPainter >> crossLinesBuilder [
 		  yourself
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTTopologicalSortDfsPainter >> dfsWalk: anObject [
 
 	^ (super dfsWalk: anObject) sorted: [ :aShape :anotherShape | 
 		  aShape propertyDfsLeaveTime > anotherShape propertyDfsLeaveTime ]
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 
 	| color |
@@ -82,7 +84,7 @@ CTTopologicalSortDfsPainter >> forwardLinesBuilder [
 		  yourself
 ]
 
-{ #category : #layouting }
+{ #category : 'layouting' }
 CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSVerticalLineLayout new
@@ -90,13 +92,13 @@ CTTopologicalSortDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionO
 		applyOn: aCollectionOfShapes
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTTopologicalSortDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ {  }
 ]
 
-{ #category : #'line building' }
+{ #category : 'line building' }
 CTTopologicalSortDfsPainter >> treeLinesBuilder [
 
 	| color |

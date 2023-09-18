@@ -1,1 +1,1 @@
-Package { #name : #'Containers-Essentials-Outliner' }
+Package { #name : 'Containers-Essentials-Outliner' }

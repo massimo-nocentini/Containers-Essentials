@@ -20,8 +20,8 @@ The entry point of the computation is `CTDfsWalker>>#value:`
 - defaultShapeBlock
 "
 Class {
-	#name : #CTDfsWalker,
-	#superclass : #Object,
+	#name : 'CTDfsWalker',
+	#superclass : 'Object',
 	#instVars : [
 		'toShapes',
 		'fromShapes',
@@ -40,35 +40,37 @@ Class {
 		'rootWitness',
 		'oneToManyMap'
 	],
-	#category : #'Containers-Essentials-Outliner-Walkers'
+	#category : 'Containers-Essentials-Outliner-Walkers',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Walkers'
 }
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
 	aShape addInteraction: RSDraggable new
 	"aDescriptor addPopupInteractionOnShape: wholeShape"
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsWalker >> addQuotedShape: shape model: value [
 
 	quotedShapes at: value put: shape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> defaultShapeBlock: aBlock [
 
 	defaultShapeBlock := aBlock
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsWalker >> defaultShapeOf: object descriptor: descriptor [
 
 	^ defaultShapeBlock value: object value: descriptor
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent [
 
 	| shape descriptors |
@@ -85,7 +87,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		  shape: shape
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent exploringDescriptors: descriptors shape: shape [
 
 	| data |
@@ -108,7 +110,7 @@ CTDfsWalker >> descriptor: descriptor object: object level: level parent: parent
 		  synthesizing: data
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> entering: data [
 
 	| s l p m |
@@ -140,7 +142,7 @@ CTDfsWalker >> entering: data [
 	self addInteractionsUsingSlotDescriptor: data descriptor onShape: s
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> exiting: data [
 
 	self incrementDfsClock.
@@ -149,19 +151,19 @@ CTDfsWalker >> exiting: data [
 		data shape propertyDfsEntryTime @ dfsClock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> fromShapes: anObject [
 
 	fromShapes := anObject
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentShape [
 
 	
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 
 	descriptor
@@ -179,13 +181,13 @@ CTDfsWalker >> hasntBeenVisited: child descriptor: descriptor data: data [
 				(data hasOutgoings or: [ toShapes includesKey: child ]) ]
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> incrementDfsClock [
 
 	dfsClock := dfsClock + 1
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsWalker >> initialize [
 
 	super initialize.
@@ -213,31 +215,31 @@ CTDfsWalker >> initialize [
 			object asDefaultShapeForWalker: self descriptor: descriptor ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> levels: aDictionary [
 
 	levels := aDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> maxLevel: anObject [
 
 	maxLevel := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> oneToManyAt: aBoxShape [
 
 	^ oneToManyMap at: aBoxShape ifAbsent: [ aBoxShape ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> parentsOf: anObject [
 
 	^ parents at: anObject
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 CTDfsWalker >> postCopy [
 
 	super postCopy.
@@ -258,7 +260,7 @@ CTDfsWalker >> postCopy [
 		toShapes: toShapes class new
 ]
 
-{ #category : #dispatched }
+{ #category : 'dispatched' }
 CTDfsWalker >> postponedBlockClosure: block backToBlock: backBlock child: child data: data descriptor: descriptor [
 
 	postponedObjects
@@ -266,20 +268,20 @@ CTDfsWalker >> postponedBlockClosure: block backToBlock: backBlock child: child 
 		put: (backBlock value: self) -> (block value: child)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> postponedObjects [
 
 	^ postponedObjects
 ]
 
-{ #category : #dispatched }
+{ #category : 'dispatched' }
 CTDfsWalker >> postponedTrue: post child: child data: data descriptor: descriptor [
 	"Simply do nothing, proceed as usual delegating to the painter the job of connecting boxes."
 
 	
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> recurring: data [
 
 	| parent objectOutlinerShape l |
@@ -397,19 +399,19 @@ CTDfsWalker >> recurring: data [
 			walker: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> shapeBuilder [
 
 	^ shapeBuilder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> shapeBuilder: aShapeBuilder [
 
 	shapeBuilder := aShapeBuilder
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 
 	| boolean |
@@ -424,7 +426,7 @@ CTDfsWalker >> shouldInline: anObject descriptor: descriptor level: level [
 	^ descriptor inline: anObject level: level default: boolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> shouldSkip: value [
 
 	^ (skipNils and: [ value isNil ]) or: [
@@ -433,31 +435,31 @@ CTDfsWalker >> shouldSkip: value [
 				  value isCollection and: [ value isEmpty ] ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> skipBacks: aBoolean [
 
 	skipBacks := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> skipEmptyCollections: aBoolean [
 
 	skipEmptyCollections := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> skipNils: aBoolean [
 
 	skipNils := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> slotDescriptorsVisitor: aBlock [
 
 	slotDescriptorsVisitor := aBlock
 ]
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsWalker >> synthesizing: data [
 
 	| defaultShape classShape object |
@@ -478,13 +480,13 @@ CTDfsWalker >> synthesizing: data [
 		  data: data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalker >> toShapes: anObject [
 
 	toShapes := anObject
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTDfsWalker >> value: object [
 
 	^ self

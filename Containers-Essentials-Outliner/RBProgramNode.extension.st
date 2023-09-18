@@ -1,6 +1,6 @@
-Extension { #name : #RBProgramNode }
+Extension { #name : 'RBProgramNode' }
 
-{ #category : #'*Containers-Essentials-Outliner' }
+{ #category : '*Containers-Essentials-Outliner' }
 RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
 
 	| text |
@@ -12,7 +12,7 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 	^ text asRSPangoShapeUsingFont: LogicalFont pangoMonospace
 ]
 
-{ #category : #'*Containers-Essentials-Outliner' }
+{ #category : '*Containers-Essentials-Outliner' }
 RBProgramNode >> translateForNotebook: notebook [
 
 	^ self

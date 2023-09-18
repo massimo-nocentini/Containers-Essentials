@@ -1,26 +1,28 @@
 Class {
-	#name : #CTStNotebookPlayground,
-	#superclass : #StPlayground,
+	#name : 'CTStNotebookPlayground',
+	#superclass : 'StPlayground',
 	#instVars : [
 		'notebook'
 	],
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTStNotebookPlayground class >> defaultTitle [ 
 
 	^ 'Notebook'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTStNotebookPlayground class >> initialize [
 	"Make playground active by default"
 
 	self register
 ]
 
-{ #category : #'world menu' }
+{ #category : 'world menu' }
 CTStNotebookPlayground class >> menuCommandOn: aBuilder [
 
 	<worldMenu>
@@ -34,7 +36,7 @@ CTStNotebookPlayground class >> menuCommandOn: aBuilder [
 		icon: (self iconNamed: #workspace)
 ]
 
-{ #category : #'tools registry' }
+{ #category : 'tools registry' }
 CTStNotebookPlayground class >> register [
 	"Add ourselves to registry. See [Smalltalk tools]"
 
@@ -42,14 +44,14 @@ CTStNotebookPlayground class >> register [
 	super register
 ]
 
-{ #category : #'tools registry' }
+{ #category : 'tools registry' }
 CTStNotebookPlayground class >> registerToolsOn: registry [
 	"Add ourselves to registry. See [Smalltalk tools]"
 
 	registry register: self as: #notebook
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTStNotebookPlayground >> initialize [
 
 	self notebook: CTNotebookKeyedValuedOrderedCollection new.
@@ -57,19 +59,19 @@ CTStNotebookPlayground >> initialize [
 	super initialize
 ]
 
-{ #category : #'private - factory' }
+{ #category : 'private - factory' }
 CTStNotebookPlayground >> newDefaultPlaygroundPage [
 
 	^ CTStNotebookPlaygroundPage new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTStNotebookPlayground >> notebook [
 
 	^ notebook
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTStNotebookPlayground >> notebook: anObject [
 
 	notebook := anObject

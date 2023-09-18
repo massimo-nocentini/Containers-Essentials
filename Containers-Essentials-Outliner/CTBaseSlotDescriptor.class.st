@@ -2,8 +2,8 @@
 I am a variant that uses a block to gather a reference to an object to be visited.
 "
 Class {
-	#name : #CTBaseSlotDescriptor,
-	#superclass : #CTPropertySlotDescriptor,
+	#name : 'CTBaseSlotDescriptor',
+	#superclass : 'CTPropertySlotDescriptor',
 	#instVars : [
 		'selector',
 		'header',
@@ -13,10 +13,12 @@ Class {
 		'varShapeBlock',
 		'valueAndBoxAligner'
 	],
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTBaseSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	aShape addInteraction:
@@ -25,13 +27,13 @@ CTBaseSlotDescriptor >> addHighlightInteractionOnShape: aShape [
 				 each propertyDfsBoxedSlotsShape ] ])
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTBaseSlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
 
 	aShape addInteraction: RSHighlightable withLines
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	aShape addInteraction: (RSPopup new text: [ :each | 
@@ -50,7 +52,7 @@ CTBaseSlotDescriptor >> addPopupInteractionOnShape: aShape [
 					 nextPutAll: aShape propertyDfsSCC size asString ] ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
 
 	| rsa |
@@ -63,37 +65,37 @@ CTBaseSlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
 	valueAndBoxAligner value: rsa
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> centerValueShapeWithinItsBox [
 
 	valueAndBoxAligner := [ :rsAlignment | "don't align anything." ]
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CTBaseSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 
 	^ oBlock value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> enablePredicate: aBlock [
 
 	enablePredicate := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> header: aBlock [
 
 	header := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> header: anObject walker: walker [
 
 	^ header value: anObject value: walker shapeBuilder
 ]
 
-{ #category : #dispatched }
+{ #category : 'dispatched' }
 CTBaseSlotDescriptor >> headerWithAllSuperclasses [
 
 	self header: [ :anObject :aShapeBuilder | 
@@ -101,7 +103,7 @@ CTBaseSlotDescriptor >> headerWithAllSuperclasses [
 			aShapeBuilder labelForClass: each ] ]
 ]
 
-{ #category : #dispatched }
+{ #category : 'dispatched' }
 CTBaseSlotDescriptor >> headerWithClass [
 
 	self header: [ :anObject :aShapeBuilder | 
@@ -109,13 +111,13 @@ CTBaseSlotDescriptor >> headerWithClass [
 			aShapeBuilder labelForClass: each ] ]
 ]
 
-{ #category : #delegating }
+{ #category : 'delegating' }
 CTBaseSlotDescriptor >> ifHasFollowers: block walker: walker [
 
 	^ nil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTBaseSlotDescriptor >> initialize [
 
 	super initialize.
@@ -132,43 +134,43 @@ CTBaseSlotDescriptor >> initialize [
 		centerValueShapeWithinItsBox
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CTBaseSlotDescriptor >> inline [
 
 	self inlinePredicate: [ :level :default | true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> inline: anObject level: level default: aBoolean [
 
 	^ inlinePredicate value: level value: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> inlinePredicate: anObject [
 
 	inlinePredicate := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTBaseSlotDescriptor >> isEnabledAtLevel: l [
 
 	^ enablePredicate value: l
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> isOneToMany [
 
 	^ isOneToMany
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> leftAlignValueShapeWithinItsBox [
 
 	valueAndBoxAligner := [ :rsAlignment | rsAlignment left ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTBaseSlotDescriptor >> noHeader [
 
 	self header: [ :anObject :aShapeBuilder | 
@@ -177,49 +179,49 @@ CTBaseSlotDescriptor >> noHeader [
 			yourself ]
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CTBaseSlotDescriptor >> noInline [
 
 	self inlinePredicate: [ :level :default | false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> oneToMany [
 
 	isOneToMany := true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> oneToOne [
 
 	isOneToMany := false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> selector [
 
 	^ selector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> selector: anObject [
 
 	selector := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
 	^ aDfsWalker defaultShapeOf: anObject descriptor: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> varShapeBlock: aBlock [
 
 	varShapeBlock := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTBaseSlotDescriptor >> varShapeOf: anObject walker: walker [
 
 	^ varShapeBlock value: anObject value: walker value: self selector

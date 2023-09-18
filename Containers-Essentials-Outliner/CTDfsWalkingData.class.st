@@ -2,8 +2,8 @@
 I am a data holder for the DFS visit recursive steps.
 "
 Class {
-	#name : #CTDfsWalkingData,
-	#superclass : #Object,
+	#name : 'CTDfsWalkingData',
+	#superclass : 'Object',
 	#instVars : [
 		'descriptor',
 		'level',
@@ -17,10 +17,12 @@ Class {
 		'hasOutgoings',
 		'exploringDescriptors'
 	],
-	#category : #'Containers-Essentials-Outliner-Walkers'
+	#category : 'Containers-Essentials-Outliner-Walkers',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Walkers'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 CTDfsWalkingData >> addRowGroup: aGroup inlined: aBoolean [
 
 	| dict |
@@ -31,55 +33,55 @@ CTDfsWalkingData >> addRowGroup: aGroup inlined: aBoolean [
 	^ dict at: rowsInlined size + rowsOutgoing size + 1 put: aGroup
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> boxesWidth [
 
 	^ boxesWidth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> boxesWidth: anObject [
 
 	boxesWidth := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> descriptor [
 
 	^ descriptor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> descriptor: anObject [
 
 	descriptor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> exploringDescriptors [
 
 	^ exploringDescriptors
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> exploringDescriptors: anObject [
 
 	exploringDescriptors := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> hasOutgoings [
 
 	^ hasOutgoings
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> hasOutgoings: anObject [
 
 	hasOutgoings := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsWalkingData >> initialize [
 
 	super initialize.
@@ -88,55 +90,55 @@ CTDfsWalkingData >> initialize [
 	rowsOutgoing := SmallDictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> labelsWidth [
 
 	^ labelsWidth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> labelsWidth: anObject [
 
 	labelsWidth := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> level [
 
 	^ level
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> level: anObject [
 
 	level := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> object [
 
 	^ object
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> object: anObject [
 
 	object := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> parent [
 
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> parent: anObject [
 
 	parent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> rows [
 
 	| array |
@@ -148,13 +150,13 @@ CTDfsWalkingData >> rows [
 	^ array
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> shape [
 
 	^ shape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsWalkingData >> shape: anObject [
 
 	shape := anObject

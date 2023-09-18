@@ -1,10 +1,12 @@
 Class {
-	#name : #RBLuaLiteralValueNode,
-	#superclass : #RBLiteralValueNode,
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#name : 'RBLuaLiteralValueNode',
+	#superclass : 'RBLiteralValueNode',
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 RBLuaLiteralValueNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
 
 	^ TSChunk new

@@ -1,22 +1,24 @@
 Class {
-	#name : #CTStNotebookPlaygroundDoItCommand,
-	#superclass : #StPlaygroundDoItCommand,
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#name : 'CTStNotebookPlaygroundDoItCommand',
+	#superclass : 'StPlaygroundDoItCommand',
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTStNotebookPlaygroundDoItCommand class >> defaultName [
 
 	^ 'Outline it'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTStNotebookPlaygroundDoItCommand class >> order [
 
 	^ 40
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 CTStNotebookPlaygroundDoItCommand >> execute [
 
 	context withActivationBlock: [ :aBlock |

@@ -1,6 +1,6 @@
-Extension { #name : #RBCascadeNode }
+Extension { #name : 'RBCascadeNode' }
 
-{ #category : #'*Containers-Essentials-Outliner' }
+{ #category : '*Containers-Essentials-Outliner' }
 RBCascadeNode >> translateForNotebook: notebook [
 
 	^ (self receiver isVariable and: [

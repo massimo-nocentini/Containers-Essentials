@@ -1,34 +1,37 @@
 Class {
-	#name : #CTNotebookKeyedValuedOrderedCollection,
-	#superclass : #CTKeyedValuedOrderedCollection,
+	#name : 'CTNotebookKeyedValuedOrderedCollection',
+	#superclass : 'CTKeyedValuedOrderedCollection',
 	#instVars : [
 		'codePresenter',
 		'title',
 		'luaState',
-		'switch'
+		'switch',
+		'wolframLink'
 	],
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTNotebookKeyedValuedOrderedCollection >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTNotebookKeyedValuedOrderedCollection: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookKeyedValuedOrderedCollection >> codePresenter [
 
 	^ codePresenter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 
 	codePresenter := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
 
 	| size |
@@ -46,7 +49,13 @@ CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
 		  ifFalse: [ self liblua on: luaState at: -1 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> doWolframBlock: block [
+
+	^ (block value: wolframLink) value
+]
+
+{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 
 	^ CTNotebookComment new
@@ -55,7 +64,7 @@ CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTNotebookKeyedValuedOrderedCollection >> initialize [
 
 	super initialize.
@@ -73,16 +82,20 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 		          at: #doLuaChunk:
 		          put: [ :node |
 			          RBLuaLiteralValueNode value: node arguments first value ];
+		          at: #doWolframBlock: put: [ :node |
+			          (RBWolframExpressionValueNode value: node arguments first)
+				          wolframLink: wolframLink;
+				          yourself ];
 		          yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> liblua [
 
 	^ LibLua uniqueInstance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> outside: block [
 
 	^ CTDfsObjectHoder new
@@ -90,7 +103,7 @@ CTNotebookKeyedValuedOrderedCollection >> outside: block [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 
 	luaState
@@ -100,16 +113,18 @@ CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 
 	luaState := self liblua luaL_newstate.
 
-	self liblua luaL_openlibs: luaState
+	self liblua luaL_openlibs: luaState.
+
+	wolframLink := WolframEngine link
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookKeyedValuedOrderedCollection >> title: anObject [
 
 	title := anObject
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 
 	^ switch
@@ -118,7 +133,7 @@ CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 		  ifAbsent: [ nil ]
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CTNotebookKeyedValuedOrderedCollection >> value [
 
 	| evaluated ast errorFree statements astNodes astNodesRewritten |

@@ -2,12 +2,14 @@
 I am a variant that group outline shapes if they are equally far from the root outliner.
 "
 Class {
-	#name : #CTLayeredDfsPainter,
-	#superclass : #CTDfsPainter,
-	#category : #'Containers-Essentials-Outliner-Painters'
+	#name : 'CTLayeredDfsPainter',
+	#superclass : 'CTDfsPainter',
+	#category : 'Containers-Essentials-Outliner-Painters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Painters'
 }
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTLayeredDfsPainter >> dfsWalk: anObject [
 
 	| gr location layout aCollection |
@@ -63,13 +65,13 @@ CTLayeredDfsPainter >> dfsWalk: anObject [
 			  yourself ]
 ]
 
-{ #category : #layouting }
+{ #category : 'layouting' }
 CTLayeredDfsPainter >> layoutOn: aCollectionOfShapes edges: aCollectionOfLines [
 
 	RSHorizontalLineLayout new alignMiddle applyOn: aCollectionOfShapes
 ]
 
-{ #category : #'line drawing' }
+{ #category : 'line drawing' }
 CTLayeredDfsPainter >> layoutTuples: treeTuples lineBuilder: lineBuilder [
 
 	^ #(  )

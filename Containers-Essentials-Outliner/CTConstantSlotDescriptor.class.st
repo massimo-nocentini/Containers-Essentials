@@ -2,21 +2,23 @@
 I use the given constant to provide a value for the argument.
 "
 Class {
-	#name : #CTConstantSlotDescriptor,
-	#superclass : #CTBaseSlotDescriptor,
+	#name : 'CTConstantSlotDescriptor',
+	#superclass : 'CTBaseSlotDescriptor',
 	#instVars : [
 		'constant'
 	],
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTConstantSlotDescriptor >> constant: anObject [
 
 	constant := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTConstantSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	^ constant

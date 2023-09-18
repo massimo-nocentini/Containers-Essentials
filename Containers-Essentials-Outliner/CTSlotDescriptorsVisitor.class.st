@@ -3,16 +3,18 @@ I am a visitor of more common objects in order to return a collection of slot de
 corresponding to their classes, respectively.
 "
 Class {
-	#name : #CTSlotDescriptorsVisitor,
-	#superclass : #Object,
+	#name : 'CTSlotDescriptorsVisitor',
+	#superclass : 'Object',
 	#instVars : [
 		'rootDescriptor',
 		'stack'
 	],
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #copying }
+{ #category : 'copying' }
 CTSlotDescriptorsVisitor >> collect: aBlock [
 
 	^ CTSlotDescriptorsVisitorCollect basicNew
@@ -22,7 +24,7 @@ CTSlotDescriptorsVisitor >> collect: aBlock [
 		  yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTSlotDescriptorsVisitor >> initialize [
 
 	super initialize.
@@ -30,7 +32,7 @@ CTSlotDescriptorsVisitor >> initialize [
 	self rootDescriptor: (self newSlotDescriptorSelector: #yourself)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorFollowerOf: descriptor then: block [
 
 	^ self
@@ -38,7 +40,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorFollowerOf: descriptor then: block 
 		  then: [ { block value } ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorFollowersOf: descriptor then: block [
 
 	^ CTFollowerSlotDescriptor new
@@ -47,7 +49,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorFollowersOf: descriptor then: block
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 
 	^ CTInstVarSlotDescriptor new
@@ -55,7 +57,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorInstVarName: aVarName [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 
 	^ CTSelectorSlotDescriptor new
@@ -63,7 +65,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorSelector: aSelector [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector accessor: aBlock [
 
 	^ CTBlockSlotDescriptor new
@@ -72,7 +74,7 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector accessor: aBlock 
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector constant: anObject [
 
 	^ CTConstantSlotDescriptor new
@@ -81,13 +83,13 @@ CTSlotDescriptorsVisitor >> newSlotDescriptorString: aSelector constant: anObjec
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTSlotDescriptorsVisitor >> newSlotDescriptorYourself [
 
 	^ self newSlotDescriptorSelector: #yourself
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CTSlotDescriptorsVisitor >> pop [
 
 	^ stack
@@ -101,7 +103,7 @@ CTSlotDescriptorsVisitor >> pop [
 			  value ]
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 CTSlotDescriptorsVisitor >> postCopy [
 
 	super postCopy.
@@ -109,7 +111,7 @@ CTSlotDescriptorsVisitor >> postCopy [
 	self rootDescriptor: rootDescriptor copy
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CTSlotDescriptorsVisitor >> push: anObject [
 
 	stack := ValueLink new
@@ -118,25 +120,25 @@ CTSlotDescriptorsVisitor >> push: anObject [
 		         yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSlotDescriptorsVisitor >> rootDescriptor [
 
 	^ rootDescriptor copy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSlotDescriptorsVisitor >> rootDescriptor: anObject [
 
 	rootDescriptor := anObject
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visit: anObject [
 
 	^ anObject acceptSlotDescriptorsVisitor: self
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 
 	^ (self visitObject: aMatrix) allButFirst , {
@@ -147,14 +149,14 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitArray: anArray [
 
 	^ anArray withIndexCollect: [ :each :index | 
 		  self newSlotDescriptorString: index asString constant: each ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitBag: aBag [
 
 	^ { 
@@ -165,7 +167,7 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 
 	^ {
@@ -182,13 +184,13 @@ CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 
 	^ { (self newSlotDescriptorSelector: #compiledBlock) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 
 	^ { 
@@ -202,14 +204,14 @@ CTSlotDescriptorsVisitor >> visitByteArray: aByteArray [
 			   quoteUsingSelector) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aKeyedCollection [
 
 	^ aKeyedCollection keysAndValuesCollect: [ :key :value |
 		  self newSlotDescriptorString: key constant: value ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedCollection [
 
 	| pangoMicVisitor codePresenter |
@@ -269,13 +271,13 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 				  descriptor ] ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitClass: aClass [
 
 	^ self visitBehavior: aClass
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitColor: aColor [
 
 	^ (self visitObject: aColor)
@@ -284,7 +286,7 @@ CTSlotDescriptorsVisitor >> visitColor: aColor [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 
 	| i |
@@ -300,13 +302,13 @@ CTSlotDescriptorsVisitor >> visitCompiledCode: aCompiledCode [
 			  aStream nextPut: descriptor ] ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitCompiledMethod: aCompiledMethod [
 
 	^ {  }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitContext: aContext [
 
 	^ { 
@@ -321,7 +323,7 @@ CTSlotDescriptorsVisitor >> visitContext: aContext [
 		  (self newSlotDescriptorSelector: #stackPtr) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 
 	^ (self visitObject: aDateAndTime) , { 
@@ -336,13 +338,13 @@ CTSlotDescriptorsVisitor >> visitDateAndTime: aDateAndTime [
 		  (self newSlotDescriptorSelector: #asTimeString) inline }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitDictionary: aDictionary [
 
 	^ self visitObject: aDictionary
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
 
 	^ { 
@@ -351,7 +353,7 @@ CTSlotDescriptorsVisitor >> visitDoubleLink: aDoubleLink [
 		  (self newSlotDescriptorSelector: #nextLink) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 
 	^ { 
@@ -366,13 +368,13 @@ CTSlotDescriptorsVisitor >> visitDuration: aDuration [
 		  (self newSlotDescriptorSelector: #asStringScaledUptoHours) inline }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 
 	^ { (self newSlotDescriptorSelector: #printString) inline }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 
 	^ (self visitObject: aFileReference) , { 
@@ -381,13 +383,13 @@ CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 		  (self newSlotDescriptorSelector: #size) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitFraction: aFraction [
 
 	^ {  }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 
 	^ {
@@ -421,7 +423,7 @@ CTSlotDescriptorsVisitor >> visitGreatestCommonDivisor: aGreatestCommonDivisor [
 				   anObject asShapeSlotsDfsTree: aDfsWalker ]) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 
 	| followedSlotDescriptor |
@@ -507,19 +509,19 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 			   quoteUsingSelector) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitInteger: anInteger [
 
 	^ self visitObject: anInteger
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitLink: aLink [
 
 	^ { (self newSlotDescriptorSelector: #nextLink) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitObject: anObject [
 
 	| slots |
@@ -539,27 +541,27 @@ CTSlotDescriptorsVisitor >> visitObject: anObject [
 	^ slots
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitPoint: aPoint [
 
 	^ (self visitObject: aPoint)
 	  ", { (self newSlotDescriptorSelector: #π) }"
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitPointArray: aPointArray [
 
 	^ (self visitObject: aPointArray)
 	  , { (self newSlotDescriptorSelector: #asShapeDots) quote }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitProcess: aProcess [
 
 	^ self visitObject: aProcess
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 
 	^ { 
@@ -573,21 +575,21 @@ CTSlotDescriptorsVisitor >> visitQuoRemComplementary: aQuoRemComplementary [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSArcLengthParametricLine: aLine [
 
 	^ (self visitRSParametricLine: aLine)
 	  , { (self newSlotDescriptorSelector: #line) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSBoundingShape: aShape [
 
 	^ (self visitObject: aShape)
 	  , { (self newSlotDescriptorSelector: #asShapeQuoted) quote }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 
 	^ (self visitArray: aGroup) collect: [ :each | 
@@ -596,7 +598,7 @@ CTSlotDescriptorsVisitor >> visitRSGroup: aGroup [
 			  quote ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSParameterization: aParameterization [
 
 	^ { 
@@ -607,7 +609,7 @@ CTSlotDescriptorsVisitor >> visitRSParameterization: aParameterization [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSParametricLine: aLine [
 
 	^ { 
@@ -617,7 +619,7 @@ CTSlotDescriptorsVisitor >> visitRSParametricLine: aLine [
 			   quoteGroupWithModel: aLine) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRSdeCasteljauLine: aLine [
 
 	^ (self visitRSParametricLine: aLine)
@@ -626,7 +628,7 @@ CTSlotDescriptorsVisitor >> visitRSdeCasteljauLine: aLine [
 			   quoteGroupWithModel: aLine) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 
 	^ (self visitObject: aRandom)
@@ -635,13 +637,13 @@ CTSlotDescriptorsVisitor >> visitRandom: aRandom [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitStack: aStack [
 
 	^ { (self newSlotDescriptorSelector: #firstLink) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitValueLink: aValueLink [
 
 	^ { (self newSlotDescriptorSelector: #value) }

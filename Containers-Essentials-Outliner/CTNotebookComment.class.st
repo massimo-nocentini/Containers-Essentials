@@ -1,14 +1,16 @@
 Class {
-	#name : #CTNotebookComment,
-	#superclass : #Object,
+	#name : 'CTNotebookComment',
+	#superclass : 'Object',
 	#instVars : [
 		'text',
 		'topic'
 	],
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 CTNotebookComment >> asDefaultShapeForWalker: walker descriptor: descriptor [
 
 	| markup |
@@ -18,31 +20,31 @@ CTNotebookComment >> asDefaultShapeForWalker: walker descriptor: descriptor [
 	  , markup , '</span>' asRSPangoShapeUsingFont: LogicalFont pangoSans
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTNotebookComment >> isNotebookHideReason [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookComment >> text [
 
 	^ text
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookComment >> text: anObject [
 
 	text := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookComment >> topic [
 
 	^ topic
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTNotebookComment >> topic: anObject [
 
 	topic := anObject

@@ -1,6 +1,6 @@
-Extension { #name : #RBMessageNode }
+Extension { #name : 'RBMessageNode' }
 
-{ #category : #'*Containers-Essentials-Outliner' }
+{ #category : '*Containers-Essentials-Outliner' }
 RBMessageNode >> translateForNotebook: notebook [
 
 	^ (self receiver isVariable and: [

@@ -4,16 +4,18 @@ Tarjan, R. E. (1972), ""Depth-first search and linear graph algorithms"",
 SIAM Journal on Computing, 1 (2): 146–160).
 "
 Class {
-	#name : #CTDfsSCCsWalker,
-	#superclass : #CTDfsWalker,
+	#name : 'CTDfsSCCsWalker',
+	#superclass : 'CTDfsWalker',
 	#instVars : [
 		'sccShapeStack',
 		'sccs'
 	],
-	#category : #'Containers-Essentials-Outliner-Walkers'
+	#category : 'Containers-Essentials-Outliner-Walkers',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Walkers'
 }
 
-{ #category : #shapes }
+{ #category : 'shapes' }
 CTDfsSCCsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape [
 
 	super addInteractionsUsingSlotDescriptor: aDescriptor onShape: aShape.
@@ -21,7 +23,7 @@ CTDfsSCCsWalker >> addInteractionsUsingSlotDescriptor: aDescriptor onShape: aSha
 	aDescriptor addHighlightInteractionOnShape: aShape
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 
 	self
@@ -49,7 +51,7 @@ CTDfsSCCsWalker >> createStronglyConnectedComponentIfNecessaryOnShape: aShape [
 		self assert: aShape propertyDfsSCC == scc ]
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsSCCsWalker >> entering: data [
 
 	| s |
@@ -62,7 +64,7 @@ CTDfsSCCsWalker >> entering: data [
 		propertyDfsLowlink: dfsClock
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsSCCsWalker >> exiting: data [
 
 	super exiting: data.
@@ -70,7 +72,7 @@ CTDfsSCCsWalker >> exiting: data [
 	self createStronglyConnectedComponentIfNecessaryOnShape: data shape
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsSCCsWalker >> hasBeenVisited: child childShape: childShape parentShape: parentShape [
 
 	| shapeEntryTime |
@@ -89,7 +91,7 @@ CTDfsSCCsWalker >> hasBeenVisited: child childShape: childShape parentShape: par
 		self assert: parentShape model ~~ childShape model ]
 ]
 
-{ #category : #DFS }
+{ #category : 'DFS' }
 CTDfsSCCsWalker >> hasntBeenVisited: object descriptor: descriptor data: data [
 
 	| childShape |
@@ -101,7 +103,7 @@ CTDfsSCCsWalker >> hasntBeenVisited: object descriptor: descriptor data: data [
 		lowlink min: childShape propertyDfsLowlink ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTDfsSCCsWalker >> initialize [
 
 	super initialize.
@@ -111,7 +113,7 @@ CTDfsSCCsWalker >> initialize [
 	self stronglyConnectedComponents: OrderedCollection new
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 CTDfsSCCsWalker >> postCopy [
 
 	super postCopy.
@@ -121,7 +123,7 @@ CTDfsSCCsWalker >> postCopy [
 	self stronglyConnectedComponents: sccs class new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsSCCsWalker >> push: aShape [
 
 	sccShapeStack := ValueLink new
@@ -132,13 +134,13 @@ CTDfsSCCsWalker >> push: aShape [
 	^ aShape
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsSCCsWalker >> stronglyConnectedComponents: aCollection [
 
 	sccs := aCollection
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTDfsSCCsWalker >> value: rootObject [
 
 	| shape |

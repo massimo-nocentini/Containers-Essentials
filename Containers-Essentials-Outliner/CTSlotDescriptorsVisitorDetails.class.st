@@ -2,12 +2,14 @@
 I am a variant that enriches the slot descriptors for Integer objects.
 "
 Class {
-	#name : #CTSlotDescriptorsVisitorDetails,
-	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#name : 'CTSlotDescriptorsVisitorDetails',
+	#superclass : 'CTSlotDescriptorsVisitor',
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitorDetails >> visitFraction: aFraction [
 
 	^ { ((self newSlotDescriptorSelector: #asShapeNaturalRepresentation)
@@ -26,7 +28,7 @@ CTSlotDescriptorsVisitorDetails >> visitFraction: aFraction [
 			   quote) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitorDetails >> visitInteger: anInteger [
 
 	^ {

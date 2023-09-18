@@ -1,10 +1,12 @@
 Class {
-	#name : #CTClassCommentAutoNotebook,
-	#superclass : #CTNotebookKeyedValuedOrderedCollection,
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#name : 'CTClassCommentAutoNotebook',
+	#superclass : 'CTNotebookKeyedValuedOrderedCollection',
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CTClassCommentAutoNotebook >> initialize [
 
 	super initialize.

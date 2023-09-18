@@ -2,12 +2,14 @@
 I am a variant that customize the slot descriptors for Class objects.
 "
 Class {
-	#name : #CTSlotDescriptorsVisitorClassHierarchy,
-	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#name : 'CTSlotDescriptorsVisitorClassHierarchy',
+	#superclass : 'CTSlotDescriptorsVisitor',
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTSlotDescriptorsVisitorClassHierarchy >> visitClass: aClass [
 
 	^ Array streamContents: [ :aStream | 

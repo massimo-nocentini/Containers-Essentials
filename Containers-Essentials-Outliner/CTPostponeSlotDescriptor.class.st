@@ -2,15 +2,17 @@
 I am a variant that allows the client to postpone the visit of an object.
 "
 Class {
-	#name : #CTPostponeSlotDescriptor,
-	#superclass : #CTDecorateSlotDescriptor,
+	#name : 'CTPostponeSlotDescriptor',
+	#superclass : 'CTDecorateSlotDescriptor',
 	#instVars : [
 		'post'
 	],
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CTPostponeSlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 	"Dispatch by hand to not mess up Boolean and BlockClosure."
 
@@ -33,7 +35,7 @@ CTPostponeSlotDescriptor >> dispatchPostponed: child data: data walker: walker o
 				  ifFalse: oBlock ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPostponeSlotDescriptor >> post: anObject [
 
 	post := anObject

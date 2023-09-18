@@ -2,23 +2,25 @@
 I am a variant that stops the visit and provides an already built shape to be referenced in a slot.
 "
 Class {
-	#name : #CTQuoteSlotDescriptor,
-	#superclass : #CTDecorateSlotDescriptor,
+	#name : 'CTQuoteSlotDescriptor',
+	#superclass : 'CTDecorateSlotDescriptor',
 	#instVars : [
 		'shape',
 		'quoteBlock',
 		'witness'
 	],
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTQuoteSlotDescriptor >> quoteBlock: aBlock [
 
 	quoteBlock := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	| value |
@@ -38,7 +40,7 @@ CTQuoteSlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 	^ witness
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTQuoteSlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
 	^ shape

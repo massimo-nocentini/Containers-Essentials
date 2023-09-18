@@ -1,13 +1,15 @@
 Class {
-	#name : #CTDfsObjectHoder,
-	#superclass : #Object,
+	#name : 'CTDfsObjectHoder',
+	#superclass : 'Object',
 	#instVars : [
 		'object'
 	],
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 CTDfsObjectHoder >> asDefaultShapeForWalker: walker descriptor: descriptor [
 
 	descriptor leftAlignValueShapeWithinItsBox.
@@ -15,19 +17,19 @@ CTDfsObjectHoder >> asDefaultShapeForWalker: walker descriptor: descriptor [
 	^ object asShapeSlotsDfsTree: CTDfsWalker new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTDfsObjectHoder >> isObjectHolder [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsObjectHoder >> object [
 
 	^ object
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDfsObjectHoder >> object: anObject [
 
 	object := anObject

@@ -1,16 +1,18 @@
 Class {
-	#name : #CTStNotebookPlaygroundPagePresenter,
-	#superclass : #StPlaygroundPagePresenter,
-	#category : #'Containers-Essentials-Outliner-Presenters'
+	#name : 'CTStNotebookPlaygroundPagePresenter',
+	#superclass : 'StPlaygroundPagePresenter',
+	#category : 'Containers-Essentials-Outliner-Presenters',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Presenters'
 }
 
-{ #category : #'private commands' }
+{ #category : 'private commands' }
 CTStNotebookPlaygroundPagePresenter class >> baseToolbarCommands [
 
 	^ super baseToolbarCommands , { CTStNotebookPlaygroundDoItCommand }
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTStNotebookPlaygroundPagePresenter >> initialize [
 
 	super initialize.
@@ -19,7 +21,7 @@ CTStNotebookPlaygroundPagePresenter >> initialize [
 		(WorkspaceVariable key: #thisNotebook value: self owner notebook)
 ]
 
-{ #category : #context }
+{ #category : 'context' }
 CTStNotebookPlaygroundPagePresenter >> withActivationBlock: aBlock [
 
 	^ activationBlock ifNotNil: aBlock

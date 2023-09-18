@@ -2,96 +2,98 @@
 I describe a single slot in an outline shape.
 "
 Class {
-	#name : #CTPropertySlotDescriptor,
-	#superclass : #Object,
-	#category : #'Containers-Essentials-Outliner-Slots'
+	#name : 'CTPropertySlotDescriptor',
+	#superclass : 'Object',
+	#category : 'Containers-Essentials-Outliner-Slots',
+	#package : 'Containers-Essentials-Outliner',
+	#tag : 'Slots'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> addHighlightInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> addHighlightWithLinesInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> addPopupInteractionOnShape: aShape [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> alignValueShape: valueShape withinBoxShape: boxShape [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> dispatchPostponed: child data: data walker: walker otherwise: oBlock [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> header: aBlock [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> header: anObject walker: aShapeBuilder [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> headerWithAllSuperclasses [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> headerWithClass [
 
 	self subclassResponsibility
 ]
 
-{ #category : #delegating }
+{ #category : 'delegating' }
 CTPropertySlotDescriptor >> ifHasFollowers: block walker: walker [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> inline: anObject level: anInteger default: aBoolean [
 
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTPropertySlotDescriptor >> isEnabledAtLevel: l [
 
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTPropertySlotDescriptor >> isOneToMany [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> noHeader [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> postpone: anObject [
 
 	^ CTPostponeSlotDescriptor new
@@ -100,13 +102,13 @@ CTPropertySlotDescriptor >> postpone: anObject [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> quote [
 
 	^ self quote: [ :aShape :aDfsWalker | aShape ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> quote: aBlock [
 
 	^ CTQuoteSlotDescriptor new
@@ -115,44 +117,44 @@ CTPropertySlotDescriptor >> quote: aBlock [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> quoteGroupWithModel: anObject [
 
 	^ self quote: [ :aGroup :aDfsWalker | aGroup asShapeFor: anObject ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> quoteUsingSelector [
 
 	^ self quote: [ :anObject :aDfsWalker | 
 		  anObject perform: self selector with: aDfsWalker ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> selector [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> valueOn: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> valueShapeOf: anObject walker: aDfsWalker [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> varShapeBlock: aBlock [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTPropertySlotDescriptor >> varShapeOf: anObject walker: walker [
 
 	self subclassResponsibility
