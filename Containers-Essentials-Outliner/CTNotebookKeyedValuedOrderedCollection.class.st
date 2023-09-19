@@ -52,7 +52,24 @@ CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
 { #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> doWolframBlock: block [
 
-	^ (block value: wolframLink) value
+	^ self doWolframBlock: block showPdfInsteadOfTeX: false
+]
+
+{ #category : 'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> doWolframBlock: block showPdfInsteadOfTeX: shouldShowPdf [
+
+	| exprToBeEvaluated |
+	exprToBeEvaluated := block value: wolframLink.
+
+	^ shouldShowPdf
+		  ifTrue: [ exprToBeEvaluated showPdfInsteadOfTeX ]
+		  ifFalse: [ exprToBeEvaluated value ]
+]
+
+{ #category : 'as yet unclassified' }
+CTNotebookKeyedValuedOrderedCollection >> doWolframString: string [
+
+	^ (self wolframLink ! string) value
 ]
 
 { #category : 'as yet unclassified' }
@@ -86,6 +103,15 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 			          (RBWolframExpressionValueNode value: node arguments first)
 				          wolframLink: wolframLink;
 				          yourself ];
+		          at: #doWolframBlock:showPdfInsteadOfTeX: put: [ :node |
+		          (RBWolframExpressionValueNode value: node arguments first)
+			          wolframLink: wolframLink;
+			          yourself ];
+		          at: #doWolframString: put: [ :node |
+		          (RBWolframLiteralValueNode value:
+				           node arguments first value)
+			          wolframLink: wolframLink;
+			          yourself ];
 		          yourself
 ]
 
@@ -130,7 +156,7 @@ CTNotebookKeyedValuedOrderedCollection >> translateRBMessageNode: node [
 	^ switch
 		  at: node selector
 		  ifPresent: [ :valuable | valuable value: node ]
-		  ifAbsent: [ nil ]
+		  ifAbsent: [ node ]
 ]
 
 { #category : 'evaluating' }
@@ -191,4 +217,10 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 
 		(errorFree and: [ astNodeRewritten isNotNil ]) ifTrue: [
 			evaluated add: astNodeRewritten -> value ] ]
+]
+
+{ #category : 'accessing' }
+CTNotebookKeyedValuedOrderedCollection >> wolframLink [
+
+	^ wolframLink
 ]
