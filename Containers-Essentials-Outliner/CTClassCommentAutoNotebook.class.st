@@ -9,12 +9,19 @@ Class {
 { #category : 'evaluating' }
 CTClassCommentAutoNotebook >> initialize [
 
+	| presenter |
 	super initialize.
 
-	self codePresenter: (SpCodePresenter new
-			 beForScripting;
-			 text: self class comment;
-			 yourself).
-			
+	presenter := SpCodePresenter new
+		             beForScripting;
+		             yourself.
+
+	presenter interactionModel addBinding:
+		(WorkspaceVariable key: #thisNotebook value: self).
+
+	presenter text: self class comment.
+
+	self codePresenter: presenter.
+
 	self value
 ]

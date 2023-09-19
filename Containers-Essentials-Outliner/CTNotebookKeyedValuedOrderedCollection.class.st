@@ -88,7 +88,7 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 
 	self refreshExternalKernels.
 
-	switch := SmallDictionary new
+	switch := Dictionary new
 		          at: #title: put: [ :node |
 			          CTDFSRBComment withString:
 					          '{{<span font_family="Source Sans Pro"  font_size="50pt" variant="small-caps">}}'
