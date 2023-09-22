@@ -1,6 +1,6 @@
 Class {
 	#name : 'CTStNotebookPlayground',
-	#superclass : 'StPlayground',
+	#superclass : 'StPlaygroundPresenter',
 	#instVars : [
 		'notebook'
 	],
