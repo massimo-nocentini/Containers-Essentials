@@ -1,14 +1,16 @@
 Class {
-	#name : #MessageSent,
-	#superclass : #Object,
+	#name : 'MessageSent',
+	#superclass : 'Object',
 	#instVars : [
 		'messageSend',
 		'return'
 	],
-	#category : #'Containers-Essentials-Messaging'
+	#category : 'Containers-Essentials-Messaging',
+	#package : 'Containers-Essentials',
+	#tag : 'Messaging'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 MessageSent >> = anObject [
 
 	^ anObject species == self species and: [ 
@@ -16,31 +18,31 @@ MessageSent >> = anObject [
 			  self return == anObject return ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 MessageSent >> hash [
 
 	^ messageSend hash bitXor: return hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MessageSent >> messageSend [
 
 	^ messageSend
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MessageSent >> messageSend: anObject [
 
 	messageSend := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MessageSent >> return [
 
 	^ return
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 MessageSent >> return: anObject [
 
 	^ return := anObject

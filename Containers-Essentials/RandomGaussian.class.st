@@ -4,24 +4,26 @@ Uses Kinderman and Monahan method. Reference: Kinderman, A.J. and Monahan, J.F.,
 ACM Trans Math Software, 3, (1977), pp257-260.
 "
 Class {
-	#name : #RandomGaussian,
-	#superclass : #Random,
+	#name : 'RandomGaussian',
+	#superclass : 'Random',
 	#instVars : [
 		'mu',
 		'sigma',
 		'densityMultiplier',
 		'magic'
 	],
-	#category : #'Containers-Essentials-Random'
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGaussian >> density: x [
 
 	^ densityMultiplier * ((x - mu / sigma) squared negated / 2) exp
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RandomGaussian >> initialize [
 
 	super initialize.
@@ -33,13 +35,13 @@ RandomGaussian >> initialize [
 		sigma: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGaussian >> mu: anObject [
 
 	mu := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGaussian >> next [
 
 	| z |
@@ -55,7 +57,7 @@ RandomGaussian >> next [
 	^ z * sigma + mu
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGaussian >> sigma: anObject [
 
 	sigma := anObject.

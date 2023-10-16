@@ -1,10 +1,12 @@
 Class {
-	#name : #QuoRemMinimal,
-	#superclass : #QuoRemStandard,
-	#category : #'Containers-Essentials-Numbers'
+	#name : 'QuoRemMinimal',
+	#superclass : 'QuoRemStandard',
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemMinimal >> asPointWithRespectToRem [
 
 	| aPoint |
@@ -12,7 +14,7 @@ QuoRemMinimal >> asPointWithRespectToRem [
 	^ self rem ifNegative: [ aPoint negated ] ifNotNegative: [ aPoint ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemMinimal >> initialize [
 
 	| floor ceil r |

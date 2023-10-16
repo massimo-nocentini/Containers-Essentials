@@ -1,6 +1,6 @@
-Extension { #name : #PositionableStream }
+Extension { #name : 'PositionableStream' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 PositionableStream >> merge: aStream sortBlock: lessThan on: outStream [
 
 	^ self
@@ -10,7 +10,7 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream [
 		  inversionsOrNil: nil
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversionsOrNil: invStream [
 
 	| inversions append |
@@ -44,7 +44,7 @@ PositionableStream >> merge: aStream sortBlock: lessThan on: outStream inversion
 	^ inversions
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 PositionableStream >> preservingPositionDo: aBlock [
 
 	| currentPosition |
@@ -53,7 +53,7 @@ PositionableStream >> preservingPositionDo: aBlock [
 	[ self do: aBlock ] ensure: [ self position: currentPosition ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 PositionableStream >> sizeUpToEnd [
 
 	^ readLimit - position

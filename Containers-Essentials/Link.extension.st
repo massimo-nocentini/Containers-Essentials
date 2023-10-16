@@ -1,6 +1,6 @@
-Extension { #name : #Link }
+Extension { #name : 'Link' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> asArray [
 
 	| array size i |
@@ -16,7 +16,7 @@ Link >> asArray [
 	^ array
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> do: aBlock [
 
 	| link |
@@ -27,7 +27,7 @@ Link >> do: aBlock [
 		link == self ifTrue: [ link := nil ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> last [
 
 	| last |
@@ -38,13 +38,13 @@ Link >> last [
 	^ last
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> moveToFront: eqBlock [
 
 	^ self moveToFront: eqBlock ifNone: [ self ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> moveToFront: eqBlock ifNone: noneBlock [
 
 	^ (eqBlock value: self)
@@ -68,19 +68,19 @@ Link >> moveToFront: eqBlock ifNone: noneBlock [
 				  ret ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> next: anObject [
 
 	^ anObject nextFromLink: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> nextFromLink: aLink [
 
 	^ aLink nextLink: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> nextInteger: n [
 
 	^ n = 0
@@ -88,13 +88,13 @@ Link >> nextInteger: n [
 		  ifFalse: [ self class nextLink: (nextLink nextInteger: n - 1) ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> reversed [
 
 	^ self reversed: nil
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> reversed: aSuffix [
 
 	^ self nextLink reversed: (self copy
@@ -102,7 +102,7 @@ Link >> reversed: aSuffix [
 			   yourself)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> size [
 
 	| size nl |
@@ -112,7 +112,7 @@ Link >> size [
 	^ size
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> sizeBlock: aBlock [
 
 	| size nl |
@@ -122,7 +122,7 @@ Link >> sizeBlock: aBlock [
 	^ size
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> with: aValueLink collect: aBlock [
 
 	^ self
@@ -131,7 +131,7 @@ Link >> with: aValueLink collect: aBlock [
 		  onSizeMismatchDo: [ SizeMismatch signal ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	^ aValueLink ifNil: [ eBlock cull: self ] ifNotNil: [ 
@@ -141,7 +141,7 @@ Link >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 			  onSizeMismatchDo: eBlock ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Link >> withValueLink: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	| links |

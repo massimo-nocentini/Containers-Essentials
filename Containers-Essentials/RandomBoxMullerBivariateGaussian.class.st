@@ -2,12 +2,14 @@
 Box–Muller transform, see https://en.wikipedia.org/wiki/Box%E2%80%93Muller_transform
 "
 Class {
-	#name : #RandomBoxMullerBivariateGaussian,
-	#superclass : #Random,
-	#category : #'Containers-Essentials-Random'
+	#name : 'RandomBoxMullerBivariateGaussian',
+	#superclass : 'Random',
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 RandomBoxMullerBivariateGaussian >> asShapeScatter [
 
 	| gen points |
@@ -26,13 +28,13 @@ RandomBoxMullerBivariateGaussian >> asShapeScatter [
 			   shapes)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBoxMullerBivariateGaussian >> density: x [
 
 	self shouldNotImplement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBoxMullerBivariateGaussian >> next [
 
 	| u1 u2 z0 z1 z w |

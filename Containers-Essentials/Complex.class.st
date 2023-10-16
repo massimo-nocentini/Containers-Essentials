@@ -74,43 +74,45 @@ Missing methods
 	Complex | mathematical functions | arcTan
 "
 Class {
-	#name : #Complex,
-	#superclass : #Object,
+	#name : 'Complex',
+	#superclass : 'Object',
 	#instVars : [
 		'real',
 		'imaginary'
 	],
-	#category : #'Containers-Essentials-Numbers'
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Complex class >> abs: aNumber1 arg: aNumber2 [
 	^self
 		real: aNumber1 * aNumber2 cos
 		imaginary: aNumber1 * aNumber2 sin
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Complex class >> new [
 	^ self real: 0 imaginary: 0
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Complex class >> one [
 	^ self real: 1 imaginary: 0
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Complex class >> real: aNumber1 imaginary: aNumber2 [
 	^self basicNew	real: aNumber1 imaginary: aNumber2
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 Complex class >> zero [
 	^ self real: 0 imaginary: 0
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> * anObject [
 	"Answer the result of multiplying the receiver by aNumber."
 	| a b c d newReal newImaginary |
@@ -127,7 +129,7 @@ Complex >> * anObject [
 			[^ anObject adaptToComplex: self andSend: #*]
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> + anObject [
 	"Answer the sum of the receiver and aNumber."
 	| a b c d newReal newImaginary |
@@ -144,7 +146,7 @@ Complex >> + anObject [
 			[^ anObject adaptToComplex: self andSend: #+]
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> - anObject [
 	"Answer the difference between the receiver and aNumber."
 	| a b c d newReal newImaginary |
@@ -161,7 +163,7 @@ Complex >> - anObject [
 			[^ anObject adaptToComplex: self andSend: #-]
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> / anObject [
 	"Answer the result of dividing receiver by aNumber"
 	| a b c d newReal newImaginary |
@@ -176,7 +178,7 @@ Complex >> / anObject [
 	^ anObject adaptToComplex: self andSend: #/.
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 Complex >> = anObject [
 	anObject isNumber ifFalse: [^false].
 	anObject isComplex
@@ -184,14 +186,14 @@ Complex >> = anObject [
 		ifFalse: [^ anObject adaptToComplex: self andSend: #=]
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> abs [
 	"Answer the distance of the receiver from zero (0 + 0 i)."
 
 	^ ((real * real) + (imaginary * imaginary)) sqrt
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> absSecure [
 	"Answer the distance of the receiver from zero (0 + 0 i).
 	Try avoiding overflow and/or underflow"
@@ -203,7 +205,7 @@ Complex >> absSecure [
 		ifFalse: [(self class real: real / scale imaginary: imaginary / scale) squaredNorm sqrt * scale]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> adaptToCollection: rcvr andSend: selector [
 	"If I am involved in arithmetic with a Collection, return a Collection of
 	the results of each element combined with me in that expression."
@@ -211,25 +213,25 @@ Complex >> adaptToCollection: rcvr andSend: selector [
 	^ rcvr collect: [:element | element perform: selector with: self]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> adaptToFloat: rcvr andSend: selector [
 	"If I am involved in arithmetic with a Float, convert it to a Complex number."
 	^ rcvr asComplex perform: selector with: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> adaptToFraction: rcvr andSend: selector [
 	"If I am involved in arithmetic with a Fraction, convert it to a Complex number."
 	^ rcvr asComplex perform: selector with: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> adaptToInteger: rcvr andSend: selector [
 	"If I am involved in arithmetic with an Integer, convert it to a Complex number."
 	^ rcvr asComplex perform: selector with: self
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcCos [
 	"Answer the arc cosine of the receiver.
 	This is the inverse function of cos."
@@ -254,7 +256,7 @@ Complex >> arcCos [
 	^self class real: x imaginary: y negated
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcCosh [
 	"Answer receiver's area hyperbolic cosine.
 	That is the inverse function of cosh.
@@ -286,7 +288,7 @@ Complex >> arcCosh [
 	^self class real: x imaginary: y
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcSin [
 	"Answer the arc sine of the receiver.
 	This is the inverse function of sin."
@@ -311,7 +313,7 @@ Complex >> arcSin [
 	^self class real: x imaginary: y
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcSinh [
 	"Answer receiver's area hyperbolic sine.
 	That is the inverse function of sinh."
@@ -325,7 +327,7 @@ Complex >> arcSinh [
 	^self i arcSin i negated
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcTan [
 	"Answer the arc tangent of the receiver.
 	This is the inverse function of tan."
@@ -337,7 +339,7 @@ Complex >> arcTan [
 		imaginary: ((r2 + (imaginary * 2) + 1) / (r2 - (imaginary * 2) + 1)) ln / 4
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcTan: denominator [ 
 	"Answer the  four quadrants arc tangent of receiver over denominator."
 
@@ -360,7 +362,7 @@ Complex >> arcTan: denominator [
 			res]
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> arcTanh [
 	"Answer receiver's area hyperbolic tangent.
 	That is the inverse function of tanh."
@@ -372,7 +374,7 @@ Complex >> arcTanh [
 	^self i arcTan i negated
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> arg [
 	"Answer the argument of the receiver."
 
@@ -380,26 +382,26 @@ Complex >> arg [
 	^imaginary arcTan: real
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> asComplex [
 	^self
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> conjugated [
 	"Return the complex conjugate of this complex number."
 
 	^self class real: real imaginary: imaginary negated
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> cos [
 	"Answer receiver's cosine."
 
 	^self i cosh
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> cosh [
 	"Answer receiver's hyperbolic cosine.
 	Hyperbolic cosine is defined by same power serie expansion as for real numbers, that is in term of exponential:
@@ -411,7 +413,7 @@ Complex >> cosh [
 		imaginary: real sinh * imaginary sin
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> divideFastAndSecureBy: anObject [
 	"Answer the result of dividing receiver by aNumber"
 	" Both operands are scaled to avoid arithmetic overflow. 
@@ -438,7 +440,7 @@ Complex >> divideFastAndSecureBy: anObject [
 	^ anObject adaptToComplex: self andSend: #/.
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> divideSecureBy: anObject [
 	"Answer the result of dividing receiver by aNumber"
 	" Both operands are scaled to avoid arithmetic overflow. This algorithm 
@@ -461,21 +463,21 @@ Complex >> divideSecureBy: anObject [
 	^ anObject adaptToComplex: self andSend: #/.
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> exp [
 	"Answer the exponential of the receiver."
 
 	^ real exp * (imaginary cos + imaginary sin i)
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 Complex >> hash [
 	"Hash is reimplemented because = is implemented."
 	
 	^ real hash bitXor: imaginary hash.
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> i [
 	"Answer the result of multiplying the receiver with pure imaginary.
 		^self * 1 i
@@ -484,48 +486,48 @@ Complex >> i [
 	^self class real: imaginary negated imaginary: real
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Complex >> imaginary [
 	^ imaginary
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 Complex >> isComplex [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 Complex >> isNumber [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 Complex >> isZero [
 	^ real isZero and: [imaginary isZero]
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> ln [
 	"Answer the natural log of the receiver."
 
 	^ self abs ln + self arg i
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> log: aNumber [ 
 	"Answer the log base aNumber of the receiver."
 
 	^self ln / aNumber ln
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> negated [
 	"Answer a Number that is the negation of the receiver."
 
 	^self class real: real negated imaginary: imaginary negated
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 Complex >> polarForm: aBlock [
 
 	| aPoint |
@@ -534,7 +536,7 @@ Complex >> polarForm: aBlock [
 	^ aBlock value: aPoint distanceToOrigin value: aPoint π * Float π
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 Complex >> printOn: aStream [
 	real printOn: aStream.
 	aStream nextPut: Character space.
@@ -548,7 +550,7 @@ Complex >> printOn: aStream [
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 Complex >> printOn: aStream showingDecimalPlaces: placesDesired [
 	real printOn: aStream showingDecimalPlaces: placesDesired.
 	aStream nextPut: Character space.
@@ -562,7 +564,7 @@ Complex >> printOn: aStream showingDecimalPlaces: placesDesired [
 
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> raisedTo: aNumber [ 
 	"Answer the receiver raised to aNumber."
 
@@ -579,7 +581,7 @@ Complex >> raisedTo: aNumber [
 	^ (aNumber * self ln) exp		"Otherwise use logarithms"
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> raisedToInteger: operand [ 
 	"Answer the receiver raised to the power operand, an Integer."
 
@@ -604,19 +606,19 @@ Complex >> raisedToInteger: operand [
 	^ result
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 Complex >> real [
 	^ real
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 Complex >> real: aNumber1 imaginary: aNumber2 [
 	"Private - initialize the real and imaginary parts of a Complex"
 	real := aNumber1.
 	imaginary := aNumber2.
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> reciprocal [
 	"Answer 1 divided by the receiver. Create an error notification if the 
 	receiver is 0."
@@ -627,14 +629,14 @@ Complex >> reciprocal [
 		
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> sin [
 	"Answer receiver's sine."
 
 	^self i sinh i negated
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> sinh [
 	"Answer receiver's hyperbolic sine.
 	Hyperbolic sine is defined by same power serie expansion as for real numbers, that is in term of exponential:
@@ -646,7 +648,7 @@ Complex >> sinh [
 		imaginary: real cosh * imaginary sin
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> sqrt [
 	"Return the square root of the receiver with a positive imaginary part."
 
@@ -658,28 +660,28 @@ Complex >> sqrt [
 	^self class real: u imaginary: v
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> squared [
 	"Answer the receiver multipled by itself."
 
 	^self * self
 ]
 
-{ #category : #arithmetic }
+{ #category : 'arithmetic' }
 Complex >> squaredNorm [
 	"Answer the square of receiver norm."
 
 	^real * real + (imaginary * imaginary)
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> tan [
 	"Answer receivers tangent."
 
 	^ self sin / self cos
 ]
 
-{ #category : #'mathematical functions' }
+{ #category : 'mathematical functions' }
 Complex >> tanh [
 	"Answer receiver's hyperbolic tangent."
 

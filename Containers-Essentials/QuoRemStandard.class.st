@@ -1,22 +1,24 @@
 Class {
-	#name : #QuoRemStandard,
-	#superclass : #QuoRemComplementary,
-	#category : #'Containers-Essentials-Numbers'
+	#name : 'QuoRemStandard',
+	#superclass : 'QuoRemComplementary',
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemStandard >> asPointWithRespectToRem [
 
 	^ super asPointWithRespectToRem negated
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemStandard >> complement [
 
 	^ QuoRemComplementary a: a b: b
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemStandard >> initialize [
 
 	super initialize.
@@ -25,7 +27,7 @@ QuoRemStandard >> initialize [
 	rem := a - (quo * b)
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemStandard >> numberOfDots [
 
 	| absRem |

@@ -1,23 +1,23 @@
-Extension { #name : #SequenceableCollection }
+Extension { #name : 'SequenceableCollection' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> allButFirstAndLast [
 
 	^ self ifNotEmpty: [ self copyFrom: 2 to: self size - 1 ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> asLinkedList [
 	^ self asValueLink asLinkedList
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> asValueLink [
 
 	^ self foldr: [ :each :aValueLink | each ~~> aValueLink ] init: nil
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> bisect: mergeBlock baseBlock: baseBlock [
 	^ self
 		bisect: mergeBlock
@@ -26,7 +26,7 @@ SequenceableCollection >> bisect: mergeBlock baseBlock: baseBlock [
 		baseBlock: baseBlock
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> bisect: mergeBlock from: low to: high baseBlock: baseBlock [
 	| diff |
 	diff := high - low.
@@ -47,13 +47,13 @@ SequenceableCollection >> bisect: mergeBlock from: low to: high baseBlock: baseB
 			mergeBlock value: left value: right ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> doubleExponentiallyWeighted: beta [
 
 	^ self doubleExponentiallyWeighted: beta init: 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> doubleExponentiallyWeighted: beta init: init [
 
 	"I collect according to https://en.wikipedia.org/wiki/Double_exponential_moving_average"
@@ -66,13 +66,13 @@ SequenceableCollection >> doubleExponentiallyWeighted: beta init: init [
 	^ ewa with: ewaOfEwa collect: [ :e :ee | 2 * e - ee ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> estrin: x [
 
 	^ self reversed estrin: x init: 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> estrin: base init: init [
 
 	^ self ifEmpty: [ init ] ifNotEmpty: [ 
@@ -93,13 +93,13 @@ SequenceableCollection >> estrin: base init: init [
 					  ((odd estrin: squared init: init) multiplyNumber: base) ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> exponentiallyWeighted: beta [
 
 	^ self exponentiallyWeighted: beta init: 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> exponentiallyWeighted: beta init: init [
 
 	"This message collects according to https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average."
@@ -118,7 +118,7 @@ SequenceableCollection >> exponentiallyWeighted: beta init: init [
 			  aStream nextPut: wCorrected ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> foldr1: aBlock [
 
 	| folded |
@@ -130,7 +130,7 @@ SequenceableCollection >> foldr1: aBlock [
 	^ folded
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> foldr: aBlock init: init [
 	| cell |
 	cell := init.
@@ -138,7 +138,7 @@ SequenceableCollection >> foldr: aBlock init: init [
 	^ cell
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> greatestCommonIndex: aCollection [
 
 	| index stop |
@@ -154,7 +154,7 @@ SequenceableCollection >> greatestCommonIndex: aCollection [
 	^ index - 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> halves [
 
 	^ self
@@ -162,7 +162,7 @@ SequenceableCollection >> halves [
 		  in: [ :prefix :suffix | Array with: prefix with: suffix ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 
 	| prefix suffix |
@@ -176,7 +176,7 @@ SequenceableCollection >> halvesAtIncluding: anIndex in: aBlock [
 	^ aBlock value: prefix contents value: suffix contents
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> horner: base init: init [
 
 	^ self
@@ -184,17 +184,17 @@ SequenceableCollection >> horner: base init: init [
 		  into: [ :acc :each | (acc multiplyNumber: base) addNumber: each ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> hornerBase10 [
 	^ self horner: 10 init: 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> hornerBase2 [
 	^ self horner: 2 init: 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 
 	^ ((1 to: self size) inject: 0 -> anObject into: [ :anAssoc :each | 
@@ -215,7 +215,7 @@ SequenceableCollection >> injectBRGC: anObject intoIn: iBlock intoOut: oBlock [
 		   nextCode -> acc ]) value
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> inversions: lessThan [
 
 	^ Array
@@ -234,7 +234,7 @@ SequenceableCollection >> inversions: lessThan [
 				  baseBlock: [ :each | { each } ] ] 
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> kth: anInteger ranking: aBlock atRandom: aRandom [
 
 	| lessThan equals greaterThan pivot k lessThanSize |
@@ -268,7 +268,7 @@ SequenceableCollection >> kth: anInteger ranking: aBlock atRandom: aRandom [
 						  atRandom: aRandom ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> lastButOne [
 
 	^ self
@@ -276,7 +276,7 @@ SequenceableCollection >> lastButOne [
 		  at: self size - 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> runs: aBlock [
 
 	| i runs mySize |
@@ -309,7 +309,7 @@ SequenceableCollection >> runs: aBlock [
 	^ runs asArray
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> scan: aBlock init: aValue [
 
 	^ self class new: self size + 1 streamContents: [ :aStream | 
@@ -320,7 +320,7 @@ SequenceableCollection >> scan: aBlock init: aValue [
 			  aStream nextPut: acc ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> sizeInversions: lessThan [
 
 	| inversions |
@@ -342,13 +342,13 @@ SequenceableCollection >> sizeInversions: lessThan [
 	^ inversions
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> unitAt: t [
 
 	^ (self first to: self last) unitAt: t
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> withBRGCIndexCollect: aBlock [
 
 	^ Array streamContents: [ :aStream | 
@@ -356,7 +356,7 @@ SequenceableCollection >> withBRGCIndexCollect: aBlock [
 			  aStream nextPut: (aBlock value: element value: index) ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> withBRGCIndexDo: aBlock [
 
 	| block |
@@ -369,12 +369,12 @@ SequenceableCollection >> withBRGCIndexDo: aBlock [
 		aBlock value: element value: index ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> zip: aSequenceable [
 	^ self zip: aSequenceable with: [ :s :o | s -> o ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> zip: aSequenceable with: aBlock [
 
 	| l size |

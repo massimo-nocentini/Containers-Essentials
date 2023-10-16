@@ -1,6 +1,6 @@
-Extension { #name : #MessageSend }
+Extension { #name : 'MessageSend' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 MessageSend >> return: anObject [
 
 	^ MessageSent new

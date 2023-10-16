@@ -1,6 +1,6 @@
-Extension { #name : #CompiledMethod }
+Extension { #name : 'CompiledMethod' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 CompiledMethod >> allImplementations [
 
 	^ Array streamContents: [ :aStream | 

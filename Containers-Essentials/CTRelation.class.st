@@ -1,14 +1,16 @@
 Class {
-	#name : #CTRelation,
-	#superclass : #Object,
+	#name : 'CTRelation',
+	#superclass : 'Object',
 	#instVars : [
 		'left',
 		'right'
 	],
-	#category : #'Containers-Essentials-Messaging'
+	#category : 'Containers-Essentials-Messaging',
+	#package : 'Containers-Essentials',
+	#tag : 'Messaging'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTRelation class >> is: a greaterThan: b [
 
 	^ (a > b
@@ -19,31 +21,31 @@ CTRelation class >> is: a greaterThan: b [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTRelation >> left [
 
 	^ left
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTRelation >> left: anObject [
 
 	left := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTRelation >> right [
 
 	^ right
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTRelation >> right: anObject [
 
 	right := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 CTRelation >> slowExplicitFibonacci: anInteger tail: anotherInteger greaterThanZero: aReceiver [
 
 	^ aReceiver

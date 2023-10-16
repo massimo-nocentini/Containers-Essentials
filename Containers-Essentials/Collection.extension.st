@@ -1,6 +1,6 @@
-Extension { #name : #Collection }
+Extension { #name : 'Collection' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> adaptToComplex: rcvr andSend: selector [
 
 	"If I am involved in arithmetic with a scalar, return a Collection of
@@ -9,7 +9,7 @@ Collection >> adaptToComplex: rcvr andSend: selector [
 	^ self collect: [ :element | rcvr perform: selector with: element ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> asCollectionKeyBlock: keyBlock valueBlock: valueBlock [
 
 	^ CTKeyedValuedOrderedCollection new
@@ -19,19 +19,19 @@ Collection >> asCollectionKeyBlock: keyBlock valueBlock: valueBlock [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> at: aKey update: aBlock [
 
 	^ self at: aKey put: (aBlock value: (self at: aKey))
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> doª: aBlock [
 
 	self do: aBlock
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> select: selectBlock thenFlatCollect: collectBlock [
 
 	^ self class streamContents: [ :aStream | 
@@ -40,7 +40,7 @@ Collection >> select: selectBlock thenFlatCollect: collectBlock [
 			  thenDo: [ :each | aStream nextPutAll: collectBlock ! each ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Collection >> withIntegersCollectionDo: aBlock [
 
 	| map collection identities |

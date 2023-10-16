@@ -1,19 +1,19 @@
-Extension { #name : #Duration }
+Extension { #name : 'Duration' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Duration >> asStringDHHMMSSµ [
 
 	^ self asString
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Duration >> asStringScaledUptoHours [
 
 	^ String streamContents: [ :aStream | 
 		  self printScaledUptoHoursOn: aStream ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Duration >> printOn: aStream scales: scales withRespectTo: aBlock [
 
 	| base i scale |
@@ -37,7 +37,7 @@ Duration >> printOn: aStream scales: scales withRespectTo: aBlock [
 		nextPutAll: scale value
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Duration >> printScaledUptoHoursOn: aStream [
 
 	self
@@ -52,7 +52,7 @@ Duration >> printScaledUptoHoursOn: aStream [
 		withRespectTo: [ :aDuration | aDuration asNanoSeconds ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Duration >> squared [
 
 	^ self class seconds: seconds squared nanoSeconds: nanos squared

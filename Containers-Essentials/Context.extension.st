@@ -1,6 +1,6 @@
-Extension { #name : #Context }
+Extension { #name : 'Context' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Context >> asArgumentsReifiedContext [
 
 	| recv arguments |
@@ -14,7 +14,7 @@ Context >> asArgumentsReifiedContext [
 		  arguments: arguments second
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Context >> asStringInterpolationOfReceiverSelectorArguments [
 
 	^ String streamContents: [ :aStream | 
@@ -24,7 +24,7 @@ Context >> asStringInterpolationOfReceiverSelectorArguments [
 			  nextPutAll: self asStringInterpolationOfSelectorArguments ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Context >> asStringInterpolationOfSelectorArguments [
 
 	| interpolation |

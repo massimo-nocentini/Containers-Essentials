@@ -1,13 +1,15 @@
 Class {
-	#name : #SkewBinaryCanonicalNumber,
-	#superclass : #Object,
+	#name : 'SkewBinaryCanonicalNumber',
+	#superclass : 'Object',
 	#instVars : [
 		'representation'
 	],
-	#category : #'Containers-Essentials-Numbers'
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 SkewBinaryCanonicalNumber >> asInteger [
 
 	| value |
@@ -16,26 +18,26 @@ SkewBinaryCanonicalNumber >> asInteger [
 	^ value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> cdr [
 	^ self class new
 		representation: representation nextLink;
 		yourself
 ]
 
-{ #category : #creating }
+{ #category : 'creating' }
 SkewBinaryCanonicalNumber >> cons: i [
 	^ self cons: i onto: representation
 ]
 
-{ #category : #creating }
+{ #category : 'creating' }
 SkewBinaryCanonicalNumber >> cons: i onto: aValueLink [
 	^ self class new
 		representation: i ~~> aValueLink;
 		yourself
 ]
 
-{ #category : #decrement }
+{ #category : 'decrement' }
 SkewBinaryCanonicalNumber >> decrement [
 
 	^ self
@@ -52,18 +54,18 @@ SkewBinaryCanonicalNumber >> decrement [
 						  onto: aValueLink nextLink ] ]
 ]
 
-{ #category : #decrement }
+{ #category : 'decrement' }
 SkewBinaryCanonicalNumber >> decrementBitZeroOrTwo: aValue by: v onto: aRepresentation [
 
 	^ self cons: v onto: v ~~> aRepresentation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> ifZero: zBlock ifNotZero: nzBlock [
 	^ representation ifNil: zBlock ifNotNil: nzBlock
 ]
 
-{ #category : #increment }
+{ #category : 'increment' }
 SkewBinaryCanonicalNumber >> increment [
 
 	^ self ifZero: [ self incrementZero ] ifNotZero: [ :aValueLink | 
@@ -83,46 +85,46 @@ SkewBinaryCanonicalNumber >> increment [
 					  ifFalse: [ self incrementDifferentAdjacentBits ] ] ]
 ]
 
-{ #category : #increment }
+{ #category : 'increment' }
 SkewBinaryCanonicalNumber >> incrementBy: weight onto: aRepresentation two: currentValue inARow: nextValue [
 
 	^ self cons: weight onto: aRepresentation
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 SkewBinaryCanonicalNumber >> incrementDifferentAdjacentBits [
 
 	^ self cons: 1
 ]
 
-{ #category : #increment }
+{ #category : 'increment' }
 SkewBinaryCanonicalNumber >> incrementLastDigit [
 
 	^ self cons: 1
 ]
 
-{ #category : #increment }
+{ #category : 'increment' }
 SkewBinaryCanonicalNumber >> incrementZero [
 
 	^ self cons: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> key: aValueLink [
 	^ aValueLink value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> representation [
 	^ representation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> representation: aValueLink [
 	representation := aValueLink
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SkewBinaryCanonicalNumber >> weight [
 	^ self key: representation
 ]

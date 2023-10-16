@@ -1,6 +1,6 @@
 Class {
-	#name : #QuoRemComplementary,
-	#superclass : #Magnitude,
+	#name : 'QuoRemComplementary',
+	#superclass : 'Magnitude',
 	#instVars : [
 		'a',
 		'b',
@@ -8,10 +8,12 @@ Class {
 		'quo',
 		'rem'
 	],
-	#category : #'Containers-Essentials-Numbers'
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 QuoRemComplementary class >> a: a b: b [
 
 	^ self basicNew
@@ -21,7 +23,7 @@ QuoRemComplementary class >> a: a b: b [
 		  yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 QuoRemComplementary >> < aMagnitude [
 
 	"Answer whether the receiver is less than the argument."
@@ -29,7 +31,7 @@ QuoRemComplementary >> < aMagnitude [
 	^ self value < aMagnitude
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 QuoRemComplementary >> = aMagnitude [
 
 	"Compare the receiver with the argument and answer with true if the 
@@ -38,31 +40,31 @@ QuoRemComplementary >> = aMagnitude [
 	^ self value = aMagnitude
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> a [
 
 	^ a
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> a: anObject [
 
 	a := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 QuoRemComplementary >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitQuoRemComplementary: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemComplementary >> asPointWithRespectToRem [
 
 	^ (1 @ self quo negated) negated
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 QuoRemComplementary >> asShapeDots [
 
 	| shapes |
@@ -87,19 +89,19 @@ QuoRemComplementary >> asShapeDots [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> b [
 
 	^ b
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> b: anObject [
 
 	b := anObject
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 QuoRemComplementary >> hash [
 
 	"Hash must be redefined whenever = is redefined."
@@ -107,7 +109,7 @@ QuoRemComplementary >> hash [
 	^ self value hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> initialize [
 
 	ratio := a / b.
@@ -116,13 +118,13 @@ QuoRemComplementary >> initialize [
 	rem := a - (quo * b)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 QuoRemComplementary >> numberOfDots [
 
 	^ b * quo
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 QuoRemComplementary >> printOn: aStream [
 
 	aStream
@@ -144,19 +146,19 @@ QuoRemComplementary >> printOn: aStream [
 				nextPutAll: rem asString ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> quo [
 
 	^ quo
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 QuoRemComplementary >> rem [
 
 	^ rem
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 QuoRemComplementary >> value [
 
 	^ ratio

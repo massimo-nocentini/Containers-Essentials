@@ -1,16 +1,18 @@
 Class {
-	#name : #RandomGeometric,
-	#superclass : #RandomBernoulli,
-	#category : #'Containers-Essentials-Random'
+	#name : 'RandomGeometric',
+	#superclass : 'RandomBernoulli',
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGeometric >> density: x [
 
 	^ 1 - p ** (x - 1) * p
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomGeometric >> next [
 
 	| failures |

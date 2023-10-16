@@ -1,6 +1,6 @@
-Extension { #name : #ArrayedCollection }
+Extension { #name : 'ArrayedCollection' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ArrayedCollection >> countingSort: key maximum: k [
 	| count output |
 	count := self class new: k + 1 withAll: 0.

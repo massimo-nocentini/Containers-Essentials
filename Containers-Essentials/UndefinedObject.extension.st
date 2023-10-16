@@ -1,45 +1,45 @@
-Extension { #name : #UndefinedObject }
+Extension { #name : 'UndefinedObject' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> asLinkedList [
 	^ LinkedList empty
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> do: aFullBlockClosure [
 
 	
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> next: n [
 
 	^ self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> nextInteger: n [
 
 	^ self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> reversed [
 	^ self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> reversed: prefix [
 	^ prefix
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> sizeBlock: aBlock [
 
 	^ 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> with: aValueLink collect: aString [
 
 	^ self
@@ -48,7 +48,7 @@ UndefinedObject >> with: aValueLink collect: aString [
 		  onSizeMismatchDo: [ SizeMismatch signal ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	^ aValueLink ifNotNil: [ 
@@ -58,7 +58,7 @@ UndefinedObject >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 			  onSizeMismatchDo: eBlock ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 UndefinedObject >> withValueLink: aValueLink collect: aString onSizeMismatchDo: eBlock [
 
 	^ aValueLink ifNotNil: [ eBlock cull: aValueLink ]

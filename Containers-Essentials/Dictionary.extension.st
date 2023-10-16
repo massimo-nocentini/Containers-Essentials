@@ -1,6 +1,6 @@
-Extension { #name : #Dictionary }
+Extension { #name : 'Dictionary' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Dictionary >> anyAssociation [
 
 	"I mimic the message `Collection>>#anyone` with respect to associations that I collect."
@@ -10,7 +10,7 @@ Dictionary >> anyAssociation [
 		associationsDo: [ :assoc | ^ assoc ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Dictionary >> at: aKey inOrderedCollectionAdd: anObject [
 
 	^ (self at: aKey ifAbsentPut: [ OrderedCollection new ])
@@ -18,20 +18,20 @@ Dictionary >> at: aKey inOrderedCollectionAdd: anObject [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Dictionary >> ifAbsentPutOrderAt: anObject [
 
 	^ self at: anObject ifAbsentPut: [ self size + 1 ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Dictionary >> inverted [
 
 	^ self invertedIfCollision: [ :v :collision | 
 		  Array streamContents: [ :aStream | collision flattenOn: aStream ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Dictionary >> invertedIfCollision: aBlock [
 
 	| invert |

@@ -1,10 +1,12 @@
 Class {
-	#name : #CTConditionIfTrue,
-	#superclass : #CTCondition,
-	#category : #'Containers-Essentials-Conditions'
+	#name : 'CTConditionIfTrue',
+	#superclass : 'CTCondition',
+	#category : 'Containers-Essentials-Conditions',
+	#package : 'Containers-Essentials',
+	#tag : 'Conditions'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTConditionIfTrue >> falsehood [
 
 	"According to True>>#ifFalse:"

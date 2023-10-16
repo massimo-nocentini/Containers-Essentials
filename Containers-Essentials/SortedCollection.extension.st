@@ -1,6 +1,6 @@
-Extension { #name : #SortedCollection }
+Extension { #name : 'SortedCollection' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SortedCollection class >> array: anArray sortUsing: aBlockOrSortFunction [
 
 	^ (self sortUsing: aBlockOrSortFunction)

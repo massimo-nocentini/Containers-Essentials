@@ -1,6 +1,6 @@
-Extension { #name : #CollectionElement }
+Extension { #name : 'CollectionElement' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 CollectionElement >> ifNil: nBlock ifEnclosed: jBlock [
 
 	^ self == NilElement

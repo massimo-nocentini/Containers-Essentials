@@ -1,6 +1,6 @@
-Extension { #name : #Array2D }
+Extension { #name : 'Array2D' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Array2D >> asArrayOfLinks [
 
 	^ Array streamContents: [ :aStream | 
@@ -16,7 +16,7 @@ Array2D >> asArrayOfLinks [
 		  aStream nextPut: link reversed ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Array2D class >> catalan: size [
 
 	^ Array2D
@@ -25,7 +25,7 @@ Array2D class >> catalan: size [
 		  tabulate: [ :n :k | n - 1 catalan: k - 1 ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Array2D class >> pascal: size [
 
 	^ Array2D

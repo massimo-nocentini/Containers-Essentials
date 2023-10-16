@@ -1,23 +1,23 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> -! aBlock [
 
 	^ aBlock ! self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> asReflexiveAssociation [
 	^ self -> self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> asReflexivePoint [
 
 	^ Point x: self y: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> isComplex [
 	"Answer true if receiver is a Complex number. False by default."
 
@@ -25,19 +25,19 @@ Object >> isComplex [
 
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> itself: anObject [
 
 	^ anObject
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> prependBlock: aFullBlockClosure [
 
 	^ aFullBlockClosure value: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> yourself: aBlock [
 
 	"I invoke the given block giving myself as argument if it needs to consume me.
@@ -46,7 +46,7 @@ Object >> yourself: aBlock [
 	aBlock cull: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> |<| aBlockOrSymbol [
 	^ [ :arg | 
 	  aBlockOrSymbol isSymbol
@@ -54,7 +54,7 @@ Object >> |<| aBlockOrSymbol [
 		  ifFalse: [ aBlockOrSymbol value: self value: arg ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Object >> |>| aBlockOrSymbol [
 	^ [ :recv | 
 	  aBlockOrSymbol isSymbol

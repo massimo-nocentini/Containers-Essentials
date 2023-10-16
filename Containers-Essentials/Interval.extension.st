@@ -1,6 +1,6 @@
-Extension { #name : #Interval }
+Extension { #name : 'Interval' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Interval >> chebyshev: samples [
 
 	| sum diff denominator knots |
@@ -18,7 +18,7 @@ Interval >> chebyshev: samples [
 	^ knots
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Interval >> chebyshevInclusive: samples [
 
 	| n array |
@@ -33,7 +33,7 @@ Interval >> chebyshevInclusive: samples [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Interval >> linspace: n [
 
 	^ n < 2
@@ -41,7 +41,7 @@ Interval >> linspace: n [
 		  ifFalse: [ start to: stop by: stop - start / (n - 1) ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Interval >> unitAt: t [
 
 	^ (t min: stop max: start) - start / (stop - start)

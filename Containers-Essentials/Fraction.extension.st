@@ -1,24 +1,24 @@
-Extension { #name : #Fraction }
+Extension { #name : 'Fraction' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> \/ anObject [
 
 	^ anObject mediantFraction: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> asFractionWrtFloor [
 
 	^ self - self floor
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> asPointIntegerBounds [
 
 	^ self floor @ self ceiling
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> asPointOnUnitCircle [
 
 	| u v squared d |
@@ -31,7 +31,7 @@ Fraction >> asPointOnUnitCircle [
 	^ u @ v
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> asPythagoreanTriple [
 
 	| unitPoint |
@@ -43,19 +43,19 @@ Fraction >> asPythagoreanTriple [
 		  with: unitPoint x denominator
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> fordRadius [
 
 	^ denominator squared double reciprocal
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> kissingFractionLink: aLink [
 
 	^ self ~~> aLink
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> kissingFractions [
 
 	| kissedFractions vl |
@@ -85,14 +85,14 @@ Fraction >> kissingFractions [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> mediantFraction: aFraction [
 
 	^ aFraction numerator + self numerator
 	  / (aFraction denominator + self denominator)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Fraction >> mediantInteger: anInteger [
 
 	^ self numerator + anInteger numerator

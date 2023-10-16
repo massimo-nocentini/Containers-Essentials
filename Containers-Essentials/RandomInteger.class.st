@@ -1,26 +1,28 @@
 Class {
-	#name : #RandomInteger,
-	#superclass : #Random,
+	#name : 'RandomInteger',
+	#superclass : 'Random',
 	#instVars : [
 		'atLeast',
 		'atMost'
 	],
-	#category : #'Containers-Essentials-Random'
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomInteger >> atLeast: anObject [
 
 	atLeast := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomInteger >> atMost: anObject [
 
 	atMost := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RandomInteger >> initialize [
 
 	super initialize.
@@ -30,7 +32,7 @@ RandomInteger >> initialize [
 		atMost: SmallInteger maxVal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomInteger >> next [
 
 	^ self nextIntegerBetween: atLeast and: atMost

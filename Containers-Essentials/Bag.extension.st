@@ -1,6 +1,6 @@
-Extension { #name : #Bag }
+Extension { #name : 'Bag' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Bag >> associations [
 
 	^ contents associations

@@ -1,16 +1,18 @@
 Class {
-	#name : #CTConditionValueable,
-	#superclass : #CTCondition,
-	#category : #'Containers-Essentials-Conditions'
+	#name : 'CTConditionValueable',
+	#superclass : 'CTCondition',
+	#category : 'Containers-Essentials-Conditions',
+	#package : 'Containers-Essentials',
+	#tag : 'Conditions'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTConditionValueable >> falsehood [
 
 	Error signal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTConditionValueable >> value: object [
 
 	^ self cull: object

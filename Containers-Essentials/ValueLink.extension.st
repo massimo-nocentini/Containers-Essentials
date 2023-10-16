@@ -1,6 +1,6 @@
-Extension { #name : #ValueLink }
+Extension { #name : 'ValueLink' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ValueLink >> asLinkedList [
 
 	| list |
@@ -9,13 +9,13 @@ ValueLink >> asLinkedList [
 	^ list
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ValueLink >> do: aBlock [
 
 	^ super do: [ :each | aBlock value: each value ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ValueLink >> moveToFront: eqBlock ifNone: noneBlock [
 
 	^ super
@@ -23,7 +23,7 @@ ValueLink >> moveToFront: eqBlock ifNone: noneBlock [
 		  ifNone: noneBlock
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ValueLink >> nextInteger: n [
 
 	^ (super nextInteger: n) ifNotNil: [ :aValueLink | 
@@ -32,7 +32,7 @@ ValueLink >> nextInteger: n [
 			  yourself ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ValueLink >> with: aValueLink collect: aBlock onSizeMismatchDo: eBlock [
 
 	^ super

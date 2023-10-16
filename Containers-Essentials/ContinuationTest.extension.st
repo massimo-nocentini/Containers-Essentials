@@ -1,6 +1,6 @@
-Extension { #name : #ContinuationTest }
+Extension { #name : 'ContinuationTest' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ContinuationTest >> testPrependBlock [
 
 	self
@@ -23,7 +23,7 @@ ContinuationTest >> testPrependBlock [
 		equals: 4
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 ContinuationTest >> testPrependBlockRaisingException [
 
 	self

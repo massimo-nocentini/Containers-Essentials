@@ -1,6 +1,6 @@
-Extension { #name : #LinkedList }
+Extension { #name : 'LinkedList' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 LinkedList >> , other [
 	"Optimized version of append for this specific linked container"
 
@@ -11,19 +11,19 @@ LinkedList >> , other [
 				yourself ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 LinkedList >> allButFirst [
 	^ self cdr
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 LinkedList >> car [
 	"Return the very first element"
 
 	^ self first
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 LinkedList >> cdr [
 	"Returns the tail of this list"
 

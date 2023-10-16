@@ -1,36 +1,36 @@
-Extension { #name : #BlockClosure }
+Extension { #name : 'BlockClosure' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> ! anArgument [
 
 	^ self value: anArgument
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> !! args [
 
 	^ self valueWithArguments: args
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> , anObject [
 
 	^ anObject prependBlock: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> ? anArgument [
 
 	^ self cull: anArgument
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> ?? args [
 
 	^ self valueWithEnoughArguments: args
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBlock [
 
 	^ self
@@ -41,7 +41,7 @@ BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBl
 		  ifBroken: [ :arg | arg ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBlock ifBroken: breakBlock [
 
 	"General iterator message."
@@ -69,7 +69,7 @@ BlockClosure >> for: guardBlock collect: collectBlock do: doBlock then: updateBl
 	^ value
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> for: guardBlock do: doBlock then: updateBlock [
 
 	^ self
@@ -79,7 +79,7 @@ BlockClosure >> for: guardBlock do: doBlock then: updateBlock [
 		  ifBroken: [ :arg | arg ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> for: guardBlock do: doBlock then: updateBlock ifBroken: breakBlock [
 
 	^ self
@@ -90,7 +90,7 @@ BlockClosure >> for: guardBlock do: doBlock then: updateBlock ifBroken: breakBlo
 		  ifBroken: breakBlock
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> kissingFractions [
 
 	| fractions news level |
@@ -117,13 +117,13 @@ BlockClosure >> kissingFractions [
 		  asArray
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> prependBlock: aFullBlockClosure [
 
 	^ [ :v | self value: (aFullBlockClosure value: v) ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 BlockClosure >> valueWithArgumentedExit [
 
 	^ self value: [ :anObject | ^ anObject ]

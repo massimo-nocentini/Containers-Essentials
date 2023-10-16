@@ -1,6 +1,6 @@
-Extension { #name : #Point }
+Extension { #name : 'Point' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> asFloatPointRound: numberOfWishedDecimal [
 
 	| aPoint |
@@ -10,13 +10,13 @@ Point >> asFloatPointRound: numberOfWishedDecimal [
 	  @ (aPoint y round: numberOfWishedDecimal)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> distanceToOrigin [
 
 	^ self distanceTo: 0 @ 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> unitAffine: aPoint at: aParam [
 
 	| t |
@@ -25,7 +25,7 @@ Point >> unitAffine: aPoint at: aParam [
 	^ self * t + (1 - t * aPoint)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> unitAffine: aPoint at: aParam and: anotherPoint at: anotherParam [
 
 	| t s |
@@ -36,19 +36,19 @@ Point >> unitAffine: aPoint at: aParam and: anotherPoint at: anotherParam [
 	^ self * t + (aPoint * s) + (1 - t - s * anotherPoint)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> xMinusY [
 
 	^ self x - self y
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> yMinusX [
 
 	^ self y - self x
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Point >> π [
 
 	^ (self angle / Float π) asFraction

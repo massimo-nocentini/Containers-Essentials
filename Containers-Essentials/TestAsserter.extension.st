@@ -1,6 +1,6 @@
-Extension { #name : #TestAsserter }
+Extension { #name : 'TestAsserter' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 TestAsserter >> assert: actual and: another equals: expected [
 
 	^ self

@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 String >> largestIndexUntil: aBlock [
 
 	self withIndexDo: [ :each :index | 
@@ -9,14 +9,14 @@ String >> largestIndexUntil: aBlock [
 	^ 0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 String >> subscript [
 	| subscripts |
 	subscripts := self class subscripts.
 	^ self collect: [ :each | subscripts at: each ifAbsent: [ each ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 String class >> subscripts [
 	^ Dictionary new
 		at: $0 put: $₀;

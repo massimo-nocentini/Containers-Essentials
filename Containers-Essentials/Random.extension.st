@@ -1,6 +1,6 @@
-Extension { #name : #Random }
+Extension { #name : 'Random' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Random >> density: x [
 
 	^ 1 + (RandomGaussian new
@@ -8,7 +8,7 @@ Random >> density: x [
 		   next)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Random >> fairCoin [
 
 	^ (RandomBernoulli seed: seed)

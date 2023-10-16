@@ -1,6 +1,6 @@
-Extension { #name : #Float }
+Extension { #name : 'Float' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> arcCosh [
 	"Answer receiver's area hyperbolic cosine.
 	That is the inverse function of cosh."
@@ -13,7 +13,7 @@ Float >> arcCosh [
 		ifFalse: [((self squared - 1) sqrt + self) ln]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> arcSinh [
 	"Answer receiver's area hyperbolic sine.
 	That is the inverse function of sinh."
@@ -24,7 +24,7 @@ Float >> arcSinh [
 		ifFalse: [((self squared + 1) sqrt + self) ln]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> arcTanh [
 
 	"Answer receiver's area hyperbolic tangent.
@@ -37,13 +37,13 @@ Float >> arcTanh [
 	^ (1 + self / (1 - self)) ln / 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> bronzeRatio [
 
 	^ 1.0 - self silverRatio
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> cosh [
 	"Answer receivers hyperbolic cosine."
 	
@@ -52,43 +52,43 @@ Float >> cosh [
 	^(ex + ex reciprocal) / 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> double [
 
 	^ self * 2.0
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> goldenPlatinumRatio [
 
 	^ self goldenRatio + self platinumRatio
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> goldenRatio [
 
 	^ 1.61803398874989484820458683436563811772030917980576286213544862270526046281890244970720720418939113748475
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> halved [
 
 	^ self * 0.5
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> platinumRatio [
 
 	^ self goldenRatio + 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> silverRatio [
 
 	^ self goldenRatio - 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> sinh [
 	"Answer receivers hyperbolic sine"
 	
@@ -97,7 +97,7 @@ Float >> sinh [
 	^self copySignTo: (ex - ex reciprocal) / 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float >> tanh [
 	"Answer hyperbolic tangent of receiver.
 	Trivial implementation is:
@@ -113,7 +113,7 @@ Float >> tanh [
 	^(ex - emx) / (ex + emx)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Float class >> π [
 
 	^ self pi

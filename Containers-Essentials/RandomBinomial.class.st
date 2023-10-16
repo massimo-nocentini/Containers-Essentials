@@ -1,19 +1,21 @@
 Class {
-	#name : #RandomBinomial,
-	#superclass : #RandomBernoulli,
+	#name : 'RandomBinomial',
+	#superclass : 'RandomBernoulli',
 	#instVars : [
 		'n'
 	],
-	#category : #'Containers-Essentials-Random'
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBinomial >> density: x [
 
 	^ (n choose: x) * (p ** x) * (1 - p ** (n - x))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBinomial >> initialize [
 
 	super initialize.
@@ -21,13 +23,13 @@ RandomBinomial >> initialize [
 	self n: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBinomial >> n: anInteger [
 
 	n := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomBinomial >> next [
 
 	^ (1 to: n)

@@ -1,20 +1,22 @@
 Class {
-	#name : #GreatestCommonDivisor,
-	#superclass : #QuoRemComplementary,
+	#name : 'GreatestCommonDivisor',
+	#superclass : 'QuoRemComplementary',
 	#instVars : [
 		'equations',
 		'point'
 	],
-	#category : #'Containers-Essentials-Numbers'
+	#category : 'Containers-Essentials-Numbers',
+	#package : 'Containers-Essentials',
+	#tag : 'Numbers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitGreatestCommonDivisor: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> asShapeDiophantineEquation [
 
 	| r s shapes lines |
@@ -44,19 +46,19 @@ GreatestCommonDivisor >> asShapeDiophantineEquation [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> asShapeDividendOverGCD [
 
 	^ self a /% self value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> asShapeDivisorOverGCD [
 
 	^ self b /% self value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> asStringDiophantineEquation [
 
 	| ax by comb |
@@ -79,7 +81,7 @@ GreatestCommonDivisor >> asStringDiophantineEquation [
 		  formattedCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> divisibility [
 
 	| gcd |
@@ -88,13 +90,13 @@ GreatestCommonDivisor >> divisibility [
 	^ equations collect: [ :each | each a /% gcd ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GreatestCommonDivisor >> equations [
 
 	^ equations
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GreatestCommonDivisor >> initialize [
 
 	| eq quoRemClass |
@@ -125,7 +127,7 @@ GreatestCommonDivisor >> initialize [
 		         ifFalse: [ 0 @ 1 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> inverseMultiplicativeOf: a_b mul: j rem: mod [
 
 	| ax by i |
@@ -149,25 +151,25 @@ GreatestCommonDivisor >> inverseMultiplicativeOf: a_b mul: j rem: mod [
 		  formattedCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> inverseMultiplicativeOfa [
 
 	^ self inverseMultiplicativeOf: self a mul: self point x rem: self b
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> inverseMultiplicativeOfb [
 
 	^ self inverseMultiplicativeOf: self b mul: self point y rem: self a
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GreatestCommonDivisor >> point [
 
 	^ point
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 GreatestCommonDivisor >> printOn: aStream [
 
 	| by |
@@ -183,7 +185,7 @@ GreatestCommonDivisor >> printOn: aStream [
 			formattedCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 GreatestCommonDivisor >> solve: c ifExists: eBlock ifNotExists: neBlock [
 
 	| gcd |

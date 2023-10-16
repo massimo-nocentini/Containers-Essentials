@@ -1,42 +1,42 @@
-Extension { #name : #Integer }
+Extension { #name : 'Integer' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> /% anObject [
 
 	^ anObject quoRemInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> /%< anObject [
 
 	^ anObject quoRemMinimalInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> /%~ anObject [
 
 	^ anObject quoRemComplementaryInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> >|< anObject [
 
 	^ anObject greatestCommonDisivorInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> \/ anObject [
 
 	^ anObject mediantInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asBRGCCollection [
 
 	^ (1 to: self) withBRGCIndexCollect: [ :each :index | index ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asSkewBinaryCanonicalSparse [
 
 	| skew |
@@ -45,7 +45,7 @@ Integer >> asSkewBinaryCanonicalSparse [
 	^ skew
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringAZaz [
 
 	^ self positive
@@ -72,37 +72,37 @@ Integer >> asStringAZaz [
 		  ifFalse: [ Error signal ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringBRGC [
 
 	^ self bitBRGC printStringBase: 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringBinary [
 
 	^ self printStringBase: 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringDecimal [
 
 	^ self printString
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringHex [
 
 	^ self printStringHex
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringOctal [
 
 	^ self printStringBase: 8
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringSkew [
 
 	^ String streamContents: [ :aStream | 
@@ -110,7 +110,7 @@ Integer >> asStringSkew [
 			  aStream nextPutAll: each asString ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> asStringaz [
 
 	^ self positive
@@ -137,7 +137,7 @@ Integer >> asStringaz [
 		  ifFalse: [ Error signal ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> binaryCanonicalDenseRepresentation [
 	^ self isZero
 		  ifTrue: [ 0 ~~> nil ]
@@ -145,7 +145,7 @@ Integer >> binaryCanonicalDenseRepresentation [
 		  self binaryCanonicalDenseRepresentationWith: [ :v | v ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 
 	^ self isZero
@@ -156,7 +156,7 @@ Integer >> binaryCanonicalDenseRepresentationWith: anAccumulatorBlock [
 				  anAccumulatorBlock value: self \\ 2 ~~> representation ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> bitAdd: anInteger [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
@@ -166,7 +166,7 @@ Integer >> bitAdd: anInteger [
 	^ (self bitAnd: anInteger) << 1 + (self bitXor: anInteger)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> bitAverage: anInteger [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.7, Average without overflow."
@@ -176,13 +176,13 @@ Integer >> bitAverage: anInteger [
 	^ (self bitXor: anInteger) >> 1 + (self bitAnd: anInteger)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> bitBRGC [
 
 	^ self bitXor: self >> 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> bitInvert8 [
 	"Answer the 8-bit complement of the receiver."
 
@@ -191,7 +191,7 @@ Integer >> bitInvert8 [
 	^ (self bitAnd: mask) bitXor: mask
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> bitToggle: anInteger do: aBlock [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.8, Toggling between values."
@@ -203,14 +203,14 @@ Integer >> bitToggle: anInteger do: aBlock [
 	^ aBlock value: [ x := x bitXor: t ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> catalan: k [
 
 	^ (2 * self - k choose: self - k)
 	  - (2 * self - k choose: self - k - 1)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> catalanNumbers [
 
 	^ self
@@ -220,14 +220,14 @@ Integer >> catalanNumbers [
 		  ifNotPositive: [ Array empty ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> choose: k [
 	^ (k positive and: [ self >= k ])
 		ifTrue: [ self factorial / (k factorial * (self - k) factorial) ]
 		ifFalse: [ 0 ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> dcMultiplyInteger: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
@@ -269,7 +269,7 @@ Integer >> dcMultiplyInteger: anInteger base: base [
 				  base: base ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> dcMultiplyIntegerQuick: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
@@ -311,7 +311,7 @@ Integer >> dcMultiplyIntegerQuick: anInteger base: base [
 				  base: base ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
@@ -351,20 +351,20 @@ Integer >> dcMultiplyIntegerSlow: anInteger base: base [
 				  base: base ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> double [
 
 	^ self << 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> eightBits [
 	| byte |
 	byte := self bitAnd: 16rff.
 	^ (0 to: 7) collect: [ :i | (1 << i bitAnd: byte) ~= 0 ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> factorialRecursive [
 
 	^ self > 0
@@ -376,13 +376,13 @@ Integer >> factorialRecursive [
 				  ifFalse: [ self error: 'Not valid for negative integers' ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> fibonacciNumbers [
 
 	^ self gibonacciNumbersFirst: 0 second: 1 do: [ :a :b | a + b ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
 
 	^ self
@@ -404,7 +404,7 @@ Integer >> gibonacciNumbersFirst: first second: second do: aBlock [
 		  ifNotPositive: [ #(  ) ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> goldenRatiosGreater [
 
 	^ self
@@ -413,7 +413,7 @@ Integer >> goldenRatiosGreater [
 		  do: [ :a :b | a + b ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> goldenRatiosLower [
 
 	^ self
@@ -422,7 +422,7 @@ Integer >> goldenRatiosLower [
 		  do: [ :a :b | a - b ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> greatestCommonDisivorInteger: anInteger [
 
 	| max min |
@@ -432,7 +432,7 @@ Integer >> greatestCommonDisivorInteger: anInteger [
 	^ GreatestCommonDivisor a: max b: min
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> halves: aBlock at: l digits: n base: aBase [
 
 	| low high lSucc |
@@ -455,7 +455,7 @@ Integer >> halves: aBlock at: l digits: n base: aBase [
 		  value: l
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> halves: aBlock base: aBase [
 
 	| n |
@@ -468,24 +468,24 @@ Integer >> halves: aBlock base: aBase [
 		  base: aBase
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> ifNotZero: nzBlock [
 	^ self ifZero: #yourself ifNotZero: nzBlock
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> ifZero: zBlock [
 	^ self ifZero: zBlock ifNotZero: #yourself
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> ifZero: zBlock ifNotZero: nzBlock [
 	^ self = 0
 		ifTrue: [ zBlock cull: self ]
 		ifFalse: [ nzBlock cull: self ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 
 	^ self = 0
@@ -499,7 +499,7 @@ Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 						  ifFalse: eBlock ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> karatsuba: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 
@@ -541,31 +541,31 @@ Integer >> karatsuba: anInteger base: base [
 				  base: base ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> kissingFractionLink: aLink [
 
 	^ aLink
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> lucasNumbers [
 
 	^ self gibonacciNumbersFirst: 2 second: 1 do: [ :a :b | a + b ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> mediantFraction: aFraction [
 
 	^ aFraction numerator + self / (aFraction denominator + self)
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> mediantInteger: anInteger [
 
 	^ self + anInteger / 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nextEven [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -574,7 +574,7 @@ Integer >> nextEven [
 	^ (self bitOr: 1) + 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nextEvenOrSelf [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -583,13 +583,13 @@ Integer >> nextEvenOrSelf [
 	^ self + 1 bitAnd: 1 bitInvert
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nextFromLink: aLink [
 
 	^ aLink nextInteger: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nextOdd [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -598,7 +598,7 @@ Integer >> nextOdd [
 	^ self + 1 bitOr: 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nextOddOrSelf [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -607,19 +607,19 @@ Integer >> nextOddOrSelf [
 	^ self bitOr: 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> nthRootsOfUnity [
 
 	^ (0 to: self - 1) collect: [ :j | (2 * Float π * j / self) i exp ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> numberOfDigitsInBase2 [
 
 	^ self numberOfDigitsInBase: 2
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> previousEven [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -628,7 +628,7 @@ Integer >> previousEven [
 	^ self - 1 bitAnd: 1 bitInvert
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> previousEvenOrSelf [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -637,7 +637,7 @@ Integer >> previousEvenOrSelf [
 	^ self bitAnd: 1 bitInvert
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> previousOdd [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -646,7 +646,7 @@ Integer >> previousOdd [
 	^ (self bitAnd: 1 bitInvert) - 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> previousOddOrSelf [
 
 	"See 'Matters Computational' (ftxbook) section 1.1.9, 
@@ -655,7 +655,7 @@ Integer >> previousOddOrSelf [
 	^ self - 1 bitOr: 1
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> productTo: upper [
 
 	"Return the product of all integers between 
@@ -679,25 +679,25 @@ Integer >> productTo: upper [
 						  (middle productTo: upper) ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> quoRemComplementaryInteger: anInteger [
 
 	^ QuoRemComplementary a: anInteger b: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> quoRemInteger: anInteger [
 
 	^ QuoRemStandard a: anInteger b: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> quoRemMinimalInteger: anInteger [
 
 	^ QuoRemMinimal a: anInteger b: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> skewBinaryCanonicalDenseRepresentation [
 	^ self isZero
 		  ifTrue: [ 0 ~~> nil ]
@@ -705,7 +705,7 @@ Integer >> skewBinaryCanonicalDenseRepresentation [
 		  (self skewBinaryCanonicalDenseRepresentationWeight: 1) second ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
 	^ self < w
 		  ifTrue: [ Array with: self with: nil ]
@@ -726,7 +726,7 @@ Integer >> skewBinaryCanonicalDenseRepresentationWeight: w [
 						  Array with: rest with: 0 ~~> recursiveRepresentation ] ] ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> skewBinaryCanonicalSparseRepresentation [
 
 	^ self isZero
@@ -734,7 +734,7 @@ Integer >> skewBinaryCanonicalSparseRepresentation [
 		  ifFalse: [ self asSkewBinaryCanonicalSparse representation ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowExplicitFibonacci: a tail: b [
 
 	^ (CTRelation is: self greaterThan: 0)
@@ -743,19 +743,19 @@ Integer >> slowExplicitFibonacci: a tail: b [
 		  greaterThanZero: self
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowExplicitFibonacci: a tail: b greaterThanZeroIsFalse: aBoolean [
 
 	^ b
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowExplicitFibonacci: a tail: b greaterThanZeroIsTrue: aBoolean [
 
 	^ self - 1 slowExplicitFibonacci: (a addNumber: b) tail: a
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowFibonacci [
 
 	^ self < 2
@@ -764,7 +764,7 @@ Integer >> slowFibonacci [
 		  (self - 1) slowFibonacci addNumber: (self - 2) slowFibonacci ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowFibonacci: a tail: b [
 
 	^ self > 0
@@ -772,7 +772,7 @@ Integer >> slowFibonacci: a tail: b [
 		  ifFalse: [ b ]
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Integer >> slowFibonacciMemo: aDictionary [
 
 	^ self < 2

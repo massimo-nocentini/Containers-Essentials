@@ -1,6 +1,6 @@
-Extension { #name : #SmallInteger }
+Extension { #name : 'SmallInteger' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 SmallInteger >> fordRadius [
 
 	^ 1 / 2

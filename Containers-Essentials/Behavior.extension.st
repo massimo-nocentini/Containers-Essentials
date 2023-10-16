@@ -1,6 +1,6 @@
-Extension { #name : #Behavior }
+Extension { #name : 'Behavior' }
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Behavior >> kindAsSymbol [
 
 	| code |
@@ -24,7 +24,7 @@ Behavior >> kindAsSymbol [
 	^ #unknown
 ]
 
-{ #category : #'*Containers-Essentials' }
+{ #category : '*Containers-Essentials' }
 Behavior >> methodsCount [
 	"Answer the number of methods of the receiver that are currently 
 	installed in the `methodDictionary`."

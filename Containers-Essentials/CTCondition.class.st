@@ -1,14 +1,16 @@
 Class {
-	#name : #CTCondition,
-	#superclass : #Object,
+	#name : 'CTCondition',
+	#superclass : 'Object',
 	#instVars : [
 		'requestor',
 		'data'
 	],
-	#category : #'Containers-Essentials-Conditions'
+	#category : 'Containers-Essentials-Conditions',
+	#package : 'Containers-Essentials',
+	#tag : 'Conditions'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CTCondition class >> requestor: requestor data: data [
 
 	^ self basicNew
@@ -18,37 +20,37 @@ CTCondition class >> requestor: requestor data: data [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> cull: anObject [
 
 	^ self truthWitness: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> data: anObject [
 
 	data := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> falsehood [
 
 	self subclassResponsibility
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTCondition >> ifEmptyIfNotEmpty: collection [
 
 	^ collection ifEmpty: self ifNotEmpty: self
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTCondition >> ifTrueIfFalse: bool [
 
 	^ self ifTrueIfFalse: bool truthWitness: nil
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTCondition >> ifTrueIfFalse: bool truthWitness: anObject [
 
 	^ bool
@@ -56,25 +58,25 @@ CTCondition >> ifTrueIfFalse: bool truthWitness: anObject [
 		  ifFalse: self
 ]
 
-{ #category : #API }
+{ #category : 'API' }
 CTCondition >> lookupInDictionary: dict at: key [
 
 	^ dict at: key ifPresent: self ifAbsent: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> requestor: anObject [
 
 	requestor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> truthWitness: anObject [
 
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTCondition >> value [
 
 	^ self falsehood

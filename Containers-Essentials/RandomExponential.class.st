@@ -1,19 +1,21 @@
 Class {
-	#name : #RandomExponential,
-	#superclass : #Random,
+	#name : 'RandomExponential',
+	#superclass : 'Random',
 	#instVars : [
 		'lambda'
 	],
-	#category : #'Containers-Essentials-Random'
+	#category : 'Containers-Essentials-Random',
+	#package : 'Containers-Essentials',
+	#tag : 'Random'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomExponential >> density: x [
 
 	^ lambda * (lambda * x) negated exp
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RandomExponential >> initialize [
 
 	super initialize.
@@ -21,13 +23,13 @@ RandomExponential >> initialize [
 	self lambda: 1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomExponential >> lambda: anObject [
 
 	lambda := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RandomExponential >> next [
 
 	^ (1 - super next) ln negated / lambda
