@@ -137,7 +137,7 @@ CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 		ifNotNil: [
 		luaState isNull ifFalse: [ self liblua lua_close: luaState ] ].
 
-	luaState := self liblua luaL_newstate.
+	luaState := self liblua luaLnewstate.
 
 	self liblua luaL_openlibs: luaState.
 
