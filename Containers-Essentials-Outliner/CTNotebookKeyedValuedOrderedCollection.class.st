@@ -118,7 +118,7 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 { #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> liblua [
 
-	^ LibLua uniqueInstance
+	^ LibLua uniqueInstance implementationPrimitive
 ]
 
 { #category : 'as yet unclassified' }
