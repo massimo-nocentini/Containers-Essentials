@@ -38,13 +38,13 @@ BaselineOfContainersEssentials >> pango: spec [
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> roassal: spec [
 
-	spec baseline: 'Roassal3' with: [ 
+	spec baseline: 'Roassal' with: [ 
 		spec
 			repository: 'github://massimo-nocentini/Roassal:master/src';
 			loads: #( Full ) ].
 
 	spec
-		baseline: 'Roassal3Exporters'
+		baseline: 'RoassalExporters'
 		with: [ 
 		spec repository: 'github://massimo-nocentini/RoassalExporters:master/src' ]
 ]
