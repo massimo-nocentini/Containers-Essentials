@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfContainersEssentials,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfContainersEssentials
+	#name : 'BaselineOfContainersEssentials',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfContainersEssentials',
+	#package : 'BaselineOfContainersEssentials'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
@@ -15,7 +16,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 			common: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfContainersEssentials >> common: spec [
 
 	spec
@@ -26,7 +27,7 @@ BaselineOfContainersEssentials >> common: spec [
 		package: 'Containers-Essentials-Tests'
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfContainersEssentials >> pango: spec [
 
 	spec
@@ -34,16 +35,16 @@ BaselineOfContainersEssentials >> pango: spec [
 		with: [ spec repository: 'github://massimo-nocentini/pharo-pango' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfContainersEssentials >> roassal: spec [
 
 	spec baseline: 'Roassal3' with: [ 
 		spec
-			repository: 'github://massimo-nocentini/Roassal3/src';
+			repository: 'github://massimo-nocentini/Roassal:master/src';
 			loads: #( Full ) ].
 
 	spec
 		baseline: 'Roassal3Exporters'
 		with: [ 
-		spec repository: 'github://ObjectProfile/Roassal3Exporters/src' ]
+		spec repository: 'github://massimo-nocentini/RoassalExporters:master/src' ]
 ]
