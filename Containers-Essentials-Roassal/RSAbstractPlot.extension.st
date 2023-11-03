@@ -1,6 +1,6 @@
-Extension { #name : #RSAbstractPlot }
+Extension { #name : 'RSAbstractPlot' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSAbstractPlot >> points: aCollectionOfPoints [
 
 	| x y |

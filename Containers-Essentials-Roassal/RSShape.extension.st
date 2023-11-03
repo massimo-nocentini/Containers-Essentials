@@ -1,6 +1,6 @@
-Extension { #name : #RSShape }
+Extension { #name : 'RSShape' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> asCompositeShape [
 
 	^ RSComposite new
@@ -11,7 +11,7 @@ RSShape >> asCompositeShape [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> boxedWithPad: aPadding [
 
 	^ self padded: aPadding withBoxDo: [ :box | 
@@ -20,7 +20,7 @@ RSShape >> boxedWithPad: aPadding [
 			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> notedWithPad: aPadding [
 
 	^ self padded: aPadding withNoteDo: [ :box | 
@@ -29,7 +29,7 @@ RSShape >> notedWithPad: aPadding [
 			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding shape: boxShape do: aBlock [
 
 	| box |
@@ -51,25 +51,25 @@ RSShape >> padded: aPadding shape: boxShape do: aBlock [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withBoxDo: aBlock [
 
 	^ self padded: aPadding shape: RSBox new do: aBlock
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withNoteDo: aBlock [
 
 	^ self padded: aPadding shape: RSNote new do: aBlock
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> padded: aPadding withSimplerNoteDo: aBlock [
 
 	^ self padded: aPadding shape: RSSimplerNote new do: aBlock
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> paddedWithGoldenRatio [
 
 	| pad |
@@ -82,7 +82,7 @@ RSShape >> paddedWithGoldenRatio [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> sameColorAsBorderColor [
 
 	self color: self border color

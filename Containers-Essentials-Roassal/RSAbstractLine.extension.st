@@ -1,6 +1,6 @@
-Extension { #name : #RSAbstractLine }
+Extension { #name : 'RSAbstractLine' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSAbstractLine >> dotted [
 
 	self dashArray: { Float goldenRatio }

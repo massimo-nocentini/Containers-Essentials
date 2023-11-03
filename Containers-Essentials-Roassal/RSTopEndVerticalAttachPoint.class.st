@@ -1,10 +1,11 @@
 Class {
-	#name : #RSTopEndVerticalAttachPoint,
-	#superclass : #RSVerticalAttachPoint,
-	#category : #'Containers-Essentials-Roassal'
+	#name : 'RSTopEndVerticalAttachPoint',
+	#superclass : 'RSVerticalAttachPoint',
+	#category : 'Containers-Essentials-Roassal',
+	#package : 'Containers-Essentials-Roassal'
 }
 
-{ #category : #'public - hooks' }
+{ #category : 'public - hooks' }
 RSTopEndVerticalAttachPoint >> basicEndingPointOf: anEdge [
 
 	^ self

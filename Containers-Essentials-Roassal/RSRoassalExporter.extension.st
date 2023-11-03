@@ -1,6 +1,6 @@
-Extension { #name : #RSRoassalExporter }
+Extension { #name : 'RSRoassalExporter' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSRoassalExporter >> zoomToShapesWithPadding: aPadding [
 
 	self cameraSetter: (RSZoomToShapesSetterWithPadding new

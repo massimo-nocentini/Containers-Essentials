@@ -1,6 +1,6 @@
-Extension { #name : #RSHighlightable }
+Extension { #name : 'RSHighlightable' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSHighlightable class >> withStronglyConnectedComponents: aBlock [
 
 	^ self new

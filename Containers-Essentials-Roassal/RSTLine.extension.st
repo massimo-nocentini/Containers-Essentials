@@ -1,6 +1,6 @@
-Extension { #name : #RSTLine }
+Extension { #name : 'RSTLine' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSTLine >> dotted [
 
 	self dashArray: { Float goldenRatio }

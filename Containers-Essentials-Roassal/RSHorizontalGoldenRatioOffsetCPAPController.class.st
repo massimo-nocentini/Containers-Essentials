@@ -1,10 +1,11 @@
 Class {
-	#name : #RSHorizontalGoldenRatioOffsetCPAPController,
-	#superclass : #RSHorizontalCPAPController,
-	#category : #'Containers-Essentials-Roassal'
+	#name : 'RSHorizontalGoldenRatioOffsetCPAPController',
+	#superclass : 'RSHorizontalCPAPController',
+	#category : 'Containers-Essentials-Roassal',
+	#package : 'Containers-Essentials-Roassal'
 }
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 RSHorizontalGoldenRatioOffsetCPAPController >> controlPointsFrom: from to: to [
 
 	^ Float goldenRatio

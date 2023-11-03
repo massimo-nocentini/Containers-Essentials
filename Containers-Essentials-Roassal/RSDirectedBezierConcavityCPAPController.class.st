@@ -1,10 +1,11 @@
 Class {
-	#name : #RSDirectedBezierConcavityCPAPController,
-	#superclass : #RSDirectedBezierCPAPController,
-	#category : #'Containers-Essentials-Roassal'
+	#name : 'RSDirectedBezierConcavityCPAPController',
+	#superclass : 'RSDirectedBezierCPAPController',
+	#category : 'Containers-Essentials-Roassal',
+	#package : 'Containers-Essentials-Roassal'
 }
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 RSDirectedBezierConcavityCPAPController >> controlPointsFrom: fromPoint to: toPoint [
 
 	| vector u unit midPoint height width dist |

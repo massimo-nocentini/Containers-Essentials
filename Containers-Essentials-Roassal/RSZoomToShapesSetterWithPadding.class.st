@@ -1,19 +1,20 @@
 Class {
-	#name : #RSZoomToShapesSetterWithPadding,
-	#superclass : #RSZoomToShapesSetter,
+	#name : 'RSZoomToShapesSetterWithPadding',
+	#superclass : 'RSZoomToShapesSetter',
 	#instVars : [
 		'padding'
 	],
-	#category : #'Containers-Essentials-Roassal'
+	#category : 'Containers-Essentials-Roassal',
+	#package : 'Containers-Essentials-Roassal'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RSZoomToShapesSetterWithPadding >> extent [
 
 	^ super extent + padding asPoint
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RSZoomToShapesSetterWithPadding >> padding: aPoint [
 
 	padding := aPoint

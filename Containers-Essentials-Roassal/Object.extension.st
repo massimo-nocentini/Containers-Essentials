@@ -1,6 +1,6 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| markup font shape |

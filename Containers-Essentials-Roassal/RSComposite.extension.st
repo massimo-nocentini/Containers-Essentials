@@ -1,6 +1,6 @@
-Extension { #name : #RSComposite }
+Extension { #name : 'RSComposite' }
 
-{ #category : #'*Containers-Essentials-Roassal' }
+{ #category : '*Containers-Essentials-Roassal' }
 RSComposite class >> ghost: model [
 
 	^ self new

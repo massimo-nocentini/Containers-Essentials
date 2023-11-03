@@ -1,9 +1,10 @@
 Trait {
-	#name : #TIceImagesExporting,
-	#category : #'Containers-Essentials-Roassal'
+	#name : 'TIceImagesExporting',
+	#category : 'Containers-Essentials-Roassal',
+	#package : 'Containers-Essentials-Roassal'
 }
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector [
 
 	| canvas |
@@ -21,13 +22,13 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 	^ anObject
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> export: anObject path: aPath onCanvasDo: aSelector [
 
 	^ self export: anObject filename: aPath fullName onCanvasDo: aSelector
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock [
 
 	| suffix |
@@ -40,7 +41,7 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename onCanvasDo: aBlock
 		  onCanvasDo: aBlock
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: selector [
 
 	^ self
@@ -49,7 +50,7 @@ TIceImagesExporting >> export: anObject pathSuffix: aFilename selector: selector
 		  onCanvasDo: [ :canvas :obj | obj perform: selector with: canvas ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportCompiledMethod: aCompiledMethod [
 
 	^ self
@@ -60,26 +61,26 @@ TIceImagesExporting >> exportCompiledMethod: aCompiledMethod [
 				    with: '-') copyReplaceAll: '>>#' with: '-')
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportImplementorsOf: aSelector [
 
 	aSelector implementors do: [ :aCompiledMethod | 
 		self exportCompiledMethod: aCompiledMethod ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportShapeOf: anObject [
 
 	^ self exportShapeOf: anObject accessorBlock: [ :aShape | aShape ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock [
 
 	^ self exportShapeOf: anObject accessorBlock: aBlock pathSuffix: ''
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock pathSuffix: aSuffix [
 
 	^ self
@@ -88,7 +89,7 @@ TIceImagesExporting >> exportShapeOf: anObject accessorBlock: aBlock pathSuffix:
 		  onCanvasDo: [ :aCanvas :obj | aCanvas add: (aBlock value: obj) ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportSlotsGraphOf: anObject [
 
 	^ self
@@ -96,7 +97,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject [
 		  slotDescriptorsVisitor: CTSlotDescriptorsVisitor new
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportSlotsGraphOf: anObject pathSuffix: aSuffix [
 
 	^ self
@@ -105,7 +106,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject pathSuffix: aSuffix [
 		  pathSuffix: aSuffix
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVisitor [
 
 	^ self
@@ -114,7 +115,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVis
 		  pathSuffix: ''
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVisitor pathSuffix: aSuffix [
 
 	^ self
@@ -131,7 +132,7 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVis
 			  aCanvas add: aShape ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> iceWorkingDirectory [
 
 	^ (IceRepository registry select: [ :repo |
@@ -139,7 +140,7 @@ TIceImagesExporting >> iceWorkingDirectory [
 		  location
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 TIceImagesExporting >> imagesPath [
 
 	^ self iceWorkingDirectory / 'images'
