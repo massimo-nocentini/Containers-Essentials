@@ -1,6 +1,6 @@
-Extension { #name : #ObjectTest }
+Extension { #name : 'ObjectTest' }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 ObjectTest >> testYourselfBlock [
 
 	| var |

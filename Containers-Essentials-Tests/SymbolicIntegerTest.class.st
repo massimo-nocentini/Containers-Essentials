@@ -1,12 +1,14 @@
 Class {
-	#name : #SymbolicIntegerTest,
-	#superclass : #IntegerTest,
+	#name : 'SymbolicIntegerTest',
+	#superclass : 'IntegerTest',
 	#traits : 'TIceImagesExporting',
 	#classTraits : 'TIceImagesExporting classTrait',
-	#category : #'Containers-Essentials-Tests-Tests'
+	#category : 'Containers-Essentials-Tests-Tests',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testComplementaryQuoRem21Over9 [
 
 	| quoRem |
@@ -17,7 +19,7 @@ SymbolicIntegerTest >> testComplementaryQuoRem21Over9 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testComplementaryQuoRem9Over21 [
 
 	| quoRem |
@@ -28,7 +30,7 @@ SymbolicIntegerTest >> testComplementaryQuoRem9Over21 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDof12and21 [
 
 	| quoRem |
@@ -39,7 +41,7 @@ SymbolicIntegerTest >> testGCDof12and21 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDof83and71 [
 
 	| quoRem |
@@ -50,7 +52,7 @@ SymbolicIntegerTest >> testGCDof83and71 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDof9and21 [
 
 	| quoRem |
@@ -61,7 +63,7 @@ SymbolicIntegerTest >> testGCDof9and21 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDofAdjacentFibonacciNumbers [
 
 	| fibs gcds |
@@ -70,7 +72,7 @@ SymbolicIntegerTest >> testGCDofAdjacentFibonacciNumbers [
 	3 to: 11 do: [ :i | fibs add: (fibs at: i - 2) + (fibs at: i - 1) ].
 
 	gcds := fibs
-		        with: fibs allButFirst , { (fibs lastButOne + fibs last) }
+		        with: fibs allButFirst , { (fibs nextToLast + fibs last) }
 		        collect: [ :r :s | r >|< s ].
 
 	self assert: gcds equals: (gcds collect: [ :each | 1 ]).
@@ -78,7 +80,7 @@ SymbolicIntegerTest >> testGCDofAdjacentFibonacciNumbers [
 	^ self exportSlotsGraphOf: gcds
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDofMultiplicativeInversesInZ17 [
 
 	| gcds inverses |
@@ -90,7 +92,7 @@ SymbolicIntegerTest >> testGCDofMultiplicativeInversesInZ17 [
 	^ self exportSlotsGraphOf: inverses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testGCDofZ17 [
 
 	| field prime interval |
@@ -105,7 +107,7 @@ SymbolicIntegerTest >> testGCDofZ17 [
 	^ self exportSlotsGraphOf: field
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testQuoRem9Over21 [
 
 	| quoRem |
@@ -116,7 +118,7 @@ SymbolicIntegerTest >> testQuoRem9Over21 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testQuoRemMinimal9Over21 [
 
 	| quoRem |
@@ -127,7 +129,7 @@ SymbolicIntegerTest >> testQuoRemMinimal9Over21 [
 	^ self exportSlotsGraphOf: quoRem
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 SymbolicIntegerTest >> testStandardQuoRem21Over9 [
 
 	| quoRem |

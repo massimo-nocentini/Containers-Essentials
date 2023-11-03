@@ -221,13 +221,6 @@ Integer >> catalanNumbers [
 ]
 
 { #category : '*Containers-Essentials' }
-Integer >> choose: k [
-	^ (k positive and: [ self >= k ])
-		ifTrue: [ self factorial / (k factorial * (self - k) factorial) ]
-		ifFalse: [ 0 ]
-]
-
-{ #category : '*Containers-Essentials' }
 Integer >> dcMultiplyInteger: anInteger base: base [
 
 	^ ((self between: 0 and: base - 1) and: [ 

@@ -1,10 +1,12 @@
 Class {
-	#name : #ComplexTest,
-	#superclass : #TestCase,
-	#category : #'Containers-Essentials-Tests-Tests'
+	#name : 'ComplexTest',
+	#superclass : 'TestCase',
+	#category : 'Containers-Essentials-Tests-Tests',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testAbs [
 	"self run: #testAbs"
 	"self debug: #testAbs"
@@ -15,7 +17,7 @@ ComplexTest >> testAbs [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testAdding [
 	"self run: #testAdding"
 	
@@ -24,7 +26,7 @@ ComplexTest >> testAdding [
 	self assert: (c =  (0 + 2 i)).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcCos [
 	| c |
 	c := (0.5 + 0 i).
@@ -37,7 +39,7 @@ ComplexTest >> testArcCos [
 		self assert: (c arcCos cos imaginary closeTo: c imaginary)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcCosPlusArcSin [
 	| c |
 	#(-0.5 -2 -3 0 0.5 2 3) do: [:real |
@@ -47,7 +49,7 @@ ComplexTest >> testArcCosPlusArcSin [
 		self assert: ((c arcCos + c arcSin) imaginary closeTo: 0.0)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcCosh [
 	| c |
 	c := (2.5 + 0 i).
@@ -61,7 +63,7 @@ ComplexTest >> testArcCosh [
 		self deny: c arcCosh real negative]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcSin [
 	| c |
 	c := (0.5 + 0 i).
@@ -74,7 +76,7 @@ ComplexTest >> testArcSin [
 		self assert: (c arcSin sin imaginary closeTo: c imaginary)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcSinh [
 	| c |
 	c := (2.5 + 0 i).
@@ -87,7 +89,7 @@ ComplexTest >> testArcSinh [
 		self assert: (c arcSinh sinh imaginary closeTo: c imaginary)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcTan [
 	| c |
 	c := (0.5 + 0 i).
@@ -100,7 +102,7 @@ ComplexTest >> testArcTan [
 		self assert: (c arcTan tan imaginary closeTo: c imaginary)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArcTanh [
 	| c |
 	c := (0.5 + 0 i).
@@ -113,7 +115,7 @@ ComplexTest >> testArcTanh [
 		self assert: (c arcTanh tanh imaginary closeTo: c imaginary)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testArg [
 	"self run: #testArg"
 	"self debug: #testArg"
@@ -124,13 +126,13 @@ ComplexTest >> testArg [
 	
 ]
 
-{ #category : #'tests - bugs' }
+{ #category : 'tests - bugs' }
 ComplexTest >> testBug1 [
 
 	self assert: (0.5 * (2+0i) ln) exp = (0.5 * 2 ln) exp.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testComplexCollection [
 	"self run: #testComplexCollection"
 	"self debug: #testComplexCollection"
@@ -141,7 +143,7 @@ ComplexTest >> testComplexCollection [
 	array with:  array2 do: [:one :two | self assert: (2 * one) = two ] 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testConjugated [
 	
 	| c cc |
@@ -151,7 +153,7 @@ ComplexTest >> testConjugated [
 	self assert: cc imaginary = c imaginary negated.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testConversion [
 	"self run: #testConversion"
 	"self debug: #testConversion"
@@ -164,7 +166,7 @@ ComplexTest >> testConversion [
 	self assert: ((2/3) + (1 + 2i)) = ((5/3) + 2 i )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testCos [
 	| c c2 |
 	c := (2 + 0 i).
@@ -176,7 +178,7 @@ ComplexTest >> testCos [
 	self assert: (c cos imaginary closeTo: c2 imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testCos2PlusSin2 [
 	| c |
 	#(-0.5 -2 -3 0 0.5 2 3) do: [:real |
@@ -186,7 +188,7 @@ ComplexTest >> testCos2PlusSin2 [
 		self assert: ((c cos squared + c sin squared) imaginary closeTo: 0.0)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testCosh [
 	| c c2 |
 	c := (2 + 0 i).
@@ -201,7 +203,7 @@ ComplexTest >> testCosh [
 	self assert: (c cosh imaginary closeTo: c2 imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testCosh2MinusSinh2 [
 	| c |
 	#(-0.5 -2 -3 0 0.5 2 3) do: [:real |
@@ -211,7 +213,7 @@ ComplexTest >> testCosh2MinusSinh2 [
 		self assert: ((c cosh squared - c sinh squared) imaginary closeTo: 0.0)]]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testCreation [
 	"self run: #testCreation"
 	
@@ -238,7 +240,7 @@ ComplexTest >> testCreation [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testDivision1 [
 	"self run: #testDivision1"
 	"self debug: #testDivision1"
@@ -256,7 +258,7 @@ ComplexTest >> testDivision1 [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testEquality [
 	"self run: #testEquality"
 	"self debug: #testEquality"
@@ -287,18 +289,18 @@ ComplexTest >> testEquality [
 	self assert:  (1/2) = (1/2+ 0 i).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testIsquared [
 
 	self assert: 1 i squared equals: -1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testLn [
 	self assert: (Float e + 0 i) ln = Float e ln "See Bug 1815 on Mantis"
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testMultiplyByI [
 	
 	| c |
@@ -306,7 +308,7 @@ ComplexTest >> testMultiplyByI [
 	self assert: (c * 1i = c i)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testNegated [
 	"self run: #testNegated"
 	"self debug: #testNegated"
@@ -317,7 +319,7 @@ ComplexTest >> testNegated [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testPolarForm [
 
 	1 + 1 i polarForm: [ :r :theta |
@@ -331,7 +333,7 @@ ComplexTest >> testPolarForm [
 			assert: theta equals: 1.1071487177940904 ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testRaisedTo [
 	
 	| c c3 |
@@ -341,7 +343,7 @@ ComplexTest >> testRaisedTo [
 	self assert: (c3 imaginary closeTo: c imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testRaisedToInteger [
 	
 	| c c3 |
@@ -351,7 +353,7 @@ ComplexTest >> testRaisedToInteger [
 	self assert: (c3 reciprocal = (c raisedToInteger: -3)).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testReciprocal [
 	"self run: #testReciprocal"
 	"self debug: #testReciprocal"
@@ -362,7 +364,7 @@ ComplexTest >> testReciprocal [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testReciprocalError [
 	"self run: #testReciprocalError"
 	"self debug: #testReciprocalError"
@@ -373,7 +375,7 @@ ComplexTest >> testReciprocalError [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testSecureDivision1 [
 	"self run: #testSecureDivision1"
 	"self debug: #testSecureDivision1"
@@ -386,7 +388,7 @@ ComplexTest >> testSecureDivision1 [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testSecureDivision2 [
 	"self run: #testSecureDivision2"
 	"self debug: #testSecureDivision2"
@@ -399,7 +401,7 @@ ComplexTest >> testSecureDivision2 [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testSin [
 	| c c2 |
 	c := (2 + 0 i).
@@ -411,7 +413,7 @@ ComplexTest >> testSin [
 	self assert: (c sin imaginary closeTo: c2 imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testSinh [
 	| c c2 |
 	c := (2 + 0 i).
@@ -429,7 +431,7 @@ ComplexTest >> testSinh [
 	self assert: (c sinh imaginary closeTo: c2 imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testSquared [
 	"self run: #testSquared"
 	"self debug: #testSquared"
@@ -441,7 +443,7 @@ ComplexTest >> testSquared [
 	self assert: c2 real = 0.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testTan [
 	| c c2 |
 	c := (2 + 0 i).
@@ -453,7 +455,7 @@ ComplexTest >> testTan [
 	self assert: (c2 imaginary closeTo: c tan imaginary).
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ComplexTest >> testTanh [
 	| c c2 |
 	c := (2 + 0 i).

@@ -1,12 +1,14 @@
 Class {
-	#name : #RSParametricCurveTest,
-	#superclass : #TestCase,
+	#name : 'RSParametricCurveTest',
+	#superclass : 'TestCase',
 	#traits : 'TIceImagesExporting + RSTParametricXYLines',
 	#classTraits : 'TIceImagesExporting classTrait + RSTParametricXYLines classTrait',
-	#category : #'Containers-Essentials-Tests-Tests'
+	#category : 'Containers-Essentials-Tests-Tests',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'Tests'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 RSParametricCurveTest >> exampleBaricentricCoordinates [
 
 	<script: 'self new exampleBaricentricCoordinates open'>
@@ -25,7 +27,7 @@ RSParametricCurveTest >> exampleBaricentricCoordinates [
 			  yourself ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 RSParametricCurveTest >> exampleBaricentricCoordinatesTriangle [
 
 	<script: 'self new exampleBaricentricCoordinatesTriangle open'>
@@ -46,7 +48,7 @@ RSParametricCurveTest >> exampleBaricentricCoordinatesTriangle [
 			  yourself ]
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: anotherPoint baricentricPoint: baricentricPoint at: param [
 
 	| group aCircle anotherCircle baricentricCircle line currentBaricentric |
@@ -107,7 +109,7 @@ RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: 
 		  yourself
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: anotherPoint yetAnotherPoint: yetAnotherPoint baricentricPoint: baricentricPoint at: param at: anotherParam [
 
 	| group aCircle anotherCircle thirdCircle baricentricCircle line |
@@ -185,7 +187,7 @@ RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: 
 		  yourself
 ]
 
-{ #category : #'systems under tests' }
+{ #category : 'systems under tests' }
 RSParametricCurveTest >> sutBaricentricCoordinates: aBlock [
 
 	| aPoint anotherPoint param baricentricPoint |
@@ -205,7 +207,7 @@ RSParametricCurveTest >> sutBaricentricCoordinates: aBlock [
 		  value: param
 ]
 
-{ #category : #'systems under tests' }
+{ #category : 'systems under tests' }
 RSParametricCurveTest >> sutBaricentricCoordinatesTriangle: aBlock [
 
 	| aPoint anotherPoint param baricentricPoint yetAnotherPoint anotherParam |
@@ -234,7 +236,7 @@ RSParametricCurveTest >> sutBaricentricCoordinatesTriangle: aBlock [
 		  value: anotherParam
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testBaricentricCoordinates [
 
 	self sutBaricentricCoordinates: [ :points :param | 
@@ -250,7 +252,7 @@ RSParametricCurveTest >> testBaricentricCoordinates [
 			accessorBlock: [ :aGroup | aGroup asShape ] ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testBaricentricCoordinatesTriangle [
 
 	self sutBaricentricCoordinatesTriangle: [ :points :param :anotherParam | 
@@ -268,7 +270,7 @@ RSParametricCurveTest >> testBaricentricCoordinatesTriangle [
 			accessorBlock: [ :aGroup | aGroup asShape ] ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineDeCasteljauLineClosedControlPoints [
 
 	self
@@ -277,7 +279,7 @@ RSParametricCurveTest >> testLineDeCasteljauLineClosedControlPoints [
 		accessorBlock: [ :aLine | aLine asGroupWithControlNet asShape ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineDeCasteljauLineNoteBox [
 
 	self
@@ -285,44 +287,44 @@ RSParametricCurveTest >> testLineDeCasteljauLineNoteBox [
 		accessorBlock: [ :aLine | aLine asGroupWithControlNet asShape ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricHypotrochoid [
 
 	self exportShapeOf:
 		RSBasicShapeExamples new lineParametricHypotrochoid
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricLissajous [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricLissajous
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricNeil [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricNeil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricNeil2 [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricNeil2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricTrochoid [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricTrochoid
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLineParametricUnitCircle [
 
 	self exportShapeOf: RSBasicShapeExamples new lineParametricUnitCircle
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testLinesDeCasteljauLineDegreeElevation [
 
 	self
@@ -342,19 +344,19 @@ RSParametricCurveTest >> testLinesDeCasteljauLineDegreeElevation [
 			(RSGroup withAll: shapes) asShape ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testNoteInteger [
 
 	self exportShapeOf: RSBasicShapeExamples new noteInteger
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testNoteLoremIpsum [
 
 	self exportShapeOf: RSBasicShapeExamples new noteLoremIpsum
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 RSParametricCurveTest >> testParametricXYlineButterfly [
 
 	self exportShapeOf: self parametricXYlineButterfly.

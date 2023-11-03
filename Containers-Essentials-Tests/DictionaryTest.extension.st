@@ -1,6 +1,6 @@
-Extension { #name : #DictionaryTest }
+Extension { #name : 'DictionaryTest' }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 DictionaryTest >> testAnyAssociation [
 
 	self

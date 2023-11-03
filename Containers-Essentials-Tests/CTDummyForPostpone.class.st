@@ -2,22 +2,24 @@
 I am a dummy class to test the postpone feature of slot descriptors.
 "
 Class {
-	#name : #CTDummyForPostpone,
-	#superclass : #Object,
+	#name : 'CTDummyForPostpone',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'cross'
 	],
-	#category : #'Containers-Essentials-Tests-SUTs'
+	#category : 'Containers-Essentials-Tests-SUTs',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'SUTs'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTDummyForPostpone >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTDummyForPostpone: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CTDummyForPostpone >> asShapeSlotsDfsTree: dfsWalker [
 
 	dfsWalker slotDescriptorsVisitor:
@@ -26,25 +28,25 @@ CTDummyForPostpone >> asShapeSlotsDfsTree: dfsWalker [
 	^ super asShapeSlotsDfsTree: dfsWalker
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDummyForPostpone >> cross [
 
 	^ cross
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDummyForPostpone >> cross: anObject [
 
 	cross := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDummyForPostpone >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTDummyForPostpone >> name: anObject [
 
 	name := anObject

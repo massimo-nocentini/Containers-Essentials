@@ -1,38 +1,40 @@
 Class {
-	#name : #CTEssentialsTestEntity,
-	#superclass : #Object,
+	#name : 'CTEssentialsTestEntity',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'relation'
 	],
-	#category : #'Containers-Essentials-Tests-SUTs'
+	#category : 'Containers-Essentials-Tests-SUTs',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'SUTs'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTEssentialsTestEntity >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTEssentialsTestEntity: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestEntity >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestEntity >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestEntity >> relation [
 
 	^ relation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestEntity >> relation: anObject [
 
 	relation := anObject

@@ -1,12 +1,14 @@
 Class {
-	#name : #EssentialsObjectTest,
-	#superclass : #ObjectTest,
+	#name : 'EssentialsObjectTest',
+	#superclass : 'ObjectTest',
 	#traits : 'TIceImagesExporting',
 	#classTraits : 'TIceImagesExporting classTrait',
-	#category : #'Containers-Essentials-Tests-Tests'
+	#category : 'Containers-Essentials-Tests-Tests',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> sutInspectIntervalLinspace [
 
 	| linspace |
@@ -27,37 +29,37 @@ EssentialsObjectTest >> sutInspectIntervalLinspace [
 	^ linspace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testByteArrayInteger [
 
 	^ self exportSlotsGraphOf: 50 fibonacciNumbers last asByteArray
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testByteArrayLiteral [
 
 	^ self exportSlotsGraphOf: (ByteArray with: 18 with: 10 with: 253)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testByteArrayLoremIpsum [
 
 	^ self exportSlotsGraphOf: (String loremIpsum: 50) asByteArray
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testCannotInstantiateSmallFloat64 [
 
 	self should: [ SmallFloat64 new ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testCollectionSubclasses [
 
 	^ self exportShapeOf: Collection accessorBlock: #asShapeSubclasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
 
 	self
@@ -65,7 +67,7 @@ EssentialsObjectTest >> testCorrectDigitsInFloatMantissa [
 		assert: Float epsilon log negated ceiling equals: 16
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testDocumapsIsCompanySite [
 
 	| relation left right |
@@ -97,7 +99,7 @@ EssentialsObjectTest >> testDocumapsIsCompanySite [
 				   yourself)
 ]
 
-{ #category : #'export compiled methods' }
+{ #category : 'export compiled methods' }
 EssentialsObjectTest >> testExportCompiledMethodsAboutFloats [
 
 	self
@@ -106,7 +108,7 @@ EssentialsObjectTest >> testExportCompiledMethodsAboutFloats [
 			EssentialsObjectTest >> #testCannotInstantiateSmallFloat64
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect10GoldenRatios [
 
 	| ratios |
@@ -122,7 +124,7 @@ EssentialsObjectTest >> testInspect10GoldenRatios [
 	^ self exportSlotsGraphOf: ratios
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect10GoldenRectangles [
 
 	| rectangles |
@@ -139,7 +141,7 @@ EssentialsObjectTest >> testInspect10GoldenRectangles [
 	^ self exportSlotsGraphOf: rectangles
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect10GoldenRectanglesNested [
 
 	| rectangles |
@@ -155,7 +157,7 @@ EssentialsObjectTest >> testInspect10GoldenRectanglesNested [
 	^ self exportShapeOf: rectangles
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect20CatalanNumbers [
 
 	| catalan |
@@ -172,7 +174,7 @@ EssentialsObjectTest >> testInspect20CatalanNumbers [
 	^ self exportSlotsGraphOf: catalan
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect20FibonacciNumbers [
 
 	| fibs |
@@ -190,7 +192,7 @@ EssentialsObjectTest >> testInspect20FibonacciNumbers [
 	^ self exportSlotsGraphOf: fibs
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspect20LucasNumbers [
 
 	| lucas |
@@ -209,13 +211,13 @@ EssentialsObjectTest >> testInspect20LucasNumbers [
 	^ self exportSlotsGraphOf: lucas
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectAssociation [
 
 	^ self exportSlotsGraphOf: 42 -> thisContext method
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectBRGCodes [
 
 	| n |
@@ -230,13 +232,13 @@ EssentialsObjectTest >> testInspectBRGCodes [
 			   as: RSGroup)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectBag [
 
 	^ self exportSlotsGraphOf: (Bag withAll: String loremIpsum)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectBlockClosure [
 
 	| aBlock anInteger |
@@ -250,31 +252,31 @@ EssentialsObjectTest >> testInspectBlockClosure [
 	^ self exportSlotsGraphOf: aBlock
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectCatalanArray [
 
 	^ self exportSlotsGraphOf: (Array2D catalan: 1 << 4)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectCharacterPi [
 
 	^ self exportSlotsGraphOf: $π
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectCollectionRootTest [
 
 	^ self exportSlotsGraphOf: CollectionRootTest
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectColorGray [
 
 	^ self exportSlotsGraphOf: Color gray translucent
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectContext [
 
 	self timeLimit: 25 seconds.
@@ -282,7 +284,7 @@ EssentialsObjectTest >> testInspectContext [
 	^ self exportSlotsGraphOf: thisContext
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectContinuation [
 
 	self
@@ -294,13 +296,13 @@ EssentialsObjectTest >> testInspectContinuation [
 			   1 + (aContinuation value: aContinuation) ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectDatetimeNow [
 
 	^ self exportSlotsGraphOf: DateAndTime now
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectDictionary [
 
 	^ self exportSlotsGraphOf: (Dictionary new
@@ -310,31 +312,31 @@ EssentialsObjectTest >> testInspectDictionary [
 			   yourself)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFalse [
 
 	^ self exportSlotsGraphOf: false
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFloatPi [
 
 	^ self exportSlotsGraphOf: Float π
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFraction [
 
 	^ self exportSlotsGraphOf: -1 / 2
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFractionForKisses [
 
 	^ self exportSlotsGraphOf: 4 / 17
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFractionKissing [
 
 	| aFraction |
@@ -352,7 +354,7 @@ EssentialsObjectTest >> testInspectFractionKissing [
 	^ self exportShapeOf: aFraction accessorBlock: #asShapeFordCircles
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFractionKissingEnumeration [
 
 	| fractions n |
@@ -430,7 +432,7 @@ EssentialsObjectTest >> testInspectFractionKissingEnumeration [
 	^ self exportShapeOf: fractions accessorBlock: #asShapeFordCircles
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectFractionReciprocalKissing [
 
 	| aFraction |
@@ -444,13 +446,13 @@ EssentialsObjectTest >> testInspectFractionReciprocalKissing [
 	^ self exportShapeOf: aFraction accessorBlock: #asShapeFordCircles
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectGoldenRatio [
 
 	^ self exportSlotsGraphOf: Float goldenRatio
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectHeap [
 
 	| array random heap |
@@ -474,7 +476,7 @@ EssentialsObjectTest >> testInspectHeap [
 	self exportSlotsGraphOf: heap pathSuffix: 'final'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectIceRepository [
 
 	self skip.
@@ -484,7 +486,7 @@ EssentialsObjectTest >> testInspectIceRepository [
 			   each name = 'Containers-HeapQ' ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectIceRepositoryCommitsGraph [
 
 	^ self
@@ -493,13 +495,13 @@ EssentialsObjectTest >> testInspectIceRepositoryCommitsGraph [
 		  accessorBlock: #asShapeCommitsGraph
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectInteger13 [
 
 	^ self exportSlotsGraphOf: 13
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectInteger13Detailed [
 
 	^ self
@@ -507,7 +509,7 @@ EssentialsObjectTest >> testInspectInteger13Detailed [
 		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorDetails new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 
 	^ self
@@ -526,13 +528,13 @@ EssentialsObjectTest >> testInspectInteger13DetailedWithFollowup [
 				   visitor ])
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectIntervalLinspace [
 
 	^ self exportSlotsGraphOf: self sutInspectIntervalLinspace
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectLargeInteger [
 
 	| large n |
@@ -546,7 +548,7 @@ EssentialsObjectTest >> testInspectLargeInteger [
 	^ self exportSlotsGraphOf: large
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectLargeIntegerBench [
 
 	| m n r1 r2 r3 r4 |
@@ -571,25 +573,25 @@ EssentialsObjectTest >> testInspectLargeIntegerBench [
 		assert: r3 equals: r4
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectNil [
 
 	^ self exportSlotsGraphOf: nil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectObject [
 
 	^ self exportSlotsGraphOf: Object new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectObjectModel [
 
 	^ self exportSlotsGraphOf: Object
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectOneToMany [
 
 	^ self
@@ -606,7 +608,7 @@ EssentialsObjectTest >> testInspectOneToMany [
 		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectOneToManyWithBackwardEdges [
 
 	| obj collection |
@@ -630,7 +632,7 @@ EssentialsObjectTest >> testInspectOneToManyWithBackwardEdges [
 		  CTEssentialsOneToManyValueLinksSlotDescriptorsVisitor new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectOneToOneWithBackwardEdges [
 
 	| obj collection |
@@ -651,19 +653,19 @@ EssentialsObjectTest >> testInspectOneToOneWithBackwardEdges [
 	^ self exportSlotsGraphOf: obj
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectPascalArray [
 
 	^ self exportSlotsGraphOf: (Array2D pascal: 1 << 4)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectPoint [
 
 	^ self exportSlotsGraphOf: 42 @ 24
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectProbabilisticMedianRatioWithSorting [
 
 	| n random collection randomized sorting middle v w |
@@ -691,7 +693,7 @@ EssentialsObjectTest >> testInspectProbabilisticMedianRatioWithSorting [
 			 and: 3)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectRBNodesQuine [
 
 	| quine aQuineBlock evalBlock |
@@ -714,7 +716,7 @@ EssentialsObjectTest >> testInspectRBNodesQuine [
 	self assert: evalBlock value equals: quine
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectRSPolygon [
 
 	^ self exportSlotsGraphOf: (RSPolygon new
@@ -726,7 +728,7 @@ EssentialsObjectTest >> testInspectRSPolygon [
 			   yourself)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectSet [
 
 	| random sample n |
@@ -741,7 +743,7 @@ EssentialsObjectTest >> testInspectSet [
 	^ self exportSlotsGraphOf: sample asSet
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectSkewBinaryCanonicalSparse [
 
 	| skewNumbers backwards |
@@ -760,13 +762,13 @@ EssentialsObjectTest >> testInspectSkewBinaryCanonicalSparse [
 	self exportSlotsGraphOf: backwards pathSuffix: 'decreasing'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectString [
 
 	^ self exportSlotsGraphOf: (String loremIpsum: 100)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectTraitModel [
 
 	^ self exportSlotsGraphOf: { 
@@ -775,13 +777,13 @@ EssentialsObjectTest >> testInspectTraitModel [
 			  MetaclassForTraits }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInspectTrue [
 
 	^ self exportSlotsGraphOf: true
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testInversions [
 
 	self
@@ -820,19 +822,19 @@ EssentialsObjectTest >> testInversions [
 		equals: 22
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testLinkSubclasses [
 
 	^ self exportShapeOf: Link accessorBlock: #asShapeSubclasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testMagnitudeSubclasses [
 
 	^ self exportShapeOf: Magnitude accessorBlock: #asShapeSubclasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 
 	^ self
@@ -840,7 +842,7 @@ EssentialsObjectTest >> testMagnitudeSubclassesSlotsGraph [
 		  slotDescriptorsVisitor: CTSlotDescriptorsVisitorClassHierarchy new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testPostpone [
 
 	| first second third fourth root |
@@ -878,7 +880,7 @@ EssentialsObjectTest >> testPostpone [
 		  slotDescriptorsVisitor: CTPostponeSlotDescriptorsVisitor new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testPostponeWithSharingEdges [
 
 	| first second third fourth root uidType primaryType pippo pluto |
@@ -946,19 +948,19 @@ EssentialsObjectTest >> testPostponeWithSharingEdges [
 		  slotDescriptorsVisitor: CTPostponeSlotDescriptorsVisitor new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRBNodeSubclasses [
 
 	^ self exportShapeOf: RBNode accessorBlock: #asShapeSubclasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRandomSubclasses [
 
 	^ self exportShapeOf: Random accessorBlock: #asShapeSubclasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRelativeErrorPi [
 
 	| error |
@@ -969,7 +971,7 @@ EssentialsObjectTest >> testRelativeErrorPi [
 		assert: error abs log negated ceiling equals: 5
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRoassalExporting [
 
 	| pango another c |
@@ -993,7 +995,7 @@ EssentialsObjectTest >> testRoassalExporting [
 	^ self exportShapeOf: c
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRoassalExporting1 [
 
 	| pango another c |
@@ -1020,7 +1022,7 @@ EssentialsObjectTest >> testRoassalExporting1 [
 	^ self exportShapeOf: c
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testRoassalExporting2 [
 
 	^ self export: nil pathSuffix: '' onCanvasDo: [ :canvas :_ |
@@ -1049,7 +1051,7 @@ EssentialsObjectTest >> testRoassalExporting2 [
 		canvas svgCairoExporter zoomToShapes ;export  ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testWithIntegersCollectionDoLoremIpsum [
 
 	String loremIpsum withIntegersCollectionDo: [ :iCollection :map | 
@@ -1076,7 +1078,7 @@ EssentialsObjectTest >> testWithIntegersCollectionDoLoremIpsum [
 				   2 3 10 5 21 ) ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testWithIntegersCollectionDoSharingObjects [
 
 	| t o |
@@ -1098,7 +1100,7 @@ EssentialsObjectTest >> testWithIntegersCollectionDoSharingObjects [
 			assert: (map at: iCollection fifth) equals: 1 ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 EssentialsObjectTest >> testWithIntegersCollectionDoThreeDifferentObjects [
 
 	{ 

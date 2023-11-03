@@ -1,63 +1,65 @@
 Class {
-	#name : #CTEssentialsTestRelation,
-	#superclass : #Object,
+	#name : 'CTEssentialsTestRelation',
+	#superclass : 'Object',
 	#instVars : [
 		'left',
 		'name',
 		'right'
 	],
-	#category : #'Containers-Essentials-Tests-SUTs'
+	#category : 'Containers-Essentials-Tests-SUTs',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'SUTs'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTEssentialsTestRelation >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCTEssentialsTestRelation: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> left [
 
 	^ left
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> left: anObject [
 
 	left := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> name [
 
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> name: anObject [
 
 	name := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> object [
 
 	^ right
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> right [
 
 	^ right
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> right: anObject [
 
 	right := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTEssentialsTestRelation >> subject [
 
 	^ left

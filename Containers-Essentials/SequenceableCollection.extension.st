@@ -269,14 +269,6 @@ SequenceableCollection >> kth: anInteger ranking: aBlock atRandom: aRandom [
 ]
 
 { #category : '*Containers-Essentials' }
-SequenceableCollection >> lastButOne [
-
-	^ self
-		  emptyCheck;
-		  at: self size - 1
-]
-
-{ #category : '*Containers-Essentials' }
 SequenceableCollection >> runs: aBlock [
 
 	| i runs mySize |

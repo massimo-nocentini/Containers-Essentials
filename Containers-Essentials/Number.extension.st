@@ -45,12 +45,6 @@ Number >> asComplex [
 ]
 
 { #category : '*Containers-Essentials' }
-Number >> bernstein: n choose: i [
-
-	^ (n choose: i) * (self raisedTo: i) * (1 - self raisedTo: n - i)
-]
-
-{ #category : '*Containers-Essentials' }
 Number >> cosh [
 	
 	^self asFloat cosh

@@ -1,10 +1,12 @@
 Class {
-	#name : #CTPostponeSlotDescriptorsVisitor,
-	#superclass : #CTSlotDescriptorsVisitor,
-	#category : #'Containers-Essentials-Tests-SUTs'
+	#name : 'CTPostponeSlotDescriptorsVisitor',
+	#superclass : 'CTSlotDescriptorsVisitor',
+	#category : 'Containers-Essentials-Tests-SUTs',
+	#package : 'Containers-Essentials-Tests',
+	#tag : 'SUTs'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTPostponeSlotDescriptorsVisitor >> visitCTDummyForPostpone: anObject [
 
 	^ {
@@ -12,7 +14,7 @@ CTPostponeSlotDescriptorsVisitor >> visitCTDummyForPostpone: anObject [
 		  ((self newSlotDescriptorSelector: #cross) postpone: true) }
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 CTPostponeSlotDescriptorsVisitor >> visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones [
 
 	^ (super visitCTKeyedValuedOrderedCollection: aCollectionOfPostpones)

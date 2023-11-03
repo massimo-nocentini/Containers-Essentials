@@ -1,6 +1,6 @@
-Extension { #name : #IntegerTest }
+Extension { #name : 'IntegerTest' }
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testAsStringAZaz [
 
 	self
@@ -24,7 +24,7 @@ IntegerTest >> testAsStringAZaz [
 			equals: n ]
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testAsStringaz [
 
 	self
@@ -48,7 +48,7 @@ IntegerTest >> testAsStringaz [
 			equals: n ]
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testBitAverage [
 
 	| s n m slowBenchResult quickBenchResult seconds |
@@ -70,7 +70,7 @@ IntegerTest >> testBitAverage [
 	self assert: slowBenchResult iterations < quickBenchResult iterations
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testBitToggleDo [
 
 	| n m |
@@ -89,7 +89,7 @@ IntegerTest >> testBitToggleDo [
 			assert: toggle value equals: m ]
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testBitToggleDo1 [
 
 	| n m |
@@ -108,7 +108,7 @@ IntegerTest >> testBitToggleDo1 [
 			assert: toggle value equals: m ]
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testNextEven [
 
 	self
@@ -119,7 +119,7 @@ IntegerTest >> testNextEven [
 		assert: 2 nextEven equals: 4
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testNextEvenOrSelf [
 
 	self
@@ -130,7 +130,7 @@ IntegerTest >> testNextEvenOrSelf [
 		assert: 2 nextEvenOrSelf equals: 2
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testNextOdd [
 
 	self
@@ -141,7 +141,7 @@ IntegerTest >> testNextOdd [
 		assert: 2 nextOdd equals: 3
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testNextOddOrSelf [
 
 	self
@@ -152,7 +152,7 @@ IntegerTest >> testNextOddOrSelf [
 		assert: 2 nextOddOrSelf equals: 3
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testPreviousEven [
 
 	self
@@ -163,7 +163,7 @@ IntegerTest >> testPreviousEven [
 		assert: 2 previousEven equals: 0
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testPreviousEvenOrSelf [
 
 	self
@@ -174,7 +174,7 @@ IntegerTest >> testPreviousEvenOrSelf [
 		assert: 2 previousEvenOrSelf equals: 2
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testPreviousOdd [
 
 	self
@@ -185,7 +185,7 @@ IntegerTest >> testPreviousOdd [
 		assert: 2 previousOdd equals: 1
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testPreviousOddOrSelf [
 
 	self
@@ -196,7 +196,7 @@ IntegerTest >> testPreviousOddOrSelf [
 		assert: 2 previousOddOrSelf equals: 1
 ]
 
-{ #category : #'*Containers-Essentials-Tests' }
+{ #category : '*Containers-Essentials-Tests' }
 IntegerTest >> testShiftOfNegativeOne [
 
 	| a |
