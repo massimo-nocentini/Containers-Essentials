@@ -1,6 +1,6 @@
-Extension { #name : #ValueLink }
+Extension { #name : 'ValueLink' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 ValueLink >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitValueLink: self

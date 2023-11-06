@@ -1,6 +1,6 @@
-Extension { #name : #SpAbstractTreePresenter }
+Extension { #name : 'SpAbstractTreePresenter' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 SpAbstractTreePresenter >> allShownItems [
 
 	^ self withAdapterDo: [ :anAdapter | 
@@ -8,7 +8,7 @@ SpAbstractTreePresenter >> allShownItems [
 			  each data ] ]
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 SpAbstractTreePresenter >> expandAllTo: aDepth [
 
 	"Expand all nodes of the tree. 

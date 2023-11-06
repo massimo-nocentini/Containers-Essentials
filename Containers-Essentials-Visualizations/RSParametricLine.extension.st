@@ -1,6 +1,6 @@
-Extension { #name : #RSParametricLine }
+Extension { #name : 'RSParametricLine' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RSParametricLine >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitRSParametricLine: self

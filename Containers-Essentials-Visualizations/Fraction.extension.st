@@ -1,18 +1,18 @@
-Extension { #name : #Fraction }
+Extension { #name : 'Fraction' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitFraction: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	^ self asShapeNaturalRepresentation
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> asShapeFordCircles [
 
 	| r c reduced floor ratio |
@@ -38,7 +38,7 @@ Fraction >> asShapeFordCircles [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> asShapeNaturalRepresentation [
 
 	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y ratio |
@@ -102,7 +102,7 @@ Fraction >> asShapeNaturalRepresentation [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> asShapeOnUnitCircle [
 
 	| circle point puc scale origin |
@@ -142,7 +142,7 @@ Fraction >> asShapeOnUnitCircle [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasFordCircles [
 
 	<inspectorPresentationOrder: 1010 title: 'Ford circles'>
@@ -152,13 +152,13 @@ Fraction >> inspectorCanvasFordCircles [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasFordCirclesContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasRepresentations [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
@@ -176,7 +176,7 @@ Fraction >> inspectorCanvasRepresentations [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Fraction >> inspectorCanvasRepresentationsContext: aContext [
 
 	aContext withoutEvaluator

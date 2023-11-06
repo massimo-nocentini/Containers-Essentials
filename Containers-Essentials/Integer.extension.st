@@ -472,13 +472,6 @@ Integer >> ifZero: zBlock [
 ]
 
 { #category : '*Containers-Essentials' }
-Integer >> ifZero: zBlock ifNotZero: nzBlock [
-	^ self = 0
-		ifTrue: [ zBlock cull: self ]
-		ifFalse: [ nzBlock cull: self ]
-]
-
-{ #category : '*Containers-Essentials' }
 Integer >> ifZero: zBlock ifOne: oBlock ifTwo: tBlock otherwise: eBlock [
 
 	^ self = 0

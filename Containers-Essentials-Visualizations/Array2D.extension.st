@@ -1,12 +1,12 @@
-Extension { #name : #Array2D }
+Extension { #name : 'Array2D' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Array2D >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitArray2D: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Array2D >> asShapeMod2 [
 
 	| shapes |

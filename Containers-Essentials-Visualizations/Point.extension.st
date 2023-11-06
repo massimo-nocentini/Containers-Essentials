@@ -1,12 +1,12 @@
-Extension { #name : #Point }
+Extension { #name : 'Point' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Point >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitPoint: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Point >> asShapeWrtOrigin [
 
 	| origin zero |

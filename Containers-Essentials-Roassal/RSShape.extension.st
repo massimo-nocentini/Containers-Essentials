@@ -12,15 +12,6 @@ RSShape >> asCompositeShape [
 ]
 
 { #category : '*Containers-Essentials-Roassal' }
-RSShape >> boxedWithPad: aPadding [
-
-	^ self padded: aPadding withBoxDo: [ :box | 
-		  box
-			  color: Color white;
-			  borderDo: [ :aBorder | aBorder color: aBorder color translucent ] ]
-]
-
-{ #category : '*Containers-Essentials-Roassal' }
 RSShape >> sameColorAsBorderColor [
 
 	self color: self border color

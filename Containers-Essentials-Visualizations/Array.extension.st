@@ -1,6 +1,6 @@
-Extension { #name : #Array }
+Extension { #name : 'Array' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Array >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitArray: self

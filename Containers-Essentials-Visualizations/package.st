@@ -1,1 +1,1 @@
-Package { #name : #'Containers-Essentials-Visualizations' }
+Package { #name : 'Containers-Essentials-Visualizations' }

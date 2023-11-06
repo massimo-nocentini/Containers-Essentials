@@ -1,6 +1,6 @@
-Extension { #name : #Stack }
+Extension { #name : 'Stack' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Stack >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitStack: self

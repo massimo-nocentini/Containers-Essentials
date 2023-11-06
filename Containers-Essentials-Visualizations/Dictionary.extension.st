@@ -1,6 +1,6 @@
-Extension { #name : #Dictionary }
+Extension { #name : 'Dictionary' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Dictionary >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitDictionary: self

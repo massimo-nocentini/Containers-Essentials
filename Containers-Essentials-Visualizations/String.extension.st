@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 String >> asShapeMultilineLabel: aPrototypeLabelShape [
 
 	| emptySpaceWidth labels |

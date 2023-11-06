@@ -1,12 +1,12 @@
-Extension { #name : #CompiledMethod }
+Extension { #name : 'CompiledMethod' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitCompiledMethod: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| formattedCode font text comments markup docStringShape codeShape shapeGroup defString yOffset |

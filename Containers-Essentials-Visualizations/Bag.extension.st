@@ -1,12 +1,12 @@
-Extension { #name : #Bag }
+Extension { #name : 'Bag' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Bag >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitBag: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Bag >> asShapeHistogram [
 
 	| elements occurrences size |

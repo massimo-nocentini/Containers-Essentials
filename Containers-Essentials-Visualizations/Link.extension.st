@@ -1,6 +1,6 @@
-Extension { #name : #Link }
+Extension { #name : 'Link' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Link >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitLink: self

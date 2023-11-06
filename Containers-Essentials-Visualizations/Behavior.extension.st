@@ -1,12 +1,12 @@
-Extension { #name : #Behavior }
+Extension { #name : 'Behavior' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitBehavior: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asFluidDefinitionShape [
 	"I produce a Roassal Pango text with the fluid definition of myself, 
 	 according to `FluidClassDefinitionPrinter`."
@@ -31,7 +31,7 @@ Behavior >> asFluidDefinitionShape [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: aBlock [
 
 	^ self
@@ -40,7 +40,7 @@ Behavior >> asShapeAllSuperclassesIndented: aBlock [
 		  collect: aBlock
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 
 	| superClassShapes |
@@ -62,13 +62,13 @@ Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeClass: aBlock [
 
 	^ self asShapeAllSuperclassesIndented: { self } collect: aBlock
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeSubclasses [
 
 	| gr commits edges |
@@ -114,7 +114,7 @@ Behavior >> asShapeSubclasses [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> inspectorCanvasSubclassesTree [
 
 	<inspectorPresentationOrder: 1000 title: 'All subclasses tree'>
@@ -124,7 +124,7 @@ Behavior >> inspectorCanvasSubclassesTree [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> inspectorCanvasSubclassesTreeContext: aContext [
 
 	aContext withoutEvaluator

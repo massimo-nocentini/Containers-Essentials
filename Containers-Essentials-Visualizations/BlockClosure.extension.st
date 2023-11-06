@@ -1,6 +1,6 @@
-Extension { #name : #BlockClosure }
+Extension { #name : 'BlockClosure' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 BlockClosure >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitBlockClosure: self

@@ -1,12 +1,12 @@
-Extension { #name : #Integer }
+Extension { #name : 'Integer' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitInteger: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> asShapeBRGCDots: aDfsWalker [
 
 	^ self
@@ -14,7 +14,7 @@ Integer >> asShapeBRGCDots: aDfsWalker [
 		  walker: aDfsWalker
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> asShapeBinaryDots: aDfsWalker [
 
 	^ self
@@ -22,7 +22,7 @@ Integer >> asShapeBinaryDots: aDfsWalker [
 		  walker: aDfsWalker
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> asShapeBinaryDots: repr walker: aDfsWalker [
 
 	| dots radiusOrPadding |
@@ -62,7 +62,7 @@ Integer >> asShapeBinaryDots: repr walker: aDfsWalker [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> asShapeSkewDots: aDfsWalker [
 
 	^ self
@@ -72,7 +72,7 @@ Integer >> asShapeSkewDots: aDfsWalker [
 		  walker: aDfsWalker
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> inspectorCanvasRepresentations [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
@@ -100,7 +100,7 @@ Integer >> inspectorCanvasRepresentations [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Integer >> inspectorCanvasRepresentationsContext: aContext [
 
 	aContext withoutEvaluator

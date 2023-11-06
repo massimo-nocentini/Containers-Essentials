@@ -1,6 +1,6 @@
-Extension { #name : #DateAndTime }
+Extension { #name : 'DateAndTime' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 DateAndTime >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitDateAndTime: self

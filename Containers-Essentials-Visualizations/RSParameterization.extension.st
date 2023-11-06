@@ -1,12 +1,12 @@
-Extension { #name : #RSParameterization }
+Extension { #name : 'RSParameterization' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RSParameterization >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitRSParameterization: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RSParameterization >> asShapeParamDistanceScatter [
 
 	^ RSComposite new shapes: (RSChart new

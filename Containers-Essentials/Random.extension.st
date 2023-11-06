@@ -4,7 +4,7 @@ Extension { #name : 'Random' }
 Random >> density: x [
 
 	^ 1 + (RandomGaussian new
-		   sigma: Float epsilon;
+		   sigma: Float machineEpsilon;
 		   next)
 ]
 

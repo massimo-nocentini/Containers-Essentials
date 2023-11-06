@@ -1,6 +1,6 @@
-Extension { #name : #RSShape }
+Extension { #name : 'RSShape' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RSShape >> asCanvas [
 
 	^ RSCanvas new
@@ -9,7 +9,7 @@ RSShape >> asCanvas [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RSShape >> asShapeQuoted [
 
 	^ self copy

@@ -1,12 +1,12 @@
-Extension { #name : #PointArray }
+Extension { #name : 'PointArray' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 PointArray >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitPointArray: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 PointArray >> asShapeDots [
 
 	^ RSComposite new shapes: (RSChart new

@@ -1,6 +1,6 @@
-Extension { #name : #IceLibgitRepository }
+Extension { #name : 'IceLibgitRepository' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 IceLibgitRepository >> asShapeCommitsGraph [
 
 	| commits edges dict |

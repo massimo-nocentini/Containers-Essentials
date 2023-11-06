@@ -1,18 +1,18 @@
-Extension { #name : #Heap }
+Extension { #name : 'Heap' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitHeap: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> asShapeBubblesHorizontalTree [
 
 	^ self asShapeBubblesHorizontalTree: CTDfsWalker new
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> asShapeBubblesHorizontalTree: aDfsWalker [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -32,7 +32,7 @@ Heap >> asShapeBubblesHorizontalTree: aDfsWalker [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -56,7 +56,7 @@ Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes [
 		  indexes: indexes
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes walker: aDfsWalker [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -82,7 +82,7 @@ Heap class >> asShapeBubblesHorizontalTree: array indexes: indexes walker: aDfsW
 		  indexes: indexes
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array indexes: indexes [
 
 	| edgeBuilder evenEdges oddEdges edges tally |
@@ -115,13 +115,13 @@ Heap class >> asShapeHorizontalTreeWithShapes: aCollectionOfShapes array: array 
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> asShapeValuesHorizontalTree [
 
 	^ self asShapeValuesHorizontalTree: nil
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> asShapeValuesHorizontalTree: aDfsWalker [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -141,7 +141,7 @@ Heap >> asShapeValuesHorizontalTree: aDfsWalker [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap class >> asShapeValuesHorizontalTree: array indexes: indexes [
 
 	^ self
@@ -150,7 +150,7 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes [
 		  walkerOrNil: nil
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: nullableDfsWalker [
 
 	"This visualization represents the current Heap object as a binary tree,
@@ -201,7 +201,7 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: n
 		  indexes: indexes
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> inspectorCanvasBubblesTree [
 
 	<inspectorPresentationOrder: 90 title: 'Bubbles tree'>
@@ -211,13 +211,13 @@ Heap >> inspectorCanvasBubblesTree [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> inspectorCanvasBubblesTreeContext: aContext [
 
 	aContext withoutEvaluator
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> inspectorCanvasValuesTree [
 
 	<inspectorPresentationOrder: 1010 title: 'Values tree'>
@@ -227,7 +227,7 @@ Heap >> inspectorCanvasValuesTree [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Heap >> inspectorCanvasValuesTreeContext: aContext [
 
 	aContext withoutEvaluator

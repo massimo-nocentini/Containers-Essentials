@@ -1,6 +1,6 @@
-Extension { #name : #RBProgramNode }
+Extension { #name : 'RBProgramNode' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RBProgramNode >> inspectorRoassalTree [
 
 	<inspectorPresentationOrder: 1010 title: 'Roassal Tree'>
@@ -86,7 +86,7 @@ RBProgramNode >> inspectorRoassalTree [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 RBProgramNode >> inspectorRoassalTreeContext: aContext [
 
 	aContext withoutEvaluator

@@ -1,6 +1,6 @@
-Extension { #name : #Process }
+Extension { #name : 'Process' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Process >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitProcess: self

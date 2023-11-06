@@ -1,12 +1,12 @@
-Extension { #name : #Color }
+Extension { #name : 'Color' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Color >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitColor: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Color >> asShapeColoredBox [
 
 	^ RSBox new

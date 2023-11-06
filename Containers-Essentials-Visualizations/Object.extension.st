@@ -1,12 +1,12 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitObject: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsCollapsedSCCsDfsTree: dfsWalker [
 
 	^ CTCollapsedSccDfsPainter new
@@ -14,7 +14,7 @@ Object >> asShapeSlotsCollapsedSCCsDfsTree: dfsWalker [
 		  value: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsDfsTree: dfsWalker [
 
 	^ CTDfsPainter new
@@ -22,7 +22,7 @@ Object >> asShapeSlotsDfsTree: dfsWalker [
 		  value: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsLayeredDfsTree: dfsWalker [
 
 	^ CTLayeredDfsPainter new
@@ -30,7 +30,7 @@ Object >> asShapeSlotsLayeredDfsTree: dfsWalker [
 		  value: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsSCCsDfsTree: dfsWalker [
 
 	^ CTSccDfsPainter new
@@ -38,7 +38,7 @@ Object >> asShapeSlotsSCCsDfsTree: dfsWalker [
 		  value: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 Object >> asShapeSlotsTopologicallySortedDfsTree: dfsWalker [
 
 	^ CTTopologicalSortDfsPainter new

@@ -1,12 +1,12 @@
-Extension { #name : #ByteArray }
+Extension { #name : 'ByteArray' }
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 ByteArray >> acceptSlotDescriptorsVisitor: aVisitor [
 
 	^ aVisitor visitByteArray: self
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 ByteArray >> asShapeBitsDump: aWalker [
 
 	| shapes dGR gapSize |
@@ -61,7 +61,7 @@ ByteArray >> asShapeBitsDump: aWalker [
 		  yourself
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 ByteArray >> inspectorCanvasBitsDumpBigEndian [
 
 	<inspectorPresentationOrder: 1010 title: 'Bits dump (big-endian)'>
@@ -71,7 +71,7 @@ ByteArray >> inspectorCanvasBitsDumpBigEndian [
 		  inspectorCanvas
 ]
 
-{ #category : #'*Containers-Essentials-Visualizations' }
+{ #category : '*Containers-Essentials-Visualizations' }
 ByteArray >> inspectorCanvasBitsDumpBigEndianContext: aContext [
 
 	aContext withoutEvaluator
