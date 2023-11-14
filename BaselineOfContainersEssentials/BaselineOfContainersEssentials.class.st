@@ -11,6 +11,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self
+			pluginsPrimitives: spec;
 			roassal: spec;
 			pango: spec;
 			common: spec ]
@@ -33,6 +34,14 @@ BaselineOfContainersEssentials >> pango: spec [
 	spec
 		baseline: 'Pango'
 		with: [ spec repository: 'github://massimo-nocentini/pharo-pango' ]
+]
+
+{ #category : 'baselines' }
+BaselineOfContainersEssentials >> pluginsPrimitives: spec [
+
+	spec
+		baseline: 'VMPluginsPrimitives'
+		with: [ spec repository: 'github://massimo-nocentini/vm-plugins-primitives.st' ]
 ]
 
 { #category : 'baselines' }
