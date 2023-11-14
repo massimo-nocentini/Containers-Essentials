@@ -37,7 +37,7 @@ CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
 	| size |
 	size := self liblua lua_gettop: luaState.
 
-	^ (self liblua luaL_dostring: luaState chunk: chunk)
+	^ (self liblua luaL: luaState dostring: chunk)
 	  = self liblua LUA_OK
 		  ifTrue: [
 			  | array newElementsSize |
