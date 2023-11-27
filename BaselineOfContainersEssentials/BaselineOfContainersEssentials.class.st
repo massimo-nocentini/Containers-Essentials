@@ -52,8 +52,8 @@ BaselineOfContainersEssentials >> roassal: spec [
 			repository: 'github://massimo-nocentini/Roassal3:master/src';
 			loads: #( Full ) ].
 
-	"spec
+	spec
 		baseline: 'RoassalExporters'
 		with: [ 
-		spec repository: 'github://massimo-nocentini/RoassalExporters:master/src' ]"
+		spec repository: 'github://ObjectProfile/RoassalExporters:master/src' ]
 ]
