@@ -55,5 +55,5 @@ BaselineOfContainersEssentials >> roassal: spec [
 	spec
 		baseline: 'RoassalExporters'
 		with: [ 
-		spec repository: 'github://ObjectProfile/RoassalExporters:master/src' ]
+		spec repository: 'github://ObjectProfile/Roassal3Exporters:master/src' ]
 ]
