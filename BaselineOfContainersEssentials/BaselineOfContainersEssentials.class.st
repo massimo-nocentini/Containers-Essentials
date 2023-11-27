@@ -47,7 +47,7 @@ BaselineOfContainersEssentials >> pluginsPrimitives: spec [
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> roassal: spec [
 
-	spec baseline: 'Roassal' with: [ 
+	spec baseline: 'Roassal3' with: [ 
 		spec
 			repository: 'github://massimo-nocentini/Roassal3:master/src';
 			loads: #( Full ) ].
