@@ -1,7 +1,7 @@
-Extension { #name : 'RPackage' }
+Extension { #name : 'Package' }
 
 { #category : '*Containers-Essentials' }
-RPackage >> testSuiteFromAllSelectors [
+Package >> testSuiteFromAllSelectors [
 
 	| suite |
 	suite := TestSuite named: self packageName.

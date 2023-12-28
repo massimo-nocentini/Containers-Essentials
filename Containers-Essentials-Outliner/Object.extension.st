@@ -10,6 +10,7 @@ Object >> inspectorCanvasSlotsGraph [
 	shape := self asShapeSlotsDfsTree: walker.
 
 	^ RSCanvas new
+		  useRTree;
 		  add: shape;
 		  addInteraction: RSCanvasController new;
 		  inspectorCanvas
