@@ -65,7 +65,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 fixEmptyLinesForPango
-		                 replaceAllTabsWithSpacesForPango.
+		                 replaceAllTabsWithThreeSpaces.
 
 	text := self inspectionSource
 		        text: formattedCode;

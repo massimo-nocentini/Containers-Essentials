@@ -5,7 +5,7 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 
 	| text |
 	text := codePresenter
-		        text: self formattedCode replaceAllTabsWithSpacesForPango
+		        text: self formattedCode replaceAllTabsWithThreeSpaces
 				        fixEmptyLinesForPango;
 		        textWithStyle.
 

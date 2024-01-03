@@ -22,7 +22,7 @@ Behavior >> asFluidDefinitionShape [
 		             beForBehavior: self;
 		             text:
 			             def fixEmptyLinesForPango
-				             replaceAllTabsWithSpacesForPango;
+				             replaceAllTabsWithThreeSpaces;
 		             yourself.
 
 	^ (presenter textWithStyle asRSPangoShapeUsingFont:
