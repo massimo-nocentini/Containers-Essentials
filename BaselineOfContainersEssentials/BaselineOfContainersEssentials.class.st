@@ -32,8 +32,8 @@ BaselineOfContainersEssentials >> common: spec [
 BaselineOfContainersEssentials >> pango: spec [
 
 	spec
-		baseline: 'Pango'
-		with: [ spec repository: 'github://massimo-nocentini/pharo-pango' ]
+		baseline: 'LibPangoCairo'
+		with: [ spec repository: 'github://massimo-nocentini/libpangocairo.st' ]
 ]
 
 { #category : 'baselines' }
