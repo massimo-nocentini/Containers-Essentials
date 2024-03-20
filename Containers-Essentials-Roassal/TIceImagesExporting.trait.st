@@ -12,7 +12,7 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 
 	aSelector value: canvas value: anObject.
 
-	RSPDFCairoExporter new
+	self svgExporter
 		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;
@@ -144,4 +144,16 @@ TIceImagesExporting >> iceWorkingDirectory [
 TIceImagesExporting >> imagesPath [
 
 	^ self iceWorkingDirectory / 'images'
+]
+
+{ #category : 'utilities' }
+TIceImagesExporting >> pdfExporter [
+
+	^ RSPDFCairoExporter new
+]
+
+{ #category : 'utilities' }
+TIceImagesExporting >> svgExporter [
+
+	^ RSSVGCairoExporter new
 ]
