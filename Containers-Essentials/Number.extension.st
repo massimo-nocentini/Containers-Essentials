@@ -51,11 +51,6 @@ Number >> cosh [
 ]
 
 { #category : '*Containers-Essentials' }
-Number >> decrement [
-	^ self - 1
-]
-
-{ #category : '*Containers-Essentials' }
 Number >> double [
 
 	^ self * 2
@@ -103,11 +98,6 @@ Number >> ifPositive: pBlock [
 Number >> ifPositive: pBlock ifNotPositive: npBlock [
 
 	^ self ifNegative: npBlock ifZero: npBlock ifPositive: pBlock
-]
-
-{ #category : '*Containers-Essentials' }
-Number >> increment [
-	^ self + 1
 ]
 
 { #category : '*Containers-Essentials' }

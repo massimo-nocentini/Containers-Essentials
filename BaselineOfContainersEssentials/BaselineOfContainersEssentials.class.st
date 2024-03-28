@@ -47,13 +47,13 @@ BaselineOfContainersEssentials >> pluginsPrimitives: spec [
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> roassal: spec [
 
-	spec baseline: 'Roassal' with: [ 
+	spec baseline: 'RoassalMN' with: [ 
 		spec
-			repository: 'github://massimo-nocentini/Roassal:master/src';
+			repository: 'github://massimo-nocentini/Roassal/src';
 			loads: #( Full ) ].
 
 	spec
 		baseline: 'RoassalExporters'
 		with: [ 
-		spec repository: 'github://massimo-nocentini/RoassalExporters:master/src' ]
+		spec repository: 'github://massimo-nocentini/RoassalExporters/src' ]
 ]
