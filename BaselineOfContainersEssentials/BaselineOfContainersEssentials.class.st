@@ -11,8 +11,8 @@ BaselineOfContainersEssentials >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self
-			pluginsPrimitives: spec;
 			roassal: spec;
+			pluginsPrimitives: spec;
 			pango: spec;
 			common: spec ]
 ]
