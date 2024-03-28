@@ -26,6 +26,12 @@ Object >> isComplex [
 ]
 
 { #category : '*Containers-Essentials' }
+Object >> isWolframExpression [
+
+	^ false
+]
+
+{ #category : '*Containers-Essentials' }
 Object >> itself: anObject [
 
 	^ anObject
