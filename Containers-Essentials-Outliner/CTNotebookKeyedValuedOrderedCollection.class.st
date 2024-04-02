@@ -141,7 +141,9 @@ CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 
 	self liblua luaL_openlibs: luaState.
 
-	wolframLink := WolframEngine link
+	[ wolframLink := WolframEngine link ]
+		on: FFIUnsupportedUntypedLiteral
+		do: [  ]
 ]
 
 { #category : 'accessing' }
