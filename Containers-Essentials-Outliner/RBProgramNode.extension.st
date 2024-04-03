@@ -13,7 +13,7 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-RBProgramNode >> translateForNotebook: notebook [
+RBProgramNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
 
 	^ self
 ]

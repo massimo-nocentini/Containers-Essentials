@@ -54,7 +54,9 @@ CTStNotebookPlayground class >> registerToolsOn: registry [
 { #category : 'initialization' }
 CTStNotebookPlayground >> initialize [
 
-	self notebook: CTNotebookKeyedValuedOrderedCollection new.
+	self notebook: (CTNotebookKeyedValuedOrderedCollection new
+			 pseudoVariableName: #thisNotebook;
+			 yourself).
 
 	super initialize
 ]

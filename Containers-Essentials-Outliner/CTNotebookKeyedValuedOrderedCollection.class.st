@@ -6,7 +6,8 @@ Class {
 		'title',
 		'luaState',
 		'switch',
-		'wolframLink'
+		'wolframLink',
+		'pseudoVariableName'
 	],
 	#category : 'Containers-Essentials-Outliner-Presenters',
 	#package : 'Containers-Essentials-Outliner',
@@ -129,6 +130,12 @@ CTNotebookKeyedValuedOrderedCollection >> outside: block [
 		  yourself
 ]
 
+{ #category : 'accessing' }
+CTNotebookKeyedValuedOrderedCollection >> pseudoVariableName: anObject [
+
+	pseudoVariableName := anObject
+]
+
 { #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
 
@@ -188,7 +195,10 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 
 	astNodesRewritten := astNodes
 		                     collect: [ :each |
-		                     each translateForNotebook: self ]
+			                     each
+				                     translateForNotebook: self
+				                     pseudoNotebookVariableName:
+				                     pseudoVariableName ]
 		                     as: Array.
 
 	astNodes with: astNodesRewritten do: [ :astNode :astNodeRewritten |
