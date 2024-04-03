@@ -14,7 +14,8 @@ BaselineOfContainersEssentials >> baseline: spec [
 			roassal: spec;
 			pluginsPrimitives: spec;
 			pango: spec;
-			common: spec ]
+			common: spec;
+			poppler: spec ]
 ]
 
 { #category : 'baselines' }
@@ -42,6 +43,14 @@ BaselineOfContainersEssentials >> pluginsPrimitives: spec [
 	spec
 		baseline: 'VMPluginsPrimitives'
 		with: [ spec repository: 'github://massimo-nocentini/vm-plugins-primitives.st' ]
+]
+
+{ #category : 'baselines' }
+BaselineOfContainersEssentials >> poppler: spec [
+
+	spec
+		baseline: 'LibPoppler'
+		with: [ spec repository: 'github://massimo-nocentini/libpoppler.st' ]
 ]
 
 { #category : 'baselines' }
