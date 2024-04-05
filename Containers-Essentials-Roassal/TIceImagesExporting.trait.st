@@ -8,11 +8,13 @@ Trait {
 TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector [
 
 	| canvas |
-	canvas := RSCanvas new.
+	canvas := RSCanvas new
+		          useRTree;
+		          yourself.
 
 	aSelector value: canvas value: anObject.
 
-	self svgExporter
+	self pdfExporter
 		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;
