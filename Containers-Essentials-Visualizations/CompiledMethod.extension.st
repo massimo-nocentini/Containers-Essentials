@@ -64,7 +64,6 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		                  LogicalFont pangoSerif.
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
-		                 fixEmptyLinesForPango
 		                 replaceAllTabsWithThreeSpaces.
 
 	text := self inspectionSource

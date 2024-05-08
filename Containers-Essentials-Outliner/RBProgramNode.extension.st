@@ -5,8 +5,7 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 
 	| text |
 	text := codePresenter
-		        text: self formattedCode replaceAllTabsWithThreeSpaces
-				        fixEmptyLinesForPango;
+		        text: self formattedCode replaceAllTabsWithThreeSpaces;
 		        textWithStyle.
 
 	^ text asRSPangoShapeUsingFont: LogicalFont pangoMonospace

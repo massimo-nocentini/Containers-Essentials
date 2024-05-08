@@ -20,9 +20,7 @@ Behavior >> asFluidDefinitionShape [
 
 	presenter := SpCodePresenter new
 		             beForBehavior: self;
-		             text:
-			             def fixEmptyLinesForPango
-				             replaceAllTabsWithThreeSpaces;
+		             text: def replaceAllTabsWithThreeSpaces;
 		             yourself.
 
 	^ (presenter textWithStyle asRSPangoShapeUsingFont:
