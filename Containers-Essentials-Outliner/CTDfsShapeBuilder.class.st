@@ -224,7 +224,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 		shape when: RSMouseLeftClick do: [ :ev | cm browse ] for: self ].
 
-	^ descShape ifNil: [ shape ] ifNotNil: [
+	" descShape ifNil: [ shape ] ifNotNil: [
 		  | c |
 		  c := RSComposite new
 			       shapes: {
@@ -232,12 +232,14 @@ CTDfsShapeBuilder >> label: anObject var: var [
 					       descShape };
 			       yourself.
 
-		  "Then align them to the right border."
+		  ""Then align them to the right border.""
 		  RSAlignment new
 			  shapes: c shapes;
 			  right.
 
-		  c ]
+		  c ]"
+
+	^ shape
 ]
 
 { #category : 'shapes' }
