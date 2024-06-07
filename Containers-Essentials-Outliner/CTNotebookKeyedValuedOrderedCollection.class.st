@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'codePresenter',
 		'title',
-		'luaState',
 		'switch',
-		'wolframLink',
 		'pseudoVariableName'
 	],
 	#category : 'Containers-Essentials-Outliner-Presenters',
@@ -33,47 +31,6 @@ CTNotebookKeyedValuedOrderedCollection >> codePresenter: anObject [
 ]
 
 { #category : 'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> doLuaChunk: chunk [
-
-	| size |
-	size := self liblua lua_gettop: luaState.
-
-	^ (self liblua luaL: luaState dostring: chunk)
-	  = self liblua LUA_OK
-		  ifTrue: [
-			  | array newElementsSize |
-			  newElementsSize := (self liblua lua_gettop: luaState) - size.
-			  array := Array new: newElementsSize.
-			  1 to: newElementsSize do: [ :i |
-			  array at: i put: (self liblua on: luaState at: size + i) ].
-			  array ]
-		  ifFalse: [ self liblua on: luaState at: -1 ]
-]
-
-{ #category : 'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> doWolframBlock: block [
-
-	^ self doWolframBlock: block showPdfInsteadOfTeX: false
-]
-
-{ #category : 'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> doWolframBlock: block showPdfInsteadOfTeX: shouldShowPdf [
-
-	| exprToBeEvaluated |
-	exprToBeEvaluated := block value: wolframLink.
-
-	^ shouldShowPdf
-		  ifTrue: [ exprToBeEvaluated showPdfInsteadOfTeX ]
-		  ifFalse: [ exprToBeEvaluated value ]
-]
-
-{ #category : 'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> doWolframString: string [
-
-	^ (self wolframLink ! string) value
-]
-
-{ #category : 'as yet unclassified' }
 CTNotebookKeyedValuedOrderedCollection >> hide: block because: reason [
 
 	^ CTNotebookComment new
@@ -87,8 +44,6 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 
 	super initialize.
 
-	self refreshExternalKernels.
-
 	switch := Dictionary new
 		          at: #title: put: [ :node |
 			          CTDFSRBComment withString:
@@ -97,22 +52,6 @@ CTNotebookKeyedValuedOrderedCollection >> initialize [
 		          at: #hide:because:
 		          put: [ :node | node arguments first body ];
 		          at: #outside: put: [ :node | node arguments first body ];
-		          at: #doLuaChunk:
-		          put: [ :node |
-			          RBLuaLiteralValueNode value: node arguments first value ];
-		          at: #doWolframBlock: put: [ :node |
-			          (RBWolframExpressionValueNode value: node arguments first)
-				          wolframLink: wolframLink;
-				          yourself ];
-		          at: #doWolframBlock:showPdfInsteadOfTeX: put: [ :node |
-		          (RBWolframExpressionValueNode value: node arguments first)
-			          wolframLink: wolframLink;
-			          yourself ];
-		          at: #doWolframString: put: [ :node |
-		          (RBWolframLiteralValueNode value:
-				           node arguments first value)
-			          wolframLink: wolframLink;
-			          yourself ];
 		          yourself
 ]
 
@@ -134,23 +73,6 @@ CTNotebookKeyedValuedOrderedCollection >> outside: block [
 CTNotebookKeyedValuedOrderedCollection >> pseudoVariableName: anObject [
 
 	pseudoVariableName := anObject
-]
-
-{ #category : 'as yet unclassified' }
-CTNotebookKeyedValuedOrderedCollection >> refreshExternalKernels [
-
-	luaState
-		ifNil: [ luaState := ExternalAddress null ]
-		ifNotNil: [
-		luaState isNull ifFalse: [ self liblua lua_close: luaState ] ].
-
-	luaState := self liblua luaLnewstate.
-
-	self liblua luaL_openlibs: luaState.
-
-	[ wolframLink := WolframEngine link ]
-		on: FFIUnsupportedUntypedLiteral
-		do: [  ]
 ]
 
 { #category : 'accessing' }
@@ -229,10 +151,4 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 
 		(errorFree and: [ astNodeRewritten isNotNil ]) ifTrue: [
 			evaluated add: astNodeRewritten -> value ] ]
-]
-
-{ #category : 'accessing' }
-CTNotebookKeyedValuedOrderedCollection >> wolframLink [
-
-	^ wolframLink
 ]
