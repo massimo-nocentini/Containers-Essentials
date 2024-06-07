@@ -1,6 +1,9 @@
 Class {
 	#name : 'CTStNotebookPlaygroundDoItCommand',
 	#superclass : 'StPlaygroundDoItCommand',
+	#instVars : [
+		'shouldOpenInspector'
+	],
 	#category : 'Containers-Essentials-Outliner-Presenters',
 	#package : 'Containers-Essentials-Outliner',
 	#tag : 'Presenters'
@@ -34,6 +37,15 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 			            value;
 			            yourself.
 
-		"aBlock value: notebook"
-		notebook inspect ]
+		shouldOpenInspector
+			ifTrue: [ notebook inspect ]
+			ifFalse: [ aBlock value: notebook ] ]
+]
+
+{ #category : 'execution' }
+CTStNotebookPlaygroundDoItCommand >> initialize [
+
+	super initialize.
+
+	shouldOpenInspector := true
 ]
