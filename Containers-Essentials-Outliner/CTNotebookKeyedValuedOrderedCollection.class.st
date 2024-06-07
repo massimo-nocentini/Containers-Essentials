@@ -75,6 +75,15 @@ CTNotebookKeyedValuedOrderedCollection >> pseudoVariableName: anObject [
 	pseudoVariableName := anObject
 ]
 
+{ #category : 'evaluating' }
+CTNotebookKeyedValuedOrderedCollection >> shouldBreakOnNode: astNode ifTrue: aBlock [
+
+	(astNode isMessage and: [
+		 astNode receiver isVariable and: [
+			 astNode receiver name = pseudoVariableName and: [
+				 astNode selector == #break ] ] ]) ifTrue: [ aBlock value ]
+]
+
 { #category : 'accessing' }
 CTNotebookKeyedValuedOrderedCollection >> title: anObject [
 
@@ -129,6 +138,8 @@ CTNotebookKeyedValuedOrderedCollection >> value [
 			         ifTrue: [ nil ]
 			         ifFalse: [
 				         | obj |
+				         self shouldBreakOnNode: astNode ifTrue: [ ^ self ].
+
 				         obj := codePresenter
 					                evaluate: astNode sourceCode
 					                onCompileError: [
