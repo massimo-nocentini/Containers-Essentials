@@ -224,7 +224,9 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		associationsDo: [ :binding |
 		codePresenter interactionModel addBinding: binding ].
 
-	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new
+		                   codePresenter: codePresenter;
+		                   yourself.
 
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
