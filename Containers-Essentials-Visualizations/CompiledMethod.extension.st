@@ -8,11 +8,8 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 
 { #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
-	"
-![caption with space and dot...](https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png)
-"
 
-	| formattedCode font text comments docStringShape codeShape shapeGroup defString yOffset headerShape |
+	| formattedCode font text comments docStringShape codeShape shapeGroup defString headerShape |
 	descriptor leftAlignValueShapeWithinItsBox.
 	font := LogicalFont pangoMonospace.
 
@@ -67,8 +64,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 			                  PangoMarkupMicrodownVisitor new
 				                  visit: mic;
-				                  asRSPangoShapeUsingFont: LogicalFont pangoSerif
-			                  "String cr , String cr , commentsMarkup" ].
+				                  asRSPangoShapeUsingFont: LogicalFont pangoSerif ].
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 replaceAllTabsWithThreeSpaces.
@@ -81,29 +77,13 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	shapeGroup := RSGroup new
 		              add: headerShape;
-		              add: docStringShape;
 		              add: codeShape;
+		              add: docStringShape;
 		              yourself.
 
 	RSVerticalLineLayout new
 		alignLeft;
 		on: shapeGroup.
 
-	"RSLocation new
-	above;
-	center;
-	move: docStringShape on: codeShape.
-	
-	yOffset := 5 * Float goldenRatio.
-
-	docStringShape width > codeShape width
-		ifTrue: [
-			codeShape translateBy:
-				(docStringShape width - codeShape width) negated halved @ yOffset ]
-		ifFalse: [
-			docStringShape translateBy:
-				(codeShape width - docStringShape width) negated halved
-				@ yOffset negated ].
-"
 	^ shapeGroup asShapeFor: self
 ]
