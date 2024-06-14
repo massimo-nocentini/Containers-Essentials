@@ -8,16 +8,19 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 
 { #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
+	"
+![caption with space and dot...](https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png)
+"
 
-	| formattedCode font text comments markup docStringShape codeShape shapeGroup defString yOffset |
+	| formattedCode font text comments docStringShape codeShape shapeGroup defString yOffset headerShape |
 	descriptor leftAlignValueShapeWithinItsBox.
 	font := LogicalFont pangoMonospace.
 
 	defString := String streamContents: [ :stream |
 		             stream
-			             << '<span font_family="';
+			             << '<span foreground="gray" font_family="';
 			             << LogicalFont pangoSans familyName;
-			             << '" font_size="larger"><b>';
+			             << '" font_size="161.8%"><b>';
 			             << '<span font_family="';
 			             << font familyName;
 			             << '">';
@@ -35,6 +38,10 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 		             stream << '</u></i>.</span>' ].
 
+	headerShape := RSPangoMarkup new
+		               text: defString;
+		               asCompositeShape.
+
 	comments := OrderedCollection new.
 
 	formattedCode := self ast comments
@@ -47,21 +54,21 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 				                 copyReplaceAll: commentNode sourceCode
 				                 with: '' ].
 
-	markup := comments ifEmpty: [ String empty ] ifNotEmpty: [
-		          | mic commentsMarkup |
-		          mic := Microdown parse:
-			                 (String cr , String cr join: comments).
+	docStringShape := comments
+		                  ifEmpty: [ RSComposite ghost: comments ]
+		                  ifNotEmpty: [
+			                  | mic |
+			                  comments := comments collect: [ :comment |
+				                              '{{<span foreground="gray">}}'
+				                              , comment , '{{</span>}}' ].
 
-		          commentsMarkup := PangoMarkupMicrodownVisitor new
-			                            visit: mic;
-			                            pangoMarkup.
+			                  mic := Microdown parse:
+				                         (String cr , String cr join: comments).
 
-		          String cr , String cr , commentsMarkup ].
-
-	markup := '<span foreground="gray">' , defString , markup , '</span>'.
-
-	docStringShape := markup asRSPangoShapeUsingFont:
-		                  LogicalFont pangoSerif.
+			                  PangoMarkupMicrodownVisitor new
+				                  visit: mic;
+				                  asRSPangoShapeUsingFont: LogicalFont pangoSerif
+			                  "String cr , String cr , commentsMarkup" ].
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 replaceAllTabsWithThreeSpaces.
@@ -73,15 +80,20 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 	codeShape := text asRSPangoShapeUsingFont: font.
 
 	shapeGroup := RSGroup new
+		              add: headerShape;
 		              add: docStringShape;
 		              add: codeShape;
 		              yourself.
 
-	RSLocation new
-		above;
-		center;
-		move: docStringShape on: codeShape.
+	RSVerticalLineLayout new
+		alignLeft;
+		on: shapeGroup.
 
+	"RSLocation new
+	above;
+	center;
+	move: docStringShape on: codeShape.
+	
 	yOffset := 5 * Float goldenRatio.
 
 	docStringShape width > codeShape width
@@ -92,6 +104,6 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			docStringShape translateBy:
 				(codeShape width - docStringShape width) negated halved
 				@ yOffset negated ].
-
+"
 	^ shapeGroup asShapeFor: self
 ]
