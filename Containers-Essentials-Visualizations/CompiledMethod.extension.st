@@ -9,7 +9,7 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| formattedCode font text comments docStringShape codeShape shapeGroup defString headerShape |
+	| formattedCode font text comments docStringShape codeShape shapeGroup defString headerShape maxWidth controlPoints random separatorLine |
 	descriptor leftAlignValueShapeWithinItsBox.
 	font := LogicalFont pangoMonospace.
 
@@ -80,6 +80,28 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		              add: codeShape;
 		              add: docStringShape;
 		              yourself.
+
+	maxWidth := shapeGroup
+		            inject: 0
+		            into: [ :maxWidthSoFar :each |
+		            each width max: maxWidthSoFar ].
+
+	controlPoints := (0 to: maxWidth) linspace: 10.
+
+	random := RandomGaussian seed: 541.
+
+	separatorLine := RSdeCasteljauLine new
+		                 color: Color lightGray;
+		                 controlPoints:
+			                 (controlPoints collect: [ :each |
+					                  each @ 0 + random next ]);
+		                 from: codeShape;
+		                 to: docStringShape;
+		                 yourself.
+
+	shapeGroup
+		add: separatorLine;
+		swap: shapeGroup size with: shapeGroup size - 1.
 
 	RSVerticalLineLayout new
 		alignLeft;
