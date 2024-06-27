@@ -4,22 +4,46 @@ I provide basic shape constructors to be assembled in an outliner shape.
 Class {
 	#name : 'CTDfsShapeBuilder',
 	#superclass : 'Object',
-	#instVars : [
-		'metaColor',
-		'metaFontSize',
-		'metaExtent',
-		'prototypeLabel',
-		'goldenRatios'
+	#classVars : [
+		'GoldenRatios',
+		'MetaExtent'
 	],
 	#category : 'Containers-Essentials-Outliner-Roassal',
 	#package : 'Containers-Essentials-Outliner',
 	#tag : 'Roassal'
 }
 
+{ #category : 'class initialization' }
+CTDfsShapeBuilder class >> initialize [
+
+	GoldenRatios := 10 goldenRatiosLower.
+
+	MetaExtent := (self pad: (RSLabel new
+			                model: nil;
+			                useDefaultCodeFont;
+			                text: 'Ggg';
+			                yourself)) extent
+]
+
+{ #category : 'shapes' }
+CTDfsShapeBuilder class >> pad: aShape [
+
+	^ RSComposite new
+		  shapes: { aShape };
+		  padding: self radiusOrPadding;
+		  yourself
+]
+
+{ #category : 'accessing' }
+CTDfsShapeBuilder class >> radiusOrPadding [
+
+	^ Float goldenPlatinumRatio
+]
+
 { #category : 'shapes' }
 CTDfsShapeBuilder >> box: aValue [
 
-	^ self boxClass new
+	^ self newBoxShape
 		  model: aValue;
 		  color: Smalltalk ui theme desktopColor translucent;
 		  "borderDo: [ :border |
@@ -29,13 +53,6 @@ CTDfsShapeBuilder >> box: aValue [
 			  noBorder;
 		  cornerRadius: self radiusOrPadding;
 		  yourself
-]
-
-{ #category : 'shapes' }
-CTDfsShapeBuilder >> boxClass [
-	"This message is here to allow subclass to customize the style of boxes."
-
-	^ RSNote "or perhaps RSSimplerNote"
 ]
 
 { #category : 'shapes' }
@@ -63,20 +80,20 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 
 	varWidth < boxWidth
 		ifTrue: [
-			µ := (goldenRatios at: 2)
+			µ := (GoldenRatios at: 2)
 				     isTo: boxWidth
-				     as: (goldenRatios at: 3)
+				     as: (GoldenRatios at: 3)
 				     isTo: [ :x |
 					     | ratio |
-					     ratio := goldenRatios first.
+					     ratio := GoldenRatios first.
 					     ((x - varWidth max: 1) log: ratio) * ratio ].
 
 			π := 0 ]
 		ifFalse: [
 			µ := 0.
-			π := (goldenRatios at: 2)
+			π := (GoldenRatios at: 2)
 				     isTo: varWidth
-				     as: (goldenRatios at: 3)
+				     as: (GoldenRatios at: 3)
 				     isTo: [ :x | x - boxWidth max: 0 ] ].
 
 	shapes := data rows collect: [ :slotRow |
@@ -172,19 +189,6 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 		  yourself
 ]
 
-{ #category : 'initialization' }
-CTDfsShapeBuilder >> initialize [
-
-	super initialize.
-
-	goldenRatios := 10 goldenRatiosLower.
-
-	self prototypeLabel: (RSLabel new
-			 model: nil;
-			 useDefaultCodeFont;
-			 yourself)
-]
-
 { #category : 'shapes' }
 CTDfsShapeBuilder >> label: anObject var: var [
 
@@ -212,9 +216,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 				                pointSize: font pointSize / Float goldenRatio;
 				                yourself.
 
-			markup := '<span foreground="#{1}">{2}</span>' format: {
-					          metaColor asHexString.
-					          (Microdown asPangoMarkupString: docString) }.
+			markup := Microdown asPangoMarkupString: docString.
 
 			descShape := markup asRSPangoShapeUsingFont: shrinkedFont.
 
@@ -245,27 +247,38 @@ CTDfsShapeBuilder >> label: anObject var: var [
 { #category : 'shapes' }
 CTDfsShapeBuilder >> labelForClass: aClass [
 
-	^ RSLabel new
-		  text: aClass name;
-		  fontSize: metaFontSize;
-		  color: metaColor;
+	| content |
+	content := String streamContents: [ :aStream |
+		           aStream
+			           << '<span size="61.8%" foreground="#';
+			           << Smalltalk ui theme borderColor asHexString;
+			           << '"'.
+
+		           aClass hasAbstractMethods ifTrue: [
+			           aStream << ' style="italic"' ].
+
+		           aStream
+			           << '>';
+			           << aClass name;
+			           << '</span>' ].
+
+	^ RSPangoMarkup new
+		  text: content;
 		  when: RSMouseLeftClick do: [ :ev | aClass browse ] for: self;
-		  yourself: [ :labelShape |
-			  aClass hasAbstractMethods ifTrue: [ labelShape italic ] ]
+		  yourself
 ]
 
 { #category : 'accessing' }
 CTDfsShapeBuilder >> metaExtent [
 
-	^ metaExtent
+	^ MetaExtent
 ]
 
 { #category : 'shapes' }
-CTDfsShapeBuilder >> multilineLabel: aString model: anObject [
+CTDfsShapeBuilder >> newBoxShape [
+	"This message is here to allow subclass to customize the style of boxes."
 
-	^ (aString asShapeMultilineLabel: prototypeLabel)
-		  model: anObject;
-		  yourself
+	^ RSNote new "or perhaps RSSimplerNote"
 ]
 
 { #category : 'shapes' }
@@ -277,26 +290,11 @@ CTDfsShapeBuilder >> outline: anObject [
 ]
 
 { #category : 'shapes' }
-CTDfsShapeBuilder >> pad: aShape [
-
-	^ RSComposite new
-		  shapes: { aShape };
-		  padding: self radiusOrPadding;
-		  yourself
-]
-
-{ #category : 'accessing' }
-CTDfsShapeBuilder >> prototypeLabel: aLabel [
-
-	(prototypeLabel := aLabel) copy in: [ :aShape | 
-		aShape text: 'Ggg'.
-		metaExtent := (self pad: aShape) extent.
-		metaColor := aShape color lighter lighter lighter.
-		metaFontSize := aShape fontSize * Float silverRatio ]
+CTDfsShapeBuilder >> pad: aShape [ 
+	^ self class pad: aShape 
 ]
 
 { #category : 'accessing' }
 CTDfsShapeBuilder >> radiusOrPadding [
-
-	^ Float goldenPlatinumRatio
+	^ self class radiusOrPadding
 ]
