@@ -9,7 +9,7 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| formattedCode font text comments docStringShape codeShape shapeGroup defString headerShape maxWidth controlPoints random separatorLine |
+	| formattedCode font text comments codeShape shapeGroup defString headerShape |
 	descriptor leftAlignValueShapeWithinItsBox.
 	font := PangoLogicalFontManager pangoMonospace.
 
@@ -51,22 +51,6 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 				                 copyReplaceAll: commentNode sourceCode
 				                 with: '' ].
 
-	docStringShape := comments
-		                  ifEmpty: [ RSComposite ghost: comments ]
-		                  ifNotEmpty: [
-			                  | mic |
-			                  comments := comments collect: [ :comment |
-				                              '{{<span foreground="gray">}}'
-				                              , comment , '{{</span>}}' ].
-
-			                  mic := Microdown parse:
-				                         (String cr , String cr join: comments).
-
-			                  PangoMarkupMicrodownVisitor new
-				                  visit: mic;
-				                  asRSPangoShapeUsingFont:
-					                  PangoLogicalFontManager pangoSerif ].
-
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 replaceAllTabsWithThreeSpaces.
 
@@ -79,32 +63,44 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 	shapeGroup := RSGroup new
 		              add: headerShape;
 		              add: codeShape;
-		              add: docStringShape;
 		              yourself.
 
-	maxWidth := shapeGroup
-		            inject: 0
-		            into: [ :maxWidthSoFar :each |
-		            each width max: maxWidthSoFar ].
+	comments ifNotEmpty: [
+		| docStringShape mic maxWidth controlPoints random separatorLine |
+		comments := comments collect: [ :comment |
+			            '{{<span foreground="gray">}}' , comment
+			            , '{{</span>}}' ].
 
-	controlPoints := (0 to: maxWidth) linspace: 10.
+		mic := Microdown parse: (String cr , String cr join: comments).
 
-	random := RandomGaussian seed: 541.
+		docStringShape := PangoMarkupMicrodownVisitor new
+			                  visit: mic;
+			                  asRSPangoShapeUsingFont:
+				                  PangoLogicalFontManager pangoSerif.
 
-	separatorLine := RSdeCasteljauLine new
-		                 color: Color lightGray;
-		                 controlPoints:
-			                 (controlPoints collect: [ :each |
-					                  each @ 0 + random next ]);
-		                 from: codeShape;
-		                 to: docStringShape;
-		                 yourself.
+		shapeGroup add: docStringShape.
 
-	shapeGroup
-		add: separatorLine;
-		swap: shapeGroup size with: shapeGroup size - 1.
+		maxWidth := shapeGroup
+			            inject: 0
+			            into: [ :maxWidthSoFar :each |
+			            each width max: maxWidthSoFar ].
+
+		controlPoints := (0 to: maxWidth) linspace:
+			                 ((maxWidth log: 2) * Float goldenRatio) ceiling.
+
+		random := RandomGaussian seed: 541.
+
+		separatorLine := RSdeCasteljauLine new
+			                 color: Smalltalk ui theme borderColor translucent;
+			                 controlPoints:
+				                 (controlPoints collect: [ :each |
+						                  each @ 0 + random next ]);
+			                 asCompositeShape.
+
+		shapeGroup add: separatorLine beforeIndex: shapeGroup size ].
 
 	RSVerticalLineLayout new
+		verticalGap: Float goldenRatio;
 		alignLeft;
 		on: shapeGroup.
 
