@@ -8,7 +8,8 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 		        text: self formattedCode replaceAllTabsWithThreeSpaces;
 		        textWithStyle.
 
-	^ text asRSPangoShapeUsingFont: LogicalFont pangoMonospace
+	^ text asRSPangoShapeUsingFont:
+		  PangoLogicalFontManager pangoMonospace
 ]
 
 { #category : '*Containers-Essentials-Outliner' }

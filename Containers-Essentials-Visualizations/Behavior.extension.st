@@ -24,7 +24,7 @@ Behavior >> asFluidDefinitionShape [
 		             yourself.
 
 	^ (presenter textWithStyle asRSPangoShapeUsingFont:
-			   LogicalFont pangoMonospace)
+			   PangoLogicalFontManager pangoMonospace)
 		  model: self;
 		  yourself
 ]

@@ -232,7 +232,7 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		  astNode isCommentNode
 			  ifTrue: [
 				  | font mic sourceCode composite |
-				  font := LogicalFont pangoSerif.
+				  font := PangoLogicalFontManager pangoSerif.
 
 				  sourceCode := astNode sourceCode allButFirstAndLast trim
 					                copyReplaceAll: '""'

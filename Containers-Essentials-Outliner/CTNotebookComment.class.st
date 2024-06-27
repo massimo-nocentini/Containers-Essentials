@@ -17,7 +17,8 @@ CTNotebookComment >> asDefaultShapeForWalker: walker descriptor: descriptor [
 	markup := Microdown asPangoMarkupString: self text.
 
 	^ '<span font_style="italic" font_size="smaller" foreground="gray">'
-	  , markup , '</span>' asRSPangoShapeUsingFont: LogicalFont pangoSans
+	  , markup , '</span>' asRSPangoShapeUsingFont:
+		  PangoLogicalFontManager pangoSans
 ]
 
 { #category : 'testing' }

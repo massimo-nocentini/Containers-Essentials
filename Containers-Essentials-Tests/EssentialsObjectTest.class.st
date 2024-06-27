@@ -976,21 +976,20 @@ EssentialsObjectTest >> testRoassalExporting [
 
 	| pango another c |
 	pango := ('hello world' asText asRSPangoShapeUsingFont:
-		          (LogicalFont pangoSansPointSize: 11))
-		         notedWithPad: Float goldenRatio.
+		          PangoLogicalFontManager pangoSans) notedWithPad:
+		         Float goldenRatio.
 
 	another := ('Michey Mouse' asText asRSPangoShapeUsingFont:
-		            (LogicalFont pangoSansPointSize: 14))
-		           notedWithPad: Float goldenRatio.
+		            PangoLogicalFontManager pangoSans) notedWithPad:
+		           Float goldenRatio.
 
 	RSLocation new above stick: pango on: another.
 
 	c := RSComposite new
 		     shapes: {
 				     pango.
-				     another } ;
-		     "translateTo: 100 asPoint;"
-		     yourself.
+				     another };
+		     "translateTo: 100 asPoint;"yourself.
 
 	^ self exportShapeOf: c
 ]

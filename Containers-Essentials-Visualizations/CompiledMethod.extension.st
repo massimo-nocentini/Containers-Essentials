@@ -11,12 +11,12 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| formattedCode font text comments docStringShape codeShape shapeGroup defString headerShape maxWidth controlPoints random separatorLine |
 	descriptor leftAlignValueShapeWithinItsBox.
-	font := LogicalFont pangoMonospace.
+	font := PangoLogicalFontManager pangoMonospace.
 
 	defString := String streamContents: [ :stream |
 		             stream
 			             << '<span foreground="gray" font_family="';
-			             << LogicalFont pangoSans familyName;
+			             << PangoLogicalFontManager pangoSans familyName;
 			             << '" font_size="161.8%"><b>';
 			             << '<span font_family="';
 			             << font familyName;
@@ -64,7 +64,8 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 			                  PangoMarkupMicrodownVisitor new
 				                  visit: mic;
-				                  asRSPangoShapeUsingFont: LogicalFont pangoSerif ].
+				                  asRSPangoShapeUsingFont:
+					                  PangoLogicalFontManager pangoSerif ].
 
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 replaceAllTabsWithThreeSpaces.

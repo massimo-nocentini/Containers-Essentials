@@ -5,8 +5,8 @@ Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
 	| markup font shape |
 	font := self isNumber
-		        ifTrue: [ LogicalFont pangoMath ]
-		        ifFalse: [ LogicalFont pangoMonospace ].
+		        ifTrue: [ PangoLogicalFontManager pangoMath ]
+		        ifFalse: [ PangoLogicalFontManager pangoMonospace ].
 
 	markup := String streamContents: [ :aStream |
 		          aStream
@@ -20,7 +20,8 @@ Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
-	shape := markup asRSPangoShapeUsingFont: LogicalFont pangoMonospace.
+	shape := markup asRSPangoShapeUsingFont:
+		         PangoLogicalFontManager pangoMonospace.
 
 	^ shape
 		  model: self;
