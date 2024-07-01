@@ -41,65 +41,40 @@ Fraction >> asShapeFordCircles [
 { #category : '*Containers-Essentials-Visualizations' }
 Fraction >> asShapeNaturalRepresentation [
 
-	| numeratorShape denominatorShape dashShape shapes shapeWithMaxWidth random offset vOffset linspace y ratio |
-	ratio := Float bronzeRatio.
+	| numeratorShape denominatorShape shapes separatorLine w |
+	numeratorShape := (self numerator
+		                   asDefaultShapeForWalker: nil
+		                   descriptor: nil) asCompositeShape.
 
-	random := RandomBoxMullerBivariateGaussian new.
+	denominatorShape := (self denominator
+		                     asDefaultShapeForWalker: nil
+		                     descriptor: nil) asCompositeShape.
 
-	numeratorShape := RSComposite new
-		                  shapes:
-			                  { (self numerator
-				                   asDefaultShapeForWalker: nil
-				                   descriptor: nil) };
-		                  yourself.
+	w := (numeratorShape width max: denominatorShape width)
+	     + ((numeratorShape width - denominatorShape width) abs halved
+		      * Float silverRatio).
 
-	denominatorShape := RSComposite new
-		                    shapes:
-			                    { (self denominator
-				                     asDefaultShapeForWalker: nil
-				                     descriptor: nil) };
-		                    yourself.
+	separatorLine := RSLine new
+		                 startPoint: 0 @ 0;
+		                 endPoint: w @ 0;
+		                 color: Color black;
+		                 capRound;
+		                 yourself.
 
-	shapeWithMaxWidth := numeratorShape width > denominatorShape width
-		                     ifTrue: [ numeratorShape ]
-		                     ifFalse: [ denominatorShape ].
-
-	vOffset := (ratio * (numeratorShape height + denominatorShape height))
-		           halved.
-
-	offset := (shapeWithMaxWidth width * ratio) halved.
 
 	shapes := RSGroup new
 		          add: numeratorShape;
+		          add: separatorLine;
 		          add: denominatorShape;
 		          yourself.
 
 	RSVerticalLineLayout new
-		verticalGap: vOffset;
+		verticalGap: Float goldenRatio;
 		alignCenter;
 		on: shapes.
 
-	linspace := (shapeWithMaxWidth encompassingRectangle left - offset
-	             to:
-	             shapeWithMaxWidth encompassingRectangle right + offset)
-		            linspace: 6.
 
-	y := numeratorShape encompassingRectangle bottom + vOffset halved.
-
-	dashShape := RSdeCasteljauLine new
-		             color: Color black;
-		             controlPoints:
-			             (linspace collect: [ :each | each @ y + random next ]);
-		             from: shapeWithMaxWidth;
-		             to: shapeWithMaxWidth;
-		             yourself.
-
-	shapes add: dashShape.
-
-	^ RSComposite new
-		  model: self;
-		  shapes: shapes;
-		  yourself
+	^ shapes asShapeFor: self
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

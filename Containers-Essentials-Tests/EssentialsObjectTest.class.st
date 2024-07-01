@@ -242,9 +242,9 @@ EssentialsObjectTest >> testInspectBag [
 EssentialsObjectTest >> testInspectBlockClosure [
 
 	| aBlock anInteger |
-	anInteger := 541.
+	anInteger := Number firstCarmichaelNumber.
 
-	aBlock := [ :anArg | 
+	aBlock := [ :anArg |
 	          | temp |
 	          temp := 3.
 	          [ anInteger + anArg + temp ] ].
@@ -672,13 +672,13 @@ EssentialsObjectTest >> testInspectProbabilisticMedianRatioWithSorting [
 	self timeLimit: 6 seconds.
 
 	n := 1e5.
-	random := Random seed: 541.
+	random := Random seed: Number firstCarmichaelNumber.
 	collection := OrderedCollection new.
 	1 to: n do: [ :i | collection add: (random nextInteger: n) ].
 
 	middle := (collection size / 2) floor.
 
-	randomized := [ 
+	randomized := [
 	              v := collection
 		                   kth: middle
 		                   ranking: [ :each :pivot | each < pivot ]

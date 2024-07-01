@@ -88,7 +88,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		controlPoints := (0 to: maxWidth) linspace:
 			                 ((maxWidth log: 2) * Float goldenRatio) ceiling.
 
-		random := RandomGaussian seed: 541.
+		random := RandomGaussian seed: Number firstCarmichaelNumber.
 
 		separatorLine := RSdeCasteljauLine new
 			                 color: Smalltalk ui theme borderColor translucent;

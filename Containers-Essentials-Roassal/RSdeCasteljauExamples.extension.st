@@ -6,11 +6,12 @@ RSdeCasteljauExamples >> example44deCasteljauLineJunctionRightLongVerticalLine [
 	<script:
 	'self new example44deCasteljauLineJunctionRightLongVerticalLine open'>
 	| aLine anotherLine random |
-	random := RandomBoxMullerBivariateGaussian seed: 541.
+	random := RandomBoxMullerBivariateGaussian seed:
+		          Number firstCarmichaelNumber.
 
 	aLine := RSdeCasteljauLine new
 		         samplesLinspace: 50;
-		         controlPoints: { 
+		         controlPoints: {
 				         (0 @ 0 + random next).
 				         (0 @ 50 + random next).
 				         (0 @ 100 + random next).
@@ -19,13 +20,13 @@ RSdeCasteljauExamples >> example44deCasteljauLineJunctionRightLongVerticalLine [
 
 	anotherLine := RSdeCasteljauLine new
 		               samplesLinspace: 50;
-		               controlPoints: { 
+		               controlPoints: {
 				               (10 @ 200 + random next).
 				               (50 @ 200 + random next).
 				               (100 @ 200 + random next) };
 		               yourself.
 
-	^ aLine junction: anotherLine right: [ :lineC0 :lineC1 :lineC2 | 
+	^ aLine junction: anotherLine right: [ :lineC0 :lineC1 :lineC2 |
 		  RSCanvas new
 			  addAll: (aLine asGroupWithControlNetColoured: Color gray);
 			  addAll: (anotherLine asGroupWithControlNetColoured: Color brown);
@@ -78,22 +79,24 @@ RSdeCasteljauExamples >> example44deCasteljauLinePenOrthogonalHorizontalLine [
 	<script:
 	'self new example44deCasteljauLinePenOrthogonalHorizontalLine open'>
 	| b1 random |
-	random := RandomBoxMullerBivariateGaussian seed: 541.
+	random := RandomBoxMullerBivariateGaussian seed:
+		          Number firstCarmichaelNumber.
 
 	b1 := RSdeCasteljauLine new
 		      samplesLinspace: 100;
-		      pen: [ :aBezier | 
-			      | a  c |
+		      pen: [ :aBezier |
+			      | a c |
 			      a := 100.
 			      c := a + 100.
 			      aBezier
 				      addPoint: 0 @ 0 + random next;
-				      addPoint: a @ 0 + random next;"
-				      addPoint: b @ 0 + random next;"
-				      addBezierPoint: c @ 100 + random next;
+				      addPoint: a @ 0 + random next;
+				      "
+				      addPoint: b @ 0 + random next;"addBezierPoint:
+					      c @ 100 + random next;
 				      addPoint: c @ 200 + random next;
 				      addBezierPoint: c + 100 @ 300 + random next;
-				      addPoint: c + 200 @ 300 + random next";
+				      addPoint: c + 200 @ 300 + random next ";
 				      addPoint: c + 300 @ 300 + random next" ];
 		      yourself.
 
