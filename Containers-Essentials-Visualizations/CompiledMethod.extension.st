@@ -66,7 +66,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		              yourself.
 
 	comments ifNotEmpty: [
-		| docStringShape mic maxWidth controlPoints random separatorLine |
+		| docStringShape mic maxWidth separatorLine |
 		comments := comments collect: [ :comment |
 			            '{{<span foreground="gray">}}' , comment
 			            , '{{</span>}}' ].
@@ -85,17 +85,11 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			            into: [ :maxWidthSoFar :each |
 			            each width max: maxWidthSoFar ].
 
-		controlPoints := (0 to: maxWidth) linspace:
-			                 ((maxWidth log: 2) * Float goldenRatio) ceiling.
-
-		random := RandomGaussian seed: Number firstCarmichaelNumber.
-
-		separatorLine := RSdeCasteljauLine new
-			                 color: Smalltalk ui theme borderColor translucent;
-			                 controlPoints:
-				                 (controlPoints collect: [ :each |
-						                  each @ 0 + random next ]);
-			                 asCompositeShape.
+		separatorLine := RSLine new
+			                 startPoint: 0 @ 0;
+			                 endPoint: maxWidth + Float goldenRatio @ 0.0;
+			                 color: Smalltalk ui theme borderColor;
+			                 yourself.
 
 		shapeGroup add: separatorLine beforeIndex: shapeGroup size ].
 
