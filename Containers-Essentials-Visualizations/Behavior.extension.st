@@ -41,23 +41,23 @@ Behavior >> asShapeAllSuperclassesIndented: aBlock [
 { #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 
-	| superClassShapes |
-	superClassShapes := aCollection collect: shapeBlock.
+	| superClassShapes gr |
+	gr := Float goldenRatio.
+	gr := gr * gr * gr.
+
+	superClassShapes := aCollection collect: shapeBlock as: RSGroup.
 
 	RSVerticalLineLayout new
-		verticalGap: Float goldenRatio negated;
+		verticalGap: gr negated;
 		alignLeft;
 		on: superClassShapes.
 
-	superClassShapes withIndexDo: [ :aShape :times | 
+	superClassShapes withIndexDo: [ :aShape :times |
 		| offset |
-		offset := Float goldenRatio double * times.
+		offset := gr * times.
 		aShape position: aShape position x + offset @ aShape position y ].
 
-	^ RSComposite new
-		  model: self;
-		  shapes: superClassShapes;
-		  yourself
+	^ superClassShapes asShapeFor: self
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

@@ -263,6 +263,7 @@ CTDfsShapeBuilder >> labelForClass: aClass [
 			           << '</span>' ].
 
 	^ RSPangoMarkup new
+		  font: PangoLogicalFontManager pangoSans;
 		  text: content;
 		  when: RSMouseLeftClick do: [ :ev | aClass browse ] for: self;
 		  yourself
