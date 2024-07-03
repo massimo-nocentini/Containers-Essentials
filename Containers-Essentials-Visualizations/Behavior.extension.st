@@ -33,26 +33,33 @@ Behavior >> asFluidDefinitionShape [
 Behavior >> asShapeAllSuperclassesIndented: aBlock [
 
 	^ self
-		  asShapeAllSuperclassesIndented:
-		  self allSuperclasses reversed , { self }
+		  asShapeAllSuperclassesIndented: { self } , self allSuperclasses
 		  collect: aBlock
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 
-	| superClassShapes gr |
+	| superClassShapes gr maxHeight |
 	gr := Float goldenRatio.
-	gr := gr * gr * gr.
 
-	superClassShapes := aCollection collect: shapeBlock as: RSGroup.
+	maxHeight := 0.0.
+	superClassShapes := aCollection
+		                    collect: [ :each |
+			                    | shape |
+			                    shape := shapeBlock value: each.
+			                    maxHeight := maxHeight max: shape height.
+			                    shape ]
+		                    as: RSGroup.
 
 	RSVerticalLineLayout new
-		verticalGap: gr negated;
+		verticalGap: maxHeight * gr negated;
 		alignLeft;
 		on: superClassShapes.
 
-	superClassShapes withIndexDo: [ :aShape :times |
+	gr := gr * gr * gr. "Adjust the ratio to shift shapes horizontally by a bit more space."
+
+	superClassShapes withReversedIndexDo: [ :aShape :times |
 		| offset |
 		offset := gr * times.
 		aShape position: aShape position x + offset @ aShape position y ].
