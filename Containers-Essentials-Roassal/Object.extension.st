@@ -3,10 +3,8 @@ Extension { #name : 'Object' }
 { #category : '*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| markup font shape |
-	font := self isNumber
-		        ifTrue: [ PangoLogicalFontManager pangoMath ]
-		        ifFalse: [ PangoLogicalFontManager pangoMonospace ].
+	| markup font |
+	font := self defaultPangoFont.
 
 	markup := String streamContents: [ :aStream |
 		          aStream
@@ -20,10 +18,8 @@ Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
-	shape := markup asRSPangoShapeUsingFont:
-		         PangoLogicalFontManager pangoMonospace.
-
-	^ shape
+	^ RSPangoMarkup new
 		  model: self;
+		  text: markup;
 		  yourself
 ]
