@@ -168,23 +168,6 @@ CTSlotDescriptorsVisitor >> visitBag: aBag [
 ]
 
 { #category : 'visiting' }
-CTSlotDescriptorsVisitor >> visitBehavior: aBehavior [
-
-	^ {
-		  (self newSlotDescriptorSelector: #name).
-		  (self newSlotDescriptorSelector: #class).
-		  (self newSlotDescriptorSelector: #superclass).
-		  (self newSlotDescriptorSelector: #methodsCount).
-		  (self newSlotDescriptorSelector: #instanceCount).
-		  (self newSlotDescriptorSelector: #category).
-		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
-			   :level | aBehavior traits isNotEmpty ]).
-		  ((self newSlotDescriptorSelector: #asFluidDefinitionShape)
-			   inline;
-			   quote) }
-]
-
-{ #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitBlockClosure: aBlock [
 
 	^ { (self newSlotDescriptorSelector: #compiledBlock) }
@@ -276,7 +259,18 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 { #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitClass: aClass [
 
-	^ self visitBehavior: aClass
+	^ {
+		  (self newSlotDescriptorSelector: #name).
+		  (self newSlotDescriptorSelector: #class).
+		  (self newSlotDescriptorSelector: #superclass).
+		  (self newSlotDescriptorSelector: #methodsCount).
+		  (self newSlotDescriptorSelector: #instanceCount).
+		  (self newSlotDescriptorSelector: #category).
+		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
+			   :level | aClass traits isNotEmpty ]).
+		  ((self newSlotDescriptorSelector: #asFluidDefinitionShape)
+			   inline;
+			   quote) }
 ]
 
 { #category : 'visiting' }

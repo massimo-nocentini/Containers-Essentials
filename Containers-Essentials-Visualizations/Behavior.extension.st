@@ -1,26 +1,16 @@
 Extension { #name : 'Behavior' }
 
 { #category : '*Containers-Essentials-Visualizations' }
-Behavior >> acceptSlotDescriptorsVisitor: aVisitor [
-
-	^ aVisitor visitBehavior: self
-]
-
-{ #category : '*Containers-Essentials-Visualizations' }
 Behavior >> asFluidDefinitionShape [
 	"I produce a Roassal Pango text with the fluid definition of myself, 
 	 according to `FluidClassDefinitionPrinter`."
 
-	| presenter def printer |
-	printer := ClassDefinitionPrinter fluid for: self.
-
-	def := self isMeta
-		       ifTrue: [ printer expandedMetaclassDefinitionString ]
-		       ifFalse: [ printer expandedDefinitionString ].
-
+	| presenter |
 	presenter := SpCodePresenter new
 		             beForBehavior: self;
-		             text: def replaceAllTabsWithThreeSpaces;
+		             text:
+			             self expandedDefinitionString
+				             replaceAllTabsWithThreeSpaces;
 		             yourself.
 
 	^ (presenter textWithStyle asRSPangoShapeUsingFont:

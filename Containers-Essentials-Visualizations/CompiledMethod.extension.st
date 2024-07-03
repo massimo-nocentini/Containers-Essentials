@@ -9,21 +9,21 @@ CompiledMethod >> acceptSlotDescriptorsVisitor: aVisitor [
 { #category : '*Containers-Essentials-Visualizations' }
 CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| formattedCode font text comments codeShape shapeGroup defString headerShape |
+	| formattedCode monospaceFont text comments codeShape shapeGroup defString headerShape |
 	descriptor leftAlignValueShapeWithinItsBox.
-	font := PangoLogicalFontManager pangoMonospace.
+	monospaceFont := PangoLogicalFontManager pangoMonospace.
 
 	defString := String streamContents: [ :stream |
 		             stream
-			             << '<span foreground="gray" font_family="';
-			             << PangoLogicalFontManager pangoSans familyName;
-			             << '" font_size="161.8%"><b>';
+			             << '<span font_size="161.8%" foreground="gray">';
+			             << '<b>';
 			             << '<span font_family="';
-			             << font familyName;
+			             << monospaceFont familyName;
 			             << '">';
 			             << self methodClassName;
 			             << '</span>';
-			             << '</b>, protocol <i><u>'.
+			             << '</b>';
+			             << ', protocol <i><u>'.
 
 		             self protocol isUnclassifiedProtocol ifTrue: [
 			             stream << '<span foreground="red">' ].
@@ -36,8 +36,9 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		             stream << '</u></i>.</span>' ].
 
 	headerShape := RSPangoMarkup new
+		               font: PangoLogicalFontManager pangoSans;
 		               text: defString;
-		               asCompositeShape.
+		               yourself.
 
 	comments := OrderedCollection new.
 
@@ -58,7 +59,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		        text: formattedCode;
 		        textWithStyle.
 
-	codeShape := text asRSPangoShapeUsingFont: font.
+	codeShape := text asRSPangoShapeUsingFont: monospaceFont.
 
 	shapeGroup := RSGroup new
 		              add: headerShape;
@@ -94,7 +95,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		shapeGroup add: separatorLine beforeIndex: shapeGroup size ].
 
 	RSVerticalLineLayout new
-		verticalGap: Float goldenRatio;
+		verticalGap: headerShape height * Float silverRatio;
 		alignLeft;
 		on: shapeGroup.
 
