@@ -3,23 +3,18 @@ Extension { #name : 'Object' }
 { #category : '*Containers-Essentials-Roassal' }
 Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 
-	| markup font |
-	font := self defaultPangoFont.
-
+	| markup |
 	markup := String streamContents: [ :aStream |
 		          aStream
-			          nextPutAll: '<span font_family="';
-			          nextPutAll: font familyName;
-			          nextPutAll: '"';
-			          nextPutAll: ' foreground="#';
+			          nextPutAll: '<span font_size="larger" foreground="#';
 			          nextPutAll: self shStyleElement color asHexString;
-			          nextPutAll: '"';
-			          nextPutAll: ' font_size="larger">';
+			          nextPutAll: '">';
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
 
 	^ RSPangoMarkup new
 		  model: self;
+		  font: self defaultPangoFont;
 		  text: markup;
 		  yourself
 ]
