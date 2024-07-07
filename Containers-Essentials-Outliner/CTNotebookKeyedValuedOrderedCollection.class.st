@@ -85,6 +85,12 @@ CTNotebookKeyedValuedOrderedCollection >> shouldBreakOnNode: astNode ifTrue: aBl
 ]
 
 { #category : 'accessing' }
+CTNotebookKeyedValuedOrderedCollection >> title [
+
+	^ title
+]
+
+{ #category : 'accessing' }
 CTNotebookKeyedValuedOrderedCollection >> title: anObject [
 
 	title := anObject

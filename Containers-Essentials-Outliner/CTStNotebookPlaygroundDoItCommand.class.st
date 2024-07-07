@@ -38,7 +38,19 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 			            yourself.
 
 		shouldOpenInspector
-			ifTrue: [ notebook inspect ]
+			ifTrue: [
+				| walker shape |
+				walker := CTDfsWalker new.
+
+				shape := notebook asShapeSlotsDfsTree: walker.
+
+				RSCanvas new
+					useRTree;
+					add: shape;
+					addInteraction: RSCanvasController new;
+					openWithTitle: (notebook title ifNil: [ 'Notebook' ])
+				"
+		 notebook inspect" ]
 			ifFalse: [ aBlock value: notebook ] ]
 ]
 
