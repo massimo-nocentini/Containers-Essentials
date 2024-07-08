@@ -262,9 +262,9 @@ CTSlotDescriptorsVisitor >> visitClass: aClass [
 	^ {
 		  (self newSlotDescriptorSelector: #name).
 		  (self newSlotDescriptorSelector: #class).
-		  (self newSlotDescriptorSelector: #superclass).
+		  (self newSlotDescriptorSelector: #superclass)."
 		  (self newSlotDescriptorSelector: #methodsCount).
-		  (self newSlotDescriptorSelector: #instanceCount).
+		  (self newSlotDescriptorSelector: #instanceCount)."
 		  (self newSlotDescriptorSelector: #category).
 		  ((self newSlotDescriptorSelector: #traits) enablePredicate: [
 			   :level | aClass traits isNotEmpty ]).
