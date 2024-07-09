@@ -21,7 +21,7 @@ CTStNotebookPlaygroundDoItCommand class >> order [
 	^ 40
 ]
 
-{ #category : 'execution' }
+{ #category : 'executing' }
 CTStNotebookPlaygroundDoItCommand >> execute [
 
 	context withActivationBlock: [ :aBlock |
@@ -48,7 +48,8 @@ CTStNotebookPlaygroundDoItCommand >> execute [
 					useRTree;
 					add: shape;
 					addInteraction: RSCanvasController new;
-					openWithTitle: (notebook title ifNil: [ 'Notebook' ])
+					openWithTitle: (notebook title ifNil: [ 'Notebook' ]) , ' (at '
+						, DateAndTime now asLocalStringYMDHM , ')'
 				"
 		 notebook inspect" ]
 			ifFalse: [ aBlock value: notebook ] ]
