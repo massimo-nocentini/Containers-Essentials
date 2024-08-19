@@ -1,7 +1,7 @@
-Extension { #name : 'RBProgramNode' }
+Extension { #name : 'ASTProgramNode' }
 
 { #category : '*Containers-Essentials-Outliner' }
-RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
+ASTProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
 
 	| text |
 	text := codePresenter
@@ -13,7 +13,7 @@ RBProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVis
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-RBProgramNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
+ASTProgramNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
 
 	^ self
 ]

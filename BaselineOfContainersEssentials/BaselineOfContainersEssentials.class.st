@@ -11,6 +11,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		self
+			containers: spec;
 			roassal: spec;
 			pluginsPrimitives: spec;
 			pango: spec;
@@ -27,6 +28,15 @@ BaselineOfContainersEssentials >> common: spec [
 		package: 'Containers-Essentials-Outliner';
 		package: 'Containers-Essentials-Visualizations';
 		package: 'Containers-Essentials-Tests'
+]
+
+{ #category : 'baselines' }
+BaselineOfContainersEssentials >> containers: spec [
+
+	spec
+		baseline: 'ContainersArray2D'
+		with: [
+		spec repository: 'github://pharo-containers/Containers-Array2D/src' ]
 ]
 
 { #category : 'baselines' }
