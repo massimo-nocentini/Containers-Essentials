@@ -27,7 +27,7 @@ SortedCollection >> indexOf: anElement startingAt: useless ifAbsent1: aBlock [
 			m := i + j >> 1.
 			obj := array at: m.
 			anElement = obj
-				ifTrue: [ ^ m ]
+				ifTrue: [ ^ m - firstIndex + 1 ]
 				ifFalse: [
 					(sorting value: anElement value: obj)
 						ifTrue: [ j := m - 1 ]
