@@ -13,14 +13,23 @@ SortedCollection class >> array: anArray sortUsing: aBlockOrSortFunction [
 { #category : '*Containers-Essentials' }
 SortedCollection >> indexOf: anElement startingAt: useless ifAbsent1: aBlock [
 
+	^ self
+		  indexOf: anElement
+		  startingAt: useless
+		  ifAbsent: aBlock
+		  using1: (sortBlock ifNil: [ [ :a :b | a <= b ] ])
+]
+
+{ #category : '*Containers-Essentials' }
+SortedCollection >> indexOf: anElement startingAt: _ ifAbsent: aBlock using1: sorting [
+
 	array ifNotNil: [
-		| i j sorting |
+		| i j |
 		i := firstIndex.
 		j := lastIndex.
 
-		(i > 0 and: [ j <= array size ]) ifFalse: [ ^ aBlock value ].
-
-		sorting := sortBlock ifNil: [ [ :a :b | a <= b ] ].
+		i isInteger & j isInteger & (i > 0) & (j <= array size) ifFalse: [
+			^ aBlock value ].
 
 		[ i <= j ] whileTrue: [
 			| obj m |
