@@ -1,6 +1,12 @@
 Extension { #name : 'Duration' }
 
 { #category : '*Containers-Essentials' }
+Duration >> asFloatSeconds [
+
+	^ (self asNanoSeconds / NanosInSecond) asFloat
+]
+
+{ #category : '*Containers-Essentials' }
 Duration >> asStringDHHMMSSµ [
 
 	^ self asString
