@@ -1,7 +1,7 @@
-Extension { #name : 'RBCascadeNode' }
+Extension { #name : 'ASTCascadeNode' }
 
 { #category : '*Containers-Essentials-Outliner' }
-RBCascadeNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
+ASTCascadeNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
 
 	^ (self receiver isVariable and: [ self receiver name = pseudoName ])
 		  ifTrue: [

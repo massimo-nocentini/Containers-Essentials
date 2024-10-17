@@ -1,6 +1,6 @@
 Class {
 	#name : 'CTDFSRBComment',
-	#superclass : 'RBComment',
+	#superclass : 'ASTCommentNode',
 	#category : 'Containers-Essentials-Outliner-Presenters',
 	#package : 'Containers-Essentials-Outliner',
 	#tag : 'Presenters'
