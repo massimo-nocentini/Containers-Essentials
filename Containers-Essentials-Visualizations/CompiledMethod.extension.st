@@ -67,7 +67,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		              yourself.
 
 	comments ifNotEmpty: [
-		| docStringShape mic maxWidth separatorLine |
+		| docStringShape mic maxWidth |
 		comments := comments collect: [ :comment |
 			            '{{<span foreground="gray">}}' , comment
 			            , '{{</span>}}' ].
@@ -79,20 +79,12 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			                  asRSPangoShapeUsingFont:
 				                  PangoLogicalFontManager pangoSerif.
 
-		shapeGroup add: docStringShape.
+		shapeGroup add: docStringShape beforeIndex: 2.
 
 		maxWidth := shapeGroup
 			            inject: 0
 			            into: [ :maxWidthSoFar :each |
-			            each width max: maxWidthSoFar ].
-
-		separatorLine := RSLine new
-			                 startPoint: 0 @ 0;
-			                 endPoint: maxWidth + Float goldenRatio @ 0.0;
-			                 color: Smalltalk ui theme borderColor;
-			                 yourself.
-
-		shapeGroup add: separatorLine beforeIndex: shapeGroup size ].
+			            each width max: maxWidthSoFar ] ].
 
 	RSVerticalLineLayout new
 		verticalGap: headerShape height * Float silverRatio;
