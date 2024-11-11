@@ -118,6 +118,18 @@ BlockClosure >> kissingFractions [
 ]
 
 { #category : '*Containers-Essentials' }
+BlockClosure >> memoizedOnce [
+
+	| witness computed |
+	computed := witness := Object new.
+
+	^ [
+	  computed == witness
+		  ifTrue: [ computed := self value ]
+		  ifFalse: [ computed ] ]
+]
+
+{ #category : '*Containers-Essentials' }
 BlockClosure >> prependBlock: aFullBlockClosure [
 
 	^ [ :v | self value: (aFullBlockClosure value: v) ]
