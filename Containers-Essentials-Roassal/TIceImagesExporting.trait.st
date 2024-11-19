@@ -145,9 +145,7 @@ TIceImagesExporting >> iceWorkingDirectory [
 { #category : 'utilities' }
 TIceImagesExporting >> imagesPath [
 
-	^ self iceWorkingDirectory / 'images' in: [ :p |
-		  p exists ifFalse: [ p create ].
-		  p ]
+	^ (self iceWorkingDirectory / 'images') createDirectory
 ]
 
 { #category : 'utilities' }
