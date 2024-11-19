@@ -14,7 +14,7 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 
 	aSelector value: canvas value: anObject.
 
-	self pdfExporter
+	self svgExporter
 		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;
@@ -145,7 +145,9 @@ TIceImagesExporting >> iceWorkingDirectory [
 { #category : 'utilities' }
 TIceImagesExporting >> imagesPath [
 
-	^ self iceWorkingDirectory / 'images'
+	^ self iceWorkingDirectory / 'images' in: [ :p |
+		  p exists ifFalse: [ p create ].
+		  p ]
 ]
 
 { #category : 'utilities' }
