@@ -19,6 +19,18 @@ Dictionary >> at: aKey inOrderedCollectionAdd: anObject [
 ]
 
 { #category : '*Containers-Essentials' }
+Dictionary >> foldr: aBlock init: init [
+
+	| mean |
+	mean := init.
+
+	self keysAndValuesDo: [ :k :v |
+		mean := aBlock value: k value: v value: mean ].
+
+	^ mean
+]
+
+{ #category : '*Containers-Essentials' }
 Dictionary >> ifAbsentPutOrderAt: anObject [
 
 	^ self at: anObject ifAbsentPut: [ self size + 1 ]
