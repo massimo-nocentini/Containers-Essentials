@@ -18,6 +18,26 @@ SequenceableCollection >> asValueLink [
 ]
 
 { #category : '*Containers-Essentials' }
+SequenceableCollection >> binarySearchIndex: aBlock [
+
+	| index low high test |
+	low := 1.
+	high := self size.
+	[
+	index := high + low // 2.
+	low > high ] whileFalse: [
+		test := aBlock value: (self at: index).
+		test = 0
+			ifTrue: [ ^ index ]
+			ifFalse: [
+				test > 0
+					ifTrue: [ low := index + 1 ]
+					ifFalse: [ high := index - 1 ] ] ].
+
+	^ low min: self size
+]
+
+{ #category : '*Containers-Essentials' }
 SequenceableCollection >> bisect: mergeBlock baseBlock: baseBlock [
 	^ self
 		bisect: mergeBlock
