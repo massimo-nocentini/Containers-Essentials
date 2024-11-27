@@ -304,12 +304,27 @@ SequenceableCollection >> runs: aBlock [
 { #category : '*Containers-Essentials' }
 SequenceableCollection >> scan: aBlock init: aValue [
 
-	^ self class new: self size + 1 streamContents: [ :aStream | 
-		  | acc |
-		  acc := aStream nextPut: aValue.
-		  self do: [ :each | 
-			  acc := aBlock value: acc value: each.
-			  aStream nextPut: acc ] ]
+	^ self scan: aBlock init: aValue included: true
+]
+
+{ #category : '*Containers-Essentials' }
+SequenceableCollection >> scan: aBlock init: aValue included: included [
+
+	^ self class
+		  new: self size + included asBit
+		  streamContents: [ :aStream |
+			  | acc |
+			  included ifTrue: [ aStream nextPut: aValue ].
+			  acc := aValue.
+			  self do: [ :each |
+				  acc := aBlock value: acc value: each.
+				  aStream nextPut: acc ] ]
+]
+
+{ #category : '*Containers-Essentials' }
+SequenceableCollection >> scan: aBlock withoutInit: aValue [
+
+	^ self scan: aBlock init: aValue included: false
 ]
 
 { #category : '*Containers-Essentials' }
