@@ -373,10 +373,10 @@ CTSlotDescriptorsVisitor >> visitExternalAddress: anExternalAddress [
 { #category : 'visiting' }
 CTSlotDescriptorsVisitor >> visitFileReference: aFileReference [
 
-	^ (self visitObject: aFileReference) , { 
+	^ (self visitObject: aFileReference) , {
 		  (self newSlotDescriptorSelector: #fullName).
-		  (self newSlotDescriptorSelector: #contents).
-		  (self newSlotDescriptorSelector: #size) }
+		  (self newSlotDescriptorSelector: #size).
+		  (self newSlotDescriptorSelector: #asTreeString) }
 ]
 
 { #category : 'visiting' }
