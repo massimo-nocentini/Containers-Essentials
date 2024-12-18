@@ -15,11 +15,11 @@ CTStNotebookPlayground class >> defaultTitle [
 	^ 'Notebook'
 ]
 
-{ #category : 'initialization' }
+{ #category : 'class initialization' }
 CTStNotebookPlayground class >> initialize [
 	"Make playground active by default"
 
-	self register
+	self registerToolsOn: Smalltalk tools
 ]
 
 { #category : 'world menu' }
@@ -34,14 +34,6 @@ CTStNotebookPlayground class >> menuCommandOn: aBuilder [
 		help:
 			'A window used as a scratchpad area where fragments of Pharo code can be entered, stored, edited, and evaluated.';
 		icon: (self iconNamed: #workspace)
-]
-
-{ #category : 'tools registry' }
-CTStNotebookPlayground class >> register [
-	"Add ourselves to registry. See [Smalltalk tools]"
-
-	<script>
-	super register
 ]
 
 { #category : 'tools registry' }
