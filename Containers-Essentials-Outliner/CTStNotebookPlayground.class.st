@@ -19,7 +19,7 @@ CTStNotebookPlayground class >> defaultTitle [
 CTStNotebookPlayground class >> initialize [
 	"Make playground active by default"
 
-	"self registerToolsOn: Smalltalk tools"
+	self registerToolsOn: Smalltalk tools
 ]
 
 { #category : 'world menu' }
