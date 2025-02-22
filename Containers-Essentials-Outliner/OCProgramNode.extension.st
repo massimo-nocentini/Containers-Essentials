@@ -1,7 +1,7 @@
-Extension { #name : 'ASTProgramNode' }
+Extension { #name : 'OCProgramNode' }
 
 { #category : '*Containers-Essentials-Outliner' }
-ASTProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
+OCProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVisitor: visitor [
 
 	| text |
 	text := codePresenter
@@ -13,7 +13,7 @@ ASTProgramNode >> asVarShapeUsingPresenter: codePresenter clientSlotDescriptorVi
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-ASTProgramNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
+OCProgramNode >> translateForNotebook: notebook pseudoNotebookVariableName: pseudoName [
 
 	^ self
 ]
