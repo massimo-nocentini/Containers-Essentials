@@ -275,7 +275,7 @@ RSParametricCurveTest >> testLineDeCasteljauLineClosedControlPoints [
 
 	self
 		exportShapeOf:
-		RSBasicShapeExamples new lineDeCasteljauLineClosedControlPoints
+		RSdeCasteljauExamples new lineDeCasteljauLineClosedControlPoints
 		accessorBlock: [ :aLine | aLine asGroupWithControlNet asShape ]
 ]
 
@@ -283,7 +283,7 @@ RSParametricCurveTest >> testLineDeCasteljauLineClosedControlPoints [
 RSParametricCurveTest >> testLineDeCasteljauLineNoteBox [
 
 	self
-		exportShapeOf: RSBasicShapeExamples new lineDeCasteljauLineNoteBox
+		exportShapeOf: RSdeCasteljauExamples new lineDeCasteljauLineNoteBox
 		accessorBlock: [ :aLine | aLine asGroupWithControlNet asShape ]
 ]
 
@@ -291,37 +291,37 @@ RSParametricCurveTest >> testLineDeCasteljauLineNoteBox [
 RSParametricCurveTest >> testLineParametricHypotrochoid [
 
 	self exportShapeOf:
-		RSBasicShapeExamples new lineParametricHypotrochoid
+		RSParametricLineExamples new lineParametricHypotrochoid
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testLineParametricLissajous [
 
-	self exportShapeOf: RSBasicShapeExamples new lineParametricLissajous
+	self exportShapeOf: RSParametricLineExamples new lineParametricLissajous
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testLineParametricNeil [
 
-	self exportShapeOf: RSBasicShapeExamples new lineParametricNeil
+	self exportShapeOf: RSParametricLineExamples new lineParametricNeil
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testLineParametricNeil2 [
 
-	self exportShapeOf: RSBasicShapeExamples new lineParametricNeil2
+	self exportShapeOf: RSParametricLineExamples new lineParametricNeil2
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testLineParametricTrochoid [
 
-	self exportShapeOf: RSBasicShapeExamples new lineParametricTrochoid
+	self exportShapeOf: RSParametricLineExamples new lineParametricTrochoid
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testLineParametricUnitCircle [
 
-	self exportShapeOf: RSBasicShapeExamples new lineParametricUnitCircle
+	self exportShapeOf: RSParametricLineExamples new lineParametricUnitCircle
 ]
 
 { #category : 'tests' }
@@ -329,7 +329,7 @@ RSParametricCurveTest >> testLinesDeCasteljauLineDegreeElevation [
 
 	self
 		exportShapeOf:
-		RSBasicShapeExamples new linesDeCasteljauLineDegreeElevation
+		RSdeCasteljauExamples new linesDeCasteljauLineDegreeElevation
 		accessorBlock: [ :aGroup | 
 			| shapes |
 			shapes := aGroup
@@ -347,13 +347,13 @@ RSParametricCurveTest >> testLinesDeCasteljauLineDegreeElevation [
 { #category : 'tests' }
 RSParametricCurveTest >> testNoteInteger [
 
-	self exportShapeOf: RSBasicShapeExamples new noteInteger
+	self exportShapeOf: RSdeCasteljauExamples new noteInteger
 ]
 
 { #category : 'tests' }
 RSParametricCurveTest >> testNoteLoremIpsum [
 
-	self exportShapeOf: RSBasicShapeExamples new noteLoremIpsum
+	self exportShapeOf: RSdeCasteljauExamples new noteLoremIpsum
 ]
 
 { #category : 'tests' }
