@@ -1,5 +1,9 @@
 "
-I am a builder to create UML sequence diagrams in Roassal, see examples
+I am a builder to create UML sequence diagrams in Roassal, see examples in `RSUMLSequenceExamples`.
+
+I draw a sequence of timed message sends: objects that answer `#messageSend`, a `RSFullMessageSend` (its client sends it to its receiver) or the `RSReturnMessageSend` of one (`RSFullMessageSend>>#asReturnMessageSend`), and `#timespan`, a `Timespan`, as `RSUMLTimedMessageSend` does. Each send comes before the sends it makes, and its return after their returns, as in a trace: MethodTracker makes them from the contexts it tracks (`MTContextsTree>>#asShapeUMLSequenceDiagram:metadata:`).
+
+`#objectsSeenSoFar:` shares the nicknames of the objects (their indexes, `Integer>>#asStringaz`) among several diagrams; each diagram has its own by default.
 "
 Class {
 	#name : 'RSUMLSequenceBuilder',
@@ -61,6 +65,7 @@ RSUMLSequenceBuilder >> initialize [
 	self
 		modelDescriptor: RSUMLSequenceDescriptor new;
 		renderer: RSBasicUMLSequenceRenderer new;
+		objectsSeenSoFar: IdentityDictionary new;
 		previousHeaders: OrderedCollection new;
 		previousMessagesSends: OrderedCollection new;
 		headerShape: [ :anObject | 
@@ -84,7 +89,7 @@ RSUMLSequenceBuilder >> initialize [
 
 			RSComposite new
 				shapes: camelShapes;
-				when: RSMouseLeftClick do: [ anObject class browse ];
+				when: RSMouseLeftClick do: [ anObject class browse ] for: self;
 				padded: Float goldenPlatinumRatio withBoxDo: [ :box | 
 					box borderDo: [ :border | box color: border color translucent ] ] ];
 		receiverArgumentsShape: [ :anObject | 
@@ -94,7 +99,7 @@ RSUMLSequenceBuilder >> initialize [
 						 ifTrue: [ '[ ... ]' ]
 						 ifFalse: [ anObject asString ]);
 				useDefaultCodeFont;
-				when: RSMouseLeftClick do: [ :ev | anObject inspect ];
+				when: RSMouseLeftClick do: [ :ev | anObject inspect ] for: self;
 				padded: Float goldenPlatinumRatio withBoxDo: [ :box | 
 					box
 						withBorder;
