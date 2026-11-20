@@ -25,9 +25,13 @@ BaselineOfContainersEssentials >> common: spec [
 	spec
 		package: 'Containers-Essentials';
 		package: 'Containers-Essentials-Roassal';
+		package: 'Containers-Essentials-UML' with: [
+			spec requires:
+					#( 'RoassalMN' 'Containers-Essentials' 'Containers-Essentials-Roassal' ) ];
 		package: 'Containers-Essentials-Outliner';
 		package: 'Containers-Essentials-Visualizations';
 		package: 'Containers-Essentials-Tests'
+		with: [ spec requires: #( 'Containers-Essentials-UML' ) ]
 ]
 
 { #category : 'baselines' }
@@ -44,7 +48,8 @@ BaselineOfContainersEssentials >> pango: spec [
 
 	spec
 		baseline: 'LibPangoCairo'
-		with: [ spec repository: 'github://massimo-nocentini/libpangocairo.st' ]
+		with: [
+		spec repository: 'github://massimo-nocentini/libpangocairo.st:master/src' ]
 ]
 
 { #category : 'baselines' }
@@ -52,7 +57,9 @@ BaselineOfContainersEssentials >> pluginsPrimitives: spec [
 
 	spec
 		baseline: 'VMPluginsPrimitives'
-		with: [ spec repository: 'github://massimo-nocentini/vm-plugins-primitives.st' ]
+		with: [
+			spec repository:
+				'github://massimo-nocentini/vm-plugins-primitives.st:master/src' ]
 ]
 
 { #category : 'baselines' }
@@ -60,19 +67,16 @@ BaselineOfContainersEssentials >> poppler: spec [
 
 	spec
 		baseline: 'LibPoppler'
-		with: [ spec repository: 'github://massimo-nocentini/libpoppler.st' ]
+		with: [
+		spec repository: 'github://massimo-nocentini/libpoppler.st:master/src' ]
 ]
 
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> roassal: spec [
+	"The group Full of RoassalMN loads the group Core of RoassalExporters (github://massimo-nocentini/RoassalExporters:master/src), which is its default group"
 
-	spec baseline: 'RoassalMN' with: [ 
+	spec baseline: 'RoassalMN' with: [
 		spec
-			repository: 'github://massimo-nocentini/Roassal/src';
-			loads: #( Full ) ].
-
-	spec
-		baseline: 'RoassalExporters'
-		with: [ 
-		spec repository: 'github://massimo-nocentini/RoassalExporters/src' ]
+			repository: 'github://massimo-nocentini/Roassal:Pharo15/src';
+			loads: #( Full ) ]
 ]
