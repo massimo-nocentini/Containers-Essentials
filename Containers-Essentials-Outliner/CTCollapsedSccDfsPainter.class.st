@@ -147,7 +147,8 @@ CTCollapsedSccDfsPainter >> dfsWalk: anObject [
 				  boxShape canvas
 					  add: composite;
 					  signalUpdate;
-					  zoomToFit ];
+					  zoomToFit ]
+			  for: self;
 			  yourself: [ :aCircle | shapeBySCC at: aSCC put: aCircle ] ]
 ]
 

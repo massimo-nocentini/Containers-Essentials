@@ -10,7 +10,7 @@ PointArray >> acceptSlotDescriptorsVisitor: aVisitor [
 PointArray >> asShapeDots [
 
 	^ RSComposite new shapes: (RSChart new
-			   addPlot: (RSScatterPlot new
+			   add: (RSScatterPlot new
 					    points: self;
 					    color: Color gray translucent;
 					    yourself);

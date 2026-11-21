@@ -10,7 +10,7 @@ RSParameterization >> acceptSlotDescriptorsVisitor: aVisitor [
 RSParameterization >> asShapeParamDistanceScatter [
 
 	^ RSComposite new shapes: (RSChart new
-			   addPlot: (RSScatterPlot new
+			   add: (RSScatterPlot new
 					    x: domain y: cumulativeArcLengths;
 					    color: Color gray translucent;
 					    yourself);

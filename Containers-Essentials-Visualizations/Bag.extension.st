@@ -20,7 +20,7 @@ Bag >> asShapeHistogram [
 	size := elements size.
 
 	^ RSComposite new shapes: (RSChart new
-			   addPlot: (RSHorizontalBarPlot new
+			   add: (RSHorizontalBarPlot new
 					    x: occurrences reversed y: (1 to: size);
 					    color: Color gray translucent;
 					    yourself);
