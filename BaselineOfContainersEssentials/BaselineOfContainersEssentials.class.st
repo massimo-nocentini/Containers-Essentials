@@ -21,17 +21,24 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> common: spec [
+	"Containers-Essentials needs Roassal-Utils of RoassalMN (exponentiallyWeighted:init:, Interval>>#unitAt:) and extends CTArray2D"
 
 	spec
-		package: 'Containers-Essentials';
-		package: 'Containers-Essentials-Roassal';
+		package: 'Containers-Essentials'
+		with: [ spec requires: #( 'ContainersArray2D' 'RoassalMN' ) ];
+		package: 'Containers-Essentials-Roassal' with: [
+			spec requires:
+					#( 'RoassalMN' 'LibPangoCairo' 'Containers-Essentials' ) ];
 		package: 'Containers-Essentials-UML' with: [
 			spec requires:
 					#( 'RoassalMN' 'Containers-Essentials' 'Containers-Essentials-Roassal' ) ];
-		package: 'Containers-Essentials-Outliner';
-		package: 'Containers-Essentials-Visualizations';
-		package: 'Containers-Essentials-Tests'
-		with: [ spec requires: #( 'Containers-Essentials-UML' ) ]
+		package: 'Containers-Essentials-Outliner'
+		with: [ spec requires: #( 'Containers-Essentials-Roassal' ) ];
+		package: 'Containers-Essentials-Visualizations'
+		with: [ spec requires: #( 'Containers-Essentials-Outliner' ) ];
+		package: 'Containers-Essentials-Tests' with: [
+			spec requires:
+					#( 'Containers-Essentials-Visualizations' 'Containers-Essentials-UML' ) ]
 ]
 
 { #category : 'baselines' }
@@ -68,7 +75,7 @@ BaselineOfContainersEssentials >> poppler: spec [
 	spec
 		baseline: 'LibPoppler'
 		with: [
-		spec repository: 'github://massimo-nocentini/libpoppler.st:master/src' ]
+		spec repository: 'github://massimo-nocentini/libpoppler.st' ]
 ]
 
 { #category : 'baselines' }
