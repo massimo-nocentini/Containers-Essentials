@@ -2,9 +2,10 @@ Extension { #name : 'RandomBoxMullerBivariateGaussian' }
 
 { #category : '*Containers-Essentials-Roassal' }
 RandomBoxMullerBivariateGaussian >> asShapeScatter [
+	"The scatter of 500 samples of a deep copy of me: as in Random>>#asShapeScatter, a shallow copy would share my state and move my stream on"
 
 	| gen points |
-	gen := self copy.
+	gen := self veryDeepCopy.
 	points := ((1 to: 500) collect: [ :each1 | gen next ]) sorted.
 
 	^ RSComposite new shapes: (RSCompositeChart new

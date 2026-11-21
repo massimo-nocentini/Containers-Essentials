@@ -207,9 +207,8 @@ CTSlotDescriptorsVisitor >> visitCTNotebookKeyedValuedOrderedCollection: aKeyedC
 		associationsDo: [ :binding |
 		codePresenter interactionModel addBinding: binding ].
 
-	pangoMicVisitor := PangoMarkupMicrodownVisitor new
-		                   codePresenter: codePresenter;
-		                   yourself.
+	"The visitor of LibPangoCairo-Microdown takes no code presenter: its code footers come from its class-side codeShapeBuilder"
+	pangoMicVisitor := PangoMarkupMicrodownVisitor new.
 
 	^ aKeyedCollection keysAndValuesCollect: [ :astNode :anObject |
 		  astNode isCommentNode
@@ -509,6 +508,17 @@ CTSlotDescriptorsVisitor >> visitHeap: aHeap [
 CTSlotDescriptorsVisitor >> visitInteger: anInteger [
 
 	^ self visitObject: anInteger
+]
+
+{ #category : 'visiting' }
+CTSlotDescriptorsVisitor >> visitKnuthRandom: aRandom [
+	"The slots of a Random but its state: Knuth's ran_u and his buffer of 1009 fractions, two ByteArrays of 8872 bytes that #visitByteArray: would draw with a node for each byte and a dump of their bits. The seed, the parameters of a distribution (RSRandom's subclasses) and the scatter of the samples tell what the generator is"
+
+	^ ((aRandom class allInstVarNames copyWithout: #state) collect: [ :each |
+		   self newSlotDescriptorInstVarName: each ])
+	  , { ((self newSlotDescriptorSelector: #asShapeScatter)
+			   inline;
+			   quote) }
 ]
 
 { #category : 'visiting' }
