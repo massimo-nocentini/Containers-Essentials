@@ -4,7 +4,7 @@ Extension { #name : 'Package' }
 Package >> testSuiteFromAllSelectors [
 
 	| suite |
-	suite := TestSuite named: self packageName.
+	suite := TestSuite named: self name.
 	suite addTests:
 		((self classes select: #isTestCase) flatCollect: [ :aTestClass | 
 			 aTestClass buildSuiteFromAllSelectors tests ]).
