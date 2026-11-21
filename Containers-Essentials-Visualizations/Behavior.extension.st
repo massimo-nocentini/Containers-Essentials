@@ -30,9 +30,9 @@ Behavior >> asShapeAllSuperclassesIndented: aCollection collect: shapeBlock [
 
 	gr := gr * gr * gr. "Adjust the ratio to shift shapes horizontally by a bit more space."
 
-	superClassShapes withReversedIndexDo: [ :aShape :times |
+	superClassShapes withIndexDo: [ :aShape :index |
 		| offset |
-		offset := gr * times.
+		offset := gr * (superClassShapes size + 1 - index).
 		aShape position: aShape position x + offset @ aShape position y ].
 
 	^ superClassShapes asShapeFor: self
@@ -55,7 +55,8 @@ Behavior >> asShapeSubclasses [
 			           aShape := RSLabel new
 				                     text: aSubClass name;
 				                     when: RSMouseLeftClick
-				                     do: [ :ev | aSubClass browse ];
+				                     do: [ :ev | aSubClass browse ]
+				                     for: self;
 				                     yourself.
 
 			           aShape := (aShape notedWithPad:

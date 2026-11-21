@@ -36,3 +36,10 @@ String class >> subscripts [
 		at: $) put: $₎;
 		yourself
 ]
+
+{ #category : '*Containers-Essentials' }
+String >> replaceAllTabsWithThreeSpaces [
+	"A copy of me with three spaces for each tab, as Pango draws no tab stops of the code font. It was in VM-Plugins-Primitives, with the CairoGraphicsPlugin of the pharo-10 VM."
+
+	^ self copyReplaceAll: (String with: Character tab) with: '   '
+]
