@@ -71,11 +71,12 @@ BaselineOfContainersEssentials >> pluginsPrimitives: spec [
 
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> poppler: spec [
+	"The same repository description as BaselineOfBookletDSst's (<repository>:<default branch>/<source directory>, as the other projects here), so that loading both does not give Metacello two descriptions of LibPoppler"
 
 	spec
 		baseline: 'LibPoppler'
 		with: [
-		spec repository: 'github://massimo-nocentini/libpoppler.st' ]
+		spec repository: 'github://massimo-nocentini/libpoppler.st:master/src' ]
 ]
 
 { #category : 'baselines' }
