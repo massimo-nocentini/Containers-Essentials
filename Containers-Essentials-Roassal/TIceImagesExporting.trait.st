@@ -136,10 +136,14 @@ TIceImagesExporting >> exportSlotsGraphOf: anObject slotDescriptorsVisitor: aVis
 
 { #category : 'utilities' }
 TIceImagesExporting >> iceWorkingDirectory [
+	"The working copy of the Iceberg repository of my package, or the image directory when Iceberg has none, as after a load from a tonel:// directory"
 
-	^ (IceRepository registry select: [ :repo |
-		   repo includesPackageNamed: self class package name ]) first
-		  location
+	^ IceRepository registry
+		  detect: [ :repo |
+			  repo location notNil and: [
+				  repo includesPackageNamed: self class package name ] ]
+		  ifFound: [ :repo | repo location ]
+		  ifNone: [ FileLocator imageDirectory asFileReference ]
 ]
 
 { #category : 'utilities' }
