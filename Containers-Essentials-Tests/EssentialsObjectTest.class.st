@@ -285,11 +285,16 @@ EssentialsObjectTest >> testInspectColorGray [
 
 { #category : 'tests' }
 EssentialsObjectTest >> testInspectContext [
-	"The graph of thisContext reaches the contexts of the test runner, so its size, and the time to draw it, grow with the stack of the runner: 27 s after the other tests of the package"
+	"A copy of thisContext without its sender. The senders are the contexts of the test runner, which reach the TestSuite and its tests: in a run of the suite of the package, drawing them took more than 2 minutes, and the graph changed with the runner"
 
-	self timeLimit: 2 minutes.
+	| context |
+	self timeLimit: 25 seconds.
 
-	^ self exportSlotsGraphOf: thisContext
+	context := thisContext copy
+		           privSender: nil;
+		           yourself.
+
+	^ self exportSlotsGraphOf: context
 ]
 
 { #category : 'tests' }
