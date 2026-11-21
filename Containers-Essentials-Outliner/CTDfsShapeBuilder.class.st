@@ -199,8 +199,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 		            aStream
 			            nextPutAll: '<span font_weight="bold" foreground="#';
 			            nextPutAll:
-				            (SHStyleElement withTokens: #( selector )) color
-					            asHexString;
+				            (SHRBTextStyler colorFor: #selector) asHexString;
 			            nextPutAll: '">';
 			            nextPutAll: var;
 			            nextPutAll: '</span>' ].

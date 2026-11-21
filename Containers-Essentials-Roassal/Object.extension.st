@@ -7,7 +7,8 @@ Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 	markup := String streamContents: [ :aStream |
 		          aStream
 			          nextPutAll: '<span font_size="larger" foreground="#';
-			          nextPutAll: self shStyleElement color asHexString;
+			          nextPutAll:
+				          (SHRBTextStyler colorFor: self shoutStyleToken) asHexString;
 			          nextPutAll: '">';
 			          nextPutAll: self fullPangoPrintString;
 			          nextPutAll: '</span>' ].
@@ -17,4 +18,11 @@ Object >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		  font: self defaultPangoFont;
 		  text: markup;
 		  yourself
+]
+
+{ #category : '*Containers-Essentials-Roassal' }
+Object >> shoutStyleToken [
+	"The token of the Shout style table whose color my shapes use for me."
+
+	^ #default
 ]
