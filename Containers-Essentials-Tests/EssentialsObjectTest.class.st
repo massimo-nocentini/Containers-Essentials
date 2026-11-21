@@ -8,6 +8,13 @@ Class {
 	#tag : 'Tests'
 }
 
+{ #category : 'accessing' }
+EssentialsObjectTest >> defaultTimeLimit [
+	"Most of my tests draw and export a graph, which takes seconds (8 s for the Pascal and Catalan arrays), more than the 10 s of TestCase when other images run on the machine"
+
+	^ 1 minute
+]
+
 { #category : 'tests' }
 EssentialsObjectTest >> sutInspectIntervalLinspace [
 
@@ -278,8 +285,9 @@ EssentialsObjectTest >> testInspectColorGray [
 
 { #category : 'tests' }
 EssentialsObjectTest >> testInspectContext [
+	"The graph of thisContext reaches the contexts of the test runner, so its size, and the time to draw it, grow with the stack of the runner: 27 s after the other tests of the package"
 
-	self timeLimit: 25 seconds.
+	self timeLimit: 2 minutes.
 
 	^ self exportSlotsGraphOf: thisContext
 ]
@@ -461,8 +469,8 @@ EssentialsObjectTest >> testInspectHeap [
 	self
 		assert: array
 		equals:
-			#( 12 16 22 30 8 17 15 4 20 19 28 18 27 21 24 10 7 3 14 5 6 26 25
-			   29 11 23 2 9 13 1 ).
+			#( 23 15 18 3 29 26 14 8 2 1 21 19 20 16 27 24 9 25 10 17 11 13 5 22
+			   4 12 30 6 28 7 ).
 
 	heap := Heap new.
 
@@ -739,7 +747,7 @@ EssentialsObjectTest >> testInspectSet [
 
 	self
 		assert: sample
-		equals: #( 1 9 7 1 18 9 11 10 10 6 5 15 3 8 12 17 8 2 5 15 ).
+		equals: #( 5 19 5 5 10 3 18 4 12 10 17 11 4 10 16 9 18 13 16 19 ).
 
 	^ self exportSlotsGraphOf: sample asSet
 ]

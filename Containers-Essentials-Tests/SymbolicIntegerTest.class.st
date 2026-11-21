@@ -8,6 +8,13 @@ Class {
 	#tag : 'Tests'
 }
 
+{ #category : 'accessing' }
+SymbolicIntegerTest >> defaultTimeLimit [
+	"My tests draw and export a graph, which takes seconds (5 s for the GCDs of Z17), more than the 10 s of TestCase when other images run on the machine"
+
+	^ 1 minute
+]
+
 { #category : 'tests' }
 SymbolicIntegerTest >> testComplementaryQuoRem21Over9 [
 
