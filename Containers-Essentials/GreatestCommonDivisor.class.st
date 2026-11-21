@@ -64,19 +64,19 @@ GreatestCommonDivisor >> asStringDiophantineEquation [
 	| ax by comb |
 	ax := RBMessageNode
 		      receiver: (RBLiteralValueNode value: self point x)
-		      selector: #*
+		      selector: (OCSelectorNode value: #*)
 		      arguments: { (RBLiteralValueNode value: self a) }.
 
 	by := RBMessageNode
 		      receiver: (RBLiteralValueNode value: self point y)
-		      selector: #*
+		      selector: (OCSelectorNode value: #*)
 		      arguments: { (RBLiteralValueNode value: self b) }.
 
-	comb := RBMessageNode receiver: ax selector: #+ arguments: { by }.
+	comb := RBMessageNode receiver: ax selector: (OCSelectorNode value: #+) arguments: { by }.
 
 	^ (RBMessageNode
 		   receiver: comb
-		   selector: #=
+		   selector: (OCSelectorNode value: #=)
 		   arguments: { (RBLiteralValueNode value: self value) })
 		  formattedCode
 ]
@@ -136,17 +136,17 @@ GreatestCommonDivisor >> inverseMultiplicativeOf: a_b mul: j rem: mod [
 
 	ax := RBMessageNode
 		      receiver: (RBLiteralValueNode value: i)
-		      selector: #*
+		      selector: (OCSelectorNode value: #*)
 		      arguments: { (RBLiteralValueNode value: a_b) }.
 
 	by := RBMessageNode
 		      receiver: ax
-		      selector: #rem:
+		      selector: (OCSelectorNode value: #rem:)
 		      arguments: { (RBLiteralValueNode value: mod) }.
 
 	^ i -> (RBMessageNode
 		   receiver: by
-		   selector: #=
+		   selector: (OCSelectorNode value: #=)
 		   arguments: { (RBLiteralValueNode value: self value) })
 		  formattedCode
 ]
@@ -175,12 +175,12 @@ GreatestCommonDivisor >> printOn: aStream [
 	| by |
 	by := RBMessageNode
 		      receiver: (RBLiteralValueNode value: self a)
-		      selector: #gcd:
+		      selector: (OCSelectorNode value: #gcd:)
 		      arguments: { (RBLiteralValueNode value: self b) }.
 
 	aStream nextPutAll: (RBMessageNode
 			 receiver: by
-			 selector: #=
+			 selector: (OCSelectorNode value: #=)
 			 arguments: { (RBLiteralValueNode value: self value) })
 			formattedCode
 ]

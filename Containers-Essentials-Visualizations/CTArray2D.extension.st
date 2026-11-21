@@ -8,18 +8,14 @@ CTArray2D >> acceptSlotDescriptorsVisitor: aVisitor [
 
 { #category : '*Containers-Essentials-Visualizations' }
 CTArray2D >> asArrayOfLinks [
+	"One link for each of my rows, from the top one, with the values of the row from left to right"
 
-	^ Array streamContents: [ :aStream | 
-		  | link r |
-		  r := 1.
+	^ (1 to: self height) collect: [ :row |
+		  | link |
 		  link := nil.
-		  self withIndicesDo: [ :each :row :column | 
-			  r < row ifTrue: [ 
-				  aStream nextPut: link reversed.
-				  link := nil.
-				  r := row ].
-			  link := each ~~> link ].
-		  aStream nextPut: link reversed ]
+		  1 to: self width do: [ :column |
+			  link := (self atColumn: column atRow: row) ~~> link ].
+		  link reversed ]
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

@@ -55,7 +55,8 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 	formattedCode := (RBParser parseMethod: formattedCode) formattedCode
 		                 replaceAllTabsWithThreeSpaces.
 
-	text := self inspectionSource
+	text := SpCodePresenter new
+		        beForMethod: self;
 		        text: formattedCode;
 		        textWithStyle.
 

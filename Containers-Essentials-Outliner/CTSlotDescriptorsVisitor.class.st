@@ -145,7 +145,7 @@ CTSlotDescriptorsVisitor >> visitArray2D: aMatrix [
 		  (self newSlotDescriptorSelector: #asArrayOfLinks).
 		  ((self newSlotDescriptorSelector: #asShapeMod2)
 			   enablePredicate: [ :level |
-				   aMatrix allSatisfy: [ :each | each isInteger ] ];
+				   aMatrix contents allSatisfy: [ :each | each isInteger ] ];
 			   quote) }
 ]
 
