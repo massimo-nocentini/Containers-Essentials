@@ -87,13 +87,15 @@ RSParametricCurveTest >> groupBaricentricCoordinatesPoint: aPoint anotherPoint: 
 		currentBaricentric := ev newPosition
 			                      unitAffine: anotherCircle position
 			                      at: param.
-		baricentricCircle position: currentBaricentric ].
+		baricentricCircle position: currentBaricentric ]
+		for: self.
 
 	anotherCircle when: RSPositionChangedEvent do: [ :ev | 
 		currentBaricentric := aCircle position
 			                      unitAffine: ev newPosition
 			                      at: param.
-		baricentricCircle position: currentBaricentric ].
+		baricentricCircle position: currentBaricentric ]
+		for: self.
 
 	line := RSLine new
 		        from: aCircle;
@@ -362,9 +364,9 @@ RSParametricCurveTest >> testParametricXYlineButterfly [
 	self exportShapeOf: self parametricXYlineButterfly.
 
 	self
-		assert:
+		assertPoints:
 		(self parametricXYlineButterfly controlPoints copyFrom: 1 to: 1000)
-		equals: {
+		closeTo: {
 				(0.0 @ 21.548454853771354).
 				(0.08126723260360777 @ 21.55454515308179).
 				(0.16267453596271902 @ 21.572814001856074).
@@ -1365,4 +1367,14 @@ RSParametricCurveTest >> testParametricXYlineButterfly [
 				(-34.81720729844591 @ -49.04052224492983).
 				(-35.34329025043147 @ -49.385996647323).
 				(-35.866273170164995 @ -49.71960636034587) }
+]
+
+{ #category : 'asserting' }
+RSParametricCurveTest >> assertPoints: actualPoints closeTo: expectedPoints [
+	"The points of a curve come from sin, cos and exp, whose last bits change with the libm of the VM's platform"
+
+	self assert: actualPoints size equals: expectedPoints size.
+
+	actualPoints with: expectedPoints do: [ :actual :expected |
+		self assert: (actual distanceTo: expected) <= 1e-9 ]
 ]
