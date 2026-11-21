@@ -14,10 +14,12 @@ TIceImagesExporting >> export: anObject filename: filename onCanvasDo: aSelector
 
 	aSelector value: canvas value: anObject.
 
+	"noDoubleDraw after zoomToShapesWithPadding:, which installs a new camera setter: otherwise the
+	setter draws the whole canvas on a Form first, out of memory for a large graph"
 	self svgExporter
-		noDoubleDraw;
 		canvas: canvas;
 		zoomToShapesWithPadding: Float goldenPlatinumRatio double;
+		noDoubleDraw;
 		fileName: filename;
 		export.
 
