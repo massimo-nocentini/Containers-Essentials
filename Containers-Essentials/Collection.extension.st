@@ -20,12 +20,6 @@ Collection >> asCollectionKeyBlock: keyBlock valueBlock: valueBlock [
 ]
 
 { #category : '*Containers-Essentials' }
-Collection >> at: aKey update: aBlock [
-
-	^ self at: aKey put: (aBlock value: (self at: aKey))
-]
-
-{ #category : '*Containers-Essentials' }
 Collection >> doª: aBlock [
 
 	self do: aBlock

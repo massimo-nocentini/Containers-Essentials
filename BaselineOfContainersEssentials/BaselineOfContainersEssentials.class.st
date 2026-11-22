@@ -21,7 +21,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 { #category : 'baselines' }
 BaselineOfContainersEssentials >> common: spec [
-	"Containers-Essentials needs Roassal-Utils of RoassalMN (exponentiallyWeighted:init:, Interval>>#unitAt:) and extends CTArray2D"
+	"Containers-Essentials needs Roassal-Utils of RoassalMN (exponentiallyWeighted:init:, Interval>>#unitAt:, scan:init:, asStringaz...) and extends CTArray2D. The UML sequence diagrams (RSUMLSequenceBuilder) are in Roassal-UML of RoassalMN"
 
 	spec
 		package: 'Containers-Essentials'
@@ -29,16 +29,12 @@ BaselineOfContainersEssentials >> common: spec [
 		package: 'Containers-Essentials-Roassal' with: [
 			spec requires:
 					#( 'RoassalMN' 'LibPangoCairo' 'Containers-Essentials' ) ];
-		package: 'Containers-Essentials-UML' with: [
-			spec requires:
-					#( 'RoassalMN' 'Containers-Essentials' 'Containers-Essentials-Roassal' ) ];
 		package: 'Containers-Essentials-Outliner'
 		with: [ spec requires: #( 'Containers-Essentials-Roassal' ) ];
 		package: 'Containers-Essentials-Visualizations'
 		with: [ spec requires: #( 'Containers-Essentials-Outliner' ) ];
-		package: 'Containers-Essentials-Tests' with: [
-			spec requires:
-					#( 'Containers-Essentials-Visualizations' 'Containers-Essentials-UML' ) ]
+		package: 'Containers-Essentials-Tests'
+		with: [ spec requires: #( 'Containers-Essentials-Visualizations' ) ]
 ]
 
 { #category : 'baselines' }

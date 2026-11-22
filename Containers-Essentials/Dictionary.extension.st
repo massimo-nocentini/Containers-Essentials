@@ -11,14 +11,6 @@ Dictionary >> anyAssociation [
 ]
 
 { #category : '*Containers-Essentials' }
-Dictionary >> at: aKey inOrderedCollectionAdd: anObject [
-
-	^ (self at: aKey ifAbsentPut: [ OrderedCollection new ])
-		  add: anObject;
-		  yourself
-]
-
-{ #category : '*Containers-Essentials' }
 Dictionary >> foldr: aBlock init: init [
 
 	| mean |
@@ -28,12 +20,6 @@ Dictionary >> foldr: aBlock init: init [
 		mean := aBlock value: k value: v value: mean ].
 
 	^ mean
-]
-
-{ #category : '*Containers-Essentials' }
-Dictionary >> ifAbsentPutOrderAt: anObject [
-
-	^ self at: anObject ifAbsentPut: [ self size + 1 ]
 ]
 
 { #category : '*Containers-Essentials' }

@@ -114,22 +114,6 @@ SequenceableCollection >> foldr: aBlock init: init [
 ]
 
 { #category : '*Containers-Essentials' }
-SequenceableCollection >> greatestCommonIndex: aCollection [
-
-	| index stop |
-	stop := false.
-	index := 1.
-
-	[ stop or: [ index > self size or: [ index > aCollection size ] ] ] 
-		whileFalse: [ 
-			(self at: index) == (aCollection at: index)
-				ifTrue: [ index := index + 1 ]
-				ifFalse: [ stop := true ] ].
-
-	^ index - 1
-]
-
-{ #category : '*Containers-Essentials' }
 SequenceableCollection >> halves [
 
 	^ self
@@ -274,32 +258,6 @@ SequenceableCollection >> runs: aBlock [
 		i := j ].
 
 	^ runs asArray
-]
-
-{ #category : '*Containers-Essentials' }
-SequenceableCollection >> scan: aBlock init: aValue [
-
-	^ self scan: aBlock init: aValue included: true
-]
-
-{ #category : '*Containers-Essentials' }
-SequenceableCollection >> scan: aBlock init: aValue included: included [
-
-	^ self class
-		  new: self size + included asBit
-		  streamContents: [ :aStream |
-			  | acc |
-			  included ifTrue: [ aStream nextPut: aValue ].
-			  acc := aValue.
-			  self do: [ :each |
-				  acc := aBlock value: acc value: each.
-				  aStream nextPut: acc ] ]
-]
-
-{ #category : '*Containers-Essentials' }
-SequenceableCollection >> scan: aBlock withoutInit: aValue [
-
-	^ self scan: aBlock init: aValue included: false
 ]
 
 { #category : '*Containers-Essentials' }
