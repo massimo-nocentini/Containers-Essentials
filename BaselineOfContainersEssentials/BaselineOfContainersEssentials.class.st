@@ -78,9 +78,13 @@ BaselineOfContainersEssentials >> poppler: spec [
 
 { #category : 'doits' }
 BaselineOfContainersEssentials >> postLoadAfterUMLMove [
-	"The sequence diagrams went back from Containers-Essentials-UML to Roassal-UML of RoassalMN. Metacello does not unload a package dropped from a baseline, so an image upgraded from a Containers-Essentials that had it keeps it, empty and modified"
+	"The sequence diagrams went back from Containers-Essentials-UML to Roassal-UML of RoassalMN. Metacello does not unload a package dropped from a baseline, so an image upgraded from a Containers-Essentials that had it keeps it, empty and modified.
+	An upgrade of Containers-Essentials alone (a locked or older RoassalMN is not reloaded) removes the helpers that went to Roassal-Utils and leaves the sequence diagrams in Containers-Essentials-UML, without any error: fail loudly instead"
 
-	self removeUMLPackageIfEmpty
+	self removeUMLPackageIfEmpty.
+	self roassalMNHasTheSequenceDiagrams ifFalse: [
+		self error:
+			'Containers-Essentials needs the RoassalMN whose Roassal-UML has the sequence diagrams: load RoassalMN again, then Containers-Essentials' ]
 ]
 
 { #category : 'doits' }
@@ -91,6 +95,16 @@ BaselineOfContainersEssentials >> removeUMLPackageIfEmpty [
 		 packageNamed: 'Containers-Essentials-UML'
 		 ifAbsent: [ nil ]) ifNotNil: [ :package |
 		package isEmpty ifTrue: [ package removeFromSystem ] ]
+]
+
+{ #category : 'doits' }
+BaselineOfContainersEssentials >> roassalMNHasTheSequenceDiagrams [
+	"Whether the RoassalMN in the image has the sequence diagrams in Roassal-UML and the helpers of Containers-Essentials in Roassal-Utils (Integer>>#asStringaz among them)"
+
+	^ ((Smalltalk globals at: #RSUMLSequenceBuilder ifAbsent: [ nil ])
+		   ifNil: [ false ]
+		   ifNotNil: [ :class | class package name = 'Roassal-UML' ]) and: [
+		  Integer includesSelector: #asStringaz ]
 ]
 
 { #category : 'baselines' }

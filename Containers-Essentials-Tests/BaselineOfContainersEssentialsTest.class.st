@@ -29,3 +29,15 @@ BaselineOfContainersEssentialsTest >> testPostLoadRemovesTheEmptyUMLPackage [
 		(MCWorkingCopy hasPackageNamed: name) ifTrue: [
 			(MCWorkingCopy forPackageNamed: name) unregister ] ]
 ]
+
+{ #category : 'tests' }
+BaselineOfContainersEssentialsTest >> testPostLoadWithTheRoassalMNOfTheSequenceDiagrams [
+
+	self shouldnt: [ BaselineOfContainersEssentials new postLoadAfterUMLMove ] raise: Error
+]
+
+{ #category : 'tests' }
+BaselineOfContainersEssentialsTest >> testRoassalMNHasTheSequenceDiagrams [
+
+	self assert: BaselineOfContainersEssentials new roassalMNHasTheSequenceDiagrams
+]
