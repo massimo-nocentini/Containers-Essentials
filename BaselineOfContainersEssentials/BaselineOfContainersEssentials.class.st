@@ -10,6 +10,7 @@ BaselineOfContainersEssentials >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
+		spec postLoadDoIt: #postLoadAfterUMLMove.
 		self
 			containers: spec;
 			roassal: spec;
@@ -73,6 +74,23 @@ BaselineOfContainersEssentials >> poppler: spec [
 		baseline: 'LibPoppler'
 		with: [
 		spec repository: 'github://massimo-nocentini/libpoppler.st:master/src' ]
+]
+
+{ #category : 'doits' }
+BaselineOfContainersEssentials >> postLoadAfterUMLMove [
+	"The sequence diagrams went back from Containers-Essentials-UML to Roassal-UML of RoassalMN. Metacello does not unload a package dropped from a baseline, so an image upgraded from a Containers-Essentials that had it keeps it, empty and modified"
+
+	self removeUMLPackageIfEmpty
+]
+
+{ #category : 'doits' }
+BaselineOfContainersEssentials >> removeUMLPackageIfEmpty [
+	"Remove the package Containers-Essentials-UML (and its working copy) once RoassalMN took all its classes and methods. A package that still has some is left alone"
+
+	(PackageOrganizer default
+		 packageNamed: 'Containers-Essentials-UML'
+		 ifAbsent: [ nil ]) ifNotNil: [ :package |
+		package isEmpty ifTrue: [ package removeFromSystem ] ]
 ]
 
 { #category : 'baselines' }
