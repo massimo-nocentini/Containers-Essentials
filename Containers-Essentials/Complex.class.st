@@ -51,7 +51,7 @@ NOTE: Although `Complex` something similar to the Smalltalk's `Number` class, it
 
 Thus `Complex` is somewhat similar to a `Number` but it is not a subclass of it. Some operations we would like to inherit (e.g. `#abs`, `#negated`, `#reciprocal`) but some of the `Number` operation do not have sense to inherit or to overload. Classes are not always neat mechanism.
 
-!!! We had to COPY the implementation of the `abs`, `negated`, `reciprocal`, `log:`, `isZero`, `reciprocal`, ... methods from the `Number` class to the `Complex` class. Awful solution. Now I begin to appreciate the Self.
+\!!! We had to COPY the implementation of the `abs`, `negated`, `reciprocal`, `log:`, `isZero`, `reciprocal`, ... methods from the `Number` class to the `Complex` class. Awful solution. Now I begin to appreciate the Self.
 
 Missing methods:
 
