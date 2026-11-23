@@ -211,7 +211,8 @@ CTDfsShapeBuilder >> label: anObject var: var [
 			| markup shrinkedFont serifFont |
 			serifFont := PangoLogicalFontManager pangoSerif.
 
-			shrinkedFont := serifFont
+			"A copy, because the font is shared."
+			shrinkedFont := serifFont copy
 				                pointSize: font pointSize / Float goldenRatio;
 				                yourself.
 

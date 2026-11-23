@@ -1,5 +1,5 @@
 "
-I test the shapes that `CTDfsShapeBuilder` builds with Pango: their markup is drawn and not shown.
+I test the shapes that `CTDfsShapeBuilder` builds with Pango: their markup is drawn and not shown, and they leave the shared fonts of `PangoLogicalFontManager` as they are.
 "
 Class {
 	#name : 'CTDfsShapeBuilderTest',
@@ -8,6 +8,15 @@ Class {
 	#package : 'Containers-Essentials-Tests',
 	#tag : 'Tests'
 }
+
+{ #category : 'private' }
+CTDfsShapeBuilderTest >> commentHeight [
+	"The height of a method comment, as CompiledMethod and the notebooks draw it"
+
+	^ (PangoMarkupMicrodownVisitor new
+		   visit: (Microdown parse: 'A comment.');
+		   asRSPangoShapeUsingFont: PangoLogicalFontManager pangoSerif) height
+]
 
 { #category : 'private' }
 CTDfsShapeBuilderTest >> layoutTextOf: aPangoText [
@@ -32,6 +41,28 @@ CTDfsShapeBuilderTest >> pangoTextsOf: aShape on: aStream [
 
 	(aShape isKindOf: RSComposite) ifTrue: [
 		aShape children do: [ :each | self pangoTextsOf: each on: aStream ] ]
+]
+
+{ #category : 'running' }
+CTDfsShapeBuilderTest >> setUp [
+
+	super setUp.
+
+	"New fonts, as a test that changed the shared ones would hide the next one"
+	PangoLogicalFontManager reset
+]
+
+{ #category : 'private' }
+CTDfsShapeBuilderTest >> sharedFonts [
+
+	^ #( sans serif monospace math ) collect: [ :each |
+		  | font |
+		  font := PangoLogicalFontManager logicalFontFor: each.
+		  {
+			  font.
+			  font familyName.
+			  font pointSize.
+			  font emphasis } ]
 ]
 
 { #category : 'private' }
@@ -65,6 +96,22 @@ CTDfsShapeBuilderTest >> testLabelVarIsVisibleInEveryTheme [
 ]
 
 { #category : 'tests' }
+CTDfsShapeBuilderTest >> testLabelVarKeepsTheSharedFonts [
+
+	| fonts height |
+	self deny: (Color >> #alpha) docString isEmpty.
+
+	fonts := self sharedFonts.
+	height := self commentHeight.
+
+	CTDfsShapeBuilder new label: Color gray var: #alpha.
+
+	self
+		assert: self sharedFonts equals: fonts;
+		assert: self commentHeight equals: height
+]
+
+{ #category : 'tests' }
 CTDfsShapeBuilderTest >> testLabelVarShowsNoTags [
 
 	| shape |
@@ -73,6 +120,58 @@ CTDfsShapeBuilderTest >> testLabelVarShowsNoTags [
 	self
 		assert: shape isMarkup;
 		assert: (self layoutTextOf: shape) equals: 'alpha'
+]
+
+{ #category : 'tests' }
+CTDfsShapeBuilderTest >> testMethodShapeKeepsTheSharedFonts [
+
+	| fonts height |
+	fonts := self sharedFonts.
+	height := self commentHeight.
+
+	self slotsShapeOf: Color >> #alpha.
+
+	self
+		assert: self sharedFonts equals: fonts;
+		assert: self commentHeight equals: height
+]
+
+{ #category : 'tests' }
+CTDfsShapeBuilderTest >> testNotebookCommentKeepsTheSharedFonts [
+
+	| fonts height notebook texts |
+	fonts := self sharedFonts.
+	height := self commentHeight.
+
+	notebook := CTNotebookKeyedValuedOrderedCollection new.
+	notebook
+		codePresenter: (SpCodePresenter new
+				 beForScripting;
+				 text: '"A comment." 42';
+				 yourself);
+		value.
+
+	texts := (self pangoTextsOf: (self slotsShapeOf: notebook)) collect: [
+		         :each | self layoutTextOf: each ].
+
+	self
+		assert: (texts anySatisfy: [ :each | each includesSubstring: 'A comment.' ]);
+		assert: self sharedFonts equals: fonts;
+		assert: self commentHeight equals: height
+]
+
+{ #category : 'tests' }
+CTDfsShapeBuilderTest >> testSlotsShapeKeepsTheSharedFonts [
+
+	| fonts height |
+	fonts := self sharedFonts.
+	height := self commentHeight.
+
+	self slotsShapeOf: Color gray.
+
+	self
+		assert: self sharedFonts equals: fonts;
+		assert: self commentHeight equals: height
 ]
 
 { #category : 'tests' }
