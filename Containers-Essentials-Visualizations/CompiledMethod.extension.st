@@ -18,9 +18,9 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 			             << '<span font_size="161.8%" foreground="gray">';
 			             << '<b>';
 			             << '<span font_family="';
-			             << monospaceFont familyName;
+			             << monospaceFont familyName glibMarkupEscaped;
 			             << '">';
-			             << self methodClassName;
+			             << self methodClassName glibMarkupEscaped;
 			             << '</span>';
 			             << '</b>';
 			             << ', protocol <i><u>'.
@@ -28,7 +28,7 @@ CompiledMethod >> asDefaultShapeForWalker: aWalker descriptor: descriptor [
 		             self protocol isUnclassifiedProtocol ifTrue: [
 			             stream << '<span foreground="red">' ].
 
-		             stream << self protocol name.
+		             stream << self protocol name glibMarkupEscaped.
 
 		             self protocol isUnclassifiedProtocol ifTrue: [
 			             stream << '</span>' ].

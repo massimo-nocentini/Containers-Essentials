@@ -199,6 +199,20 @@ CTDfsShapeBuilderTest >> testMethodShapeKeepsTheSharedFonts [
 ]
 
 { #category : 'tests' }
+CTDfsShapeBuilderTest >> testMethodShapeOfAnyProtocol [
+
+	#( 'accessing' 'a<b&c' '<b>bold</b>' '"quoted" & ''quoted''' ) do: [ :each |
+		| class texts |
+		class := self commentedClass: 'A comment.' protocol: each.
+
+		texts := (self pangoTextsOf: (self slotsShapeOf: class >> #zork))
+			         collect: [ :text | self layoutTextOf: text ].
+
+		self assert: (texts anySatisfy: [ :text |
+				 text endsWith: ', protocol ' , each , '.' ]) ]
+]
+
+{ #category : 'tests' }
 CTDfsShapeBuilderTest >> testNotebookCommentKeepsTheSharedFonts [
 
 	| fonts height notebook texts |
