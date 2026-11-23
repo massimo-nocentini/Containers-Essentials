@@ -130,6 +130,31 @@ CTDfsShapeBuilderTest >> testLabelVarKeepsTheSharedFonts [
 ]
 
 { #category : 'tests' }
+CTDfsShapeBuilderTest >> testLabelVarOfAnyCollectionKey [
+	"The keys of a CTKeyedValuedOrderedCollection are not only strings"
+
+	{
+		('a<b&c' -> 'a<b&c').
+		(#< -> '<').
+		('a<b' asText -> 'a<b').
+		(nil -> '').
+		(5 -> '5').
+		($& -> '&').
+		(#( 1 2 ) -> '#(1 2)') } do: [ :each |
+		| collection texts |
+		collection := CTKeyedValuedOrderedCollection new
+			              collection: { each key };
+			              keyBlock: [ :key | key ];
+			              valueBlock: [ :key | 42 ];
+			              yourself.
+
+		texts := (self pangoTextsOf: (self slotsShapeOf: collection))
+			         collect: [ :text | self layoutTextOf: text ].
+
+		self assert: (texts includes: each value) ]
+]
+
+{ #category : 'tests' }
 CTDfsShapeBuilderTest >> testLabelVarOfAnyComment [
 	"The comment of the accessor is not drawn: an invalid raw markup in it, between double braces, does not matter"
 

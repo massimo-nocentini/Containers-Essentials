@@ -191,12 +191,13 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 
 { #category : 'shapes' }
 CTDfsShapeBuilder >> label: anObject var: var [
+	"var is a selector, or any key of a CTKeyedValuedOrderedCollection: a Text, a number, nil (an empty label)"
 
 	| pangoVar shape |
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
 			            nextPutAll: '<span font_weight="bold">';
-			            nextPutAll: var glibMarkupEscaped;
+			            nextPutAll: (var ifNil: [ '' ]) asString glibMarkupEscaped;
 			            nextPutAll: '</span>' ].
 
 	shape := RSPangoMarkup new
