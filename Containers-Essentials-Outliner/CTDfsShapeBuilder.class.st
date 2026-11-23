@@ -192,9 +192,7 @@ CTDfsShapeBuilder >> classShape: classShape defaultShape: noSlotsShape data: dat
 { #category : 'shapes' }
 CTDfsShapeBuilder >> label: anObject var: var [
 
-	| pangoVar shape descShape font |
-	font := PangoLogicalFontManager pangoSans.
-
+	| pangoVar shape |
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
 			            nextPutAll: '<span font_weight="bold">';
@@ -202,47 +200,12 @@ CTDfsShapeBuilder >> label: anObject var: var [
 			            nextPutAll: '</span>' ].
 
 	shape := RSPangoMarkup new
-		         font: font;
+		         font: PangoLogicalFontManager pangoSans;
 		         text: pangoVar;
 		         yourself. "no need to set the model because it is just a comment."
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
-		cm docString ifNotEmpty: [ :docString |
-			| markup shrinkedFont serifFont |
-			serifFont := PangoLogicalFontManager pangoSerif.
-
-			"A copy, because the font is shared."
-			shrinkedFont := serifFont copy
-				                pointSize: font pointSize / Float goldenRatio;
-				                yourself.
-
-			markup := Microdown asPangoMarkupString: docString.
-
-			descShape := RSPangoMarkup new
-				             font: shrinkedFont;
-				             text: markup;
-				             yourself.
-
-			RSLocation new
-				above;
-				move: shape on: descShape ].
-
 		shape when: RSMouseLeftClick do: [ :ev | cm browse ] for: self ].
-
-	" descShape ifNil: [ shape ] ifNotNil: [
-		  | c |
-		  c := RSComposite new
-			       shapes: {
-					       shape.
-					       descShape };
-			       yourself.
-
-		  ""Then align them to the right border.""
-		  RSAlignment new
-			  shapes: c shapes;
-			  right.
-
-		  c ]"
 
 	^ shape
 ]

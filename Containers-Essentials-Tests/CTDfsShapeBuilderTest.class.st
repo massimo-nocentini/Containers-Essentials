@@ -19,6 +19,24 @@ CTDfsShapeBuilderTest >> commentHeight [
 ]
 
 { #category : 'private' }
+CTDfsShapeBuilderTest >> commentedClass: aString protocol: protocolName [
+	"A class with the slot zork, whose accessor has the comment aString and is in protocolName"
+
+	| class |
+	class := Object newAnonymousSubclass.
+	class addSlot: #zork asSlot.
+	class
+		compile: 'zork
+
+	"' , (aString copyReplaceAll: '"' with: '""') , '"
+
+	^ zork'
+		classified: protocolName.
+
+	^ class
+]
+
+{ #category : 'private' }
 CTDfsShapeBuilderTest >> layoutTextOf: aPangoText [
 	"The text that Pango lays out, without the tags of a markup"
 
@@ -109,6 +127,25 @@ CTDfsShapeBuilderTest >> testLabelVarKeepsTheSharedFonts [
 	self
 		assert: self sharedFonts equals: fonts;
 		assert: self commentHeight equals: height
+]
+
+{ #category : 'tests' }
+CTDfsShapeBuilderTest >> testLabelVarOfAnyComment [
+	"The comment of the accessor is not drawn: an invalid raw markup in it, between double braces, does not matter"
+
+	#( 'mustache {{a & b}}' '{{a < b}}' '{{<span>}}' '{{<nope>x</nope>}}' 'a < b & c' '{{<b>}}x{{</b>}}' ) do: [ :each |
+		| object texts |
+		object := (self commentedClass: each protocol: 'accessing') new.
+
+		self deny: (object class >> #zork) docString isEmpty.
+
+		{
+			object.
+			{ object } } do: [ :anObject |
+			texts := (self pangoTextsOf: (self slotsShapeOf: anObject))
+				         collect: [ :text | self layoutTextOf: text ].
+
+			self assert: (texts includes: 'zork') ] ]
 ]
 
 { #category : 'tests' }
