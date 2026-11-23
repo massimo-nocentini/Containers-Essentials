@@ -201,10 +201,13 @@ CTDfsShapeBuilder >> label: anObject var: var [
 			            nextPutAll:
 				            (SHRBTextStyler colorFor: #selector) asHexString;
 			            nextPutAll: '">';
-			            nextPutAll: var;
+			            nextPutAll: var glibMarkupEscaped;
 			            nextPutAll: '</span>' ].
 
-	shape := pangoVar asRSPangoShapeUsingFont: font. "no need to set the model because it is just a comment."
+	shape := RSPangoMarkup new
+		         font: font;
+		         text: pangoVar;
+		         yourself. "no need to set the model because it is just a comment."
 
 	(anObject class lookupSelector: var) ifNotNil: [ :cm |
 		cm docString ifNotEmpty: [ :docString |
@@ -217,7 +220,10 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 			markup := Microdown asPangoMarkupString: docString.
 
-			descShape := markup asRSPangoShapeUsingFont: shrinkedFont.
+			descShape := RSPangoMarkup new
+				             font: shrinkedFont;
+				             text: markup;
+				             yourself.
 
 			RSLocation new
 				above;
