@@ -1,5 +1,5 @@
 "
-I am the presenter of a page of a notebook playground. I add the command `CTStNotebookPlaygroundDoItCommand` to the toolbar, and bind the variable `thisNotebook` of the text to the notebook of my owner, a `CTStNotebookPlayground`.
+I am the presenter of a page of a notebook playground. I add the command `CTStNotebookPlaygroundDoItCommand` to the toolbar, and, when I am made, bind the variable `thisNotebook` of the text to the notebook of the `CTStNotebookPlayground` that is my owner then.
 
 `withActivationBlock:` gives my activation block, if I have one, to a block.
 "

@@ -12,7 +12,7 @@ gcd inverseMultiplicativeOfa value
 	""'(6 * 83 rem: 71) = 1'""
 ```
 
-- `value` is the divisor, and as a `Magnitude` I stand for it: I compare with numbers and have the hash of it. My `quo` and `rem` are those of the last division.
+- `value` is the divisor, and as a `Magnitude` I stand for it: I compare it with a number, when I am the receiver of `=` or `<`, and have the hash of it, as `QuoRemComplementary` explains. My `quo` and `rem` are those of the last division.
 - `equations` are the divisions, and `divisibility` those of their dividends by the divisor.
 - `point` has the coefficients of `a` and `b` in the linear combination that is the divisor: `6 * 83 + (-7 * 71)` above, which `asStringDiophantineEquation` prints and `asShapeDiophantineEquation` draws with dots.
 - `inverseMultiplicativeOfa` and `inverseMultiplicativeOfb` associate the coefficient of `a`, or of `b`, made not negative by adding the other integer, with the equation to print. They are multiplicative inverses when the divisor is 1.

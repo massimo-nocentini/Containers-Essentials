@@ -18,7 +18,7 @@ notebook asShapeSlotsDfsTree: CTDfsWalker new
 
 ## Messages of a script
 
-The statements that send these messages to the variable named `pseudoVariableName` are special. In a script, that variable should be me.
+The statements that send these messages to the variable named `pseudoVariableName` are special. In a script, that variable should be me. Only the node to show and `break` depend on its name: the values of `outside:` and `hide:because:` are drawn as described below also when another variable is me.
 
 - `title:` keeps the title, which is shown in place of the statement.
 - `outside:` shows the code of its block, and draws the value of the block as a walker draws any object, usually with an outliner of its own. The values of the other statements are drawn inside the box of their slot, by a `CTDfsObjectHoder`.

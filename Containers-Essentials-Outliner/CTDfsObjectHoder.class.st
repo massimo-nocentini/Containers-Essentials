@@ -1,5 +1,5 @@
 "
-I hold an `object` so that its outliners are drawn inside the box of the slot where I am, instead of out of it: a `CTDfsWalker` always draws me inline, and my shape, aligned to the left of the box, is the one that a new walker makes from my object.
+I hold an `object` so that its outliners are drawn inside the box of the slot where I am, instead of out of it: a `CTDfsWalker` draws me inline, unless the descriptor of the slot says otherwise, and my shape, aligned to the left of the box, is the one that a new walker makes from my object.
 
 `CTNotebookKeyedValuedOrderedCollection` holds with me the values of the statements of a notebook.
 "

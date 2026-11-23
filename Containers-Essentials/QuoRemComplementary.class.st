@@ -5,7 +5,7 @@ I am a division of two integers, `a = quo·b + rem`, whose quotient is rounded u
 (21 /%~ 9) asString ""'21 = 3·9 - 6'""
 ```
 
-I am also the superclass of `QuoRemStandard`, which rounds down, of `QuoRemMinimal`, which rounds to the nearest integer, and of `GreatestCommonDivisor`. As a `Magnitude` I stand for my `value`, the fraction `a / b`: I compare with numbers and have the hash of it.
+I am also the superclass of `QuoRemStandard`, which rounds down, of `QuoRemMinimal`, which rounds to the nearest integer, and of `GreatestCommonDivisor`. As a `Magnitude` I stand for my `value`, the fraction `a / b`: I compare it with a number, when I am the receiver of `=` or `<`, and have the hash of it. A number does not know me: it answers false when it receives `=`, and `<` is an error. So are my `>`, `<=` and `>=`, which ask the number.
 
 ```smalltalk
 (21 /%~ 9) = (7 / 3) ""true""

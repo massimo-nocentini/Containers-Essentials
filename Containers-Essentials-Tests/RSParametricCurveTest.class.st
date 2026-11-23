@@ -1,5 +1,5 @@
 "
-I export parametric curves as SVG images (`TIceImagesExporting`): those of `RSTParametricXYLines`, of `RSParametricLineExamples` and of `RSdeCasteljauExamples`. I also check the points of the butterfly curve, to within 1e-9.
+I export parametric curves as SVG images (`TIceImagesExporting`): those of `RSTParametricXYLines`, of `RSParametricLineExamples` and of `RSdeCasteljauExamples`. I also check the first 1000 points of the butterfly curve, to within 1e-9.
 
 The tests of baricentric coordinates check the points that `unitAffine:at:` and `unitAffine:at:and:at:` answer. Their figures can be opened on a canvas too; in the first one, the two ends can be dragged.
 

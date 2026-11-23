@@ -10,7 +10,7 @@ class new asShapeSlotsDfsTree: CTDfsWalker new
 
 So this comment has to be Smalltalk code too: it is a Smalltalk comment, between double quotes, which a notebook shows as Markdown.
 
-My `pseudoVariableName` is nil: `thisNotebook` is a variable as any other, and its messages `title:`, `outside:` and `hide:because:` are evaluated, but the statements are not shown in the special way of `CTNotebookKeyedValuedOrderedCollection`.""
+My `pseudoVariableName` is nil, so `thisNotebook` is a variable as any other. The statements that send it `title:`, `outside:` and `hide:because:` are evaluated, and their values are drawn as `CTNotebookKeyedValuedOrderedCollection` says, but their whole code is shown, instead of the title or of the block. `break` is an error: I do not understand it.""
 "
 Class {
 	#name : 'CTClassCommentAutoNotebook',
