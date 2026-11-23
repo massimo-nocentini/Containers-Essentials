@@ -1,5 +1,5 @@
 "
-I test the post-load actions of BaselineOfContainersEssentials, which upgrade an image that had the sequence diagrams in Containers-Essentials-UML.
+I test the post-load actions of `BaselineOfContainersEssentials`, which upgrade an image that had the sequence diagrams in `Containers-Essentials-UML`.
 "
 Class {
 	#name : 'BaselineOfContainersEssentialsTest',

@@ -1,5 +1,5 @@
 "
-I am a variant that customize the slot descriptors for Class objects.
+I am a variant that customize the slot descriptors for `Class` objects.
 "
 Class {
 	#name : 'CTSlotDescriptorsVisitorClassHierarchy',

@@ -1,5 +1,5 @@
 "
-I am a variant that enriches the slot descriptors for Integer objects.
+I am a variant that enriches the slot descriptors for `Integer` objects.
 "
 Class {
 	#name : 'CTSlotDescriptorsVisitorDetails',

@@ -1,6 +1,5 @@
 "
-I am a variant that layout the outliner shapes by strongly connected components and,
-each component, is layouted as well.
+I am a variant that layout the outliner shapes by strongly connected components and, each component, is layouted as well.
 "
 Class {
 	#name : 'CTSccDfsPainter',

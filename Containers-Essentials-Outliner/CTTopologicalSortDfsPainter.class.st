@@ -1,5 +1,5 @@
 "
-I am a variant that layout the outline shapes in a vertical line acording to the topological order among them.
+I am a variant that layout the outline shapes in a vertical line according to the topological order among them.
 "
 Class {
 	#name : 'CTTopologicalSortDfsPainter',

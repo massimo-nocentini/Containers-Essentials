@@ -1,5 +1,5 @@
 "
-I am a variant of RSGroup that takes care of a row of shapes that appears in an outliner `RSComposite` shape.
+I am a variant of `RSGroup` that takes care of a row of shapes that appears in an outliner `RSComposite` shape.
 "
 Class {
 	#name : 'RSGroupSlotsRow',

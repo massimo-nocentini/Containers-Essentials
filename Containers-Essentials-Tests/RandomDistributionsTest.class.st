@@ -1,9 +1,9 @@
 "
-I test the random variables of Roassal-Utils (RandomBernoulli, RandomGaussian...) and Pharo's Random: each test draws the slots graph of a generator seeded with 13 and compares its first 1000 samples with the expected ones.
+I test the random variables of `Roassal-Utils` (`RandomBernoulli`, `RandomGaussian`...) and Pharo's `Random`: each test draws the slots graph of a generator seeded with 13 and compares its first 1000 samples with the expected ones.
 
-The expected values are the samples of Pharo 15: the random variables run on KnuthRandom (Knuth's lagged Fibonacci generator of TAOCP 3.6), and testUniform on Pharo's Random. The values of 2024 came from the Lehmer generator of the Random of that time: on that uniform stream, the random variables of Roassal-Utils give the same samples as then, but for the two fixes of Pharo 15's port (the natural logarithm in the acceptance test of RandomGaussian, and ln (1 - u) in RandomBoxMullerBivariateGaussian, as u can be 0).
+The expected values are the samples of Pharo 15: the random variables run on `KnuthRandom` (Knuth's lagged Fibonacci generator of TAOCP 3.6), and `testUniform` on Pharo's `Random`. The values of 2024 came from the Lehmer generator of the `Random` of that time: on that uniform stream, the random variables of `Roassal-Utils` give the same samples as then, but for the two fixes of Pharo 15's port (the natural logarithm in the acceptance test of `RandomGaussian`, and `ln (1 - u)` in `RandomBoxMullerBivariateGaussian`, as `u` can be 0).
 
-The discrete samples must be equal; the continuous ones come from ln, sqrt, sin and cos, whose last bits change with the libm of the VM's platform, so they must be close.
+The discrete samples must be equal; the continuous ones come from `ln`, `sqrt`, `sin` and `cos`, whose last bits change with the libm of the VM's platform, so they must be close.
 "
 Class {
 	#name : 'RandomDistributionsTest',

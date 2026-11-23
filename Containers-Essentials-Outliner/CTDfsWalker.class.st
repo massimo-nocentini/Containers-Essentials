@@ -3,21 +3,21 @@ I walk a graph of objects according to the Depth-First Search strategy.
 
 The entry point of the computation is `CTDfsWalker>>#value:`
 
-# Instance variables
+## Instance variables
 
-- toShapes 
-- fromShapes 
-- maxLevel 
-- dfsClock 
-- levels 
-- quotedShapes 
-- oneToManyShapes
-- shapeBuilder
-- skipBacks
-- skipNils
-- skipEmptyCollections
-- slotDescriptorsVisitor
-- defaultShapeBlock
+- `toShapes`
+- `fromShapes`
+- `maxLevel`
+- `dfsClock`
+- `levels`
+- `quotedShapes`
+- `oneToManyShapes`
+- `shapeBuilder`
+- `skipBacks`
+- `skipNils`
+- `skipEmptyCollections`
+- `slotDescriptorsVisitor`
+- `defaultShapeBlock`
 "
 Class {
 	#name : 'CTDfsWalker',
