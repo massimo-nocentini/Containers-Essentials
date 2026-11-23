@@ -1,3 +1,6 @@
+"
+I take the place of a value that a notebook hides: `CTNotebookKeyedValuedOrderedCollection>>#hide:because:` makes me, with the value as my `topic` and the reason as my `text`. I am drawn as the text, in Markdown, gray and italic, instead of the outliners of the value.
+"
 Class {
 	#name : 'CTNotebookComment',
 	#superclass : 'Object',

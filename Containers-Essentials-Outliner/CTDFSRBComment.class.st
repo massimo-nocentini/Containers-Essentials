@@ -1,3 +1,6 @@
+"
+I am a comment node that comes from no source code: `withString:` makes me from a string, which becomes a comment between double quotes. My `sourceCode` is my own text. `CTNotebookKeyedValuedOrderedCollection` makes me for the title of a notebook, which is shown as its other comments.
+"
 Class {
 	#name : 'CTDFSRBComment',
 	#superclass : 'OCCommentNode',

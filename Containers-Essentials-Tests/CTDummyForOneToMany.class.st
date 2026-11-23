@@ -1,3 +1,6 @@
+"
+I am a dummy class to test the one-to-many slots: an object with a `collection`.
+"
 Class {
 	#name : 'CTDummyForOneToMany',
 	#superclass : 'Object',

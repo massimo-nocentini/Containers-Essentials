@@ -1,3 +1,14 @@
+"
+I am a message that has been sent: a `messageSend` with its `return`. `MessageSend>>#return:` makes me.
+
+```smalltalk
+| send |
+send := MessageSend receiver: 3 selector: #+ argument: 4.
+(send return: send value) return ""7""
+```
+
+Two of us are equal if their message sends are equal and their returns are the same object.
+"
 Class {
 	#name : 'MessageSent',
 	#superclass : 'Object',

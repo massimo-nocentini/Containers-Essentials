@@ -1,3 +1,6 @@
+"
+I am a vertical attach point whose lines end at the top center of their target shape, moved down by my `endOffset`, as those of my superclass do. `CTDfsPainter` ends the lines to postponed objects with me.
+"
 Class {
 	#name : 'RSTopEndVerticalAttachPoint',
 	#superclass : 'RSVerticalAttachPoint',

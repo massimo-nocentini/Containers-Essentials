@@ -1,3 +1,8 @@
+"
+I test the outliners. Most of my tests export the slots graph or the shape of an object as an SVG image (`TIceImagesExporting`), with no other check than that nothing fails: numbers, strings, collections, colors, classes, blocks and contexts, hierarchies of classes, shapes, one-to-many and postponed slots.
+
+I also check some of the values that are drawn: the Fibonacci, Lucas and Catalan numbers, the golden ratios, the kissing fractions, the products of large integers, the skew binary numbers. Other tests draw nothing: the inversions of a sequence, the selection by rank, `withIntegersCollectionDo:`, and the relative error and the machine epsilon of floats.
+"
 Class {
 	#name : 'EssentialsObjectTest',
 	#superclass : 'ObjectTest',

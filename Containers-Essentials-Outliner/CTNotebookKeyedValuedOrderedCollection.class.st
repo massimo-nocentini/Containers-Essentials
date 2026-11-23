@@ -1,3 +1,36 @@
+"
+I am a notebook: a script whose comments and statements are the keys of my associations, as syntax tree nodes in the order of the source, and the values of the statements are their values. An outliner of me shows each node with its value next to it, and the comments as Markdown.
+
+I take the script from my `codePresenter`, which also evaluates the statements, one at a time, when I receive `value`.
+
+```smalltalk
+| presenter notebook |
+presenter := SpCodePresenter new beForScripting.
+presenter text: '""The answer."" x := 6 * 7. x + 1'.
+notebook := CTNotebookKeyedValuedOrderedCollection new.
+notebook
+	codePresenter: presenter;
+	value.
+notebook asShapeSlotsDfsTree: CTDfsWalker new
+```
+
+`CompiledMethod>>#asNotebook` makes one of me from the body of a method, and `CTStNotebookPlayground` is a playground for my scripts. `liblua` needs the class `LibLua`, which my baseline does not load.
+
+## Messages of a script
+
+The statements that send these messages to the variable named `pseudoVariableName` are special. In a script, that variable should be me.
+
+- `title:` keeps the title, which is shown in place of the statement.
+- `outside:` shows the code of its block, and draws the value of the block as a walker draws any object, usually with an outliner of its own. The values of the other statements are drawn inside the box of their slot, by a `CTDfsObjectHoder`.
+- `hide:because:` shows the code of its block, and the reason, a string in Markdown, in place of the value of the block, which is evaluated anyway.
+- `break` ends the notebook: this statement and those after it are neither evaluated nor shown.
+
+My instance variable `switch` is a dictionary from the first three selectors to the blocks that make the node to show.
+
+## Errors
+
+When a statement signals an error, the exception is its value. The statements after it are evaluated, but only those that signal an error are shown.
+"
 Class {
 	#name : 'CTNotebookKeyedValuedOrderedCollection',
 	#superclass : 'CTKeyedValuedOrderedCollection',

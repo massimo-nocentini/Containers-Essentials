@@ -1,3 +1,22 @@
+"
+I export shapes and graphs of objects as SVG images. My users are test cases: a file is named after the class and the selector of the test that runs, as in `EssentialsObjectTest-testInspectPoint.svg`, with a suffix if one is given.
+
+- `exportSlotsGraphOf:` exports the outliners that a `CTDfsWalker` makes from an object. The argument `slotDescriptorsVisitor:` is the visitor of the walker, and `pathSuffix:` the suffix.
+- `exportCompiledMethod:` does it for a method, whose name is the suffix, and `exportImplementorsOf:` for all the implementors of a selector.
+- `exportShapeOf:` exports a shape, and `exportShapeOf:accessorBlock:` the shape that a block, or a selector, makes from an object.
+- `export:pathSuffix:onCanvasDo:` exports a canvas after giving it and an object to a block, and `export:pathSuffix:selector:` after giving it to the object as the argument of a message.
+
+All of them answer the object, so that a test can answer it too, except `exportImplementorsOf:`.
+
+```smalltalk
+(EssentialsObjectTest selector: #testInspectPoint)
+	exportSlotsGraphOf: 42 @ 24 ""42@24""
+```
+
+The images go to `imagesPath`, the directory `images` of the working copy of the Iceberg repository that has the package of my user, or of the image directory when there is none.
+
+`svgExporter` answers the exporter, which my users can override; `pdfExporter` answers one for PDF files, which no method of mine uses.
+"
 Trait {
 	#name : 'TIceImagesExporting',
 	#category : 'Containers-Essentials-Roassal',

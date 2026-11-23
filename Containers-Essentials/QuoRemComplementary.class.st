@@ -1,3 +1,19 @@
+"
+I am a division of two integers, `a = quo·b + rem`, whose quotient is rounded up: `quo` is the ceiling of the fraction `a / b`, so `rem` is zero or negative when `b` is positive. `Integer>>#/%~` makes me.
+
+```smalltalk
+(21 /%~ 9) asString ""'21 = 3·9 - 6'""
+```
+
+I am also the superclass of `QuoRemStandard`, which rounds down, of `QuoRemMinimal`, which rounds to the nearest integer, and of `GreatestCommonDivisor`. As a `Magnitude` I stand for my `value`, the fraction `a / b`: I compare with numbers and have the hash of it.
+
+```smalltalk
+(21 /%~ 9) = (7 / 3) ""true""
+```
+
+- `asShapeDots` draws `quo` rows of `b` dots, and fills those that exceed `a`.
+- `asPointWithRespectToRem` answers the coefficients of `a` and `b`, as a point, in the linear combination that is `rem` negated.
+"
 Class {
 	#name : 'QuoRemComplementary',
 	#superclass : 'Magnitude',

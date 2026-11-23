@@ -1,3 +1,6 @@
+"
+I am the page of a `CTStNotebookPlayground`: my presenter is a `CTStNotebookPlaygroundPagePresenter`.
+"
 Class {
 	#name : 'CTStNotebookPlaygroundPage',
 	#superclass : 'StPlaygroundPage',

@@ -1,3 +1,6 @@
+"
+I am a visitor that postpones some slots: `cross` of a `CTDummyForPostpone`, and the slots of a `CTKeyedValuedOrderedCollection`, for which I give two blocks: one answers the value of the association that the slot has, and the other one the first parent of the collection.
+"
 Class {
 	#name : 'CTPostponeSlotDescriptorsVisitor',
 	#superclass : 'CTSlotDescriptorsVisitor',

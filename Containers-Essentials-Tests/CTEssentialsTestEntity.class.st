@@ -1,3 +1,6 @@
+"
+I am a dummy entity, to test the outliners without headers: an object with a `name`, and a `relation` (`CTEssentialsTestRelation`) with another entity.
+"
 Class {
 	#name : 'CTEssentialsTestEntity',
 	#superclass : 'Object',

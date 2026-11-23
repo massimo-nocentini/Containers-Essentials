@@ -1,3 +1,26 @@
+"
+I am the baseline of [Containers-Essentials](https://github.com/massimo-nocentini/Containers-Essentials). My packages are:
+
+- `Containers-Essentials`: extension methods of Pharo's classes, and classes for numbers (`Complex`, the divisions and greatest common divisors of integers, the skew binary numbers), collections, conditions and messages.
+- `Containers-Essentials-Roassal`: attach points and control points for Roassal's lines, a camera setter with a padding, and the trait `TIceImagesExporting`.
+- `Containers-Essentials-Outliner`: the outliners, which draw the graph of the objects reachable from an object, and the notebooks.
+- `Containers-Essentials-Visualizations`: extension methods that draw objects of Pharo and Roassal.
+- `Containers-Essentials-Tests`: the tests.
+
+I depend on the projects `ContainersArray2D`, `RoassalMN` (its group `Full`), `VMPluginsPrimitives`, `LibPangoCairo` and `LibPoppler`. Load me with:
+
+```smalltalk
+[ Metacello new
+	baseline: 'ContainersEssentials';
+	repository:
+		'github://massimo-nocentini/Containers-Essentials';
+	load ]
+	on: MCMergeOrLoadWarning
+	do: [ :warning | warning load ]
+```
+
+After the load, `postLoadAfterUMLMove` removes the package `Containers-Essentials-UML` if it is empty, as its classes and methods are in `RoassalMN` now, and signals an error if the `RoassalMN` in the image does not have them.
+"
 Class {
 	#name : 'BaselineOfContainersEssentials',
 	#superclass : 'BaselineOf',

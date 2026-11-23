@@ -1,3 +1,12 @@
+"
+I am a playground for notebooks: my page has the command `Outline it` (`CTStNotebookPlaygroundDoItCommand`), which shows the outliner of the text as a `CTNotebookKeyedValuedOrderedCollection`. In the text, the variable `thisNotebook` is my `notebook`.
+
+I am the tool `notebook` of `Smalltalk tools`, and the item `Notebook` of the world menu opens me.
+
+```smalltalk
+Smalltalk tools notebook open
+```
+"
 Class {
 	#name : 'CTStNotebookPlayground',
 	#superclass : 'StPlaygroundPresenter',

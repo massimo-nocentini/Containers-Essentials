@@ -1,3 +1,6 @@
+"
+I test the divisions of integers that `/%`, `/%~` and `/%<` make and the greatest common divisors that `>|<` makes: each must be equal to the number it stands for, the fraction or the `gcd:`. I export their slots graphs as SVG images (`TIceImagesExporting`). Among the divisors are those of adjacent Fibonacci numbers, and of the numbers less than 17 with 17, with their multiplicative inverses.
+"
 Class {
 	#name : 'SymbolicIntegerTest',
 	#superclass : 'IntegerTest',

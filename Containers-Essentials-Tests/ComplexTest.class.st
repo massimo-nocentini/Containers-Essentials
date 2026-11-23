@@ -1,3 +1,11 @@
+"
+I test `Complex`:
+
+- its creation, equality and conversions, and the arithmetic with numbers of other classes and with arrays
+- `abs`, `arg`, `conjugated`, `reciprocal` and the polar form
+- the division, which loses accuracy on large numbers, where `divideSecureBy:` and `divideFastAndSecureBy:` do not
+- the powers, the logarithm, the trigonometric and hyperbolic functions and their inverses, compared with those of the real numbers and with each other
+"
 Class {
 	#name : 'ComplexTest',
 	#superclass : 'TestCase',

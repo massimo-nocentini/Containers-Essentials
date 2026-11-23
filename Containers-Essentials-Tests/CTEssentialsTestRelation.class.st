@@ -1,3 +1,6 @@
+"
+I am a dummy relation with a `name` between two objects, `left` and `right`, which are also my `subject` and my `object`. `CTEssentialsEntityRelationSlotDescriptorsVisitor` describes me.
+"
 Class {
 	#name : 'CTEssentialsTestRelation',
 	#superclass : 'Object',

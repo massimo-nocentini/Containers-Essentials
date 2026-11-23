@@ -1,3 +1,12 @@
+"
+I am a relation between two objects, `left` and `right`. `is:greaterThan:` makes a `CTRelationGreaterThan` if the first object is greater than the second, and one of me otherwise, so that the dispatch on my class takes the place of `ifTrue:ifFalse:`.
+
+`Integer>>#slowExplicitFibonacci:tail:` works so: it sends me `slowExplicitFibonacci:tail:greaterThanZero:`, and I send the integer `slowExplicitFibonacci:tail:greaterThanZeroIsFalse:` back, while a `CTRelationGreaterThan` sends `slowExplicitFibonacci:tail:greaterThanZeroIsTrue:`.
+
+```smalltalk
+10 slowExplicitFibonacci: 1 tail: 0 ""55""
+```
+"
 Class {
 	#name : 'CTRelation',
 	#superclass : 'Object',

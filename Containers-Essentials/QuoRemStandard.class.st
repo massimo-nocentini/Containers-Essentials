@@ -1,3 +1,13 @@
+"
+I am a division of two integers, `a = quo·b + rem`, whose quotient is rounded down: `quo` is the floor of `a / b`. `Integer>>#/%` makes me.
+
+```smalltalk
+(21 /% 9) asString. ""'21 = 2·9 + 3'""
+(21 /% 9) complement asString ""'21 = 3·9 - 6'""
+```
+
+`complement` answers the division of the same integers whose quotient is rounded up. My `asPointWithRespectToRem` answers the coefficients of `a` and `b` in the linear combination that is `rem`.
+"
 Class {
 	#name : 'QuoRemStandard',
 	#superclass : 'QuoRemComplementary',

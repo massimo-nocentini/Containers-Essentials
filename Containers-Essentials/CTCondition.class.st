@@ -1,3 +1,29 @@
+"
+I am an abstract condition: an object that takes the place of both blocks of a test, as I answer `cull:`, for the branch where the test holds, and `value`, for the other one. My subclasses say what to do:
+
+- `truthWitness:`, sent by `cull:`, takes the object that the test found.
+- `falsehood`, sent by `value`, takes no argument.
+
+I make the test too:
+
+- `ifTrueIfFalse:` tests a Boolean, with nil as the witness, and `ifTrueIfFalse:truthWitness:` with the given one.
+- `ifEmptyIfNotEmpty:` tests whether a collection is not empty; the witness is the collection.
+- `lookupInDictionary:at:` tests whether a dictionary has a key; the witness is its value.
+
+```smalltalk
+| condition |
+condition := (CTCondition newAnonymousSubclass
+	compile: 'truthWitness: anObject ^ anObject squared';
+	compile: 'falsehood ^ 0';
+	yourself) requestor: nil data: nil.
+condition lookupInDictionary: { #a -> 3 } asDictionary at: #a.
+	""9""
+condition lookupInDictionary: { #a -> 3 } asDictionary at: #b
+	""0""
+```
+
+`requestor:data:` makes me. I keep both arguments in my instance variables, and none of my methods reads them.
+"
 Class {
 	#name : 'CTCondition',
 	#superclass : 'Object',

@@ -1,3 +1,6 @@
+"
+I am the relation that `CTRelation class>>#is:greaterThan:` makes when `left` is greater than `right`.
+"
 Class {
 	#name : 'CTRelationGreaterThan',
 	#superclass : 'CTRelation',

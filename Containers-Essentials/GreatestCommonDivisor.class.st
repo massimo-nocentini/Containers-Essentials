@@ -1,3 +1,23 @@
+"
+I am the greatest common divisor of two integers, with the divisions of Euclid's algorithm that find it, each a `QuoRemMinimal`. `Integer>>#>|<` makes me, with the greater integer as `a` and the other one as `b`.
+
+```smalltalk
+| gcd |
+gcd := 83 >|< 71.
+gcd value. ""1""
+gcd equations asArray.
+	""{ 83 = 1·71 + 12. 71 = 6·12 - 1. 12 = 12·1 }""
+gcd point. ""6 @ -7""
+gcd inverseMultiplicativeOfa value
+	""'(6 * 83 rem: 71) = 1'""
+```
+
+- `value` is the divisor, and as a `Magnitude` I stand for it: I compare with numbers and have the hash of it. My `quo` and `rem` are those of the last division.
+- `equations` are the divisions, and `divisibility` those of their dividends by the divisor.
+- `point` has the coefficients of `a` and `b` in the linear combination that is the divisor: `6 * 83 + (-7 * 71)` above, which `asStringDiophantineEquation` prints and `asShapeDiophantineEquation` draws with dots.
+- `inverseMultiplicativeOfa` and `inverseMultiplicativeOfb` associate the coefficient of `a`, or of `b`, made not negative by adding the other integer, with the equation to print. They are multiplicative inverses when the divisor is 1.
+- `solve:ifExists:ifNotExists:` tells whether a linear combination of `a` and `b` is the given integer. If so, the first block takes each coefficient of `point` with its integer, and the divisor, as points; otherwise the second block takes the remainder of the division of that integer by the divisor.
+"
 Class {
 	#name : 'GreatestCommonDivisor',
 	#superclass : 'QuoRemComplementary',

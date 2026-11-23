@@ -1,3 +1,8 @@
+"
+I am the command `Outline it` of a notebook playground. I get the notebook from the variable `thisNotebook`, evaluate the text of the page with it, and open the outliner of the notebook on a Roassal canvas, in a window with the title of the notebook, `Notebook` if it has none, and the time.
+
+If `shouldOpenInspector` is false, which it is not at first, I give the notebook to the activation block of the page instead.
+"
 Class {
 	#name : 'CTStNotebookPlaygroundDoItCommand',
 	#superclass : 'StPlaygroundDoItCommand',

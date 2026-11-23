@@ -1,3 +1,25 @@
+"
+I am a natural number in the canonical skew binary form: a sum of weights, each a power of two minus one (1, 3, 7, 15 and so on), where only the two smallest weights may be equal. `Integer>>#asSkewBinaryCanonicalSparse` makes me.
+
+My `representation` is a chain of links with the weights that are there, the smallest one first, or nil for zero.
+
+```smalltalk
+| six |
+six := 6 asSkewBinaryCanonicalSparse.
+six representation asArray. ""#(3 3)""
+six increment representation asArray. ""#(7)""
+six decrement representation asArray. ""#(1 1 3)""
+six increment asInteger ""7""
+```
+
+`increment` and `decrement` look at the first two weights at most and answer another number, which shares the other links with me. `decrement` signals an `ArithmeticError` on zero.
+
+A subclass can keep more than the weight in each link by overriding these hooks:
+
+- `key:`, the weight of a link
+- `incrementZero`, `incrementLastDigit`, `incrementDifferentAdjacentBits` and `incrementBy:onto:two:inARow:`, the cases of `increment`
+- `decrementBitZeroOrTwo:by:onto:`, the case of `decrement` that splits a weight into two
+"
 Class {
 	#name : 'SkewBinaryCanonicalNumber',
 	#superclass : 'Object',
