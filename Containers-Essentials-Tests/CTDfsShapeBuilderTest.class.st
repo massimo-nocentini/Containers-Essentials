@@ -53,6 +53,18 @@ CTDfsShapeBuilderTest >> testLabelVarIsEscaped [
 ]
 
 { #category : 'tests' }
+CTDfsShapeBuilderTest >> testLabelVarIsVisibleInEveryTheme [
+	"The box below is white in every theme, the selectors of a dark theme too"
+
+	| shape |
+	shape := CTDfsShapeBuilder new label: Color gray var: #alpha.
+
+	self
+		assert: shape color equals: Color black;
+		deny: (shape text includesSubstring: 'foreground')
+]
+
+{ #category : 'tests' }
 CTDfsShapeBuilderTest >> testLabelVarShowsNoTags [
 
 	| shape |

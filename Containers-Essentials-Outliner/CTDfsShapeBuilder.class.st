@@ -197,10 +197,7 @@ CTDfsShapeBuilder >> label: anObject var: var [
 
 	pangoVar := String streamContents: [ :aStream |
 		            aStream
-			            nextPutAll: '<span font_weight="bold" foreground="#';
-			            nextPutAll:
-				            (SHRBTextStyler colorFor: #selector) asHexString;
-			            nextPutAll: '">';
+			            nextPutAll: '<span font_weight="bold">';
 			            nextPutAll: var glibMarkupEscaped;
 			            nextPutAll: '</span>' ].
 
