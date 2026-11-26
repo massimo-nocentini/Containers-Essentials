@@ -73,7 +73,7 @@ Integer >> asShapeSkewDots: aDfsWalker [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Integer >> inspectorCanvasRepresentations [
+Integer >> inspectorCanvasRepresentations: aBuilder [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
 	| walker shape |
@@ -97,7 +97,7 @@ Integer >> inspectorCanvasRepresentations [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

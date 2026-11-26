@@ -202,13 +202,13 @@ Heap class >> asShapeValuesHorizontalTree: array indexes: indexes walkerOrNil: n
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Heap >> inspectorCanvasBubblesTree [
+Heap >> inspectorCanvasBubblesTree: aBuilder [
 
 	<inspectorPresentationOrder: 90 title: 'Bubbles tree'>
 	^ RSCanvas new
 		  @ RSCanvasController;
 		  add: self asShapeBubblesHorizontalTree;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
@@ -218,13 +218,13 @@ Heap >> inspectorCanvasBubblesTreeContext: aContext [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Heap >> inspectorCanvasValuesTree [
+Heap >> inspectorCanvasValuesTree: aBuilder [
 
 	<inspectorPresentationOrder: 1010 title: 'Values tree'>
 	^ RSCanvas new
 		  add: self asShapeValuesHorizontalTree;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

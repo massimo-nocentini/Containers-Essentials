@@ -53,20 +53,20 @@ CTSccDfsPainter >> dfsWalk: anObject [
 		         range: (Array with: Color lightRed with: Color red);
 		         yourself.
 
-	^ stronglyConnectedComponents collect: [ :aSCC | 
+	^ stronglyConnectedComponents collect: [ :aSCC |
+		  "The component is dragged as a whole: Roassal refuses a draggable composite whose children are draggable"
+		  aSCC do: [ :each | each removeInteractionIfPresent: RSDraggable ].
+
 		  RSComposite new
 			  model: aSCC;
 			  shapes: aSCC;
 			  padding: Float goldenRatio double;
-			  borderDo: [ :aBorder | 
+			  borderDo: [ :aBorder |
 				  aBorder
 					  joinRound;
 					  color: (scale scale: aSCC size) translucent ];
 			  addInteraction: RSDraggable new;
-			  yourself: [ :aComposite | 
-				  shapeBySCC at: aSCC put: aComposite.
-
-				  aSCC do: [ :each | each removeInteractionIfPresent: RSDraggable ] ] ]
+			  yourself: [ :aComposite | shapeBySCC at: aSCC put: aComposite ] ]
 ]
 
 { #category : 'line drawing' }

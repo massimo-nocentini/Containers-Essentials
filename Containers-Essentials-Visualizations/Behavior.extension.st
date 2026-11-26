@@ -92,17 +92,22 @@ Behavior >> asShapeSubclasses [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Behavior >> inspectorCanvasSubclassesTree [
+Behavior >> inspectorCanvasSubclassesTree: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'All subclasses tree'>
 	^ RSCanvas new
 		  add: self asShapeSubclasses;
 		  @ RSCanvasController;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
 Behavior >> inspectorCanvasSubclassesTreeContext: aContext [
+	"The tab is active for at most 500 subclasses: the tree takes seconds for some hundreds (4 s for the 378 of Exception, 6.5 s for the 564 of SpPresenter) and more than 30 s for the 2583 of TestCase, so for the 23695 of Object it would freeze the image; the count stops at the 501st"
 
-	aContext withoutEvaluator
+	| count |
+	aContext withoutEvaluator.
+	count := 0.
+	self allSubclassesDo: [ :each |
+		(count := count + 1) > 500 ifTrue: [ ^ aContext active: false ] ]
 ]

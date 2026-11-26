@@ -118,13 +118,13 @@ Fraction >> asShapeOnUnitCircle [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Fraction >> inspectorCanvasFordCircles [
+Fraction >> inspectorCanvasFordCircles: aBuilder [
 
 	<inspectorPresentationOrder: 1010 title: 'Ford circles'>
 	^ RSCanvas new
 		  add: self asShapeFordCircles;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
@@ -134,7 +134,7 @@ Fraction >> inspectorCanvasFordCirclesContext: aContext [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-Fraction >> inspectorCanvasRepresentations [
+Fraction >> inspectorCanvasRepresentations: aBuilder [
 
 	<inspectorPresentationOrder: 1010 title: 'Representations'>
 	| walker shape |
@@ -148,7 +148,7 @@ Fraction >> inspectorCanvasRepresentations [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

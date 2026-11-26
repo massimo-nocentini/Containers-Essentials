@@ -62,13 +62,13 @@ ByteArray >> asShapeBitsDump: aWalker [
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }
-ByteArray >> inspectorCanvasBitsDumpBigEndian [
+ByteArray >> inspectorCanvasBitsDumpBigEndian: aBuilder [
 
 	<inspectorPresentationOrder: 1010 title: 'Bits dump (big-endian)'>
 	^ RSCanvas new
 		  add: (self asShapeBitsDump: CTDfsWalker new);
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Visualizations' }

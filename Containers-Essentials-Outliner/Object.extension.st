@@ -1,7 +1,7 @@
 Extension { #name : 'Object' }
 
 { #category : '*Containers-Essentials-Outliner' }
-Object >> inspectorCanvasSlotsGraph [
+Object >> inspectorCanvasSlotsGraph: aBuilder [
 
 	<inspectorPresentationOrder: 1000 title: 'Slots graph'>
 	| walker shape |
@@ -13,11 +13,11 @@ Object >> inspectorCanvasSlotsGraph [
 		  useRTree;
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
+Object >> inspectorCanvasSlotsGraphCollapsedSCCs: aBuilder [
 
 	"<inspectorPresentationOrder: 1002 title:
 	'Collapsed SCCs of Slots graph'>"
@@ -30,7 +30,7 @@ Object >> inspectorCanvasSlotsGraphCollapsedSCCs [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
@@ -46,7 +46,7 @@ Object >> inspectorCanvasSlotsGraphContext: aContext [
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-Object >> inspectorCanvasSlotsGraphLayered [
+Object >> inspectorCanvasSlotsGraphLayered: aBuilder [
 
 	<inspectorPresentationOrder: 1004 title: 'Layered slots graph'>
 	| walker shape |
@@ -57,7 +57,7 @@ Object >> inspectorCanvasSlotsGraphLayered [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
@@ -67,7 +67,7 @@ Object >> inspectorCanvasSlotsGraphLayeredContext: aContext [
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-Object >> inspectorCanvasSlotsGraphSCCs [
+Object >> inspectorCanvasSlotsGraphSCCs: aBuilder [
 
 	<inspectorPresentationOrder: 1001 title: 'SCCs of Slots graph'>
 	| walker shape |
@@ -78,7 +78,7 @@ Object >> inspectorCanvasSlotsGraphSCCs [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
@@ -88,7 +88,7 @@ Object >> inspectorCanvasSlotsGraphSCCsContext: aContext [
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
-Object >> inspectorCanvasSlotsGraphTopologicallySorted [
+Object >> inspectorCanvasSlotsGraphTopologicallySorted: aBuilder [
 
 	<inspectorPresentationOrder: 1003 title:
 	'Slots graph, topologically sorted.'>
@@ -100,7 +100,7 @@ Object >> inspectorCanvasSlotsGraphTopologicallySorted [
 	^ RSCanvas new
 		  add: shape;
 		  addInteraction: RSCanvasController new;
-		  inspectorCanvas
+		  inspectorCanvas: aBuilder
 ]
 
 { #category : '*Containers-Essentials-Outliner' }
